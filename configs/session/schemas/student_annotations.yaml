@@ -1,0 +1,93 @@
+# Schema: Student Annotations
+# App-side schema — not produced by the pipeline, but specified here so
+# pipeline assessment-relevant fields align with what the app stores.
+# Source: pipeline-spec.md Section 2.7
+
+schema:
+  root:
+    type: object
+    fields:
+      student_id:
+        type: string
+        required: true
+
+      session_id:
+        type: string
+        required: true
+
+      passage_id:
+        type: string
+        required: true
+        constraints:
+          pattern: "passage_\\d{2}"
+
+      evaluate:
+        type: object
+        required: true
+        description: Evaluate phase responses.
+        fields:
+          lens:
+            type: string
+            required: true
+            description: Which lens the student used.
+            constraints:
+              enum: [logic, evidence, scope]
+          rating:
+            type: string
+            required: true
+            constraints:
+              enum: [strong, weak]
+          responses:
+            type: list
+            required: true
+            description: Append-only list — student can always add more.
+            items:
+              type: object
+              fields:
+                text:
+                  type: string
+                  required: true
+                  description: What the student wrote.
+                timestamp:
+                  type: datetime
+                  required: true
+                step:
+                  type: string
+                  required: true
+                  description: Which step prompted this response.
+                  constraints:
+                    enum: [individual, peer, ai]
+                hint_used:
+                  type: boolean
+                  required: true
+                  description: Whether the student viewed a partial hint before writing.
+
+      explain:
+        type: object
+        required: true
+        description: Explain phase responses.
+        fields:
+          responses:
+            type: list
+            required: true
+            description: Append-only list.
+            items:
+              type: object
+              fields:
+                text:
+                  type: string
+                  required: true
+                timestamp:
+                  type: datetime
+                  required: true
+                step:
+                  type: string
+                  required: true
+                  constraints:
+                    enum: [individual, peer, ai]
+                starter_used:
+                  type: string
+                  required: false
+                  description: >
+                    Which sentence starter the student used, if any
+                    (generic category or passage-specific).

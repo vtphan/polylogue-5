@@ -1,0 +1,33 @@
+# Schema: Lens Definitions
+# Describes the structure of configs/reference/lenses.yaml
+# Source: pipeline-spec.md Section 8
+
+schema:
+  root:
+    type: object
+    fields:
+      lenses:
+        type: list
+        required: true
+        description: The three evaluation lenses.
+        items:
+          type: object
+          fields:
+            id:
+              type: string
+              required: true
+              description: Snake_case lens identifier.
+              constraints:
+                enum: [logic, evidence, scope]
+            name:
+              type: string
+              required: true
+              description: Display name shown to students.
+            question:
+              type: string
+              required: true
+              description: The guiding question for this lens.
+            description:
+              type: string
+              required: true
+              description: What this lens evaluates.

@@ -1,0 +1,137 @@
+# Schema: Scenario Plan
+# Describes the structure of registry/{scenario_id}/scenario.yaml
+# Source: pipeline-spec.md Section 2.1
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+        description: Kebab-case identifier (e.g., "ocean-pollution-solutions").
+
+      topic:
+        type: string
+        required: true
+        description: The discussion topic in plain language.
+
+      context:
+        type: string
+        required: true
+        description: PBL connection — what unit, what driving question, why this topic.
+
+      instructional_goals:
+        type: list
+        required: true
+        description: What the teacher wants students to practice.
+        items:
+          type: string
+
+      personas:
+        type: list
+        required: true
+        description: 2-3 discussion participants.
+        constraints:
+          min_length: 2
+          max_length: 3
+        items:
+          type: object
+          fields:
+            name:
+              type: string
+              required: true
+            perspective:
+              type: string
+              required: true
+              description: What this persona believes/values and why.
+            knowledge:
+              type: string
+              required: true
+              description: What they've researched or experienced.
+            weaknesses:
+              type: string
+              required: true
+              description: >
+                What they'll get wrong and why — phrased as character traits,
+                NOT as facet names or framework terminology.
+
+      target_facets:
+        type: list
+        required: true
+        description: Which facets are targeted for weakness (hidden layer).
+        items:
+          type: object
+          fields:
+            facet_id:
+              type: string
+              required: true
+              description: From facet inventory.
+            target_quality:
+              type: string
+              required: true
+              constraints:
+                enum: [weak, strong]
+            primary_lens:
+              type: string
+              required: true
+              description: The lens most likely to reveal this facet.
+              constraints:
+                enum: [logic, evidence, scope]
+            also_visible_through:
+              type: list
+              required: true
+              description: Other lenses that can reveal it (from facet inventory).
+              items:
+                type: string
+                constraints:
+                  enum: [logic, evidence, scope]
+            designed_explanation:
+              type: object
+              required: true
+              description: The intended cognitive-social account.
+              fields:
+                cognitive_pattern:
+                  type: string
+                  required: false
+                  description: From cognitive patterns list. Null if none.
+                social_dynamic:
+                  type: string
+                  required: false
+                  description: From social dynamics list. Null if none.
+                interaction_note:
+                  type: string
+                  required: false
+                  description: How the cognitive and social forces interact, if both present.
+            carrier_persona:
+              type: string
+              required: true
+              description: Which persona primarily manifests this facet weakness.
+
+      discussion_arc:
+        type: string
+        required: true
+        description: >
+          Narrative description of how the discussion unfolds — where tension
+          rises, where it resolves or fails to resolve.
+
+      turn_outline:
+        type: list
+        required: true
+        description: Ordered sequence of turns.
+        constraints:
+          min_length: 10
+          max_length: 14
+        items:
+          type: object
+          fields:
+            speaker:
+              type: string
+              required: true
+              description: Persona name.
+            accomplishes:
+              type: string
+              required: true
+              description: >
+                What this turn does for the discussion — phrased in natural
+                language, no facet names, no framework terminology.

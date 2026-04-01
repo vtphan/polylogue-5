@@ -1,0 +1,68 @@
+# Schema: Transcript (Post-Enumeration)
+# The fully enumerated discussion transcript with turn and sentence IDs.
+# Source: pipeline-spec.md Section 2.2
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      personas:
+        type: list
+        required: true
+        description: Persona metadata for app rendering.
+        items:
+          type: object
+          fields:
+            name:
+              type: string
+              required: true
+            perspective:
+              type: string
+              required: true
+              description: Brief description (student-visible).
+
+      turns:
+        type: list
+        required: true
+        description: The discussion turns with enumerated IDs.
+        constraints:
+          min_length: 10
+          max_length: 14
+        items:
+          type: object
+          fields:
+            turn_id:
+              type: string
+              required: true
+              description: Sequential turn ID (e.g., "turn_01", "turn_02").
+              constraints:
+                pattern: "turn_\\d{2}"
+            speaker:
+              type: string
+              required: true
+              description: Persona name.
+            sentences:
+              type: list
+              required: true
+              description: 1-3 sentences per turn.
+              constraints:
+                min_length: 1
+                max_length: 3
+              items:
+                type: object
+                fields:
+                  sentence_id:
+                    type: string
+                    required: true
+                    description: >
+                      Sequential within turn (e.g., "turn_01.s01", "turn_01.s02").
+                    constraints:
+                      pattern: "turn_\\d{2}\\.s\\d{2}"
+                  text:
+                    type: string
+                    required: true
+                    description: The sentence text.
