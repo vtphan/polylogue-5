@@ -53,9 +53,17 @@ The discussion plan describes an arc with rising tension and resolution. Your tr
 - **Include at least one pivot** — a moment where the dynamic shifts (someone concedes, introduces new evidence, reframes the question)
 - **Reach a resolution** — they decide something, compromise, or genuinely acknowledge they can't agree. The discussion should not just trail off.
 
+### Rhythm and Variation
+Real conversations are uneven. Vary the sentence count across turns:
+- **1-sentence turns** for quick reactions, agreement, or interjections ("Wait, really?" or "Yeah, I guess"). Include at least two 1-sentence turns in the transcript.
+- **2-sentence turns** for most regular contributions — making a point with brief support.
+- **3-sentence turns** sparingly, for emphasis — a character making their strongest case or getting on a roll.
+
+Do not give every turn the same number of sentences. A transcript where every turn is 2 sentences reads like a script, not a conversation.
+
 ### Structural Constraints
 - **10-14 turns total** (matching the turn outline)
-- **1-3 sentences per turn** — short turns feel natural for this age group. Most turns should be 1-2 sentences. A 3-sentence turn is for emphasis — a character making their strongest case.
+- **1-3 sentences per turn** — vary the count (see Rhythm and Variation above)
 - **Under 400 words total** — the entire discussion must be readable in 3 minutes
 - **Speaker names must match** the persona names exactly
 

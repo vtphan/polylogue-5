@@ -21,13 +21,19 @@ For each evaluable passage, produce three layers:
 
 Identify every facet observable in this passage — both targeted (designed into the scenario) and emergent (appearing naturally from the dialog).
 
+**Two passes required:**
+
+1. **Targeted facets:** For each facet in the scenario plan's `target_facets`, find where it manifests in this passage. Mark `was_targeted: true`.
+
+2. **Emergent facets:** After annotating targeted facets, read the passage fresh and scan for 1-2 additional facets that appear naturally but were not designed into the scenario. Students will notice things beyond the designed targets, and teachers need to know what those might be. Mark these `was_targeted: false`. Not every passage needs an emergent annotation — only add them where a facet is genuinely prominent and a student would likely notice it. Consult the facet inventory for the full list of possible facets.
+
 For each facet annotation:
 - `facet_id` — from the facet inventory
 - `quality_level` — "strong", "weak", or a brief qualitative description
 - `evidence_sentences` — specific sentence IDs where the facet is observable
 - `primary_lens` and `also_visible_through` — which lenses reveal it
 - `explanatory_variables` — cognitive pattern, social dynamic, and how they interact
-- `was_targeted` — true if this facet appears in the scenario plan's `target_facets`
+- `was_targeted` — true if this facet appears in the scenario plan's `target_facets`, false if emergent
 - `notes` — your observations, especially for emergent facets or unexpected findings
 
 ### Visible Layer: AI Perspective — Evaluate Block (`ai_perspective_evaluate`)
@@ -46,7 +52,11 @@ Write per-lens observations — what you notice through Logic, Evidence, and Sco
 
 4. **Null is fine.** Not every lens has an observation for every passage. If you have nothing notable to say through a lens, leave `observation` as null and `key_sentences` as an empty list.
 
-5. **`what_to_notice`** — A brief, student-friendly prompt that bridges toward the Explain phase without giving away the answer. E.g., "Something interesting to think about: did anyone in the group push back on this?"
+5. **`what_to_notice`** — A brief, student-friendly prompt that bridges toward the Explain phase without giving away the answer. Point to a **region of the text** worth examining — do not construct the contrast or observation for the student.
+   - GOOD: "Think about what Maya's evidence is actually about. Does it match what the group needs to decide?" (points to a region, student discovers the mismatch)
+   - BAD: "Maya's evidence is about the Pacific Ocean. Their project is at their school. Does that matter?" (constructs the contrast — the prompt nearly answers itself)
+   - GOOD: "Something interesting to think about: did anyone in the group push back on this?" (directs attention to a dynamic without naming it)
+   - If two facts need to be compared, name at most one — let the student discover the other.
 
 ### Visible Layer: AI Perspective — Explain Block (`ai_perspective_explain`)
 

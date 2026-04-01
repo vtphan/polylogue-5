@@ -66,12 +66,15 @@ For each misreading:
 
 Ensure the three levels are genuinely distinct — not just the same observation with more words.
 
-**`explanation_rubric`** — Lens-independent, organized by explanation type:
-- **Cognitive** category: basic ("she was biased") and developing ("she only looked for evidence she agreed with")
-- **Social** category: basic ("the group just went along with it") and developing ("nobody pushed back when she said it")
-- **Interaction** category: developing ("she had tunnel vision and nobody stopped her") and differentiated ("she only looked for evidence she agreed with, and nobody challenged her, so she just kept going — the group made it easy for her to stay stuck")
+**`explanation_rubric`** — Lens-independent, organized by explanation type. The level structure is intentionally different per category — the progression is *across* categories, not within them:
 
-The interaction category has no basic level — connecting two forces is inherently at least developing. The differentiated level models how cognitive and social forces amplify each other.
+- **Cognitive** category: **basic** and **developing** only (2 levels). Basic is vague ("she was biased"). Developing identifies a specific pattern ("she only looked for evidence she agreed with"). No differentiated level — a sophisticated single-variable cognitive explanation is "developing," not "differentiated."
+- **Social** category: **basic** and **developing** only (2 levels). Basic is vague ("the group just went along with it"). Developing identifies a specific dynamic ("nobody pushed back when she said it"). Same logic — single-variable explanations cap at developing.
+- **Interaction** category: **developing** and **differentiated** only (2 levels, no basic). Developing connects both forces ("she had tunnel vision and nobody stopped her"). Differentiated models how they amplify each other ("she only looked for evidence she agreed with, and nobody challenged her, so she just kept going — the group made it easy for her to stay stuck").
+
+**Why this structure:** "Differentiated" lives only in the interaction category because connecting cognitive and social forces is the framework's deepest learning objective. The student progression is: vague single-variable (basic) → specific single-variable (developing) → connecting both forces (interaction developing) → modeling amplification (interaction differentiated). Adding a differentiated level to cognitive/social would dilute this progression. The interaction category has no basic level because connecting two forces is inherently at least developing.
+
+**Important:** Do not add a differentiated level to cognitive or social categories. Do not add a basic level to the interaction category. This level structure is by design.
 
 ## Output 2: Enriched Facilitation Guide
 
