@@ -1,0 +1,67 @@
+scenario_id: school-garden-water
+
+personas:
+  - name: Lena
+    perspective: Wants to build a rainwater collection system for the school garden
+  - name: Derek
+    perspective: Thinks they should just use the school's hose to keep things simple
+
+turns:
+  - speaker: Derek
+    sentences:
+      - text: "I think we should just use the hose, it's literally right there by where the garden's gonna go."
+      - text: "Plus we gotta have this thing running by spring so we don't really have time to get all fancy."
+
+  - speaker: Lena
+    sentences:
+      - text: "Okay but I found this website about rain barrels and it's actually super cool."
+      - text: "You collect rainwater and use it for the garden, and it's way better for the environment."
+
+  - speaker: Derek
+    sentences:
+      - text: "Rain barrels?"
+      - text: "That sounds like a lot of work, and we don't even know how to build something like that."
+
+  - speaker: Lena
+    sentences:
+      - text: "No, it's not that hard, this garden in Portland had them and they collected plenty of water for their whole garden."
+      - text: "The website said it totally works."
+      - text: "Ours would definitely get enough water too."
+
+  - speaker: Derek
+    sentences:
+      - text: "Wait, Portland?"
+      - text: "Doesn't it rain like all the time there? I don't think we get that much rain here."
+
+  - speaker: Lena
+    sentences:
+      - text: "I mean, it rains here too."
+      - text: "And think about how cool it would look — we'd have these barrels set up and everyone would be like, whoa, they actually did something real."
+
+  - speaker: Derek
+    sentences:
+      - text: "I guess you did actually look it up and I didn't really, so maybe you have a point."
+
+  - speaker: Lena
+    sentences:
+      - text: "Right, so we could put the barrels along the fence next to the garden and run a little hose down to the plants."
+      - text: "I already kind of planned it out in my head."
+
+  - speaker: Derek
+    sentences:
+      - text: "Oh, we could put them by the corner where the roof drains go, that way they'd fill up faster."
+
+  - speaker: Lena
+    sentences:
+      - text: "Yes, that's perfect!"
+      - text: "This is seriously gonna be the best project, we should tell the class about it when we present."
+
+  - speaker: Derek
+    sentences:
+      - text: "Yeah, we should start building soon so it's ready in time."
+      - text: "I'm actually kinda excited now."
+
+  - speaker: Lena
+    sentences:
+      - text: "Okay so rain barrels it is."
+      - text: "Let's make a list of what we need and start figuring out the design this week."

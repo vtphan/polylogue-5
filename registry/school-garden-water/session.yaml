@@ -1,0 +1,144 @@
+scenario_id: school-garden-water
+
+transcript_file: transcript.yaml
+analysis_file: analysis.yaml
+scaffolding_file: scaffolding.yaml
+
+onboarding:
+  topic_summary: >
+    A group of 6th graders is planning the school garden and needs to decide
+    how to water it. One student found a website about rain barrels and thinks
+    they should build a collection system. The other thinks they should just
+    use the school's hose. The principal says the garden needs to be running
+    by spring.
+  reading_instruction: >
+    Read the discussion carefully. Then we'll look at it together through
+    different lenses.
+
+passages:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    evaluable: false
+    suggested_order: null
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+    evaluable: true
+    suggested_order: 1
+
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+    evaluable: true
+    suggested_order: 3
+
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+    evaluable: true
+    suggested_order: 2
+
+lens_definitions:
+  - lens_id: logic
+    name: Logic
+    question: Does the reasoning hold?
+  - lens_id: evidence
+    name: Evidence
+    question: Is the claim supported?
+  - lens_id: scope
+    name: Scope
+    question: Is the analysis thorough?
+
+lens_scope: evaluate_only
+
+evaluate_phase:
+  sequence: [individual, peer, ai]
+  individual:
+    instructions: >
+      Read this passage and rate the reasoning as strong or weak through your
+      assigned lens. Then explain what you noticed.
+    rating_options: [strong, weak]
+    articulation_prompt: "What do you see? Why did you rate it this way?"
+  peer:
+    instructions: >
+      See how your group members evaluated this passage. They may have been
+      looking through a different lens. What did they notice that you didn't?
+  ai:
+    instructions: >
+      Here's what an expert noticed when looking through each lens.
+    source: ai_perspective_evaluate
+    response_required: true
+    response_prompt: >
+      After reading the AI's observations, what stands out to you? Did the AI
+      notice something you missed, or do you see it differently?
+  completion_threshold: 2
+
+explain_phase:
+  sequence: [individual, peer, ai]
+  individual:
+    instructions: >
+      Now think about *why* the group reasoned the way they did. This isn't
+      about what's right or wrong — it's about understanding what was going
+      on in their thinking and in the group.
+    explanation_prompt: >
+      Why do you think they reasoned this way? What was going on in the group?
+    sentence_starters:
+      - category: cognitive
+        starter: "I think they reasoned this way because they were focused on..."
+      - category: social
+        starter: "I think the group..."
+      - category: interaction
+        starter: "The group made it easier/harder for this kind of thinking because..."
+  peer:
+    instructions: >
+      See how your group members explained what happened. Did anyone think
+      about it differently than you?
+  ai:
+    instructions: >
+      Here's how a cognitive scientist and social psychologist might think
+      about what happened in this discussion.
+    source: ai_perspective_explain
+    response_required: true
+    response_prompt: >
+      Does the AI's explanation match what you were thinking, or do you see
+      it differently?
+  reference_lists:
+    show_cognitive_patterns: false
+    show_social_dynamics: false
+    cognitive_patterns:
+      - id: confirmation_bias
+        name: Confirmation bias
+        description: Only looking for information that supports what you already believe.
+      - id: tunnel_vision
+        name: Tunnel vision
+        description: Focusing so narrowly on one aspect that you miss the bigger picture.
+      - id: overgeneralization
+        name: Overgeneralization
+        description: Drawing a broad conclusion from too little evidence.
+      - id: false_cause
+        name: False cause
+        description: Assuming one thing caused another just because they're connected.
+      - id: uncritical_acceptance
+        name: Uncritical acceptance
+        description: Believing something without checking the source or reasoning.
+      - id: black_and_white_thinking
+        name: Black-and-white thinking
+        description: Seeing only two options instead of recognizing complexity.
+      - id: egocentric_thinking
+        name: Egocentric thinking
+        description: Only considering the perspectives of people like yourself.
+      - id: false_certainty
+        name: False certainty
+        description: Feeling confident about something without checking whether the reasoning supports it.
+    social_dynamics:
+      - id: conformity
+        name: Conformity
+        description: Going along with the group even when you privately disagree.
+      - id: conflict_avoidance
+        name: Conflict avoidance
+        description: Giving up a point you believe in because disagreeing feels uncomfortable.
+      - id: authority_deference
+        name: Authority deference
+        description: Letting the loudest or most confident person win without evaluating their reasoning.
+      - id: groupthink
+        name: Groupthink
+        description: The group choosing to feel good about their answer instead of checking whether it's right.
+  completion_threshold: 1

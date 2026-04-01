@@ -1,0 +1,394 @@
+scenario_id: school-garden-water
+
+overview:
+  topic: Whether the school garden project should use the school's water supply or set up a rainwater collection system
+  targeted_facets_summary: >
+    This discussion is designed around two weaknesses: (1) sufficiency — Lena
+    bases a confident conclusion ("ours would definitely get enough water") on
+    one website about a garden in Portland, a city with very different rainfall;
+    (2) perspective breadth — both students plan a project involving school
+    infrastructure (building rain barrels, using the roof drainage) without
+    considering the custodial staff, science teacher, or summer maintenance.
+    Both weaknesses feel natural but are detectable on careful reading.
+  session_timing: >
+    Evaluate phase: ~20 minutes (Individual 8-10 min, Peer 5-7 min, AI 3-5 min).
+    Explain phase: ~20 minutes (same structure). Debrief: ~10 minutes.
+  what_to_expect: >
+    Students typically notice Lena's enthusiasm and confidence first. Evidence
+    students tend to catch "one website" but may accept it as sufficient because
+    Lena sounds sure. Scope students may notice the missing stakeholders in the
+    planning passages but miss it in earlier passages. The hardest observation
+    is the connection between Derek's deference and the thin evidence — students
+    may see Derek as "convinced" rather than "gave up questioning." The perspective
+    breadth gap is easier to spot once students are prompted to think about who
+    else might care about the plan.
+
+passage_guides:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    summary: >
+      Derek opens practically — use the hose, spring deadline. Lena introduces
+      rain barrels, citing a website. Derek is skeptical about the complexity.
+
+    whats_here:
+      - facet: Sufficiency
+        quality: weak (emerging)
+        visible_through: [evidence]
+        explanation: >
+          The single-source basis is introduced ("this website") but not yet
+          visible as a problem — Lena hasn't made confident claims yet.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try looking through the Evidence lens — what is each person basing
+          their idea on? What kind of information does each one have?
+      peer:
+        likely_disagreements: >
+          Students may disagree about which idea sounds better. Some will find
+          rain barrels exciting; others will side with Derek's practical approach.
+        productive_questions:
+          - What kind of information does each person have about their idea?
+          - Derek mentions helping his uncle with a garden. Lena mentions a website. How are those different?
+        watch_for: >
+          If students are focused on "which option is better" rather than
+          the quality of the reasoning, redirect to what each person actually knows.
+      ai:
+        what_the_ai_will_say: >
+          The AI notices the different bases for each position — Lena's website
+          vs. Derek's hands-on experience. This may prompt students to think about
+          what counts as good evidence for a decision like this.
+        likely_student_reactions: >
+          Students may feel the AI is overthinking it — "Lena found a website,
+          that's fine." This is a productive entry point for discussing evidence quality.
+        follow_up: >
+          Bridge to Explain: "Now that you've noticed what each person is basing
+          their idea on, let's think about why."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about Lena's website and Derek's experience helping his uncle.
+          Why might someone trust one kind of information more than the other?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether a website or personal experience
+          is more trustworthy for a decision like this.
+        productive_questions:
+          - When you're trying to decide something, what kind of information do you usually trust most? Why?
+        watch_for: >
+          If students are just debating "websites vs. experience" abstractly,
+          redirect to what's specific about this discussion.
+
+    likely_observations:
+      - lens: logic
+        what_students_will_see: Both students making simple claims without detailed reasoning
+        what_students_might_miss: This is setup — reasoning issues emerge later
+      - lens: evidence
+        what_students_will_see: Lena's idea is based on a website, Derek's on personal experience
+        what_students_might_miss: How much weight Lena puts on that one website later
+      - lens: scope
+        what_students_will_see: Derek is thinking about the spring deadline
+        what_students_might_miss: Scope issues don't fully emerge until planning passages
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+    summary: >
+      Lena cites the Portland website confidently — "ours would definitely get
+      enough water." Derek questions the climate difference. Lena pivots to
+      how impressive the barrels would look.
+
+    whats_here:
+      - facet: Sufficiency
+        quality: weak
+        visible_through: [evidence, scope, logic]
+        explanation: >
+          Primary sufficiency passage. Lena extrapolates from one Portland garden
+          to confident certainty about their school. Derek raises a real condition
+          (different climate) that gets dismissed with "it rains here too."
+      - facet: Condition Sensitivity
+        quality: weak (emergent)
+        visible_through: [scope, logic, evidence]
+        explanation: >
+          Emergent. Derek raises a boundary condition (climate difference) that
+          Lena dismisses without qualification. The conclusion is stated as
+          unconditional despite evidence from a different context.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try looking through the Evidence lens — Lena mentions a website about
+          Portland. What does that tell us? Or through Logic — she says their
+          garden would "definitely" work too. What's that based on?
+      peer:
+        likely_disagreements: >
+          Evidence students may disagree about whether one website is enough.
+          Logic students may disagree about whether Portland's success means
+          their school would succeed too. Scope students may focus on the
+          dismissed climate question.
+        productive_questions:
+          - Lena says "the website said it totally works." What exactly did the website show?
+          - Derek asks about the weather difference. What happens to that question?
+          - How confident is Lena's conclusion compared to what she actually knows?
+        watch_for: >
+          If students accept "she found a website" as sufficient, prompt them
+          to think about what the website actually proved.
+      ai:
+        what_the_ai_will_say: >
+          The AI highlights the one-website basis and the Portland-to-here leap.
+          It also notes Derek's climate question and what happens to it.
+        likely_student_reactions: >
+          Some students may have accepted Lena's confidence at face value and
+          be surprised by the AI's observation about thin evidence. Others may
+          feel validated if they noticed the Portland issue.
+        follow_up: >
+          Bridge to Explain: "You've noticed something about the evidence behind
+          Lena's plan. Now think about why she was so confident."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about what it feels like when you've looked something up and
+          found an answer. Does finding one source make you feel like you
+          know for sure?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Lena is "wrong" or just "confident."
+          This is productive — it gets at the difference between having evidence
+          and having enough evidence.
+        productive_questions:
+          - Has anyone ever looked something up online and felt really sure about it? What happened next?
+          - Why might finding one website make someone feel like they definitely know the answer?
+        watch_for: >
+          If students are moralizing ("she should have checked more"), redirect
+          to understanding why it's natural to feel certain after researching.
+
+    likely_observations:
+      - lens: logic
+        what_students_will_see: >
+          Lena jumps from "it worked in Portland" to "it would definitely work here"
+        what_students_might_miss: >
+          That the source itself might be fine — the issue is how much you can conclude from it
+      - lens: evidence
+        what_students_will_see: >
+          Lena's plan is based on one website about a different place
+        what_students_might_miss: >
+          The climate mismatch — may focus on source count rather than applicability
+      - lens: scope
+        what_students_will_see: >
+          Derek raises a weather condition that Lena doesn't address
+        what_students_might_miss: >
+          How thin the underlying evidence is
+
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+    summary: >
+      Derek concedes — "you did actually look into it." They shift into planning
+      mode: where to put barrels, how to connect them. Both students are now
+      designing without consulting anyone else.
+
+    whats_here:
+      - facet: Sufficiency
+        quality: weak (continued)
+        visible_through: [evidence, logic]
+        explanation: >
+          Derek defers because Lena researched it, not because the evidence
+          is sufficient. The authority deference dynamic is visible in
+          "you did actually look into it and I didn't."
+      - facet: Perspective Breadth
+        quality: weak (emerging)
+        visible_through: [scope, evidence]
+        explanation: >
+          Both students start planning with school infrastructure (fence,
+          roof drains) without considering who else has a stake in those
+          areas. The perspective gap begins to emerge through absence.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try looking through the Scope lens — Lena and Derek are making plans
+          that involve parts of the school. Who else might care? Or through
+          Logic — why does Derek agree? What reason does he give?
+      peer:
+        likely_disagreements: >
+          Logic students may see Derek's concession differently — some think
+          it's reasonable ("she did research"), others may notice he's agreeing
+          for the wrong reasons. Scope students may start noticing missing voices.
+        productive_questions:
+          - Why does Derek agree to the rain barrel plan? Is it because the evidence convinced him?
+          - Lena and Derek are planning to build something at their school. Who have they talked to about it?
+        watch_for: >
+          If students read Derek's concession as genuine agreement, ask them
+          to look at his specific words — what is his reason?
+      ai:
+        what_the_ai_will_say: >
+          The AI notes how Derek decides (who-researched vs. what-the-evidence-shows)
+          and flags that they're planning with school property without consulting others.
+        likely_student_reactions: >
+          Students may not have thought about the stakeholder gap until the AI
+          raises it. The "who else might care" question often clicks quickly
+          once prompted.
+        follow_up: >
+          Bridge to Explain: "You've noticed how Derek decided and who's part
+          of the plan. Now think about why things went this way."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about what it's like when someone says "I actually looked it
+          up." How does that change how you feel about disagreeing with them?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Derek should have pushed back
+          harder. Some will empathize ("it's awkward to keep arguing"), others
+          will say he should have stuck to his point.
+        productive_questions:
+          - Have you ever stopped disagreeing with someone because they sounded like they knew more? What happened?
+          - When a group is getting excited about an idea, what makes it hard to slow down and ask questions?
+        watch_for: >
+          If students are blaming Derek ("he should have spoken up"), redirect
+          to understanding the group dynamic — it's about the interaction, not
+          just one person.
+
+    likely_observations:
+      - lens: logic
+        what_students_will_see: >
+          Derek agrees because Lena researched it, not because the argument was convincing
+        what_students_might_miss: >
+          The planning details that reveal the scope gap
+      - lens: evidence
+        what_students_will_see: >
+          The same one-website evidence is now the foundation for a detailed building plan
+        what_students_might_miss: >
+          How Derek's deference language reveals why the evidence went unquestioned
+      - lens: scope
+        what_students_will_see: >
+          They're planning to use the school roof, fence, and garden area
+        what_students_might_miss: >
+          Nobody has mentioned talking to anyone else about this
+
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+    summary: >
+      Both students excitedly confirm rain barrels as the plan. They discuss
+      presenting to the class and starting design this week — without having
+      consulted any adults or considered maintenance.
+
+    whats_here:
+      - facet: Perspective Breadth
+        quality: weak
+        visible_through: [scope, evidence]
+        explanation: >
+          Primary perspective_breadth passage. Two students are planning to build
+          infrastructure on school property, present to their class, and start this
+          week — without mentioning custodial staff, the science teacher who runs
+          garden club, the principal who set the deadline, or summer maintenance.
+          The plan reflects only student enthusiasm.
+      - facet: Sufficiency
+        quality: weak (unresolved)
+        visible_through: [evidence, scope, logic]
+        explanation: >
+          The one-website basis was never supplemented. The evidence hasn't changed
+          but the conclusion has grown more specific — they're now designing and
+          building based on the same thin evidence.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try looking through the Scope lens — who at the school might have
+          something to say about this plan? Or through Evidence — what do they
+          actually know about whether rain barrels will work at their school?
+      peer:
+        likely_disagreements: >
+          Scope students may name specific missing stakeholders. Evidence students
+          may notice the plan outgrew the evidence. Some students may think
+          Lena and Derek are doing a great job — this disagreement is productive.
+        productive_questions:
+          - Name three people at the school who might want to know about this plan. Did Lena and Derek talk to any of them?
+          - The plan is now very specific — building this week, presenting to class. Has the evidence gotten more specific too?
+        watch_for: >
+          If students think the plan is fine, try: "Imagine you're the custodian
+          and you walk in Monday to find rain barrels on the roof. How would
+          you feel?"
+      ai:
+        what_the_ai_will_say: >
+          The AI points to the missing stakeholders and notes that the plan grew
+          more specific while the evidence behind it stayed the same.
+        likely_student_reactions: >
+          The missing-stakeholders observation usually clicks quickly — students
+          can name who's missing once prompted. The evidence observation may
+          take longer to internalize.
+        follow_up: >
+          Bridge to Explain: "You've noticed who's missing from this plan.
+          Now think about why Lena and Derek didn't think to include them."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about Lena and Derek's plan — they're really excited. When
+          you're excited about an idea, what's hard to remember to do?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether it's the students' fault for
+          not thinking of others, or just natural when you're excited.
+        productive_questions:
+          - When you and a friend are really excited about a plan, what usually gets forgotten?
+          - Why might two students not think to ask an adult about their school project plan?
+        watch_for: >
+          If students list missing stakeholders but can't explain why they
+          were missed, prompt them to think about what was happening in the
+          group — the excitement, the momentum.
+
+    likely_observations:
+      - lens: logic
+        what_students_will_see: >
+          The plan is detailed but the reasoning hasn't gotten any stronger
+        what_students_might_miss: >
+          The missing-perspectives issue — Logic students may not think about stakeholders
+      - lens: evidence
+        what_students_will_see: >
+          They're starting design work based on one website from a different city
+        what_students_might_miss: >
+          The stakeholder gap — may focus on sources rather than who's been consulted
+      - lens: scope
+        what_students_will_see: >
+          Nobody mentioned custodian, science teacher, principal, or summer break
+        what_students_might_miss: >
+          How the evidence problem connects to the planning problem
+
+debrief:
+  key_takeaways:
+    - >
+      One source can create a feeling of certainty that's much bigger than what
+      the source actually supports — especially when the source is from a
+      different context. Sufficiency isn't just about having evidence; it's about
+      whether the evidence matches the specific thing you're deciding.
+    - >
+      When a group gets excited about a plan, they can forget to ask who else
+      might need to be involved. Missing perspectives aren't always about
+      disagreement — sometimes they're about the people who aren't in the room.
+    - >
+      Deferring to someone because they "did the research" isn't the same as
+      being convinced by their reasoning. The act of researching creates a
+      feeling of authority that can shut down useful questions.
+
+  cross_group_prompts:
+    - >
+      Did groups looking through the Evidence lens and groups looking through the
+      Scope lens notice the same things? Where did your observations overlap, and
+      where were they completely different?
+    - >
+      Some groups probably focused on Lena's one website. Other groups probably
+      focused on who was missing from the plan. Are those two different problems,
+      or are they connected?
+    - >
+      Think about Derek's moment when he says "you did actually look into it."
+      Did different groups interpret that differently? What does it look like
+      through different lenses?
+
+  connection_to_next: >
+    This scenario practiced noticing when evidence is thin for a big conclusion
+    and when important perspectives are missing from a plan. In future sessions,
+    students will encounter discussions where the evidence might be strong but
+    the reasoning connecting it to the conclusion breaks down — a different kind
+    of challenge that builds on what they practiced here.

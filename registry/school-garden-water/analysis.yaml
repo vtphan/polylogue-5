@@ -1,0 +1,443 @@
+scenario_id: school-garden-water
+
+passage_analyses:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    sentence_range:
+      - turn_01.s01
+      - turn_01.s02
+      - turn_02.s01
+      - turn_02.s02
+      - turn_03.s01
+      - turn_03.s02
+
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak (emerging)
+        evidence_sentences: [turn_02.s01, turn_02.s02]
+        primary_lens: evidence
+        also_visible_through: [scope, logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        notes: >
+          The sufficiency issue is introduced but not yet visible — Lena mentions
+          "a website" as her basis, but Derek hasn't probed it yet. The single-source
+          foundation becomes apparent only when Lena states confident conclusions
+          in passage_02.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Looking at the evidence here, I notice Lena mentions she found "this website"
+          about rain barrels. Derek has a different kind of knowledge — he helped set up
+          a garden with his uncle. They're basing their ideas on different kinds of experience.
+        key_sentences: [turn_02.s01, turn_01.s01]
+      through_scope:
+        observation: null
+        key_sentences: []
+      what_to_notice: >
+        Something to think about: what is each person basing their idea on? How much
+        do they actually know about what would work for their school?
+      what_to_notice_sentences: [turn_02.s01, turn_01.s01]
+
+    ai_perspective_explain:
+      explanatory_note: null
+      cognitive_connection: null
+      social_connection: null
+      interaction_note: null
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence students may notice the different bases for each person's
+        position. Logic and Scope students won't see much yet — this passage
+        is mostly setup.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Both students make simple claims without much reasoning yet
+          might_miss:
+            - This passage is mostly establishing positions — reasoning issues come later
+        - lens: evidence
+          observations:
+            - Lena's idea comes from one website
+            - Derek's idea comes from personal experience (helping his uncle)
+          might_miss:
+            - How much weight Lena puts on that single website later
+        - lens: scope
+          observations:
+            - Derek is thinking practically about timing (spring deadline)
+          might_miss:
+            - The scope issues don't fully emerge until the planning passages
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+    sentence_range:
+      - turn_04.s01
+      - turn_04.s02
+      - turn_04.s03
+      - turn_05.s01
+      - turn_05.s02
+      - turn_06.s01
+      - turn_06.s02
+
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences: [turn_04.s01, turn_04.s02, turn_04.s03, turn_05.s02]
+        primary_lens: evidence
+        also_visible_through: [scope, logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: null
+          interaction: >
+            Lena states "ours would definitely get enough water too" based on
+            one website about Portland. The false certainty is visible in the
+            jump from "this website said it works" to "ours would definitely
+            work." Derek raises the climate question but Lena pivots to
+            aesthetics rather than addressing it.
+        was_targeted: true
+        notes: >
+          This is the primary passage for sufficiency. Lena's three-sentence
+          turn (turn_04) is the clearest signal: one garden in Portland → the
+          website said it works → ours would definitely work too. That's a
+          large conclusion resting on thin evidence. Derek's climate question
+          (turn_05.s02) exposes the gap but gets brushed past.
+
+      - facet_id: condition_sensitivity
+        quality_level: weak (emergent)
+        evidence_sentences: [turn_04.s03, turn_05.s02, turn_06.s01]
+        primary_lens: scope
+        also_visible_through: [logic, evidence]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent facet. Derek raises a genuine boundary condition — "I don't
+          think we get anywhere near that much rain" — and Lena dismisses it
+          with "it rains here too." The conclusion (rain barrels will work)
+          is stated without conditions, despite evidence from a different
+          climate. Students through any lens might notice this unqualified leap.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at the reasoning, Lena makes an interesting move here. She starts
+          with one example from Portland and ends with "ours would definitely get
+          enough water too." That's a pretty big jump. Derek asks a good question
+          about whether their weather is the same — notice what happens to that question.
+        key_sentences: [turn_04.s01, turn_04.s03, turn_05.s02]
+      through_evidence:
+        observation: >
+          Looking at the evidence, Lena is basing her plan on one website about one
+          garden in Portland. She says "the website said it totally works" and then
+          concludes their garden would definitely work too. It's worth thinking about
+          whether one example from one place tells you enough.
+        key_sentences: [turn_04.s01, turn_04.s02, turn_04.s03]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, Derek raises something important — Portland
+          and their city might have very different weather. Lena says "it rains here
+          too" and then changes the subject to how cool the barrels would look.
+        key_sentences: [turn_05.s02, turn_06.s01, turn_06.s02]
+      what_to_notice: >
+        Think about what Lena is basing her plan on. How much does she actually
+        know about whether rain barrels would work at their school?
+      what_to_notice_sentences: [turn_04.s01, turn_04.s02]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A cognitive scientist might notice something about how confidence works.
+        When someone has looked something up — even just one source — it can create
+        a feeling of certainty that goes way beyond what the source actually showed.
+      cognitive_connection: >
+        One way to think about Lena: she found a real website with real information.
+        But that information was about Portland, and she's applying it to their
+        school without checking whether the same thing would work in a different
+        place. The confidence came from finding the source, not from what the
+        source actually proved.
+      social_connection: null
+      interaction_note: null
+
+    diversity_potential:
+      expected_lens_split: >
+        All three lenses have something to see here. Evidence students focus on
+        the single-source basis. Logic students focus on the inferential leap
+        from Portland to their school. Scope students focus on the dismissed
+        climate question. High perspectival diversity potential.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Lena jumps from "it worked in Portland" to "ours would definitely work too"
+            - Derek's question about climate gets brushed aside
+          might_miss:
+            - That the source itself might be fine — the issue is how it's being used
+        - lens: evidence
+          observations:
+            - Lena's whole plan is based on one website about one garden
+            - "The website said it totally works" is treated as enough proof
+          might_miss:
+            - The climate mismatch — Evidence students may focus on source quantity rather than applicability
+        - lens: scope
+          observations:
+            - Derek raises a condition (weather differences) that Lena doesn't address
+            - Lena pivots to aesthetics instead of answering the practical question
+          might_miss:
+            - How thin the underlying evidence is — Scope students may focus on the unanswered question
+
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+    sentence_range:
+      - turn_07.s01
+      - turn_08.s01
+      - turn_08.s02
+      - turn_09.s01
+
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak (continued)
+        evidence_sentences: [turn_07.s01, turn_08.s02]
+        primary_lens: evidence
+        also_visible_through: [scope, logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: authority_deference
+          interaction: >
+            Derek concedes because Lena "actually looked into it" — he treats
+            her single-website research as authoritative. The authority deference
+            removes the skepticism that would have pressed for more evidence.
+            Lena's certainty makes her sound like she knows, and Derek defers
+            to that appearance of expertise.
+        was_targeted: true
+        notes: >
+          Turn_07.s01 is the key authority deference signal. Derek explicitly
+          says "you did actually look into it and I didn't" — framing the
+          question as who-researched rather than whether-the-evidence-is-enough.
+
+      - facet_id: perspective_breadth
+        quality_level: weak (emerging)
+        evidence_sentences: [turn_08.s01, turn_08.s02, turn_09.s01]
+        primary_lens: scope
+        also_visible_through: [evidence]
+        explanatory_variables:
+          cognitive_pattern: egocentric_thinking
+          social_dynamic: groupthink
+          interaction: >
+            Both students shift into planning mode — where to put barrels, how
+            to connect them — entirely from their own perspective as students.
+            Neither asks who else might need to be involved. The groupthink
+            dynamic is visible: shared excitement replaces critical questioning.
+        was_targeted: true
+        notes: >
+          This is where perspective_breadth begins to emerge. The shift from
+          debate to planning is where the egocentric thinking becomes visible —
+          they're designing a system that involves school infrastructure without
+          considering anyone beyond themselves.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at the reasoning, notice how Derek decides. He says "you did
+          actually look into it and I didn't, so maybe you have a point." That's
+          an interesting way to settle a disagreement — it's about who did the
+          research, not about whether the research answers the right questions.
+        key_sentences: [turn_07.s01]
+      through_evidence:
+        observation: >
+          Looking at the evidence picture, the group is now planning based on what
+          Lena found on one website. Derek has stopped asking questions and started
+          contributing to the design. The plan is moving forward quickly.
+        key_sentences: [turn_07.s01, turn_08.s01, turn_09.s01]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, Lena says she has "the whole thing planned
+          out" and Derek starts suggesting where to put the barrels. They're making
+          plans that involve the school building — the roof, the fence, the garden
+          area. It's worth thinking about who else might need to know about these plans.
+        key_sentences: [turn_08.s01, turn_08.s02, turn_09.s01]
+      what_to_notice: >
+        Something to think about: Lena and Derek are making a plan that involves
+        parts of the school building. Whose plan is this?
+      what_to_notice_sentences: [turn_08.s01, turn_09.s01]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A social psychologist might notice two things happening at once here. First,
+        how the disagreement gets settled. Second, what happens once the group starts
+        agreeing.
+      cognitive_connection: >
+        One way to think about Derek's decision: when someone sounds like they've done
+        their homework, it's natural to defer to them — especially if you haven't done
+        your own research. But "she looked it up" isn't the same as "her evidence is
+        strong enough." The feeling of authority came from the act of researching, not
+        from what the research showed.
+      social_connection: >
+        And notice what happens once they both get on board with the same idea. They
+        jump into planning together, building on each other's excitement. When a group
+        is energized about an idea, it can be really hard for anyone to step back and
+        ask "wait, are we missing something?"
+      interaction_note: >
+        Notice the pattern: Derek stops questioning because Lena seems to know what
+        she's talking about, and once he joins the planning, their shared excitement
+        makes it even less likely that either one will pause to check. The deference
+        removes the skeptic, and the group energy keeps things moving forward.
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic students see how the disagreement gets resolved. Evidence students
+        see the evidence basis is unchanged. Scope students see the planning
+        happening without outside input. Strong split across all three lenses.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Derek agrees because Lena researched it, not because the reasoning was convincing
+            - The decision is based on who-looked-it-up rather than what-the-evidence-showed
+          might_miss:
+            - The planning details that reveal the scope gap (involving school infrastructure)
+        - lens: evidence
+          observations:
+            - The same one-website evidence is now the foundation for a detailed plan
+            - Nobody looked for additional sources
+          might_miss:
+            - How Derek's deference language reveals why the evidence went unquestioned
+        - lens: scope
+          observations:
+            - They're planning to use the school roof, fence, and garden area
+            - Neither mentions talking to anyone else about this plan
+          might_miss:
+            - How the evidence question connects to the scope problem
+
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+    sentence_range:
+      - turn_10.s01
+      - turn_10.s02
+      - turn_11.s01
+      - turn_11.s02
+      - turn_12.s01
+      - turn_12.s02
+
+    facet_annotations:
+      - facet_id: perspective_breadth
+        quality_level: weak
+        evidence_sentences: [turn_10.s01, turn_10.s02, turn_11.s01, turn_11.s02, turn_12.s01, turn_12.s02]
+        primary_lens: scope
+        also_visible_through: [evidence]
+        explanatory_variables:
+          cognitive_pattern: egocentric_thinking
+          social_dynamic: groupthink
+          interaction: >
+            The entire closing passage is two students excitedly planning a project
+            that involves school infrastructure — barrels on the building, connections
+            to plumbing areas, presenting to the class — without having consulted the
+            custodial staff, the science teacher, or any adult. Neither pauses to
+            ask "should we check with anyone?" The egocentric thinking limits whose
+            voices they consider to just their own. The groupthink means shared
+            excitement replaces the critical pause that would surface missing
+            perspectives.
+        was_targeted: true
+        notes: >
+          This is the primary passage for perspective_breadth. The gap is clearest
+          here because they're making specific plans (building, presenting, designing
+          this week) that affect multiple stakeholders — custodian, science teacher,
+          principal — without mentioning any of them. They also never discuss
+          summer maintenance. The absence is what students need to notice.
+
+      - facet_id: sufficiency
+        quality_level: weak (unresolved)
+        evidence_sentences: [turn_12.s01, turn_12.s02]
+        primary_lens: evidence
+        also_visible_through: [scope, logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: authority_deference
+          interaction: >
+            Lena confirms rain barrels as the decision with full confidence.
+            The one-website basis was never supplemented — the same thin
+            evidence now supports a detailed building plan.
+        was_targeted: true
+        notes: >
+          The sufficiency gap persists into the decision. They're starting
+          design work this week based on one website about a different city's
+          weather. The gap between evidence and conclusion has actually grown —
+          the conclusion is now more specific (build this week, specific design)
+          while the evidence hasn't changed at all.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Looking at the evidence picture at the end, the group is now making a
+          detailed plan — designing this week, figuring out what they need. All of
+          this is still based on the same website about Portland that Lena found
+          earlier. The plan got more specific, but the evidence behind it didn't.
+        key_sentences: [turn_12.s01, turn_12.s02]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, notice what Lena and Derek are planning to
+          do — build something on school property, present it to their class, start
+          this week. They're really excited. But think about who else at the school
+          might care about this plan.
+        key_sentences: [turn_10.s02, turn_11.s01, turn_12.s02]
+      what_to_notice: >
+        Here's something to think about: Lena and Derek are making a plan that
+        involves building things at their school. Who have they talked to about it?
+      what_to_notice_sentences: [turn_11.s01, turn_12.s02]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A social psychologist might point out something about how groups make plans.
+        When everyone is excited about the same idea, the group can develop a kind
+        of momentum that makes it hard to slow down and think about what might be
+        missing.
+      cognitive_connection: >
+        One way to think about this: Lena and Derek are both students planning from
+        their own experience — what they know, what excites them, what they can
+        imagine doing. It's natural to plan from your own perspective. But their
+        plan involves the school building, the garden space, the school schedule —
+        things that other people at the school also have a stake in.
+      social_connection: >
+        And notice how the energy in the conversation works. Once they're both
+        excited, the planning just keeps going — neither one pauses to say "wait,
+        should we check with anyone first?" When a group is moving together with
+        enthusiasm, stepping back can feel like being a buzzkill.
+      interaction_note: >
+        Notice how these connect: they're only thinking about what matters to them
+        as students (their perspective), and the group excitement means nobody stops
+        to ask "who else should weigh in?" The limited perspective and the group
+        momentum reinforce each other — they keep planning because it feels great,
+        and feeling great keeps them from noticing what's missing.
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence students see the unchanged evidence basis. Scope students see
+        the missing perspectives. This passage has the strongest scope signal
+        of the scenario.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - The plan is very detailed but the reasoning behind it hasn't gotten stronger
+          might_miss:
+            - The missing-perspectives issue — Logic students may not think about stakeholders
+        - lens: evidence
+          observations:
+            - The plan got more specific but is still based on one website
+            - They're starting design work without any additional research
+          might_miss:
+            - The stakeholder gap — Evidence students focus on sources, not on who's been consulted
+        - lens: scope
+          observations:
+            - Nobody mentioned the custodian, science teacher, or what happens over summer
+            - They're building on school property without talking to any adults
+            - The plan only reflects what two students want
+          might_miss:
+            - How the evidence problem (one source) connects to the planning problem

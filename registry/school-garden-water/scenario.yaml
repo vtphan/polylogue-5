@@ -1,0 +1,160 @@
+scenario_id: school-garden-water
+
+topic: Whether the school garden project should use the school's water supply or set up a rainwater collection system
+
+context: >
+  A 6th-grade STEM class is working on the PBL driving question: "What are the
+  major threats affecting our global environment, and what can our communities do
+  to protect our ecosystems?" This group is planning the school garden (a real
+  project at the school) and needs to decide how to water it. One option is
+  simple — use the school's hose. The other is more ambitious — build a rain
+  barrel system. The principal said they can do either but the garden needs to
+  be running by spring.
+
+instructional_goals:
+  - Practice noticing when a conclusion is bigger than what the discussion actually showed
+  - Practice noticing whose perspectives are missing from the discussion
+
+personas:
+  - name: Lena
+    perspective: >
+      Wants to build a rainwater collection system because it's better for the
+      environment and she thinks it would make their project stand out. She found
+      a website about rain barrels and is convinced it will work.
+    knowledge: >
+      Found one website about rainwater harvesting in Portland, Oregon. Remembers
+      that their rain barrels collected "plenty of water" for a community garden.
+      Has not checked whether her city gets similar rainfall or what the setup
+      actually costs.
+    weaknesses: >
+      Talks about what she read online with total confidence even though she only
+      checked one source. Once she decides something is a good idea, she presents
+      it like it's already settled and doesn't notice when she's skipping over
+      important details.
+
+  - name: Derek
+    perspective: >
+      Thinks they should just use the school's hose because it's simple and
+      guaranteed to work. Worried about spending time on something complicated
+      when the principal said they need the garden running by spring.
+    knowledge: >
+      Knows the school already has a hose hookup near where the garden would go.
+      Helped his uncle set up a garden at home last summer — it was a lot of work
+      even with regular water access.
+    weaknesses: >
+      Backs down when someone sounds like they've done their homework, even if
+      he's not totally convinced. Would rather go along with a plan that sounds
+      researched than keep arguing for his simpler idea.
+
+target_facets:
+  - facet_id: sufficiency
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through:
+      - scope
+      - logic
+    designed_explanation:
+      cognitive_pattern: false_certainty
+      social_dynamic: authority_deference
+      interaction_note: >
+        Lena states with full confidence that the rain barrel system "will
+        definitely provide enough water" based on a single website about a
+        different climate. The false certainty makes her sound authoritative,
+        and Derek defers because she "actually researched it." The authority
+        deference removes the skepticism that would expose how thin the
+        evidence actually is — one website about Portland doesn't establish
+        that rain barrels will work in their city.
+    carrier_persona: Lena
+
+  - facet_id: perspective_breadth
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through:
+      - evidence
+    designed_explanation:
+      cognitive_pattern: egocentric_thinking
+      social_dynamic: groupthink
+      interaction_note: >
+        Both students plan entirely from their own perspective as excited
+        students. Neither asks who would maintain the rain barrels, whether
+        the custodial staff would need to be involved, what the science
+        teacher who runs garden club thinks, or what happens to the system
+        over summer break. The egocentric thinking limits whose voices they
+        consider; the groupthink means neither one pauses to ask "should we
+        check with anyone else?" because they're both caught up in the
+        planning energy.
+    carrier_persona: Lena
+
+discussion_arc: >
+  Derek opens pragmatically, suggesting they just use the school hose since it's
+  right there. Lena counters with her rain barrel idea, citing the website she
+  found. Derek is skeptical — that sounds complicated. Lena doubles down with
+  confident details from the website. Derek asks if it would really work here,
+  but Lena's certainty and the fact that she researched it start to win him over.
+  They shift into planning mode — both getting excited about the rain barrel
+  design without ever asking who else needs to be involved. Derek's practical
+  concerns fade as Lena's enthusiasm and research become the foundation. They
+  decide on rain barrels, already talking about how to build them, with neither
+  student having considered any perspective beyond their own.
+
+turn_outline:
+  - speaker: Derek
+    accomplishes: >
+      Opens practically, says they should just use the hose since it's already
+      there and they need the garden running by spring
+
+  - speaker: Lena
+    accomplishes: >
+      Introduces the rain barrel idea, mentions she found a website about it,
+      says it's better for the environment
+
+  - speaker: Derek
+    accomplishes: >
+      Expresses doubt — rain barrels sound complicated and they don't have much
+      time before spring
+
+  - speaker: Lena
+    accomplishes: >
+      Cites the Portland website confidently — says the barrels collected plenty
+      of water for a whole community garden, states it will definitely work
+
+  - speaker: Derek
+    accomplishes: >
+      Asks whether their area gets enough rain for that, notes he's not sure
+      their weather is the same as Portland
+
+  - speaker: Lena
+    accomplishes: >
+      Brushes past the climate question, pivots to how cool the barrels would
+      look and how it would make their project more impressive
+
+  - speaker: Derek
+    accomplishes: >
+      Starts coming around — admits she did research it and he didn't, says
+      maybe she has a point
+
+  - speaker: Lena
+    accomplishes: >
+      Takes Derek's concession as agreement, starts planning where to put the
+      barrels and how to connect them
+
+  - speaker: Derek
+    accomplishes: >
+      Joins the planning, suggests a spot near the garden, getting caught up
+      in the design
+
+  - speaker: Lena
+    accomplishes: >
+      Gets excited about the plan, says this is going to be the best project,
+      starts talking about presenting it to the class
+
+  - speaker: Derek
+    accomplishes: >
+      Agrees enthusiastically, says they should start building soon — neither
+      has mentioned talking to any adult or thinking about maintenance
+
+  - speaker: Lena
+    accomplishes: >
+      Wraps up by confirming rain barrels as the decision, already moving to
+      next steps, fully confident in a plan based on one website and no
+      outside input

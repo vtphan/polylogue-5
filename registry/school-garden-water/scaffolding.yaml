@@ -1,0 +1,409 @@
+scenario_id: school-garden-water
+
+passage_scaffolding:
+  # --- Passage 2: The sufficiency gap (primary) ---
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+
+    evaluate:
+      difficulty: accessible
+      # High cross-lens visibility (evidence + logic + scope) + clear signal ("definitely" from one website)
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Look at how Lena gets from what she read to what she concludes."
+        - lens: evidence
+          hints:
+            - "Think about what Lena is basing her plan on."
+            - "Something about where the information comes from..."
+        - lens: scope
+          hints:
+            - "Notice what Derek asks about. What happens to that question?"
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: Lena says their garden would 'definitely' get enough water. What's that conclusion based on?"
+        - lens: evidence
+          prompt: "Looking through Evidence: what source is Lena using, and does it tell you enough about whether this would work at their school?"
+        - lens: scope
+          prompt: "Looking through Scope: Derek raises a question about whether their weather is like Portland's. Does the group address that?"
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed a big jump between what Lena read and what she concludes. Did you see that leap, or were you looking at something else?"
+        - lens: evidence
+          prompt: "The AI pointed out that Lena's plan is based on one website about a different place. Did you notice how much she's building on that one source?"
+        - lens: scope
+          prompt: "The AI noticed Derek's question about climate got brushed aside. Did you pick up on that?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Lena was so confident because..."
+        - category: social
+          starter: "I think Derek didn't push back harder because..."
+        - category: interaction
+          starter: "Lena's confidence made it harder for Derek to..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about the jump in Lena's reasoning. Now think about *why* — what is it about finding that website that made her feel so sure?"
+        - lens: evidence
+          prompt: "You noticed something about the evidence behind the plan. Now think about *why* — what makes one website feel like enough?"
+        - lens: scope
+          prompt: "You noticed something about Derek's question getting skipped. Now think about *why* — what was happening in the conversation that kept them from addressing it?"
+
+      ai_reflection_prompt: >
+        The AI talked about how finding one source can create a feeling of
+        certainty that goes beyond what the source actually showed. Does that
+        match what you were trying to say, or do you see it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "The reasoning is good because she researched it"
+            redirect: "She did look it up. Now look more closely at the jump between what she found and what she concludes."
+          - pattern: "Her logic makes sense because rain barrels do work"
+            redirect: "Rain barrels do work in some places. Now look at what she actually knows about whether they'd work at her school."
+      - lens: evidence
+        misreadings:
+          - pattern: "The evidence is strong because she found a website"
+            redirect: "She did find a website. Now think about what that website was actually about and whether that's enough."
+          - pattern: "She has good evidence because the Portland garden worked"
+            redirect: "The Portland garden is real evidence. Now look at how similar Portland is to where they are."
+      - lens: scope
+        misreadings:
+          - pattern: "They're thinking about it carefully because Derek asks about the weather"
+            redirect: "Derek does ask a good question. Now look at what happens to that question."
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "She says it'll definitely work but she doesn't really know"
+          - level: developing
+            examples:
+              - "Lena read about one garden in Portland and then says theirs would definitely work too — that's a pretty big leap"
+          - level: differentiated
+            examples:
+              - "Lena found one website about Portland, which gets way more rain, and she jumps from 'it worked there' to 'ours would definitely work' — one example from a different place doesn't prove it would work at their school"
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "She only found one source"
+          - level: developing
+            examples:
+              - "Lena is basing her whole plan on one website about a garden in Portland, and she didn't check if their weather is similar"
+          - level: differentiated
+            examples:
+              - "The evidence is one website about a garden in a city that rains way more than theirs — she treats that like it proves rain barrels would work anywhere, but one example from a different climate doesn't tell you enough about whether it would work at their school"
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "They skipped over Derek's question"
+          - level: developing
+            examples:
+              - "Derek asks if they get enough rain and Lena just changes the subject to how cool the barrels would look"
+          - level: differentiated
+            examples:
+              - "Derek raises a real question about whether their weather matches Portland's, and instead of answering it, Lena talks about how impressive the barrels would look — the practical question gets replaced by excitement about the design"
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "Lena is too confident"
+                - "She didn't check enough"
+            - level: developing
+              examples:
+                - "Lena found one website and it made her feel like she knew for sure — she stopped looking because she already felt like she had the answer"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "Derek just went along with it"
+            - level: developing
+              examples:
+                - "Derek backed down because Lena sounded like she'd done her homework and he hadn't looked anything up himself"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "Lena was so confident from the website that Derek felt like she must know what she's talking about"
+            - level: differentiated
+              examples:
+                - "Lena felt sure because she found a website, and that made her sound like an expert — so Derek stopped asking questions because it felt like arguing with someone who actually knows. But she only checked one source about a different place, so the confidence wasn't really earned"
+
+  # --- Passage 3: The deference and planning shift ---
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+
+    evaluate:
+      difficulty: moderate
+      # Deference is subtle — requires reading Derek's language carefully
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Look at why Derek changes his mind. What reason does he give?"
+        - lens: evidence
+          hints:
+            - "Think about what the group's plan is now based on. Has anything changed since the last passage?"
+        - lens: scope
+          hints:
+            - "Notice what Lena and Derek are planning to do. Think about what parts of the school are involved."
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: Derek agrees with Lena here. What's his reason? Does that reason actually address the questions he raised before?"
+        - lens: evidence
+          prompt: "Looking through Evidence: the group is now making a specific plan. What evidence is it based on?"
+        - lens: scope
+          prompt: "Looking through Scope: Lena and Derek are planning where to put rain barrels. Who else at the school might need to know about this?"
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed that Derek agrees because Lena 'looked into it' — not because his questions were answered. Did you catch that difference?"
+        - lens: evidence
+          prompt: "The AI pointed out that the plan is getting more specific but the evidence hasn't changed. Did you notice that?"
+        - lens: scope
+          prompt: "The AI mentioned that they're making plans involving school property. Did you think about who else might care?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Lena acted like it was settled because..."
+        - category: social
+          starter: "I think Derek stopped questioning because..."
+        - category: interaction
+          starter: "Once Derek stopped questioning, the group..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about how Derek decided. Now think about *why* — what is it about Lena's confidence that changed his mind?"
+        - lens: evidence
+          prompt: "You noticed the evidence hasn't changed. Now think about *why* — what makes the group feel like they have enough information to start planning?"
+        - lens: scope
+          prompt: "You noticed who's missing from the conversation. Now think about *why* — what's keeping Lena and Derek from thinking about other people who might be affected?"
+
+      ai_reflection_prompt: >
+        The AI talked about how the act of researching can create a feeling of
+        authority, and how shared excitement can keep a group from stepping back.
+        Does that match what you were seeing, or is there something else going on?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "Derek changed his mind because the evidence was convincing"
+            redirect: "Look at Derek's exact words when he agrees. What reason does he actually give?"
+          - pattern: "It makes sense that Derek agrees because Lena did research"
+            redirect: "Lena did look something up. Now think about whether 'she researched it' is the same as 'her evidence answered my questions.'"
+      - lens: evidence
+        misreadings:
+          - pattern: "They have enough information to make a plan"
+            redirect: "They are making a plan. Now think about what new information they found between this passage and the last one."
+      - lens: scope
+        misreadings:
+          - pattern: "They're planning well because they're thinking about where to put the barrels"
+            redirect: "They are thinking about where to put them. Now think about who else at the school might have something to say about that spot."
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "Derek just agrees"
+          - level: developing
+            examples:
+              - "Derek says Lena looked into it and he didn't — he's agreeing because of who researched, not because his questions were answered"
+          - level: differentiated
+            examples:
+              - "Derek's questions about weather and feasibility never got answered, but he agrees anyway because Lena 'actually looked into it' — he's treating 'she researched it' as proof the plan would work, even though researching one website doesn't answer his specific concerns"
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "They're still using the same evidence"
+          - level: developing
+            examples:
+              - "The group is now planning exactly where to put barrels and how to connect them, but it's all still based on one website"
+          - level: differentiated
+            examples:
+              - "The plan got really specific — fence placement, roof drains, hose connections — but nobody found any new evidence. They're building a detailed plan on the same single source from a different city"
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "They're only thinking about themselves"
+          - level: developing
+            examples:
+              - "They're planning to use the school roof and fence but haven't mentioned talking to anyone else about it"
+          - level: differentiated
+            examples:
+              - "Lena says she has the whole thing planned out and they're designing where to put barrels near the roof drains — but this is school property, and nobody has mentioned the custodian, any teacher, or anyone who would actually need to approve or maintain this"
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "Lena thinks she knows everything"
+            - level: developing
+              examples:
+                - "Lena treats it like it's already decided because in her mind, she found the answer — finding the website made her feel like the question was settled"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "Derek gives up"
+            - level: developing
+              examples:
+                - "Derek stopped arguing because Lena sounded like she'd done her homework — it's hard to keep disagreeing with someone who seems to know more than you"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "Lena's confidence made Derek feel like she must be right, so he stopped pushing back"
+            - level: differentiated
+              examples:
+                - "Lena felt sure because she researched it, which made Derek feel like arguing was pointless — and once he stopped questioning, they both got excited about the plan and neither one thought to ask if anyone else should be involved. Her confidence shut down the questions, and the shared excitement kept them from coming back"
+
+  # --- Passage 4: The missing perspectives (primary) ---
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+
+    evaluate:
+      difficulty: accessible
+      # Missing stakeholders are easy to name once prompted
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Think about what the group knows for sure versus what they're assuming."
+        - lens: evidence
+          hints:
+            - "The plan is now very specific. Has the evidence gotten more specific too?"
+        - lens: scope
+          hints:
+            - "Think about all the people at the school. Who might want to know about this plan?"
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: the group is making a detailed plan. Is their reasoning any stronger than before?"
+        - lens: evidence
+          prompt: "Looking through Evidence: they're starting design work this week. What do they actually know about whether rain barrels would work at their school?"
+        - lens: scope
+          prompt: "Looking through Scope: who at the school would care about this plan? Have Lena and Derek talked to any of them?"
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed the plan grew more detailed but the reasoning behind it didn't change. Did you see that gap?"
+        - lens: evidence
+          prompt: "The AI pointed out they're starting to build based on the same one website. Did you notice how the conclusion grew but the evidence didn't?"
+        - lens: scope
+          prompt: "The AI asked about who else at the school might care. Were you thinking about that too, or did something else stand out?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Lena and Derek only thought about their own ideas because..."
+        - category: social
+          starter: "I think nobody stopped to ask 'who else should we talk to' because..."
+        - category: interaction
+          starter: "The group's excitement made it harder to think about other people because..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about the reasoning. Now think about *why* — what kept the group from checking whether their plan actually made sense?"
+        - lens: evidence
+          prompt: "You noticed the evidence didn't grow with the plan. Now think about *why* — what made the group feel confident enough to start building?"
+        - lens: scope
+          prompt: "You noticed who's missing from the conversation. Now think about *why* — what was happening in the group that kept them from thinking about other people?"
+
+      ai_reflection_prompt: >
+        The AI talked about how group excitement can make it hard to pause and
+        think about what's missing. Does that match your explanation, or do you
+        think something else was going on?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "They have a good plan because they worked out the details"
+            redirect: "They did work out details. Now think about whether having a detailed plan is the same as having a well-supported plan."
+      - lens: evidence
+        misreadings:
+          - pattern: "They know enough to start building"
+            redirect: "They're starting to build. Now think about what they actually know about whether rain barrels would work at their specific school."
+      - lens: scope
+        misreadings:
+          - pattern: "They considered everything because they thought about where to put the barrels"
+            redirect: "They did think about the location. Now think about who else at the school might need to know about barrels on the roof and fence."
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "They're just assuming it'll work"
+          - level: developing
+            examples:
+              - "They're planning specific details like building this week, but they never got any new evidence to support the plan"
+          - level: differentiated
+            examples:
+              - "The plan is now really specific — design this week, present to class — but it's still based on one website from a different city. The conclusion got way bigger than what they actually know."
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "They don't have enough evidence"
+          - level: developing
+            examples:
+              - "They're starting to build even though all they have is one website about Portland"
+          - level: differentiated
+            examples:
+              - "Their plan went from 'we could try rain barrels' to 'we're designing this week and presenting to the class' — but the evidence is still just one website about a garden in a city with different weather. The plan grew but the evidence stayed the same."
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "They forgot about other people"
+          - level: developing
+            examples:
+              - "They're building on school property and presenting to the class but never talked to any adults about it"
+          - level: differentiated
+            examples:
+              - "They're planning to attach barrels to the school building, use the roof drainage, and start construction this week — but nobody mentioned the custodian who maintains the building, the science teacher who runs garden club, or what happens to the barrels over summer. The plan only includes what two students want."
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "They're only thinking about themselves"
+            - level: developing
+              examples:
+                - "Lena and Derek are planning from their own experience as students — they're thinking about what excites them, not about who else at the school would be affected"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "They just got excited together"
+            - level: developing
+              examples:
+                - "Once they were both on board, the excitement kept building and neither one paused to say 'wait, should we check with someone first?'"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "They were both excited and only thinking about what mattered to them, so nobody stopped to ask who else should be involved"
+            - level: differentiated
+              examples:
+                - "They're only thinking about what they care about as students, and the group excitement means nobody stops to check — their limited perspective keeps them from seeing who's missing, and the momentum keeps them from pausing to notice. Each one makes the other worse: the excitement hides the gap, and the gap never gets big enough to interrupt the excitement."

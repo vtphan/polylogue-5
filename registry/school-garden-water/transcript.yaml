@@ -1,0 +1,95 @@
+scenario_id: school-garden-water
+personas:
+- name: Lena
+  perspective: Wants to build a rainwater collection system for the school garden
+- name: Derek
+  perspective: Thinks they should just use the school's hose to keep things simple
+turns:
+- speaker: Derek
+  sentences:
+  - text: I think we should just use the hose, it's literally right there by where the garden's gonna
+      go.
+    sentence_id: turn_01.s01
+  - text: Plus we gotta have this running by spring so we don't really have time to get all fancy.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Lena
+  sentences:
+  - text: Okay but I found this website about rain barrels and it's actually really cool.
+    sentence_id: turn_02.s01
+  - text: You collect rainwater and use it for the garden, and it's way better for the environment.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Derek
+  sentences:
+  - text: Rain barrels?
+    sentence_id: turn_03.s01
+  - text: That sounds like a lot of work, and we don't even know how to build something like that.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Lena
+  sentences:
+  - text: No, it's not that hard, this one garden in Portland used them and they got plenty of water for
+      their whole garden just from rain.
+    sentence_id: turn_04.s01
+  - text: The website said it totally works.
+    sentence_id: turn_04.s02
+  - text: So ours would definitely get enough water too.
+    sentence_id: turn_04.s03
+  turn_id: turn_04
+- speaker: Derek
+  sentences:
+  - text: Wait, Portland?
+    sentence_id: turn_05.s01
+  - text: Doesn't it rain like constantly there? I don't think we get anywhere near that much rain.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Lena
+  sentences:
+  - text: I mean, it rains here too.
+    sentence_id: turn_06.s01
+  - text: And think about how cool it would look — we'd have these barrels all set up and everyone would
+      be like, whoa, they actually built something real.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Derek
+  sentences:
+  - text: I guess you did actually look into it and I didn't, so maybe you have a point.
+    sentence_id: turn_07.s01
+  turn_id: turn_07
+- speaker: Lena
+  sentences:
+  - text: Okay so we could put the barrels along the fence right next to the garden and run a little hose
+      down to the plants.
+    sentence_id: turn_08.s01
+  - text: I already kind of have the whole thing planned out.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Derek
+  sentences:
+  - text: Oh wait, we could put them by the corner where the roof drains go — they'd fill up way faster
+      that way.
+    sentence_id: turn_09.s01
+  turn_id: turn_09
+- speaker: Lena
+  sentences:
+  - text: Yes, that's perfect!
+    sentence_id: turn_10.s01
+  - text: This is seriously gonna be the best project, we should totally talk about it when we present
+      to the class.
+    sentence_id: turn_10.s02
+  turn_id: turn_10
+- speaker: Derek
+  sentences:
+  - text: Yeah, let's start building soon so it's ready in time.
+    sentence_id: turn_11.s01
+  - text: I'm actually kinda excited about this now.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Lena
+  sentences:
+  - text: Okay so rain barrels it is, that's our plan.
+    sentence_id: turn_12.s01
+  - text: Let's figure out what we need and start on the design this week.
+    sentence_id: turn_12.s02
+  turn_id: turn_12
