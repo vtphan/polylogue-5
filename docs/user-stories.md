@@ -30,7 +30,7 @@ These are practical realities that the instructional design and delivery must re
 
 ### Discussion constraints
 
-7. **A generated discussion should be short.** Students must read the entire discussion, evaluate multiple passages, discuss with peers, and encounter the AI perspective — all within one session. The discussion transcript should be 12-18 turns, readable in 3-5 minutes. Longer discussions don't produce proportionally richer evaluation — they produce fatigue.
+7. **A generated discussion should be short.** Students must read the entire discussion, evaluate multiple passages, discuss with peers, and encounter the AI perspective — all within one session. The discussion transcript should be 10-14 turns, 1-3 sentences per turn, under 400 words total, readable in 3 minutes. Longer discussions don't produce proportionally richer evaluation — they produce fatigue.
 
 8. **A generated discussion should be coherent.** The discussion must read like a real conversation — characters respond to each other, the topic develops, and the discussion reaches a resolution (or a meaningful failure to resolve). Coherence is what makes the evaluation task feel authentic rather than artificial. Students won't take the activity seriously if the discussion feels like a list of disconnected statements.
 

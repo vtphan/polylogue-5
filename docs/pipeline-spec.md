@@ -121,7 +121,7 @@ turns:
 - Every sentence has a unique ID. The expert analysis, facilitation guide, student annotations, and app all reference sentences by ID. This is the indexing foundation.
 - The transcript schema is framework-independent — it describes structure (turns, sentences, speakers), not content. It transfers from v4 unchanged.
 - Enumeration is mechanical and deterministic — a script assigns IDs after generation. The dialog writer produces natural prose; enumeration is applied afterward.
-- Turn count target: 12-18 turns. Long enough for discussion dynamics to develop, short enough for a single class session.
+- Turn count target: 10-14 turns, 1-3 sentences per turn, total discussion under 400 words. Short turns feel natural for 6th-grade characters and keep the word count manageable. The discussion must be readable in 3 minutes, leaving time for re-reading during evaluation.
 
 ### 2.3 Expert Analysis (`analysis.yaml`)
 
