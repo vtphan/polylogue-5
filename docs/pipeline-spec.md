@@ -259,6 +259,30 @@ passage_guides:
       - lens: string
         will_likely_see: [string]      # What students looking through this lens will probably notice
         might_miss: [string]           # What they might not notice — helps the teacher direct attention
+
+# --- Whole-class debrief materials ---
+debrief:
+  key_takeaways: [string]              # 2-3 main insights from this scenario that the teacher can
+                                       # surface in whole-class discussion. Written in teacher language
+                                       # (uses facet vocabulary). e.g., "Students who looked through
+                                       # Evidence and Scope likely saw different aspects of the same
+                                       # weakness — this is a good moment to make perspectival
+                                       # diversity visible to the class."
+
+  cross_group_prompts: [string]        # Questions the teacher can pose to the whole class after
+                                       # groups have completed both phases. Designed to surface
+                                       # cross-group patterns and make the perspectival learning
+                                       # model visible at the class level.
+                                       # e.g., "Did any group have members who saw the same passage
+                                       # very differently? What lenses were they using?"
+                                       # e.g., "Did anyone's explanation change after hearing from
+                                       # their group or the AI? What changed your mind?"
+
+  connection_to_next: string | null    # Optional bridge to future sessions — what capacity this
+                                       # session exercised and what might come next.
+                                       # e.g., "This discussion had strong cross-lens visibility —
+                                       # next session's discussion will require closer reading
+                                       # through a single lens."
 ```
 
 **Design notes:**
@@ -268,6 +292,7 @@ passage_guides:
 - `if_students_are_stuck` offers lens-based redirects in the Evaluate phase ("Try looking through the Scope lens") and explanatory prompts in the Explain phase ("Think about what was happening in the group..."). Never answers.
 - `likely_observations` is inlined in the guide rather than referenced from `analysis.yaml`. The same content exists in `analysis.yaml`'s `diversity_potential` (for pipeline quality assessment), but the teacher needs a self-contained document they can scan in 2-3 minutes and consult while circulating among groups. Cross-referencing two files during a live session is not realistic.
 - The `overview` section gives the teacher the big picture; `passage_guides` are referenced during the session as needed.
+- The `debrief` section supports the whole-class wrap-up that typically follows the I→P→AI cycles. `key_takeaways` help the teacher name what happened in the session. `cross_group_prompts` make the perspectival learning model visible at the class level — students hear how other groups saw the same discussion differently. `connection_to_next` helps the teacher frame growth across sessions.
 
 ### 2.5 Session Configuration (`session.yaml`)
 
@@ -432,6 +457,19 @@ passage_scaffolding:                   # One per evaluable passage
                                        # match what you were trying to say, or do you see it
                                        # differently?"
 
+    # --- Common misreadings ---
+    common_misreadings:                # Predictable misinterpretations the app can detect and
+      - lens: string                   # respond to without LLM access at runtime.
+        misreadings:
+          - pattern: string            # What the student might write. e.g., "the evidence is
+                                       # strong because there's a lot of it" (when the passage
+                                       # has abundant but unreliable evidence)
+            redirect: string           # A gentle prompt that redirects without giving the answer.
+                                       # e.g., "You noticed there's a lot of evidence — now look
+                                       # more closely at where it comes from."
+                                       # Written in student-friendly language. Does not name the
+                                       # correct observation — just redirects attention.
+
     # --- Assessment support ---
     observation_rubric:                # What a student might say when evaluating, at different
       - lens: string                   # levels of differentiation. Evaluate phase only.
@@ -478,6 +516,7 @@ passage_scaffolding:                   # One per evaluable passage
 - **Passage-specific sentence starters** are more directed than the generic session-level starters in `session.yaml`. The generic starter says "I think they reasoned this way because they were focused on..." The passage-specific starter says "I think Maya kept going back to cost because..." The app can show the generic starter first and offer the passage-specific starter as a fallback if the student is stuck.
 - **Bridge prompts** are the transition between phases, produced per-lens so the app can select the variant matching the student's Evaluate lens. A student who evaluated through Evidence sees "You noticed something about the evidence..." while a student who evaluated through Logic sees "You noticed something about the reasoning..." This personalization is pre-computed by the pipeline (one variant per lens per passage), not computed at runtime.
 - **Observation rubric entries** (Evaluate phase) give the app a matching vocabulary for lens-based articulations. Each entry shows what a student might say at three levels of differentiation (basic, developing, differentiated) for a given lens on a given passage. **Explanation rubric entries** (Explain phase) are organized by explanation type — cognitive-only, social-only, and interaction — with levels within each type. This structure lets the assessment system track not just whether explanations are getting more specific (levels), but whether students are progressing from single-force explanations (cognitive or social alone) to interaction explanations (connecting both). Interaction is the framework's deepest learning objective; it has no "basic" level because connecting two forces is inherently at least developing. The app compares the student's free-text responses against these examples to assess quality and track growth over time — without needing LLM access at runtime. The matching is approximate (keyword/semantic overlap), not exact.
+- **Common misreadings** anticipate predictable student errors — cases where a student sees something real but incomplete or misattributed. The redirect is calibrated like a partial hint: it redirects attention without naming the correct observation. e.g., a student who writes "the evidence is strong because there's a lot of it" when the sources are all unreliable gets "You noticed there's a lot of evidence — now look more closely at where it comes from." The app matches student articulations against misreading patterns (keyword/semantic overlap) and surfaces the redirect inline. This follows the same architectural principle as hints and rubrics: the pipeline has LLM access; the app does not. Misreadings that require LLM-level judgment to detect are out of scope — only predictable, pattern-matchable misreadings belong here.
 - **Discussion starters belong in the facilitation guide, not here.** The scaffolding instructional designer enriches the facilitation guide's `productive_questions` fields with passage-specific, pipeline-generated questions for the teacher to use during peer discussion. These are teacher-facing materials and belong in `facilitation.yaml`, not in a student scaffolding artifact.
 - All text in this artifact is written in student-friendly language — 6th-grade vocabulary, concrete examples, no framework terminology. The instructional designer agent translates the evaluator's analytical language into pedagogical language.
 
@@ -576,7 +615,7 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
    - **Evaluate AI perspective:** For each passage, writes per-lens observations — what the AI notices through Logic, Evidence, and Scope. No explanatory vocabulary yet. Includes a `what_to_notice` prompt that bridges toward the Explain phase.
    - **Explain AI perspective:** For each passage, writes the explanatory perspective — introducing cognitive patterns and social dynamics as disciplinary vocabulary, modeling how they interact. Written as perspective, not verdict.
    - **Diversity metadata:** For each passage, assesses which lenses are likely to produce different readings and lists discrete expected student observations per lens.
-3. The evaluator also produces the facilitation guide as a separate output — organized by passage and by phase (Evaluate, Explain), with scaffolding for each step (Individual, Peer, AI) and teacher-facing facet descriptions.
+3. The evaluator also produces the facilitation guide as a separate output — organized by passage and by phase (Evaluate, Explain), with scaffolding for each step (Individual, Peer, AI), teacher-facing facet descriptions, and whole-class debrief materials (key takeaways, cross-group discussion prompts, connection to future sessions).
 
 **Output:** `analysis.yaml`, `facilitation.yaml` (initial version — enriched in Stage 4)
 
@@ -596,8 +635,9 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
    - **Partial hints** per lens — directional prompts that tell the student *where* to look, not *what* to see. Written in 6th-grade language.
    - **Lens-specific entry prompts** — per-lens, per-passage prompts more directed than the generic articulation prompt.
    - **Difficulty signals** — accessible / moderate / challenging, based on cross-lens visibility (high = accessible, low = challenging).
+   - **Common misreadings** per lens — predictable misinterpretations with gentle redirects. The redirect follows the same calibration principle as partial hints: redirect attention without naming the correct observation. Only pattern-matchable misreadings belong here.
    - **Passage-specific sentence starters** — more directed than the generic session-level starters, gesturing toward what's structurally present without naming it.
-   - **Bridge prompts** — connecting what the student observed in the Evaluate phase to the Explain task.
+   - **Bridge prompts** — connecting what the student observed in the Evaluate phase to the perspective-taking task.
    - **AI reflection prompts** — per-lens prompts for after the Evaluate AI reveal, and a passage-level prompt for after the Explain AI reveal. These reference the AI perspective's content and therefore depend on the evaluator's output.
    - **Observation rubric entries** — what a student might say at basic, developing, and differentiated levels for each lens, enabling runtime assessment without LLM access.
 3. The agent also enriches the facilitation guide's `productive_questions` fields with passage-specific discussion starter questions for the teacher to use during Peer steps. These are written into `facilitation.yaml`, not `scaffolding.yaml`, because they are teacher-facing, not student-facing.

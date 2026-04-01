@@ -80,7 +80,7 @@ The teacher manages classes, configures sessions, facilitates the activity, and 
   - **Lens assignment mode:** Assign lenses to students (ensuring each group has coverage across all three lenses) or let students choose. Assignment is recommended to guarantee perspectival diversity within groups.
   - **Highlighted passages:** Which passages students will evaluate. Defaults to all evaluable passages; the teacher can reduce for shorter sessions. The app uses difficulty signals from `scaffolding.yaml` to suggest a default ordering (accessible passages first).
   - **Explanation scaffolding:** Whether to show sentence starters in the Explain phase. Whether to show the cognitive pattern and social dynamic reference lists. Recommended: starters on from the start, reference lists introduced after a few sessions.
-  - **Completion thresholds:** Minimum engagement for each phase — e.g., "evaluate at least 2 highlighted passages" for Evaluate, "explain at least 2 passages" for Explain. These are completion gates, not quality measures.
+  - **Completion thresholds:** Minimum engagement for each phase — e.g., "evaluate at least 2 highlighted passages" for Evaluate, "explain at least 2 passages" for Explain. The app suggests a default threshold based on the number of evaluable passages (e.g., if a discussion has 4 evaluable passages, the app might suggest a minimum of 2). The teacher can adjust up or down. These are completion gates, not quality measures.
 
 ### During the Session
 
@@ -99,9 +99,17 @@ The teacher manages classes, configures sessions, facilitates the activity, and 
   - Flag for students who appear stuck (no response after a configurable time).
 - Can view any student's responses at any time (lens choice, rating, articulations, explanations).
 
+### Whole-Class Debrief
+
+- After both phases are complete, the teacher leads a whole-class debrief using materials from the facilitation guide's `debrief` section:
+  - **Key takeaways** — 2-3 main insights the teacher can surface. Written in teacher language (uses facet vocabulary) so the teacher can translate into student-friendly language as appropriate.
+  - **Cross-group prompts** — questions designed to surface cross-group patterns and make the perspectival learning model visible at the class level. e.g., "Did any group have members who saw the same passage very differently? What lenses were they using?" These prompts help students see that perspectival diversity is a feature of the activity, not a problem.
+  - **Connection to next** — optional bridge to future sessions, helping the teacher frame growth across the semester.
+- The debrief is where the perspectival learning model becomes visible beyond the small group. Students hear how other groups saw the same discussion differently — a class-level version of the peer step.
+
 ### Closing the Session
 
-- The teacher closes the session when both phases are complete and wrap-up discussion is done.
+- The teacher closes the session when both phases and the whole-class debrief are complete.
 - Closing prevents new responses but preserves all existing data.
 - Late students who didn't complete can be given additional time before close (teacher's discretion).
 - A closed session can be reopened if needed but this should be rare — it signals to students that the session is done.
@@ -172,6 +180,7 @@ The student evaluates highlighted passages in the discussion through their assig
   - **Rating** — Strong or Weak. The student commits to a position.
   - **Articulation box** — The student writes what they observe.
   - **Partial hint button** (optional) — If the student is stuck, they can click to see 1-2 directional prompts that point toward something worth noticing without completing the observation. e.g., "Something about the sources..." or "Notice how the conclusion compares to the evidence..." The partial hint appears as a prompt *above* the articulation box — the student must write their own response, not select a pre-written one. The hint gives direction; the student does the cognitive work of articulating.
+- **Misreading redirects.** If a student's articulation matches a predicted common misreading (from `scaffolding.yaml`), the app surfaces a gentle redirect — a prompt that redirects attention without naming the correct observation. e.g., "You noticed there's a lot of evidence — now look more closely at where it comes from." The redirect appears inline after the student submits, and the student can add to their response. This is not correction — it is the same kind of attentional redirect a teacher would offer while circulating. The app tracks redirect usage alongside hint usage as a growth indicator.
 - All responses are **append-only**. The student cannot edit what they wrote, but they can always add more — like text messages. This creates a visible record of how their thinking builds over time.
 - After evaluating the required number of passages (set by teacher's completion threshold), the student sees encouragement to move to the Peer step. They can also continue evaluating more passages.
 
@@ -286,6 +295,8 @@ This section maps each user interaction to the pipeline artifact that supports i
 | Assessment: explanation matching | `scaffolding.yaml` | `passage_scaffolding[].explanation_rubric` (per category: cognitive/social/interaction, with levels) |
 | Assessment: articulation ground truth | `analysis.yaml` | `facet_annotations`, `diversity_potential.likely_student_observations` |
 | Assessment: explanatory depth | `analysis.yaml` | `ai_perspective_explain` (ground truth for cognitive/social/interaction) |
+| Student gets misreading redirect | `scaffolding.yaml` | `passage_scaffolding[].common_misreadings` per lens |
+| Teacher runs whole-class debrief | `facilitation.yaml` | `debrief` (key takeaways, cross-group prompts, connection to next) |
 
 ### Design Decisions Reflected
 

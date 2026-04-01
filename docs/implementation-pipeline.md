@@ -131,7 +131,8 @@ Write 13 schema files:
 - Schema #6 (dialog writer input) is the scenario plan minus `target_facets`. This is the information barrier in schema form — making it a schema prevents accidental leakage.
 - Schema #7 (pre-enumeration transcript) matches #8 but without `turn_id` and `sentence_id` fields. The dialog writer outputs prose with speaker labels; enumeration adds IDs.
 - Schema #9 (expert analysis) is the most complex — it contains the hidden layer (facet annotations), two visible AI perspective blocks (evaluate and explain), and diversity metadata. Each section has distinct fields and purposes.
-- Schema #11 (scaffolding) contains two rubric sub-schemas: observation rubric (per-lens, Evaluate phase) and explanation rubric (lens-independent, Explain phase).
+- Schema #10 (facilitation guide) includes the debrief section: key takeaways, cross-group prompts, and connection to next session.
+- Schema #11 (scaffolding) contains two rubric sub-schemas: observation rubric (per-lens, Evaluate phase) and explanation rubric (lens-independent, Explain phase). Also includes common misreadings with pattern and redirect fields.
 - Schema #13 (student annotations) is app-side, not pipeline — it's specified here so the pipeline's assessment-relevant fields align with what the app stores.
 - Schemas are descriptive YAML (field name, type, required/optional, description, constraints) — human-readable contracts first, machine-validatable second.
 
@@ -155,8 +156,8 @@ Write 13 schema files:
 | 2 | Validation agent | `configs/scenario/agents/validation_agent.md` | Must check facet detectability through specified lenses, cross-lens visibility potential, persona tension, information barrier compliance in `weaknesses`/`accomplishes` fields, and turn outline anti-patterns |
 | 3 | Dialog writer | `configs/transcript/agents/dialog_writer.md` | Operates behind the information barrier — sees character traits and narrative goals only. Must produce natural 6th-grade language, distinct persona voices, coherent discussion arc reaching a resolution |
 | 4 | Transcript instructional designer | `configs/transcript/agents/transcript_id.md` | Sees full plan including targets. Sharpens signal moments without making them cartoonish. Enforces 6th-grade language. Does not add or remove content — refines phrasing and signal clarity only |
-| 5 | Evaluator | `configs/analysis/agents/evaluator.md` | Produces both analysis.yaml and facilitation.yaml. Must write AI perspectives as perspectives, not verdicts. Must identify both targeted and emergent facets. Must produce discrete expected student observations per lens for diversity metadata |
-| 6 | Scaffolding instructional designer | `configs/scaffolding/agents/scaffolding_id.md` | Translates evaluator's analytical language into pedagogical materials for 6th graders. Must produce partial hints that direct attention to *where* to look, not *what* to see. Must produce rubric entries at three differentiation levels. Must also enrich facilitation guide's `productive_questions` |
+| 5 | Evaluator | `configs/analysis/agents/evaluator.md` | Produces both analysis.yaml and facilitation.yaml (including whole-class debrief materials). Must write AI perspectives as perspectives, not verdicts. Must identify both targeted and emergent facets. Must produce discrete expected student observations per lens for diversity metadata. Must produce debrief key takeaways, cross-group prompts, and connection-to-next |
+| 6 | Scaffolding instructional designer | `configs/scaffolding/agents/scaffolding_id.md` | Translates evaluator's analytical language into pedagogical materials for 6th graders. Must produce partial hints that direct attention to *where* to look, not *what* to see. Must anticipate common misreadings per passage per lens with gentle redirects. Must produce rubric entries at three differentiation levels. Must also enrich facilitation guide's `productive_questions` |
 
 **Outputs:**
 - 6 agent prompt files.
@@ -309,6 +310,29 @@ CRITERIA:
       evaluator's original likely_disagreements or watch_for fields? If so,
       does the prompt guard against this?
 
+10. WHOLE-CLASS DEBRIEF COMPLETENESS
+    The facilitation guide includes a debrief section. Verify:
+    a. Does the facilitation guide schema include debrief with key_takeaways,
+       cross_group_prompts, and connection_to_next?
+    b. Does the evaluator agent prompt instruct the agent to produce debrief
+       materials?
+    c. Do the cross_group_prompts surface perspectival diversity at the class
+       level (cross-lens and cross-group differences)?
+    d. Does connection_to_next reference the scenario's pedagogical position
+       without assuming a fixed sequence?
+
+11. COMMON MISREADINGS CALIBRATION
+    The scaffolding materials include common_misreadings per passage per lens.
+    Verify:
+    a. Does the scaffolding schema include common_misreadings with pattern and
+       redirect fields?
+    b. Does the scaffolding ID agent prompt instruct the agent to produce
+       misreadings?
+    c. Are redirects calibrated like partial hints — redirecting attention
+       without naming the correct observation?
+    d. Are misreading patterns specific enough for keyword/semantic matching
+       without LLM access at runtime?
+
 Report each criterion as PASS or ISSUE. For ISSUEs, quote the specific file and
 field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioritized).
 ```
@@ -368,8 +392,8 @@ field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioriti
   - **Discussion quality:** Does it read like a real conversation between 6th graders? Does it reach a resolution? Is it readable in 3 minutes? (Constraints 7-9 from user stories)
   - **Information barrier:** Does the dialog writer's output show signs of "knowing" the framework? Look for unnaturally precise flaw placement or analytical language in character dialog.
   - **AI perspective quality:** Are the Evaluate observations per-lens and free of explanatory vocabulary? Are the Explain observations introducing vocabulary as perspective, not verdict? Is the split clean?
-  - **Scaffolding quality:** Are partial hints incomplete (directing where to look, not what to see)? Are rubric entries at three distinct differentiation levels? Are bridge prompts connecting Evaluate observations to the perspective-taking task?
-  - **Facilitation guide quality:** Is it scannable in 2-3 minutes? Does it use facet language? Are the enriched productive_questions specific and useful?
+  - **Scaffolding quality:** Are partial hints incomplete (directing where to look, not what to see)? Are rubric entries at three distinct differentiation levels? Are bridge prompts connecting Evaluate observations to the perspective-taking task? Are common misreadings plausible and are their redirects calibrated (redirecting attention, not naming the answer)?
+  - **Facilitation guide quality:** Is it scannable in 2-3 minutes? Does it use facet language? Are the enriched productive_questions specific and useful? Do the debrief key takeaways and cross-group prompts surface perspectival diversity at the class level?
 - Save all intermediate artifacts (pre-enumeration transcript, pre-enrichment facilitation guide) alongside final outputs. These serve as evidence of the pipeline's processing stages.
 
 ---

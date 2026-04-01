@@ -48,8 +48,8 @@ references/             # External reference materials (PBL curriculum docs)
 | Scenario plan | `scenario.yaml` | Pipeline only |
 | Discussion transcript | `transcript.yaml` | App (student-facing) |
 | Expert analysis | `analysis.yaml` | App (AI perspective) |
-| Facilitation guide | `facilitation.yaml` | Teacher |
-| Scaffolding materials | `scaffolding.yaml` | App (hints, rubrics) |
+| Facilitation guide | `facilitation.yaml` | Teacher (includes whole-class debrief) |
+| Scaffolding materials | `scaffolding.yaml` | App (hints, rubrics, misreading redirects) |
 | Session configuration | `session.yaml` | App (session setup) |
 
 ### 6 Pipeline Agents
@@ -58,8 +58,8 @@ references/             # External reference materials (PBL curriculum docs)
 2. **Validation agent** — Checks facet detectability, barrier compliance, anti-patterns
 3. **Dialog writer** — Operates behind the information barrier; sees only character traits, not framework
 4. **Transcript instructional designer** — Refines signal clarity without adding/removing content
-5. **Evaluator** — Produces analysis + facilitation guide; writes AI perspectives as perspectives, not verdicts
-6. **Scaffolding instructional designer** — Produces scaffolding + enriches facilitation guide
+5. **Evaluator** — Produces analysis + facilitation guide (including whole-class debrief); writes AI perspectives as perspectives, not verdicts
+6. **Scaffolding instructional designer** — Produces scaffolding (including common misreading redirects) + enriches facilitation guide
 
 ## Critical Design Constraints
 
