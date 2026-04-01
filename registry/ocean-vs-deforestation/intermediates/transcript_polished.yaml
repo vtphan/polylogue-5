@@ -1,0 +1,68 @@
+scenario_id: ocean-vs-deforestation
+
+personas:
+  - name: Maya
+    perspective: Passionate about marine life and wants to tackle ocean pollution for the group project.
+  - name: Jordan
+    perspective: Thinks the group should focus on something practical they can do locally, like planting trees.
+
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Oh my gosh, we should totally do ocean pollution for our project."
+      - text: "I watched this documentary about the Great Pacific Garbage Patch and it was like, insane how much plastic is out there."
+
+  - speaker: Jordan
+    sentences:
+      - text: "I was actually thinking we should do deforestation."
+      - text: "Like, we could organize a tree-planting day right here at school."
+
+  - speaker: Maya
+    sentences:
+      - text: "But ocean pollution is way bigger though."
+      - text: "The documentary said there's like millions of tons of plastic in the ocean and sea turtles are choking on it."
+
+  - speaker: Jordan
+    sentences:
+      - text: "Yeah that's really bad, but can we actually do anything about that?"
+      - text: "Like, what would our project even be?"
+
+  - speaker: Maya
+    sentences:
+      - text: "We could do like a beach cleanup, or we could make posters about how much plastic is in the ocean."
+      - text: "The documentary showed all these things people are doing."
+
+  - speaker: Jordan
+    sentences:
+      - text: "We don't even live near a beach though."
+      - text: "With trees we could actually go outside and plant them right here."
+
+  - speaker: Maya
+    sentences:
+      - text: "We can figure out the details later, the point is ocean pollution is a huge problem and we should do something about it."
+      - text: "Did you know that by 2050 there could be more plastic than fish in the ocean?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "I mean yeah but that's like a whole global thing."
+      - text: "I just think with deforestation we could actually do something real, right here at our school."
+
+  - speaker: Maya
+    sentences:
+      - text: "Trees are cool and everything but this is way more urgent."
+      - text: "The ocean is literally dying, Jordan."
+
+  - speaker: Jordan
+    sentences:
+      - text: "Okay fine, let's do ocean pollution I guess."
+      - text: "That documentary did sound pretty convincing."
+
+  - speaker: Maya
+    sentences:
+      - text: "Yes! Okay so we could start by researching what kinds of plastic end up in the ocean."
+      - text: "This is gonna be such a good project."
+
+  - speaker: Jordan
+    sentences:
+      - text: "Yeah, I guess."
+      - text: "We should probably figure out what we can actually do about it though, like for real."

@@ -1,0 +1,106 @@
+scenario_id: ocean-vs-deforestation
+topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+context: 'A 6th-grade STEM class is working on the PBL driving question: "What are the major threats affecting
+  our global environment, and what can our communities do to protect our ecosystems?" This group needs
+  to choose one environmental issue for their semester project. They''re debating between ocean pollution
+  (one member saw a documentary about plastic in the Pacific) and deforestation (another member read about
+  Amazon fires). They can only pick one.
+
+  '
+instructional_goals:
+- Practice noticing when someone's evidence doesn't actually support the specific claim they're making
+- Practice noticing when the group only considers one side of a question
+personas:
+- name: Maya
+  perspective: 'Wants to do the ocean pollution project because she''s passionate about marine life and
+    was deeply affected by a documentary about plastic in the Pacific Ocean.
+
+    '
+  knowledge: 'Watched a Netflix documentary about the Great Pacific Garbage Patch. Remembers vivid images
+    of sea turtles and statistics about millions of tons of plastic. Has not researched what a local school
+    project could actually do about ocean plastic.
+
+    '
+  weaknesses: 'Gets excited about big dramatic facts and uses them to argue for things without checking
+    whether they actually apply to what her group can do. When someone agrees with her, she takes it as
+    proof she''s right and moves on quickly.
+
+    '
+- name: Jordan
+  perspective: 'Thinks deforestation is the bigger problem and that the group should focus on something
+    where they can make a real difference locally, like planting trees.
+
+    '
+  knowledge: 'Read a news article about Amazon fires and knows that trees absorb carbon dioxide. Has practical
+    ideas about what the group could actually do — like organizing a tree-planting day at the school.
+
+    '
+  weaknesses: 'Raises good points but gives up on them too easily when Maya gets enthusiastic. Would rather
+    keep the peace than push back, even when he thinks he''s right.
+
+    '
+discussion_arc: 'Maya opens enthusiastically about the ocean pollution project, citing the documentary.
+  Jordan suggests deforestation instead, bringing practical arguments. Maya counters with dramatic facts
+  about plastic. Jordan starts to push back on feasibility — can their group really do anything about
+  ocean pollution? — but Maya dismisses the concern. Jordan tries once more but then backs off. Maya takes
+  Jordan''s hesitation as agreement and the group settles on ocean pollution without having actually addressed
+  Jordan''s concerns.
+
+  '
+turn_outline:
+- speaker: Maya
+  accomplishes: 'Opens with excitement about the ocean pollution project, mentions the documentary
+
+    '
+- speaker: Jordan
+  accomplishes: 'Suggests deforestation instead, says they could plant trees at school
+
+    '
+- speaker: Maya
+  accomplishes: 'Pushes back with a dramatic fact from the documentary about millions of tons of plastic,
+    argues ocean pollution is a bigger deal
+
+    '
+- speaker: Jordan
+  accomplishes: 'Acknowledges the plastic fact is alarming but asks whether their group can actually do
+    anything about ocean pollution specifically
+
+    '
+- speaker: Maya
+  accomplishes: 'Says of course they can, mentions beach cleanups and awareness campaigns, doesn''t address
+    the gap between the Pacific garbage patch and their local project
+
+    '
+- speaker: Jordan
+  accomplishes: 'Points out they don''t live near the ocean and raises concern about feasibility
+
+    '
+- speaker: Maya
+  accomplishes: 'Brushes off the feasibility concern with "we can figure that out later" and redirects
+    to how important ocean pollution is
+
+    '
+- speaker: Jordan
+  accomplishes: 'Tries once more to make the case for deforestation — it''s something they can actually
+    do right here at school
+
+    '
+- speaker: Maya
+  accomplishes: 'Acknowledges trees are good but says ocean pollution is more urgent, cites another fact
+    from the documentary
+
+    '
+- speaker: Jordan
+  accomplishes: 'Gives in, says okay let''s do ocean pollution, the documentary did sound really convincing
+
+    '
+- speaker: Maya
+  accomplishes: 'Wraps up excited, starts planning what they''ll do, takes Jordan''s agreement as confirmation
+    they made the right choice
+
+    '
+- speaker: Jordan
+  accomplishes: 'Goes along but adds a quiet note that they should still think about what they can actually
+    do — a last trace of the unresolved concern
+
+    '

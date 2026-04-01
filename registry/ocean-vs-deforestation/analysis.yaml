@@ -1,0 +1,428 @@
+scenario_id: ocean-vs-deforestation
+
+passage_analyses:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    sentence_range:
+      - turn_01.s01
+      - turn_01.s02
+      - turn_02.s01
+      - turn_02.s02
+      - turn_03.s01
+      - turn_03.s02
+
+    facet_annotations:
+      - facet_id: relevance
+        quality_level: weak (emerging)
+        evidence_sentences: [turn_01.s02, turn_03.s02]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        notes: >
+          The relevance gap begins here — Maya cites Pacific-scale evidence
+          for a local school project — but it's not yet fully visible because
+          Jordan hasn't challenged it. The gap sharpens in passage_02.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Looking at the evidence here, I notice Maya is really excited about what
+          she learned from the documentary. She mentions millions of tons of plastic
+          and sea turtles — that's dramatic, important information. It might be worth
+          thinking about what exactly that evidence tells us about their project.
+        key_sentences: [turn_01.s02, turn_03.s02]
+      through_scope:
+        observation: null
+        key_sentences: []
+      what_to_notice: >
+        Something interesting to think about: Maya and Jordan are proposing two
+        very different kinds of projects. What is each person basing their idea on?
+      what_to_notice_sentences: [turn_01.s02, turn_02.s02]
+
+    ai_perspective_explain:
+      explanatory_note: null
+      cognitive_connection: null
+      social_connection: null
+      interaction_note: null
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence and Logic students may notice different things about Maya's
+        documentary evidence — Evidence students might focus on the source,
+        Logic students on how the argument flows.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya jumps from "there's plastic in the Pacific" to "we should do this project"
+          might_miss:
+            - The gap between global scale and local project scope
+        - lens: evidence
+          observations:
+            - Maya's evidence comes from one documentary
+            - The facts are dramatic but about a different place
+          might_miss:
+            - Whether documentary evidence is the right kind for choosing a school project
+        - lens: scope
+          observations:
+            - Jordan brings up an alternative (trees) that Maya doesn't really engage with
+          might_miss:
+            - This passage is more about opening positions — scope issues deepen later
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+    sentence_range:
+      - turn_04.s01
+      - turn_04.s02
+      - turn_05.s01
+      - turn_05.s02
+      - turn_06.s01
+      - turn_06.s02
+
+    facet_annotations:
+      - facet_id: relevance
+        quality_level: weak
+        evidence_sentences: [turn_05.s01, turn_05.s02, turn_06.s01]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: conformity
+          interaction: >
+            Maya generalizes from the documentary's global examples to their
+            local project. When she says "the documentary showed all these
+            things people are doing," she's treating Pacific-scale action as
+            applicable to a school project. Jordan's "we don't even live near
+            a beach" exposes the gap, but earlier in this passage he hasn't
+            yet pressed the point.
+        was_targeted: true
+        notes: >
+          This is the primary passage for the relevance facet. The gap is
+          sharpest here: Maya proposes a beach cleanup when they don't live
+          near a beach, directly referencing what the documentary showed as
+          if it applies to their situation.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at the reasoning here, I notice something interesting about
+          how Maya connects her evidence to her plan. She goes from facts about
+          the Pacific Ocean to suggesting a beach cleanup for their school project.
+          Does that connection hold together?
+        key_sentences: [turn_05.s01, turn_06.s01]
+      through_evidence:
+        observation: >
+          Looking at the evidence here, I notice Maya is using what she saw in the
+          documentary as the basis for what their group should do. The documentary
+          was about the Pacific Ocean — that's real evidence about a real problem.
+          But Jordan raises an interesting point about where they actually live.
+        key_sentences: [turn_05.s01, turn_05.s02, turn_06.s01]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, I notice Jordan is trying to bring up a
+          practical question — what can they actually do? Maya has an answer, but
+          it's based on what other people in other places are doing.
+        key_sentences: [turn_04.s01, turn_05.s01, turn_06.s02]
+      what_to_notice: >
+        Here's something to think about: Maya's evidence is about the Pacific Ocean.
+        Their project is at their school. Does that matter?
+      what_to_notice_sentences: [turn_05.s01, turn_06.s01]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A cognitive scientist might point out that it's really common to get excited
+        about a big, dramatic piece of information and then use it to support
+        whatever you're already thinking — even when it doesn't quite fit the
+        specific situation you're in.
+      cognitive_connection: >
+        One way to think about this: Maya learned something powerful from the
+        documentary, and she's applying it broadly — from the Pacific Ocean to
+        her school project. That's a natural thing to do, but it means her plan
+        is built on evidence from a very different context.
+      social_connection: >
+        It's also worth noticing that Jordan seems to find the documentary facts
+        pretty compelling. When someone shares something dramatic and confident,
+        it can be hard to say "wait, does that actually apply here?"
+      interaction_note: >
+        Notice how these two things work together: Maya is excited and confident
+        about the documentary evidence, and that confidence makes it harder for
+        Jordan to push back on whether the evidence really fits their project.
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence and Logic students will likely see different aspects of the same
+        problem. Evidence students focus on the documentary as a source; Logic
+        students focus on the gap between the evidence and the conclusion.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya's plan (beach cleanup) doesn't follow from her evidence (Pacific garbage patch)
+            - The reasoning jumps from a big problem to a specific local action without connecting them
+          might_miss:
+            - That the documentary itself might be a fine source — the issue is how it's being applied
+        - lens: evidence
+          observations:
+            - Maya's evidence is from a documentary about a specific place (Pacific)
+            - She uses the documentary as proof they should do beach cleanups, but they don't live near a beach
+          might_miss:
+            - The logical structure — they may focus on source quality rather than evidence-conclusion fit
+        - lens: scope
+          observations:
+            - Jordan is raising practical questions that Maya isn't really answering
+          might_miss:
+            - The specific relevance gap — Scope students may focus more on the missing practical details
+
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+    sentence_range:
+      - turn_07.s01
+      - turn_07.s02
+      - turn_08.s01
+      - turn_08.s02
+      - turn_09.s01
+      - turn_09.s02
+
+    facet_annotations:
+      - facet_id: counter_argument_engagement
+        quality_level: weak
+        evidence_sentences: [turn_07.s01, turn_08.s01, turn_08.s02, turn_09.s01]
+        primary_lens: scope
+        also_visible_through: [evidence, logic]
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: conflict_avoidance
+          interaction: >
+            Maya dismisses Jordan's feasibility concern ("we can figure out the
+            details later") because engaging with it would threaten her preferred
+            project — that's confirmation bias protecting her existing position.
+            Jordan's follow-up attempt (turn_08) is his strongest argument, but
+            Maya escalates emotionally ("the ocean is literally dying") rather
+            than addressing it. Jordan will concede in the next passage — the
+            conflict avoidance is building here.
+        was_targeted: true
+        notes: >
+          Key dismissal moment at turn_07.s01. Maya's "we can figure out the
+          details later" is the clearest signal of weak counter-argument engagement.
+          Jordan's turn_08 is his best argument — practical, specific, actionable —
+          and it gets met with emotional escalation rather than engagement.
+
+      - facet_id: relevance
+        quality_level: weak (continued)
+        evidence_sentences: [turn_07.s02, turn_08.s01]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        notes: >
+          The relevance gap continues — Maya cites another global statistic
+          (2050 plastic vs fish) and Jordan explicitly flags it as "a whole
+          global thing." This is the most explicit statement of the gap.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at the reasoning, I notice that when Jordan raises a concern
+          about feasibility, Maya's response is "we can figure out the details
+          later." That's an interesting move — it lets the discussion continue
+          without actually addressing what Jordan said.
+        key_sentences: [turn_07.s01, turn_08.s02]
+      through_evidence:
+        observation: >
+          Looking at the evidence, Maya adds another fact — by 2050 there could
+          be more plastic than fish. Jordan responds that this is "a whole global
+          thing." It's worth thinking about what that observation means for the
+          evidence Maya is using.
+        key_sentences: [turn_07.s02, turn_08.s01]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, Jordan is raising a real question: can
+          their group actually do something about this? He even has a specific
+          alternative — planting trees at their school. But the group doesn't
+          really sit with that question before moving on.
+        key_sentences: [turn_07.s01, turn_08.s02, turn_09.s01]
+      what_to_notice: >
+        Something to think about: Jordan makes a pretty specific point in this part.
+        What happens to it?
+      what_to_notice_sentences: [turn_08.s02]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        In group dynamics research, there's something interesting that happens
+        when someone has already made up their mind — new concerns can feel
+        like threats to their position rather than useful information.
+      cognitive_connection: >
+        One way to think about what's happening with Maya: she really wants to
+        do the ocean project, and Jordan's concerns about feasibility could
+        change the plan. When we're attached to an idea, we sometimes find
+        ways to push concerns aside instead of thinking them through.
+      social_connection: >
+        And notice what's happening with Jordan — he makes his strongest case
+        here, but the group doesn't really engage with it. When it feels like
+        the other person is really set on something, it can be hard to keep
+        pushing your point.
+      interaction_note: >
+        These two things feed each other: Maya pushes the concern aside because
+        it threatens her preferred choice, and Jordan can feel that she's not
+        really open to hearing it. That makes it even harder for him to keep
+        pressing — so the concern just drops away without anyone really
+        deciding it wasn't important.
+
+    diversity_potential:
+      expected_lens_split: >
+        All three lenses reveal something different here. Logic students see
+        the argument being bypassed. Evidence students see another global
+        statistic being used. Scope students see a real concern being dismissed.
+        This passage has the highest perspectival diversity potential.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya doesn't answer Jordan's question — she changes the subject
+            - The reasoning skips over the feasibility concern
+          might_miss:
+            - The emotional escalation strategy ("the ocean is literally dying")
+        - lens: evidence
+          observations:
+            - Maya adds another big statistic (2050 plastic vs fish)
+            - Jordan says this is "a global thing" — the evidence doesn't match their project scale
+          might_miss:
+            - That the concern being dismissed is about scope, not just evidence
+        - lens: scope
+          observations:
+            - Jordan raises a practical alternative that gets ignored
+            - The group moves past a real concern without addressing it
+            - Only one side of the question is being seriously considered
+          might_miss:
+            - How the evidence strategy (big dramatic facts) enables the scope narrowing
+
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+    sentence_range:
+      - turn_10.s01
+      - turn_10.s02
+      - turn_11.s01
+      - turn_11.s02
+      - turn_12.s01
+      - turn_12.s02
+
+    facet_annotations:
+      - facet_id: counter_argument_engagement
+        quality_level: weak (resolution)
+        evidence_sentences: [turn_10.s01, turn_10.s02, turn_12.s02]
+        primary_lens: scope
+        also_visible_through: [evidence, logic]
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: conflict_avoidance
+          interaction: >
+            Jordan concedes not because he was persuaded by reasoning, but
+            because the documentary "sounded convincing" — the conformity to
+            dramatic presentation over substance. His final comment (turn_12.s02)
+            shows the concern was never resolved, just abandoned.
+        was_targeted: true
+        notes: >
+          The resolution reveals both dynamics. Jordan's concession language
+          ("I guess," "fine") signals reluctance, not agreement. Turn_12.s02
+          is the most telling — the unresolved concern surfaces one last time.
+
+      - facet_id: relevance
+        quality_level: weak (unresolved)
+        evidence_sentences: [turn_11.s01, turn_12.s02]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: conformity
+          interaction: >
+            Maya's celebration (turn_11) shows no awareness that the relevance
+            gap was never addressed. Jordan's final concern (turn_12.s02)
+            essentially restates the original problem — "what can we actually
+            do" — confirming nothing was resolved.
+        was_targeted: true
+        notes: >
+          Emergent observation: Maya immediately pivots to planning (researching
+          types of plastic) without having solved the fundamental mismatch
+          between documentary evidence and local project scope.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at how the discussion ends, I notice Jordan agrees but his
+          reasons are interesting — he says the documentary "sounded convincing."
+          That's about how the evidence felt, not about whether the reasoning
+          worked out.
+        key_sentences: [turn_10.s01, turn_10.s02]
+      through_evidence:
+        observation: >
+          Looking at the evidence picture at the end, Maya jumps straight into
+          planning — researching what kinds of plastic end up in the ocean. But
+          the question Jordan raised earlier about what they can actually do at
+          their school still hasn't been answered.
+        key_sentences: [turn_11.s01, turn_12.s02]
+      through_scope:
+        observation: >
+          Looking at the bigger picture, notice how the discussion ends. Jordan
+          says "we should probably figure out what we can actually do about it
+          though, like for real." That's basically the same question he's been
+          asking the whole time — and it still doesn't have an answer.
+        key_sentences: [turn_12.s02, turn_10.s01]
+      what_to_notice: >
+        Here's something to think about: did Jordan agree because he changed
+        his mind, or for some other reason?
+      what_to_notice_sentences: [turn_10.s01, turn_10.s02]
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A social psychologist might say something interesting is happening in how
+        this decision gets made. The group reaches a conclusion, but look at how
+        they get there.
+      cognitive_connection: >
+        Think about Maya's perspective — she started excited about the documentary,
+        and she ends excited about the project. Jordan's concerns never really
+        changed her thinking. When we're committed to something, we can sometimes
+        hear objections without actually taking them in.
+      social_connection: >
+        And think about what it was like for Jordan in this conversation. He had
+        real concerns, but Maya was confident and enthusiastic. Sometimes it's
+        easier to go along with someone who seems sure than to keep pushing a
+        point that keeps getting brushed aside.
+      interaction_note: >
+        Notice the pattern: Maya stays focused on what excites her and doesn't
+        engage with the concern, which makes it feel like disagreeing is pointless.
+        Jordan picks up on that and stops trying. Neither person decided the
+        concern wasn't important — it just faded out because of how the
+        conversation went.
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic and Scope students will see different things in Jordan's concession.
+        Logic students focus on the quality of the reason for agreement. Scope
+        students focus on the unresolved concern.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Jordan agrees because the documentary was convincing, not because the reasoning was good
+            - The decision doesn't follow from the arguments made
+          might_miss:
+            - Jordan's final sentence — it's easy to read as just a small comment
+        - lens: evidence
+          observations:
+            - Maya starts planning without resolving the evidence-project mismatch
+            - Jordan's concern about what they can "actually do" is still unanswered
+          might_miss:
+            - How Jordan's concession language reveals the dynamic (he says "I guess")
+        - lens: scope
+          observations:
+            - The group decided without addressing the feasibility question
+            - Jordan's last comment shows the concern is still there
+            - Only one person's perspective shaped the final decision
+          might_miss:
+            - The subtle language of reluctant agreement ("fine," "I guess")

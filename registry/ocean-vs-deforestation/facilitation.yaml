@@ -1,0 +1,429 @@
+scenario_id: ocean-vs-deforestation
+
+overview:
+  topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+  targeted_facets_summary: >
+    This discussion is designed around two weaknesses: (1) relevance — Maya uses
+    evidence from a documentary about the Pacific Ocean to argue for a local school
+    project, creating a gap between the evidence's scope and the project's scope;
+    (2) counter-argument engagement — when Jordan raises feasibility concerns, the
+    group moves past them without engagement. Both weaknesses are subtle enough to
+    feel natural but detectable on careful reading.
+  session_timing: >
+    Evaluate phase: ~20 minutes (Individual 8-10 min, Peer 5-7 min, AI 3-5 min).
+    Explain phase: ~20 minutes (same structure). Debrief: ~10 minutes.
+  what_to_expect: >
+    Students typically notice Maya's enthusiasm first and may initially see the
+    discussion as "Maya convinced Jordan." Evidence students tend to notice the
+    documentary reliance before the relevance gap. Scope students may jump to
+    "Jordan should have pushed back harder" without noticing the structural
+    reasons he didn't. The hardest observation is the relevance gap — students
+    may accept the documentary evidence as strong because it sounds impressive.
+
+passage_guides:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    summary: >
+      Maya opens with excitement about ocean pollution, citing the documentary.
+      Jordan counterproposal: deforestation with tree planting at school.
+      Maya doubles down with dramatic documentary facts.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak (emerging)
+        visible_through: [evidence, logic]
+        explanation: >
+          The relevance gap begins — Pacific-scale evidence used for a local
+          project — but isn't fully visible yet because it hasn't been challenged.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try looking through the Evidence lens — what is Maya basing her argument
+          on? Or through Logic — does her conclusion follow from what she's saying?
+      peer:
+        likely_disagreements: >
+          Evidence students may disagree about whether the documentary is good evidence.
+          Some will find it compelling; others will notice it's about a different place.
+        productive_questions:
+          - What is each person basing their idea on?
+          - Are Maya and Jordan arguing about the same thing?
+          - If you only listened to Maya, would you know what Jordan thinks? What about the other way around?
+        watch_for: >
+          If students are focused only on "who has a better idea" rather than the
+          quality of the reasoning, redirect to the lens question.
+      ai:
+        what_the_ai_will_say: >
+          The AI notices the documentary evidence and asks what it tells us about
+          the project specifically. This may surprise students who accepted the
+          evidence at face value.
+        likely_student_reactions: >
+          Some students may push back — "the documentary IS good evidence" — which
+          is a productive starting point for discussing evidence-claim fit.
+        follow_up: >
+          Bridge to Explain: "Now that you've noticed what's happening with the
+          evidence, let's think about why."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about why Maya is so focused on the documentary. What is it about
+          that experience that shapes how she's thinking?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Maya is "wrong" or just "excited" —
+          this is a productive tension between evaluation and explanation.
+        productive_questions:
+          - Why might someone use evidence from a documentary about a faraway place to argue for a local project?
+          - Has anyone ever learned something really interesting and then wanted to use it everywhere? What happened?
+        watch_for: >
+          If students are moralizing ("Maya should have checked"), redirect to
+          perspective taking — "What made it feel convincing to her?"
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces the idea that dramatic information can shape our
+          thinking in ways we don't notice.
+        likely_student_reactions: >
+          Students may recognize this in themselves — "I do that too."
+        follow_up: >
+          Acknowledge that everyone does this sometimes. The point is noticing it.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya jumps from Pacific facts to "we should do this project"
+        might_miss:
+          - The specific scale mismatch (global evidence, local project)
+      - lens: evidence
+        will_likely_see:
+          - Maya's evidence comes from one documentary
+        might_miss:
+          - Whether the evidence is relevant to the specific claim
+      - lens: scope
+        will_likely_see:
+          - Jordan has an alternative that doesn't get much consideration
+        might_miss:
+          - Scope issues haven't fully developed yet in this passage
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+    summary: >
+      Jordan questions feasibility. Maya proposes beach cleanup citing the documentary.
+      Jordan points out they don't live near a beach.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak
+        visible_through: [evidence, logic]
+        explanation: >
+          The relevance gap is sharpest here. Maya uses documentary examples (beach
+          cleanup) as if they apply to her school, despite not living near a beach.
+          This is overgeneralization from a compelling but contextually mismatched source.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Look at what Maya suggests they could do. Where is she getting that idea?
+          Does it match their situation?
+      peer:
+        likely_disagreements: >
+          Evidence students will disagree about whether the documentary evidence
+          supports Maya's specific suggestion. Logic students may disagree about
+          whether "beach cleanup" follows from "Pacific garbage patch."
+        productive_questions:
+          - What is Maya's plan based on? Does it fit their situation?
+          - What does Jordan notice that Maya doesn't?
+          - Maya says "the documentary showed all these things people are doing." What's different about those people's situation and this group's?
+        watch_for: >
+          If students are debating ocean pollution vs deforestation (the topic)
+          rather than the reasoning quality, redirect to the lens.
+      ai:
+        what_the_ai_will_say: >
+          The AI points to the mismatch between Pacific evidence and a local project,
+          and notes Jordan's observation about the beach.
+        likely_student_reactions: >
+          Some students will have noticed this themselves (especially if they caught
+          it in passage_01). Others may have an "aha" moment.
+        follow_up: >
+          "Now think about why this mismatch exists — what led to it?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about what the documentary experience was like for Maya. How might
+          that affect what she thinks they should do?
+      peer:
+        likely_disagreements: >
+          Students may offer different explanations — "she didn't think it through"
+          vs "she was excited" vs "the documentary was really convincing."
+        productive_questions:
+          - What is it about a documentary that might make someone apply its lessons more broadly than they should?
+          - What would Maya need to check to make sure her documentary evidence actually fits their school project?
+        watch_for: >
+          Productive if students connect Maya's excitement to the mismatch.
+          Stalled if students are stuck on "she was wrong."
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces the idea of overgeneralization — applying evidence from
+          one context to another — framed as a common, understandable thing people do.
+        likely_student_reactions: >
+          Students may recognize the pattern from their own experience.
+        follow_up: >
+          "Have you ever gotten excited about something you learned and then
+          applied it somewhere it didn't quite fit?"
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Beach cleanup doesn't follow from Pacific garbage patch evidence
+          - The reasoning skips from a big problem to an unrelated local action
+        might_miss:
+          - That the documentary might be fine as evidence — the issue is application
+      - lens: evidence
+        will_likely_see:
+          - Maya's plan is based on what the documentary showed, not their actual situation
+          - They don't live near a beach
+        might_miss:
+          - The logical gap (they may focus on source quality instead)
+      - lens: scope
+        will_likely_see:
+          - Jordan is raising practical questions that aren't being answered
+        might_miss:
+          - The specific relevance problem — they may focus on the practical gap only
+
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+    summary: >
+      Maya dismisses Jordan's feasibility concern ("we can figure that out later"),
+      cites another documentary fact. Jordan makes his strongest case for deforestation.
+      Maya escalates emotionally.
+
+    whats_here:
+      - facet: Counter-argument engagement
+        quality: weak
+        visible_through: [scope, evidence, logic]
+        explanation: >
+          The key dismissal: Maya brushes off Jordan's practical concern with
+          "we can figure out the details later" and redirects to urgency. Jordan
+          makes his strongest argument (local, practical, specific) and it's
+          met with emotional escalation, not engagement. Confirmation bias
+          (Maya protecting her preferred choice) and conflict avoidance
+          (Jordan sensing Maya isn't open to hearing it).
+      - facet: Relevance
+        quality: weak (continued)
+        visible_through: [evidence, logic]
+        explanation: >
+          Maya cites another global statistic (2050 plastic vs fish). Jordan
+          explicitly flags it as "a whole global thing" — the most direct
+          statement of the relevance gap in the entire discussion.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Look at what happens when Jordan brings up his concern. How does Maya respond?
+          Does the group actually deal with what he said?
+      peer:
+        likely_disagreements: >
+          Scope students will notice the dismissed concern. Evidence students may
+          focus on the new statistic. Logic students may see the argument being
+          bypassed. Different lenses, different observations on the same passage.
+        productive_questions:
+          - What happens to Jordan's concern about feasibility?
+          - How does Maya respond to Jordan's point about trees?
+          - If you were Jordan, what would you want Maya to say in response to your concern?
+        watch_for: >
+          This passage has the highest perspectival diversity. If peer discussion
+          reveals students saw very different things through different lenses,
+          name that: "You're each noticing something real through your lens."
+      ai:
+        what_the_ai_will_say: >
+          The AI notices the dismissed concern through all three lenses — the
+          bypassed argument (Logic), the global-scale evidence (Evidence), and
+          the unaddressed question (Scope).
+        likely_student_reactions: >
+          Students may connect with Jordan's experience: "I've had that happen
+          to me in a group." This is a productive entry to the Explain phase.
+        follow_up: >
+          "What do you think was happening between Maya and Jordan here?
+          Why did the conversation go this way?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about what it's like to be Jordan in this moment. He has a real
+          concern — what makes it hard to keep pushing?
+      peer:
+        likely_disagreements: >
+          Students may disagree about who's "at fault" — Maya for dismissing or
+          Jordan for not insisting. Push toward interaction: it's both.
+        productive_questions:
+          - Why does Maya say "we can figure it out later" instead of actually talking about it?
+          - What makes it hard for Jordan to keep pushing his point?
+          - Think about a time you had an idea you really liked and someone pointed out a problem with it. What did it feel like?
+        watch_for: >
+          Productive if students see both sides — Maya's dismissal AND Jordan's
+          giving up. Stalled if they only blame one person.
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces confirmation bias and conflict avoidance, and models
+          how they interact — Maya's certainty makes it harder for Jordan to push,
+          and Jordan's yielding lets Maya avoid engaging.
+        likely_student_reactions: >
+          The interaction explanation may be new — students often explain with
+          single causes. "They both contributed" is a sophisticated insight.
+        follow_up: >
+          "Can you think of a time when this happened in one of your own group
+          discussions?"
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya doesn't answer Jordan's question — she changes the subject
+          - The reasoning skips over the feasibility concern
+        might_miss:
+          - The emotional escalation strategy
+      - lens: evidence
+        will_likely_see:
+          - Another big statistic that's about a global issue
+          - Jordan calls it "a whole global thing"
+        might_miss:
+          - That the concern being dismissed is about scope, not evidence
+      - lens: scope
+        will_likely_see:
+          - A real concern gets brushed aside
+          - Jordan's alternative (trees at school) isn't seriously considered
+          - Only one side of the question is being explored
+        might_miss:
+          - How the evidence strategy enables the scope narrowing
+
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+    summary: >
+      Jordan concedes. Maya celebrates and starts planning. Jordan's final comment
+      reveals the concern was never resolved.
+
+    whats_here:
+      - facet: Counter-argument engagement
+        quality: weak (resolution)
+        visible_through: [scope, evidence, logic]
+        explanation: >
+          Jordan concedes because the documentary "sounded convincing" — deference
+          to presentation rather than reasoning. His final comment ("figure out
+          what we can actually do, like for real") restates the original concern,
+          confirming nothing was resolved.
+      - facet: Relevance
+        quality: weak (unresolved)
+        visible_through: [evidence, logic]
+        explanation: >
+          Maya immediately plans without addressing the evidence-project mismatch.
+          The relevance gap persists through the entire discussion.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Look at why Jordan says yes. Is it because Maya convinced him the reasoning
+          was good, or for some other reason?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Jordan genuinely changed his mind.
+          Logic students often notice the weak reason; Scope students notice the
+          unresolved concern.
+        productive_questions:
+          - Did Jordan change his mind? What makes you think so?
+          - What does Jordan's last comment tell you?
+          - There's a difference between agreeing because you're convinced and agreeing because you're tired of arguing. Which one do you think happened here?
+        watch_for: >
+          Jordan's final sentence is easy to miss. If no one mentions it, direct
+          attention: "What about the very last thing Jordan says?"
+      ai:
+        what_the_ai_will_say: >
+          The AI asks about the quality of Jordan's reason for agreeing and notes
+          that his final concern is still unanswered.
+        likely_student_reactions: >
+          Students may realize they initially saw the ending as a resolution when
+          it's actually an unresolved agreement.
+        follow_up: >
+          "Now let's think about why the discussion ended this way."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Think about the whole conversation from Jordan's perspective. What was
+          it like for him? Why did he end up agreeing?
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Jordan "should have" fought harder.
+          Redirect to perspective taking — "What made it hard for him?"
+        productive_questions:
+          - What was going on between Maya and Jordan that led to this ending?
+          - Could the discussion have gone differently? What would have had to change?
+          - If Jordan had said "I need you to actually answer my question before we decide" — how might that have changed things?
+        watch_for: >
+          The interaction question ("what would have had to change?") is the
+          deepest level. If students can articulate that both Maya's behavior
+          AND Jordan's behavior contributed, that's the learning target.
+      ai:
+        what_the_ai_will_say: >
+          The AI models the full interaction — Maya's certainty, Jordan's yielding,
+          and how they reinforced each other. Frames it as a pattern that happens
+          in groups, not a personal failing.
+        likely_student_reactions: >
+          Students may feel recognized — "that happens in our group too."
+        follow_up: >
+          "Being able to notice this pattern is the first step to changing it."
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Jordan agrees because the documentary was convincing, not because the reasoning was good
+        might_miss:
+          - Jordan's final sentence and what it reveals
+      - lens: evidence
+        will_likely_see:
+          - Maya starts planning without solving the evidence-project mismatch
+        might_miss:
+          - Jordan's concession language ("I guess")
+      - lens: scope
+        will_likely_see:
+          - The group decided without addressing feasibility
+          - Jordan's concern is still there in his last comment
+        might_miss:
+          - The subtle language of reluctant agreement
+
+debrief:
+  key_takeaways:
+    - >
+      The documentary evidence was real and important — but it was about a
+      different scale and place than the group's project. Relevance isn't just
+      about whether evidence is true; it's about whether it fits the specific
+      claim being made.
+    - >
+      Jordan raised a real concern about feasibility and it got dismissed —
+      not because it was wrong, but because engaging with it felt uncomfortable
+      and threatened Maya's preferred choice. This is how groups can make
+      decisions without actually deciding.
+    - >
+      Both students contributed to the dynamic: Maya's enthusiasm and certainty
+      made it hard to push back, and Jordan's willingness to back down meant
+      the concern never got addressed. Understanding group dynamics means seeing
+      both sides.
+
+  cross_group_prompts:
+    - >
+      For groups that had students looking through different lenses: Did the
+      Evidence students and the Scope students notice different things about
+      the same conversation? What does that tell us about how the lens you
+      use shapes what you see?
+    - >
+      Did anyone's group disagree about whether Jordan genuinely changed his
+      mind? What evidence in the discussion supports each interpretation?
+    - >
+      Think about your own group discussions for the PBL project. Has something
+      like this ever happened — where someone raised a concern and the group
+      moved past it? What could you do differently?
+
+  connection_to_next: >
+    This session practiced noticing when evidence doesn't quite fit the claim
+    and when concerns get dismissed. Future sessions will explore other ways
+    that group reasoning can go off track — and what it looks like when a
+    group catches and corrects these patterns.

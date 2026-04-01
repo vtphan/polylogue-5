@@ -1,0 +1,96 @@
+scenario_id: ocean-vs-deforestation
+personas:
+- name: Maya
+  perspective: Passionate about marine life and wants to tackle ocean pollution for the group project.
+- name: Jordan
+  perspective: Thinks the group should focus on something practical they can do locally, like planting
+    trees.
+turns:
+- speaker: Maya
+  sentences:
+  - text: Oh my gosh, we should totally do ocean pollution for our project.
+    sentence_id: turn_01.s01
+  - text: I watched this documentary about the Great Pacific Garbage Patch and it was like, insane how
+      much plastic is out there.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Jordan
+  sentences:
+  - text: I was actually thinking we should do deforestation.
+    sentence_id: turn_02.s01
+  - text: Like, we could organize a tree-planting day right here at school.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Maya
+  sentences:
+  - text: But ocean pollution is way bigger though.
+    sentence_id: turn_03.s01
+  - text: The documentary said there's like millions of tons of plastic in the ocean and sea turtles are
+      choking on it.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Jordan
+  sentences:
+  - text: Yeah that's really bad, but can we actually do anything about that?
+    sentence_id: turn_04.s01
+  - text: Like, what would our project even be?
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: We could do like a beach cleanup, or we could make posters about how much plastic is in the
+      ocean.
+    sentence_id: turn_05.s01
+  - text: The documentary showed all these things people are doing.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Jordan
+  sentences:
+  - text: We don't even live near a beach though.
+    sentence_id: turn_06.s01
+  - text: With trees we could actually go outside and plant them right here.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: We can figure out the details later, the point is ocean pollution is a huge problem and we should
+      do something about it.
+    sentence_id: turn_07.s01
+  - text: Did you know that by 2050 there could be more plastic than fish in the ocean?
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Jordan
+  sentences:
+  - text: I mean yeah but that's like a whole global thing.
+    sentence_id: turn_08.s01
+  - text: I just think with deforestation we could actually do something real, right here at our school.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Maya
+  sentences:
+  - text: Trees are cool and everything but this is way more urgent.
+    sentence_id: turn_09.s01
+  - text: The ocean is literally dying, Jordan.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Jordan
+  sentences:
+  - text: Okay fine, let's do ocean pollution I guess.
+    sentence_id: turn_10.s01
+  - text: That documentary did sound pretty convincing.
+    sentence_id: turn_10.s02
+  turn_id: turn_10
+- speaker: Maya
+  sentences:
+  - text: Yes! Okay so we could start by researching what kinds of plastic end up in the ocean.
+    sentence_id: turn_11.s01
+  - text: This is gonna be such a good project.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Jordan
+  sentences:
+  - text: Yeah, I guess.
+    sentence_id: turn_12.s01
+  - text: We should probably figure out what we can actually do about it though, like for real.
+    sentence_id: turn_12.s02
+  turn_id: turn_12

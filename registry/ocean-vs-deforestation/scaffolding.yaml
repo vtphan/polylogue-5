@@ -1,0 +1,412 @@
+scenario_id: ocean-vs-deforestation
+
+passage_scaffolding:
+  # --- Passage 2: The relevance gap (primary) ---
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06]
+
+    evaluate:
+      difficulty: accessible
+      # High cross-lens visibility (evidence + logic) + strong signal (beach cleanup / no beach)
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Look at what Maya suggests they do. Then look at what she used to support it."
+        - lens: evidence
+          hints:
+            - "Think about where Maya's ideas are coming from."
+            - "Something about the place the evidence is about..."
+        - lens: scope
+          hints:
+            - "Notice what Jordan keeps asking about."
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: does Maya's plan follow from what she told Jordan about?"
+        - lens: evidence
+          prompt: "Looking through Evidence: where is Maya getting her ideas for the project? Does that source match their situation?"
+        - lens: scope
+          prompt: "Looking through Scope: is the group considering all the practical questions they need to?"
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed a gap between Maya's evidence and her plan. Did you see that connection, or were you looking at something else?"
+        - lens: evidence
+          prompt: "The AI pointed out that Maya's evidence is about a different place. Did you notice where her ideas were coming from?"
+        - lens: scope
+          prompt: "The AI noticed Jordan is raising practical questions. Did you pick up on what Jordan was trying to get at?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Maya kept going back to the documentary because..."
+        - category: social
+          starter: "I think it was hard for Jordan to push back because..."
+        - category: interaction
+          starter: "Maya's excitement about the documentary made it harder for Jordan to..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about how Maya connects her evidence to her plan. Now think about *why* — what is it about the documentary that makes her think this way?"
+        - lens: evidence
+          prompt: "You noticed something about where Maya's ideas come from. Now think about *why* — what is it about that documentary that makes her apply it here?"
+        - lens: scope
+          prompt: "You noticed something about the practical questions. Now think about *why* — what's keeping the group from addressing them?"
+
+      ai_reflection_prompt: >
+        The AI talked about how getting excited about something dramatic can shape
+        your thinking. Does that match what you were trying to say, or do you see
+        it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "Maya's argument makes sense because ocean pollution is a real problem"
+            redirect: "You're right that ocean pollution is real. Now look more closely at whether her specific plan connects to her evidence."
+          - pattern: "The reasoning is strong because she has facts"
+            redirect: "She does have facts. Now think about what those facts are about and what her plan is about."
+      - lens: evidence
+        misreadings:
+          - pattern: "The evidence is good because the documentary is a real source"
+            redirect: "The documentary is a real source. Now look at what exactly it's about and what the group's project is about."
+          - pattern: "The evidence is strong because there's a lot of it"
+            redirect: "There are a lot of dramatic facts. Now look more closely at whether those facts match what the group needs to decide."
+      - lens: scope
+        misreadings:
+          - pattern: "The group is considering both sides because Jordan talks about trees"
+            redirect: "Jordan does bring up trees. Now look at what happens to that idea in this part of the discussion."
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "The reasoning doesn't make sense"
+              - "Maya's plan doesn't work"
+          - level: developing
+            examples:
+              - "Maya uses facts about the Pacific Ocean but then says they should do a beach cleanup, and those don't really connect"
+          - level: differentiated
+            examples:
+              - "Maya's evidence is about the Great Pacific Garbage Patch but her plan is a beach cleanup at their school — those are totally different scales, and she doesn't explain how one leads to the other"
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "The evidence isn't great"
+              - "She just uses the documentary"
+          - level: developing
+            examples:
+              - "Maya's ideas come from a documentary about the Pacific Ocean, but they don't live near the ocean"
+          - level: differentiated
+            examples:
+              - "The documentary evidence is real and interesting but it's about a completely different place — the Pacific Ocean — and Maya uses it to plan a school project without checking whether it applies to where they actually are"
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "They're not thinking about everything"
+          - level: developing
+            examples:
+              - "Jordan keeps asking practical questions but Maya isn't really answering them"
+          - level: differentiated
+            examples:
+              - "Jordan is trying to get the group to think about what they can actually do at their school, but the discussion keeps going back to how big the problem is instead of addressing his specific question"
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "Maya is just excited"
+                - "She isn't thinking clearly"
+            - level: developing
+              examples:
+                - "Maya saw this dramatic documentary and now she's applying what she learned there to something totally different without realizing it"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "Jordan goes along with it"
+            - level: developing
+              examples:
+                - "The documentary sounds really impressive and it's hard to argue against someone who seems so sure about something they learned"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "Maya is really confident because of the documentary and that makes it hard for Jordan to disagree"
+            - level: differentiated
+              examples:
+                - "Maya learned these big dramatic facts and she's applying them to their school project without checking if they fit — and because she's so confident about it, Jordan doesn't really push back on the gap, so nobody catches it"
+
+  # --- Passage 3: The dismissed concern (primary) ---
+  - passage_id: passage_03
+    turns: [turn_07, turn_08, turn_09]
+
+    evaluate:
+      difficulty: accessible
+      # High cross-lens visibility (scope + evidence + logic) + clear signal ("figure it out later")
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Watch what happens when Jordan brings up his concern."
+        - lens: evidence
+          hints:
+            - "Look at the new fact Maya brings up. Think about what kind of fact it is."
+        - lens: scope
+          hints:
+            - "Notice what Jordan is asking the group to think about. What happens to it?"
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: when Jordan raises a concern, how does the reasoning handle it?"
+        - lens: evidence
+          prompt: "Looking through Evidence: Maya adds a new fact. What kind of evidence is it, and what is it supposed to show?"
+        - lens: scope
+          prompt: "Looking through Scope: is the group seriously considering all sides of this decision?"
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed that Maya's response doesn't actually address Jordan's concern. Did you catch that, or were you focused on something else?"
+        - lens: evidence
+          prompt: "The AI pointed out that the new fact is about a global issue. Did you notice what Jordan said about that?"
+        - lens: scope
+          prompt: "The AI noticed Jordan's concern gets set aside. Did you see that happening?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Maya said 'we can figure it out later' because..."
+        - category: social
+          starter: "I think Jordan stopped pushing because..."
+        - category: interaction
+          starter: "When Maya brushed off the concern, it made it harder for Jordan to..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about how the group handled Jordan's concern. Now think about *why* — what made the conversation go this way?"
+        - lens: evidence
+          prompt: "You noticed something about the evidence being used. Now think about *why* — why does Maya keep coming back to these big facts?"
+        - lens: scope
+          prompt: "You noticed something about what the group didn't consider. Now think about *why* — what kept them from really engaging with Jordan's question?"
+
+      ai_reflection_prompt: >
+        The AI talked about how wanting something can make us push aside concerns,
+        and how that makes it harder for others to keep pushing. Does that match
+        your explanation?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "Maya has a good response because she says they can figure it out"
+            redirect: "She does say that. But look at what Jordan asked — is 'we'll figure it out later' actually an answer to his question?"
+          - pattern: "The reasoning is fine, they're just debating"
+            redirect: "They are debating. Look more carefully at what happens to Jordan's specific point about trees at school."
+      - lens: evidence
+        misreadings:
+          - pattern: "The 2050 statistic makes Maya's case stronger"
+            redirect: "That is a dramatic statistic. Now think about what Jordan says right after hearing it — he calls it 'a whole global thing.'"
+      - lens: scope
+        misreadings:
+          - pattern: "The group is considering both sides because they talk about both topics"
+            redirect: "They do mention both topics. But look at what happens when Jordan tries to seriously discuss his side."
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "Maya avoids the question"
+          - level: developing
+            examples:
+              - "Jordan asks a real question about feasibility and Maya says 'we can figure it out later' instead of actually answering"
+          - level: differentiated
+            examples:
+              - "Maya responds to Jordan's feasibility concern by changing the subject to how big the problem is — the argument moves forward without the concern ever being addressed, like it just got skipped"
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "She uses another big fact"
+          - level: developing
+            examples:
+              - "Maya adds the 2050 statistic but Jordan points out that's a global thing, not about their school"
+          - level: differentiated
+            examples:
+              - "Every time Jordan raises a practical point, Maya responds with another dramatic global fact — the evidence keeps getting bigger but it never gets more relevant to what they can actually do"
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "They're only looking at one side"
+          - level: developing
+            examples:
+              - "Jordan brings up a real alternative — planting trees at school — and the group doesn't seriously consider it"
+          - level: differentiated
+            examples:
+              - "Jordan makes his strongest case here — deforestation is something they can do right at their school — but Maya redirects to urgency without engaging with his specific point, so the group only seriously considers one option"
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "Maya doesn't want to hear it"
+            - level: developing
+              examples:
+                - "Maya really wants to do the ocean project and Jordan's concern could change the plan, so she pushes it aside instead of thinking about it"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "Jordan just gives up"
+            - level: developing
+              examples:
+                - "Maya seems really set on her idea and it's hard for Jordan to keep disagreeing when she keeps brushing him off"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "Maya won't engage with the concern and that makes Jordan feel like there's no point in pushing"
+            - level: differentiated
+              examples:
+                - "Maya pushes the concern aside because it threatens the project she wants, and Jordan can tell she's not really open to it — so he stops trying, and the concern just disappears even though nobody decided it wasn't important"
+
+  # --- Passage 4: The resolution ---
+  - passage_id: passage_04
+    turns: [turn_10, turn_11, turn_12]
+
+    evaluate:
+      difficulty: moderate
+      # Good cross-lens visibility but signal is subtler — in the concession language
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - "Look at the reason Jordan gives for agreeing."
+        - lens: evidence
+          hints:
+            - "Notice what Maya starts doing right away. Has the original question been answered?"
+        - lens: scope
+          hints:
+            - "Pay attention to the very last thing Jordan says."
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: "Looking through Logic: why does Jordan agree? Is his reason about the quality of the argument?"
+        - lens: evidence
+          prompt: "Looking through Evidence: Maya starts planning their project. Has the evidence question been settled?"
+        - lens: scope
+          prompt: "Looking through Scope: did the group actually resolve the question Jordan was raising? Look at his last comment."
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: "The AI noticed that Jordan agreed because the documentary 'sounded convincing' — not because the reasoning worked out. Did you catch that distinction?"
+        - lens: evidence
+          prompt: "The AI noticed Maya starts planning without resolving the evidence-project mismatch. Did you notice what's still missing?"
+        - lens: scope
+          prompt: "The AI pointed out Jordan's final comment. Did you notice it, or did it seem like just a small thing?"
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: "I think Maya didn't realize the problem was still there because..."
+        - category: social
+          starter: "I think Jordan agreed even though he still had concerns because..."
+        - category: interaction
+          starter: "The way Maya reacted to Jordan's points made it so that..."
+
+      bridge_prompts:
+        - lens: logic
+          prompt: "You noticed something about why Jordan agreed. Now think about *why* — what was it about the conversation that led him to say yes?"
+        - lens: evidence
+          prompt: "You noticed the evidence question is still open. Now think about *why* — what kept the group from resolving it?"
+        - lens: scope
+          prompt: "You noticed Jordan's concern is still there. Now think about *why* — what made the discussion end this way?"
+
+      ai_reflection_prompt: >
+        The AI talked about how Maya's certainty and Jordan's yielding reinforced
+        each other. Does that match what you saw, or would you explain it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: "The discussion ended well because they agreed"
+            redirect: "They did agree. But look at the reason Jordan gives for agreeing — is it about the argument being good?"
+          - pattern: "Jordan changed his mind because Maya had better evidence"
+            redirect: "Jordan does mention the documentary. But look at his very last sentence — did he really change his mind?"
+      - lens: evidence
+        misreadings:
+          - pattern: "The project plan is good because they're going to research plastic"
+            redirect: "They do plan to research. But think back — was the question about what to research, or about what they can actually do at their school?"
+      - lens: scope
+        misreadings:
+          - pattern: "The group considered both sides because they talked about both"
+            redirect: "They did talk about both topics. But look at how the decision actually got made — did both sides get the same consideration?"
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - "Jordan just agrees"
+          - level: developing
+            examples:
+              - "Jordan says yes because the documentary sounded convincing, not because the reasoning about their project was good"
+          - level: differentiated
+            examples:
+              - "Jordan agrees because of how the evidence felt — the documentary was dramatic and compelling — not because Maya actually addressed his concern about what they can do at their school. The decision is based on persuasion, not reasoning."
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - "They didn't figure it out"
+          - level: developing
+            examples:
+              - "Maya jumps right to planning without resolving the question about what they can actually do"
+          - level: differentiated
+            examples:
+              - "Maya starts planning what kinds of plastic to research, but the original problem — that all her evidence is about the Pacific and their project is at school — never got resolved. She moved on as if it was settled when it wasn't."
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - "Jordan still has concerns"
+          - level: developing
+            examples:
+              - "Jordan's last comment shows he still wonders what they can actually do — the concern from earlier was never addressed"
+          - level: differentiated
+            examples:
+              - "The group reached a decision but Jordan's final comment reveals the feasibility question was never resolved — it just got pushed aside. The decision happened because Jordan stopped pushing, not because the group worked through the disagreement."
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - "Maya didn't listen"
+            - level: developing
+              examples:
+                - "Maya was so set on the ocean project that she couldn't really take in Jordan's concerns — she kept hearing them but not engaging with them"
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - "Jordan gave up"
+            - level: developing
+              examples:
+                - "After getting brushed off a few times, Jordan decided it was easier to go along than keep fighting for his idea"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - "Maya was so sure and Jordan kept getting shut down, so eventually he just went along with it"
+            - level: differentiated
+              examples:
+                - "Maya's enthusiasm made it feel like the decision was already made, and every time Jordan tried to raise his concern she redirected to something else — so Jordan stopped trying, and the group ended up choosing without ever actually addressing whether the project would work. Neither of them planned for it to go this way."
