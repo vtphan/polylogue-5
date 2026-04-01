@@ -1,0 +1,243 @@
+# Facet Inventory — source of truth for all 11 facets.
+# All facet IDs used in schemas, prompts, and artifacts must match these exactly.
+
+facets:
+  # --- Evidence lens facets ---
+
+  - id: source_credibility
+    name: Source Credibility
+    definition: The reliability and trustworthiness of the sources cited.
+    quality_range:
+      strong: >
+        Sources are authoritative, independent, and appropriate for the claim.
+      weak: >
+        Sources are unreliable, self-interested, or inappropriate for the type of claim.
+    primary_lens: evidence
+    cross_lens_visibility:
+      - logic  # students may perceive unreliable premises causing argument failure
+    explanatory_connections:
+      cognitive_patterns:
+        - uncritical_acceptance
+      social_dynamics:
+        - authority_deference
+    priority_tier: core
+
+  - id: source_diversity
+    name: Source Diversity
+    definition: The range and independence of evidence brought to bear.
+    quality_range:
+      strong: >
+        Multiple independent sources, including sources that challenge the claim.
+      weak: >
+        Single source, or multiple sources that trace to the same origin.
+    primary_lens: evidence
+    cross_lens_visibility:
+      - scope  # students may notice single-source limitation as narrowness
+    explanatory_connections:
+      cognitive_patterns:
+        - confirmation_bias
+        - tunnel_vision
+      social_dynamics:
+        - groupthink
+    priority_tier: extend
+
+  - id: relevance
+    name: Relevance
+    definition: How well the evidence connects to the specific claim being made.
+    quality_range:
+      strong: >
+        Evidence directly supports the claim as stated, at the scope being claimed.
+      weak: >
+        Evidence is tangentially related, supports a different claim, or supports
+        a narrower version.
+    primary_lens: evidence
+    cross_lens_visibility:
+      - logic  # highest-overlap facet; students perceive inferential gap
+    explanatory_connections:
+      cognitive_patterns:
+        - overgeneralization
+        - confirmation_bias
+      social_dynamics: []
+    priority_tier: core
+
+  - id: sufficiency
+    name: Sufficiency
+    definition: Whether the quantity and weight of evidence matches the scope of the conclusion.
+    quality_range:
+      strong: >
+        Evidence is proportional to the claim — bigger claims backed by more
+        and stronger evidence.
+      weak: >
+        Ranges from large conclusion resting on thin evidence (one anecdote,
+        one statistic) to bare assertion.
+    primary_lens: evidence
+    cross_lens_visibility:
+      - scope  # visible as proportionality problem
+      - logic  # visible as inferential problem
+    explanatory_connections:
+      cognitive_patterns:
+        - overgeneralization
+        - false_certainty
+      social_dynamics:
+        - conformity
+        - authority_deference
+    priority_tier: core
+
+  # --- Logic lens facets ---
+
+  - id: inferential_validity
+    name: Inferential Validity
+    definition: Whether the conclusion actually follows from the premises offered.
+    quality_range:
+      strong: >
+        The conclusion is a reasonable inference from what was stated.
+      weak: >
+        The conclusion doesn't follow — it's a leap, a non sequitur, or a
+        structural error.
+    primary_lens: logic
+    cross_lens_visibility: []  # most Logic-specific; rarely visible through other lenses
+    explanatory_connections:
+      cognitive_patterns:
+        - false_cause
+        - black_and_white_thinking
+      social_dynamics: []
+    priority_tier: core
+
+  - id: internal_consistency
+    name: Internal Consistency
+    definition: Whether the claims made within the discussion contradict each other.
+    quality_range:
+      strong: >
+        Claims build on and reinforce each other — positions stated early remain
+        consistent with conclusions drawn later.
+      weak: >
+        Claims contradict — a character or group asserts things that can't both be true.
+    primary_lens: logic
+    cross_lens_visibility:
+      - evidence  # students may notice contradictory evidence as evidence problem
+    explanatory_connections:
+      cognitive_patterns:
+        - tunnel_vision
+      social_dynamics:
+        - conflict_avoidance
+        - conformity
+    priority_tier: reserve
+
+  - id: reasoning_completeness
+    name: Reasoning Completeness
+    definition: >
+      Whether the steps between premises and conclusion are explicit or whether
+      critical steps are missing.
+    quality_range:
+      strong: >
+        The reasoning chain is traceable — you can follow how they got from
+        evidence to conclusion.
+      weak: >
+        Critical steps are skipped — the conclusion appears with a gap where
+        the reasoning should be.
+    primary_lens: logic
+    cross_lens_visibility:
+      - evidence  # students perceive missing reasoning step as missing evidential support
+    explanatory_connections:
+      cognitive_patterns:
+        - false_certainty
+        - uncritical_acceptance
+      social_dynamics:
+        - groupthink
+        - authority_deference
+    priority_tier: extend
+
+  # --- Scope lens facets ---
+
+  - id: perspective_breadth
+    name: Perspective Breadth
+    definition: The range of stakeholder viewpoints, experiences, or positions considered.
+    quality_range:
+      strong: >
+        Multiple relevant perspectives are considered, including those that
+        challenge the group's position.
+      weak: >
+        Only one perspective is represented, or only perspectives that agree
+        with the conclusion.
+    primary_lens: scope
+    cross_lens_visibility:
+      - evidence  # missing perspectives perceived as missing evidence
+    explanatory_connections:
+      cognitive_patterns:
+        - egocentric_thinking
+        - confirmation_bias
+      social_dynamics:
+        - groupthink
+        - conflict_avoidance
+        - conformity
+    priority_tier: core
+
+  - id: consequence_consideration
+    name: Consequence Consideration
+    definition: >
+      Whether downstream effects, second-order implications, and unintended
+      outcomes are examined.
+    quality_range:
+      strong: >
+        The discussion considers what would happen if their conclusion were acted
+        on — including unintended effects.
+      weak: >
+        The discussion stops at the conclusion without examining its implications.
+    primary_lens: scope
+    cross_lens_visibility:
+      - logic  # students perceive as incomplete argument
+    explanatory_connections:
+      cognitive_patterns:
+        - tunnel_vision
+        - black_and_white_thinking
+      social_dynamics:
+        - groupthink
+    priority_tier: extend
+
+  - id: condition_sensitivity
+    name: Condition Sensitivity
+    definition: Whether limitations, exceptions, and boundary conditions are acknowledged.
+    quality_range:
+      strong: >
+        The discussion qualifies its conclusions — "this works under these
+        conditions," "this doesn't apply when..."
+      weak: >
+        The conclusion is stated as universal or absolute, with no conditions
+        or exceptions.
+    primary_lens: scope
+    cross_lens_visibility:
+      - logic     # unconditional conclusions from conditional premises perceived as inferential error
+      - evidence  # perceived as evidence gap
+    explanatory_connections:
+      cognitive_patterns:
+        - overgeneralization
+        - false_certainty
+        - egocentric_thinking
+      social_dynamics:
+        - conformity
+        - groupthink
+    priority_tier: extend
+
+  - id: counter_argument_engagement
+    name: Counter-Argument Engagement
+    definition: >
+      Whether opposing positions are addressed, rebutted, or incorporated rather
+      than ignored.
+    quality_range:
+      strong: >
+        Opposing positions are addressed — engaged with, rebutted with reasoning,
+        or acknowledged as limitations.
+      weak: >
+        Opposing positions are absent or dismissed without reasoning.
+    primary_lens: scope
+    cross_lens_visibility:
+      - evidence  # unsupported dismissal perceived as evidence problem
+      - logic     # straw man perceived as logical error
+    explanatory_connections:
+      cognitive_patterns:
+        - confirmation_bias
+      social_dynamics:
+        - conflict_avoidance
+        - authority_deference
+        - groupthink
+    priority_tier: core

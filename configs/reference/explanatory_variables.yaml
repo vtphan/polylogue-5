@@ -1,0 +1,59 @@
+# Explanatory Variables — source of truth for cognitive patterns and social dynamics.
+# All IDs used in schemas, prompts, and artifacts must match these exactly.
+# Descriptions are written in 6th-grade accessible language.
+
+cognitive_patterns:
+  - id: confirmation_bias
+    name: Confirmation bias
+    description: Only looking for information that supports what you already believe.
+
+  - id: tunnel_vision
+    name: Tunnel vision
+    description: Focusing so narrowly on one aspect that you miss the bigger picture.
+
+  - id: overgeneralization
+    name: Overgeneralization
+    description: Drawing a broad conclusion from too little evidence.
+
+  - id: false_cause
+    name: False cause
+    description: Assuming one thing caused another just because they're connected.
+
+  - id: uncritical_acceptance
+    name: Uncritical acceptance
+    description: Believing something without checking the source or reasoning.
+
+  - id: black_and_white_thinking
+    name: Black-and-white thinking
+    description: Seeing only two options instead of recognizing complexity.
+
+  - id: egocentric_thinking
+    name: Egocentric thinking
+    description: Only considering the perspectives of people like yourself.
+
+  - id: false_certainty
+    name: False certainty
+    description: >
+      Feeling confident about something without checking whether the reasoning
+      supports it.
+
+social_dynamics:
+  - id: conformity
+    name: Conformity
+    description: Going along with the group even when you privately disagree.
+
+  - id: conflict_avoidance
+    name: Conflict avoidance
+    description: Giving up a point you believe in because disagreeing feels uncomfortable.
+
+  - id: authority_deference
+    name: Authority deference
+    description: >
+      Letting the loudest or most confident person win without evaluating
+      their reasoning.
+
+  - id: groupthink
+    name: Groupthink
+    description: >
+      The group choosing to feel good about their answer instead of checking
+      whether it's right.

@@ -7,12 +7,12 @@ This plan covers implementation of the Polylogue 5 pipeline: the system that gen
 **Source documents:**
 - `polylogue-v5-4.md` — conceptual framework (lenses, facets, explanatory variables, perspectival learning model)
 - `facet-inventory.md` — the eleven facets with quality ranges, cross-lens visibility, explanatory connections
-- `pipeline-spec.md` — technical specification (six artifacts, five stages, six agents, schemas)
+- `pipeline-spec.md` — technical specification (six artifacts, five stages, nine agents, schemas)
 - `user-stories.md` — how teachers and students interact with pipeline artifacts through the app
 
 **Build order:** Reference data and schemas first — these establish the vocabulary and contracts every subsequent artifact depends on. Then agent prompts and commands. Then the first end-to-end scenario run to validate the architecture. Then scripts to formalize mechanical operations. Then a review to catch integration and quality issues.
 
-**Structure:** Six implementation phases and one review phase. Each phase is scoped to one Claude Code working session. The review catches issues before scenario generation begins.
+**Structure:** Seven implementation phases (including Phase 5A) and one review phase. Each phase is scoped to one Claude Code working session. The review catches issues before scenario generation begins.
 
 **How the review works:** The operator runs the review prompt with a separate agent, analyzes the feedback, and forwards relevant findings to the developing agent. The operator controls the gate.
 
@@ -21,7 +21,7 @@ This plan covers implementation of the Polylogue 5 pipeline: the system that gen
 ## Phase Map
 
 ```
-Phase 1 → Phase 2 → Phase 3 → Phase 4 → REVIEW → Phase 5 → Phase 6
+Phase 1 → Phase 2 → Phase 3 → Phase 4 → REVIEW → Phase 5 → Phase 5A → Phase 6
 ```
 
 All phases are sequential.
@@ -135,12 +135,30 @@ Write 13 schema files:
 - Schema #11 (scaffolding) contains two rubric sub-schemas: observation rubric (per-lens, Evaluate phase) and explanation rubric (lens-independent, Explain phase). Also includes common misreadings with pattern and redirect fields.
 - Schema #13 (student annotations) is app-side, not pipeline — it's specified here so the pipeline's assessment-relevant fields align with what the app stores.
 - Schemas are descriptive YAML (field name, type, required/optional, description, constraints) — human-readable contracts first, machine-validatable second.
+- **Scaffolding field checklist** (from `user-stories.md` artifact requirements table — verify every field below appears in the corresponding schema):
+
+  | Field | Schema | Purpose |
+  |---|---|---|
+  | `passage_scaffolding[].evaluate.lens_entry_prompts` | scaffolding | Per-passage, per-lens entry prompts more directed than the generic lens question |
+  | `passage_scaffolding[].evaluate.difficulty` | scaffolding | Difficulty signal for ordering passages by accessibility |
+  | `passage_scaffolding[].evaluate.partial_hints` | scaffolding | Per-lens partial hints ("where to look, not what to see") |
+  | `passage_scaffolding[].evaluate.ai_reflection_prompts` | scaffolding | Per-lens reflection prompts for the Evaluate AI step |
+  | `passage_scaffolding[].explain.bridge_prompts` | scaffolding | Per-lens prompts connecting Evaluate observations to the Explain task |
+  | `passage_scaffolding[].explain.passage_sentence_starters` | scaffolding | Passage-specific starters (distinct from session-level generic starters) |
+  | `passage_scaffolding[].explain.ai_reflection_prompt` | scaffolding | Reflection prompt for the Explain AI step |
+  | `passage_scaffolding[].common_misreadings` | scaffolding | Per-passage, per-lens misreading patterns with redirects |
+  | `passage_scaffolding[].observation_rubric` | scaffolding | Per-lens rubric (basic/developing/differentiated) |
+  | `passage_scaffolding[].explanation_rubric` | scaffolding | Lens-independent rubric (cognitive/social/interaction levels) |
+  | `explain_phase.individual.sentence_starters` | session | Session-level generic starters (cognitive, social, interaction) |
+  | `explain_phase.reference_lists` | session | Browsable cognitive pattern and social dynamic definitions |
+  | `evaluate_phase.completion_threshold` | session | Minimum passages to evaluate before moving to Peer step |
+  | `explain_phase.completion_threshold` | session | Minimum passages to explain before moving to Peer step |
 
 ---
 
 ## Phase 3: Agent Prompts
 
-**Objective:** Write the six agent prompt definitions.
+**Objective:** Write the nine agent prompt definitions — six production agents and three quality reviewers.
 
 **Inputs:**
 - `pipeline-spec.md` — agent roles (Section 4), information barrier (Section 5), stage descriptions (Section 3)
@@ -158,9 +176,12 @@ Write 13 schema files:
 | 4 | Transcript instructional designer | `configs/transcript/agents/transcript_id.md` | Sees full plan including targets. Sharpens signal moments without making them cartoonish. Enforces 6th-grade language. Does not add or remove content — refines phrasing and signal clarity only |
 | 5 | Evaluator | `configs/analysis/agents/evaluator.md` | Produces both analysis.yaml and facilitation.yaml (including whole-class debrief materials). Must write AI perspectives as perspectives, not verdicts. Must identify both targeted and emergent facets. Must produce discrete expected student observations per lens for diversity metadata. Must produce debrief key takeaways, cross-group prompts, and connection-to-next |
 | 6 | Scaffolding instructional designer | `configs/scaffolding/agents/scaffolding_id.md` | Translates evaluator's analytical language into pedagogical materials for 6th graders. Must produce partial hints that direct attention to *where* to look, not *what* to see. Must anticipate common misreadings per passage per lens with gentle redirects. Must produce rubric entries at three differentiation levels. Must also enrich facilitation guide's `productive_questions` |
+| 7 | Transcript reviewer | `configs/transcript/agents/transcript_reviewer.md` | Reviews the polished transcript against the full scenario plan. Reports to operator — does not trigger regeneration. Checks: facet signals detectable but not cartoonish, information barrier held (no framework language in dialog), distinct persona voices, genuine disagreement present, natural discussion arc for 6th graders, resolution reached or meaningfully failed |
+| 8 | Analysis reviewer | `configs/analysis/agents/analysis_reviewer.md` | Reviews analysis.yaml and facilitation.yaml against the transcript and scenario plan. Reports to operator. Checks: facet annotations match observable transcript evidence, AI perspective split is clean (no explanatory vocabulary in evaluate block), perspectives read as perspectives not verdicts, diversity_potential observations are plausible, facilitation guide is scannable and actionable, debrief materials surface perspectival diversity |
+| 9 | Scaffolding reviewer | `configs/scaffolding/agents/scaffolding_reviewer.md` | Reviews scaffolding.yaml and the enriched facilitation.yaml against analysis.yaml and the transcript. Reports to operator. Checks: partial hints direct attention without naming what to see, rubric entries have three distinct differentiation levels, common misreadings are plausible with calibrated redirects, bridge prompts connect Evaluate observations to perspective-taking, enriched productive_questions don't duplicate or contradict evaluator's existing content, all scaffolding field checklist items present |
 
 **Outputs:**
-- 6 agent prompt files.
+- 9 agent prompt files.
 
 **Notes:**
 - The dialog writer prompt is the highest-risk artifact. It must:
@@ -175,6 +196,10 @@ Write 13 schema files:
   - Both blocks: written as "here's what I notice" not "here's what's wrong"
 - The scaffolding instructional designer prompt must encode the hint calibration principle: "direct attention to *where* to look, not *what* to see." A hint should point to a region of the reasoning without naming what about that region is notable.
 - Each agent prompt references its output schema explicitly.
+- The three reviewer agents (transcript, analysis, scaffolding) share a common output format: structured PASS/ISSUE/SUGGESTION per criterion, with specific file and field references for each ISSUE. They report to the operator and suggest revisions — they do not trigger regeneration or modify artifacts directly. The operator decides whether to act on findings.
+- The transcript reviewer sees the full scenario plan (including `target_facets`) so it can assess whether designed facet signals are present. This is appropriate because the reviewer operates after the information barrier has served its purpose (the dialog writer has already generated the transcript without seeing the targets).
+- The analysis reviewer must check both directions: (a) are targeted facets correctly identified in the analysis, and (b) does the analysis identify any emergent facets that seem spurious or unsupported by the transcript text?
+- The scaffolding reviewer is the final quality gate before session configuration. It verifies that the pedagogical materials are calibrated for 6th graders — hints that are too specific give away the answer, rubrics that are too vague don't help assessment.
 
 ---
 
@@ -193,9 +218,9 @@ Write 13 schema files:
 |---|---|---|---|
 | 1 | `initialize_polylogue` | `configs/system/commands/initialize_polylogue.md` | Calls `sync_configs.py` to copy commands and agents to `.claude/`, then verifies reference data and schema files exist |
 | 2 | `create_scenario` | `configs/scenario/commands/create_scenario.md` | Planning agent drafts plan → validation agent reviews → operator approves → output |
-| 3 | `create_transcript` | `configs/transcript/commands/create_transcript.md` | Strip `target_facets` → dialog writer → structural review → transcript ID polish → enumeration |
-| 4 | `analyze_transcript` | `configs/analysis/commands/analyze_transcript.md` | Segment passages → evaluator produces analysis + facilitation guide |
-| 5 | `design_scaffolding` | `configs/scaffolding/commands/design_scaffolding.md` | Scaffolding ID produces scaffolding materials + enriches facilitation guide |
+| 3 | `create_transcript` | `configs/transcript/commands/create_transcript.md` | Strip `target_facets` → dialog writer → structural review → transcript ID polish → **transcript reviewer** → operator gate → enumeration |
+| 4 | `analyze_transcript` | `configs/analysis/commands/analyze_transcript.md` | Segment passages → evaluator produces analysis + facilitation guide → **analysis reviewer** → operator gate |
+| 5 | `design_scaffolding` | `configs/scaffolding/commands/design_scaffolding.md` | Scaffolding ID produces scaffolding materials + enriches facilitation guide → **scaffolding reviewer** → operator gate |
 | 6 | `configure_session` | `configs/session/commands/configure_session.md` | Assemble session config from transcript + analysis + scaffolding |
 
 **Outputs:**
@@ -207,14 +232,16 @@ Write 13 schema files:
   - Run structural review after dialog writer output (script or manual)
   - Implement discard-and-regenerate (max 3 attempts, clean retry, no feedback from failed attempt)
   - Pass raw transcript + full plan to the transcript instructional designer
-  - Apply enumeration after polish
+  - Run the **transcript reviewer** after the transcript ID polish. The reviewer reads the polished transcript + full scenario plan (including `target_facets`) and reports PASS/ISSUE/SUGGESTION to the operator. The operator decides whether to accept, request revisions from the transcript ID, or discard and regenerate.
+  - Apply enumeration after the operator accepts the transcript
 - `create_scenario` must include:
   - Persona conflict validation (personas must disagree about something substantive)
   - Turn outline anti-pattern checks (no 4+ consecutive turns of unchecked agreement, omission concerns must be at least briefly acknowledged)
   - Quality checklist in the command itself
-- `analyze_transcript` handles passage segmentation — initially manual or heuristic, with a note for future automation.
+- `analyze_transcript` handles passage segmentation — initially manual or heuristic, with a note for future automation. After the evaluator produces analysis.yaml and facilitation.yaml, the **analysis reviewer** checks both artifacts and reports to the operator. The operator decides whether to accept or request revisions from the evaluator.
 - `design_scaffolding` writes to two outputs: `scaffolding.yaml` (new) and enriches `facilitation.yaml` (existing, from Stage 3). The enrichment mechanism: the scaffolding ID agent reads the existing `facilitation.yaml`, generates passage-specific discussion starter questions for each passage's `productive_questions` fields, and writes the updated `facilitation.yaml` back. The agent must preserve all existing content from Stage 3 and only add to `productive_questions` — it does not modify other fields.
-- `configure_session` is largely mechanical — assembles from other artifacts.
+- After the scaffolding ID produces its outputs, the **scaffolding reviewer** checks scaffolding.yaml and the enriched facilitation.yaml, reporting to the operator. The operator decides whether to accept or request revisions.
+- `configure_session` is largely mechanical — assembles from other artifacts. No reviewer is needed — it assembles from already-reviewed artifacts.
 - Commands include manual fallback instructions for when scripts are not yet available: "If `review_transcript.py` is not available, verify manually: turn count within 10-14, 1-3 sentences per turn, under 400 words total, speaker names match plan, turn order follows outline."
 
 ---
@@ -292,7 +319,10 @@ CRITERIA:
    For each command, verify it invokes the correct agent(s) in the correct order
    with the correct inputs. Check that create_transcript strips target_facets,
    that design_scaffolding enriches facilitation.yaml, and that configure_session
-   assembles from the correct sources.
+   assembles from the correct sources. Verify that each command invokes its
+   reviewer agent at the correct point: transcript reviewer after transcript ID
+   polish (before enumeration), analysis reviewer after evaluator output,
+   scaffolding reviewer after scaffolding ID output.
 
 8. CROSS-REFERENCE INTEGRITY
    Verify that passage_id, turn_id, and sentence_id are used consistently across
@@ -333,6 +363,19 @@ CRITERIA:
     d. Are misreading patterns specific enough for keyword/semantic matching
        without LLM access at runtime?
 
+12. SCAFFOLDING FIELD COMPLETENESS
+    Every field in the Phase 2 scaffolding field checklist must appear in
+    the corresponding schema (scaffolding or session). Verify:
+    a. Does scaffolding.yaml include all 10 passage_scaffolding fields
+       listed in the checklist?
+    b. Does session.yaml include explain_phase.individual.sentence_starters,
+       explain_phase.reference_lists, and completion thresholds for both
+       phases?
+    c. Does the scaffolding ID agent prompt instruct the agent to produce
+       each of these fields?
+    d. Are lens_entry_prompts, ai_reflection_prompts, and bridge_prompts
+       per-lens (keyed by lens ID)?
+
 Report each criterion as PASS or ISSUE. For ISSUEs, quote the specific file and
 field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioritized).
 ```
@@ -351,13 +394,105 @@ field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioriti
 
 1. Run `initialize_polylogue` to copy commands and agents to `.claude/`.
 
-2. Choose a topic from the 6th-grade PBL unit (e.g., a group discussing whether to focus their project on ocean pollution or deforestation — a topic that naturally produces disagreement).
+2. Run `create_scenario` with the operator prompt below. Run `create_scenario` again with the second prompt only if the first scenario completes successfully and time permits — the second scenario tests different facets and a different explanatory pairing.
 
-3. Run `create_scenario` with:
-   - The chosen topic and PBL context
-   - 1-2 instructional goals
-   - 2 personas with genuine disagreement
-   - 2 target facets from the Core tier (prioritizing high cross-lens visibility facets: relevance, sufficiency, perspective breadth, or counter-argument engagement)
+### Test Scenario A: Ocean Pollution vs. Deforestation
+
+```
+Topic: Whether to focus the group's environmental project on ocean pollution
+or deforestation
+
+Context: A 6th-grade STEM class is working on the PBL driving question: "What
+are the major threats affecting our global environment, and what can our
+communities do to protect our ecosystems?" This group needs to choose one
+environmental issue for their semester project. They're debating between ocean
+pollution (one member saw a documentary about plastic in the Pacific) and
+deforestation (another member read about Amazon fires). They can only pick one.
+
+Instructional goals:
+- Practice noticing when someone's evidence doesn't actually support the
+  specific claim they're making
+- Practice noticing when the group only considers one side of a question
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Relevance (Evidence lens) — one persona uses evidence about ocean pollution
+  in general to argue their local project should focus on it, but the evidence
+  is about a different scale and context than what their project could address.
+  Cognitive pattern: overgeneralization. Social dynamic: conformity (the other
+  persona finds the documentary compelling and doesn't push back on the
+  relevance gap).
+- Counter-argument engagement (Scope lens) — the persona arguing for
+  deforestation raises real concerns about feasibility, but the group moves
+  past them with "we can figure that out later" rather than actually engaging.
+  Cognitive pattern: confirmation bias (the ocean-pollution persona dismisses
+  the concern because it threatens their preferred choice). Social dynamic:
+  conflict avoidance (the deforestation persona lets it go rather than
+  pressing).
+
+The personas must genuinely disagree — they want different projects, not
+just different angles on the same project. The discussion ends when they
+pick one or acknowledge they can't decide.
+```
+
+**Why this scenario:** Relevance and counter-argument engagement are both Core tier facets with high cross-lens visibility (relevance visible through Logic; counter-argument engagement visible through Evidence and Logic). This maximizes the chance of perspectival diversity in peer exchange. The two facets test different lenses (Evidence and Scope), and the explanatory variables span three cognitive patterns and two social dynamics, exercising the full evaluate-then-explain arc. The topic is concrete and age-appropriate — students have opinions about environmental projects.
+
+**Design notes for review:**
+- The relevance gap should be subtle — the documentary evidence is real and interesting, just not relevant to their specific local project scope. If the gap is too obvious, the dialog writer has failed.
+- The counter-argument dismissal ("we can figure that out later") should feel natural, not cartoonish. Real groups do this constantly.
+- Check that the conflict avoidance dynamic is visible — the deforestation persona should push back at least once before yielding.
+
+### Test Scenario B: School Garden Water Usage
+
+```
+Topic: Whether the school garden project should use the school's water supply
+or set up a rainwater collection system
+
+Context: A 6th-grade STEM class is working on the PBL driving question: "What
+are the major threats affecting our global environment, and what can our
+communities do to protect our ecosystems?" This group is planning the school
+garden (a real project at the school) and needs to decide how to water it.
+One option is simple — use the school's hose. The other is more ambitious —
+build a rain barrel system. The principal said they can do either but the
+garden needs to be running by spring.
+
+Instructional goals:
+- Practice noticing when a conclusion is bigger than what the discussion
+  actually showed
+- Practice noticing whose perspectives are missing from the discussion
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Sufficiency (Evidence lens) — one persona claims the rain barrel system
+  "will definitely provide enough water" based on one website about rainfall
+  in a different climate. The evidence is thin for a confident conclusion.
+  Cognitive pattern: false certainty (states the conclusion with no
+  qualification despite minimal evidence). Social dynamic: authority deference
+  (the other persona defers because "you researched it").
+- Perspective breadth (Scope lens) — neither persona considers the
+  custodial staff who would maintain the system, the science teacher who
+  runs the garden club, or what happens over summer break. The plan only
+  reflects student enthusiasm.
+  Cognitive pattern: egocentric thinking (only considered their own
+  perspective as students). Social dynamic: groupthink (both were excited
+  and neither stepped back to ask "who else should we talk to?").
+
+The personas should disagree about which option is better — one wants the
+simple hose, the other wants the rain barrels. The rain-barrel persona is
+more enthusiastic and researched; the hose persona is pragmatic but gets
+won over by the "research." The discussion ends with a decision.
+```
+
+**Why this scenario:** Sufficiency and perspective breadth are Core tier facets from different lenses (Evidence and Scope), with different cross-lens visibility patterns (sufficiency also visible through Scope and Logic; perspective breadth also visible through Evidence). The explanatory variables test a different set than Scenario A — false certainty, egocentric thinking, authority deference, and groupthink. Together, the two test scenarios cover 4 of 6 Core facets, 5 of 8 cognitive patterns, and all 4 social dynamics.
+
+**Design notes for review:**
+- The sufficiency weakness should be clear in hindsight but not obvious on first read — "one website" is thin evidence, but the persona's confidence makes it feel adequate in the moment.
+- The perspective breadth gap tests a different kind of Scope weakness than counter-argument engagement — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
+- Check that authority deference is distinguishable from conformity — the hose persona defers specifically because the other "did the research," not because of general social pressure.
+
+3. Run `create_scenario` with the operator prompt above.
 
 4. Run `create_transcript` to generate the discussion.
    - Manual structural verification if `review_transcript.py` is not available
@@ -387,25 +522,173 @@ field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioriti
 **Notes:**
 - Start with 2 target facets from the Core tier, not more. This isolates whether the pipeline produces usable artifacts before adding complexity.
 - Target facets with high cross-lens visibility to maximize the chance of perspectival diversity in the first run.
+- The two test scenarios together cover 4 of 6 Core facets (relevance, sufficiency, counter-argument engagement, perspective breadth), 5 of 8 cognitive patterns (overgeneralization, confirmation bias, false certainty, egocentric thinking, groupthink → authority deference), and all 4 social dynamics. This exercises the pipeline broadly enough to catch structural issues before the pilot scenario sequence is authored.
 - Document every manual operation — this informs script formalization in Phase 6.
-- Quality checks on the first scenario:
-  - **Discussion quality:** Does it read like a real conversation between 6th graders? Does it reach a resolution? Is it readable in 3 minutes? (Constraints 7-9 from user stories)
-  - **Information barrier:** Does the dialog writer's output show signs of "knowing" the framework? Look for unnaturally precise flaw placement or analytical language in character dialog.
-  - **AI perspective quality:** Are the Evaluate observations per-lens and free of explanatory vocabulary? Are the Explain observations introducing vocabulary as perspective, not verdict? Is the split clean?
-  - **Scaffolding quality:** Are partial hints incomplete (directing where to look, not what to see)? Are rubric entries at three distinct differentiation levels? Are bridge prompts connecting Evaluate observations to the perspective-taking task? Are common misreadings plausible and are their redirects calibrated (redirecting attention, not naming the answer)?
-  - **Facilitation guide quality:** Is it scannable in 2-3 minutes? Does it use facet language? Are the enriched productive_questions specific and useful? Do the debrief key takeaways and cross-group prompts surface perspectival diversity at the class level?
+- Per-stage quality checks are handled by the inline reviewer agents (transcript reviewer, analysis reviewer, scaffolding reviewer). The operator gates each stage based on reviewer feedback. Cross-artifact and systemic quality assessment happens in Phase 5A.
 - Save all intermediate artifacts (pre-enumeration transcript, pre-enrichment facilitation guide) alongside final outputs. These serve as evidence of the pipeline's processing stages.
+
+---
+
+## Phase 5A: Quality Assessment
+
+**Objective:** Systematically assess the quality of all artifacts from the first end-to-end run. Identify systemic issues in agent prompts that need revision before generating more scenarios.
+
+**Why a separate phase:** Phase 5 runs the pipeline and collects per-stage reviewer feedback inline. Phase 5A steps back to assess quality across the full artifact set — patterns that only emerge when you read all six artifacts together. This is where you catch problems like: the evaluator's observations are accurate but the scaffolding hints give away what the evaluator found, or the facilitation guide's debrief doesn't connect to the diversity the analysis identified.
+
+**Inputs:**
+- All artifacts from Phase 5: `registry/{scenario_id}/scenario.yaml`, `transcript.yaml`, `analysis.yaml`, `facilitation.yaml`, `scaffolding.yaml`, `session.yaml`
+- All intermediate artifacts from Phase 5
+- All reviewer reports from Phase 5 (inline PASS/ISSUE/SUGGESTION outputs)
+- Design documents: `polylogue-v5-4.md`, `facet-inventory.md`, `pipeline-spec.md`, `user-stories.md`
+
+**Tasks:**
+
+Run the quality assessment prompt below with a separate agent. The operator analyzes the findings and decides which agent prompts need revision.
+
+**Quality assessment prompt:**
+
+```
+You are assessing the quality of the Polylogue 5 pipeline's first generated scenario.
+Read all artifacts in registry/{scenario_id}/ and the design documents at
+docs/polylogue-v5-4.md, docs/facet-inventory.md, docs/pipeline-spec.md, and
+docs/user-stories.md. For each criterion, report PASS, ISSUE (with explanation
+and specific quotes), or SUGGESTION (non-blocking).
+
+ARTIFACTS TO READ:
+- registry/{scenario_id}/scenario.yaml
+- registry/{scenario_id}/transcript.yaml
+- registry/{scenario_id}/analysis.yaml
+- registry/{scenario_id}/facilitation.yaml
+- registry/{scenario_id}/scaffolding.yaml
+- registry/{scenario_id}/session.yaml
+
+CRITERIA:
+
+1. TRANSCRIPT NATURALNESS
+   a. Does the discussion read like a real conversation between 6th graders?
+      Quote any lines that sound like an adult wrote them or that use vocabulary
+      above grade level.
+   b. Do the personas have distinct voices — different sentence patterns,
+      different ways of expressing uncertainty, different levels of formality?
+   c. Does the discussion reach a resolution (or meaningfully fail to)?
+   d. Is it readable in under 3 minutes? (Under 400 words, 10-14 turns.)
+
+2. FACET SIGNAL QUALITY
+   a. For each targeted facet: is the weakness detectable by reading the
+      transcript carefully, WITHOUT knowing the framework? Would a thoughtful
+      6th grader notice something is off?
+   b. Are the signals subtle enough? Quote any lines where the weakness is
+      cartoonishly obvious — characters essentially announcing their flaws.
+   c. Does the transcript support observation through the intended primary lens
+      AND at least one cross-lens? (Check against the scenario plan's
+      also_visible_through.)
+
+3. INFORMATION BARRIER INTEGRITY
+   a. Does the transcript contain any framework terminology — facet names, lens
+      names, cognitive pattern names, social dynamic names?
+   b. Does the dialog feel "designed" — are weaknesses placed too precisely,
+      too symmetrically, or too conveniently? Natural conversations are messier.
+   c. Compare the dialog writer's input (intermediates/dialog_writer_input.yaml)
+      with the scenario plan — confirm target_facets was stripped.
+
+4. AI PERSPECTIVE QUALITY
+   a. Read ai_perspective_evaluate for each passage. Does it contain ONLY
+      per-lens observations? Flag any explanatory vocabulary (cognitive pattern
+      names, social dynamic names, "bias", "thinking pattern", etc.).
+   b. Read ai_perspective_explain for each passage. Does it introduce vocabulary
+      as perspective ("A cognitive scientist might say...") or as verdict
+      ("This is confirmation bias")? Quote problematic phrasing.
+   c. Is the split clean? Could a student read the evaluate block without being
+      primed for the explain block?
+   d. Are what_to_notice prompts genuinely thought-provoking, or do they
+      telegraph the answer?
+
+5. ANALYSIS ACCURACY
+   a. For each facet_annotation: read the cited evidence_sentences in the
+      transcript. Does the annotation accurately describe what's happening in
+      those sentences?
+   b. Are there facet signals in the transcript that the evaluator missed?
+      (Read the transcript fresh, then compare to the annotations.)
+   c. Are any emergent (non-targeted) facets identified? Are they genuinely
+      present or spurious?
+   d. Are diversity_potential observations realistic — would students actually
+      produce the expected_lens_split described?
+
+6. FACILITATION GUIDE USEFULNESS
+   a. Could a teacher scan this guide in 2-3 minutes and know what to watch
+      for? Is it organized for quick reference during class?
+   b. Do the productive_questions (including enriched ones from the scaffolding
+      stage) help a teacher facilitate discussion without giving away answers?
+   c. Are watch_for items specific enough to be actionable?
+   d. Does the debrief section surface perspectival diversity at the class
+      level? Do cross_group_prompts reference cross-lens and cross-group
+      differences, not just individual-level observations?
+   e. Does connection_to_next reference the scenario's pedagogical position
+      without assuming a fixed sequence?
+
+7. SCAFFOLDING CALIBRATION
+   a. For each partial_hint: does it direct attention to WHERE to look without
+      naming WHAT to see? Quote any hint that gives away the observation.
+   b. For each common_misreading: is the pattern plausible (would a real
+      6th grader think this)? Is the redirect calibrated — does it redirect
+      attention without naming the correct observation?
+   c. Are observation_rubric entries at three genuinely distinct levels
+      (basic/developing/differentiated)? Or are they just the same observation
+      with increasing detail?
+   d. Are explanation_rubric entries at three distinct levels? Does the
+      differentiated level model cognitive-social interaction?
+   e. Do bridge_prompts connect a specific Evaluate observation to the
+      perspective-taking task, or are they generic?
+   f. Do lens_entry_prompts add value beyond the generic lens question?
+
+8. CROSS-ARTIFACT COHERENCE
+   a. Do sentence IDs in analysis.yaml, facilitation.yaml, and scaffolding.yaml
+      all reference valid IDs from transcript.yaml?
+   b. Do the scaffolding hints align with (but not duplicate) the evaluator's
+      observations? A hint should point toward what the evaluator found, not
+      restate it.
+   c. Does the facilitation guide's likely_disagreements align with the
+      diversity_potential in the analysis? They should tell a consistent story.
+   d. Does session.yaml correctly assemble from the other artifacts?
+
+9. PEDAGOGICAL VIABILITY
+   a. Imagine a 6th grader working through this scenario. At each step
+      (read discussion → evaluate passages → peer exchange → AI perspective →
+      explain reasoning → peer exchange → AI perspective): does the experience
+      make sense? Are there dead ends where a student would get stuck with no
+      scaffold available?
+   b. Is there enough perspectival diversity built into the passages that
+      students assigned different lenses will genuinely see different things?
+   c. Would the AI perspectives help a student deepen their thinking, or
+      would they feel like being told the answer?
+
+Report each criterion as PASS or ISSUE. For ISSUEs, quote specific text from the
+artifacts and explain what's wrong and what a revision should accomplish.
+End with a SYSTEMIC ISSUES section: patterns that indicate agent prompt revisions
+are needed (not one-off artifact fixes). Prioritize these by impact.
+```
+
+**Outputs:**
+- Quality assessment report
+- Prioritized list of agent prompt revisions needed (if any)
+- Updated agent prompts (if revisions are warranted before Phase 6)
+
+**Notes:**
+- This phase may loop: if systemic issues are found in agent prompts, revise the prompts (Phase 3 artifacts), then re-run the affected pipeline stages (Phase 5 steps) and re-assess. Keep the loop tight — fix the highest-impact issue first, re-run, reassess.
+- The inline reviewers (Phase 5) catch per-stage issues in real time. Phase 5A catches cross-artifact and systemic issues. Both are necessary — the reviewers prevent obvious problems from propagating, while 5A catches emergent problems that only appear when artifacts interact.
+- If two test scenarios were run in Phase 5, assess both. Compare whether the same systemic issues appear in both — issues that appear in both scenarios indicate prompt-level problems; issues in only one may be scenario-specific.
+- Save the quality assessment report alongside the scenario artifacts for future reference.
 
 ---
 
 ## Phase 6: Python Scripts
 
-**Objective:** Formalize deterministic scripts, informed by the manual operations in Phase 5.
+**Objective:** Formalize deterministic scripts, informed by the manual operations in Phases 5 and 5A.
 
 **Inputs:**
 - `pipeline-spec.md` — script inventory (Section 9)
 - Schemas from Phase 2
-- Issue log from Phase 5
+- Issue log from Phases 5 and 5A
 
 **Tasks:**
 
@@ -436,12 +719,13 @@ field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioriti
 |---|---|---|---|
 | 1 | Foundation — directory tree, reference data | — | Canonical ID establishment |
 | 2 | Schemas | Phase 1 | Handoff contract definitions |
-| 3 | Agent prompts | Phase 2 | Dialog writer steering, information barrier, AI perspective split, scaffolding calibration |
-| 4 | Slash commands | Phase 3 | Pipeline orchestration, barrier enforcement |
+| 3 | Agent prompts (6 production + 3 reviewers) | Phase 2 | Dialog writer steering, information barrier, AI perspective split, scaffolding calibration, output quality verification |
+| 4 | Slash commands (with reviewer steps) | Phase 3 | Pipeline orchestration, barrier enforcement, per-stage quality gates |
 | **REVIEW** | **Full pipeline review** | **Phase 4** | **ID mismatches, barrier leaks, schema gaps, AI perspective split, cross-reference integrity** |
-| 5 | First end-to-end scenario | Review | Architectural validation against real output |
-| 6 | Python scripts | Phase 5 | Script formalization from manual experience |
+| 5 | First end-to-end scenario (with inline reviews) | Review | Architectural validation against real output |
+| 5A | Quality assessment | Phase 5 | Cross-artifact coherence, systemic prompt issues, pedagogical viability |
+| 6 | Python scripts | Phase 5A | Script formalization from manual experience |
 
-**After Phase 6:** The pipeline is complete. Scenario generation is an operator activity — the operator runs the five slash commands in sequence for each new discussion topic. Scenarios for the UMS pilot should be generated following a scenario sequence guide (to be written separately, similar to v4's `scenario-sequence.md`).
+**After Phase 6:** The pipeline is complete. Scenario generation is an operator activity — the operator runs the five slash commands in sequence for each new discussion topic. Each command includes an inline reviewer step; the operator gates progression based on reviewer feedback. Scenarios for the UMS pilot should be generated following a scenario sequence guide (to be written separately, similar to v4's `scenario-sequence.md`).
 
 **App implementation** follows the pipeline. The first step is spec alignment — reconcile the app design with any changes from pipeline implementation. See `user-stories.md` for the full student and teacher experience the app must support, and `pipeline-spec.md` Section 7 for the pipeline-app contract.

@@ -1,0 +1,21 @@
+# Lenses — source of truth for lens IDs, names, questions, and descriptions.
+# All lens IDs used in schemas, prompts, and artifacts must match these exactly.
+
+lenses:
+  - id: logic
+    name: Logic
+    question: Does the reasoning hold?
+    description: >
+      Evaluates the inferential structure connecting premises to conclusions.
+
+  - id: evidence
+    name: Evidence
+    question: Is the claim supported?
+    description: >
+      Evaluates the support offered for claims.
+
+  - id: scope
+    name: Scope
+    question: Is the analysis thorough?
+    description: >
+      Evaluates the breadth of factors, perspectives, and consequences considered.

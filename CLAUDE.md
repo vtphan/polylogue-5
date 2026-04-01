@@ -37,9 +37,9 @@ references/             # External reference materials (PBL curriculum docs)
 
 - `docs/polylogue-v5-4.md` — Conceptual framework (lenses, facets, explanatory variables, perspectival learning model)
 - `docs/facet-inventory.md` — The 11 facets with quality ranges, cross-lens visibility, explanatory connections
-- `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 6 agents, 13 schemas)
+- `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 9 agents, 13 schemas)
 - `docs/user-stories.md` — Teacher/student interaction patterns and session constraints
-- `docs/implementation-pipeline.md` — 6-phase implementation plan + review phase
+- `docs/implementation-pipeline.md` — 7-phase implementation plan (including Phase 5A quality assessment) + review phase
 
 ### Pipeline Artifacts (per scenario)
 
@@ -52,7 +52,7 @@ references/             # External reference materials (PBL curriculum docs)
 | Scaffolding materials | `scaffolding.yaml` | App (hints, rubrics, misreading redirects) |
 | Session configuration | `session.yaml` | App (session setup) |
 
-### 6 Pipeline Agents
+### 9 Pipeline Agents
 
 1. **Planning agent** — Translates facet targets into natural-language persona descriptions
 2. **Validation agent** — Checks facet detectability, barrier compliance, anti-patterns
@@ -60,6 +60,9 @@ references/             # External reference materials (PBL curriculum docs)
 4. **Transcript instructional designer** — Refines signal clarity without adding/removing content
 5. **Evaluator** — Produces analysis + facilitation guide (including whole-class debrief); writes AI perspectives as perspectives, not verdicts
 6. **Scaffolding instructional designer** — Produces scaffolding (including common misreading redirects) + enriches facilitation guide
+7. **Transcript reviewer** — Reviews transcript quality: naturalness, facet signal subtlety, barrier integrity, persona voices
+8. **Analysis reviewer** — Reviews analysis accuracy: facet annotations, AI perspective split, diversity metadata, facilitation guide
+9. **Scaffolding reviewer** — Reviews scaffolding calibration: hint specificity, rubric differentiation, misreading plausibility, cross-artifact coherence
 
 ## Critical Design Constraints
 
