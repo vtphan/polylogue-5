@@ -170,7 +170,7 @@ Write 13 schema files:
   - Include no framework terminology, no facet names, no analytical language
 - The evaluator prompt is the most complex artifact. It must produce two separate AI perspective blocks (evaluate and explain) with the correct content in each:
   - Evaluate: per-lens observations only, no explanatory vocabulary, includes `what_to_notice`
-  - Explain: cognitive/social vocabulary as perspective, interaction modeling
+  - Explain: cognitive/social vocabulary as one possible reading, not diagnosis; interaction modeling
   - Both blocks: written as "here's what I notice" not "here's what's wrong"
 - The scaffolding instructional designer prompt must encode the hint calibration principle: "direct attention to *where* to look, not *what* to see." A hint should point to a region of the reasoning without naming what about that region is notable.
 - Each agent prompt references its output schema explicitly.
@@ -368,7 +368,7 @@ field causing the problem. End with READY TO PROCEED or NEEDS REVISION (prioriti
   - **Discussion quality:** Does it read like a real conversation between 6th graders? Does it reach a resolution? Is it readable in 3 minutes? (Constraints 7-9 from user stories)
   - **Information barrier:** Does the dialog writer's output show signs of "knowing" the framework? Look for unnaturally precise flaw placement or analytical language in character dialog.
   - **AI perspective quality:** Are the Evaluate observations per-lens and free of explanatory vocabulary? Are the Explain observations introducing vocabulary as perspective, not verdict? Is the split clean?
-  - **Scaffolding quality:** Are partial hints incomplete (directing where to look, not what to see)? Are rubric entries at three distinct differentiation levels? Are bridge prompts connecting Evaluate observations to Explain tasks?
+  - **Scaffolding quality:** Are partial hints incomplete (directing where to look, not what to see)? Are rubric entries at three distinct differentiation levels? Are bridge prompts connecting Evaluate observations to the perspective-taking task?
   - **Facilitation guide quality:** Is it scannable in 2-3 minutes? Does it use facet language? Are the enriched productive_questions specific and useful?
 - Save all intermediate artifacts (pre-enumeration transcript, pre-enrichment facilitation guide) alongside final outputs. These serve as evidence of the pipeline's processing stages.
 
