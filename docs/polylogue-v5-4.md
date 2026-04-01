@@ -11,7 +11,7 @@ Critical thinking is not flaw detection. It is the ability to evaluate reasoning
 This framework operationalizes that premise through two questions, asked in sequence:
 
 1. **What do you see in the reasoning?** (Evaluation)
-2. **Why did they think this way?** (Explanation)
+2. **Why did they think this way?** (Perspective taking)
 
 The first question is answered through three evaluative lenses. The second is answered through two interacting explanatory variables. Connecting them is a hidden structural layer — facets — that lenses reveal and explanatory variables account for.
 
@@ -110,7 +110,7 @@ This diversity is not accidental. It is structurally afforded by the properties 
 
 ## 4. Two Explanatory Variables
 
-Beyond evaluating *what* they see in the reasoning, students explore *why* people think the way they do. Explanations draw on two interacting variables that represent genuinely different but coupled mechanisms: cognitive patterns (individual) and social dynamics (group).
+Beyond evaluating *what* they see in the reasoning, students consider *why* people think the way they do — not to assert a correct diagnosis, but to practice perspective taking. They consider possible cognitive and social forces that might account for the reasoning they observed, treating each as a lens into the characters' thinking rather than a definitive explanation. This perspective-taking draws on two interacting variables that represent genuinely different but coupled mechanisms: cognitive patterns (individual) and social dynamics (group).
 
 ### Cognitive Patterns
 
@@ -150,7 +150,7 @@ Cognitive patterns and social dynamics are not alternative explanations to choos
 
 The interaction runs in both directions. A social dynamic can amplify a cognitive pattern: a character's confirmation bias persists because nobody in the group challenges it (conflict avoidance). A cognitive pattern can reshape the social environment: a character's black-and-white thinking reframes disagreement as moral failure ("you're literally defending pollution"), making it socially impossible for others to maintain a nuanced position — the cognitive pattern doesn't just persist because of a social failure, it actively produces one. Every moment in a discussion has both a cognitive and a social dimension. Understanding how they interact — in both directions — is the deepest level of explanatory reasoning the framework aims to develop.
 
-The interaction matters because it prevents single-cause thinking — itself a critical thinking failure. A student who explains a reasoning error as purely cognitive ("she had tunnel vision") has identified something real but incomplete. A student who adds the social dimension ("she had tunnel vision, and nobody pushed back, so she just kept going") has a richer and more accurate understanding of why the discussion turned out the way it did.
+The interaction matters because it prevents single-cause thinking — itself a critical thinking failure. A student who considers a reasoning pattern as purely cognitive ("she had tunnel vision") has identified something real but incomplete. A student who adds the social dimension ("she had tunnel vision, and nobody pushed back, so she just kept going") has a richer perspective on why the discussion turned out the way it did. Neither student is diagnosing the "correct" cause — both are practicing the act of taking another person's perspective and reasoning about the forces that shaped their thinking.
 
 This framing also means that the two variables can serve as a perspectival tool in their own right. Two students looking at the same moment might initially offer different readings — one sees a cognitive pattern, the other sees a social dynamic. Both are valid partial perspectives. The richer understanding comes when they connect the two.
 
@@ -206,11 +206,11 @@ Students move from treating disagreement as error ("I'm right and you're wrong")
 
 This is the social-epistemic capacity that transfers beyond critical thinking. A student who learns to ask "what did you see?" before defending their own reading has acquired a general orientation toward other minds that serves them in any collaborative or evaluative context.
 
-### Explanatory Reasoning
+### Explanatory Reasoning as Perspective Taking
 
-Students begin to ask *why* people reason the way they do, considering both cognitive and social forces and their interaction. A student who says "she was so focused on her idea that she stopped listening, and nobody pushed back, so she just kept going" has connected a cognitive pattern to a social dynamic without needing formal vocabulary for either.
+Students begin to consider *why* people reason the way they do, taking the perspective of the characters and the group to consider both cognitive and social forces and their interaction. A student who says "she was so focused on her idea that she stopped listening, and nobody pushed back, so she just kept going" has connected a cognitive pattern to a social dynamic without needing formal vocabulary for either. The student is not diagnosing a correct cause — they are practicing the act of reasoning about another person's thinking, which is perspective taking in its most cognitively demanding form.
 
-This is the most demanding capacity. Early on, students may identify only one force. Over time, they should articulate how cognitive and social forces interact to produce the reasoning they observed.
+This is the most demanding capacity. Early on, students may offer only one possible force. Over time, they should consider how cognitive and social forces interact, and engage with peers and the AI who offer different readings of the same moment.
 
 ### What Counts as Learning
 
@@ -218,7 +218,7 @@ Learning is not measured by correctness of flaw identification. It is measured b
 
 - **Articulation quality** — Can the student express what they see and why, with increasing specificity?
 - **Perspectival range** — Can the student evaluate through more than one lens and engage meaningfully with perspectives different from their own?
-- **Explanatory depth** — Can the student reason about *why* using both cognitive and social variables, and begin to see their interaction?
+- **Explanatory depth** — Can the student take the perspective of others and reason about *why* using both cognitive and social variables, and begin to see their interaction?
 
 ### What Students Are Not Expected to Learn
 

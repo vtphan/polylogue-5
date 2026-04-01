@@ -30,9 +30,9 @@ EVALUATE PHASE (What do you see in the reasoning?)
   AI:          AI perspective on evaluation — per-lens observations, no explanatory vocabulary
 
 EXPLAIN PHASE (Why did they think this way?)
-  Individual:  Student explains why the characters reasoned the way they did
-  Peer:        Students see how their group explained differently
-  AI:          AI perspective on explanation — cognitive × social vocabulary, as perspective
+  Individual:  Student considers why the characters reasoned the way they did — perspective taking, not diagnosis
+  Peer:        Students see how their group considered the question differently
+  AI:          AI perspective on explanation — cognitive × social vocabulary, as one possible reading
 ```
 
 The pipeline artifacts support this structure:
@@ -40,9 +40,9 @@ The pipeline artifacts support this structure:
 - **Evaluate — Individual:** The transcript (what students read), the session configuration (which passages, which lenses, the articulation prompt), and the scaffolding materials (partial hints, lens-specific entry prompts, difficulty signals).
 - **Evaluate — Peer:** No pipeline artifact — peer exchange uses live student responses. But the transcript must be rich enough to produce diverse readings, which is a generation concern. The facilitation guide provides the teacher with discussion starter questions for groups.
 - **Evaluate — AI:** The expert analysis, evaluate block — per-lens observations only, no explanatory vocabulary yet. The scaffolding materials provide reflection prompts specific to each AI observation.
-- **Explain — Individual:** The session configuration (explanation prompt, optional reference lists) and the scaffolding materials (passage-specific sentence starters, bridge prompts connecting Evaluate observations to the Explain task).
+- **Explain — Individual:** The session configuration (explanation prompt, optional reference lists) and the scaffolding materials (passage-specific sentence starters, bridge prompts connecting Evaluate observations to the perspective-taking task).
 - **Explain — Peer:** No pipeline artifact — peer exchange uses live student responses.
-- **Explain — AI:** The expert analysis, explain block — introduces cognitive and social vocabulary as perspective. The scaffolding materials provide reflection prompts specific to each AI explanation.
+- **Explain — AI:** The expert analysis, explain block — introduces cognitive and social vocabulary as one possible reading, not a definitive diagnosis. The scaffolding materials provide reflection prompts specific to each AI explanation.
 - **Teacher throughout:** The facilitation guide, organized by phase.
 - **Assessment:** The scaffolding materials include observation rubric entries — what a student might say at different levels of differentiation — enabling the app to do approximate matching without LLM access at runtime.
 
@@ -197,7 +197,7 @@ passage_analyses:                      # One per evaluable passage (a passage is
 - **The AI perspective is split into two blocks** matching the session's two phases. `ai_perspective_evaluate` gives per-lens observations after students have evaluated and discussed. `ai_perspective_explain` introduces explanatory vocabulary after students have formed and discussed their own explanations. This enforces the framework's dependency: you evaluate *what* before you explain *why*. Showing both at once would let the explanation frame the evaluation.
 - The Evaluate AI perspective is written *per lens*, not per facet. Students see observations organized by the lenses they've been using, not by a hidden taxonomy. A single observation through the Evidence lens might touch multiple facets without naming any of them.
 - `ai_perspective_evaluate` observations are written as perspectives, not answers: "Looking at the evidence here, I notice that both sources come from the same organization. When all your evidence traces back to one origin, it can look like a lot of support but actually represent a single perspective." The tone is "here's what I see" not "here's what's wrong."
-- `ai_perspective_explain` introduces formal vocabulary (confirmation bias, groupthink) as named concepts from disciplines — "a psychologist might call this..." — not as the correct answer. Students who encountered different explanations in peer discussion now have a disciplinary perspective to compare against their own. The `interaction_note` models how cognitive and social forces connect — this is the most sophisticated move, and many students will encounter it for the first time here.
+- `ai_perspective_explain` introduces formal vocabulary (confirmation bias, groupthink) as named concepts from disciplines — "a psychologist might call this..." — not as the correct answer. The tone reinforces perspective taking: the AI offers one way of considering why the characters reasoned the way they did, not a definitive diagnosis. Students who encountered different readings in peer discussion now have a disciplinary perspective to compare against their own. The `interaction_note` models how cognitive and social forces connect — this is the most sophisticated move, and many students will encounter it for the first time here.
 - `what_to_notice` is a lightweight prompt designed to redirect attention without giving away the answer. It bridges the Evaluate AI reveal and the upcoming Explain phase — an invitation to start thinking about *why*.
 - Not every lens has an observation for every passage. Null observations are fine — they mean the AI has nothing to add through that lens for this passage.
 - `diversity_potential` is not shown to students. It serves two audiences: the pipeline (quality assessment — will this transcript produce perspectival diversity?) and the facilitation guide (the teacher needs to know what students are likely to see and miss). The facilitation guide inlines this content for teacher usability — the same observations exist in both places, serving different functions (quality assessment here, classroom scaffolding there).

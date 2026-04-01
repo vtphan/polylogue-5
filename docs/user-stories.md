@@ -202,7 +202,7 @@ The student evaluates highlighted passages in the discussion through their assig
 
 *"Why did they think this way?"*
 
-The student explains why the characters in the discussion reasoned the way they did, considering both individual thinking patterns and group dynamics. The lens assignment from the Evaluate phase no longer applies — the Explain question is lens-independent.
+The student considers why the characters in the discussion reasoned the way they did — practicing perspective taking by reasoning about others' thinking, not asserting a correct diagnosis. Students consider both individual thinking patterns and group dynamics as possible forces shaping the characters' reasoning. The lens assignment from the Evaluate phase no longer applies — the Explain question is lens-independent.
 
 #### Individual Step
 
