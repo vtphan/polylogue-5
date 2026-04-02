@@ -1,0 +1,15 @@
+Topic: Whether the school should switch from sorted recycling bins to single-stream recycling
+
+Context: A 6th-grade STEM class is working on the PBL driving question: "What are the major threats affecting our global environment, and what can our communities do to protect our ecosystems?" The school currently has sorted recycling (paper, plastic, glass in separate bins). The custodial staff says it's a lot of work and some students don't sort correctly anyway. One group member found a recycling company's website that says single-stream is "just as effective." Another group member heard from an older sibling that single-stream recycling actually ends up in landfills more often.
+
+Instructional goals:
+- Practice noticing when a source might not be trustworthy for the claim being made
+- Practice noticing when a conclusion doesn't actually follow from the reasons given
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Source credibility (Evidence lens) — one persona cites a recycling company's website claiming single-stream is "just as effective." The source has a financial interest in single-stream adoption (they profit from it), making it unreliable for an objective comparison. The persona doesn't notice the conflict of interest. Cognitive pattern: uncritical acceptance (believes the website because it looks professional and has statistics). Social dynamic: authority deference (the other persona defers because "they found actual data").
+- Inferential validity (Logic lens) — the same persona argues: "the custodial staff says sorting is hard, and single-stream is just as effective, so we should switch." But "sorting is hard for the staff" and "single-stream is effective" don't combine to prove "we should switch" — the conclusion doesn't follow because it ignores the environmental cost the sibling mentioned. Cognitive pattern: false cause (treats the staff's difficulty as a reason the environmental outcome would be the same). Social dynamic: conformity (both personas want to make the staff's job easier, which makes the flawed inference feel reasonable).
+
+Discussion dynamic: The personas should start on opposite sides — one wants single-stream (it's easier), the other is worried about environmental impact (the sibling's claim). The worried persona gets won over by the "data" from the recycling company. The discussion ends with agreement to recommend single-stream.

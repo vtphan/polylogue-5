@@ -1,0 +1,128 @@
+scenario_id: recycling-sorted-vs-single-stream
+topic: Whether the school should switch from sorted recycling bins to single-stream recycling
+context: 'A 6th-grade STEM class is working on the PBL driving question: "What are the major threats affecting
+  our global environment, and what can our communities do to protect our ecosystems?" The school currently
+  has sorted recycling (paper, plastic, glass in separate bins). The custodial staff says it''s a lot
+  of work and some students don''t sort correctly anyway. One group member found a recycling company''s
+  website that says single-stream is "just as effective." Another group member heard from an older sibling
+  that single-stream recycling actually ends up in landfills more often.
+
+  '
+instructional_goals:
+- Practice noticing when a source might not be trustworthy for the claim being made
+- Practice noticing when a conclusion doesn't actually follow from the reasons given
+personas:
+- name: Marcus
+  perspective: 'Thinks the school should switch to single-stream recycling. He''s practical-minded and
+    focuses on what makes life easier — the custodial staff is overwhelmed and kids don''t sort correctly
+    anyway. He did some research and found a recycling company''s website that backs up his position with
+    numbers.
+
+    '
+  knowledge: 'Found a recycling company''s website that says single-stream recycling is "just as effective"
+    as sorted recycling. The site had statistics and professional graphics. Also knows from talking to
+    classmates that the custodial staff has been complaining about how hard it is to manage the sorted
+    bins.
+
+    '
+  weaknesses: 'Trusts official-looking websites without questioning whether the source might have its
+    own reasons for promoting what it''s selling. Jumps to conclusions by linking unrelated points — if
+    sorting is hard for the staff AND a website says single-stream works, he treats that as proof they
+    should switch, without stopping to consider what he might be leaving out. Talks about what he read
+    online with total confidence even though he only checked one source.
+
+    '
+- name: Nia
+  perspective: 'Initially worried about switching to single-stream recycling because her older sibling
+    told her it often ends up in landfills. Cares about the environment and wants the class project to
+    actually help, not just look good. But she also doesn''t want to dismiss someone who did research.
+
+    '
+  knowledge: 'Heard from her older sibling that single-stream recycling has problems — a lot of it ends
+    up in landfills because the mixed materials are harder to process. Doesn''t have a specific source
+    to point to, just what her sibling said.
+
+    '
+  weaknesses: 'Backs down too easily when someone presents what looks like real data, even when her own
+    concerns haven''t actually been answered. Wants to be agreeable and helpful, especially when she can
+    see the other person put effort into researching. Lets go of her position when the group seems to
+    be leaning the other way, even if she still has doubts.
+
+    '
+discussion_arc: 'Marcus opens by framing the recycling problem as practical — the staff is struggling,
+  kids don''t sort right, and he found a solution. Nia pushes back with her sibling''s warning about single-stream
+  ending up in landfills, creating genuine tension between convenience and environmental impact. The tension
+  builds as Marcus doubles down on the recycling company''s website, presenting its statistics as authoritative.
+  Nia tries to hold her ground but has no counter-source to point to. The pivot comes when Marcus frames
+  his argument as a package — the staff needs help AND the data says it works — making the switch feel
+  like an obvious conclusion. Nia, wanting to be reasonable and go with "the research," concedes. They
+  agree to recommend single-stream, united by wanting to help the staff, without realizing they never
+  actually addressed the environmental concern or questioned whether the recycling company''s website
+  is a trustworthy source.
+
+  '
+turn_outline:
+- speaker: Marcus
+  accomplishes: 'Opens with the practical problem: the custodial staff is struggling with sorted bins
+    and a lot of students don''t even sort correctly anyway. Frames single-stream as the obvious fix.
+
+    '
+- speaker: Nia
+  accomplishes: 'Agrees the sorting situation is messy but raises a concern: her older sibling said single-stream
+    recycling often ends up in landfills. Says she''s worried switching might make things worse for the
+    environment.
+
+    '
+- speaker: Marcus
+  accomplishes: 'Pushes back on the sibling''s claim — that''s just one person''s opinion. Mentions that
+    he actually looked it up and found a recycling company''s website with real information about single-stream
+    recycling.
+
+    '
+- speaker: Nia
+  accomplishes: 'Shows interest in what Marcus found but expresses caution. Her sibling seemed pretty
+    confident about the landfill problem. Asks what the website actually said.
+
+    '
+- speaker: Marcus
+  accomplishes: 'Describes the website enthusiastically — it had statistics, it looked professional, and
+    it said single-stream is "just as effective." Points out that the company works in recycling, so they
+    would know.
+
+    '
+- speaker: Nia
+  accomplishes: 'Starts to waver. Acknowledges the website sounds legit. Still holds a thread of worry
+    about the landfill thing but isn''t sure how to argue against data.
+
+    '
+- speaker: Marcus
+  accomplishes: 'Pulls it all together: the staff says sorting is too hard, and the website says single-stream
+    works just as well — so why wouldn''t they switch? Presents it as though the conclusion is obvious.
+
+    '
+- speaker: Nia
+  accomplishes: 'Makes one more push: but what about what her sibling said about the environmental impact?
+    That concern hasn''t really been addressed.
+
+    '
+- speaker: Marcus
+  accomplishes: 'Draws a contrast between the website''s data and the sibling''s claim. The website has
+    numbers; the sibling is just repeating something they heard. Suggests the recycling company would
+    know more than one person.
+
+    '
+- speaker: Nia
+  accomplishes: 'Concedes that going with actual research probably makes more sense than going with something
+    her sibling heard. Lets go of her concern even though it was never really answered.
+
+    '
+- speaker: Marcus
+  accomplishes: 'Proposes they recommend single-stream to the class. Emphasizes it helps the staff AND
+    the data supports it — frames the decision as helping everyone.
+
+    '
+- speaker: Nia
+  accomplishes: 'Agrees to the recommendation. Says they should go with the research. The environmental
+    concern has been dropped without being resolved.
+
+    '

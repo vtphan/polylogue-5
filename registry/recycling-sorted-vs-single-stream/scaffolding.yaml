@@ -1,0 +1,1156 @@
+scenario_id: recycling-sorted-vs-single-stream
+
+passage_scaffolding:
+  # ── Passage 1: Opening positions ──────────────────────────────────
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+
+    evaluate:
+      difficulty: accessible
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at what each person says they think should happen. Do
+              they agree or disagree?
+        - lens: evidence
+          hints:
+            - >
+              Notice the different kinds of information each person brings
+              up. Where did they get their information?
+        - lens: scope
+          hints:
+            - >
+              Count how many different concerns are being raised. Are they
+              about the same thing or different things?
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: do the reasons each person gives
+            match the conclusion they want the group to reach?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: what information is each person
+            working with? How did they get it?
+        - lens: scope
+          prompt: >
+            Looking through Scope: what different concerns or viewpoints
+            are on the table right now?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI didn't point out much through Logic for this part.
+            Did you find anything, or did this section feel more like
+            setup to you too?
+        - lens: evidence
+          prompt: >
+            The AI noticed two different kinds of information — one from
+            experience and one from a family member. Did you notice that
+            difference, or were you focused on something else?
+        - lens: scope
+          prompt: >
+            The AI noticed that both sides of the question are on the
+            table here. Did you see that as a strength, or did it seem
+            like they were just getting started?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marcus already has his mind made up because...
+        - category: social
+          starter: >
+            The way Marcus and Nia start talking might affect the rest
+            of the conversation because...
+        - category: interaction
+          starter: >
+            Marcus seems really sure of himself, and that might change
+            how Nia responds because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You looked at the reasoning each person started with. Now
+            think about why they started with those positions — what
+            shaped how each person came into this conversation?
+        - lens: evidence
+          prompt: >
+            You noticed different kinds of information. Now think about
+            why each person trusts their own information — what makes
+            one kind of information feel more real than another?
+        - lens: scope
+          prompt: >
+            You noticed different concerns on the table. Now think
+            about why these two concerns might not get equal attention
+            as the conversation goes on.
+
+      ai_reflection_prompt: >
+        The AI didn't introduce any big ideas for this part. Does that
+        match your experience — was this section mostly setup? Or did
+        you notice something the AI skipped?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Marcus is right because nobody sorts correctly anyway
+            redirect: >
+              You're summarizing what Marcus says. Try looking at it
+              from outside — is his reason strong enough for his
+              conclusion?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              The sister is not a good source
+            redirect: >
+              Interesting — you're already evaluating one of the
+              sources. What about the other information in this part?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              They both care about recycling so they agree
+            redirect: >
+              Look more closely — do they want the same thing, or are
+              they worried about different things?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus thinks they should switch.
+          - level: developing
+            examples:
+              - >
+                Marcus already has a conclusion before hearing what Nia
+                thinks.
+          - level: differentiated
+            examples:
+              - >
+                Marcus jumps straight to what they should do, but Nia
+                raises a different concern — they're not really
+                starting from the same question.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                One person saw the bins and one heard from her sister.
+          - level: developing
+            examples:
+              - >
+                They have different kinds of information — one is
+                something Marcus sees at school, the other is something
+                Nia heard secondhand.
+          - level: differentiated
+            examples:
+              - >
+                Neither person has checked their information yet — Marcus
+                is going on what he sees at school and Nia is going on
+                what her sister said, and those are very different kinds
+                of evidence for very different claims.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They're talking about recycling.
+          - level: developing
+            examples:
+              - >
+                There are two different worries — making it easier for
+                the staff and protecting the environment.
+          - level: differentiated
+            examples:
+              - >
+                The group starts with two different sides — practical
+                (it's hard for the staff) and environmental (it might
+                hurt the planet). Both concerns are real and they might
+                pull in different directions.
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Marcus just thinks he's right.
+            - level: developing
+              examples:
+                - >
+                  Marcus already decided what he thinks before hearing
+                  Nia out — he came in with his mind made up.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They're just starting the conversation.
+            - level: developing
+              examples:
+                - >
+                  Marcus sounds more confident than Nia, which might
+                  affect who leads the conversation.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marcus is already sure and he's talking first, so Nia
+                  is starting from a position where she has to argue
+                  against him.
+            - level: differentiated
+              examples:
+                - >
+                  Marcus came in with his mind already made up and he
+                  leads the conversation, which puts Nia in the position
+                  of having to convince him, not the other way around.
+                  His certainty gives him control of the discussion
+                  before it even really starts.
+
+  # ── Passage 2: Source debate ──────────────────────────────────────
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+
+    evaluate:
+      difficulty: moderate
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Notice how Marcus responds to Nia's information compared
+              to how he talks about his own...
+        - lens: evidence
+          hints:
+            - >
+              Look closely at the website Marcus found. Think about
+              who made it...
+            - >
+              Something about where the information comes from...
+        - lens: scope
+          hints:
+            - >
+              Pay attention to what happens to the information Nia
+              brought up...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Marcus dismisses one source and
+            trusts another. What reasons does he give for each?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Marcus found a website. What do
+            you know about who made it, and does that matter?
+        - lens: scope
+          prompt: >
+            Looking through Scope: the group started with two pieces
+            of information. What's happening to them now?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI noticed that one source gets dismissed and another
+            gets accepted, and the reasons are about who they are, not
+            what they said. Did you catch that, or were you looking at
+            something else?
+        - lens: evidence
+          prompt: >
+            The AI asked what might affect what a recycling company puts
+            on its website. Had you thought about that? What do you think
+            the answer might be?
+        - lens: scope
+          prompt: >
+            The AI didn't focus on Scope for this part. Did you notice
+            anything through your lens that the AI missed?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marcus trusted the website so quickly because...
+        - category: social
+          starter: >
+            When Marcus said he found a website with real data, I think
+            that changed how Nia felt about the conversation because...
+        - category: interaction
+          starter: >
+            Marcus was really confident about the website, and that
+            seemed to affect Nia because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed how Marcus treated different sources. Now think
+            about why — what made him so quick to trust one and dismiss
+            the other?
+        - lens: evidence
+          prompt: >
+            You noticed something about the website. Now think about
+            why Marcus didn't question it — what was it about the
+            website that made it feel trustworthy?
+        - lens: scope
+          prompt: >
+            You noticed the group narrowing down. Now think about
+            why — what made it easy for one piece of information to
+            get pushed aside?
+
+      ai_reflection_prompt: >
+        The AI talked about believing something because it comes in
+        a package that looks trustworthy. Does that match what you were
+        thinking, or would you explain it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Marcus is right to trust the website because the sister
+              is just one person
+            redirect: >
+              You're comparing the two sources. Now look at the website
+              itself — is there anything about who made it that matters?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              The website is a good source because it has data and
+              statistics
+            redirect: >
+              You noticed the website has numbers. Now think about who
+              put those numbers there — does it matter what they do for
+              a living?
+          - pattern: >
+              The evidence is strong because it comes from a company
+            redirect: >
+              You noticed where the evidence comes from. Think about
+              what that company does — could that affect what they put
+              on their website?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Marcus did research and Nia didn't
+            redirect: >
+              That's what it looks like on the surface. But look at
+              what happened to the information Nia brought — was it
+              discussed or pushed aside?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus thinks the website is better than what Nia's
+                sister said.
+          - level: developing
+            examples:
+              - >
+                Marcus dismisses the sister as "just what she heard"
+                but accepts the website without really checking it
+                either.
+          - level: differentiated
+            examples:
+              - >
+                Marcus treats the two sources differently — the sister
+                gets dismissed because she's "just one person" but the
+                website gets trusted because it looks professional.
+                Neither source was actually checked; the difference is
+                about how they look, not how reliable they are.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus found a website about recycling.
+          - level: developing
+            examples:
+              - >
+                The website is from a recycling company, and Marcus
+                trusts it because it has charts and looks professional.
+          - level: differentiated
+            examples:
+              - >
+                The website is from a recycling company that does
+                single-stream recycling. Marcus trusts it because it
+                looks professional and has statistics, but a company
+                that sells single-stream recycling might have a reason
+                to say good things about it.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They're talking about the website now.
+          - level: developing
+            examples:
+              - >
+                The group went from having two pieces of information
+                to focusing on just one — the website.
+          - level: differentiated
+            examples:
+              - >
+                The sister's information got dismissed, so now the
+                group is relying on just one source. That means
+                everything depends on whether that one source is
+                trustworthy.
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Marcus just believed the website.
+            - level: developing
+              examples:
+                - >
+                  Marcus trusted the website because it looked official
+                  and had numbers — he went by how it looked instead of
+                  thinking about who made it.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Nia was impressed by the website too.
+            - level: developing
+              examples:
+                - >
+                  When Marcus said he found a website with real data,
+                  Nia started treating him like he knew more, even
+                  though she still had her own concern.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marcus believed the website without questioning it,
+                  and that confidence made Nia start to back down even
+                  though her concern was never answered.
+            - level: differentiated
+              examples:
+                - >
+                  Marcus trusted the website because it looked
+                  professional, and his confidence about it made Nia
+                  feel like he had done real research. So the same thing
+                  that fooled Marcus — the website looking official —
+                  also made Nia less likely to push back, because she
+                  saw him as the one with the facts.
+
+  # ── Passage 3: The pivot ─────────────────────────────────────────
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+
+    evaluate:
+      difficulty: challenging
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at the reasons Marcus gives and where his conclusion
+              goes. Do they connect?
+            - >
+              Something about what his reasons are actually about versus
+              what his conclusion is about...
+        - lens: evidence
+          hints:
+            - >
+              Notice what Nia says about her own information compared
+              to Marcus's. What makes her feel like she can't argue?
+        - lens: scope
+          hints:
+            - >
+              Pay attention to what's included in Marcus's argument and
+              what's left out...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Marcus lays out his reasons and
+            reaches a conclusion. Try listing the reasons separately
+            and then looking at the conclusion — does it follow?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Nia still has a concern but feels
+            like she can't back it up. What makes her feel that way?
+        - lens: scope
+          prompt: >
+            Looking through Scope: Marcus wraps up his argument here.
+            What concerns from earlier are included, and what got left
+            out?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI asked whether Marcus's two reasons actually prove
+            his conclusion and whether something is missing. Did you
+            spot the gap, or did his argument feel convincing to you?
+        - lens: evidence
+          prompt: >
+            The AI didn't focus on Evidence for this part. Through your
+            lens, did you notice anything about how Nia talks about her
+            own information here?
+        - lens: scope
+          prompt: >
+            The AI noticed that Nia's concern is getting harder for her
+            to raise. Did you see that happening? What do you think is
+            making it harder?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marcus connected those two things because...
+        - category: social
+          starter: >
+            I think it was hard for Nia to keep pushing back because...
+        - category: interaction
+          starter: >
+            Marcus's argument felt convincing even though it had a gap,
+            and I think that's because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about how the reasons and conclusion
+            fit together. Now think about why that gap was hard to
+            spot — what made Marcus's argument feel like it made sense?
+        - lens: evidence
+          prompt: >
+            You noticed something about how Nia felt about her
+            information. Now think about why — what was happening in
+            the conversation that made her feel like she couldn't
+            push back?
+        - lens: scope
+          prompt: >
+            You noticed that part of the picture is missing from
+            Marcus's argument. Now think about why — what kept the
+            group from noticing what was left out?
+
+      ai_reflection_prompt: >
+        The AI talked about connecting things that seem related but
+        don't actually prove the point, and about how a group wanting
+        the same thing can make a gap harder to see. Does that match
+        your explanation, or did you see it a different way?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Marcus's argument makes sense because sorting is hard
+              and the website says it works
+            redirect: >
+              Those are the two reasons Marcus gives. Now look at what
+              he concludes from them. Is there anything his conclusion
+              is about that his reasons don't actually cover?
+          - pattern: >
+              The argument is good because he has two reasons
+            redirect: >
+              Having two reasons is a good start. But check whether
+              those two reasons actually prove the specific thing he's
+              concluding.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              Nia doesn't have evidence so Marcus wins
+            redirect: >
+              You noticed Nia feels like she can't argue. But think
+              about whether not having a website means her concern
+              isn't real.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              They covered both sides because Marcus talked about the
+              staff and the website
+            redirect: >
+              Look at what Marcus's argument is about. Now think back
+              to what Nia was worried about earlier — is that part of
+              his argument?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus says they should switch because of the staff
+                and the website.
+          - level: developing
+            examples:
+              - >
+                Marcus connects the staff struggling and the website
+                saying it works, but the environment part is missing
+                from his argument.
+          - level: differentiated
+            examples:
+              - >
+                Marcus's two reasons — sorting is hard and the website
+                says single-stream works — don't actually prove they
+                should switch, because neither one addresses the
+                environmental question that Nia raised. The conclusion
+                jumps past the actual concern.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                Nia feels like she can't argue because she doesn't
+                have a website.
+          - level: developing
+            examples:
+              - >
+                Nia still has a concern but she feels like it doesn't
+                count because she can't point to a website or numbers.
+          - level: differentiated
+            examples:
+              - >
+                Nia treats Marcus's website as the standard for what
+                counts as real information, so her own concern — which
+                might be valid — feels like it doesn't matter because
+                it didn't come from a website.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus talks about why they should switch.
+          - level: developing
+            examples:
+              - >
+                Marcus's argument only covers the practical side —
+                the environmental concern isn't part of it.
+          - level: differentiated
+            examples:
+              - >
+                Marcus wraps everything into one argument about
+                switching, but the environmental question Nia raised
+                isn't in there. The argument sounds complete because it
+                has two reasons, but it skips the concern that started
+                the disagreement.
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Marcus just jumped to a conclusion.
+            - level: developing
+              examples:
+                - >
+                  Marcus saw two things pointing the same direction and
+                  assumed that was enough — he didn't notice he was
+                  skipping over the environmental question.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They both wanted to help the staff.
+            - level: developing
+              examples:
+                - >
+                  Both of them want to help the custodial staff, and
+                  that shared goal made it easier to go along with
+                  Marcus's argument without checking it.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marcus skipped over the environment question, and
+                  because both of them wanted to help the staff, neither
+                  one caught the gap.
+            - level: differentiated
+              examples:
+                - >
+                  Marcus connected two reasons that pointed the same
+                  way and missed the environmental question. But the
+                  reason nobody caught the gap is that both he and Nia
+                  wanted to help the staff — that shared goal made the
+                  conclusion feel right even though the reasoning
+                  skipped the most important concern. The group's
+                  goal and the reasoning mistake fed into each other.
+
+  # ── Passage 4: Last pushback and concession ──────────────────────
+  - passage_id: passage_04
+    turns:
+      - turn_08
+      - turn_09
+      - turn_10
+
+    evaluate:
+      difficulty: moderate
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at what Nia asks and what Marcus responds about.
+              Are they talking about the same question?
+        - lens: evidence
+          hints:
+            - >
+              Notice how Marcus compares the two sources. What does he
+              say makes one better than the other?
+        - lens: scope
+          hints:
+            - >
+              Pay attention to what happens to Nia's concern by the
+              end of this part...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Nia raises a question. Does Marcus
+            actually answer it, or does he talk about something else?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Marcus says one source is better
+            than the other. What's his reason? Is that a good way to
+            decide?
+        - lens: scope
+          prompt: >
+            Looking through Scope: Nia had a concern at the start of
+            this part. What happened to it by the end?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI noticed that Nia asked about the environment but
+            Marcus responded about who has better information. Did you
+            catch that switch? Did it seem like a big deal or a small
+            thing?
+        - lens: evidence
+          prompt: >
+            The AI questioned whether having numbers automatically
+            makes a source more reliable. What do you think — does it?
+            What else might matter?
+        - lens: scope
+          prompt: >
+            The AI noticed the environmental concern being set aside —
+            not answered, just dropped. Did you see it the same way,
+            or did you think Marcus handled it?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marcus responded the way he did because...
+        - category: social
+          starter: >
+            I think Nia gave in because...
+        - category: interaction
+          starter: >
+            The reason the concern got dropped is that Marcus was so
+            confident and Nia felt like...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed Marcus didn't answer Nia's question. Now think
+            about why — what made it possible for him to change the
+            subject without anyone noticing?
+        - lens: evidence
+          prompt: >
+            You noticed how Marcus compared the sources. Now think
+            about why Nia accepted that comparison — what made her
+            feel like she should go with his source?
+        - lens: scope
+          prompt: >
+            You noticed the environmental concern getting dropped. Now
+            think about why Nia let it go — was it because she changed
+            her mind, or because of something else happening in the
+            conversation?
+
+      ai_reflection_prompt: >
+        The AI talked about trusting a source because it has numbers
+        and about stepping back because the other person seems to have
+        done more research. Do those ideas help explain what happened,
+        or do you think something else was going on?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Marcus answered Nia's question about the environment
+            redirect: >
+              Read Marcus's response again carefully. What is he
+              actually talking about — the environment, or something
+              else?
+          - pattern: >
+              The argument is fine because they agreed
+            redirect: >
+              They did agree. But look at what Nia asked and whether
+              it was answered before she agreed.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              The website is better because it has actual numbers
+            redirect: >
+              Numbers can be convincing. But think about who collected
+              those numbers and what they do for a living.
+          - pattern: >
+              A company knows more than one person's sister
+            redirect: >
+              That might be true sometimes. But think about whether
+              the company has a reason to say certain things about
+              single-stream recycling.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Nia changed her mind about the environment
+            redirect: >
+              Look at what made Nia agree. Did she say the environment
+              is fine, or did she say something else about why she's
+              going along?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus and Nia disagree and then agree.
+          - level: developing
+            examples:
+              - >
+                Nia asks about the environment, but Marcus talks about
+                which source is better instead of answering her
+                question.
+          - level: differentiated
+            examples:
+              - >
+                Nia brings up the environmental concern directly, but
+                Marcus shifts to comparing the website's numbers with
+                the sister's claim — he never actually addresses
+                whether switching is good for the environment. Nia
+                agrees, but the question she asked is still unanswered.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus says the website has better information.
+          - level: developing
+            examples:
+              - >
+                Marcus says the website has "actual numbers" and the
+                sister is "just going off something she heard," like
+                that settles it.
+          - level: differentiated
+            examples:
+              - >
+                Marcus frames it as numbers vs. hearsay, but the real
+                question is whether a recycling company's website is
+                trustworthy for an unbiased comparison — having numbers
+                doesn't mean the numbers are giving you the full
+                picture, especially if the source makes money from
+                single-stream.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                Nia agrees with Marcus.
+          - level: developing
+            examples:
+              - >
+                Nia drops her environmental concern and goes along
+                with Marcus because he seems to have done more
+                research.
+          - level: differentiated
+            examples:
+              - >
+                Nia's environmental concern gets set aside, but not
+                because it was answered — it was dropped because Marcus
+                made his source seem more trustworthy than hers. The
+                group reached agreement, but they're agreeing about a
+                question they never fully explored.
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Marcus just trusted the website too much.
+            - level: developing
+              examples:
+                - >
+                  Marcus saw numbers and a professional website and
+                  thought that made it automatically more trustworthy
+                  than what Nia's sister said, without thinking about
+                  who made the website or why.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Nia just went along with Marcus.
+            - level: developing
+              examples:
+                - >
+                  Nia gave in because Marcus seemed to have done real
+                  research, and she didn't feel like she could compete
+                  with a website.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marcus was convinced by the website, and his
+                  confidence about it made Nia feel like she should
+                  step back, even though her question was never
+                  answered.
+            - level: differentiated
+              examples:
+                - >
+                  Marcus trusted the website because it had numbers
+                  and looked professional, which made him really
+                  confident. That confidence made Nia feel like he had
+                  the stronger position — not because the environment
+                  question was answered, but because he seemed to have
+                  real research on his side. So Marcus's mistake in
+                  trusting the website created the pressure that made
+                  Nia give up her concern. The same thing that fooled
+                  him is what made her step back.
+
+  # ── Passage 5: Agreement and resolution ──────────────────────────
+  - passage_id: passage_05
+    turns:
+      - turn_11
+      - turn_12
+
+    evaluate:
+      difficulty: accessible
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Think about everything the group discussed. Is it all
+              reflected in this final decision?
+        - lens: evidence
+          hints:
+            - >
+              Marcus says the data backs up the decision. Think about
+              what data he means...
+        - lens: scope
+          hints:
+            - >
+              Think back to the beginning of the conversation. What
+              concerns were raised then? Which ones made it into the
+              final recommendation?
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: does the group's final
+            recommendation match everything they discussed, or is
+            something missing?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Marcus says "the data backs it
+            up." What data is he referring to? Is that new, or a
+            repeat of earlier?
+        - lens: scope
+          prompt: >
+            Looking through Scope: the group makes a recommendation.
+            Does it address all the concerns from earlier, or just
+            some of them?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI didn't highlight anything through Logic here.
+            Did you notice anything, or does this part feel like a
+            natural ending?
+        - lens: evidence
+          prompt: >
+            The AI didn't highlight much through Evidence here. Did
+            you notice Marcus saying "the data backs it up"? Is that
+            adding something new?
+        - lens: scope
+          prompt: >
+            The AI noticed the environmental question isn't part of
+            the final decision. Did that stand out to you? Do you
+            think it matters?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think the group feels confident about their decision
+            because...
+        - category: social
+          starter: >
+            By this point, I think neither person wanted to bring up
+            the environment again because...
+        - category: interaction
+          starter: >
+            The group ended up only thinking about one side of the
+            problem because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You looked at the group's conclusion. Now think about
+            the path they took to get there — why did they end up
+            with a decision that only covers part of the problem?
+        - lens: evidence
+          prompt: >
+            You noticed what Marcus counts as data. Now think about
+            how the group ended up relying on just that one source —
+            what happened along the way?
+        - lens: scope
+          prompt: >
+            You noticed what's missing from the recommendation. Now
+            think about why it's missing — what happened during the
+            conversation that caused the group to narrow their view?
+
+      ai_reflection_prompt: >
+        The AI talked about focusing so closely on one part of the
+        problem that you miss the bigger picture. Does that describe
+        what happened here? What was the bigger picture the group
+        lost track of?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              The decision makes sense because they have a good reason
+            redirect: >
+              Think about all the reasons that came up during the whole
+              conversation. Are they all part of this decision?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              They have data to support their decision
+            redirect: >
+              Think about where that data came from. Is there anything
+              about that source that might matter?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              It's a win-win because it helps the staff and recycling works
+            redirect: >
+              Marcus calls it a win-win. Think about who might not be
+              winning — was every concern from the conversation
+              included?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                They decided to switch to single-stream.
+          - level: developing
+            examples:
+              - >
+                They made a decision, but the environmental question
+                from earlier isn't part of it.
+          - level: differentiated
+            examples:
+              - >
+                The group reaches a conclusion that sounds complete —
+                it helps the staff and the data supports it — but the
+                environmental concern was never resolved. The decision
+                looks solid only if you forget that the environment
+                was part of the conversation.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                Marcus says the data backs it up.
+          - level: developing
+            examples:
+              - >
+                Marcus is repeating what the website said — this isn't
+                new information, just a reminder of the same source.
+          - level: differentiated
+            examples:
+              - >
+                Marcus says "the data backs it up" but he's referring
+                to the same recycling company website from before.
+                The group's whole recommendation depends on that one
+                source, and they never checked whether it was giving
+                them the full story.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They're recommending single-stream.
+          - level: developing
+            examples:
+              - >
+                They call it a win-win, but the environmental side
+                is missing from the recommendation.
+          - level: differentiated
+            examples:
+              - >
+                Marcus calls it a win-win, but the "win" only covers
+                the staff side. The environmental concern that Nia
+                raised at the beginning isn't just unresolved — it's
+                not even mentioned anymore. The group narrowed their
+                view without deciding to, and they don't seem to
+                realize anything is missing.
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They just forgot about the environment.
+            - level: developing
+              examples:
+                - >
+                  The group got so focused on the practical side —
+                  helping the staff — that they stopped thinking about
+                  the environmental question.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They both wanted to agree.
+            - level: developing
+              examples:
+                - >
+                  By this point, Nia had already backed down, so
+                  there was nobody left to bring up the environment.
+                  Once she agreed, the concern disappeared.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  The group focused on helping the staff and Nia had
+                  already given up her concern, so the environment
+                  just dropped out of the conversation.
+            - level: differentiated
+              examples:
+                - >
+                  The group's focus on helping the staff kept their
+                  attention on the practical side, and once Nia
+                  stepped back, there was nobody to bring the
+                  environmental concern back. The narrowed focus and
+                  the social pressure worked together — the more the
+                  group agreed, the less room there was to raise what
+                  was missing, and the less anyone noticed it was gone.

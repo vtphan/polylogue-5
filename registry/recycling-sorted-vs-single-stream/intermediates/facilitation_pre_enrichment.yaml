@@ -1,0 +1,636 @@
+scenario_id: recycling-sorted-vs-single-stream
+
+overview:
+  topic: Whether the school should switch from sorted recycling bins to single-stream recycling
+  targeted_facets_summary: >
+    This discussion targets two facets: source credibility (Evidence lens)
+    and inferential validity (Logic lens). Marcus cites a recycling company's
+    website without noticing the company's financial interest in promoting
+    single-stream. He then builds a flawed inference — "sorting is hard for
+    staff" plus "the website says it works" equals "we should switch" — skipping
+    over the environmental concern Nia raised. Nia gets won over by the
+    appearance of "real research" and drops her concern without it being addressed.
+  session_timing: >
+    Evaluate phase: ~20 minutes (5 min individual, 10 min peer, 5 min AI reveal).
+    Explain phase: ~20 minutes (5 min individual, 10 min peer, 5 min AI reveal).
+    Debrief: ~10 minutes. Total: ~50 minutes.
+  what_to_expect: >
+    Students tend to notice the website issue before the reasoning gap.
+    Evidence lens students will likely catch that the source is a recycling
+    company, but may not connect it to conflict of interest without prompting.
+    Logic lens students often feel that something is off about Marcus's argument
+    but struggle to articulate the gap. Scope lens students will notice the
+    environmental concern getting dropped. The biggest challenge: students may
+    agree with Marcus's reasoning (it feels practical and sensible) and need
+    help seeing what's missing rather than what's wrong.
+
+passage_guides:
+  # ── Passage 1 ─────────────────────────────────────────────────────
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+    summary: >
+      Marcus opens with the practical problem (sorting doesn't work, staff
+      is struggling) and proposes single-stream. Nia agrees the situation
+      is messy but raises her sibling's warning about single-stream ending
+      up in landfills.
+
+    whats_here:
+      - facet: Perspective breadth
+        quality: strong
+        visible_through:
+          - scope
+          - evidence
+        explanation: >
+          Both sides of the question are on the table — practical
+          (convenience for staff) and environmental (landfill risk). This
+          is a moment of strength. The discussion starts with genuine
+          breadth that will narrow later.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Try asking: "What are the different concerns being raised here?
+          Are they about the same thing or different things?" This helps
+          students identify the two threads before the discussion narrows.
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether the sibling's information
+          counts as evidence. Some will say it's just a rumor; others
+          will say it's worth considering.
+        productive_questions:
+          - "What different concerns are on the table right now?"
+          - "Do both people seem equally confident? Why or why not?"
+        watch_for: >
+          If students dismiss the opening as "just introductions," redirect
+          them to notice what each person brings to the table — this setup
+          matters for what comes later.
+      ai:
+        what_the_ai_will_say: >
+          The AI notes two different kinds of information (firsthand
+          observation vs. secondhand report) and observes that both
+          sides of the question are represented.
+        likely_student_reactions: >
+          Students will likely agree this is just setup and want to move
+          to the more interesting passages. That's fine — this passage
+          anchors what came before the shift.
+        follow_up: >
+          Ask students to hold onto what they noticed here and watch for
+          whether these concerns stay in the conversation.
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          This passage is mostly context-setting. If students struggle to
+          explain, that's expected — redirect them to passages 2-4 where
+          the patterns are stronger.
+      peer:
+        likely_disagreements: >
+          Minimal disagreement expected here. Students may differ on whether
+          the sibling's claim is worth taking seriously.
+        productive_questions:
+          - "Why do you think Marcus is so sure about his position already?"
+        watch_for: >
+          If the group spends too long here, nudge them forward — the
+          explanatory richness is in the later passages.
+      ai:
+        what_the_ai_will_say: >
+          The AI has minimal explanatory content for this passage. No
+          cognitive or social patterns are introduced here.
+        likely_student_reactions: >
+          Students will be ready to move on.
+        follow_up: >
+          Transition to passages where patterns emerge.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Marcus jumps straight to a conclusion
+        might_miss:
+          - This is setup, not argument — less to see through Logic here
+      - lens: evidence
+        will_likely_see:
+          - Two different kinds of information are being raised
+        might_miss:
+          - Neither claim has been verified yet
+      - lens: scope
+        will_likely_see:
+          - Both practical and environmental concerns are on the table
+        might_miss:
+          - This breadth is a strength that will narrow
+
+  # ── Passage 2 ─────────────────────────────────────────────────────
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+    summary: >
+      Marcus dismisses the sibling as "just what she heard" and introduces
+      the recycling company's website — professional-looking, with charts
+      and statistics. He argues the company would know because "this is
+      literally what they do."
+
+    whats_here:
+      - facet: Source credibility
+        quality: weak
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Marcus trusts the recycling company's website because it looks
+          professional and has statistics (uncritical acceptance). He treats
+          the company as an authority because they work in recycling,
+          without considering that a company selling single-stream services
+          has a financial interest in promoting them.
+      - facet: Source diversity
+        quality: weak
+        visible_through:
+          - evidence
+          - scope
+        explanation: >
+          Emergent. The group narrows from two information sources to one.
+          Marcus dismisses the sibling and offers only his website. The
+          decision will rest on a single source.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Evidence lens students: "Think about who made this website.
+          What does that company do?" For Logic lens students: "Marcus says
+          the company would know best. What's his reason for believing that?"
+      peer:
+        likely_disagreements: >
+          Evidence students will likely debate whether the website is
+          trustworthy. Some will accept it because it has data; others may
+          question the source. Logic students may disagree about whether
+          Marcus's dismissal of the sibling is fair.
+        productive_questions:
+          - "What makes Marcus trust this website?"
+          - "If you were Nia, what would you want to know about the website before accepting it?"
+        watch_for: >
+          If students say "the website has data so it must be right,"
+          that's a sign they're making the same move Marcus makes. Don't
+          correct them — note it for the AI reveal.
+      ai:
+        what_the_ai_will_say: >
+          Through Evidence, the AI asks what might affect what a recycling
+          company chooses to include on its website. Through Logic, it notes
+          that one source is dismissed and another elevated based on who
+          they are, not what they said.
+        likely_student_reactions: >
+          The Evidence observation may surprise students — many won't have
+          considered the company's financial interest. Expect some "oh wait"
+          moments. Some students may push back ("but they're experts!").
+        follow_up: >
+          Bridge to Explain: "Now that you've noticed something about this
+          source, think about why Marcus might have trusted it so quickly.
+          What about the website made it feel believable?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Try: "Think about what Marcus saw when he looked at the website.
+          What made him feel like it was trustworthy? Was it the information
+          itself, or something else about the website?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Marcus was being careless or
+          whether it's natural to trust a professional-looking website. Both
+          readings are valid.
+        productive_questions:
+          - "Have you ever trusted something online because it looked official? What made it convincing?"
+          - "What's the difference between a source being an expert and a source being trustworthy?"
+        watch_for: >
+          If students only blame Marcus ("he should have checked"), push
+          toward the structural question — what about the situation made it
+          easy to trust? The goal is to understand the pattern, not to
+          assign blame.
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces uncritical acceptance — believing something
+          because it comes in a trustworthy-looking package. Framed as a
+          pattern researchers study, not as Marcus's personal failing.
+        likely_student_reactions: >
+          Students may recognize this pattern in themselves. Some may feel
+          defensive ("I would have noticed"). Normalize both reactions.
+        follow_up: >
+          Connect to real-world media literacy: "Where else do you
+          encounter information that looks official but might have a
+          reason to present things a certain way?"
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Marcus dismisses the sibling and accepts the website based on who they are
+        might_miss:
+          - That the website's authority is about appearance, not about the quality of information
+      - lens: evidence
+        will_likely_see:
+          - The website is from a recycling company
+          - It has charts, percentages, and looks professional
+        might_miss:
+          - The company profits from single-stream adoption (conflict of interest)
+      - lens: scope
+        will_likely_see:
+          - The sibling's perspective is being dismissed
+        might_miss:
+          - The group is narrowing from two sources to one
+
+  # ── Passage 3 ─────────────────────────────────────────────────────
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+    summary: >
+      Nia wavers — the website sounds legit but she still worries about
+      the landfill issue. Marcus pulls his argument together: staff says
+      sorting is too hard, website says single-stream works, so why
+      wouldn't they switch?
+
+    whats_here:
+      - facet: Inferential validity
+        quality: weak
+        visible_through:
+          - logic
+        explanation: >
+          Marcus connects two premises — "sorting is hard for staff" and
+          "the website says single-stream is effective" — and treats them
+          as proof they should switch. But neither premise addresses the
+          environmental concern Nia raised. The conclusion doesn't follow
+          because it skips over the actual question at stake (false cause
+          pattern, reinforced by conformity — both want to help the staff).
+      - facet: Counter-argument engagement
+        quality: weak
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Emergent. Nia names her lingering concern but frames it as
+          indefensible ("I don't have a website"). Marcus's packaged
+          argument bypasses rather than addresses the concern. The
+          counter-argument is sidelined, not rebutted.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Logic lens students: "Look at the reasons Marcus gives and
+          the conclusion he reaches. Do those reasons actually prove that
+          conclusion?" For Scope lens students: "What happened to Nia's
+          concern about the environment? Is it part of this decision?"
+      peer:
+        likely_disagreements: >
+          Logic students may disagree about whether Marcus's argument
+          makes sense — it feels intuitive even though it has a gap.
+          Scope students may disagree about whether Nia's concern was
+          adequately addressed.
+        productive_questions:
+          - "What are the two reasons Marcus gives? What is he concluding from them?"
+          - "Is there something Marcus's argument doesn't cover?"
+        watch_for: >
+          Many students will find Marcus's argument persuasive because it
+          feels practical. If peer discussion stalls with agreement that
+          Marcus is right, ask: "What question did Nia raise earlier that
+          isn't part of Marcus's argument?"
+      ai:
+        what_the_ai_will_say: >
+          Through Logic, the AI asks whether Marcus's two reasons actually
+          prove his conclusion and whether anything is missing. Through
+          Scope, it notes Nia's concern is getting harder to raise.
+        likely_student_reactions: >
+          Logic lens students may have an "aha" moment when they see the
+          gap. Others may still feel Marcus makes a good point. Scope
+          students will likely relate to Nia's experience of having a
+          concern but feeling unable to voice it.
+        follow_up: >
+          Bridge to Explain: "Now think about why this argument felt
+          convincing, even with something missing. What made it hard to
+          spot the gap?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Try: "Think about what both Marcus and Nia want — they both want
+          to help the staff. How might that shared goal affect whether they
+          notice a gap in the argument?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Marcus's reasoning was
+          intentionally misleading or just a natural mistake. Both readings
+          lead to productive discussion.
+        productive_questions:
+          - "Why does Marcus's argument feel convincing even though it doesn't cover the environmental question?"
+          - "What was happening in the group that might have made it easier to miss the gap?"
+        watch_for: >
+          If students only focus on Marcus's thinking error, redirect to
+          the group dimension — how did the shared goal of helping the
+          staff affect what felt like a good reason?
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces false cause (connecting related things that
+          don't actually prove the conclusion) and conformity (the shared
+          goal making the leap feel reasonable). Framed as patterns, not
+          blame.
+        likely_student_reactions: >
+          The false cause concept may be new. Students might need a moment
+          to distinguish "these things are related to the topic" from
+          "these things prove the conclusion." The conformity piece often
+          resonates — students recognize wanting to go along.
+        follow_up: >
+          Ask students to think about times they agreed with something
+          because the whole group wanted it to be true.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Marcus combines two reasons that don't prove his conclusion
+        might_miss:
+          - That the two premises feel convincing because they point the same direction
+      - lens: evidence
+        will_likely_see:
+          - Nia feels she can't argue without a website
+        might_miss:
+          - That the reasoning gap is a logic issue, not an evidence issue
+      - lens: scope
+        will_likely_see:
+          - The environmental concern is being pushed aside
+        might_miss:
+          - That the narrowing comes from Marcus's framing, not from a deliberate choice
+
+  # ── Passage 4 ─────────────────────────────────────────────────────
+  - passage_id: passage_04
+    turns:
+      - turn_08
+      - turn_09
+      - turn_10
+    summary: >
+      Nia makes one last push about the environment. Marcus deflects by
+      comparing sources — the website has numbers, the sibling is "just
+      going off something she heard." Nia concedes, saying actual research
+      probably makes more sense.
+
+    whats_here:
+      - facet: Source credibility
+        quality: weak
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Marcus frames the choice as "actual numbers" vs. hearsay, making
+          the website seem authoritative by contrast. Nia defers because
+          Marcus appears to have done "real research" (authority deference).
+          The company's conflict of interest remains unquestioned.
+      - facet: Inferential validity
+        quality: weak
+        visible_through:
+          - logic
+        explanation: >
+          Nia explicitly names the gap — "we never really figured out the
+          environment part" — but Marcus responds by comparing sources
+          instead of addressing the missing reasoning. The inferential gap
+          persists through deflection.
+      - facet: Counter-argument engagement
+        quality: weak
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Emergent. Nia's environmental concern is dismissed through source
+          comparison rather than engaged with on substance. She concedes
+          without the concern being addressed.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For all lenses: "Look at what Nia asks and what Marcus says back.
+          Are they talking about the same thing?" This one question works
+          across lenses because the deflection is visible from every angle.
+      peer:
+        likely_disagreements: >
+          This is the highest-diversity passage. Evidence students will
+          focus on the source comparison. Logic students will see the
+          unanswered question. Scope students will see the concern being
+          dropped. Cross-lens disagreement is productive here — let
+          students discover they're seeing different things.
+        productive_questions:
+          - "What does Nia ask about? What does Marcus respond about?"
+          - "Does Nia change her mind because her question was answered, or for a different reason?"
+        watch_for: >
+          If students from different lenses are disagreeing about what's
+          important, that's the perspectival learning model working. Don't
+          resolve the disagreement — name it as valuable.
+      ai:
+        what_the_ai_will_say: >
+          Through Logic, the AI notes the unanswered question. Through
+          Evidence, it questions whether having numbers automatically makes
+          a source reliable. Through Scope, it observes the environmental
+          concern being set aside.
+        likely_student_reactions: >
+          This is often the most impactful AI reveal. Students may realize
+          they missed the deflection. Some will feel sympathy for Nia.
+          Evidence students may be surprised that the AI questions the
+          numbers.
+        follow_up: >
+          Bridge to Explain: "Think about what happened in this group.
+          Why did Nia give in? Was it because she changed her mind about
+          the environment, or because of something else happening in the
+          group?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Try: "Think about Nia's situation. She has a concern, but Marcus
+          has a website. What is it about that situation that makes it hard
+          for her to keep pushing?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Nia was right to give in.
+          Some will say she was being reasonable; others will say she
+          gave up too easily. Both perspectives are productive.
+        productive_questions:
+          - "Why does having 'actual research' feel more powerful than having a concern?"
+          - "Have you ever let go of an idea because someone else seemed more sure?"
+        watch_for: >
+          If the group focuses only on Nia's weakness, redirect to the
+          interaction — how did Marcus's certainty and Nia's deference
+          work together? Both sides of the dynamic matter.
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces uncritical acceptance (trusting the source's
+          numbers) and authority deference (stepping back because the other
+          person seems to have done research). It notes how the two
+          patterns reinforce each other.
+        likely_student_reactions: >
+          Authority deference often resonates strongly — students recognize
+          the experience of deferring to whoever seems most confident.
+          The interaction between patterns (confidence creating deference)
+          is the deepest level and may need teacher support.
+        follow_up: >
+          Connect to students' own group work experiences. When do they
+          defer? What makes someone's position feel more "real"?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Nia asks about the environment but Marcus talks about sources
+          - The original question is still unanswered
+        might_miss:
+          - That Marcus's response is a deflection that changes the subject without seeming to
+      - lens: evidence
+        will_likely_see:
+          - Marcus contrasts "actual numbers" with "something she heard"
+          - He treats the recycling company as more trustworthy than one person
+        might_miss:
+          - That the company has a financial interest in promoting single-stream
+      - lens: scope
+        will_likely_see:
+          - Nia raises the environmental concern and then drops it
+          - Agreement is reached without resolving the disagreement
+        might_miss:
+          - That Nia drops her concern because of social pressure, not because she was convinced
+
+  # ── Passage 5 ─────────────────────────────────────────────────────
+  - passage_id: passage_05
+    turns:
+      - turn_11
+      - turn_12
+    summary: >
+      Marcus proposes recommending single-stream to the class, framing it
+      as helping the staff and being backed by data. Nia agrees. The
+      environmental concern is absent from the final recommendation.
+
+    whats_here:
+      - facet: Consequence consideration
+        quality: weak
+        visible_through:
+          - scope
+          - logic
+        explanation: >
+          Emergent. The group recommends single-stream without considering
+          what would happen if the sibling's warning is correct. Marcus
+          calls it a "win-win" without examining downstream effects
+          (tunnel vision — focused on the immediate benefit, missing the
+          bigger picture).
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Scope lens students: "Think back to the beginning — what was
+          Nia worried about? Is that worry part of the final decision?"
+          For other lenses, this passage has less to observe.
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether the group made a good
+          decision. Some will think the recommendation is reasonable;
+          others will notice what was left out.
+        productive_questions:
+          - "Is this really a win-win? Who wins and who might lose?"
+          - "What would you want to check before making this recommendation?"
+        watch_for: >
+          This passage is a natural reflection point. If discussion feels
+          complete, use it to bridge to the debrief rather than pushing
+          for more analysis.
+      ai:
+        what_the_ai_will_say: >
+          Through Scope, the AI notes the environmental question is no
+          longer part of the conversation and the "win-win" framing only
+          covers one side.
+        likely_student_reactions: >
+          Students who identified with Marcus may feel the AI is being too
+          critical. Students who identified with Nia may feel validated.
+        follow_up: >
+          Bridge to Explain: "The group agreed — but think about the
+          path they took to get here. What got left behind along the way?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Try: "The group started with two big concerns. Count how many
+          are in the final decision. What happened to the other one?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether it's realistic to consider
+          everything. Some will say you have to make a decision and move on.
+        productive_questions:
+          - "Is it okay to leave out a concern when you make a decision? When is it okay and when isn't it?"
+        watch_for: >
+          If students are ready to move to debrief, let them. This passage
+          is closure, not the main analytical target.
+      ai:
+        what_the_ai_will_say: >
+          The AI introduces tunnel vision — focusing on one aspect so
+          closely that the bigger picture is lost.
+        likely_student_reactions: >
+          Students may recognize this in their own decision-making.
+        follow_up: >
+          Transition to whole-class debrief.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - The decision is stated as settled
+        might_miss:
+          - The reasoning behind the decision was incomplete
+      - lens: evidence
+        will_likely_see:
+          - Marcus says "the data backs it up"
+        might_miss:
+          - This is a restatement, not new evidence
+      - lens: scope
+        will_likely_see:
+          - The environmental concern is absent from the final recommendation
+          - Marcus calls it a "win-win" but only one side was considered
+        might_miss:
+          - The group never decided the environment didn't matter — they just stopped talking about it
+
+debrief:
+  key_takeaways:
+    - >
+      Source credibility requires looking beyond appearance. A website
+      with charts and statistics can still be unreliable if the source
+      has a financial interest in what it's promoting. Students should
+      learn to ask "who made this and what do they gain?" not just
+      "does it look professional?"
+    - >
+      A conclusion can feel logical without actually following from the
+      reasons given. Marcus's argument (sorting is hard + website says it
+      works = switch) skips over the environmental question entirely.
+      Recognizing gaps in reasoning is harder when the conclusion feels
+      practical and the group wants it to be true.
+    - >
+      Group dynamics shape what gets heard. Nia's environmental concern
+      was raised multiple times but never addressed — it was sidelined
+      by source comparison and social pressure, not by reasoning. Students
+      should notice when a concern is dropped vs. when it's answered.
+
+  cross_group_prompts:
+    - >
+      For groups that had different lens assignments: "What did your group
+      notice first — the source, the reasoning, or the dropped concern?
+      Did groups with different lenses see different things in the same
+      passage?"
+    - >
+      "In Passage 4, Nia asks about the environment and Marcus responds
+      about sources. Did your group catch that switch? Which lens helped
+      you see it?"
+    - >
+      "Think about Marcus's argument: 'the staff says it's hard and the
+      website says it works, so we should switch.' Some groups may have
+      found this convincing. Others may have noticed the gap. What made
+      the difference?"
+    - >
+      "Nia gave in because Marcus seemed to have better research. Has
+      that ever happened in your own group discussions? What could a group
+      do to make sure everyone's concerns get heard?"
+
+  connection_to_next: >
+    This session exercised two core capacities: evaluating whether a
+    source is trustworthy for a specific claim (not just trustworthy in
+    general), and checking whether a conclusion actually follows from the
+    reasons given. Future sessions may introduce different facets — like
+    noticing when a group considers only one perspective or when evidence
+    doesn't match the size of the claim — building on the observational
+    habits practiced here.

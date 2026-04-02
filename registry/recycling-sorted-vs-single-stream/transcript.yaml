@@ -1,0 +1,97 @@
+scenario_id: recycling-sorted-vs-single-stream
+personas:
+- name: Marcus
+  perspective: 'Thinks the school should switch to single-stream recycling because it''s easier for the
+    staff and backed by data he found online.
+
+    '
+- name: Nia
+  perspective: 'Worried that single-stream recycling might hurt the environment based on what her older
+    sibling told her.
+
+    '
+turns:
+- speaker: Marcus
+  sentences:
+  - text: Okay so I was thinking about this, and honestly we should just do single-stream recycling.
+    sentence_id: turn_01.s01
+  - text: Have you seen the recycling area? Nobody sorts anything right and the custodial staff is always
+      complaining about it.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Nia
+  sentences:
+  - text: Yeah, the bins are kind of a mess.
+    sentence_id: turn_02.s01
+  - text: But my sister told me that when you mix everything together, a lot of it just ends up in the
+      landfill because they can't separate it after.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Marcus
+  sentences:
+  - text: That's just what your sister heard though.
+    sentence_id: turn_03.s01
+  - text: I actually went and looked this up — I found this recycling company's website and they had real
+      data on it, and they said single-stream is just as effective.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Nia
+  sentences:
+  - text: Wait, really? What did it say exactly?
+    sentence_id: turn_04.s01
+  turn_id: turn_04
+- speaker: Marcus
+  sentences:
+  - text: It had all these charts and percentages and stuff, and the whole site looked really professional.
+    sentence_id: turn_05.s01
+  - text: And I mean, they're a recycling company — this is literally what they do, so obviously they'd
+      know better than most people.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Nia
+  sentences:
+  - text: Okay that does sound pretty legit.
+    sentence_id: turn_06.s01
+  - text: I just keep thinking about what my sister said about the landfill thing, but I don't have like
+      a website or anything to show for it.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Marcus
+  sentences:
+  - text: Right, and the staff keeps saying sorting is way too hard, plus the website says single-stream
+      works just as well — so it's like, why would we not switch?
+    sentence_id: turn_07.s01
+  - text: It just makes total sense.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Nia
+  sentences:
+  - text: But we never really figured out the environment part though — like does it actually help the
+      environment or not?
+    sentence_id: turn_08.s01
+  turn_id: turn_08
+- speaker: Marcus
+  sentences:
+  - text: The website had actual numbers and your sister is just going off something she heard.
+    sentence_id: turn_09.s01
+  - text: I'd trust a whole company that does recycling for a living over one person.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Nia
+  sentences:
+  - text: Yeah, I guess you're right. Going with actual research probably makes more sense.
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Marcus
+  sentences:
+  - text: So let's tell the class we should switch to single-stream — it helps the staff and the data
+      backs it up.
+    sentence_id: turn_11.s01
+  - text: It's kind of a win-win.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Nia
+  sentences:
+  - text: Okay yeah, let's go with that.
+    sentence_id: turn_12.s01
+  turn_id: turn_12

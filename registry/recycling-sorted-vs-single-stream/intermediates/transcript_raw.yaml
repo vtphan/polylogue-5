@@ -1,0 +1,69 @@
+scenario_id: recycling-sorted-vs-single-stream
+
+personas:
+  - name: Marcus
+    perspective: >
+      Thinks the school should switch to single-stream recycling because
+      it's easier for the staff and backed by data he found online.
+  - name: Nia
+    perspective: >
+      Worried that single-stream recycling might hurt the environment
+      based on what her older sibling told her.
+
+turns:
+  - speaker: Marcus
+    sentences:
+      - text: "Okay so I was thinking about this, and honestly we should just do single-stream recycling."
+      - text: "Like, have you seen the recycling area? Nobody sorts anything right and the custodial staff is always complaining about it."
+
+  - speaker: Nia
+    sentences:
+      - text: "Yeah, the bins are kind of a mess."
+      - text: "But my sister told me that when you mix everything together, a lot of it just ends up in the landfill anyway because they can't separate it after."
+
+  - speaker: Marcus
+    sentences:
+      - text: "I mean, that's just what your sister said though."
+      - text: "I actually looked this up and I found this recycling company's website that has real stats on it, and they said single-stream is just as effective."
+
+  - speaker: Nia
+    sentences:
+      - text: "Wait, really? What did it say exactly?"
+
+  - speaker: Marcus
+    sentences:
+      - text: "It had all these charts and numbers showing that single-stream works, and the website looked super professional."
+      - text: "Plus they're a recycling company — they literally do this for a living, so they would know."
+      - text: "It said single-stream is 'just as effective' as sorting everything yourself."
+
+  - speaker: Nia
+    sentences:
+      - text: "Okay that does sound pretty legit."
+      - text: "I just keep thinking about what my sister said about the landfill thing, but I don't really have like a website or anything to back it up."
+
+  - speaker: Marcus
+    sentences:
+      - text: "And think about it — the staff is saying sorting is way too much work, and the website says single-stream works just as well, so like, why wouldn't we switch?"
+      - text: "It just makes sense."
+
+  - speaker: Nia
+    sentences:
+      - text: "But what about the environment part? Like we never really talked about whether it actually helps the environment or not."
+
+  - speaker: Marcus
+    sentences:
+      - text: "The website had actual numbers though, and your sister is just going off something she heard somewhere."
+      - text: "I'd trust a whole recycling company over one person, you know?"
+
+  - speaker: Nia
+    sentences:
+      - text: "Yeah, I guess you're right. Going with actual research makes more sense."
+
+  - speaker: Marcus
+    sentences:
+      - text: "So let's recommend single-stream to the class — it helps the staff and the data backs it up."
+      - text: "It's kind of a win-win."
+
+  - speaker: Nia
+    sentences:
+      - text: "Okay yeah, let's go with that."
