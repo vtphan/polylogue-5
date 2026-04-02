@@ -63,7 +63,7 @@ Using the operator's input and the reference data files, draft a complete scenar
 - `target_facets` must reference valid IDs from `configs/reference/facet_inventory.yaml`
 - `designed_explanation` must reference valid IDs from `configs/reference/explanatory_variables.yaml`
 
-Present the drafted plan to the operator for initial review before validation.
+Proceed directly to validation — do not pause for operator review.
 
 ### Step 2: Validation Agent — Review the Plan
 
@@ -77,11 +77,11 @@ Review the scenario plan against all six criteria:
 5. Turn outline anti-patterns
 6. Signal mechanism fidelity
 
-Report findings as PASS/ISSUE/SUGGESTION per criterion.
+Report findings as PASS/ISSUE/SUGGESTION per criterion. If all criteria pass, proceed directly to the quality checklist — do not pause for operator review. If any criterion is an ISSUE, address it and re-validate before proceeding.
 
 ### Step 3: Operator Gate
 
-Present the validation results to the operator. The operator decides:
+Present the completed scenario plan and validation results together. The operator decides:
 - **Approve** — proceed to save the plan
 - **Revise** — address specific issues and re-validate
 - **Reject** — start over with a new approach
