@@ -59,15 +59,158 @@ The difficulty increases through two mechanisms:
 
 **Status:** GENERATED (exists at `registry/ocean-vs-deforestation/`)
 
-See `docs/implementation-pipeline.md`, Test Scenario A for the full operator prompt and design notes.
+### Operator Prompt
+
+```
+Topic: Whether to focus the group's environmental project on ocean pollution
+or deforestation
+
+Context: A 6th-grade STEM class is working on the PBL driving question: "What
+are the major threats affecting our global environment, and what can our
+communities do to protect our ecosystems?" This group needs to choose one
+environmental issue for their semester project. They're debating between ocean
+pollution (one member saw a documentary about plastic in the Pacific) and
+deforestation (another member read about Amazon fires). They can only pick one.
+
+Instructional goals:
+- Practice noticing when someone's evidence doesn't actually support the
+  specific claim they're making
+- Practice noticing when the group only considers one side of a question
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Relevance (Evidence lens) — one persona uses evidence about ocean pollution
+  in general to argue their local project should focus on it, but the evidence
+  is about a different scale and context than what their project could address.
+  Signal mechanism: The persona cites dramatic facts from a documentary about
+  the Great Pacific Garbage Patch — millions of tons of plastic, sea turtles —
+  to argue their school group should do an ocean pollution project. The
+  documentary evidence is real and compelling but it's about a global-scale
+  problem in the Pacific, not about what a school group can do locally. The
+  gap is between the evidence's scope (Pacific Ocean) and the project's scope
+  (their school). The persona doesn't notice the mismatch because the
+  documentary was so dramatic.
+  Cognitive pattern: overgeneralization. Social dynamic: conformity (the other
+  persona finds the documentary compelling and doesn't push back on the
+  relevance gap).
+  Carrier persona: the ocean-pollution advocate.
+
+- Counter-argument engagement (Scope lens) — the persona arguing for
+  deforestation raises real concerns about feasibility, but the group moves
+  past them rather than actually engaging.
+  Signal mechanism: When the deforestation persona raises feasibility concerns
+  ("we don't live near the ocean," "can we actually do anything about this?"),
+  the ocean-pollution persona dismisses them with "we can figure that out
+  later" and redirects to how important ocean pollution is. The concern is
+  acknowledged just enough to not feel ignored, but never actually addressed.
+  The feasibility question — which is the strongest counterargument — gets
+  replaced by emotional urgency about the problem's size.
+  Cognitive pattern: confirmation bias (the ocean-pollution persona dismisses
+  the concern because it threatens their preferred choice). Social dynamic:
+  conflict avoidance (the deforestation persona lets it go rather than
+  pressing).
+  Carrier persona: the ocean-pollution advocate.
+
+Discussion dynamic: The personas must genuinely disagree — they want different
+projects, not just different angles on the same project. One is passionate
+about ocean pollution because of a documentary; the other thinks deforestation
+is more practical because they could plant trees at school. The ocean-pollution
+persona is more enthusiastic and emotionally invested; the deforestation
+persona is more practical but less assertive. The shift happens when the
+practical persona starts backing down in the face of the other's enthusiasm
+and confident citing of dramatic facts. The discussion ends when they pick
+ocean pollution, with the deforestation persona's concerns unresolved — not
+because they were wrong, but because they stopped pressing.
+```
+
+### Design Notes
+
+- The relevance gap should be subtle — the documentary evidence is real and interesting, just not relevant to their specific local project scope. If the gap is too obvious, the dialog writer has failed.
+- The counter-argument dismissal ("we can figure that out later") should feel natural, not cartoonish. Real groups do this constantly.
+- Check that the conflict avoidance dynamic is visible — the deforestation persona should push back at least once before yielding.
 
 ---
 
 ## Scenario 2: School Garden Water
 
-**Status:** PROMPT READY (test case in README.md)
+**Status:** GENERATED (exists at `registry/school-garden-water/`)
 
-See the Test Case section of `README.md` for the full operator prompt. This scenario is designed as the pipeline test case — run it first to validate the revised agent prompts.
+### Operator Prompt
+
+```
+Topic: Whether the school garden project should use the school's water supply
+or set up a rainwater collection system
+
+Context: A 6th-grade STEM class is working on the PBL driving question: "What
+are the major threats affecting our global environment, and what can our
+communities do to protect our ecosystems?" This group is planning the school
+garden (a real project at the school) and needs to decide how to water it.
+One option is simple — use the school's hose. The other is more ambitious —
+build a rain barrel system. The principal said they can do either but the
+garden needs to be running by spring.
+
+Instructional goals:
+- Practice noticing when a conclusion is bigger than what the discussion
+  actually showed
+- Practice noticing whose perspectives are missing from the discussion
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Sufficiency (Evidence lens) — one persona claims the rain barrel system
+  "will definitely provide enough water" based on one website about rainfall
+  in a different climate.
+  Signal mechanism: The persona found one website about rainwater harvesting
+  in Portland, Oregon, where it rains significantly more than their city.
+  The website showed rain barrels collected "plenty of water" for a community
+  garden there. The persona extrapolates from this single source to confident
+  certainty — "ours would definitely get enough water too" — without checking
+  local rainfall, costs, or setup requirements. The other persona asks about
+  the climate difference ("doesn't it rain way more in Portland?") but the
+  question gets brushed past. The evidence is thin for a confident conclusion,
+  but the persona's certainty makes it feel adequate in the moment.
+  Cognitive pattern: false certainty (states the conclusion with no
+  qualification despite minimal evidence). Social dynamic: authority deference
+  (the other persona defers because "you researched it").
+  Carrier persona: the rain-barrel advocate.
+
+- Perspective breadth (Scope lens) — neither persona considers the custodial
+  staff who would maintain the system, the science teacher who runs the garden
+  club, or what happens over summer break.
+  Signal mechanism: Both students shift into excited planning mode — where to
+  put barrels, how to connect them to the roof drainage, when to start
+  building — entirely from their own perspective as students. They plan to
+  attach things to school property, use the building's roof drainage, and
+  start construction this week, without mentioning custodial staff, the
+  science teacher who runs garden club, the principal who set the deadline,
+  or summer maintenance. The plan only reflects student enthusiasm. The
+  absence of other stakeholders is what students need to notice — it's about
+  who's NOT in the conversation, not about what argument was dismissed.
+  Cognitive pattern: egocentric thinking (only considered their own
+  perspective as students). Social dynamic: groupthink (both were excited
+  and neither stepped back to ask "who else should we talk to?").
+  Carrier persona: both (but the rain-barrel advocate drives the planning).
+
+Discussion dynamic: The personas should disagree about which option is
+better — one wants the simple hose, the other wants the rain barrels. The
+rain-barrel persona is more enthusiastic and has done research (one website);
+the hose persona is pragmatic but not assertive. The shift happens when the
+hose persona concedes because the other "actually looked into it" — deference
+to the appearance of research rather than genuine persuasion. Once they agree,
+both get caught up in excited planning, building on each other's ideas about
+barrel placement and design. The discussion ends with a confident decision
+to build rain barrels and start designing this week. Neither student has
+mentioned talking to any adult or considered who maintains things over summer.
+The weakness in the second half is absence — what's missing from the
+conversation, not what's wrong with what's said.
+```
+
+### Design Notes
+
+- The sufficiency weakness should be clear in hindsight but not obvious on first read — "one website" is thin evidence, but the persona's confidence makes it feel adequate in the moment.
+- The perspective breadth gap tests a different kind of Scope weakness than counter-argument engagement — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
+- Check that authority deference is distinguishable from conformity — the hose persona defers specifically because the other "did the research," not because of general social pressure.
 
 ---
 
