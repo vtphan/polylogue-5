@@ -1,0 +1,208 @@
+scenario_id: garden-water-supply-decision
+
+topic: Whether the school garden project should use the school's water supply or set up a rainwater collection system
+
+context: >
+  A 6th-grade STEM class is working on the PBL driving question: "What are
+  the major threats affecting our global environment, and what can our
+  communities do to protect our ecosystems?" This group is planning the school
+  garden (a real project at the school) and needs to decide how to water it.
+  One option is simple — use the school's hose. The other is more ambitious —
+  build a rain barrel system. The principal said they can do either but the
+  garden needs to be running by spring.
+
+instructional_goals:
+  - Practice noticing when a conclusion is bigger than what the discussion actually showed
+  - Practice noticing whose perspectives are missing from the discussion
+
+discussion_dynamic: >
+  The personas should disagree about which option is better — one wants the
+  simple hose, the other wants the rain barrels. The rain-barrel persona is
+  more enthusiastic and has done research (one website); the hose persona is
+  pragmatic but not assertive. The shift happens when the hose persona
+  concedes because the other "actually looked into it" — deference to the
+  appearance of research rather than genuine persuasion. Once they agree, both
+  get caught up in excited planning, building on each other's ideas about
+  barrel placement and design. The discussion ends with a confident decision
+  to build rain barrels and start designing this week. Neither student has
+  mentioned talking to any adult or considered who maintains things over
+  summer. The weakness in the second half is absence — what's missing from
+  the conversation, not what's wrong with what's said.
+
+personas:
+  - name: Maya
+    perspective: >
+      Believes the rain barrel system is the better choice because it's better
+      for the environment and more interesting. Excited about building something
+      ambitious. Wants the garden project to be impressive, not just "hooking up
+      a hose."
+    knowledge: >
+      Found a website about a community garden in Portland, Oregon that used
+      rain barrels and collected plenty of water. Read about how the barrels
+      connect to roof drainage. Has not looked into local rainfall amounts,
+      costs, or how rain barrels work in different climates.
+    weaknesses: >
+      Talks about what she read online with total confidence even though she
+      only checked one source from a completely different climate. When
+      challenged, brushes past the question rather than addressing it. Gets
+      caught up in her own excitement and jumps straight into planning details
+      without thinking about who else at the school would need to be involved
+      or what happens when students aren't around.
+
+  - name: Jake
+    perspective: >
+      Thinks using the school's hose is the practical choice — it's simple,
+      it's already there, and they know it works. Worried about the spring
+      deadline and whether rain barrels are too complicated. Not strongly
+      opposed to rain barrels, just cautious.
+    knowledge: >
+      Knows the school already has outdoor hose hookups near the garden area.
+      Aware that the principal set a spring deadline. Hasn't done specific
+      research on either option.
+    weaknesses: >
+      Backs down when someone seems to have done more research, even if the
+      research is thin. Once he agrees, gets swept up in the other person's
+      enthusiasm and starts adding his own ideas without stepping back to ask
+      practical questions about who else needs to be involved or what happens
+      long-term.
+
+target_facets:
+  - facet_id: sufficiency
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through:
+      - scope
+      - logic
+    designed_explanation:
+      cognitive_pattern: false_certainty
+      social_dynamic: authority_deference
+      interaction_note: >
+        Maya states her conclusion with complete confidence despite having only
+        one source from a different climate. Jake defers to this confidence
+        because Maya "actually looked into it" — the appearance of research
+        substitutes for the quality of evidence.
+    carrier_persona: Maya
+    signal_mechanism: >
+      The persona found one website about rainwater harvesting in Portland,
+      Oregon, where it rains significantly more than their city. The website
+      showed rain barrels collected "plenty of water" for a community garden
+      there. The persona extrapolates from this single source to confident
+      certainty — "ours would definitely get enough water too" — without
+      checking local rainfall, costs, or setup requirements. The other persona
+      asks about the climate difference ("doesn't it rain way more in
+      Portland?") but the question gets brushed past. The evidence is thin for
+      a confident conclusion, but the persona's certainty makes it feel
+      adequate in the moment.
+
+  - facet_id: perspective_breadth
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through:
+      - evidence
+    designed_explanation:
+      cognitive_pattern: egocentric_thinking
+      social_dynamic: groupthink
+      interaction_note: >
+        Once both students agree on rain barrels, they feed each other's
+        excitement and plan entirely from their own perspective as students.
+        Neither pauses to consider custodial staff, the science teacher, the
+        principal, or summer maintenance. The groupthink reinforces the
+        egocentric framing — mutual enthusiasm prevents either from stepping
+        back to ask "who else should we talk to?"
+    carrier_persona: both
+    signal_mechanism: >
+      Both students shift into excited planning mode — where to put barrels,
+      how to connect them to the roof drainage, when to start building —
+      entirely from their own perspective as students. They plan to attach
+      things to school property, use the building's roof drainage, and start
+      construction this week, without mentioning custodial staff, the science
+      teacher who runs garden club, the principal who set the deadline, or
+      summer maintenance. The plan only reflects student enthusiasm. The
+      absence of other stakeholders is what students need to notice — it's
+      about who's NOT in the conversation, not about what argument was
+      dismissed.
+
+discussion_arc: >
+  The discussion opens with both students considering how to water the school
+  garden. Maya advocates for rain barrels based on her Portland research; Jake
+  prefers the simple hose. Tension builds as Jake raises a practical concern
+  about the climate difference, but Maya brushes it off with confident
+  certainty. The pivot comes when Jake concedes — not because he's convinced,
+  but because Maya "actually looked into it." Once they're aligned, the
+  discussion shifts from debate into excited collaborative planning. They
+  build on each other's ideas about barrel placement and construction timeline,
+  their energy escalating. The discussion ends with a confident plan to start
+  building this week — but the entire second half is notable for what's absent:
+  no mention of adults who'd need to approve or maintain the system, no thought
+  about summer, no consideration of anyone's perspective beyond their own as
+  students.
+
+turn_outline:
+  - speaker: Maya
+    accomplishes: >
+      Opens by proposing rain barrels as the watering solution, mentioning she
+      found a website about a garden in Portland that used them successfully.
+      Sets an enthusiastic tone.
+
+  - speaker: Jake
+    accomplishes: >
+      Suggests they should just use the school hose — it's already there, it
+      works, and they have a deadline. Presents the practical alternative.
+
+  - speaker: Maya
+    accomplishes: >
+      Pushes back on the hose idea, arguing rain barrels are better for the
+      environment and more interesting as a project. References the Portland
+      garden again — they collected "plenty of water."
+
+  - speaker: Jake
+    accomplishes: >
+      Raises a genuine question — doesn't it rain way more in Portland than
+      here? Expresses doubt about whether the Portland example applies to
+      their city.
+
+  - speaker: Maya
+    accomplishes: >
+      Brushes past the climate question without really addressing it. Restates
+      her confidence that rain barrels would "definitely" collect enough water,
+      pivoting to how cool the project would be.
+
+  - speaker: Jake
+    accomplishes: >
+      Concedes the point — says something like "well, you actually looked into
+      it" — giving in not because he's persuaded but because Maya did research
+      and he didn't. The debate phase ends here.
+
+  - speaker: Maya
+    accomplishes: >
+      Jumps into planning mode now that Jake agrees. Suggests where to put the
+      barrels — near the cafeteria side of the building where the roof drainage
+      runs down.
+
+  - speaker: Jake
+    accomplishes: >
+      Gets caught up in the planning energy and adds his own idea — maybe they
+      could connect a hose from the barrel to the garden beds so they don't
+      have to carry water.
+
+  - speaker: Maya
+    accomplishes: >
+      Builds on Jake's idea enthusiastically. Suggests they start sketching
+      designs this week and figure out how to attach the barrels to the roof
+      gutter.
+
+  - speaker: Jake
+    accomplishes: >
+      Adds to the timeline — suggests they could start building as soon as they
+      get the materials, maybe ask the hardware store for donations.
+
+  - speaker: Maya
+    accomplishes: >
+      Agrees and starts talking about how to divide up the work — she'll
+      research barrel sizes, he can figure out the gutter connection.
+
+  - speaker: Jake
+    accomplishes: >
+      Wraps up by confirming the plan — rain barrels it is, start designing
+      this week. Both are confident and excited, with no mention of checking
+      with any adults or thinking about summer maintenance.

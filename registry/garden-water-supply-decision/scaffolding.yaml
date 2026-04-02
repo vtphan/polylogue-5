@@ -1,0 +1,953 @@
+scenario_id: garden-water-supply-decision
+
+passage_scaffolding:
+  # ===== PASSAGE 1: Opening positions =====
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+      - turn_03
+
+    evaluate:
+      difficulty: accessible
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Something about how Maya connects what happened in Portland
+              to what would happen here...
+        - lens: evidence
+          hints:
+            - >
+              Something about where Maya got her information...
+            - >
+              Something about how many places she checked...
+        - lens: scope
+          hints:
+            - >
+              Something about which options the group has looked into
+              so far...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Maya is saying something about Portland
+            will also be true here. Does the connection between those two
+            places hold up?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: What information has Maya found so
+            far? Think about how much research is behind what she is
+            saying.
+        - lens: scope
+          prompt: >
+            Looking through Scope: The group is choosing between two
+            options. How much attention has each option gotten so far?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI pointed out that Maya is treating what happened in
+            Portland as proof of what would happen here. Did you notice
+            that jump, or were you focused on something else?
+        - lens: evidence
+          prompt: >
+            The AI noticed that Maya found one website about one city.
+            Did you pick up on that, or did her information seem like
+            enough at first?
+        - lens: scope
+          prompt: >
+            The AI did not have much to say through your lens for this
+            part. Did you find something worth noting, or did this
+            passage seem fine through Scope?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Maya felt so sure about the rain barrels because...
+        - category: social
+          starter: >
+            I think the way Maya talked about what she found made Jake...
+        - category: interaction
+          starter: >
+            Maya seemed really confident, and that affected the group
+            because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about how Maya connected Portland to
+            here. Now think about why — what made her so sure that
+            connection worked?
+        - lens: evidence
+          prompt: >
+            You noticed something about Maya's research. Now think about
+            why — what might have made one website feel like enough for
+            her?
+        - lens: scope
+          prompt: >
+            You noticed something about which options got attention. Now
+            think about why — what was driving the conversation in that
+            direction?
+
+      ai_reflection_prompt: >
+        The AI suggested that finding information that matches what you
+        already want to believe can make it feel like stronger proof
+        than it really is. Does that fit what you were thinking, or do
+        you see it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Maya made a good point about the Portland garden
+            redirect: >
+              You noticed what Maya said about Portland. Now think about
+              whether Portland and their city are the same kind of place.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              Maya did her research and found evidence
+            redirect: >
+              You noticed Maya found some information. Take another look
+              at how much she actually found.
+          - pattern: >
+              the evidence is strong because there is a real example
+            redirect: >
+              You noticed there is a real example. Now think about where
+              that example comes from and whether one example is enough
+              for what Maya is claiming.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              both sides got to share their opinion
+            redirect: >
+              You noticed both students spoke. Now look at how much time
+              each option got and how deeply it was explored.
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Maya is just assuming it will work here
+          - level: developing
+            examples:
+              - >
+                Maya is using what happened in Portland to say it will
+                work here, but those are different places
+          - level: differentiated
+            examples:
+              - >
+                Maya found something about Portland and is treating it
+                like it proves what will happen at their school, but
+                Portland might have totally different weather, so the
+                connection does not really hold up
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                She only looked at one website
+          - level: developing
+            examples:
+              - >
+                Maya is basing her whole argument on one website about
+                a garden in a different city
+          - level: differentiated
+            examples:
+              - >
+                Maya found one website about one garden in Portland,
+                which could be totally different from where they live,
+                and she is treating it like it settles the whole question
+                of whether rain barrels will work for them
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They only really talked about rain barrels
+          - level: developing
+            examples:
+              - >
+                Maya got way more time to talk about her idea than Jake
+                did for the hose option
+          - level: differentiated
+            examples:
+              - >
+                The rain barrel option got a lot of attention because
+                Maya had information about it, but the hose option barely
+                got explored even though it might have been simpler and
+                more realistic
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Maya was not thinking clearly
+                - >
+                  She just believed what she wanted to believe
+            - level: developing
+              examples:
+                - >
+                  Maya found one thing that supported what she already
+                  wanted to do and stopped looking because it felt like
+                  enough
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Jake just went along with it
+            - level: developing
+              examples:
+                - >
+                  Maya sounded really confident and like she had done
+                  work, so Jake felt like he should agree with her even
+                  though he had a good question
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya was really sure of herself and Jake did not push
+                  back, so no one ever checked if she was right
+            - level: differentiated
+              examples:
+                - >
+                  Maya felt confident because she found something online,
+                  and Jake backed down because she seemed like she knew
+                  more. That meant nobody actually looked at whether the
+                  Portland information even applied here — her confidence
+                  and his backing down fed each other
+
+  # ===== PASSAGE 2: Challenge and concession =====
+  - passage_id: passage_02
+    turns:
+      - turn_04
+      - turn_05
+      - turn_06
+
+    evaluate:
+      difficulty: accessible
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Something about the question Jake asked and what happened
+              to it...
+        - lens: evidence
+          hints:
+            - >
+              Something about how sure Maya sounds compared to what she
+              actually knows...
+        - lens: scope
+          hints:
+            - >
+              Something about how the disagreement between them ends...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Jake raises a question about Portland.
+            Follow that question — does it get addressed?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Listen to how Maya describes what
+            she knows. Does the way she says it match how much she
+            actually found?
+        - lens: scope
+          prompt: >
+            Looking through Scope: One student had a concern and the
+            other seemed more prepared. Watch how that plays out.
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI noticed that Jake's question about Portland's rain
+            never really got answered. Did you catch that, or did it
+            seem like Maya responded to it?
+        - lens: evidence
+          prompt: >
+            The AI pointed out that Maya says "definitely" and "trust
+            me" while only having one website. Did you notice the gap
+            between how sure she sounds and how much she actually found?
+        - lens: scope
+          prompt: >
+            The AI noticed that Jake stopped pushing his question because
+            Maya seemed to know more. Did you see that moment the same
+            way, or did it look different to you?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Maya brushed past the Portland question because...
+        - category: social
+          starter: >
+            I think Jake stopped pushing his question because...
+        - category: interaction
+          starter: >
+            Maya seemed really certain and Jake backed down, and I think
+            those two things are connected because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about Jake's unanswered question. Now
+            think about why — what was it about that moment that let the
+            question just disappear?
+        - lens: evidence
+          prompt: >
+            You noticed something about how sure Maya sounds versus how
+            much she knows. Now think about why — what made Jake accept
+            that instead of pushing back?
+        - lens: scope
+          prompt: >
+            You noticed something about how the disagreement ended. Now
+            think about why — what was happening between Maya and Jake
+            that made it end that way?
+
+      ai_reflection_prompt: >
+        The AI talked about how confidence can take the place of evidence
+        in a group, and how going along with the most prepared-seeming
+        person is something that happens a lot. Does that match what you
+        were trying to explain, or do you think something else was going
+        on?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Maya answered Jake's question about Portland
+            redirect: >
+              Look again at what Jake asked and what Maya said right
+              after. Did she actually talk about the rain difference?
+          - pattern: >
+              the reasoning is fine because Maya did research
+            redirect: >
+              You noticed Maya did some research. Now look at the
+              specific question Jake asked — does her response address
+              it?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              Maya has good evidence because she found a website
+            redirect: >
+              You noticed she found a website. Now think about what that
+              website was actually about and whether one website is enough
+              for how sure she sounds.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Jake agreed because Maya convinced him
+            redirect: >
+              Look at what Jake actually says when he agrees. What reason
+              does he give for going along with her?
+          - pattern: >
+              it was fair because they both got to talk
+            redirect: >
+              You noticed both students talked. Now look at what happened
+              to Jake's concern — did it get resolved, or did something
+              else happen?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                Jake asked a question and it did not get answered
+          - level: developing
+            examples:
+              - >
+                Jake asked if it rains more in Portland and Maya did not
+                actually answer — she just said it would definitely work
+          - level: differentiated
+            examples:
+              - >
+                Jake raised a specific question about whether Portland
+                gets more rain, which matters because rain barrels depend
+                on rainfall. Maya skipped right past it and restated her
+                conclusion instead of addressing the actual question, and
+                then the group moved on as if it had been answered
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                Maya does not have enough proof
+          - level: developing
+            examples:
+              - >
+                Maya says "definitely" and "trust me" but she only has
+                one website and it is about a different place
+          - level: differentiated
+            examples:
+              - >
+                Maya is making a really big claim — that rain barrels
+                will definitely provide enough water — but behind it
+                there is just one website about one garden in Portland,
+                where the weather could be totally different. The way she
+                says it makes it sound settled, but the information does
+                not match how sure she is
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                Jake gave up too easily
+          - level: developing
+            examples:
+              - >
+                Jake stopped disagreeing not because his question got
+                answered but because Maya had done more research than him
+          - level: differentiated
+            examples:
+              - >
+                Jake had a real concern about the weather difference but
+                he let it go because Maya seemed like she knew what she
+                was talking about. The disagreement ended not because the
+                question was resolved but because one person seemed more
+                prepared, and that was enough for Jake to go along
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Maya was being stubborn
+                - >
+                  She just ignored what Jake said
+            - level: developing
+              examples:
+                - >
+                  Maya felt really sure about her answer even though she
+                  only checked one thing, and that made her brush off
+                  Jake's question instead of actually thinking about it
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  Jake did not want to argue
+            - level: developing
+              examples:
+                - >
+                  Jake backed down because Maya seemed like she had done
+                  the work, and when someone seems more prepared it is
+                  hard to keep disagreeing even when you have a good point
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya was super confident and Jake did not feel like he
+                  could push back because she had done research, so the
+                  question just got dropped
+            - level: differentiated
+              examples:
+                - >
+                  Maya felt certain because she found something online,
+                  which made her sound like she had it figured out. That
+                  confidence made Jake feel like he should not push back
+                  since he had not done any research himself. So his
+                  question about the weather never got answered — her
+                  certainty shut it down and his willingness to go along
+                  let it stay shut down
+
+  # ===== PASSAGE 3: Planning begins =====
+  - passage_id: passage_03
+    turns:
+      - turn_07
+      - turn_08
+      - turn_09
+
+    evaluate:
+      difficulty: challenging
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Something about the steps they are planning and whether
+              all the pieces are in place...
+        - lens: evidence
+          hints:
+            - >
+              Something about what the group knows about whether their
+              plans are actually doable...
+        - lens: scope
+          hints:
+            - >
+              Something about who is involved in making these plans and
+              who is not...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Maya and Jake are making plans to
+            build something. Think about whether all the steps make
+            sense and whether anything is being assumed.
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: The group is planning to attach
+            things to the school building. What information do they
+            have about whether they can actually do that?
+        - lens: scope
+          prompt: >
+            Looking through Scope: Read through what Maya and Jake are
+            planning. Think about everyone at the school who might be
+            affected by these plans.
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI did not have a specific observation through Logic for
+            this part. Did you find something worth noting, or did the
+            planning seem logical to you?
+        - lens: evidence
+          prompt: >
+            The AI noticed the group is making plans to use the school
+            building without checking if they can. Did you notice that,
+            or were you focused on something else?
+        - lens: scope
+          prompt: >
+            The AI pointed out that only two students are making plans
+            that affect the school building. Did you think about who
+            else might need to be involved?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Maya and Jake were only thinking about this from
+            their own point of view because...
+        - category: social
+          starter: >
+            I think the reason neither of them stopped to question the
+            plan is because...
+        - category: interaction
+          starter: >
+            They were both excited and seeing it from just their angle,
+            and I think those things fed each other because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about what the group is assuming. Now
+            think about why — what was happening in the conversation
+            that kept them from questioning those assumptions?
+        - lens: evidence
+          prompt: >
+            You noticed they are making plans without key information.
+            Now think about why — what was the group focused on instead
+            of checking the details?
+        - lens: scope
+          prompt: >
+            You noticed some people are missing from this conversation.
+            Now think about why — what kept Maya and Jake from thinking
+            about anyone outside their group?
+
+      ai_reflection_prompt: >
+        The AI talked about how when a group gets excited, they can plan
+        from just their own point of view without stepping back. Does
+        that description match what you were trying to say about Maya
+        and Jake?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              the plan makes sense and the steps are logical
+            redirect: >
+              The steps they described do follow from each other. Now
+              think about whether all the pieces they would need are
+              actually in place.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              they have a good plan figured out
+            redirect: >
+              You noticed they have a plan. Now think about what
+              information they would need to know if this plan is
+              actually doable.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              they are being thorough because they thought about where
+              to put the barrels and how to connect them
+            redirect: >
+              You noticed they thought about a lot of details. Now think
+              about the people — who at the school would need to know
+              about these plans?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                They are making assumptions about the plan
+          - level: developing
+            examples:
+              - >
+                They are planning to attach barrels to the school's
+                gutter without checking if that is even allowed or
+                possible
+          - level: differentiated
+            examples:
+              - >
+                The group is jumping into detailed plans — gutter
+                connections, design sketches, timelines — but every step
+                assumes they can just do these things to school property,
+                and nobody has checked whether any of it is actually
+                possible
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                They do not know if this will work
+          - level: developing
+            examples:
+              - >
+                They are planning to hook barrels to the roof gutter and
+                start building, but they have not looked into whether any
+                of that is realistic
+          - level: differentiated
+            examples:
+              - >
+                The group is making specific plans — connect to the
+                gutter, run a hose to the beds, start drawing designs
+                this week — but they have no information about costs,
+                whether the school allows it, or whether the gutter even
+                works that way. The plans are detailed but the
+                information behind them is not
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They did not think about other people
+          - level: developing
+            examples:
+              - >
+                Maya and Jake are planning to change things on the school
+                building but they never mentioned the people who actually
+                take care of the building
+          - level: differentiated
+            examples:
+              - >
+                Two students are planning to attach things to school
+                property, use the roof drainage, and start construction
+                — but the custodians, the science teacher who runs the
+                garden club, and the principal who set the deadline are
+                completely absent from the conversation. The plan only
+                includes the students' point of view
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They were not thinking about other people
+            - level: developing
+              examples:
+                - >
+                  Maya and Jake were so focused on their own excitement
+                  about the project that they could only see it from
+                  their perspective as students and forgot about everyone
+                  else who would be affected
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They were both excited so nobody stopped to think
+            - level: developing
+              examples:
+                - >
+                  Because they were both on the same page and feeding
+                  each other's ideas, there was no one to pump the
+                  brakes and say wait, should we check with someone
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  They were only thinking about themselves and they were
+                  both excited, so neither one stopped to think about
+                  other people
+            - level: differentiated
+              examples:
+                - >
+                  Maya and Jake could only see the project from their own
+                  angle as students, and because they were both excited
+                  and building on each other's ideas, that narrow view
+                  never got challenged. If one of them had been less
+                  enthusiastic, they might have asked about the
+                  custodians or the science teacher, but the group's
+                  energy made it easy to stay in their own bubble
+
+  # ===== PASSAGE 4: Final planning and decision =====
+  - passage_id: passage_04
+    turns:
+      - turn_10
+      - turn_11
+      - turn_12
+
+    evaluate:
+      difficulty: moderate
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Something about how confident the group's plan is compared
+              to what could go wrong...
+        - lens: evidence
+          hints:
+            - >
+              Something about what the group still does not know as they
+              are finalizing their plan...
+        - lens: scope
+          hints:
+            - >
+              Something about who made this decision and who was left
+              out of it...
+            - >
+              Something about what happens to this project after the
+              school year...
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: The group is wrapping up with a
+            confident plan and a timeline. Think about whether they
+            have thought about what could go wrong.
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Maya and Jake are dividing up
+            tasks and making a timeline. What do they still not know?
+        - lens: scope
+          prompt: >
+            Looking through Scope: By the end of this discussion, a
+            decision has been made. Think about everyone who is affected
+            by this decision and who was part of making it.
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI wondered whether the group thought about what could
+            go wrong with their plan. Did you notice that they jumped
+            straight to a timeline without considering obstacles?
+        - lens: evidence
+          prompt: >
+            The AI did not have a specific Evidence observation for this
+            part. Did you find something worth noting about the
+            information behind their final plan?
+        - lens: scope
+          prompt: >
+            The AI pointed out that the entire plan was made by two
+            students for something affecting the whole school. Did you
+            think about who else should have been part of this decision?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Maya and Jake never thought about the custodians or
+            teachers because...
+        - category: social
+          starter: >
+            I think the reason nobody stopped to ask "who else should we
+            talk to" is because...
+        - category: interaction
+          starter: >
+            The group was only thinking about themselves and their
+            excitement kept going, and those things worked together
+            because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about the group not thinking ahead.
+            Now think about why — what was happening in the group that
+            kept anyone from raising those concerns?
+        - lens: evidence
+          prompt: >
+            You noticed something about what the group still does not
+            know. Now think about why — what would they have needed to
+            do differently to get that information?
+        - lens: scope
+          prompt: >
+            You noticed who was missing from this decision. Now think
+            about why — what kept Maya and Jake from ever bringing
+            those people into the conversation?
+
+      ai_reflection_prompt: >
+        The AI talked about how when everyone in a group agrees and is
+        excited, it can be hard for anyone to stop and ask if something
+        is missing. Does that match what you were trying to explain
+        about how Maya and Jake ended up with a plan that left out so
+        many people?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              the plan is good because they divided up the work
+            redirect: >
+              You noticed they organized the work. Now think about
+              whether organizing the work is the same as making sure the
+              plan itself will work.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              they are getting materials so they are being practical
+            redirect: >
+              You noticed they are thinking about materials. Now think
+              about what they still do not know — costs, whether the
+              school allows it, whether it will actually collect enough
+              water here.
+      - lens: scope
+        misreadings:
+          - pattern: >
+              the discussion was good because they agreed and have a plan
+            redirect: >
+              You noticed they reached a decision. Now think about who
+              that decision affects and who was part of making it.
+          - pattern: >
+              they covered everything because they talked about barrels
+              and gutters and materials and a timeline
+            redirect: >
+              You noticed they covered a lot of details. Now think about
+              the people — whose point of view is included in this plan
+              and whose is not?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >
+                They did not think about problems
+          - level: developing
+            examples:
+              - >
+                The group made a confident plan with a timeline but did
+                not think about what could go wrong, like what happens
+                over summer
+          - level: differentiated
+            examples:
+              - >
+                The group is committing to build something, get
+                donations, and have designs ready by next week, but they
+                have not considered what happens if the barrels do not
+                collect enough water, what happens over summer when no
+                one is at school, or what happens if they start and
+                cannot finish by spring
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >
+                They do not know enough to make this plan
+          - level: developing
+            examples:
+              - >
+                They are asking a hardware store for donations and
+                dividing up work but have not checked what things cost
+                or if the school allows it
+          - level: differentiated
+            examples:
+              - >
+                The group is making a detailed plan — barrel sizes,
+                gutter connections, hardware store donations, a one-week
+                timeline — but they have no information about costs,
+                building codes, school approval, or whether rain barrels
+                would even collect enough water in their area. The plan
+                has a lot of steps but almost no information behind them
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >
+                They forgot about other people
+          - level: developing
+            examples:
+              - >
+                Two students made a decision that affects the whole
+                school without mentioning custodians, teachers, or the
+                principal
+          - level: differentiated
+            examples:
+              - >
+                The final plan involves changing school property, using
+                the building's drainage, getting donations, and starting
+                construction — but the only perspectives in the whole
+                conversation are two students. The custodians who
+                maintain the building, the science teacher who runs
+                garden club, the principal who set the deadline, and the
+                question of who takes care of things over summer are all
+                completely missing
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They were selfish and only thought about themselves
+            - level: developing
+              examples:
+                - >
+                  Maya and Jake were looking at the whole project through
+                  their own eyes as students and never stepped into
+                  anyone else's shoes — the custodian, the teacher, the
+                  principal
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >
+                  They were just going along with each other
+            - level: developing
+              examples:
+                - >
+                  They were both so excited and agreeing with each
+                  other that there was no reason for either one to stop
+                  and say "wait, who else needs to be part of this?"
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  They could only see their own point of view and they
+                  were both excited, so nobody ever brought up the other
+                  people
+            - level: differentiated
+              examples:
+                - >
+                  Maya and Jake saw the whole project only from their
+                  own angle, and because they were both excited and
+                  building on each other's ideas, that narrow view never
+                  got questioned. Each time one added an idea, the other
+                  got more enthusiastic, which made it even harder to
+                  step back. If either one had slowed down and thought
+                  about the custodian's perspective or the science
+                  teacher's, the whole planning conversation might have
+                  looked completely different

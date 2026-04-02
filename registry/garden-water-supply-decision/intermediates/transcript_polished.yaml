@@ -1,0 +1,69 @@
+scenario_id: garden-water-supply-decision
+
+personas:
+  - name: Maya
+    perspective: >
+      Thinks rain barrels are the better choice for the school garden — better
+      for the environment and a more exciting project.
+  - name: Jake
+    perspective: >
+      Thinks using the school's hose is the practical choice — it's simple and
+      they have a spring deadline to meet.
+
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Okay so I was looking stuff up last night and I found this website about a garden in Portland that uses rain barrels."
+      - text: "They collect all the water they need just from the rain coming off the roof, and it's way better for the environment."
+
+  - speaker: Jake
+    sentences:
+      - text: "I mean, can't we just use the hose?"
+      - text: "There's already hookups right by where the garden is and we don't have that much time before spring."
+
+  - speaker: Maya
+    sentences:
+      - text: "The hose is boring though, and rain barrels are actually better because you're not wasting the school's water."
+      - text: "The garden in Portland collected plenty of water and their plants were doing amazing."
+
+  - speaker: Jake
+    sentences:
+      - text: "But doesn't it rain like way more in Portland than it does here?"
+
+  - speaker: Maya
+    sentences:
+      - text: "It would definitely work here too, trust me, rain barrels collect a ton of water."
+      - text: "Plus think about how cool it would be to actually build something instead of just turning on a hose."
+
+  - speaker: Jake
+    sentences:
+      - text: "Yeah okay, I mean you actually looked into it so you probably know more about it than me."
+
+  - speaker: Maya
+    sentences:
+      - text: "Okay so we should put the barrels on the cafeteria side because that's where the big gutter pipe comes down from the roof."
+      - text: "We could totally hook them right up to it."
+
+  - speaker: Jake
+    sentences:
+      - text: "Oh wait, what if we ran a hose from the barrel over to the garden beds so we wouldn't have to carry buckets back and forth?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Yes, that's perfect!"
+      - text: "We should start drawing up designs this week so we can figure out how to attach everything to the gutter."
+
+  - speaker: Jake
+    sentences:
+      - text: "We could probably start building pretty soon once we get the materials."
+      - text: "Maybe we could ask the hardware store if they'd donate some barrels or something."
+
+  - speaker: Maya
+    sentences:
+      - text: "Okay so I'll look up what size barrels we need and you figure out the gutter connection."
+      - text: "This is gonna be so much better than just a hose."
+
+  - speaker: Jake
+    sentences:
+      - text: "Yeah, rain barrels it is."
+      - text: "Let's have a design ready by next week so we can start building."

@@ -1,0 +1,99 @@
+scenario_id: garden-water-supply-decision
+personas:
+- name: Maya
+  perspective: 'Thinks rain barrels are the better choice for the school garden — better for the environment
+    and a more exciting project.
+
+    '
+- name: Jake
+  perspective: 'Thinks using the school''s hose is the practical choice — it''s simple and they have a
+    spring deadline to meet.
+
+    '
+turns:
+- speaker: Maya
+  sentences:
+  - text: Okay so I was looking stuff up last night and I found this website about a garden in Portland
+      that uses rain barrels.
+    sentence_id: turn_01.s01
+  - text: They collect all the water they need just from the rain coming off the roof, and it's way better
+      for the environment.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Jake
+  sentences:
+  - text: I mean, can't we just use the hose?
+    sentence_id: turn_02.s01
+  - text: There's already hookups right by where the garden is and we don't have that much time before
+      spring.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Maya
+  sentences:
+  - text: The hose is boring though, and rain barrels are actually better because you're not wasting the
+      school's water.
+    sentence_id: turn_03.s01
+  - text: The garden in Portland collected plenty of water and their plants were doing amazing.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Jake
+  sentences:
+  - text: But doesn't it rain like way more in Portland than it does here?
+    sentence_id: turn_04.s01
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: It would definitely work here too, trust me, rain barrels collect a ton of water.
+    sentence_id: turn_05.s01
+  - text: Plus think about how cool it would be to actually build something instead of just turning on
+      a hose.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Jake
+  sentences:
+  - text: Yeah okay, I mean you actually looked into it so you probably know more about it than me.
+    sentence_id: turn_06.s01
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: Okay so we should put the barrels on the cafeteria side because that's where the big gutter
+      pipe comes down from the roof.
+    sentence_id: turn_07.s01
+  - text: We could totally hook them right up to it.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Jake
+  sentences:
+  - text: Oh wait, what if we ran a hose from the barrel over to the garden beds so we wouldn't have to
+      carry buckets back and forth?
+    sentence_id: turn_08.s01
+  turn_id: turn_08
+- speaker: Maya
+  sentences:
+  - text: Yes, that's perfect!
+    sentence_id: turn_09.s01
+  - text: We should start drawing up designs this week so we can figure out how to attach everything to
+      the gutter.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Jake
+  sentences:
+  - text: We could probably start building pretty soon once we get the materials.
+    sentence_id: turn_10.s01
+  - text: Maybe we could ask the hardware store if they'd donate some barrels or something.
+    sentence_id: turn_10.s02
+  turn_id: turn_10
+- speaker: Maya
+  sentences:
+  - text: Okay so I'll look up what size barrels we need and you figure out the gutter connection.
+    sentence_id: turn_11.s01
+  - text: This is gonna be so much better than just a hose.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Jake
+  sentences:
+  - text: Yeah, rain barrels it is.
+    sentence_id: turn_12.s01
+  - text: Let's have a design ready by next week so we can start building.
+    sentence_id: turn_12.s02
+  turn_id: turn_12

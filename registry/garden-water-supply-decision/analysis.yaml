@@ -1,0 +1,539 @@
+scenario_id: garden-water-supply-decision
+
+passage_analyses:
+  # ===== PASSAGE 1: Opening positions =====
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+      - turn_03
+    sentence_range:
+      - turn_01.s01
+      - turn_01.s02
+      - turn_02.s01
+      - turn_02.s02
+      - turn_03.s01
+      - turn_03.s02
+
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences:
+          - turn_01.s01
+          - turn_01.s02
+          - turn_03.s02
+        primary_lens: evidence
+        also_visible_through:
+          - scope
+          - logic
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        notes: >
+          The sufficiency weakness begins here — Maya introduces a single website
+          from Portland as her entire evidence base and frames it with confidence.
+          The full signal develops in passage 2 when Jake challenges and Maya
+          brushes it off.
+
+      - facet_id: relevance
+        quality_level: weak
+        evidence_sentences:
+          - turn_01.s01
+          - turn_03.s02
+        primary_lens: evidence
+        also_visible_through:
+          - logic
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent facet. Maya cites a Portland garden as evidence for their
+          local garden project. Portland has a significantly different climate.
+          The evidence is about a different place under different conditions —
+          its relevance to the local decision is questionable.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Looking at the evidence in this part of the discussion, I notice that
+          Maya mentions finding one website about a garden in a specific city.
+          She describes what happened there as though it tells us what would
+          happen here. It might be worth thinking about whether one example from
+          somewhere else is enough to go on.
+        key_sentences:
+          - turn_01.s01
+          - turn_03.s02
+      through_scope:
+        observation: null
+        key_sentences: []
+      what_to_notice: >
+        Pay attention to where Maya's information comes from. What do we know
+        about that place compared to where these students are?
+      what_to_notice_sentences:
+        - turn_01.s01
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A cognitive scientist might point out that when we find information that
+        supports what we already want to do, it can feel like stronger proof
+        than it really is. One example from one place can start to feel like
+        it settles the whole question.
+      cognitive_connection: >
+        One way to think about this is that Maya already wanted rain barrels to
+        be the answer. Finding one website that matched her hope may have felt
+        like enough to stop looking. Researchers sometimes call this kind of
+        confidence — where you feel sure even though you have not checked very
+        much — a pattern worth noticing.
+      social_connection: null
+      interaction_note: null
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence and Logic students are most likely to diverge here. Evidence
+        students will focus on the single-source problem. Logic students may
+        notice the geographic leap — Portland evidence applied to a different
+        city. Scope students may not find much to work with yet.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya jumps from what happened in Portland to what will happen here
+            - The connection between the Portland example and their school is assumed, not explained
+          might_miss:
+            - That the reasoning gap is specifically about climate differences, not just distance
+        - lens: evidence
+          observations:
+            - Maya only has one source — one website
+            - The source is about a different place
+          might_miss:
+            - That the website describes a garden in a much rainier climate
+        - lens: scope
+          observations:
+            - Maya only looked at one option in depth
+          might_miss:
+            - The relevance issue (more visible through Evidence at this point)
+
+  # ===== PASSAGE 2: Challenge and concession =====
+  - passage_id: passage_02
+    turns:
+      - turn_04
+      - turn_05
+      - turn_06
+    sentence_range:
+      - turn_04.s01
+      - turn_05.s01
+      - turn_05.s02
+      - turn_06.s01
+
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences:
+          - turn_04.s01
+          - turn_05.s01
+          - turn_06.s01
+        primary_lens: evidence
+        also_visible_through:
+          - scope
+          - logic
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: authority_deference
+          interaction: >
+            Maya states her conclusion with certainty despite thin evidence.
+            Jake raises a valid challenge about climate differences but then
+            defers because Maya "actually looked into it" — the appearance of
+            research substitutes for the quality of the evidence. The false
+            certainty goes unchallenged because of the deference.
+        was_targeted: true
+        notes: >
+          This is the primary signal passage for sufficiency. The full pattern
+          plays out: valid question raised (turn 4), brushed off with confident
+          reassertion (turn 5), deference to the appearance of research (turn 6).
+
+      - facet_id: counter_argument_engagement
+        quality_level: weak
+        evidence_sentences:
+          - turn_04.s01
+          - turn_05.s01
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+          - logic
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: conflict_avoidance
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent facet. Jake raises a legitimate counter-argument about climate
+          differences. Maya does not engage with it — she reasserts her
+          conclusion without addressing the substance of the question. The
+          counter-argument is dismissed rather than rebutted.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at the reasoning here, I notice Jake asks a question about
+          whether Portland and their city get the same amount of rain. That
+          seems like it matters for whether the Portland example applies. But
+          the conversation moves on without really answering it.
+        key_sentences:
+          - turn_04.s01
+          - turn_05.s01
+      through_evidence:
+        observation: >
+          I notice that Maya says rain barrels would "definitely" work here and
+          asks Jake to trust her. Meanwhile, the only information we have heard
+          about is one website about one garden in one other city. The size of
+          the claim and the amount of information behind it seem like they might
+          not match.
+        key_sentences:
+          - turn_05.s01
+          - turn_06.s01
+      through_scope:
+        observation: >
+          Something I notice here is how the disagreement ends. Jake had a
+          question, but he stops pushing and says Maya probably knows more
+          because she looked into it. The group moves forward, but did the
+          question actually get answered?
+        key_sentences:
+          - turn_04.s01
+          - turn_06.s01
+      what_to_notice: >
+        Look at what Jake asks in this part of the discussion. What happens to
+        his question?
+      what_to_notice_sentences:
+        - turn_04.s01
+        - turn_05.s01
+
+    ai_perspective_explain:
+      explanatory_note: >
+        Researchers who study how people think in groups have noticed something
+        interesting: sometimes when one person seems more confident or more
+        prepared, others go along with them — not because the idea was proven
+        right, but because confidence itself feels convincing.
+      cognitive_connection: >
+        One way to think about Maya in this moment is that she feels certain
+        about her conclusion even though her information is limited. A
+        researcher might call this a kind of certainty that runs ahead of the
+        evidence — feeling sure without having checked enough to actually know.
+      social_connection: >
+        Jake backs down not because Maya answered his question, but because
+        she "actually looked into it." In group dynamics research, this pattern
+        — where someone defers to the person who seems most prepared, even when
+        their own concern was valid — is something researchers watch for. The
+        appearance of expertise can carry more weight than the quality of the
+        reasoning.
+      interaction_note: >
+        Notice how these two things work together here. Maya's confidence makes
+        her seem like she has this figured out, and Jake's willingness to defer
+        means her confidence goes untested. If Jake had pushed back further, Maya
+        might have had to actually address the climate question. Instead, the
+        certainty and the deference reinforce each other.
+
+    diversity_potential:
+      expected_lens_split: >
+        Strong three-way split. Evidence students will focus on the thin evidence
+        behind the confident claim. Logic students will notice the unanswered
+        climate question. Scope students will notice how the disagreement was
+        resolved — deference rather than engagement.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Jake asked a good question about Portland rain that never got answered
+            - Maya repeated her conclusion instead of addressing the question
+          might_miss:
+            - That the logical gap is specifically about applying evidence from one climate to another
+        - lens: evidence
+          observations:
+            - "Maya says 'definitely' and 'trust me' but only has one website"
+            - The claim is big but the evidence behind it is thin
+          might_miss:
+            - The role Jake's deference plays in letting the thin evidence stand
+        - lens: scope
+          observations:
+            - Jake gave up his question because Maya seemed to know more
+            - The disagreement ended without the concern being resolved
+          might_miss:
+            - That this is specifically about the amount of evidence, not just the group dynamic
+
+  # ===== PASSAGE 3: Planning begins =====
+  - passage_id: passage_03
+    turns:
+      - turn_07
+      - turn_08
+      - turn_09
+    sentence_range:
+      - turn_07.s01
+      - turn_07.s02
+      - turn_08.s01
+      - turn_09.s01
+      - turn_09.s02
+
+    facet_annotations:
+      - facet_id: perspective_breadth
+        quality_level: weak
+        evidence_sentences:
+          - turn_07.s01
+          - turn_07.s02
+          - turn_08.s01
+          - turn_09.s02
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+        explanatory_variables:
+          cognitive_pattern: egocentric_thinking
+          social_dynamic: groupthink
+          interaction: >
+            Both students plan entirely from their own perspective — attaching
+            barrels to the school's roof gutter, designing connections — without
+            mentioning anyone who would need to approve or maintain the system.
+            Their mutual excitement feeds itself: each new idea from one student
+            energizes the other, and neither pauses to ask who else should be
+            involved.
+        was_targeted: true
+        notes: >
+          The perspective breadth weakness begins here and continues through
+          passage 4. The signal is absence — what is NOT discussed. Students plan
+          to modify school property (roof gutter, cafeteria wall) without
+          mentioning custodial staff, the science teacher, or the principal.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          I notice the group is making plans that involve attaching things to
+          the school building and using the roof drainage system. But I have
+          not heard them mention checking with anyone about whether they can do
+          that, or looking into what it would actually take.
+        key_sentences:
+          - turn_07.s01
+          - turn_07.s02
+      through_scope:
+        observation: >
+          Looking at who is part of this planning conversation, I notice it is
+          just two students. They are talking about where to put barrels on the
+          school building, how to connect things to the roof, and when to start
+          building. These are big plans that would affect the building itself.
+          I find myself wondering if there is anyone else who might need to be
+          part of this conversation.
+        key_sentences:
+          - turn_07.s01
+          - turn_08.s01
+          - turn_09.s02
+      what_to_notice: >
+        Think about what Maya and Jake are planning to do in this section.
+        Who would be affected by these plans?
+      what_to_notice_sentences:
+        - turn_07.s01
+        - turn_07.s02
+
+    ai_perspective_explain:
+      explanatory_note: >
+        A researcher who studies how people make decisions might notice something
+        about this part of the conversation. Sometimes when a group gets excited
+        about an idea, they start planning from their own point of view without
+        stepping back to think about who else is involved. It is a natural thing
+        that happens — especially when people agree and their energy is building.
+      cognitive_connection: >
+        One way to think about what is happening here is that Maya and Jake are
+        seeing the whole project through their own eyes as students. They are
+        thinking about what they want to build and when they want to start, but
+        not about how this looks from anyone else's position — the people who
+        take care of the building, the teacher who runs the garden, or the
+        principal who set the deadline.
+      social_connection: >
+        Notice how the group's energy works in this section. Each person adds an
+        idea, the other person gets more excited, and then they add another idea.
+        That building enthusiasm can feel great, but it can also mean that nobody
+        stops to ask a harder question like "wait, should we check with someone
+        first?" Researchers who study groups call this kind of momentum something
+        worth paying attention to.
+      interaction_note: >
+        The two forces work together here — seeing things only from your own
+        perspective is easier to maintain when the other person is feeding your
+        excitement instead of raising concerns. If either student had paused to
+        think about someone else's perspective, the enthusiasm might have slowed
+        down enough for both of them to reconsider.
+
+    diversity_potential:
+      expected_lens_split: >
+        Scope students will see the most here — the missing perspectives are
+        the primary signal. Evidence students may notice the group is planning
+        without checking feasibility. Logic students may find less to work with
+        in this passage.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - The students are making plans without explaining how they would actually do them
+          might_miss:
+            - That the issue is less about reasoning structure and more about whose viewpoints are absent
+        - lens: evidence
+          observations:
+            - They are planning to use school property but have not checked if they can
+            - No information about costs, materials, or feasibility has been discussed
+          might_miss:
+            - That the missing information connects to missing people — the adults who would know these things
+        - lens: scope
+          observations:
+            - Only two students are planning something that affects the whole school
+            - No mention of custodial staff, teachers, or the principal
+          might_miss:
+            - That summer maintenance is also an absent perspective (this becomes clearer in passage 4)
+
+  # ===== PASSAGE 4: Final planning and decision =====
+  - passage_id: passage_04
+    turns:
+      - turn_10
+      - turn_11
+      - turn_12
+    sentence_range:
+      - turn_10.s01
+      - turn_10.s02
+      - turn_11.s01
+      - turn_11.s02
+      - turn_12.s01
+      - turn_12.s02
+
+    facet_annotations:
+      - facet_id: perspective_breadth
+        quality_level: weak
+        evidence_sentences:
+          - turn_10.s01
+          - turn_11.s01
+          - turn_12.s01
+          - turn_12.s02
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+        explanatory_variables:
+          cognitive_pattern: egocentric_thinking
+          social_dynamic: groupthink
+          interaction: >
+            The planning continues with increasing confidence. They divide up
+            work, set a timeline, and confirm the decision — all without any
+            mention of adults, approval processes, or long-term maintenance. The
+            mutual enthusiasm has fully replaced any questioning impulse.
+        was_targeted: true
+        notes: >
+          The perspective breadth weakness solidifies here. The students commit
+          to a plan involving school property modifications, material procurement,
+          and a construction timeline — with zero mention of custodial staff,
+          the science teacher, the principal, or summer maintenance.
+
+      - facet_id: consequence_consideration
+        quality_level: weak
+        evidence_sentences:
+          - turn_10.s01
+          - turn_12.s02
+        primary_lens: scope
+        also_visible_through:
+          - logic
+        explanatory_variables:
+          cognitive_pattern: tunnel_vision
+          social_dynamic: groupthink
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent facet. The students commit to building and set a timeline but
+          do not consider downstream effects — what happens if the barrels do not
+          collect enough water, what happens over summer when no one is at school,
+          or what happens if they start construction and cannot finish by spring.
+
+    ai_perspective_evaluate:
+      through_logic:
+        observation: >
+          Looking at how this discussion wraps up, I notice the group is very
+          confident about their plan. They are dividing up tasks and setting
+          deadlines. But I find myself wondering — have they thought through what
+          happens next? What if something does not go as planned?
+        key_sentences:
+          - turn_10.s01
+          - turn_12.s02
+      through_evidence:
+        observation: null
+        key_sentences: []
+      through_scope:
+        observation: >
+          By the end of this discussion, the group has a full plan — who does
+          what, where to get materials, when to start building. But reading
+          through the whole conversation, I notice the plan was made entirely
+          by two students. They are planning to modify the school building,
+          get materials from a hardware store, and start construction. I keep
+          wondering about all the people who are not part of this conversation
+          but would be affected by these plans.
+        key_sentences:
+          - turn_11.s01
+          - turn_12.s01
+          - turn_12.s02
+      what_to_notice: >
+        Look at everything Maya and Jake decided in this discussion. Now think
+        about who was part of making those decisions.
+      what_to_notice_sentences:
+        - turn_11.s01
+        - turn_12.s02
+
+    ai_perspective_explain:
+      explanatory_note: >
+        When researchers study group decision-making, they sometimes notice that
+        a group can reach a confident decision that feels complete to everyone
+        involved — but that is missing something important that nobody in the
+        group thought to consider.
+      cognitive_connection: >
+        One way to think about what happened in this discussion is that both
+        Maya and Jake were thinking about the project entirely from their own
+        position as students. They considered what they want to build, how
+        exciting it would be, and when they could start. But the custodial staff
+        who maintain the building, the science teacher who runs the garden club,
+        the principal who set the deadline, and the question of what happens over
+        summer — none of those perspectives entered the conversation.
+      social_connection: >
+        Notice how by this point, both students are building on each other's
+        excitement. When everyone in a group is enthusiastic and agreeing, it
+        can be hard for anyone to slow down and ask "wait, are we missing
+        something?" Researchers who study groups notice this pattern — the
+        group's shared energy can make it feel like the plan is more complete
+        than it actually is.
+      interaction_note: >
+        Here is where both forces come together across the whole discussion. The
+        students see the project only from their own perspective, and their
+        shared excitement keeps anyone from stepping back. If either one had
+        paused to think about someone else's viewpoint — like the custodian
+        who would have to deal with barrels attached to the building — it might
+        have opened up a whole set of questions they never considered.
+
+    diversity_potential:
+      expected_lens_split: >
+        Scope students will see the strongest signal — the absence of
+        stakeholder perspectives is most visible here. Logic students may notice
+        the lack of contingency planning. Evidence students may notice the group
+        is committing to a plan without having gathered key information.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - The group is making a confident plan but has not thought about what could go wrong
+            - They set a timeline without considering obstacles
+          might_miss:
+            - That the issue is specifically about missing perspectives, not just missing planning steps
+        - lens: evidence
+          observations:
+            - They are asking a hardware store for donations without knowing costs
+            - No research on local feasibility has been mentioned
+          might_miss:
+            - That the missing information connects to missing stakeholders
+        - lens: scope
+          observations:
+            - Only two students decided something that affects the whole school community
+            - No one mentioned the custodial staff, science teacher, principal, or summer break
+            - The group made plans for school property without checking with anyone
+          might_miss:
+            - The long-term maintenance question — what happens to rain barrels over summer when students are gone
