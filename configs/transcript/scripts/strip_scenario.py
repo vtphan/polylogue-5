@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Strip target_facets from a scenario plan to produce dialog writer input.
+"""Strip target_facets and discussion_dynamic from a scenario plan to produce dialog writer input.
 
 This is the information barrier's enforcement mechanism. The dialog writer
-must never see target_facets, facet IDs, lens names, or explanatory variables.
+must never see target_facets, discussion_dynamic, facet IDs, lens names, or explanatory variables.
 
 Usage:
     python3 strip_scenario.py <scenario_path> <output_path>
@@ -16,7 +16,7 @@ import sys
 import yaml
 
 
-BARRIER_FIELDS = ["target_facets"]
+BARRIER_FIELDS = ["target_facets", "discussion_dynamic"]
 
 # Terms that should NOT appear in the stripped output's weaknesses/accomplishes
 FRAMEWORK_TERMS = [

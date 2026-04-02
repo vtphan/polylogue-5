@@ -34,11 +34,21 @@ The `weaknesses` and `accomplishes` fields will cross the information barrier to
 
 Flag any instance of framework terminology in these fields.
 
+Also verify that `signal_mechanism` and `discussion_dynamic` would not appear in the stripped `dialog_writer_input.yaml` — these are barrier-side fields that must not cross to the dialog writer.
+
 ### 5. Turn Outline Anti-Patterns
 - **Unchecked agreement runs:** No 4+ consecutive turns where personas agree without challenge. Real discussions involve pushback.
 - **Dismissed concerns:** If a persona raises a concern or objection, it must be at least briefly acknowledged before being dismissed or moved past. Concerns that vanish without response feel unnatural.
 - **Flat arc:** The discussion should have a shape — rising tension, a pivot point, and resolution (or meaningful failure to resolve). Flag outlines that read as a flat sequence of statements.
 - **Symmetric weakness placement:** If weaknesses are distributed too evenly or symmetrically across turns, the dialog will feel designed rather than natural.
+
+### 6. Signal Mechanism Fidelity
+For each targeted facet, compare the `signal_mechanism` (operator's intent) with the `weaknesses` field of the carrier persona:
+- Does `weaknesses` faithfully translate the `signal_mechanism`? It should encode the same behavioral intent in natural language — same thinking errors, same persona behaviors — without framework terminology.
+- Is `weaknesses` specific enough to steer the dialog writer? Vague weaknesses like "doesn't think things through" fail this criterion. The dialog writer needs concrete behavioral guidance (e.g., "talks about what she read online with total confidence even though she only checked one source").
+- Does the `turn_outline` provide turns where the signal mechanism's narrative can actually play out? There must be turns where the carrier persona speaks and the mechanism has room to manifest.
+
+Also check: does `discussion_dynamic` align with `discussion_arc` and `turn_outline`? The arc and turns should realize the interpersonal mechanics the operator described — same starting positions, same shift mechanism, same ending condition.
 
 ## Output Format
 
@@ -48,7 +58,7 @@ Report your findings following the schema at `configs/scenario/schemas/validatio
 scenario_id: string
 verdict: pass | revise | reject
 criteria:
-  - criterion: facet_detectability | cross_lens_visibility | persona_tension | information_barrier_compliance | turn_outline_anti_patterns
+  - criterion: facet_detectability | cross_lens_visibility | persona_tension | information_barrier_compliance | turn_outline_anti_patterns | signal_mechanism_fidelity
     result: pass | issue | suggestion
     explanation: string
     references: [string]  # specific fields/values that triggered the finding

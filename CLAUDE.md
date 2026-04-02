@@ -10,7 +10,7 @@ Students evaluate scripted discussions through three lenses (Logic, Evidence, Sc
 
 ## Architecture
 
-The pipeline takes a topic + instructional goals as input and produces 6 YAML artifacts per scenario through 5 stages orchestrated by Claude Code slash commands:
+The pipeline takes an operator prompt (6 named fields: topic, context, instructional goals, target complexity, target facets with signal mechanisms, and discussion dynamic) as input and produces 6 YAML artifacts per scenario through 5 stages orchestrated by Claude Code slash commands:
 
 ```
 create_scenario → create_transcript → analyze_transcript → design_scaffolding → configure_session
@@ -55,7 +55,7 @@ references/             # External reference materials (PBL curriculum docs)
 ### 9 Pipeline Agents
 
 1. **Planning agent** — Translates facet targets into natural-language persona descriptions
-2. **Validation agent** — Checks facet detectability, barrier compliance, anti-patterns
+2. **Validation agent** — Checks facet detectability, barrier compliance, anti-patterns, signal mechanism fidelity
 3. **Dialog writer** — Operates behind the information barrier; sees only character traits, not framework
 4. **Transcript instructional designer** — Refines signal clarity without adding/removing content
 5. **Evaluator** — Produces analysis + facilitation guide (including whole-class debrief); writes AI perspectives as perspectives, not verdicts
@@ -67,7 +67,7 @@ references/             # External reference materials (PBL curriculum docs)
 ## Critical Design Constraints
 
 ### Information Barrier
-The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. The `target_facets` field is stripped from the scenario plan before passing to the dialog writer. The `weaknesses` and `accomplishes` fields use natural language only.
+The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. The `target_facets` and `discussion_dynamic` fields are stripped from the scenario plan before passing to the dialog writer. The `weaknesses` and `accomplishes` fields use natural language only.
 
 ### Discussion Constraints
 - 10-14 turns, 1-3 sentences per turn, <400 words total

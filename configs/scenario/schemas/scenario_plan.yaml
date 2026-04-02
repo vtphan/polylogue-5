@@ -28,6 +28,16 @@ schema:
         items:
           type: string
 
+      discussion_dynamic:
+        type: string
+        required: true
+        description: >
+          Operator-authored description of the discussion's interpersonal
+          mechanics: starting positions, shift mechanism, ending condition,
+          and interaction quality. Copied verbatim from the operator prompt.
+          Used by the planning agent to derive discussion_arc and turn_outline.
+          Stripped before passing to the dialog writer.
+
       personas:
         type: list
         required: true
@@ -107,6 +117,14 @@ schema:
               type: string
               required: true
               description: Which persona primarily manifests this facet weakness.
+            signal_mechanism:
+              type: string
+              required: true
+              description: >
+                Operator-authored narrative of how this facet weakness concretely
+                manifests in the discussion. Copied verbatim from the operator
+                prompt. Used by the planning agent to derive the carrier persona's
+                weaknesses field and the relevant turn_outline accomplishes fields.
 
       discussion_arc:
         type: string

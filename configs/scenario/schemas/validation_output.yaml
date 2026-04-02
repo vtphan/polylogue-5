@@ -35,6 +35,7 @@ schema:
                   - persona_tension
                   - information_barrier_compliance
                   - turn_outline_anti_patterns
+                  - signal_mechanism_fidelity
             result:
               type: string
               required: true
