@@ -98,6 +98,22 @@ ALL text in `scaffolding.yaml` must be in student-friendly language:
 
 The facilitation guide enrichments are teacher-facing and may use facet language.
 
+## YAML Formatting
+
+Your output must be valid, parseable YAML. Use block scalars (`>` for folded text) for any string that contains quotes, apostrophes, or contractions:
+
+```yaml
+# GOOD — block scalar handles quotes safely
+redirect: >
+  You noticed there's a lot of evidence. Now look more closely at
+  where it comes from — is "one website" enough?
+
+# BAD — inline quotes break YAML parsing
+redirect: "You noticed there's a lot of evidence — is "one website" enough?"
+```
+
+Use `>` (folded) for prose. Never use bare unquoted strings for text that contains `"`, `'`, `:`, or `#`.
+
 ## Reference Data
 
 - Facet inventory: `configs/reference/facet_inventory.yaml`

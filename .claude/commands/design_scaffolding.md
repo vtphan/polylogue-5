@@ -45,7 +45,9 @@ The agent produces two outputs:
 - New questions must not duplicate existing content
 - New questions must not contradict the evaluator's `likely_disagreements` or `watch_for`
 
-Validate both artifacts:
+**Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
+
+Then validate both artifacts:
 - `scaffolding.yaml` against `configs/scaffolding/schemas/scaffolding.yaml`
 - `facilitation.yaml` against `configs/analysis/schemas/facilitation.yaml`
 

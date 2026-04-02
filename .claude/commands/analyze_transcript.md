@@ -47,7 +47,9 @@ The evaluator produces two artifacts:
 - Per-passage guides (whats_here, evaluate scaffolding, explain scaffolding, likely observations)
 - Debrief (key takeaways, cross-group prompts, connection to next)
 
-Validate both artifacts against their schemas:
+**Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
+
+Then validate both artifacts against their schemas:
 - `configs/analysis/schemas/analysis.yaml`
 - `configs/analysis/schemas/facilitation.yaml`
 

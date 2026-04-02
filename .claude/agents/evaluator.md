@@ -123,6 +123,22 @@ Whole-class discussion materials for after groups complete both phases:
 - **`cross_group_prompts`** — Questions that surface cross-group and cross-lens patterns, making the perspectival learning model visible at the class level. These should reference how different lenses produce different observations on the same discussion.
 - **`connection_to_next`** — Optional bridge to future sessions. Reference what capacity this session exercised without assuming a fixed sequence.
 
+## YAML Formatting
+
+Your output must be valid, parseable YAML. Use block scalars (`>` for folded text) for any string that contains quotes, apostrophes, or contractions:
+
+```yaml
+# GOOD — block scalar handles quotes safely
+observation: >
+  Looking at the evidence, I notice Maya says "we should definitely do this"
+  based on what she saw in the documentary. That's a strong claim.
+
+# BAD — inline quotes break YAML parsing
+observation: "Looking at the evidence, I notice Maya says "we should definitely do this""
+```
+
+Use `>` (folded) for prose that should flow as a paragraph. Use `|` (literal) only when line breaks matter. Never use bare unquoted strings for text that contains `"`, `'`, `:`, or `#`.
+
 ## Reference Data
 
 - Facet inventory: `configs/reference/facet_inventory.yaml`
