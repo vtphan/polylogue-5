@@ -1,40 +1,66 @@
-# Operator Guidance: create_scenario
+# Operator Guidance
 
-This document explains what `create_scenario` expects from the operator and how the operator's input flows through the pipeline.
+This document guides you through operating the Polylogue 5 pipeline — from writing the operator prompt through generating all 6 artifacts for a scenario.
 
-## The 6 Operator Input Fields
+## Prerequisites
 
-When running `/create_scenario`, provide a prompt with these 6 named fields. All are required.
+- Python 3 with PyYAML installed
+- Claude Code CLI
+- Run `/initialize_polylogue` (or `python3 configs/system/scripts/sync_configs.py`) to sync commands and agents to `.claude/`
 
-### 1. Topic
+## Pipeline Overview
+
+Each scenario produces 6 artifacts through 5 stages. You run each stage as a slash command and review at each gate.
+
+```
+/create_scenario → /create_transcript → /analyze_transcript → /design_scaffolding → /configure_session
+```
+
+| Stage | Command | What it produces | Your role |
+|---|---|---|---|
+| 1 | `/create_scenario` | `scenario.yaml` | Write the operator prompt, review the plan |
+| 2 | `/create_transcript` | `transcript.yaml` | Review transcript quality at each gate |
+| 3 | `/analyze_transcript` | `analysis.yaml` + `facilitation.yaml` | Approve passage segmentation, review analysis |
+| 4 | `/design_scaffolding` | `scaffolding.yaml` + enriched `facilitation.yaml` | Review scaffolding calibration |
+| 5 | `/configure_session` | `session.yaml` | Author onboarding content, review assembly |
+
+All artifacts are saved to `registry/{scenario_id}/`. Intermediate artifacts are saved to `registry/{scenario_id}/intermediates/`.
+
+## Stage 1: Create Scenario (`/create_scenario`)
+
+This is where you invest the most design effort. The quality of everything downstream depends on the operator prompt.
+
+### What you provide: 6 named fields
+
+#### 1. Topic
 
 The discussion topic in plain language — what the group of students is deciding.
 
 > **Example:** Whether to focus the group's environmental project on ocean pollution or deforestation
 
-### 2. Context
+#### 2. Context
 
-The PBL connection: what unit the class is in, what driving question they're working on, and what specific situation this group faces. Include enough detail for the planning agent to create realistic personas.
+The PBL connection: what unit, what driving question, what situation this group faces. Include enough detail for the planning agent to create realistic personas.
 
 > **Example:** A 6th-grade STEM class is working on the PBL driving question: "What are the major threats affecting our global environment, and what can our communities do to protect our ecosystems?" This group needs to choose one environmental issue for their semester project. They're debating between ocean pollution (one member saw a documentary about plastic in the Pacific) and deforestation (another member read about Amazon fires). They can only pick one.
 
-### 3. Instructional Goals
+#### 3. Instructional Goals
 
-What you want students to practice noticing when they evaluate this discussion. Write at least two. These should describe observable reasoning patterns, not framework terminology.
+What you want students to practice noticing. Write at least two. Describe observable reasoning patterns, not framework terminology.
 
 > **Example:**
 > - Practice noticing when someone's evidence doesn't actually support the specific claim they're making
 > - Practice noticing when the group only considers one side of a question
 
-### 4. Target Complexity
+#### 4. Target Complexity
 
 Number of personas (2-3) and number of target facets. Start with 2 personas and 2 target facets for most scenarios.
 
 > **Example:** 2 personas, 2 target facets
 
-### 5. Target Facets
+#### 5. Target Facets
 
-For each target facet, specify all of the following:
+For each target facet, specify:
 
 | Sub-field | What it is |
 |---|---|
@@ -45,32 +71,161 @@ For each target facet, specify all of the following:
 | **Social dynamic** | From the explanatory variables (e.g., `conformity`) |
 | **Carrier persona** | Which persona primarily manifests this weakness |
 
-The **signal mechanism** is the most important sub-field. It's the concrete, specific description of what goes wrong and how. It is NOT a restatement of the facet definition — it describes the particular way this facet plays out in this specific discussion.
+The **signal mechanism** is the most important sub-field. It's the concrete, specific description of what goes wrong and how — not a restatement of the facet definition, but the particular way this facet plays out in this specific discussion.
 
 > **Good signal mechanism:** "One persona uses evidence about ocean pollution in general to argue their local project should focus on it, but the evidence is about a different scale and context than what their project could address."
 >
 > **Too vague:** "The evidence isn't relevant to the claim."
->
-> **Good signal mechanism:** "One persona claims the rain barrel system 'will definitely provide enough water' based on one website about rainfall in a different climate. The evidence is thin for a confident conclusion."
->
-> **Too vague:** "There isn't enough evidence."
 
-### 6. Discussion Dynamic
+#### 6. Discussion Dynamic
 
-Describe how the interpersonal interaction should unfold. Include:
+Describe how the interpersonal interaction should unfold:
 
 - **Starting positions** — Who wants what? Where does each persona begin?
 - **Shift mechanism** — What causes the dynamic to change? Who concedes and why?
 - **Ending condition** — How does the discussion resolve?
 - **Interaction quality** — What should the conversation *feel like*?
 
-> **Example (Scenario A):** The personas must genuinely disagree — they want different projects, not just different angles on the same project. The discussion ends when they pick one or acknowledge they can't decide.
->
-> **Example (Scenario 5 — more specific):** The personas should genuinely disagree at first — one wants the preserve, the other wants the waste facility. But unlike Scenario 1, they should argue respectfully and make concessions. The discussion should feel like a GOOD conversation — the weakness is in what they DON'T discuss, not in how they treat each other. The discussion ends with a clear decision.
+> **Example:** The personas must genuinely disagree — they want different projects, not just different angles on the same project. One is passionate about ocean pollution because of a documentary; the other thinks deforestation is more practical. The shift happens when the practical persona starts backing down in the face of the other's enthusiasm. The discussion ends when they pick ocean pollution, with concerns unresolved.
+
+### What happens after you provide the prompt
+
+1. **Step 0** — The command checks your prompt has all 6 fields. If anything is missing, you'll be asked to complete it.
+2. **Your prompt is saved** to `registry/{scenario_id}/operator-prompt.md` as the originating artifact.
+3. **Planning agent** drafts `scenario.yaml` — copies `signal_mechanism` and `discussion_dynamic` verbatim, translates them into barrier-safe `weaknesses`, `accomplishes`, `discussion_arc`, and `turn_outline`.
+4. **Validation agent** reviews the plan against 6 criteria (facet detectability, cross-lens visibility, persona tension, barrier compliance, anti-patterns, signal mechanism fidelity).
+5. **Operator gate** — You review the validation results and decide: approve, revise, or reject.
+6. **Quality checklist** — Final verification before saving.
+
+### How your input flows through the pipeline
+
+Two fields are **copied verbatim** into the scenario plan. Two others are **translated** by the planning agent. Both versions are preserved.
+
+| You write | Planning agent does | Where it lives in scenario.yaml |
+|---|---|---|
+| Signal mechanism | Copies verbatim | `target_facets[].signal_mechanism` |
+| Signal mechanism | Translates to natural language | `personas[].weaknesses` |
+| Discussion dynamic | Copies verbatim | `discussion_dynamic` |
+| Discussion dynamic | Translates to narrative + turns | `discussion_arc` + `turn_outline` |
+
+The verbatim copies preserve your original intent for downstream agents. The translations are what the dialog writer sees — the dialog writer operates behind the information barrier and never sees `signal_mechanism`, `discussion_dynamic`, or `target_facets`.
+
+---
+
+## Stage 2: Create Transcript (`/create_transcript`)
+
+### What you provide
+
+The approved `scenario.yaml` from Stage 1.
+
+### What happens
+
+1. **Information barrier enforced** — `strip_scenario.py` removes `target_facets` and `discussion_dynamic` to produce `dialog_writer_input.yaml`.
+2. **Dialog writer** generates a discussion transcript from the stripped input only.
+3. **Structural review** — script checks turn count (10-14), sentences per turn (1-3), word count (<400), speaker names, turn order.
+4. **Transcript instructional designer** polishes the transcript for signal clarity (sees the full plan including targets).
+5. **Transcript reviewer** assesses quality: naturalness, distinct voices, genuine disagreement, discussion arc, facet signal quality, barrier integrity, structural compliance.
+6. **Operator gate** — You review the reviewer's report and decide: accept, revise (send back to transcript ID), or regenerate (max 3 attempts).
+7. **Enumeration** — Sequential IDs assigned (turn_01, turn_01.s01, ...).
+
+### What to watch for
+
+- Does the transcript sound like real 6th graders? Quote any lines that sound adult.
+- Are the designed weaknesses detectable without knowing the framework? Subtle enough?
+- Does the discussion reach a resolution?
+- Is there genuine pushback before any concession?
+
+---
+
+## Stage 3: Analyze Transcript (`/analyze_transcript`)
+
+### What you provide
+
+The enumerated `transcript.yaml` and the full `scenario.yaml`.
+
+### What happens
+
+1. **Passage segmentation** — You approve how turns are grouped into 3-5 passages (1-3 turns each). Target 2-3 evaluable passages containing targeted facets.
+2. **Evaluator** produces `analysis.yaml` (facet annotations, AI perspectives for evaluate and explain phases, diversity metadata) and `facilitation.yaml` (teacher-facing guide with per-passage scaffolding and whole-class debrief).
+3. **Analysis reviewer** checks: facet annotation accuracy, AI perspective split cleanliness, diversity metadata realism, facilitation guide quality, debrief completeness, cross-reference integrity.
+4. **Operator gate** — You review and decide: accept or revise.
+
+### What to watch for
+
+- AI perspective evaluate block: does it contain ONLY per-lens observations? No explanatory vocabulary.
+- AI perspective explain block: does it introduce vocabulary as perspective ("A cognitive scientist might say..."), not verdict ("This is confirmation bias")?
+- Facilitation guide: could a teacher scan it in 2-3 minutes?
+- Debrief: do cross-group prompts surface perspectival diversity across lenses?
+
+---
+
+## Stage 4: Design Scaffolding (`/design_scaffolding`)
+
+### What you provide
+
+The `analysis.yaml`, `facilitation.yaml`, `transcript.yaml`, and `scenario.yaml`.
+
+### What happens
+
+1. **Pre-enrichment backup** — The current `facilitation.yaml` is copied to intermediates.
+2. **Scaffolding instructional designer** produces `scaffolding.yaml` (hints, rubrics, misreadings, bridge prompts, reflection prompts per evaluable passage) and enriches `facilitation.yaml` with passage-specific discussion starter questions.
+3. **Scaffolding reviewer** checks: partial hint calibration (where to look, not what to see), misreading plausibility, rubric differentiation, bridge prompt specificity, language appropriateness (6th-grade, no framework terms), facilitation enrichment integrity, cross-artifact coherence.
+4. **Operator gate** — You review and decide: accept or revise.
+
+### What to watch for
+
+- Partial hints: do they direct attention to a *region* without naming the observation?
+- Common misreadings: are patterns plausible for a real 6th grader? Are redirects gentle?
+- Observation rubric: are the 3 levels genuinely distinct, not just more words?
+- Explanation rubric: cognitive and social have basic+developing; interaction has developing+differentiated. No extra levels.
+- All text in `scaffolding.yaml` must be student-friendly — no framework terminology.
+
+---
+
+## Stage 5: Configure Session (`/configure_session`)
+
+### What you provide
+
+All preceding artifacts plus two pieces of operator-authored content:
+
+- **`topic_summary`** — Brief context for students (1-2 sentences).
+- **`reading_instruction`** — How students should approach the transcript.
+
+### What happens
+
+1. **Assembly** — `session.yaml` is built from transcript, analysis, scaffolding, and reference data.
+2. **Passage ordering** — Passages ordered by difficulty (accessible → moderate → challenging).
+3. **Operator content** — You provide the onboarding text and set completion thresholds and reference list visibility.
+4. **Validation** — Cross-references checked: passage IDs, turn IDs, lens definitions.
+
+### What to watch for
+
+- `topic_summary` should be neutral — don't hint at what's wrong with the discussion.
+- Completion thresholds: suggest 2 for evaluate (minimum passages before peer step), 1 for explain.
+- Reference lists (`show_cognitive_patterns`, `show_social_dynamics`): suggest `false` for early sessions, `true` for later sessions.
+
+---
+
+## After All 5 Stages
+
+All 6 artifacts are in `registry/{scenario_id}/`:
+
+| File | What it is | Who uses it |
+|---|---|---|
+| `scenario.yaml` | Scenario plan | Pipeline only |
+| `transcript.yaml` | Discussion transcript | Students (via app) |
+| `analysis.yaml` | Expert analysis | AI perspectives (via app) |
+| `facilitation.yaml` | Facilitation guide | Teacher |
+| `scaffolding.yaml` | Scaffolding materials | App (hints, rubrics) |
+| `session.yaml` | Session configuration | App (setup) |
+
+Intermediate artifacts in `registry/{scenario_id}/intermediates/` are preserved for debugging.
+
+---
 
 ## Complete Example Prompts
 
-These are complete operator prompts with all 6 fields filled in. Use them as templates for new scenarios or as-is to regenerate the existing discussions.
+These are complete operator prompts with all 6 fields. Use them as templates or as-is to run through the pipeline.
 
 ### Example A: Ocean Pollution vs Deforestation
 
@@ -207,33 +362,7 @@ The weakness in the second half is absence — what's missing from the
 conversation, not what's wrong with what's said.
 ```
 
-## How Your Input Flows Through the Pipeline
-
-Two of your fields are **copied verbatim** into the scenario plan. Two others are **translated** by the planning agent. Both versions are preserved.
-
-| You write | Planning agent does | Where it lives in scenario.yaml |
-|---|---|---|
-| Signal mechanism | Copies verbatim | `target_facets[].signal_mechanism` |
-| Signal mechanism | Translates into natural language | `personas[].weaknesses` |
-| Discussion dynamic | Copies verbatim | `discussion_dynamic` |
-| Discussion dynamic | Translates into narrative + turn sequence | `discussion_arc` + `turn_outline` |
-
-The **verbatim copies** preserve your original intent. Downstream agents (transcript ID, evaluator, scaffolding ID) can read them to understand what you designed and why.
-
-The **translations** are what the dialog writer sees. The dialog writer operates behind the information barrier — it never sees `signal_mechanism`, `discussion_dynamic`, or `target_facets`. It works only from `weaknesses`, `accomplishes`, `discussion_arc`, and `turn_outline`, all written in natural language.
-
-## What the Validation Agent Checks
-
-After the planning agent drafts the scenario plan, the validation agent reviews it against 6 criteria:
-
-1. **Facet detectability** — Will the designed weakness be observable in the transcript?
-2. **Cross-lens visibility** — Can multiple lenses reveal the weakness?
-3. **Persona tension** — Do the personas genuinely disagree?
-4. **Information barrier compliance** — Are `weaknesses` and `accomplishes` free of framework terminology?
-5. **Turn outline anti-patterns** — No long agreement runs, dismissed concerns acknowledged, narrative arc present?
-6. **Signal mechanism fidelity** — Does `weaknesses` faithfully and specifically translate your `signal_mechanism`? Is it concrete enough for the dialog writer? Does `discussion_arc` + `turn_outline` realize your `discussion_dynamic`?
-
-Criterion 6 is the check that your intent survived the planning agent's translation. If the validation agent flags it, the planning agent's translations need revision before proceeding.
+---
 
 ## Reference Data
 
@@ -241,4 +370,4 @@ When writing target facets, consult:
 - Facet inventory: `configs/reference/facet_inventory.yaml` (11 facets with IDs, definitions, quality ranges, cross-lens visibility)
 - Explanatory variables: `configs/reference/explanatory_variables.yaml` (8 cognitive patterns + 4 social dynamics with IDs and descriptions)
 - Lenses: `configs/reference/lenses.yaml` (3 lenses: logic, evidence, scope)
-- Scenario sequence: `docs/scenario-sequence.md` (the pilot scenario plan with all operator prompts)
+- Scenario sequence: `docs/scenario-sequence.md` (the pilot scenario plan with all 5 operator prompts)
