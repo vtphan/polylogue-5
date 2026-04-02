@@ -30,13 +30,25 @@ If any field is missing or underspecified, ask the operator to complete it befor
 - **Signal mechanism** must be present for each target facet — it cannot be left for the planning agent to invent
 - **Discussion dynamic** must describe concrete interpersonal mechanics, not just restate the topic
 
-Once the prompt is validated, save it verbatim — no reformatting, no added markup — as the originating artifact:
+Once the prompt is validated, save it as clean plain text to `registry/{scenario_id}/operator-prompt.txt`. Each field labeled on its own line, body text flowing continuously (no mid-sentence line breaks), one blank line between fields:
 
 ```
-registry/{scenario_id}/operator-prompt.txt
-```
+Topic: Whether to focus the group's environmental project on...
 
-Copy the operator's text exactly as provided. This preserves the original input for future reference, re-generation, and comparison against the planning agent's translations.
+Context: A 6th-grade STEM class is working on...They can only pick one.
+
+Instructional goals:
+- Practice noticing when...
+- Practice noticing when...
+
+Target complexity: 2 personas, 2 target facets
+
+Target facets:
+- Relevance (Evidence lens) — ...Signal mechanism: ...Cognitive pattern: ...
+- Counter-argument engagement (Scope lens) — ...Signal mechanism: ...
+
+Discussion dynamic: The personas must genuinely disagree...
+```
 
 ### Step 1: Planning Agent — Draft the Scenario Plan
 
