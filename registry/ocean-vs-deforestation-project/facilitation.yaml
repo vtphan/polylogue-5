@@ -1,0 +1,587 @@
+scenario_id: ocean-vs-deforestation-project
+
+overview:
+  topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+  targeted_facets_summary: >
+    This discussion targets two facets. First, weak relevance (Evidence lens):
+    Marina cites dramatic facts about the Great Pacific Garbage Patch to argue
+    for a local school project, but the evidence is about a global-scale problem
+    that doesn't connect to what their group can actually do. Second, weak
+    counter-argument engagement (Scope lens): Diego raises legitimate feasibility
+    concerns three times, and each time Marina deflects with emotional urgency
+    rather than engaging. The discussion ends with the group choosing ocean
+    pollution, Diego's strongest concern still unanswered.
+  session_timing: >
+    Evaluate phase: ~20 minutes (5 min individual, 8 min peer, 7 min AI reveal
+    and follow-up). Explain phase: ~20 minutes (5 min individual, 8 min peer,
+    7 min AI reveal and follow-up). Debrief: ~10 minutes. Total: ~50 minutes.
+  what_to_expect: >
+    Students tend to notice Marina's enthusiasm and dramatic facts first and may
+    initially think her argument is strong. The relevance gap — that Pacific
+    Ocean facts don't tell you what a school group should do — is the hardest
+    thing to see because the facts are genuinely impressive. Students with the
+    Evidence lens are most likely to catch it. The counter-argument dismissal
+    pattern is easier to spot, especially Diego's resignation at the end.
+    Students with the Scope lens will likely notice Diego's concerns get brushed
+    aside. The double standard in passage 3 (planting trees is "too small" but
+    ocean pollution is "way bigger") is a productive moment where Logic and
+    Scope students may see different things.
+
+passage_guides:
+  # ===== PASSAGE 1 =====
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+    summary: >
+      Marina and Diego state their opening positions. Marina wants ocean
+      pollution (saw a documentary), Diego wants deforestation (could plant
+      trees at school). Both arrive with their minds made up.
+
+    whats_here:
+      - facet: Source diversity
+        quality: weak (emergent, mild)
+        visible_through:
+          - evidence
+          - scope
+        explanation: >
+          Each persona relies on a single source — one documentary, one set
+          of articles. This is mild and typical for 6th graders opening a
+          discussion; it becomes more significant as the discussion proceeds
+          and neither seeks additional information.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          Ask students to look at where each person is getting their
+          information. "How many different things did each person look at
+          before making their pick?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether it's a problem that each
+          person only has one source. Some will think that's normal; others
+          will think they should have looked at more before deciding.
+        productive_questions:
+          - "Is it okay to pick your project based on one thing you saw or read?"
+          - "What else might they want to know before deciding?"
+          - "What would it look like if they'd started by listing options instead of jumping to their favorites?"
+        watch_for: >
+          If students dismiss this passage quickly as "just the beginning,"
+          that's fine — the meatier material is in passages 2-4. Don't
+          linger here if students are ready to move on.
+      ai:
+        what_the_ai_will_say: >
+          The AI will note that both students rely on one source each and
+          jump straight to their preferred answer. Mild observation — sets
+          up the pattern without heavy critique.
+        likely_student_reactions: >
+          Students may shrug at this — it seems normal to come in with an
+          opinion. That's fine. The AI observation plants a seed that
+          becomes relevant in later passages.
+        follow_up: >
+          Bridge to Explain: "Think about what it's like when you've already
+          made up your mind about something before a discussion starts. How
+          does that change how you listen?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Prompt: "Think about a time you saw or read something that made
+          you feel really strongly. Did you look for more information after
+          that, or did you feel like you already knew what you thought?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether coming in with an opinion is
+          a problem or just normal.
+        productive_questions:
+          - "Is there a difference between having an opinion and having your mind made up?"
+          - "What would it look like if they started this discussion without a favorite?"
+          - "How does finding something really interesting or upsetting change the way you listen to other ideas?"
+        watch_for: >
+          If students get stuck on "everyone does this," redirect to whether
+          it affected how the discussion went.
+      ai:
+        what_the_ai_will_say: >
+          The AI will introduce the idea that finding one compelling source
+          can make us feel like we know enough — a form of tunnel vision.
+          Framed gently as something everyone does.
+        likely_student_reactions: >
+          Students will likely relate to this. Many will have experienced
+          forming a strong opinion from one source.
+        follow_up: >
+          After the session, students could try noticing the next time they
+          form a strong opinion from one thing they saw — and check whether
+          they looked for anything else before deciding.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Both students state preferences without much reasoning yet
+        might_miss:
+          - The logical setup is thin — this is a position-stating passage
+      - lens: evidence
+        will_likely_see:
+          - Each person has one source (documentary, articles)
+        might_miss:
+          - That single-source reliance is already shaping the discussion
+      - lens: scope
+        will_likely_see:
+          - Both arrive with fixed positions
+        might_miss:
+          - Neither asks what the other thinks first
+
+  # ===== PASSAGE 2 =====
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+    summary: >
+      Marina deploys dramatic facts from the documentary — millions of tons of
+      plastic, garbage patch twice the size of Texas — to argue for ocean
+      pollution. Diego is impressed but raises a practical concern: they don't
+      live near the ocean. Marina brushes it aside with "we can figure that out
+      later" and redirects to sea turtles dying.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak (targeted)
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Marina's facts are about the Pacific garbage patch — a global-scale
+          problem. She uses them to argue for a local school project. The gap
+          between the evidence's scope (Pacific Ocean) and the project's scope
+          (their school) is the core relevance weakness. Driven by
+          overgeneralization — dramatic facts about a big problem feel like
+          they justify any action on that topic.
+      - facet: Counter-argument engagement
+        quality: weak (targeted)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Diego's feasibility concern ("we don't even live near the ocean")
+          is the strongest counterargument. Marina dismisses it with "we can
+          figure that out later" and redirects to emotional urgency. Driven
+          by confirmation bias (dismissing threats to preferred choice) and
+          conflict avoidance (Diego doesn't press).
+      - facet: Sufficiency
+        quality: weak (emergent)
+        visible_through:
+          - evidence
+          - scope
+          - logic
+        explanation: >
+          Marina's argument rests entirely on one documentary's facts. The
+          quantity of dramatic numbers creates an impression of strong support,
+          but it's all from one source making one point.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Evidence lens students: "Look at the facts Marina shares. What
+          are they actually about? Where is the garbage patch?" For Scope lens
+          students: "When Diego asks his question, what happens next? Does he
+          get an answer?" For Logic students: "Marina says they should do
+          ocean pollution because of the garbage patch. Does that follow?"
+      peer:
+        likely_disagreements: >
+          Evidence and Logic students may disagree about whether Marina's
+          facts are strong or weak — the facts themselves are real and
+          dramatic, but they may not fit the decision. Scope students will
+          likely focus on Diego's dismissed concern while others focus on
+          Marina's facts.
+        productive_questions:
+          - "Marina's facts are true. Does that automatically make them good reasons for this decision?"
+          - "What happened when Diego asked his question? Did the group actually deal with it?"
+          - "The garbage patch is in the Pacific. Their project is at school. Does it matter that those are different places?"
+        watch_for: >
+          If students say Marina's argument is strong because the facts are
+          impressive, probe whether impressive facts = relevant facts. If
+          students jump straight to "Marina is wrong," redirect to what's
+          happening in the discussion — the point is to notice the pattern,
+          not judge Marina.
+      ai:
+        what_the_ai_will_say: >
+          The AI will note the scale mismatch through Evidence and Logic
+          (Pacific facts → school project decision) and the dismissed concern
+          through Scope. Written as observations, not judgments.
+        likely_student_reactions: >
+          Some students will have an "aha" moment about the scale mismatch —
+          they didn't notice because the facts were so dramatic. Others may
+          resist, saying "but ocean pollution IS a big deal." Both reactions
+          are productive.
+        follow_up: >
+          Bridge to Explain: "Something to think about: why might someone not
+          notice that their facts don't quite fit? What about those facts
+          makes them hard to question?"
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Prompt: "Think about what was happening when Marina shared those
+          facts. What was the mood like? How did Diego react at first? Why
+          might big, dramatic facts be hard to question even when they don't
+          fit?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Marina's thinking is a personal
+          flaw or something anyone would do. The most productive framing is
+          the latter — this is about how dramatic information affects
+          everyone's thinking.
+        productive_questions:
+          - "If you heard those same facts about the garbage patch, would you have questioned whether they fit a school project?"
+          - "Why did Diego say 'wow, that is a lot' before raising his concern? What was happening there?"
+          - "When someone shares something really dramatic, does it change how you respond to them? Why?"
+        watch_for: >
+          If students focus only on Marina's thinking and ignore the group
+          dynamic (Diego being impressed, then backing down), redirect: "It's
+          not just about one person — what happened between them?"
+      ai:
+        what_the_ai_will_say: >
+          The AI will introduce overgeneralization (dramatic facts about a big
+          situation assumed to apply to a smaller one) and conformity (Diego
+          initially going along because the facts were impressive). Framed as
+          "a cognitive scientist might say..."
+        likely_student_reactions: >
+          Students often connect to the idea that dramatic information is
+          hard to question. Some may share examples from their own experience.
+        follow_up: >
+          Invite students to think about the next time they see a dramatic
+          fact or statistic and to ask: "Is this about the same thing I'm
+          trying to decide about, or just about something related?"
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Marina jumps from Pacific garbage patch to "we should do ocean pollution"
+          - There's a gap between the evidence and the conclusion
+        might_miss:
+          - The gap is specifically about scale — the evidence is global, the project is local
+      - lens: evidence
+        will_likely_see:
+          - All of Marina's facts are from one documentary about the Pacific
+          - The numbers are impressive but might not fit the decision
+        might_miss:
+          - That the emotional impact of the facts substitutes for their relevance to a school project
+      - lens: scope
+        will_likely_see:
+          - Diego asks a practical question and gets brushed off
+          - The response about figuring it out later isn't a real answer
+        might_miss:
+          - That this is the strongest counterargument in the discussion and it was set aside without engagement
+
+  # ===== PASSAGE 3 =====
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+      - turn_08
+    summary: >
+      Diego offers a concrete alternative — plant trees in the courtyard,
+      measure growth, show results. Marina dismisses it as too small ("not gonna
+      save the rainforest") and says ocean pollution is bigger. Diego wavers and
+      concedes, even though Marina's argument applies equally to her own project.
+
+    whats_here:
+      - facet: Counter-argument engagement
+        quality: weak (targeted)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Diego presents the most concrete plan in the discussion and it gets
+          dismissed without genuine engagement. Marina applies a "too small"
+          standard to his idea that she doesn't apply to her own. Driven by
+          confirmation bias (harsher judgment of opposing ideas) and conflict
+          avoidance (Diego concedes rather than pointing out the double
+          standard).
+      - facet: Internal consistency
+        quality: weak (emergent)
+        visible_through:
+          - logic
+          - evidence
+        explanation: >
+          Marina argues planting trees is too small to matter while arguing
+          that their school group should take on ocean pollution in the
+          Pacific — a much bigger mismatch. She applies contradictory standards
+          to the two proposals. Driven by confirmation bias — easier to see
+          flaws in ideas you don't like.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Logic students: "Look at what Marina says about Diego's idea.
+          Now think about her idea. Does the same thing apply?" For Evidence
+          students: "Compare what Diego offers — a specific plan — with what
+          Marina has offered. Who has more details about how their project
+          would actually work?" For Scope students: "How much time does the
+          group spend considering Diego's plan before moving on?"
+      peer:
+        likely_disagreements: >
+          Logic students will likely catch the double standard before Evidence
+          or Scope students do. Scope students will focus on how quickly
+          Diego's idea was dismissed. This is a passage where cross-lens
+          comparison is especially productive.
+        productive_questions:
+          - "Marina says planting trees won't save the rainforest. Is that a fair point?"
+          - "Could you make the same argument about Marina's project?"
+          - "Why does Diego say 'yeah, I guess' here? Did Marina actually prove his idea was bad?"
+          - "Who has a more detailed plan for how their project would actually work? Does that matter?"
+        watch_for: >
+          This is the passage where students are most likely to pick sides.
+          If discussion becomes "Marina is right" vs. "Diego is right,"
+          redirect to the reasoning: "We're not deciding which project is
+          better — we're looking at how the group is making this decision."
+      ai:
+        what_the_ai_will_say: >
+          The AI will highlight the double standard through Logic, the
+          plan-vs-no-plan asymmetry through Evidence, and the unequal
+          consideration through Scope.
+        likely_student_reactions: >
+          The double standard often produces a strong reaction — students may
+          say "that's not fair!" Use that energy to transition to Explain:
+          why might someone apply different standards without noticing?
+        follow_up: >
+          Bridge to Explain: "It seems like Marina holds Diego's idea to a
+          standard she doesn't hold her own idea to. Think about why that
+          might happen — not just for Marina, but for anyone."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Prompt: "Think about a time you really wanted something and someone
+          pointed out a problem with it. How did you react? Did you look for
+          problems with their idea too?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Marina is being unfair on
+          purpose or doesn't realize she's doing it. The framework answer is
+          the latter — confirmation bias is typically unconscious.
+        productive_questions:
+          - "Do you think Marina notices she's being harder on Diego's idea than her own?"
+          - "Why is it easier to see problems with someone else's idea than your own?"
+          - "What about Diego — why does he agree when he had a real plan?"
+          - "Have you ever been in a group where one person was really confident? What happened to the quieter ideas?"
+        watch_for: >
+          If students only discuss Marina's thinking, make sure to bring in
+          Diego's role: "We've talked about Marina. What about Diego? He had
+          a strong point and he let it go. What's happening there?"
+      ai:
+        what_the_ai_will_say: >
+          The AI will introduce confirmation bias (judging opposing ideas more
+          harshly) and conflict avoidance (giving up a valid point because
+          disagreeing feels uncomfortable). Will emphasize the interaction —
+          the bias persists because the group dynamic doesn't challenge it.
+        likely_student_reactions: >
+          Students typically connect strongly to conflict avoidance — many
+          have experienced backing down when someone was very confident. This
+          is often the most relatable moment in the discussion.
+        follow_up: >
+          Invite students to think about times they've been in Diego's
+          position — having a good point but letting it go because the other
+          person seemed so sure.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Marina says planting trees is too small, but her project is also too big for a school group
+          - The same argument applies both ways
+        might_miss:
+          - That this is a double standard — applying a rule unevenly
+      - lens: evidence
+        will_likely_see:
+          - Diego has a specific plan and Marina doesn't
+          - Marina dismisses Diego's plan without offering details about her own
+        might_miss:
+          - That having concrete details is a form of support for an idea
+      - lens: scope
+        will_likely_see:
+          - Diego's idea gets dismissed quickly
+          - The group doesn't weigh both options equally
+        might_miss:
+          - That Diego's concession is the turning point of the whole discussion
+
+  # ===== PASSAGE 4 =====
+  - passage_id: passage_04
+    turns:
+      - turn_09
+      - turn_10
+      - turn_11
+      - turn_12
+    summary: >
+      Marina adds social appeal (the presentation would be cool), Diego asks one
+      last time whether they can actually do anything about ocean pollution since
+      it's in the Pacific, Marina offers vague ideas (beach cleanup, campaign),
+      and Diego gives in — not because his concern was answered but because
+      pressing further feels pointless.
+
+    whats_here:
+      - facet: Counter-argument engagement
+        quality: weak (targeted)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Diego's clearest and most direct feasibility challenge. Marina
+          responds with vague local actions (beach cleanup, campaign) that
+          don't connect to the Pacific-scale problem she used as her main
+          argument. Diego's resignation ("I guess ocean pollution is fine")
+          closes the discussion without resolving the concern. Confirmation
+          bias (Marina's response sounds like an answer but isn't) meets
+          conflict avoidance (Diego accepts it).
+      - facet: Relevance
+        quality: weak (targeted)
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          The relevance gap reaches its clearest expression. Marina's proposed
+          actions (beach cleanup, straw campaign) are disconnected from her
+          evidence (Pacific garbage patch). The group chose ocean pollution
+          because of dramatic global-scale facts but would end up doing
+          something entirely different. The evidence that drove the decision
+          and the project they'd actually do don't match.
+
+    evaluate:
+      individual:
+        if_students_are_stuck: >
+          For Scope students: "Read Diego's last line. Does he sound like
+          someone who thinks this is a good decision?" For Evidence students:
+          "Marina suggested a beach cleanup and a campaign. Are those the same
+          as what she was talking about before?" For Logic students: "The group
+          chose ocean pollution because of the garbage patch. Would a beach
+          cleanup do anything about the garbage patch?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whether Marina's suggestions (beach
+          cleanup, campaign) are reasonable responses to Diego's concern.
+          Some will say "at least she tried to answer"; others will say
+          "that's not what she was talking about before."
+        productive_questions:
+          - "Does Diego's last line sound like agreement or giving up?"
+          - "Marina suggested a beach cleanup. Is that related to the garbage patch in the Pacific?"
+          - "Did the group actually solve the problem Diego kept bringing up?"
+          - "If you were in Diego's shoes, would you have kept pushing? What makes that hard to do?"
+        watch_for: >
+          If students focus on whether a beach cleanup is a good idea in
+          general, redirect: "We're not asking if beach cleanups are good.
+          We're asking if that answers Diego's question about what they can
+          do about the garbage patch."
+      ai:
+        what_the_ai_will_say: >
+          The AI will note the disconnect between the reason for choosing
+          (Pacific garbage patch) and the proposed action (local cleanup/
+          campaign), and Diego's resignation vs. genuine agreement.
+        likely_student_reactions: >
+          Many students will recognize Diego's "I guess" as giving up. Some
+          may feel frustrated on his behalf. This emotional connection is
+          productive — channel it into analysis rather than judgment.
+        follow_up: >
+          Bridge to Explain: "The group made a decision, but did they actually
+          agree? Think about what happened to Diego's question over the whole
+          discussion — not just here at the end."
+
+    explain:
+      individual:
+        if_students_are_stuck: >
+          Prompt: "Think about what happened to Diego's concern across the
+          whole discussion. He asked basically the same question three times.
+          What happened each time? Why might he have stopped asking?"
+      peer:
+        likely_disagreements: >
+          Students may disagree about whose "fault" the outcome is — Marina's
+          for not engaging, or Diego's for not pressing harder. The most
+          productive framing is that both patterns contributed.
+        productive_questions:
+          - "Diego asked his question three times. Why do you think he stopped?"
+          - "Is there a difference between a group making a decision and a group agreeing?"
+          - "Could Marina have given a different answer that actually addressed Diego's concern?"
+          - "Think about the whole discussion — was there ever a moment where the group could have gone a different direction? What would it have taken?"
+        watch_for: >
+          If students blame only one person, redirect to the dynamic between
+          them. The point is the pattern, not the person.
+      ai:
+        what_the_ai_will_say: >
+          The AI will explain how confirmation bias and conflict avoidance
+          interacted to produce a decision without genuine agreement. Will
+          frame the ending as "the group decided, but the question that
+          mattered most is still unanswered."
+        likely_student_reactions: >
+          Students often find the interaction between cognitive and social
+          patterns eye-opening — the idea that one person's thinking error
+          persists because the group dynamic doesn't challenge it.
+        follow_up: >
+          After the session, invite students to notice the next time a group
+          they're in makes a decision. Did everyone actually agree, or did
+          someone just stop disagreeing?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - The reason for choosing (Pacific garbage patch) doesn't connect to what they'd do (beach cleanup)
+          - The decision is based on one thing but the project would be about something else
+        might_miss:
+          - That this disconnect has been present since passage 2
+      - lens: evidence
+        will_likely_see:
+          - Marina's suggestions are different from the facts she originally cited
+          - The claim about tons of stuff they could do is vague and unsupported
+        might_miss:
+          - That the facts that drove the decision don't apply to the project they'd actually do
+      - lens: scope
+        will_likely_see:
+          - Diego gives in without getting his question answered
+          - Diego's final line sounds like giving up, not genuine agreement
+        might_miss:
+          - That Diego asked the same question three times and it was deflected each time — a pattern across the discussion
+
+debrief:
+  key_takeaways:
+    - >
+      Dramatic, true facts can feel like strong support even when they don't
+      connect to the decision being made. This discussion's core relevance
+      weakness — Pacific Ocean facts used to justify a local school project —
+      is hard to spot precisely because the facts are real and impressive.
+      Students practiced distinguishing between "true" and "relevant."
+    - >
+      A concern that gets deflected rather than addressed doesn't go away —
+      it just goes unresolved. Diego raised the strongest counterargument
+      three times, and each time it was acknowledged just enough to not feel
+      ignored, then redirected. Students practiced noticing the difference
+      between addressing a concern and moving past it.
+    - >
+      Group decisions can happen through one person stopping rather than
+      everyone agreeing. Diego's "I guess ocean pollution is fine" is not
+      agreement — it's resignation. Students practiced reading group dynamics
+      and distinguishing real consensus from social compliance.
+
+  cross_group_prompts:
+    - >
+      "Groups that had the Evidence lens — what did you notice about Marina's
+      facts? Groups that had the Scope lens — what did you notice about
+      Diego's questions? You were looking at the same discussion but you
+      noticed different things. Why?"
+    - >
+      "Did any group change their mind about the discussion after hearing
+      what another group saw through a different lens? What did the other
+      lens show you that you hadn't noticed?"
+    - >
+      "Think about the ending — Diego saying 'I guess ocean pollution is
+      fine.' Groups that focused on Evidence: did you notice that? Groups
+      that focused on Scope: how important was that moment for you? What
+      does it mean that different lenses make different moments feel
+      important?"
+
+  connection_to_next: >
+    This session exercised two key capacities: distinguishing between
+    impressive and relevant information, and noticing when concerns are
+    deflected rather than addressed. Future sessions can build on these by
+    introducing discussions where the reasoning errors are subtler — where
+    the evidence is relevant but insufficient, or where counterarguments
+    are engaged but strawmanned rather than ignored.

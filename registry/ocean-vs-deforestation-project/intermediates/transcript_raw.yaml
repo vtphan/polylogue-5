@@ -1,0 +1,71 @@
+scenario_id: ocean-vs-deforestation-project
+
+personas:
+  - name: Marina
+    perspective: >
+      Believes ocean pollution is the most important environmental issue and
+      wants the group to focus their project on it after watching a documentary.
+  - name: Diego
+    perspective: >
+      Thinks the group should pick deforestation because it's something they
+      can actually work on at their school.
+
+turns:
+  - speaker: Marina
+    sentences:
+      - text: "Okay so I think we should totally do ocean pollution for our project."
+      - text: "I watched this documentary last week about all the plastic in the ocean and it was honestly so sad."
+
+  - speaker: Diego
+    sentences:
+      - text: "I was thinking more like deforestation, actually."
+      - text: "I read about the Amazon fires and stuff, and we could plant trees right here at school."
+
+  - speaker: Marina
+    sentences:
+      - text: "But did you know there's like millions of tons of plastic getting dumped in the ocean every single year?"
+      - text: "And there's this garbage patch in the Pacific that's literally twice the size of Texas."
+      - text: "That's way more serious than trees."
+
+  - speaker: Diego
+    sentences:
+      - text: "Okay wow, that's a lot."
+      - text: "But like, we don't even live near the ocean, so what would we actually do?"
+
+  - speaker: Marina
+    sentences:
+      - text: "We can figure out the details later, that's not the important part."
+      - text: "The important part is that sea turtles are literally dying because they eat plastic bags thinking it's food."
+
+  - speaker: Diego
+    sentences:
+      - text: "I mean yeah that's really bad, but with deforestation we could actually plant trees in the courtyard."
+      - text: "Like we could measure how much they grow over the semester and have actual results to show."
+
+  - speaker: Marina
+    sentences:
+      - text: "Planting a couple trees is nice and everything but it's not gonna save the rainforest."
+      - text: "Ocean pollution is like a way bigger deal."
+
+  - speaker: Diego
+    sentences:
+      - text: "Yeah, I guess planting trees is kind of small too."
+
+  - speaker: Marina
+    sentences:
+      - text: "Plus think about how cool our presentation would be — we could show clips from the documentary and talk about the garbage patch."
+      - text: "Everyone would be so into it."
+
+  - speaker: Diego
+    sentences:
+      - text: "But like, can we actually do anything about it though?"
+      - text: "It's in the Pacific."
+
+  - speaker: Marina
+    sentences:
+      - text: "We could do a beach cleanup day or like start a campaign to get people to stop using plastic straws."
+      - text: "There's tons of stuff we could do."
+
+  - speaker: Diego
+    sentences:
+      - text: "Okay yeah, I guess ocean pollution is fine."

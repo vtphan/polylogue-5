@@ -1,0 +1,215 @@
+scenario_id: ocean-vs-deforestation-project
+
+topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+
+context: >
+  A 6th-grade STEM class is working on the PBL driving question: "What are the
+  major threats affecting our global environment, and what can our communities do
+  to protect our ecosystems?" This group needs to choose one environmental issue
+  for their semester project. They're debating between ocean pollution (one member
+  saw a documentary about plastic in the Pacific) and deforestation (another member
+  read about Amazon fires). They can only pick one.
+
+instructional_goals:
+  - Practice noticing when someone's evidence doesn't actually support the specific claim they're making
+  - Practice noticing when the group only considers one side of a question
+
+discussion_dynamic: >
+  The personas must genuinely disagree — they want different projects, not just
+  different angles on the same project. One is passionate about ocean pollution
+  because of a documentary; the other thinks deforestation is more practical
+  because they could plant trees at school. The ocean-pollution persona is more
+  enthusiastic and emotionally invested; the deforestation persona is more
+  practical but less assertive. The shift happens when the practical persona
+  starts backing down in the face of the other's enthusiasm and confident citing
+  of dramatic facts. The discussion ends when they pick ocean pollution, with the
+  deforestation persona's concerns unresolved — not because they were wrong, but
+  because they stopped pressing.
+
+personas:
+  - name: Marina
+    perspective: >
+      Wants the group to do their project on ocean pollution. She watched a
+      documentary about plastic in the Pacific Ocean and was deeply affected by
+      the images of sea turtles and garbage islands. She believes ocean pollution
+      is the most urgent environmental issue and feels passionate about making a
+      difference. She thinks their project should tackle the biggest problem, not
+      the easiest one.
+    knowledge: >
+      Watched a documentary about the Great Pacific Garbage Patch. Can cite
+      specific facts: millions of tons of plastic dumped in the ocean every year,
+      sea turtles dying from eating plastic bags, a garbage patch twice the size
+      of Texas. Has not researched what a school group could realistically do
+      about ocean pollution or whether any of her facts connect to local action.
+    weaknesses: >
+      Gets so swept up in dramatic facts from the documentary that she doesn't
+      notice the gap between the huge global problem she's describing and what
+      their school group could actually do. Treats the size of the problem as the
+      reason to pick it, without thinking about whether what she learned about the
+      Pacific Ocean says anything about what their group can accomplish locally.
+      When challenged, redirects to how important the problem is rather than
+      addressing the actual concern — says things like "we can figure that out
+      later" instead of engaging with practical questions.
+
+  - name: Diego
+    perspective: >
+      Thinks the group should focus on deforestation because it's something they
+      can actually do something about. He read about Amazon fires and cares about
+      forests, but his main argument is practical: their school has a courtyard,
+      they could plant trees, they could measure growth over the semester. He
+      wants a project where they can see results.
+    knowledge: >
+      Read articles about Amazon deforestation and rainforest loss. Also
+      researched local tree-planting programs and knows their school has space
+      for a small garden. Has thought about what a semester-long project would
+      look like in practical terms — planting, measuring, documenting.
+    weaknesses: >
+      Backs down too easily when someone pushes back with confidence. Even when
+      he has a strong point — like the fact that they don't live near the ocean
+      and can't realistically do anything about the Pacific — he lets it go when
+      Marina redirects with enthusiasm. Tends to say "yeah, I guess" instead of
+      pressing his argument. His practical thinking is sound, but he treats
+      disagreement as uncomfortable rather than productive.
+
+target_facets:
+  - facet_id: relevance
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through:
+      - logic
+    designed_explanation:
+      cognitive_pattern: overgeneralization
+      social_dynamic: conformity
+      interaction_note: >
+        Marina overgeneralizes from dramatic documentary evidence about a
+        global-scale problem to justify a local school project. Diego finds the
+        documentary facts compelling and doesn't push back on whether the
+        evidence actually connects to what their group can do — the emotional
+        weight of the facts substitutes for relevance to their specific
+        situation.
+    carrier_persona: Marina
+    signal_mechanism: >
+      The persona cites dramatic facts from a documentary about the Great Pacific
+      Garbage Patch — millions of tons of plastic, sea turtles — to argue their
+      school group should do an ocean pollution project. The documentary evidence
+      is real and compelling but it's about a global-scale problem in the Pacific,
+      not about what a school group can do locally. The gap is between the
+      evidence's scope (Pacific Ocean) and the project's scope (their school).
+      The persona doesn't notice the mismatch because the documentary was so
+      dramatic.
+
+  - facet_id: counter_argument_engagement
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through:
+      - evidence
+      - logic
+    designed_explanation:
+      cognitive_pattern: confirmation_bias
+      social_dynamic: conflict_avoidance
+      interaction_note: >
+        Marina dismisses Diego's feasibility concerns because they threaten her
+        preferred choice — she redirects to emotional urgency rather than
+        addressing whether the group can actually act on ocean pollution. Diego
+        raises the strongest counterargument (they can't realistically do
+        anything about ocean pollution locally) but lets it go rather than
+        pressing, because disagreeing feels uncomfortable when Marina is so
+        confident and enthusiastic.
+    carrier_persona: Marina
+    signal_mechanism: >
+      When the deforestation persona raises feasibility concerns ("we don't live
+      near the ocean," "can we actually do anything about this?"), the
+      ocean-pollution persona dismisses them with "we can figure that out later"
+      and redirects to how important ocean pollution is. The concern is
+      acknowledged just enough to not feel ignored, but never actually addressed.
+      The feasibility question — which is the strongest counterargument — gets
+      replaced by emotional urgency about the problem's size.
+
+discussion_arc: >
+  The discussion opens with both personas stating their preferred projects and
+  reasons. Marina leads with enthusiasm and dramatic documentary facts about
+  ocean pollution. Diego counters with deforestation as a practical alternative
+  — something they can actually do at school. Tension rises as Diego raises
+  feasibility concerns about ocean pollution (they don't live near the ocean,
+  what can they really do?), but Marina deflects each time by citing how
+  important and urgent ocean pollution is. The pivot comes when Diego starts
+  yielding — his practical concerns go unanswered not because they're wrong
+  but because Marina's confidence and emotional investment make it easier to
+  go along than to keep pushing. The discussion ends with the group choosing
+  ocean pollution, Diego's feasibility question still hanging in the air,
+  unresolved.
+
+turn_outline:
+  - speaker: Marina
+    accomplishes: >
+      Opens by proposing ocean pollution, mentions the documentary she watched,
+      and conveys genuine excitement about the topic.
+
+  - speaker: Diego
+    accomplishes: >
+      Proposes deforestation as his pick, mentions reading about Amazon fires,
+      and says he thinks they should do something they can actually work on at
+      school.
+
+  - speaker: Marina
+    accomplishes: >
+      Responds with specific facts from the documentary — millions of tons of
+      plastic, the garbage patch twice the size of Texas — to show how serious
+      ocean pollution is. Frames the size of the problem as the reason to
+      pick it.
+
+  - speaker: Diego
+    accomplishes: >
+      Acknowledges the documentary sounds intense but raises his first practical
+      concern: they don't live anywhere near the ocean, so what would they
+      actually do for the project?
+
+  - speaker: Marina
+    accomplishes: >
+      Brushes past the concern with "we can figure out the details later" and
+      redirects to the sea turtles and how many animals are dying. Treats the
+      emotional urgency as more important than the logistics question.
+
+  - speaker: Diego
+    accomplishes: >
+      Tries again with a concrete comparison: with deforestation, they could
+      plant trees in the school courtyard and actually measure something over
+      the semester. Offers a specific, doable plan.
+
+  - speaker: Marina
+    accomplishes: >
+      Acknowledges that trees are nice but argues ocean pollution is a bigger
+      deal — planting a few trees won't save the rainforest either. Turns
+      Diego's practicality argument back on him without addressing her own
+      project's feasibility gap.
+
+  - speaker: Diego
+    accomplishes: >
+      Starts to waver — says "yeah, I guess planting trees is kind of small
+      too." Concedes the point even though Marina's project has the same
+      feasibility problem she just used against his.
+
+  - speaker: Marina
+    accomplishes: >
+      Senses momentum and presses — reminds Diego how dramatic the documentary
+      was, suggests they could make a presentation about ocean pollution and
+      it would be really impressive. Adds social appeal to the emotional case.
+
+  - speaker: Diego
+    accomplishes: >
+      Asks one more time, more quietly: "But like, can we actually do anything
+      about it? It's in the Pacific." His strongest concern, stated directly
+      but without force.
+
+  - speaker: Marina
+    accomplishes: >
+      Says they could do a beach cleanup or start a campaign — offers vague
+      ideas without connecting them to the documentary facts she cited.
+      The response sounds like an answer but doesn't actually address whether
+      their group can impact the problem she described.
+
+  - speaker: Diego
+    accomplishes: >
+      Gives in — says "okay, I guess ocean pollution is fine" — not because
+      his concerns were answered but because pressing further feels pointless
+      when Marina is this certain. His feasibility question remains unresolved.

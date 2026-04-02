@@ -1,0 +1,900 @@
+scenario_id: ocean-vs-deforestation-project
+
+passage_scaffolding:
+  # ===== PASSAGE 1: Opening Positions =====
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+
+    evaluate:
+      difficulty: accessible
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Pay attention to how each person explains their pick. Do they
+              give you enough to follow their thinking?
+        - lens: evidence
+          hints:
+            - >
+              Look at where each person got their information. How much did
+              they look into it?
+        - lens: scope
+          hints:
+            - >
+              Notice how the discussion starts. Are they exploring the
+              question or jumping to answers?
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: when each person says what they want to
+            do, do they explain why in a way that makes sense to follow?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: what did each person look at or read
+            before coming to this discussion? How much homework did they do?
+        - lens: scope
+          prompt: >
+            Looking through Scope: are both people starting this discussion
+            with open minds, or have they already decided?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI said both students jump straight to a preference without
+            much reasoning yet. Did you notice the same thing, or did you
+            think they gave enough reasons?
+        - lens: evidence
+          prompt: >
+            The AI pointed out that each person only looked at one thing
+            before deciding. Did that stand out to you, or did it seem
+            normal?
+        - lens: scope
+          prompt: >
+            The AI noticed that both people came in with their minds already
+            made up. Did you see that as a problem, or is that just how
+            discussions start?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think both of them already had their minds made up because...
+        - category: social
+          starter: >
+            I think the way they started the discussion matters because
+            when you come in with a pick already...
+        - category: interaction
+          starter: >
+            They both came in with strong opinions, and that affected the
+            discussion because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about their reasoning. Now think about
+            why they started this way — what might have happened before
+            this discussion that made them both come in with an answer
+            already?
+        - lens: evidence
+          prompt: >
+            You noticed something about where they got their information.
+            Now think about why — when you find something really
+            interesting, does it make you want to keep looking or does it
+            feel like enough?
+        - lens: scope
+          prompt: >
+            You noticed something about how open they were at the start.
+            Now think about why — what makes it hard to start a discussion
+            without already having a favorite?
+
+      ai_reflection_prompt: >
+        The AI talked about how finding one really interesting thing can
+        make you feel like you already know the answer. Does that match
+        what you were thinking, or do you see it differently?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: both people have good reasons
+            redirect: >
+              You noticed they each have a reason. Look more closely at
+              how much they explain — do you have enough to follow their
+              full thinking?
+      - lens: evidence
+        misreadings:
+          - pattern: Marina watched a documentary so she knows a lot
+            redirect: >
+              She did watch a documentary. Think about how many different
+              things she looked at before making her pick.
+      - lens: scope
+        misreadings:
+          - pattern: they both shared their ideas which is good
+            redirect: >
+              They did share their ideas. Look at whether they asked each
+              other any questions or just stated what they wanted.
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - They both say what they want but not really why
+          - level: developing
+            examples:
+              - Each person gives a reason but it's more like a preference than a real explanation
+          - level: differentiated
+            examples:
+              - >
+                They both jump straight to their pick without walking
+                through why — Marina says the documentary was sad and
+                Diego says they could plant trees, but neither one
+                explains the full thinking behind their choice
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - They both have some information
+          - level: developing
+            examples:
+              - Each person only looked at one thing before deciding
+          - level: differentiated
+            examples:
+              - >
+                Marina saw one documentary and Diego read about one
+                topic, and they're both acting like that's enough to
+                know which project is best — neither one looked at
+                anything else
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - They each have their own opinion
+          - level: developing
+            examples:
+              - Both of them came in already knowing what they wanted
+          - level: differentiated
+            examples:
+              - >
+                Neither person starts by asking what the other thinks or
+                what else they could consider — they both jump straight
+                to their answer, which means the discussion is more like
+                a debate than an exploration
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - They both just picked what they liked
+            - level: developing
+              examples:
+                - >
+                  They each found one thing that really interested them
+                  and stopped looking after that, so they came in with
+                  their minds already made up
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - They just wanted to do their own thing
+            - level: developing
+              examples:
+                - >
+                  Since they both came in with a strong pick, neither
+                  one was really listening to the other from the start
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  They each found one thing that excited them and came
+                  in already decided, and because both had strong
+                  opinions the discussion became about winning not
+                  exploring
+            - level: differentiated
+              examples:
+                - >
+                  Both of them found one source that made a big
+                  impression and stopped looking, which made them come
+                  in with their minds made up — and because they were
+                  both already locked in, neither one could really hear
+                  the other, which set up the rest of the discussion
+                  to be about convincing instead of figuring it out
+                  together
+
+  # ===== PASSAGE 2: Documentary Barrage + First Deflection =====
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+
+    evaluate:
+      difficulty: moderate
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at the jump between what Marina shares and what she
+              says they should do. Is there a step in between?
+        - lens: evidence
+          hints:
+            - >
+              Pay attention to what Marina's facts are actually about.
+              Where is the garbage patch? Where is their school?
+        - lens: scope
+          hints:
+            - >
+              Notice what happens after Diego asks his question. Does
+              the group deal with it?
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Marina shares big facts and then says
+            what the group should do. Does the conclusion follow from
+            what she shared?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Marina shares some impressive
+            numbers. Think about what those numbers are describing and
+            whether that connects to the decision they're making.
+        - lens: scope
+          prompt: >
+            Looking through Scope: someone raises a concern in this part.
+            What happens to it?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI said there might be a step missing between the facts
+            about the Pacific and the decision about their school project.
+            Did you catch that jump, or did it seem like it made sense?
+        - lens: evidence
+          prompt: >
+            The AI wondered whether knowing about a garbage patch in the
+            Pacific helps you decide on a school project. What do you
+            think — do those facts fit this decision?
+        - lens: scope
+          prompt: >
+            The AI noticed that Diego's practical question got set aside.
+            Did that stand out to you, or did it seem like they handled it?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marina used those facts about the Pacific because...
+        - category: social
+          starter: >
+            I think the reason Diego didn't push back harder when Marina
+            changed the subject is...
+        - category: interaction
+          starter: >
+            Marina's big facts made it hard for Diego to question her
+            because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed a jump in the reasoning. Now think about why —
+            what is it about those facts that makes the jump hard to
+            notice?
+        - lens: evidence
+          prompt: >
+            You noticed something about how the facts fit the decision.
+            Now think about why — what made those facts feel so convincing
+            even if they might not fit?
+        - lens: scope
+          prompt: >
+            You noticed that a concern got brushed aside. Now think about
+            why — what made it easy for the group to move on without
+            answering it?
+
+      ai_reflection_prompt: >
+        The AI said that really dramatic information can make it hard to
+        step back and ask if it fits your situation. It also said that
+        when facts sound impressive, it can be hard to question them in
+        a group. Does that match what you saw happening here?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Marina makes a good point because ocean pollution is really bad
+            redirect: >
+              Ocean pollution is a real problem. Think about whether
+              knowing how bad it is in the Pacific tells you what a
+              school group should do for their project.
+      - lens: evidence
+        misreadings:
+          - pattern: Marina has strong facts with real numbers
+            redirect: >
+              The numbers are real. Now think about what those numbers
+              are describing — a garbage patch in the Pacific. Is that
+              the same thing as a school project?
+          - pattern: the documentary is a good source
+            redirect: >
+              The documentary might be a fine source for learning about
+              ocean pollution. Think about whether facts about the
+              Pacific help you decide what a school group should do.
+      - lens: scope
+        misreadings:
+          - pattern: Marina answered Diego's question by talking about sea turtles
+            redirect: >
+              Marina did respond after Diego asked. Look again at what
+              Diego actually asked and what Marina actually talked about.
+              Are those the same thing?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Marina's facts are big but her conclusion is a jump
+          - level: developing
+            examples:
+              - >
+                Marina goes from talking about the Pacific garbage patch
+                to saying they should do ocean pollution, but she skips
+                the part about what their group could actually do about it
+          - level: differentiated
+            examples:
+              - >
+                Marina's facts are about a huge problem in the Pacific
+                Ocean, but their decision is about a school project.
+                Knowing the garbage patch is twice the size of Texas
+                doesn't tell you what a 6th-grade group can do about
+                it — there's a gap between the size of the problem
+                and the size of their project
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - All of Marina's facts are from one documentary
+          - level: developing
+            examples:
+              - >
+                Marina's facts are all about the Pacific Ocean, but
+                their project is at school — the facts might not fit
+                what they're deciding
+          - level: differentiated
+            examples:
+              - >
+                Marina's numbers sound really convincing — millions of
+                tons, twice the size of Texas — but they're all about
+                a problem in the Pacific. The group is deciding on a
+                school project. The facts are true but they don't
+                actually help you figure out what a school group should
+                do
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Diego's question gets ignored
+          - level: developing
+            examples:
+              - >
+                Diego asks a real question about what they'd actually
+                do and Marina says they can figure it out later instead
+                of answering
+          - level: differentiated
+            examples:
+              - >
+                Diego's question — they don't live near the ocean, so
+                what would they do? — is probably the most important
+                question in this whole discussion, and it just gets
+                pushed aside. Marina says it's not the point, but it
+                kind of is the point
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Marina just really likes ocean pollution and wants to do it
+            - level: developing
+              examples:
+                - >
+                  The documentary made such a big impression on Marina
+                  that she thinks those Pacific Ocean facts are a good
+                  reason for a school project — she's taking something
+                  about a huge situation and applying it to a much
+                  smaller one
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Diego just went along with Marina
+            - level: developing
+              examples:
+                - >
+                  When Marina shared those big numbers, even Diego was
+                  impressed at first — he said wow. The facts were so
+                  dramatic that it felt weird to question them, so he
+                  didn't push back right away
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marina was so impressed by the documentary that she
+                  thought those facts proved they should do ocean
+                  pollution, and Diego was impressed too, so he didn't
+                  push back on whether the facts actually fit
+            - level: differentiated
+              examples:
+                - >
+                  The documentary made Marina feel like she had all the
+                  answers, so she jumped from Pacific Ocean facts to a
+                  school project without noticing the gap. And because
+                  the facts were so dramatic, Diego's first reaction
+                  was being impressed instead of questioning — which
+                  meant the gap in Marina's thinking never got caught.
+                  Her excitement and his being impressed worked together
+                  to skip right past the most important question
+
+  # ===== PASSAGE 3: Concrete Alternative Dismissed =====
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+      - turn_08
+
+    evaluate:
+      difficulty: moderate
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at what Marina says about Diego's idea. Could you
+              apply the same words to her idea?
+        - lens: evidence
+          hints:
+            - >
+              Compare what each person offers in terms of how their
+              project would actually work. Who has more details?
+        - lens: scope
+          hints:
+            - >
+              Notice how much time the group spends on Diego's idea
+              before moving on.
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: Marina says something about Diego's
+            idea being too small. Does that argument work only one way,
+            or could it go both ways?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: one person describes a specific
+            plan for their project. Does the other person do the same?
+        - lens: scope
+          prompt: >
+            Looking through Scope: both ideas are on the table here.
+            Does the group give them equal attention?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI noticed that the same argument Marina used against
+            planting trees could apply to her own idea. Did you catch
+            that, or did her point seem fair?
+        - lens: evidence
+          prompt: >
+            The AI pointed out that Diego has a detailed plan and Marina
+            doesn't. Did that seem important to you, or did you focus
+            on something else?
+        - lens: scope
+          prompt: >
+            The AI said Diego's idea doesn't get the same consideration
+            as Marina's. Did you notice that, or did it seem like the
+            group discussed both fairly?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marina was harder on Diego's idea than her own
+            because...
+        - category: social
+          starter: >
+            I think Diego gave in here even though he had a real plan
+            because...
+        - category: interaction
+          starter: >
+            Marina being tough on Diego's idea and Diego backing down
+            are connected because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed something about how the argument worked. Now
+            think about why — what makes it easier to find problems
+            with someone else's idea than your own?
+        - lens: evidence
+          prompt: >
+            You noticed a difference in how much detail each person
+            had. Now think about why the person with less detail still
+            seemed more convincing.
+        - lens: scope
+          prompt: >
+            You noticed the group didn't weigh both ideas equally. Now
+            think about why — what made it hard for Diego's idea to get
+            a fair hearing?
+
+      ai_reflection_prompt: >
+        The AI talked about how we're sometimes harder on ideas we
+        don't like and easier on ideas we do. It also talked about
+        how Diego gave up his point because it felt easier than
+        arguing. Do those ideas help explain what you saw here?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Marina is right that planting trees is too small to matter
+            redirect: >
+              She does make a point about planting trees being small.
+              Now think about her own idea — is a school group's ocean
+              pollution project also kind of small compared to the
+              problem?
+      - lens: evidence
+        misreadings:
+          - pattern: ocean pollution is more important so it's a better project
+            redirect: >
+              It might be a bigger problem. Think about whether being
+              a bigger problem makes it a better project for a school
+              group, or if there's more to consider.
+      - lens: scope
+        misreadings:
+          - pattern: they discussed both ideas
+            redirect: >
+              They did mention both ideas. Look at how long the group
+              spent on each one and what happened when Diego described
+              his plan.
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Marina says planting trees won't help
+          - level: developing
+            examples:
+              - >
+                Marina says planting trees is too small, but her idea
+                about ocean pollution is also way too big for a school
+                group
+          - level: differentiated
+            examples:
+              - >
+                Marina uses a "too small to matter" argument against
+                Diego's idea but doesn't apply the same test to her
+                own — if planting trees can't save the rainforest, then
+                a school group can't save the Pacific Ocean either.
+                She's holding the two ideas to different standards
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Diego has a plan and Marina doesn't
+          - level: developing
+            examples:
+              - >
+                Diego describes exactly what they'd do — plant trees,
+                measure them, show results — and Marina doesn't offer
+                anything like that for ocean pollution
+          - level: differentiated
+            examples:
+              - >
+                Diego has specific details about how deforestation
+                would work as a project — planting, measuring, showing
+                results at the end. Marina dismisses it without
+                offering her own plan. The person with the actual
+                project details is the one whose idea gets shot down
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Diego's idea gets pushed aside
+          - level: developing
+            examples:
+              - >
+                The group spends more time on Marina's idea and moves
+                past Diego's pretty quickly
+          - level: differentiated
+            examples:
+              - >
+                Diego lays out a real plan and Marina dismisses it in
+                two sentences. Then Diego gives in and says his own
+                idea is small too — the moment he agrees, the group
+                stops comparing options and basically decides
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Marina didn't think Diego's idea was good
+            - level: developing
+              examples:
+                - >
+                  Marina really wanted ocean pollution, so when Diego
+                  suggested something different, she immediately found
+                  a problem with it — but she didn't look for the same
+                  problem in her own idea
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Diego just gave up
+            - level: developing
+              examples:
+                - >
+                  Diego had a real plan but he backed down because
+                  Marina sounded so confident. It felt easier to agree
+                  than to keep arguing even though his idea was solid
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marina was harder on Diego's idea because she wanted
+                  ocean pollution, and Diego gave in because Marina
+                  was so confident — so the double standard never got
+                  caught
+            - level: differentiated
+              examples:
+                - >
+                  Marina was so set on ocean pollution that she could
+                  see the weakness in Diego's plan but not in her own.
+                  And Diego, even though he had the better-planned
+                  project, backed down because Marina seemed so sure
+                  of herself. Her being harder on his idea and his
+                  being uncomfortable with disagreement worked together
+                  — his good point got dismissed and nobody noticed it
+                  was unfair
+
+  # ===== PASSAGE 4: Resolution =====
+  - passage_id: passage_04
+    turns:
+      - turn_09
+      - turn_10
+      - turn_11
+      - turn_12
+
+    evaluate:
+      difficulty: accessible
+
+      partial_hints:
+        - lens: logic
+          hints:
+            - >
+              Look at the reason they chose ocean pollution. Now look at
+              what they'd actually do for the project. Do those match?
+        - lens: evidence
+          hints:
+            - >
+              Marina suggests some things they could do. Think about
+              whether those are the same things she was talking about
+              before.
+        - lens: scope
+          hints:
+            - >
+              Read Diego's last line carefully. What does it sound like
+              to you?
+
+      lens_entry_prompts:
+        - lens: logic
+          prompt: >
+            Looking through Logic: the group makes their choice here.
+            Does the reason they chose match the thing they'd actually
+            do?
+        - lens: evidence
+          prompt: >
+            Looking through Evidence: Marina suggests things they could
+            do for the project. Compare those to the facts she shared
+            earlier. Is she still talking about the same thing?
+        - lens: scope
+          prompt: >
+            Looking through Scope: the discussion ends here. Does it
+            feel like everyone agrees, or like something else is
+            happening?
+
+      ai_reflection_prompts:
+        - lens: logic
+          prompt: >
+            The AI said the reason for choosing ocean pollution and the
+            project they'd actually do don't quite match. Did you see
+            that disconnect, or did it seem like it fit together?
+        - lens: evidence
+          prompt: >
+            The AI noticed that the facts that convinced them are about
+            the Pacific, but the project they'd do is something
+            different. Did you catch that, or did it seem fine?
+        - lens: scope
+          prompt: >
+            The AI said Diego's last line sounds more like giving up
+            than agreeing. Did you hear it that way too?
+
+    explain:
+      passage_sentence_starters:
+        - category: cognitive
+          starter: >
+            I think Marina offered beach cleanups and campaigns because...
+        - category: social
+          starter: >
+            I think Diego stopped pushing his question because...
+        - category: interaction
+          starter: >
+            The reason the group ended up choosing something that doesn't
+            match their original reason is because...
+
+      bridge_prompts:
+        - lens: logic
+          prompt: >
+            You noticed that the reason and the action don't match. Now
+            think about why — what kept Marina from noticing that her
+            answer didn't actually connect to her original point?
+        - lens: evidence
+          prompt: >
+            You noticed the facts and the project are about different
+            things. Now think about why — what made it possible for the
+            group to not notice that gap?
+        - lens: scope
+          prompt: >
+            You noticed something about how the discussion ended. Now
+            think about why — what made Diego decide to stop asking his
+            question?
+
+      ai_reflection_prompt: >
+        The AI said that sometimes groups make a decision not because
+        everyone agrees but because someone stops disagreeing. It also
+        talked about how wanting something can make you give answers
+        that don't quite fit. Does that match what you think happened
+        here?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Marina gave good ideas like beach cleanups
+            redirect: >
+              Beach cleanups could be a good project. Think about
+              whether a beach cleanup is the same thing as the Pacific
+              garbage patch Marina was talking about before.
+      - lens: evidence
+        misreadings:
+          - pattern: Marina showed they could do lots of things about ocean pollution
+            redirect: >
+              Marina did suggest some ideas. Look at what she said
+              before — the garbage patch, millions of tons of plastic.
+              Are beach cleanups and campaigns about those same things?
+      - lens: scope
+        misreadings:
+          - pattern: they agreed on ocean pollution so it worked out
+            redirect: >
+              They did pick ocean pollution. Read Diego's last line
+              again. Does it sound like someone who is excited about
+              the decision?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - The ending feels weird
+          - level: developing
+            examples:
+              - >
+                They chose ocean pollution because of the Pacific
+                garbage patch, but what they'd actually do is beach
+                cleanups and campaigns, which is different
+          - level: differentiated
+            examples:
+              - >
+                The whole reason they chose ocean pollution was because
+                of how huge the Pacific problem is. But the project
+                they'd actually do — a beach cleanup or a straw
+                campaign — has nothing to do with the Pacific. The
+                thing that convinced them and the thing they'd do
+                are about two different problems at two different
+                scales
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Marina's suggestions are kind of vague
+          - level: developing
+            examples:
+              - >
+                Marina's facts were about the Pacific garbage patch but
+                her suggestions are about local stuff like beach
+                cleanups — those aren't the same
+          - level: differentiated
+            examples:
+              - >
+                All of Marina's big convincing facts were about the
+                Pacific Ocean — millions of tons, garbage patch twice
+                the size of Texas. But when Diego asks what they'd
+                actually do, she says beach cleanup and straw campaign.
+                The information that drove the choice doesn't connect
+                to the project they'd end up doing
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Diego doesn't seem happy about the decision
+          - level: developing
+            examples:
+              - >
+                Diego gives in but he doesn't really agree — he says
+                "I guess" which sounds like he just stopped fighting it
+          - level: differentiated
+            examples:
+              - >
+                Diego asked the same question three different times —
+                what can we actually do about this? — and he never
+                got a real answer. At the end he just says I guess
+                it's fine. He didn't change his mind; he just stopped
+                pushing. The group made a decision but they didn't
+                actually agree
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Marina just really wanted ocean pollution
+            - level: developing
+              examples:
+                - >
+                  Marina wanted ocean pollution so much that when
+                  Diego asked what they could actually do, she came
+                  up with answers that don't connect to the Pacific
+                  problem she was so excited about — she was filling
+                  in answers that kept her choice alive
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Diego just gave up and went along with it
+            - level: developing
+              examples:
+                - >
+                  Diego had the most important question in the whole
+                  discussion but he stopped asking because Marina was
+                  so sure of herself. It's not that he changed his
+                  mind — it just felt easier to stop disagreeing
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Marina wanted ocean pollution so much that she
+                  gave answers that didn't really fit, and Diego
+                  was tired of arguing, so he accepted answers that
+                  he probably knew didn't answer his real question
+            - level: differentiated
+              examples:
+                - >
+                  Marina was so committed to ocean pollution that when
+                  her original facts didn't help answer Diego's
+                  question, she offered different ideas that sounded
+                  like answers but weren't. And Diego, who'd been
+                  asking the same question three times without getting
+                  a real answer, finally just gave up — not because he
+                  was wrong but because pushing back against someone
+                  that confident felt pointless. Her filling in
+                  answers and his giving up worked together so the
+                  group made a choice without ever addressing the most
+                  important question
