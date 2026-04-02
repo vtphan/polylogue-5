@@ -67,4 +67,4 @@ Confirm:
 - [ ] 13 schema files present
 - [ ] `registry/` directory exists
 
-The pipeline is ready. Run `/create_scenario` to begin generating a scenario.
+The pipeline is ready. Run `/brainstorm` to design an operator prompt interactively, or `/create_scenario` to generate a scenario plan from a prepared prompt.

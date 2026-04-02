@@ -102,7 +102,7 @@ Write the complete prompt in the 6-field format (see `docs/OperatorGuidance.md` 
 
 Make any adjustments, then confirm:
 
-> "This is ready for `/create_scenario`. You can copy it directly."
+> "This is ready for `/create_scenario`, which will turn this prompt into a scenario plan — drafting personas, a turn outline, and the full discussion blueprint."
 
 ## Principles
 

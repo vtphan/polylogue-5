@@ -122,4 +122,4 @@ Confirm the file is valid YAML and matches the schema.
 
 ## Next Step
 
-Run `/create_transcript` with this scenario.
+Run `/create_transcript` with this scenario — it generates the scripted discussion by passing the plan through the information barrier to the dialog writer, then polishes and enumerates the transcript.

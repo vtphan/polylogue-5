@@ -89,4 +89,4 @@ registry/{scenario_id}/facilitation.yaml
 
 ## Next Step
 
-Run `/design_scaffolding` with this scenario.
+Run `/design_scaffolding` with this scenario — it produces student-facing scaffolding materials (hints, rubrics, misreading redirects) and enriches the facilitation guide with discussion starter questions.

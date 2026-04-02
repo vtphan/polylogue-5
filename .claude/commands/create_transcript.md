@@ -127,4 +127,4 @@ registry/{scenario_id}/intermediates/transcript_polished.yaml
 
 ## Next Step
 
-Run `/analyze_transcript` with this scenario.
+Run `/analyze_transcript` with this scenario — it segments the transcript into passages and produces the expert analysis (facet annotations, AI perspectives) and the facilitation guide for the teacher.

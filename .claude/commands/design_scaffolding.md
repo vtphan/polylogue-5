@@ -95,4 +95,4 @@ registry/{scenario_id}/intermediates/facilitation_pre_enrichment.yaml
 
 ## Next Step
 
-Run `/configure_session` with this scenario.
+Run `/configure_session` with this scenario — it assembles the final session configuration from all preceding artifacts, including passage ordering, onboarding content, and app settings.
