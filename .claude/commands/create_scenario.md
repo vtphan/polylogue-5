@@ -107,10 +107,11 @@ Before saving, verify:
 
 ### Step 5: Save
 
-Create the scenario directory and save the plan:
+Create the scenario directory and the intermediates subdirectory, then save the plan:
 
 ```
 registry/{scenario_id}/scenario.yaml
+registry/{scenario_id}/intermediates/    (empty, used by create_transcript)
 ```
 
 Confirm the file is valid YAML and matches the schema.

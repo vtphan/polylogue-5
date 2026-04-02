@@ -20,7 +20,11 @@ BARRIER_FIELDS = ["target_facets", "discussion_dynamic"]
 
 # Terms that should NOT appear in the stripped output's weaknesses/accomplishes
 FRAMEWORK_TERMS = [
-    "facet", "lens", "logic", "evidence", "scope",
+    "facet", "lens",
+    # Note: "logic", "evidence", "scope" omitted — these are common English
+    # words that appear naturally in barrier-crossing fields (e.g., "uses
+    # evidence from a documentary"). The facet/pattern IDs below are specific
+    # enough to flag real violations without false positives.
     "source_credibility", "source_diversity", "relevance", "sufficiency",
     "inferential_validity", "internal_consistency", "reasoning_completeness",
     "perspective_breadth", "consequence_consideration", "condition_sensitivity",
