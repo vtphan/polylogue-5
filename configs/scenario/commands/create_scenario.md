@@ -30,13 +30,13 @@ If any field is missing or underspecified, ask the operator to complete it befor
 - **Signal mechanism** must be present for each target facet — it cannot be left for the planning agent to invent
 - **Discussion dynamic** must describe concrete interpersonal mechanics, not just restate the topic
 
-Once the prompt is validated, save it as the originating artifact:
+Once the prompt is validated, save it verbatim — no reformatting, no added markup — as the originating artifact:
 
 ```
-registry/{scenario_id}/operator-prompt.md
+registry/{scenario_id}/operator-prompt.txt
 ```
 
-This preserves the operator's original input for future reference, re-generation, and comparison against the planning agent's translations.
+Copy the operator's text exactly as provided. This preserves the original input for future reference, re-generation, and comparison against the planning agent's translations.
 
 ### Step 1: Planning Agent — Draft the Scenario Plan
 
