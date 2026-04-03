@@ -1,6 +1,6 @@
-# Perspectives App Design
+# Lens App Design
 
-This document describes the design of the Perspectives app — the student-facing application that consumes pipeline-generated artifacts to teach critical thinking through evaluation of AI-generated group discussions.
+This document describes the design of the Lens app — the student-facing application that consumes pipeline-generated artifacts to teach critical thinking through evaluation of AI-generated group discussions.
 
 **Companion documents:**
 - `user-stories.md` — Role interactions and pipeline artifact requirements

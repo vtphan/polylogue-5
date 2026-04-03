@@ -1,6 +1,6 @@
 # User Stories
 
-This document describes how each role interacts with the Perspectives app. It is written to ensure the pipeline produces sufficiently rich artifacts for every interaction described here, and to validate that the student experience aligns with the conceptual framework (`polylogue-v5-4.md`).
+This document describes how each role interacts with the Lens app. It is written to ensure the pipeline produces sufficiently rich artifacts for every interaction described here, and to validate that the student experience aligns with the conceptual framework (`polylogue-v5-4.md`).
 
 **Roles:** Researcher, Teacher, Student
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This plan covers implementation of the Polylogue 5 pipeline: the system that generates AI group discussions with designed reasoning weaknesses for the Perspectives app. It does not cover the app (to be written separately after the pipeline is complete).
+This plan covers implementation of the Polylogue 5 pipeline: the system that generates AI group discussions with designed reasoning weaknesses for the Lens app. It does not cover the app (to be written separately after the pipeline is complete).
 
 **Source documents:**
 - `polylogue-v5-4.md` — conceptual framework (lenses, facets, explanatory variables, perspectival learning model)

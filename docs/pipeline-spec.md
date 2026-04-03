@@ -1,6 +1,6 @@
 # Pipeline Technical Specification
 
-This document specifies the pipeline that generates AI group discussions for the Perspectives app. The pipeline takes a topic and instructional goals as input and produces a set of artifacts — a scripted discussion, an expert analysis, and a facilitation guide — that the app renders and the teacher uses.
+This document specifies the pipeline that generates AI group discussions for the Lens app. The pipeline takes a topic and instructional goals as input and produces a set of artifacts — a scripted discussion, an expert analysis, and a facilitation guide — that the app renders and the teacher uses.
 
 The pipeline is designed from the conceptual framework (`polylogue-v5-4.md`) and the facet inventory (`facet-inventory.md`). Every design decision traces to one of three concerns: (1) the artifacts must support the app's two-phase session structure — Evaluate then Explain, each with its own Individual → Peer → AI cycle, (2) the hidden layer (facets) must be precise enough for generation and assessment but invisible to students, and (3) the artifacts must be sufficiently indexed for the app to reference specific moments in the discussion.
 

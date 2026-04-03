@@ -1,6 +1,6 @@
-# Perspectives App — Implementation Plan
+# Lens App — Implementation Plan
 
-This plan phases the build of the Perspectives app based on the design in `app-design.md`. Each phase produces a usable increment. Dependencies flow downward — later phases build on earlier ones.
+This plan phases the build of the Lens app based on the design in `app-design.md`. Each phase produces a usable increment. Dependencies flow downward — later phases build on earlier ones.
 
 **Tech stack:** Next.js (App Router) + SQLite/Prisma + TypeScript + shadcn/ui + Tailwind + dnd-kit
 

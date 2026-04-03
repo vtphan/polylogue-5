@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Polylogue 5 is a research project for teaching critical thinking to middle school students (grades 6-8) through evaluation of AI-generated group discussions. It consists of a **generation pipeline** (this repo, built first) and a **Perspectives app** (built separately after the pipeline).
+Polylogue 5 is a research project for teaching critical thinking to middle school students (grades 6-8) through evaluation of AI-generated group discussions. It consists of a **generation pipeline** (this repo, built first) and a **Lens app** (built separately after the pipeline).
 
 Students evaluate scripted discussions through three lenses (Logic, Evidence, Scope), then explain reasoning using cognitive patterns and social dynamics. A hidden structural layer — **facets** — connects lenses to explanatory variables but is never shown to students.
 
@@ -39,7 +39,7 @@ references/             # External reference materials (PBL curriculum docs)
 - `docs/facet-inventory.md` — The 11 facets with quality ranges, cross-lens visibility, explanatory connections
 - `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 9 agents, 13 schemas)
 - `docs/implementation-pipeline.md` — 7-phase pipeline implementation plan (including Phase 5A quality assessment) + review phase
-- `docs/app-design.md` — Perspectives app design (roles, data model, session flow, assessment, UI specs, tech stack)
+- `docs/app-design.md` — Lens app design (roles, data model, session flow, assessment, UI specs, tech stack)
 - `docs/user-stories.md` — Role interactions, session constraints, pipeline artifact requirements
 - `docs/app-implementation-plan.md` — 7-phase app build plan with 3 review gates (R1, R2, R3)
 - `docs/app-design-todo.md` — Remaining app design topics (only data export remains)
@@ -114,7 +114,7 @@ EVALUATE (What do you see?) → EXPLAIN (Why did they think this way?)
 - Explain: Students explain using cognitive × social vocabulary, then groups agree/disagree with AI's explanation
 - Target audience: 6th graders, 50-minute class period, 2-4 students per group (minimum 2)
 
-## Perspectives App
+## Lens App
 
 The app (to be built separately) consumes pipeline artifacts. Tech stack: Next.js (App Router) + SQLite/Prisma + TypeScript + shadcn/ui + Tailwind.
 
