@@ -297,6 +297,7 @@ export function SessionClient({
           {...commonProps}
           phase="evaluate"
           analysis={artifacts.analysis}
+          onSyncRefresh={sync.refreshCount}
           onFinished={async () => {
             // C3 fix: refresh data and verify group consensus is complete
             // before allowing phase transition
@@ -351,6 +352,7 @@ export function SessionClient({
           {...commonProps}
           phase="explain"
           analysis={artifacts.analysis}
+          onSyncRefresh={sync.refreshCount}
           onFinished={() => setCurrentStep("complete")}
         />
         </>
