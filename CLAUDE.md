@@ -38,8 +38,11 @@ references/             # External reference materials (PBL curriculum docs)
 - `docs/polylogue-v5-4.md` — Conceptual framework (lenses, facets, explanatory variables, perspectival learning model)
 - `docs/facet-inventory.md` — The 11 facets with quality ranges, cross-lens visibility, explanatory connections
 - `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 9 agents, 13 schemas)
-- `docs/user-stories.md` — Teacher/student interaction patterns and session constraints
-- `docs/implementation-pipeline.md` — 7-phase implementation plan (including Phase 5A quality assessment) + review phase
+- `docs/implementation-pipeline.md` — 7-phase pipeline implementation plan (including Phase 5A quality assessment) + review phase
+- `docs/app-design.md` — Perspectives app design (roles, data model, session flow, assessment, UI specs, tech stack)
+- `docs/user-stories.md` — Role interactions, session constraints, pipeline artifact requirements
+- `docs/app-implementation-plan.md` — 7-phase app build plan with 3 review gates (R1, R2, R3)
+- `docs/app-design-todo.md` — Remaining app design topics (only data export remains)
 
 ### Pipeline Artifacts (per scenario)
 
@@ -100,12 +103,21 @@ Hints direct attention to *where* to look, not *what* to see. Rubrics have three
 
 ## Session Structure
 
-Two phases, each with Individual → Peer → AI cycle:
+Two phases, each with Individual → Peer → AI → Consensus cycle. Flow is linear (Evaluate completes fully before Explain begins). Phase transition is per-group.
 
 ```
 EVALUATE (What do you see?) → EXPLAIN (Why did they think this way?)
+  Individual → Peer → AI → Consensus   Individual → Peer → AI → Consensus
 ```
 
-- Evaluate: Students rate passages through assigned lenses
-- Explain: Students explain using cognitive × social vocabulary
-- Target audience: 6th graders, 50-minute class period, 3-4 students per group
+- Evaluate: Students rate passages through assigned lenses, then groups agree/disagree with AI perspective
+- Explain: Students explain using cognitive × social vocabulary, then groups agree/disagree with AI's explanation
+- Target audience: 6th graders, 50-minute class period, 2-4 students per group (minimum 2)
+
+## Perspectives App
+
+The app (to be built separately) consumes pipeline artifacts. Tech stack: Next.js (App Router) + SQLite/Prisma + TypeScript + shadcn/ui + Tailwind.
+
+Three roles: Researcher (admin, framework explorer, scenario import), Teacher (class/session management, monitoring, facilitation), Student (tablet, touch-first, gamified dashboard).
+
+See `docs/app-design.md` for the full specification and `docs/app-implementation-plan.md` for the phased build plan.
