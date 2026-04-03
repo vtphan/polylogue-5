@@ -1,15 +1,17 @@
 # App Design — Remaining Topics
 
-These topics follow from the initial design work in `app-design.md` (roles, data model, management UI flows, session experience flow, real-time behavior).
+These topics follow from the design work in `app-design.md` (roles, data model, session flow with consensus step, assessment and growth tracking, connectivity).
 
-3. **Assessment and growth tracking** — How the app matches articulations against rubrics (no LLM at runtime), what the qualitative growth indicator actually shows, how trends are computed across sessions.
+~~3. **Assessment and growth tracking** — covered in main doc (behavioral signals, growth tracking, teacher/student views).~~
 
-4. **Data model finalization** — Clean up the entity list based on everything we've discussed, including the snapshot model.
+~~4. **Data model finalization** — covered in main doc (full schema with types, constraints, UUIDs, split response tables, GroupConsensus entity).~~
 
-5. **Tech stack / deployment** — Where this runs (school network? cloud?), offline considerations, data privacy for minors (COPPA/FERPA if applicable).
+~~5. **Tech stack / deployment** — covered in main doc (Next.js + SQLite + TypeScript, device strategy for three roles, COPPA/FERPA for single-school pilot). Deployment details deferred.~~
 
-6. **Facilitation guide display** — How the teacher views and navigates the guide during a live session (side panel? separate view? passage-synced?).
+~~6. **Facilitation guide display** — covered in main doc (collapsible side panel on monitoring dashboard, step-aware content, compact mode, debrief view with live consensus data).~~
 
-7. **Framework & pipeline exploration UI** — How the researcher (and new collaborators) navigates the conceptual framework and pipeline process. Navigation model for lenses -> facets -> explanatory variables. How the pipeline walkthrough renders the 5 stages and information barrier. How the annotated artifact viewer works.
+~~7. **Framework & pipeline exploration UI** — covered in main doc (constellation map with guided narrative + interactive map modes, pipeline walkthrough with information barrier, annotated artifact viewer with cross-artifact navigation).~~
 
-8. **Pedagogy briefing & session prep UI** — How the teacher experiences the discussion briefing during session setup. Step-by-step wizard vs. scrollable page. Whether the pedagogy primer tracks completion. How "why this matters" annotations appear inline during configuration.
+~~8. **Pedagogy briefing & session prep UI** — covered in main doc (pedagogy primer as paginated cards, discussion briefing as wizard step 2, 5-step session setup wizard, inline annotations always visible, no completion tracking).~~
+
+9. **Data export** — Export formats and audiences (teacher vs. researcher), what data is included, file format(s). Postponed.

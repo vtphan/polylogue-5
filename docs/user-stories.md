@@ -4,7 +4,9 @@ This document describes how each role interacts with the Perspectives app. It is
 
 **Roles:** Researcher, Teacher, Student
 
-**Session structure:** Each discussion session has two phases — Evaluate ("What do you see in the reasoning?") and Explain ("Why did they think this way?"). Each phase follows an Individual → Peer → AI sequence.
+**Session structure:** Each discussion session has two phases — Evaluate ("What do you see in the reasoning?") and Explain ("Why did they think this way?"). Each phase follows an Individual → Peer → AI → Consensus sequence. The flow is linear: Evaluate completes fully before Explain begins.
+
+**Devices:** Researchers use desktop (large screen). Teachers use desktop (primary) and tablet (when circulating). Students use tablets (touch-only, shared among groups of 2-4).
 
 ---
 
@@ -14,23 +16,23 @@ These are practical realities that the instructional design and delivery must re
 
 ### Teacher constraints
 
-1. **Teachers should be informed, not burdened.** Teachers need to know the discussion topic, personas, highlighted passages, what's structurally present, and what the AI will say — before the session. They should not need to study the material deeply. The facilitation guide must be scannable in 2-3 minutes.
+1. **Teachers should be informed, not burdened.** Teachers need to know the discussion topic, personas, highlighted passages, what's structurally present, and what the AI will say — before the session. They should not need to study the material deeply. The facilitation guide must be scannable in 2-3 minutes. A pedagogy primer and discussion briefing support onboarding and per-scenario preparation.
 
 2. **Do not expect teachers to scaffold individual students in real time.** A teacher circulating among 5-6 groups of 3-4 students cannot provide timely, individualized feedback to each student. The app is the primary scaffold — lens questions, hints, sentence starters, AI perspectives. The teacher facilitates group discussion and helps stuck groups, not stuck individuals.
 
 ### Student constraints
 
-3. **Students should not have to write a lot.** 6th graders have limited writing stamina and will disengage if the task feels like an essay. Use scaffolds — hints, sentence starters, selectable observations — to reduce the writing burden. Short, specific responses ("They only used one source") are more valuable than long, vague ones.
+3. **Students should not have to write a lot.** 6th graders have limited writing stamina and will disengage if the task feels like an essay. Use scaffolds — hints, sentence starters — to reduce the writing burden. Short, specific responses ("They only used one source") are more valuable than long, vague ones.
 
-4. **Student responses should be low-stakes.** No grades attached to what students write. The append-only design means students can't fail — they can always add more. The system tracks growth over time, not correctness per session. The activity should feel like thinking out loud, not being tested.
+4. **Student responses should be low-stakes.** No grades attached to what students write. The append-only design means students can't fail — they can always add more. The system tracks growth over time through behavioral signals, not correctness per session. The activity should feel like thinking out loud, not being tested.
 
-5. **Students work at different speeds.** In a group of 3-4, some students will finish the Individual step in 2 minutes, others in 8. The app cannot hold fast students hostage waiting for slow ones, and cannot rush slow ones. Phase transitions must accommodate asynchronous pacing within groups — fast students can evaluate more passages while waiting, slow students can meet the minimum threshold.
+5. **Students work at different speeds.** In a group of 2-4, some students will finish the Individual step in 2 minutes, others in 8. The app cannot hold fast students hostage waiting for slow ones, and cannot rush slow ones. The peer step uses progressive reveal — fast students start seeing peers' work as it appears. The consensus step has a hard gate (all must finish the AI step), but the teacher can manually advance past it.
 
 6. **Students should engage with the AI perspective, not skip it.** The AI step is where formal vocabulary gets introduced and where the framework's expert perspective adds value. If it's optional or easily skippable, most 6th graders will skip it. The app requires viewing the AI perspective and writing a brief response (even one sentence) before the phase is complete. The response can be as simple as "I noticed something different" — it forces a moment of engagement rather than passive scrolling.
 
 ### Discussion constraints
 
-7. **A generated discussion should be short.** Students must read the entire discussion, evaluate multiple passages, discuss with peers, and encounter the AI perspective — all within one session. The discussion transcript should be 10-14 turns, 1-3 sentences per turn, under 400 words total, readable in 3 minutes. Longer discussions don't produce proportionally richer evaluation — they produce fatigue.
+7. **A generated discussion should be short.** Students must read the entire discussion, evaluate multiple passages, discuss with peers, encounter the AI perspective, and reach group consensus — all within one session. The discussion transcript should be 10-14 turns, 1-3 sentences per turn, under 400 words total, readable in 3 minutes. Longer discussions don't produce proportionally richer evaluation — they produce fatigue.
 
 8. **A generated discussion should be coherent.** The discussion must read like a real conversation — characters respond to each other, the topic develops, and the discussion reaches a resolution (or a meaningful failure to resolve). Coherence is what makes the evaluation task feel authentic rather than artificial. Students won't take the activity seriously if the discussion feels like a list of disconnected statements.
 
@@ -38,23 +40,26 @@ These are practical realities that the instructional design and delivery must re
 
 ### Session constraints
 
-10. **The session must fit in one class period.** At UMS, PBL is on Fridays, approximately 50 minutes. Both phases (Evaluate and Explain) with their full Individual → Peer → AI cycles must complete within this time. This constrains everything — discussion length, number of highlighted passages, depth of articulation expected. The session configuration should allow the teacher to reduce the number of passages for shorter sessions.
+10. **The session must fit in one class period.** At UMS, PBL is on Fridays, approximately 50 minutes. Both phases (Evaluate and Explain) with their full Individual → Peer → AI → Consensus cycles must complete within this time. This constrains everything — discussion length, number of highlighted passages, depth of articulation expected. The session configuration should allow the teacher to reduce the number of passages for shorter sessions.
 
-11. **Group discussion is face-to-face, not app-mediated.** The app displays peers' written responses for reference, but the real peer exchange happens in person. 6th graders talking to each other is more productive than 6th graders typing at each other. The app's role in the Peer step is to make different perspectives visible and persistent, not to mediate the conversation.
+11. **Group discussion is face-to-face, not app-mediated.** The app displays peers' written responses for reference, but the real peer exchange happens in person. 6th graders talking to each other is more productive than 6th graders typing at each other. The app's role in the Peer and Consensus steps is to make different perspectives visible and persistent, and to capture group decisions — not to mediate the conversation.
+
+12. **Every group must have at least 2 students.** This is enforced during session setup. If an absence drops a group below 2, the teacher must reassign the student to another group before activating the session.
 
 ---
 
 ## Researcher
 
-The researcher is the system administrator who sets up the app, manages teacher accounts, and connects the pipeline's output to the app.
+The researcher is the system administrator who sets up the app, manages teacher accounts, connects the pipeline's output to the app, and onboards new collaborators.
 
 - Logs in with username and password.
 - Creates teacher accounts (username and password).
-- Configures the app's data sources:
-  - Discussion registry — the directory containing pipeline-generated scenarios (transcripts, expert analyses, facilitation guides, scaffolding materials, session configurations).
-  - Reference materials — lens definitions, facet inventory, cognitive patterns, social dynamics.
-- Can view all classes, sessions, and aggregate student data across teachers.
+- Configures the app's data sources (registry path, configs path). The app imports scenario artifacts into the database on publish. After import, scenarios are self-contained.
+- Can view all classes, sessions, and aggregate student data across teachers (read-only).
 - Can update reference materials when the framework evolves (e.g., revised facet inventory after pilot validation).
+- Uses the **Framework Explorer** to navigate the conceptual framework (lenses → facets → explanatory variables) through three progressive levels: core essence, illustrative example, and full reference inventory.
+- Uses the **Pipeline Walkthrough** to trace how any scenario was built — what went in, what came out, how the information barrier worked.
+- Uses the **Artifact Viewer** to inspect scenario artifacts with overlay annotations explaining design intent, facet signals, and cross-artifact connections.
 
 ---
 
@@ -68,85 +73,91 @@ The teacher manages classes, configures sessions, facilitates the activity, and 
 - Has a dashboard showing all classes and recent session activity.
 - Creates classes with a name and section identifier.
 - Creates student accounts in batch for each class (full names only, no passwords).
-- Assigns students to groups of 3-4 within each class. Groups can be reassigned between sessions.
+- Assigns students to groups of 2-4 within each class. Groups can be reassigned between sessions.
+
+### Pedagogy Onboarding
+
+- On first login, sees a **pedagogy primer** — a paginated card sequence (~2 minutes) covering what students do, the three lenses, the four steps, why peer discussion matters, and why the expert perspective is not the answer.
+- The primer is skippable and always available via a "How it works" link.
 
 ### Session Setup
 
-- Creates a discussion session by selecting a scenario from the registry. The teacher sees:
-  - The discussion topic and PBL connection.
-  - A plain-language summary of what's designed into the discussion (from the facilitation guide overview).
-  - The number of highlighted passages and which lenses are most relevant.
-- Configures session parameters:
-  - **Lens assignment mode:** Assign lenses to students (ensuring each group has coverage across all three lenses) or let students choose. Assignment is recommended to guarantee perspectival diversity within groups.
-  - **Highlighted passages:** Which passages students will evaluate. Defaults to all evaluable passages; the teacher can reduce for shorter sessions. The app uses difficulty signals from `scaffolding.yaml` to suggest a default ordering (accessible passages first).
-  - **Explanation scaffolding:** Whether to show sentence starters in the Explain phase. Whether to show the cognitive pattern and social dynamic reference lists. Recommended: starters on from the start, reference lists introduced after a few sessions.
-  - **Completion thresholds:** Minimum engagement for each phase — e.g., "evaluate at least 2 highlighted passages" for Evaluate, "explain at least 2 passages" for Explain. The app suggests a default threshold based on the number of evaluable passages (e.g., if a discussion has 4 evaluable passages, the app might suggest a minimum of 2). The teacher can adjust up or down. These are completion gates, not quality measures.
+- Creates a discussion session through a **step-by-step wizard**:
+  1. **Select scenario** from researcher-published list. Each card shows topic, persona count, passage count.
+  2. **Discussion briefing** — a structured walkthrough of the scenario: topic and context, persona cards, what's designed into the discussion (plain language), passage-by-passage preview with likely observations and misses per lens, what the AI will say. Includes a Scope lens callout when applicable. Read-only — the teacher absorbs the scenario before configuring.
+  3. **Configure session parameters:**
+     - **Lens assignment mode:** Assign lenses to students (ensuring each group has coverage across all three lenses) or let students choose. Assignment is recommended to guarantee perspectival diversity within groups.
+     - **Highlighted passages:** Which passages students will evaluate. Defaults to all evaluable passages; the teacher can reduce for shorter sessions. Ordered by difficulty (from `scaffolding.yaml`).
+     - **Explanation scaffolding:** Whether to show sentence starters in the Explain phase. Whether to show the cognitive pattern and social dynamic reference lists.
+     - **Completion thresholds:** Minimum passages for Evaluate and Explain phases. These are soft gates — students are encouraged to continue but can move to peer discussion once they meet the minimum.
+     - **"Why this matters" annotations** appear inline beneath each option, explaining the pedagogical rationale.
+  4. **Review groups** — editable snapshot of class groups for this session only. Drag-and-drop students between groups. Validation: every student must be in a group, every group must have at least 2 students.
+  5. **Review and save as draft.**
+- **Session lifecycle:** Draft (fully editable) → Active (config and groups frozen, join code displayed, students can enter) → Closed (no new responses, all data preserved).
 
 ### During the Session
 
-- Views the facilitation guide for the current session:
-  - **Overview:** Topic, what's structurally present (in facet language), suggested timing, what to expect.
-  - **Per-passage guides:** For each highlighted passage, organized by phase (Evaluate, Explain) and step (Individual, Peer, AI):
-    - What students are likely to see and miss through each lens.
-    - Suggested redirects if students are stuck ("Try looking through the Scope lens — who is missing from this conversation?").
-    - Likely disagreements during peer discussion and productive questions to deepen it.
-    - **Discussion starter questions** — specific, pipeline-generated questions the teacher can pose to a group to surface disagreement. e.g., "Maya rated this as strong through Evidence and Jayden rated it weak through Logic — can you both explain what you saw?" These are in the facilitation guide's `productive_questions` fields, enriched by the scaffolding instructional designer.
-    - What the AI will say, so the teacher isn't surprised.
+- **Session join code** displayed prominently on the monitoring dashboard. Teacher projects or reads aloud for students to enter.
+- Views the **facilitation guide** as a collapsible side panel on the monitoring dashboard:
+  - Per-passage content adapts to the current step: `whats_here` with quality levels during Individual, `productive_questions` during Peer, `what_the_ai_will_say` during AI. During Consensus, AI step content and peer questions remain visible.
+  - Compact mode on tablet shows only the most actionable content per step.
+  - Clicking a group in the monitoring panel highlights that group's passages in the guide.
 - Monitors the class dashboard in real time:
-  - Which students have completed the Individual step and are ready for peer discussion.
-  - Which groups are in peer discussion vs. still working individually.
-  - Which students have viewed the AI perspective and written a response.
+  - Which students have completed each step (Individual, Peer, AI, Consensus) in each phase.
+  - Which groups are at which step.
   - Flag for students who appear stuck (no response after a configurable time).
-- Can view any student's responses at any time (lens choice, rating, articulations, explanations).
+  - Can manually advance a group past the peer gate or consensus gate.
+- Can view any student's responses at any time (lens choice, rating, articulations, explanations, consensus positions).
 
 ### Whole-Class Debrief
 
-- After both phases are complete, the teacher leads a whole-class debrief using materials from the facilitation guide's `debrief` section:
-  - **Key takeaways** — 2-3 main insights the teacher can surface. Written in teacher language (uses facet vocabulary) so the teacher can translate into student-friendly language as appropriate.
-  - **Cross-group prompts** — questions designed to surface cross-group patterns and make the perspectival learning model visible at the class level. e.g., "Did any group have members who saw the same passage very differently? What lenses were they using?" These prompts help students see that perspectival diversity is a feature of the activity, not a problem.
-  - **Connection to next** — optional bridge to future sessions, helping the teacher frame growth across the semester.
-- The debrief is where the perspectival learning model becomes visible beyond the small group. Students hear how other groups saw the same discussion differently — a class-level version of the peer step.
+- After both phases complete, the teacher leads a whole-class debrief using the facilitation guide's `debrief` section:
+  - **Key takeaways** — 2-3 main insights in teacher/facet language.
+  - **Cross-group prompts** — questions to surface cross-group patterns, supplemented by live consensus data: "Groups A and C disagreed with the expert on passage 2 — what did you see that the expert missed?"
+  - **Connection to next** — optional bridge to future sessions.
+- The debrief is teacher-led, not app-mediated. The app does not track whether a debrief occurred — this is intentionally offline to keep it conversational.
 
 ### Closing the Session
 
 - The teacher closes the session when both phases and the whole-class debrief are complete.
 - Closing prevents new responses but preserves all existing data.
 - Late students who didn't complete can be given additional time before close (teacher's discretion).
-- A closed session can be reopened if needed but this should be rare — it signals to students that the session is done.
+- A closed session can be reopened if needed but this should be rare.
 
 ### After the Session
 
-- Reviews student responses per passage:
-  - Sees all student articulations for a passage, grouped by lens. This shows the teacher whether perspectival diversity occurred — did students looking through different lenses see different things?
-  - Sees all student explanations, noting whether students identified cognitive patterns, social dynamics, or their interaction.
-- Views learning statistics per student over time:
-  - **Articulation quality:** Are descriptions getting more specific across sessions? Tracked by matching articulations against the observation rubric (basic → developing → differentiated). Shown as a trend, not a score.
-  - **Perspectival range:** How many lenses has the student used? Do they tend to default to one lens?
-  - **Explanatory depth:** Are explanations connecting cognitive and social forces, or only identifying one?
-- Can export session data for research purposes.
-
-### Viewing Discussion Content
-
-- Can view the full discussion transcript for any session.
-- Can view the expert analysis — both the hidden layer (facet annotations, explanatory variables) and the visible layer (AI perspectives for Evaluate and Explain phases).
-- Can view the scaffolding materials — hints, prompts, rubric entries — to understand what the app showed students.
-- Can view the facilitation guide at any time, not just during the session.
+- Reviews student responses through multiple views:
+  - **By passage** — all student articulations for a passage, grouped by lens. Shows perspectival diversity.
+  - **By student** — individual student's full response trail across all passages and steps (the four-step trajectory).
+  - **By group** — group consensus positions across passages, with the individual reflections that preceded them.
+- Views **engagement snapshot** per student — behavioral signals as patterns, not scores:
+  - Passages beyond threshold, post-peer additions, AI reflection effort, consensus participation.
+- Views learning trends per student over time:
+  - **Perspectival range:** How many lenses has the student used across sessions?
+  - **Articulation depth:** Word count trends for individual-step responses.
+  - **Independence:** Hint usage rate and redirect trigger rate trends.
+  - **Engagement trend:** Passages-beyond-threshold across sessions.
+- Writes a **qualitative growth note** for each student (visible on the student's dashboard).
+- Can view the full discussion transcript, expert analysis, scaffolding materials, and facilitation guide for any session at any time.
 
 ---
 
 ## Student
 
-The student evaluates AI-generated group discussions through lenses, discusses with peers, and encounters expert perspectives. The app scaffolds this process through two phases.
+The student evaluates AI-generated group discussions through lenses, discusses with peers, encounters expert perspectives, and participates in group consensus. The app scaffolds this process through two phases on a tablet.
 
 ### Login and Dashboard
 
-- Logs in with full name only. No password.
+- Logs in by entering a **session join code** (short alphanumeric, displayed by the teacher) and **selecting their name** from the roster of students assigned to that session. No password.
 - Sees a dashboard with:
-  - Current session (if active) and past sessions.
-  - Personal learning statistics (simplified for 6th graders):
-    - Number of sessions completed.
-    - Lenses used (visual indicator showing which lenses they've practiced).
-    - A qualitative growth indicator — not a grade, but something like "You're getting more specific in your observations" — generated by comparing recent articulations against the observation rubric's differentiation levels.
+  - Current session (prominent, one-tap entry) and past sessions (journey map — visual timeline of sessions as nodes on a path).
+  - **Gamified growth indicators** (exploration/growth metaphor, not competition):
+    - **Lens collection** — three lens icons that fill in as the student uses each lens across sessions. All three = milestone badge.
+    - **Curiosity trail** — a visual that grows when the student evaluates more passages than required.
+    - **Voice marker** — lights up for sessions where the student appended observations after seeing peers.
+    - **Team marker** — lights up for sessions where the student's group completed consensus.
+  - **Teacher's note** — a qualitative growth message written by the teacher, read-only.
+  - Students do **not** see scores, rubric levels, speed metrics, peer comparisons, or AI agreement rates.
 
 ### Entering a Session
 
@@ -155,7 +166,7 @@ The student evaluates AI-generated group discussions through lenses, discusses w
   - The discussion topic and a brief context ("A group of students is discussing whether schools should ban plastic bags...").
   - The characters in the discussion — names and brief perspectives.
   - A short instruction: "Read the discussion, then we'll look at it together through different lenses."
-- The student reads the full discussion transcript. This is a dedicated reading step — no evaluation yet. The app tracks when the student has scrolled through the full discussion.
+- The student reads the full discussion transcript (chat-style conversation). This is a dedicated reading step — no evaluation yet. The app tracks when the student has scrolled through the full discussion.
 - After reading, the student is assigned a lens (or chooses one, depending on teacher configuration). The app displays the lens name and its question prominently throughout the Evaluate phase:
   - **Evidence:** "Is the claim supported?"
   - **Logic:** "Does the reasoning hold?"
@@ -173,37 +184,51 @@ The student evaluates highlighted passages in the discussion through their assig
 #### Individual Step
 
 - Student sees the full discussion transcript. Speakers are identified by name. Each turn is visible.
-- Highlighted passages have numbered icons at the end of the most prominent turn. The numbers are passage identifiers, not flaw labels. Passages are suggested in order of accessibility (using the difficulty signal from `scaffolding.yaml`), but the student can evaluate in any order.
-- Student clicks a highlighted passage icon. A modal opens showing:
-  - **The passage** — the 1-3 turns that form a coherent moment in the discussion. (The icon is on one turn, but the modal shows the full passage for context.)
-  - **The lens-specific entry prompt** — a per-passage prompt more directed than the generic lens question. e.g., "Looking through Evidence: what sources did they use, and are those sources convincing?" (from `scaffolding.yaml`). Falls back to the generic lens question if the teacher has disabled passage-specific prompts.
+- Highlighted passages have numbered icons at the end of the most prominent turn. Passages are suggested in order of accessibility (using the difficulty signal from `scaffolding.yaml`), but the student can evaluate in any order.
+- Student taps a highlighted passage icon. A modal opens (near-fullscreen on tablet) showing:
+  - **The passage** — the 1-3 turns that form a coherent moment in the discussion.
+  - **The lens-specific entry prompt** — a per-passage prompt more directed than the generic lens question. e.g., "Looking through Evidence: what sources did they use, and are those sources convincing?" (from `scaffolding.yaml`).
   - **Rating** — Strong or Weak. The student commits to a position.
   - **Articulation box** — The student writes what they observe.
-  - **Partial hint button** (optional) — If the student is stuck, they can click to see 1-2 directional prompts that point toward something worth noticing without completing the observation. e.g., "Something about the sources..." or "Notice how the conclusion compares to the evidence..." The partial hint appears as a prompt *above* the articulation box — the student must write their own response, not select a pre-written one. The hint gives direction; the student does the cognitive work of articulating.
-- **Misreading redirects.** If a student's articulation matches a predicted common misreading (from `scaffolding.yaml`), the app surfaces a gentle redirect — a prompt that redirects attention without naming the correct observation. e.g., "You noticed there's a lot of evidence — now look more closely at where it comes from." The redirect appears inline after the student submits, and the student can add to their response. This is not correction — it is the same kind of attentional redirect a teacher would offer while circulating. The app tracks redirect usage alongside hint usage as a growth indicator.
-- All responses are **append-only**. The student cannot edit what they wrote, but they can always add more — like text messages. This creates a visible record of how their thinking builds over time.
+  - **Partial hint button** (optional) — If the student is stuck, they can tap to see 1-2 directional prompts that point toward something worth noticing without completing the observation. e.g., "Something about the sources..." The hint gives direction; the student does the cognitive work of articulating.
+- **Misreading redirects.** If a student's articulation matches a predicted common misreading (from `scaffolding.yaml`), the app surfaces a gentle redirect after submission — a prompt that redirects attention without naming the correct observation. e.g., "You noticed there's a lot of evidence — now look more closely at where it comes from." The student can add to their response. This is attentional redirect, not correction.
+- All responses are **append-only**. The student cannot edit what they wrote, but they can always add more.
 - After evaluating the required number of passages (set by teacher's completion threshold), the student sees encouragement to move to the Peer step. They can also continue evaluating more passages.
 
 #### Peer Step
 
-- The student indicates they are ready for peer discussion (button click).
+- The student indicates they are ready for peer discussion (button tap).
+- **Progressive reveal:** As each peer taps "Ready," their responses become visible to everyone already waiting. No all-ready gate — respects async pacing. Fast students start seeing peers' work as it appears. While waiting, the student can continue evaluating more passages.
 - The app shows how peers in their group evaluated the same passages:
-  - **Organized by passage** — each passage shows all peers' responses together, making it easy to compare.
-  - **Cross-lens visibility** — the student sees what peers saw through *different* lenses on the same passage. If Maya evaluated through Evidence and Jayden through Logic, Maya sees Jayden's Logic observation and vice versa. This is where perspectival diversity becomes visible.
+  - **Organized by passage** — each passage shows all peers' responses together.
+  - **Cross-lens visibility** — the student sees what peers saw through *different* lenses on the same passage.
   - For each peer: which lens they used, how they rated (strong/weak), what they wrote.
-  - **Disagreement highlighting** — passages where peers gave different ratings or used different lenses are visually marked as "interesting differences" to discuss.
-- Students discuss in person (the app does not mediate the conversation — this is face-to-face in the classroom). The app makes perspectives visible so students can see what their peers saw differently.
-- After seeing peers' responses, the student can add more to their own articulations — new observations prompted by what peers noticed. Append-only.
-- When ready, the student clicks to move to the AI step.
+  - **Disagreement highlighting** — passages where peers gave different ratings (strong vs. weak), or where two peers with the same lens noticed different things, are visually marked as "interesting differences." Different-lens observations on the same passage are the expected state and are not highlighted as surprising.
+- Students discuss in person. The app makes perspectives visible and persistent, not a chat interface.
+- After discussion, the student can add more observations (append-only).
+- When done discussing, they move to the AI step individually.
 
 #### AI Step
 
-- The app shows the **Evaluate AI perspective** for each highlighted passage. This is the `ai_perspective_evaluate` block from the expert analysis:
+- The app shows the **Evaluate AI perspective** for each highlighted passage (`ai_perspective_evaluate` from the expert analysis):
   - Per-lens observations: "Looking through the Evidence lens, I notice that both sources come from the same organization..."
   - A `what_to_notice` prompt: "Something interesting to think about: did anyone in the group push back on this?"
 - The AI perspective is framed as one more voice, not the answer: "Here's what an expert noticed when looking through each lens."
-- The student sees a **passage-specific reflection prompt** (from `scaffolding.yaml`): e.g., "The AI noticed the sources all come from one place. Did you notice that too, or were you looking at something different?" This is more engaging than the generic "What do you think?" and models the perspectival engagement the framework values.
-- The student writes a brief response to the AI perspective. This is required (not optional) to complete the phase, but can be as short as one sentence. The purpose is to force a moment of engagement — considering the AI's perspective against their own — rather than passive scrolling. Append-only.
+- The student sees a **passage-specific reflection prompt** (from `scaffolding.yaml`).
+- The student writes a brief response. Required (even one sentence). Append-only.
+
+#### Consensus Step
+
+- When all group members finish their AI reflections, the consensus step opens. (Teacher can manually advance past this gate.)
+- For each evaluated passage, the group sees:
+  - The AI perspective (same content from the AI step)
+  - Each group member's individual AI reflection (read-only)
+- The group discusses face-to-face — debating whether the expert's observations match what they saw. Then the group submits a single consensus response per passage:
+  - **Position:** Agree or Disagree with the AI perspective
+  - **Rationale:** A short written explanation (1-3 sentences) of why the group agrees or disagrees
+- One group member submits on behalf of the group. After submission, any group member can append additional thoughts (append-only).
+- Disagreeing is explicitly legitimate: "The expert noticed X, but we think Y matters more because..."
+- After completing consensus for all passages, the group transitions to the Explain phase.
 
 ---
 
@@ -211,57 +236,61 @@ The student evaluates highlighted passages in the discussion through their assig
 
 *"Why did they think this way?"*
 
-The student considers why the characters in the discussion reasoned the way they did — practicing perspective taking by reasoning about others' thinking, not asserting a correct diagnosis. Students consider both individual thinking patterns and group dynamics as possible forces shaping the characters' reasoning. The lens assignment from the Evaluate phase no longer applies — the Explain question is lens-independent.
+The student considers why the characters in the discussion reasoned the way they did — practicing perspective taking by reasoning about others' thinking. Students consider both individual thinking patterns and group dynamics as possible forces shaping the characters' reasoning. The lens assignment from the Evaluate phase no longer applies.
 
 #### Individual Step
 
-- Student sees the full discussion transcript, same as before.
-- The passages they evaluated in the Evaluate phase are marked with icons. When the student clicks one, a modal opens showing:
+- Student sees the full discussion transcript with passage icons.
+- Tapping a passage opens a modal showing:
   - **The passage** — same 1-3 turns.
-  - **Their Evaluate responses** — visible at the top of the modal, so they can see what they already observed. These are read-only.
-  - **Bridge prompt** (from `scaffolding.yaml`) — connects the student's Evaluate observation to the Explain task, personalized to the lens they used. A student who evaluated through Evidence sees: "You noticed something about the evidence. Now think about *why* — what was going on in the group when this happened?" A student who evaluated through Logic sees: "You noticed something about the reasoning. Now think about *why* — what led them to think that way?" This makes the transition from "what do you see" to "why" feel continuous rather than abrupt.
+  - **Their Evaluate responses** — visible at the top, read-only, so they can see what they already observed.
+  - **Bridge prompt** (from `scaffolding.yaml`) — connects the student's Evaluate observation to the Explain task, personalized to the lens they used. e.g., "You noticed something about the evidence. Now think about *why* — what was going on in the group when this happened?"
   - **Explanation prompt** — "Why do you think they reasoned this way?"
   - **Sentence starters** (if enabled by teacher):
-    - Generic session-level starters shown first:
+    - Generic session-level starters always visible:
       - "I think they reasoned this way because they were focused on..." (cognitive)
       - "I think the group..." (social)
-      - "The group made it easier/harder for this kind of thinking because..." (interaction — connects cognitive and social)
-    - **Passage-specific starters** available as a fallback if the student is stuck (from `scaffolding.yaml`). These are more directed, gesturing toward what's structurally present without naming it: e.g., "I think Maya kept going back to cost because..." The generic starters are always visible; the passage-specific starters appear when the student clicks "I need more help."
-  - **Reference lists** (if enabled by teacher) — A browsable list of cognitive patterns ("Confirmation bias: Only looking for information that supports what you already believe") and social dynamics ("Conformity: Going along with the group even when you privately disagree"). These are reference, not a menu to select from — the student writes in their own words.
-- The student writes their explanation. Append-only.
-- After explaining the required number of passages, the student sees encouragement to move to the Peer step. They can also continue.
+      - "The group made it easier/harder for this kind of thinking because..." (interaction)
+    - **Passage-specific starters** behind "I need more help" (from `scaffolding.yaml`).
+  - **Reference lists** (if enabled by teacher) — browsable cognitive patterns and social dynamics with descriptions. Reference, not a menu — the student writes in their own words.
+- Append-only. Same threshold + soft gate as Evaluate.
 
 #### Peer Step
 
-- The student indicates they are ready for peer discussion.
-- The app shows how peers in their group explained the same passages:
-  - **Organized by passage** — each passage shows all peers' explanations together.
-  - What cognitive or social forces peers identified.
-  - Whether peers connected cognitive and social forces (the interaction).
-  - **Difference highlighting** — passages where peers offered different types of explanations (one cognitive, one social) are marked as discussion opportunities.
-- Students discuss in person.
-- The student can add more to their explanations after seeing peers' perspectives. Append-only.
-- When ready, the student clicks to move to the AI step.
+- Same progressive reveal model as Evaluate. Display organized by passage:
+  - Each peer's explanation
+  - **Difference highlighting** — flags where one peer identified a cognitive pattern and another a social dynamic
+  - Append-only additions after discussion
+  - Teacher can manually advance groups
 
 #### AI Step
 
-- The app shows the **Explain AI perspective** for each passage. This is the `ai_perspective_explain` block from the expert analysis:
-  - An explanatory note introducing formal vocabulary as perspective: "A cognitive scientist might call this confirmation bias — when someone only looks for information that supports what they already believe."
-  - A cognitive connection: how a thinking pattern accounts for what was observed.
-  - A social connection: how a group dynamic accounts for what was observed.
-  - An interaction note: how cognitive and social forces worked together — "Notice how her tunnel vision persisted because nobody in the group pushed back — the group's conflict avoidance made it easier for her to stay focused on just one thing."
-- The student sees a **passage-specific reflection prompt** (from `scaffolding.yaml`): e.g., "The AI called this confirmation bias. Does that match what you were trying to say, or do you see it differently?"
-- The student writes a brief response. Required to complete the phase — even one sentence. Append-only.
+- The app shows the **Explain AI perspective** for each passage (`ai_perspective_explain` from the expert analysis):
+  - An explanatory note introducing formal vocabulary as perspective: "A cognitive scientist might call this confirmation bias..."
+  - Cognitive connection, social connection, interaction note
+  - Passage-specific reflection prompt (from `scaffolding.yaml`)
+- Required response (even one sentence). Append-only.
+
+#### Consensus Step
+
+- Same structure as the Evaluate consensus. When all group members finish their AI reflections:
+  - For each passage, the group sees: the AI perspective + each group member's individual AI reflection
+  - The group discusses face-to-face, then submits a single consensus response per passage:
+    - **Position:** Agree or Disagree with the AI's explanation
+    - **Rationale:** Why the group agrees or disagrees (1-3 sentences)
+  - Same submission model: one member submits, others can append.
+- After completing consensus for all passages → **Session Complete** screen with summary and encouragement.
 
 ---
 
 ### Session Completion
 
-- After the Explain AI step, the student sees a brief summary:
+- After the Explain Consensus step, the student sees a brief summary:
   - Which passages they evaluated and explained.
   - Which lens they used in the Evaluate phase.
+  - Group consensus positions (agreed/disagreed with expert on which passages).
   - A note encouraging continued growth: "You evaluated 3 passages through the Evidence lens. Next time, try looking through the Logic lens to see different things."
-- The student can return to any passage to add more thoughts (append-only) until the teacher closes the session.
+- Responses remain append-only until the teacher closes the session.
 
 ---
 
@@ -277,37 +306,44 @@ This section maps each user interaction to the pipeline artifact that supports i
 | Student sees lens-specific entry prompt | `scaffolding.yaml` | `passage_scaffolding[].evaluate.lens_entry_prompts` |
 | Student sees difficulty-ordered passages | `scaffolding.yaml` | `passage_scaffolding[].evaluate.difficulty` |
 | Student gets partial hint | `scaffolding.yaml` | `passage_scaffolding[].evaluate.partial_hints` per lens |
+| Student sees misreading redirect | `scaffolding.yaml` | `passage_scaffolding[].common_misreadings` per lens |
 | Student sees Evaluate AI perspective | `analysis.yaml` | `ai_perspective_evaluate` (per-lens observations, `what_to_notice`) |
 | Student sees Evaluate AI reflection prompt | `scaffolding.yaml` | `passage_scaffolding[].evaluate.ai_reflection_prompts` per lens |
-| Student sees bridge prompt | `scaffolding.yaml` | `passage_scaffolding[].explain.bridge_prompts` per lens (app selects by student's Evaluate lens) |
+| Student sees bridge prompt | `scaffolding.yaml` | `passage_scaffolding[].explain.bridge_prompts` per lens |
 | Student sees generic sentence starters | `session.yaml` | `explain_phase.individual.sentence_starters` |
 | Student sees passage-specific starters | `scaffolding.yaml` | `passage_scaffolding[].explain.passage_sentence_starters` |
 | Student sees reference lists | `session.yaml` | `explain_phase.reference_lists` |
 | Student sees Explain AI perspective | `analysis.yaml` | `ai_perspective_explain` (explanatory note, connections, interaction) |
 | Student sees Explain AI reflection prompt | `scaffolding.yaml` | `passage_scaffolding[].explain.ai_reflection_prompt` |
+| Group consensus on Evaluate AI | `analysis.yaml` | `ai_perspective_evaluate` (displayed during consensus for group deliberation) |
+| Group consensus on Explain AI | `analysis.yaml` | `ai_perspective_explain` (displayed during consensus for group deliberation) |
 | Teacher sees facilitation guide | `facilitation.yaml` | `overview`, `passage_guides` (per phase and step) |
-| Teacher sees what's structurally present | `facilitation.yaml` | `passage_guides.whats_here` (facet language) |
+| Teacher sees what's structurally present | `facilitation.yaml` | `passage_guides.whats_here` (facet language, quality levels) |
 | Teacher sees likely observations | `facilitation.yaml` | `passage_guides.likely_observations` per lens |
-| Teacher sees discussion starters | `facilitation.yaml` | `passage_guides[].evaluate.peer.productive_questions`, `passage_guides[].explain.peer.productive_questions` (enriched by scaffolding instructional designer) |
-| Teacher sees scaffolding materials | `scaffolding.yaml` | Full artifact (for review and understanding of what students see) |
+| Teacher sees discussion starters | `facilitation.yaml` | `passage_guides[].evaluate.peer.productive_questions`, `passage_guides[].explain.peer.productive_questions` |
+| Teacher sees scaffolding materials | `scaffolding.yaml` | Full artifact |
 | Teacher configures session | `session.yaml` | `evaluate_phase`, `explain_phase`, `passages`, `lens_definitions` |
-| Assessment: articulation matching | `scaffolding.yaml` | `passage_scaffolding[].observation_rubric` (per lens, basic/developing/differentiated) |
-| Assessment: explanation matching | `scaffolding.yaml` | `passage_scaffolding[].explanation_rubric` (per category: cognitive/social/interaction, with levels) |
-| Assessment: articulation ground truth | `analysis.yaml` | `facet_annotations`, `diversity_potential.likely_student_observations` |
-| Assessment: explanatory depth | `analysis.yaml` | `ai_perspective_explain` (ground truth for cognitive/social/interaction) |
-| Student gets misreading redirect | `scaffolding.yaml` | `passage_scaffolding[].common_misreadings` per lens |
-| Teacher runs whole-class debrief | `facilitation.yaml` | `debrief` (key takeaways, cross-group prompts, connection to next) |
+| Teacher sees observation rubric | `scaffolding.yaml` | `passage_scaffolding[].observation_rubric` (per lens, basic/developing/differentiated) |
+| Teacher sees explanation rubric | `scaffolding.yaml` | `passage_scaffolding[].explanation_rubric` (per category: cognitive/social/interaction) |
+| Teacher reviews facilitation debrief | `facilitation.yaml` | `debrief` (key takeaways, cross-group prompts, connection to next) |
+| Researcher explores framework | Reference data | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` |
 
 ### Design Decisions Reflected
 
-1. **Partial hints, not complete observations.** The v1 design had full observations as hints ("They only used one source to back up a big claim") copied into the articulation box. The revised design uses partial hints ("Something about the sources...") displayed as prompts above the box. This preserves the framework's articulation-as-learning principle: the hint gives direction, the student does the cognitive work of articulating. The app should track hint usage — a student who relies on hints across multiple sessions isn't developing evaluative differentiation.
+1. **Partial hints, not complete observations.** Hints give direction ("Something about the sources..."); the student does the cognitive work of articulating. The app tracks hint usage as a behavioral signal.
 
-2. **Lens assignment scopes to Evaluate only.** The Evaluate phase assigns (or lets students choose) a lens. The Explain phase is lens-independent — it asks "why did they think this way?" which draws on cognitive and social variables, not lenses. A student who evaluated through Evidence should still be able to explain using any cognitive pattern or social dynamic.
+2. **Lens assignment scopes to Evaluate only.** The Explain phase is lens-independent — it asks "why did they think this way?" which draws on cognitive and social variables, not lenses.
 
-3. **Cross-lens peer visibility.** In the Peer step, students see what peers saw through *different* lenses on the same passage. This is where the framework's perspectival diversity becomes visible — a student who looked through Evidence encounters a peer's Logic observation on the same passage. Without cross-lens visibility, students in a group with assigned lenses would only see agreement or disagreement within the same lens.
+3. **Cross-lens peer visibility.** In the Peer step, students see what peers saw through *different* lenses on the same passage. Without cross-lens visibility, students in a group with assigned lenses would only see agreement or disagreement within the same lens.
 
-4. **Required AI response.** The AI step requires a brief written response (even one sentence) before the phase is complete. This forces engagement with the AI perspective rather than passive consumption. The response can be minimal ("I noticed something different" or "That matches what I saw") — the purpose is the moment of consideration, not the length of the response.
+4. **Required AI response.** The AI step requires a brief written response (even one sentence) before the student can proceed to consensus. This forces engagement with the AI perspective rather than passive consumption.
 
-5. **Observation rubric enables runtime assessment.** The app matches student articulations against rubric entries at three levels (basic, developing, differentiated) to track growth over time without LLM access. This is approximate matching, not grading. A student who writes something valid that the rubric doesn't anticipate should be recognized, not penalized.
+5. **Consensus step positions AI as evaluable, not authoritative.** The group decides whether to agree or disagree with the expert's perspective. This binary decision anchors discussion for 6th graders while making disagreement explicitly legitimate. The consensus rationale captures collaborative reasoning.
 
-6. **Session close is a teacher action.** The teacher explicitly closes the session. This prevents indefinite open sessions, signals to students that the work is complete, and creates a clean boundary for data analysis. Late students can be accommodated before close.
+6. **Assessment through behavioral signals, not rubric matching.** The app tracks objective signals (passages beyond threshold, post-peer additions, hint usage, consensus participation, word count trends) rather than matching articulations against rubrics at runtime. Rubrics remain a teacher-facing reference for qualitative review. No LLM at runtime.
+
+7. **Session close is a teacher action.** The teacher explicitly closes the session. This prevents indefinite open sessions and creates a clean boundary for data analysis.
+
+8. **Linear phase progression.** Students complete the full Evaluate phase (Individual → Peer → AI → Consensus) before the Explain phase unlocks. No toggling between phases.
+
+9. **Gamified student dashboard.** Growth indicators reward exploration, engagement, and collaboration — not speed, correctness, or competition. Students never see scores, rubric levels, or peer comparisons.
