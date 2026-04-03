@@ -175,14 +175,20 @@ export function SessionClient({
 
   const { session, scenario, group, lensAssignment } = data;
   const artifacts = scenario.artifacts;
+  // Normalize passages: YAML uses passage_id, app uses id
+  const allPassages: Passage[] = (artifacts.session?.passages || []).map(
+    (p: Passage) => ({ ...p, id: p.passage_id || p.id })
+  );
   const passages: Passage[] = session.selectedPassages
-    ? (artifacts.session?.passages || []).filter((p: Passage) =>
-        session.selectedPassages!.includes(p.id)
-      )
-    : artifacts.session?.passages || [];
+    ? allPassages.filter((p) => session.selectedPassages!.includes(p.id))
+    : allPassages;
 
   const scaffolding = artifacts.scaffolding?.passage_scaffolding || [];
-  const turns = artifacts.transcript?.turns || [];
+  // Normalize turns: YAML stores sentences[] array, app expects flat text
+  const turns: Turn[] = (artifacts.transcript?.turns || []).map((t: Turn) => ({
+    ...t,
+    text: t.text || (t.sentences || []).map((s) => s.text).join(" "),
+  }));
   const personas = artifacts.transcript?.personas || artifacts.scenario?.personas || [];
 
   const lensId = lensAssignment?.lensId || null;

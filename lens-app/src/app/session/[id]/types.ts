@@ -10,14 +10,17 @@ export interface GroupInfo {
 }
 
 export interface Passage {
-  id: string;
+  passage_id: string;
+  id: string; // normalized from passage_id at load time
   turns: number[];
   turn_range?: [number, number];
 }
 
 export interface Turn {
   speaker: string;
-  text: string;
+  text: string; // normalized at load time from sentences
+  turn_id?: string;
+  sentences?: { text: string; sentence_id: string }[];
 }
 
 export interface Persona {

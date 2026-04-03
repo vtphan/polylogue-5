@@ -84,10 +84,10 @@ export function EvaluateIndividual({
     <div className="flex min-h-screen flex-col">
       {/* Header */}
       <div className="border-b p-4">
-        <div className="mx-auto max-w-2xl flex items-center justify-between">
+        <div className="mx-auto max-w-3xl flex items-center justify-between">
           <div>
-            <h2 className="font-medium">Evaluate</h2>
-            <p className="text-xs text-muted-foreground">
+            <h2 className="text-lg font-medium">Evaluate</h2>
+            <p className="text-sm text-muted-foreground">
               What do you see in the reasoning?
             </p>
           </div>
@@ -99,7 +99,7 @@ export function EvaluateIndividual({
 
       {/* Progress */}
       <div className="border-b bg-accent/30 px-4 py-2">
-        <div className="mx-auto max-w-2xl flex items-center justify-between text-sm">
+        <div className="mx-auto max-w-3xl flex items-center justify-between text-sm">
           <span>
             {completedPassages.size} of {passages.length} passages evaluated
           </span>
@@ -113,7 +113,7 @@ export function EvaluateIndividual({
 
       {/* Transcript with passage icons */}
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-3">
+        <div className="mx-auto max-w-3xl space-y-3">
           {turns.map((turn, i) => {
             // Check if any passage ends at this turn
             const passageHere = passages.find((p) => {
@@ -127,14 +127,14 @@ export function EvaluateIndividual({
             return (
               <div key={i}>
                 <div className="flex gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-medium">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium">
                     {turn.speaker.charAt(0)}
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs font-medium text-muted-foreground">
+                    <p className="text-sm font-medium text-muted-foreground">
                       {turn.speaker}
                     </p>
-                    <p className="text-sm">{turn.text}</p>
+                    <p className="text-base">{turn.text}</p>
                   </div>
                   {passageHere && (
                     <button
@@ -278,7 +278,7 @@ function PassageModal({
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-4">
+        <div className="mx-auto max-w-3xl space-y-4">
           {/* Passage text */}
           <Card>
             <CardContent className="space-y-2 pt-4">

@@ -13,7 +13,7 @@ export default async function ResearcherLayout({
   }
 
   return (
-    <div className="mx-auto max-w-6xl p-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
       <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-6">
           <h1 className="text-2xl font-bold">Researcher</h1>

@@ -196,11 +196,11 @@ export function ConsensusStep({
   return (
     <div className="flex min-h-screen flex-col">
       <div className="border-b p-4">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="font-medium">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-lg font-medium">
             {phase === "evaluate" ? "Evaluate" : "Explain"} — Group Consensus
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             {phase === "evaluate"
               ? "Does your group agree or disagree with the expert's observations?"
               : "The expert called this a thinking pattern. Does that match what your group sees, or is something else going on?"}
@@ -209,7 +209,7 @@ export function ConsensusStep({
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-6">
+        <div className="mx-auto max-w-3xl space-y-6">
           {passages.map((passage) => {
             const passageAnalysis = analysis?.passages?.find(
               (p) => p.passage_id === passage.id

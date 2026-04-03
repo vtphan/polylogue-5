@@ -17,17 +17,17 @@ export function OnboardingScreen({
   onContinue: () => void;
 }) {
   return (
-    <div className="mx-auto max-w-2xl p-6">
+    <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6">
       <Card>
         <CardHeader>
-          <CardTitle className="text-xl">{topic}</CardTitle>
+          <CardTitle className="text-2xl">{topic}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <p className="text-sm text-muted-foreground">{context}</p>
+          <p className="text-base text-muted-foreground">{context}</p>
 
           {personas.length > 0 && (
             <div>
-              <h3 className="mb-2 text-sm font-medium">
+              <h3 className="mb-2 text-base font-medium">
                 Characters in the discussion
               </h3>
               <div className="flex flex-wrap gap-2">
@@ -45,7 +45,7 @@ export function OnboardingScreen({
             </div>
           )}
 
-          <p className="text-sm font-medium">
+          <p className="text-base font-medium">
             Read the discussion, then we&apos;ll look at it together through
             different lenses.
           </p>

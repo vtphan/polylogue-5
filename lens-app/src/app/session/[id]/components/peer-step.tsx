@@ -102,11 +102,11 @@ export function PeerStep({
   return (
     <div className="flex min-h-screen flex-col">
       <div className="border-b p-4">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="font-medium">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-lg font-medium">
             {phase === "evaluate" ? "Evaluate" : "Explain"} — Peer Discussion
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             See what your group members noticed. Discuss face-to-face, then add
             to your thinking.
           </p>
@@ -123,7 +123,7 @@ export function PeerStep({
 
       {/* Group members status */}
       <div className="border-b bg-accent/30 px-4 py-2">
-        <div className="mx-auto max-w-2xl flex gap-2">
+        <div className="mx-auto max-w-3xl flex gap-2">
           {group.members.map((m) => {
             const hasResponses = peerData?.responses.some(
               (r) => r.studentId === m.id
@@ -152,7 +152,7 @@ export function PeerStep({
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-6">
+        <div className="mx-auto max-w-3xl space-y-6">
           {passages.map((passage) => {
             const peerResponses = (peerData?.responses || []).filter(
               (r) => r.passageId === passage.id

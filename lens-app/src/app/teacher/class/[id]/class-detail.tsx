@@ -59,7 +59,7 @@ export function ClassDetailClient({ classId }: { classId: string }) {
   const students = classData.enrollments.map((e) => e.student);
 
   return (
-    <div className="mx-auto max-w-5xl p-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
       <div className="mb-6">
         <Link
           href="/teacher"

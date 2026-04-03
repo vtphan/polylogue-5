@@ -67,12 +67,15 @@ export function TeacherDashboardClient() {
   }
 
   async function handleLogout() {
-    await fetch("/api/auth/logout", { method: "POST" });
+    await fetch("/api/auth/logout", {
+      method: "POST",
+      headers: { "Accept": "application/json" },
+    });
     router.push("/login");
   }
 
   return (
-    <div className="mx-auto max-w-4xl p-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
       {showPrimer && (
         <PedagogyPrimer
           onClose={() => {
@@ -105,7 +108,7 @@ export function TeacherDashboardClient() {
           <CardTitle>Create Class</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCreate} className="flex items-end gap-3">
+          <form onSubmit={handleCreate} className="flex flex-wrap items-end gap-3">
             <div className="space-y-2">
               <Label htmlFor="className">Name</Label>
               <Input
@@ -132,7 +135,7 @@ export function TeacherDashboardClient() {
         </CardContent>
       </Card>
 
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {classes.map((c) => (
           <Link key={c.id} href={`/teacher/class/${c.id}`}>
             <Card className="cursor-pointer transition-colors hover:bg-accent/50">

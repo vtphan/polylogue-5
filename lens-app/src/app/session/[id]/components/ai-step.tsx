@@ -99,11 +99,11 @@ export function AIStep({
   return (
     <div className="flex min-h-screen flex-col">
       <div className="border-b p-4">
-        <div className="mx-auto max-w-2xl">
-          <h2 className="font-medium">
+        <div className="mx-auto max-w-3xl">
+          <h2 className="text-lg font-medium">
             {phase === "evaluate" ? "Evaluate" : "Explain"} — Expert Perspective
           </h2>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-sm text-muted-foreground">
             {phase === "evaluate"
               ? "Here\u2019s what an expert noticed when looking through each lens \u2014 one more voice in the conversation, not the final answer."
               : "An expert explains why the characters may have reasoned this way, using thinking patterns and group dynamics."}
@@ -112,7 +112,7 @@ export function AIStep({
       </div>
 
       <div className="flex-1 overflow-y-auto p-4">
-        <div className="mx-auto max-w-2xl space-y-6">
+        <div className="mx-auto max-w-3xl space-y-6">
           {passages.map((passage) => {
             const passageAnalysis = analysis?.passages?.find(
               (p) => p.passage_id === passage.id

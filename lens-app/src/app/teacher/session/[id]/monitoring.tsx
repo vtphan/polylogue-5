@@ -95,13 +95,22 @@ export function MonitoringDashboard({
   const [data, setData] = useState<MonitorData | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  const [now, setNow] = useState<number>(0);
+  const [isCompact, setIsCompact] = useState(false);
   const connectivity = useConnectivity();
+
+  // Set client-only values after mount to avoid hydration mismatch
+  useEffect(() => {
+    setNow(Date.now());
+    setIsCompact(window.innerWidth < 1024);
+  }, []);
 
   const poll = useCallback(async () => {
     try {
       const res = await fetch(`/api/sessions/${sessionId}/monitor`);
       if (res.ok) {
         setData(await res.json());
+        setNow(Date.now());
         connectivity.markSuccess();
       } else {
         connectivity.markFailure();
@@ -227,8 +236,9 @@ export function MonitoringDashboard({
                 <CardContent className="space-y-1">
                   {group.members.map((m) => {
                     const isIdle =
+                      now > 0 &&
                       m.status.lastActivity &&
-                      Date.now() - new Date(m.status.lastActivity).getTime() >
+                      now - new Date(m.status.lastActivity).getTime() >
                         IDLE_THRESHOLD_MS;
 
                     return (
@@ -358,7 +368,7 @@ export function MonitoringDashboard({
                 selectedPassages={session.selectedPassages}
                 autoPhase={getAutoPhase(groups)}
                 autoStep={getAutoStep(groups)}
-                compact={typeof window !== "undefined" && window.innerWidth < 1024}
+                compact={isCompact}
               />
             </div>
           )}

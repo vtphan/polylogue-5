@@ -80,7 +80,7 @@ export function ReviewClient({ sessionId }: { sessionId: string }) {
   const passages = data.session.selectedPassages || [];
 
   return (
-    <div className="mx-auto max-w-5xl p-8">
+    <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
       <Link
         href={`/teacher/session/${sessionId}`}
         className="text-sm text-muted-foreground hover:underline"

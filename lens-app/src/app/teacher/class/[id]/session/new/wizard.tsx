@@ -34,7 +34,7 @@ interface Artifacts {
   scenario: { topic: string; context: string; personas?: { name: string; perspective: string }[] };
   transcript: { turns?: { speaker: string; text: string }[]; personas?: { name: string }[] };
   facilitation: { overview?: string };
-  session: { passages?: { id: string; turns: number[] }[] };
+  session: { passages?: { passage_id: string; turns: number[] }[] };
   scaffolding: { passage_scaffolding?: { passage_id: string; evaluate?: { difficulty?: string } }[] };
 }
 
@@ -87,7 +87,7 @@ export function SessionWizard({ classId }: { classId: string }) {
 
       // Default: select all passages
       const passages = data.artifacts.session?.passages || [];
-      setSelectedPassages(passages.map((p: { id: string }) => p.id));
+      setSelectedPassages(passages.map((p: { passage_id: string }) => p.passage_id));
     }
 
     setStep(2);
@@ -156,19 +156,22 @@ export function SessionWizard({ classId }: { classId: string }) {
   // Step 1: Select scenario
   if (step === 1) {
     return (
-      <div className="mx-auto max-w-3xl p-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
         <StepHeader classId={classId} step={1} title="Select Scenario" />
-        <div className="grid gap-3 sm:grid-cols-2">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {scenarios.map((s) => (
             <Card
               key={s.id}
-              className="cursor-pointer transition-colors hover:bg-accent/50"
+              className="cursor-pointer transition-colors hover:bg-accent/50 hover:shadow-md"
               onClick={() => selectScenario(s.id)}
             >
               <CardHeader>
-                <CardTitle className="text-base">{s.topic}</CardTitle>
-                <CardDescription>{s.id}</CardDescription>
+                <CardTitle className="text-lg leading-snug">{s.topic}</CardTitle>
+                <CardDescription className="mt-1">{s.id}</CardDescription>
               </CardHeader>
+              <CardContent className="pt-0 text-sm text-muted-foreground">
+                Published {new Date(s.publishedAt).toLocaleDateString()}
+              </CardContent>
             </Card>
           ))}
           {scenarios.length === 0 && (
@@ -187,7 +190,7 @@ export function SessionWizard({ classId }: { classId: string }) {
     const personas = artifacts.transcript?.personas || scenario.personas || [];
 
     return (
-      <div className="mx-auto max-w-3xl p-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
         <StepHeader classId={classId} step={2} title="Discussion Briefing" />
         <Card>
           <CardHeader>
@@ -235,7 +238,7 @@ export function SessionWizard({ classId }: { classId: string }) {
     const passages = artifacts?.session?.passages || [];
 
     return (
-      <div className="mx-auto max-w-3xl p-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
         <StepHeader classId={classId} step={3} title="Configure Session" />
         <Card>
           <CardContent className="space-y-6 pt-6">
@@ -270,25 +273,25 @@ export function SessionWizard({ classId }: { classId: string }) {
                   {passages.length})
                 </Label>
                 <div className="space-y-1">
-                  {passages.map((p: { id: string }) => (
+                  {passages.map((p: { passage_id: string }) => (
                     <label
-                      key={p.id}
+                      key={p.passage_id}
                       className="flex items-center gap-2 text-sm"
                     >
                       <input
                         type="checkbox"
-                        checked={selectedPassages.includes(p.id)}
+                        checked={selectedPassages.includes(p.passage_id)}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedPassages([...selectedPassages, p.id]);
+                            setSelectedPassages([...selectedPassages, p.passage_id]);
                           } else {
                             setSelectedPassages(
-                              selectedPassages.filter((id) => id !== p.id)
+                              selectedPassages.filter((id) => id !== p.passage_id)
                             );
                           }
                         }}
                       />
-                      {p.id}
+                      {p.passage_id}
                     </label>
                   ))}
                 </div>
@@ -398,7 +401,7 @@ export function SessionWizard({ classId }: { classId: string }) {
       .map((g) => g.label);
 
     return (
-      <div className="mx-auto max-w-4xl p-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
         <StepHeader classId={classId} step={4} title="Review Groups" />
         <p className="mb-4 text-sm text-muted-foreground">
           Drag students between groups to adjust for this session only. Class-level groups are not affected.
@@ -437,7 +440,7 @@ export function SessionWizard({ classId }: { classId: string }) {
   // Step 5: Review and activate
   if (step === 5) {
     return (
-      <div className="mx-auto max-w-3xl p-8">
+      <div className="mx-auto w-full max-w-7xl px-4 py-4 sm:px-8 sm:py-8">
         <StepHeader classId={classId} step={5} title="Review & Activate" />
         <Card>
           <CardContent className="space-y-4 pt-6">

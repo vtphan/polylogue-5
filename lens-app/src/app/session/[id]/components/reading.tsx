@@ -34,8 +34,8 @@ export function ReadingScreen({
   return (
     <div className="flex min-h-screen flex-col">
       <div className="border-b p-4 text-center">
-        <h2 className="font-medium">Read the Discussion</h2>
-        <p className="text-xs text-muted-foreground">
+        <h2 className="text-lg font-medium">Read the Discussion</h2>
+        <p className="text-sm text-muted-foreground">
           Scroll through the entire conversation before continuing
         </p>
       </div>
@@ -44,14 +44,14 @@ export function ReadingScreen({
         ref={scrollRef}
         className="flex-1 overflow-y-auto p-4"
       >
-        <div className="mx-auto max-w-2xl space-y-3">
+        <div className="mx-auto max-w-3xl space-y-3">
           {turns.map((turn, i) => (
             <div key={i} className="flex gap-3">
-              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-xs font-medium">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-medium">
                 {turn.speaker.charAt(0)}
               </div>
               <div>
-                <p className="text-xs font-medium text-muted-foreground">
+                <p className="text-sm font-medium text-muted-foreground">
                   {turn.speaker}
                 </p>
                 <p className="text-base">{turn.text}</p>
