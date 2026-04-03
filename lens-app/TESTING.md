@@ -218,15 +218,78 @@ Testing the full peer + consensus flow requires **2+ students in the same group*
 
 ---
 
-## 7. Reset for Re-testing
+## 7. Database Location and Reset
 
-To start fresh:
+The database is a single SQLite file at:
+
+```
+lens-app/prisma/dev.db
+```
+
+You can delete it at any time to start completely from scratch. Nothing else depends on it — all schema information lives in the migration files, and seed data is re-creatable.
+
+To reset:
 
 ```bash
-# Delete the database and recreate
+cd lens-app
+
+# Delete the database
 rm prisma/dev.db
+
+# Recreate schema and seed accounts
 npx prisma migrate deploy
 npm run db:seed
 ```
 
-This resets all data while keeping the schema. You'll need to re-import scenarios.
+This gives you a clean database with the seeded researcher, teacher, 6 students, 1 class, and 2 groups. You'll need to re-import scenarios from the researcher dashboard.
+
+If the dev server is running, restart it after resetting (`Ctrl+C`, then `npm run dev`).
+
+---
+
+## 8. Test Student Names for Batch Insert
+
+Copy-paste this block into the batch student creation textarea (Students tab → Add Students). One name per line, 40 names:
+
+```
+Aiden Nakamura
+Bella Santiago
+Caleb Okonkwo
+Diana Petrova
+Elijah Moreau
+Fatima Al-Rashid
+Gabriel Johansson
+Hannah Mwangi
+Isaac Delgado
+Jasmine Kaur
+Kai Ramirez
+Lena Ivanova
+Mateo Ferreira
+Nia Osei
+Oscar Lindqvist
+Priya Chatterjee
+Quinn Mbeki
+Rosa Takahashi
+Sami Khoury
+Talia Bergstrom
+Uma Krishnamurthy
+Victor Almeida
+Wendy Zhao
+Xavier Dembele
+Yara Andersen
+Zion Baptiste
+Amara Volkov
+Benicio Cruz-Reyes
+Celeste Ndiaye
+Declan O'Sullivan
+Esme Fujimoto
+Farid Hashemi
+Greta Sundberg
+Hugo Castellanos
+Iris Papadopoulos
+Jamal Eriksson
+Kiera Tran-Nguyen
+Luca De Rossi
+Mika Jonasson
+Noor El-Amin
+```
