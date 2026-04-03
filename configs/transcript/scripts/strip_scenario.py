@@ -27,12 +27,11 @@ FRAMEWORK_TERMS = [
     # enough to flag real violations without false positives.
     "source_credibility", "source_diversity", "relevance", "sufficiency",
     "inferential_validity", "internal_consistency", "reasoning_completeness",
-    "perspective_breadth", "consequence_consideration", "condition_sensitivity",
-    "counter_argument_engagement",
+    "perspective_engagement", "consequence_consideration", "condition_sensitivity",
     "confirmation_bias", "tunnel_vision", "overgeneralization", "false_cause",
     "uncritical_acceptance", "black_and_white_thinking", "egocentric_thinking",
     "false_certainty",
-    "conformity", "conflict_avoidance", "authority_deference", "groupthink",
+    "group_pressure", "conflict_avoidance", "authority_deference",
 ]
 
 

@@ -68,7 +68,7 @@ For each target facet, specify:
 | **Primary lens** | Which lens most reveals this facet (Evidence, Logic, or Scope) |
 | **Signal mechanism** | The concrete narrative of how the weakness manifests in the conversation |
 | **Cognitive pattern** | From the explanatory variables (e.g., `overgeneralization`) |
-| **Social dynamic** | From the explanatory variables (e.g., `conformity`) |
+| **Social dynamic** | From the explanatory variables (e.g., `group_pressure`) |
 | **Carrier persona** | Which persona primarily manifests this weakness |
 
 The **signal mechanism** is the most important sub-field. It's the concrete, specific description of what goes wrong and how — not a restatement of the facet definition, but the particular way this facet plays out in this specific discussion.
@@ -259,7 +259,7 @@ Target facets:
   gap is between the evidence's scope (Pacific Ocean) and the project's scope
   (their school). The persona doesn't notice the mismatch because the
   documentary was so dramatic.
-  Cognitive pattern: overgeneralization. Social dynamic: conformity (the other
+  Cognitive pattern: overgeneralization. Social dynamic: group_pressure (the other
   persona finds the documentary compelling and doesn't push back on the
   relevance gap).
   Carrier persona: the ocean-pollution advocate.
@@ -344,7 +344,7 @@ Target facets:
   absence of other stakeholders is what students need to notice — it's about
   who's NOT in the conversation, not about what argument was dismissed.
   Cognitive pattern: egocentric thinking (only considered their own
-  perspective as students). Social dynamic: groupthink (both were excited
+  perspective as students). Social dynamic: group_pressure (both were excited
   and neither stepped back to ask "who else should we talk to?").
   Carrier persona: both (but the rain-barrel advocate drives the planning).
 
@@ -367,7 +367,7 @@ conversation, not what's wrong with what's said.
 ## Reference Data
 
 When writing target facets, consult:
-- Facet inventory: `configs/reference/facet_inventory.yaml` (11 facets with IDs, definitions, quality ranges, cross-lens visibility)
-- Explanatory variables: `configs/reference/explanatory_variables.yaml` (8 cognitive patterns + 4 social dynamics with IDs and descriptions)
+- Facet inventory: `configs/reference/facet_inventory.yaml` (10 facets with IDs, definitions, quality ranges, cross-lens visibility)
+- Explanatory variables: `configs/reference/explanatory_variables.yaml` (8 cognitive patterns + 3 social dynamics with IDs and descriptions)
 - Lenses: `configs/reference/lenses.yaml` (3 lenses: logic, evidence, scope)
 - Scenario sequence: `docs/scenario-sequence.md` (the pilot scenario plan with all 5 operator prompts)

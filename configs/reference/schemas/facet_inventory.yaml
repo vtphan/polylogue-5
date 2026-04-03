@@ -9,7 +9,7 @@ schema:
       facets:
         type: list
         required: true
-        description: The eleven facets connecting lenses to explanatory variables.
+        description: The ten facets connecting lenses to explanatory variables.
         items:
           type: object
           fields:
@@ -26,10 +26,9 @@ schema:
                   - inferential_validity
                   - internal_consistency
                   - reasoning_completeness
-                  - perspective_breadth
+                  - perspective_engagement
                   - consequence_consideration
                   - condition_sensitivity
-                  - counter_argument_engagement
             name:
               type: string
               required: true
@@ -92,10 +91,9 @@ schema:
                     type: string
                     constraints:
                       enum:
-                        - conformity
+                        - group_pressure
                         - conflict_avoidance
                         - authority_deference
-                        - groupthink
             priority_tier:
               type: string
               required: true

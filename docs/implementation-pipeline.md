@@ -89,9 +89,9 @@ All phases are sequential.
 **Notes:**
 - Canonical IDs established here propagate into every schema, prompt, and artifact. All IDs use snake_case.
 - Lens IDs: `logic`, `evidence`, `scope`.
-- Facet IDs: `source_credibility`, `source_diversity`, `relevance`, `sufficiency`, `inferential_validity`, `internal_consistency`, `reasoning_completeness`, `perspective_breadth`, `consequence_consideration`, `condition_sensitivity`, `counter_argument_engagement`.
+- Facet IDs: `source_credibility`, `source_diversity`, `relevance`, `sufficiency`, `inferential_validity`, `internal_consistency`, `reasoning_completeness`, `perspective_engagement`, `consequence_consideration`, `condition_sensitivity`.
 - Cognitive pattern IDs: `confirmation_bias`, `tunnel_vision`, `overgeneralization`, `false_cause`, `uncritical_acceptance`, `black_and_white_thinking`, `egocentric_thinking`, `false_certainty`.
-- Social dynamic IDs: `conformity`, `conflict_avoidance`, `authority_deference`, `groupthink`.
+- Social dynamic IDs: `group_pressure`, `conflict_avoidance`, `authority_deference`.
 - Reference data files are the source of truth — not schema definitions. Schema definitions (Phase 2) describe the *structure* of these files.
 
 ---
@@ -274,7 +274,7 @@ FILES TO REVIEW:
 CRITERIA:
 
 1. CANONICAL ID CONSISTENCY
-   The 3 lens IDs, 11 facet IDs, 8 cognitive pattern IDs, and 4 social dynamic IDs
+   The 3 lens IDs, 10 facet IDs, 8 cognitive pattern IDs, and 3 social dynamic IDs
    must match exactly between the reference data files and every schema and agent prompt
    that references them. List any mismatches.
 
@@ -420,7 +420,7 @@ Target facets:
 - Relevance (Evidence lens) — one persona uses evidence about ocean pollution
   in general to argue their local project should focus on it, but the evidence
   is about a different scale and context than what their project could address.
-  Cognitive pattern: overgeneralization. Social dynamic: conformity (the other
+  Cognitive pattern: overgeneralization. Social dynamic: group_pressure (the other
   persona finds the documentary compelling and doesn't push back on the
   relevance gap).
 - Counter-argument engagement (Scope lens) — the persona arguing for
@@ -476,7 +476,7 @@ Target facets:
   runs the garden club, or what happens over summer break. The plan only
   reflects student enthusiasm.
   Cognitive pattern: egocentric thinking (only considered their own
-  perspective as students). Social dynamic: groupthink (both were excited
+  perspective as students). Social dynamic: group_pressure (both were excited
   and neither stepped back to ask "who else should we talk to?").
 
 The personas should disagree about which option is better — one wants the
@@ -485,12 +485,12 @@ more enthusiastic and researched; the hose persona is pragmatic but gets
 won over by the "research." The discussion ends with a decision.
 ```
 
-**Why this scenario:** Sufficiency and perspective breadth are Core tier facets from different lenses (Evidence and Scope), with different cross-lens visibility patterns (sufficiency also visible through Scope and Logic; perspective breadth also visible through Evidence). The explanatory variables test a different set than Scenario A — false certainty, egocentric thinking, authority deference, and groupthink. Together, the two test scenarios cover 4 of 6 Core facets, 5 of 8 cognitive patterns, and all 4 social dynamics.
+**Why this scenario:** Sufficiency and perspective_engagement are Core tier facets from different lenses (Evidence and Scope), with different cross-lens visibility patterns (sufficiency also visible through Scope and Logic; perspective_engagement also visible through Evidence). The explanatory variables test a different set than Scenario A — false certainty, egocentric thinking, authority deference, and group_pressure. Together, the two test scenarios cover 4 of 6 Core facets, 5 of 8 cognitive patterns, and all 3 social dynamics.
 
 **Design notes for review:**
 - The sufficiency weakness should be clear in hindsight but not obvious on first read — "one website" is thin evidence, but the persona's confidence makes it feel adequate in the moment.
-- The perspective breadth gap tests a different kind of Scope weakness than counter-argument engagement — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
-- Check that authority deference is distinguishable from conformity — the hose persona defers specifically because the other "did the research," not because of general social pressure.
+- The perspective_engagement gap tests a different kind of Scope weakness — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
+- Check that authority deference is distinguishable from group_pressure — the hose persona defers specifically because the other "did the research," not because of general social pressure.
 
 3. Run `create_scenario` with the operator prompt above.
 
@@ -522,7 +522,7 @@ won over by the "research." The discussion ends with a decision.
 **Notes:**
 - Start with 2 target facets from the Core tier, not more. This isolates whether the pipeline produces usable artifacts before adding complexity.
 - Target facets with high cross-lens visibility to maximize the chance of perspectival diversity in the first run.
-- The two test scenarios together cover 4 of 6 Core facets (relevance, sufficiency, counter-argument engagement, perspective breadth), 5 of 8 cognitive patterns (overgeneralization, confirmation bias, false certainty, egocentric thinking, groupthink → authority deference), and all 4 social dynamics. This exercises the pipeline broadly enough to catch structural issues before the pilot scenario sequence is authored.
+- The two test scenarios together cover 4 of 6 Core facets (relevance, sufficiency, perspective_engagement), 5 of 8 cognitive patterns (overgeneralization, confirmation bias, false certainty, egocentric thinking, group_pressure → authority deference), and all 3 social dynamics. This exercises the pipeline broadly enough to catch structural issues before the pilot scenario sequence is authored.
 - Document every manual operation — this informs script formalization in Phase 6.
 - Per-stage quality checks are handled by the inline reviewer agents (transcript reviewer, analysis reviewer, scaffolding reviewer). The operator gates each stage based on reviewer feedback. Cross-artifact and systemic quality assessment happens in Phase 5A.
 - Save all intermediate artifacts (pre-enumeration transcript, pre-enrichment facilitation guide) alongside final outputs. These serve as evidence of the pipeline's processing stages.

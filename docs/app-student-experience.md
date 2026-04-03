@@ -158,9 +158,26 @@ Four mechanisms run automatically throughout the session — the student doesn't
 
 These mechanisms use the pipeline's per-passage, per-lens scaffolding data — the same data that was designed for the original 4-step flow, now repurposed for the 3-beat cycle. The pipeline does not need to change.
 
+### Phase Identity
+
+The two phases have distinct visual and linguistic identities so students viscerally feel the shift from one to the other.
+
+| | Evaluate | Explain |
+|---|---|---|
+| **Core question** | "What's wrong?" | "Why did it happen?" |
+| **Framing** | "You're the detective. Something's off. What's the problem?" | "You found the problem. Now figure out *why* — what made these kids think this way?" |
+| **Accent color** | Amber/gold (investigation) | Purple/indigo (understanding) |
+| **Icon** | 🔍 magnifying glass | 🧩 puzzle piece |
+| **Lifeline label** | "Get another clue" | "Get a starter" |
+| **Dr. Chen reveal** | "Here's what I spotted" | "Here's what might explain it" |
+| **Tag question** | "What kind of problem?" | "What was going on?" |
+| **Tag options** | Facts & sources / Reasoning / Full picture | How someone was thinking / How the group affected each other / Both fed into each other |
+
+The color shift is the strongest signal. When the student transitions from Evaluate to Explain, the header, accent colors, and passage highlights all shift from amber to purple. The whole app feels different even though the structure (per-passage cycle) is the same.
+
 ### Evaluate Phase
 
-**Framing:** "Let's figure out what's going on in this discussion. Some parts are highlighted — something's not quite right there. Can you figure out what?"
+**Framing:** "You're the detective. Something's off in this discussion — some parts are highlighted. Can you figure out what the problem is?"
 
 #### Highlighted Passages
 
@@ -180,10 +197,10 @@ For each passage, the student writes what they think the problem is. Free-form t
 
 After writing, the student tags a lens — three natural-language options:
 
-> **What kind of problem did you notice?**
-> - "Something about whether the facts and sources hold up" *(Evidence)*
-> - "Something about whether the reasoning makes sense" *(Logic)*
-> - "Something about whether they're seeing the full picture" *(Scope)*
+> **What kind of problem did you find?**
+> - "Something about the facts and sources" *(Evidence)*
+> - "Something about the reasoning" *(Logic)*
+> - "Something about what they're missing" *(Scope)*
 
 The student picks whichever fits their diagnosis best. The lens vocabulary (Evidence, Logic, Scope) is recorded internally but doesn't need to be shown to the student as jargon.
 
@@ -209,7 +226,9 @@ This also sets up the Explain phase. The student has just seen the expert's anal
 
 ### Explain Phase
 
-**Framing:** "You've figured out what the problems are. Now let's think about *why*. What was going on with the people in this discussion that made them think this way?"
+**Framing:** "You found the problems. Now figure out *why* — what made these kids think this way?"
+
+The app shifts to purple/indigo accent colors. The 🧩 icon replaces 🔍. The student viscerally feels the phase change.
 
 #### Bridge to Explain
 
@@ -226,10 +245,10 @@ For each passage, the student writes why they think the characters reasoned the 
 
 After writing, the student tags a category — three natural-language options:
 
-> **What kind of force do you think was at work?**
-> - "Something about how they were thinking" *(cognitive)*
-> - "Something about how the group was interacting" *(social)*
-> - "Both — their thinking and the group fed each other" *(interaction)*
+> **What was going on?**
+> - "Something about how someone was thinking on their own" *(cognitive)*
+> - "Something about how the group affected each other" *(social)*
+> - "Both — someone's thinking and the group fed into each other" *(interaction)*
 
 The third option — "both" — represents the deepest level of reasoning in the framework. Most students will pick cognitive or social. Students who pick "both" and write about the interaction are demonstrating the most sophisticated thinking.
 
@@ -249,7 +268,7 @@ Same pattern as Evaluate. When all group members submit individual explanations 
 
 #### Expert Reveal (Explain)
 
-After all passages have group explanations, Dr. Chen introduces formal vocabulary. This is where terms like "confirmation bias," "conformity," and "groupthink" enter — as labels for things the students have already described in their own words.
+After all passages have group explanations, Dr. Chen introduces formal vocabulary. This is where terms like "confirmation bias" and "group pressure" enter — as labels for things the students have already described in their own words.
 
 The expert's Explain perspective includes cognitive connections, social connections, and interaction notes. This models the "both" thinking the framework values most — even if a student only tagged cognitive, Dr. Chen's reveal shows how cognitive and social forces interact, planting the seed for next time.
 
@@ -527,7 +546,7 @@ Same passage dashboard, same per-passage cycle, adapted for the Explain question
 **Optional scaffolding** (teacher-configured):
 - Reference lists: browsable cognitive patterns and social dynamics with brief, student-friendly descriptions
 
-**Share, group explanation, and expert reveal** follow the same pattern as Evaluate. Dr. Chen's Explain perspective introduces formal vocabulary — confirmation bias, conformity, groupthink — as labels for things the students have already described in their own words.
+**Share, group explanation, and expert reveal** follow the same pattern as Evaluate. Dr. Chen's Explain perspective introduces formal vocabulary — confirmation bias, group pressure — as labels for things the students have already described in their own words.
 
 #### Completion Screen
 

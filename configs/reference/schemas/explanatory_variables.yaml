@@ -39,7 +39,7 @@ schema:
       social_dynamics:
         type: list
         required: true
-        description: Four group interaction patterns.
+        description: Three group interaction patterns.
         items:
           type: object
           fields:
@@ -49,10 +49,9 @@ schema:
               description: Snake_case social dynamic identifier.
               constraints:
                 enum:
-                  - conformity
+                  - group_pressure
                   - conflict_avoidance
                   - authority_deference
-                  - groupthink
             name:
               type: string
               required: true

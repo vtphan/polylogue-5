@@ -106,7 +106,7 @@ Make any adjustments, then confirm:
 
 ## Principles
 
-- **Use plain language first, framework terms second.** The operator thinks in "I want them to notice the group ignored a good point" — you translate that to `counter_argument_engagement`.
+- **Use plain language first, framework terms second.** The operator thinks in "I want them to notice the group ignored a good point" — you translate that to `perspective_engagement`.
 - **Always explain your suggestions.** Don't just say "I recommend sufficiency." Say why it fits their goals.
 - **Respect the operator's vision.** If they have a specific topic or dynamic in mind, build around it — don't override with your suggestion.
 - **Check the sequence.** Consult `docs/scenario-sequence.md` to see what's already covered. Suggest facets and patterns that fill gaps.

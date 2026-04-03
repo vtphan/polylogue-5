@@ -225,9 +225,9 @@ Use this test case to verify the pipeline works end-to-end. It targets different
 
 ### What This Tests
 
-- **Facets:** sufficiency (Evidence lens), perspective_breadth (Scope lens)
+- **Facets:** sufficiency (Evidence lens), perspective_engagement (Scope lens)
 - **Cognitive patterns:** false_certainty, egocentric_thinking
-- **Social dynamics:** authority_deference, groupthink
+- **Social dynamics:** authority_deference, group_pressure
 - **Also validates:** revised dialog writer (sentence count variation), revised evaluator (emergent facets, what_to_notice calibration)
 
 ### Operator Prompt

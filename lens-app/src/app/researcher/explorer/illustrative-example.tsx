@@ -50,8 +50,8 @@ const FACET_REVEALS: Record<LensId, { id: string; name: string; quality: string;
     observation: '"museum is boring" does not lead to "amusement park is better"',
   },
   scope: {
-    id: "perspective_breadth",
-    name: "Perspective Breadth",
+    id: "perspective_engagement",
+    name: "Perspective Engagement",
     quality: "weak",
     observation: 'only the "fun" dimension considered',
   },

@@ -1,4 +1,4 @@
-# Facet Inventory — source of truth for all 11 facets.
+# Facet Inventory — source of truth for all 10 facets.
 # All facet IDs used in schemas, prompts, and artifacts must match these exactly.
 
 facets:
@@ -38,7 +38,7 @@ facets:
         - confirmation_bias
         - tunnel_vision
       social_dynamics:
-        - groupthink
+        - group_pressure
     priority_tier: extend
 
   - id: relevance
@@ -79,7 +79,7 @@ facets:
         - overgeneralization
         - false_certainty
       social_dynamics:
-        - conformity
+        - group_pressure
         - authority_deference
     priority_tier: core
 
@@ -120,7 +120,7 @@ facets:
         - tunnel_vision
       social_dynamics:
         - conflict_avoidance
-        - conformity
+        - group_pressure
     priority_tier: reserve
 
   - id: reasoning_completeness
@@ -143,33 +143,37 @@ facets:
         - false_certainty
         - uncritical_acceptance
       social_dynamics:
-        - groupthink
+        - group_pressure
         - authority_deference
     priority_tier: extend
 
   # --- Scope lens facets ---
 
-  - id: perspective_breadth
-    name: Perspective Breadth
-    definition: The range of stakeholder viewpoints, experiences, or positions considered.
+  - id: perspective_engagement
+    name: Perspective Engagement
+    definition: >
+      The range of viewpoints considered and whether opposing positions are
+      engaged with rather than ignored.
     quality_range:
       strong: >
         Multiple relevant perspectives are considered, including those that
-        challenge the group's position.
+        challenge the group's position; opposing arguments are addressed
+        with reasoning.
       weak: >
-        Only one perspective is represented, or only perspectives that agree
-        with the conclusion.
+        Only one perspective is represented, or opposition is dismissed
+        without reasoning or absent entirely.
     primary_lens: scope
     cross_lens_visibility:
-      - evidence  # missing perspectives perceived as missing evidence
+      - evidence  # missing perspectives perceived as missing evidence; unsupported dismissal
+      - logic     # straw man perceived as logical error
     explanatory_connections:
       cognitive_patterns:
-        - egocentric_thinking
         - confirmation_bias
+        - egocentric_thinking
       social_dynamics:
-        - groupthink
+        - group_pressure
         - conflict_avoidance
-        - conformity
+        - authority_deference
     priority_tier: core
 
   - id: consequence_consideration
@@ -191,7 +195,7 @@ facets:
         - tunnel_vision
         - black_and_white_thinking
       social_dynamics:
-        - groupthink
+        - group_pressure
     priority_tier: extend
 
   - id: condition_sensitivity
@@ -214,30 +218,5 @@ facets:
         - false_certainty
         - egocentric_thinking
       social_dynamics:
-        - conformity
-        - groupthink
+        - group_pressure
     priority_tier: extend
-
-  - id: counter_argument_engagement
-    name: Counter-Argument Engagement
-    definition: >
-      Whether opposing positions are addressed, rebutted, or incorporated rather
-      than ignored.
-    quality_range:
-      strong: >
-        Opposing positions are addressed — engaged with, rebutted with reasoning,
-        or acknowledged as limitations.
-      weak: >
-        Opposing positions are absent or dismissed without reasoning.
-    primary_lens: scope
-    cross_lens_visibility:
-      - evidence  # unsupported dismissal perceived as evidence problem
-      - logic     # straw man perceived as logical error
-    explanatory_connections:
-      cognitive_patterns:
-        - confirmation_bias
-      social_dynamics:
-        - conflict_avoidance
-        - authority_deference
-        - groupthink
-    priority_tier: core

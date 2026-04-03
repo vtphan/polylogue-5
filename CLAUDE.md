@@ -35,14 +35,12 @@ references/             # External reference materials (PBL curriculum docs)
 
 ### Key Design Documents
 
-- `docs/polylogue-v5-4.md` — Conceptual framework (lenses, facets, explanatory variables, perspectival learning model)
-- `docs/facet-inventory.md` — The 11 facets with quality ranges, cross-lens visibility, explanatory connections
+- `docs/polylogue-v5-5.md` — Conceptual framework + facet inventory (lenses, facets, explanatory variables, perspectival learning model, 10 facets, coverage tables)
 - `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 9 agents, 13 schemas)
 - `docs/implementation-pipeline.md` — 7-phase pipeline implementation plan (including Phase 5A quality assessment) + review phase
 - `docs/app-design.md` — Lens app design (roles, data model, session flow, assessment, UI specs, tech stack)
 - `docs/user-stories.md` — Role interactions, session constraints, pipeline artifact requirements
 - `docs/app-implementation-plan.md` — 7-phase app build plan with 3 review gates (R1, R2, R3)
-- `docs/app-design-todo.md` — Remaining app design topics (only data export remains)
 
 ### Pipeline Artifacts (per scenario)
 
@@ -97,9 +95,9 @@ Hints direct attention to *where* to look, not *what* to see. Rubrics have three
 ### Canonical IDs
 
 - Lenses (3): `logic`, `evidence`, `scope`
-- Facets (11): `source_credibility`, `source_diversity`, `relevance`, `sufficiency`, `inferential_validity`, `internal_consistency`, `reasoning_completeness`, `perspective_breadth`, `consequence_consideration`, `condition_sensitivity`, `counter_argument_engagement`
+- Facets (10): `source_credibility`, `source_diversity`, `relevance`, `sufficiency`, `inferential_validity`, `internal_consistency`, `reasoning_completeness`, `perspective_engagement`, `consequence_consideration`, `condition_sensitivity`
 - Cognitive patterns (8): `confirmation_bias`, `tunnel_vision`, `overgeneralization`, `false_cause`, `uncritical_acceptance`, `black_and_white_thinking`, `egocentric_thinking`, `false_certainty`
-- Social dynamics (4): `conformity`, `conflict_avoidance`, `authority_deference`, `groupthink`
+- Social dynamics (3): `group_pressure`, `conflict_avoidance`, `authority_deference`
 
 ## Session Structure
 

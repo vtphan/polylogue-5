@@ -2,22 +2,22 @@
 
 ## Rationale
 
-This sequence uses two **anchor facets** — relevance and counter-argument engagement — that appear in the first scenario and return later at higher subtlety. Between the anchors, three scenarios introduce the remaining four Core facets and two Extend facets.
+This sequence uses two **anchor facets** — relevance and perspective engagement — that appear in the first scenario and return later at higher subtlety. Between the anchors, three scenarios introduce the remaining three Core facets and two Extend facets.
 
 ### Why These Anchors
 
-Relevance (Evidence lens) and counter-argument engagement (Scope lens) are the two Core facets with the highest cross-lens visibility:
+Relevance (Evidence lens) and perspective engagement (Scope lens) are the two Core facets with the highest cross-lens visibility:
 
 - **Relevance** is also visible through Logic — students perceive the evidence-claim mismatch as an inferential gap. This means an Evidence student and a Logic student will see different things in the same passage, producing rich perspectival diversity in peer exchange.
-- **Counter-argument engagement** is also visible through Evidence and Logic — students can perceive a dismissed argument as unsupported (Evidence) or as an incomplete argument (Logic).
+- **Perspective engagement** is also visible through Evidence and Logic — students can perceive a dismissed argument as unsupported (Evidence) or as an incomplete argument (Logic).
 
-High cross-lens visibility makes these facets ideal for early sessions, where the Evaluate → Peer exchange needs to work well for students to see the value of different lenses. They're also the most intuitive facets — students readily grasp "the evidence doesn't match" and "they ignored a good point" even before developing formal vocabulary.
+High cross-lens visibility makes these facets ideal for early sessions, where the Evaluate → Peer exchange needs to work well for students to see the value of different lenses. They're also the most intuitive facets — students readily grasp "the evidence doesn't match" and "they ignored a good point" or "they only considered their own perspective" even before developing formal vocabulary.
 
 ### Why Anchor + Breadth
 
-- **Depth on anchors:** Students see relevance and counter-argument engagement twice each, at increasing subtlety. The first encounter (Scenario 1) has accessible signals. The return (Scenarios 4 and 5) has subtler signals, requiring sharper observation and more nuanced explanation.
-- **Breadth across Core:** Scenarios 2 and 3 introduce the remaining four Core facets (sufficiency, source credibility, inferential validity, perspective breadth), ensuring all six are covered.
-- **Extend facets as companions:** When anchors return in Scenarios 4 and 5, they're paired with Extend facets (condition sensitivity, consequence consideration). This models the natural progression — students who have practiced noticing evidence-claim mismatch are ready to notice boundary conditions; students who have practiced noticing dismissed arguments are ready to notice missing consequences.
+- **Depth on anchors:** Students see relevance and perspective engagement twice each, at increasing subtlety. The first encounter (Scenario 1) has accessible signals. The return (Scenarios 4 and 5) has subtler signals, requiring sharper observation and more nuanced explanation.
+- **Breadth across Core:** Scenarios 2 and 3 introduce the remaining three Core facets (sufficiency, source credibility, inferential validity), ensuring all five are covered.
+- **Extend facets as companions:** When anchors return in Scenarios 4 and 5, they're paired with Extend facets (condition sensitivity, consequence consideration). This models the natural progression — students who have practiced noticing evidence-claim mismatch are ready to notice boundary conditions; students who have practiced noticing dismissed arguments and missing perspectives are ready to notice missing consequences.
 - **No 3-persona scenarios:** All scenarios use 2 personas. This keeps generation quality consistent and avoids introducing social complexity that could obscure the facet signals. A 3-persona capstone could be added as a 6th scenario if the pilot warrants it.
 
 ### Progression Logic
@@ -27,7 +27,7 @@ Scenario 1: Anchor introduction (accessible signals)
 Scenario 2: New Core facets (accessible)
 Scenario 3: New Core facets (moderate — inferential validity has low cross-lens visibility)
 Scenario 4: Anchor return + Extend (subtler relevance signal)
-Scenario 5: Anchor return + Extend (subtler counter-argument signal)
+Scenario 5: Anchor return + Extend (subtler perspective-engagement signal)
 ```
 
 The difficulty increases through two mechanisms:
@@ -40,18 +40,18 @@ The difficulty increases through two mechanisms:
 
 | # | Scenario | Facets | Lens Pair | Cognitive Patterns | Social Dynamics | Difficulty |
 |---|---|---|---|---|---|---|
-| 1 | Ocean vs Deforestation | **relevance** + **counter_argument_engagement** | Evidence + Scope | overgeneralization, confirmation_bias | conformity, conflict_avoidance | Accessible |
-| 2 | School Garden Water | sufficiency + perspective_breadth | Evidence + Scope | false_certainty, egocentric_thinking | authority_deference, groupthink | Accessible |
-| 3 | Recycling Program | source_credibility + inferential_validity | Evidence + Logic | uncritical_acceptance, false_cause | authority_deference, conformity | Moderate |
-| 4 | Climate Poster Claims | **relevance** + condition_sensitivity | Evidence + Scope | confirmation_bias, overgeneralization | groupthink, conformity | Moderate–Challenging |
-| 5 | Field Trip Proposal | **counter_argument_engagement** + consequence_consideration | Scope + Scope | tunnel_vision, black_and_white_thinking | conflict_avoidance, groupthink | Moderate–Challenging |
+| 1 | Ocean vs Deforestation | **relevance** + **perspective_engagement** | Evidence + Scope | overgeneralization, confirmation_bias | group_pressure, conflict_avoidance | Accessible |
+| 2 | School Garden Water | sufficiency + perspective_engagement | Evidence + Scope | false_certainty, egocentric_thinking | authority_deference, group_pressure | Accessible |
+| 3 | Recycling Program | source_credibility + inferential_validity | Evidence + Logic | uncritical_acceptance, false_cause | authority_deference, group_pressure | Moderate |
+| 4 | Climate Poster Claims | **relevance** + condition_sensitivity | Evidence + Scope | confirmation_bias, overgeneralization | group_pressure | Moderate–Challenging |
+| 5 | Field Trip Proposal | **perspective_engagement** + consequence_consideration | Scope + Scope | tunnel_vision, black_and_white_thinking | conflict_avoidance, group_pressure | Moderate–Challenging |
 
 **Coverage:**
-- Core facets: 6/6 (all covered)
+- Core facets: 5/5 (all covered)
 - Extend facets: 2/4 (condition_sensitivity, consequence_consideration)
 - Cognitive patterns: 7/8 (all except uncritical_acceptance used once; false_certainty in Scenario 2 only — egocentric_thinking appears once)
-- Social dynamics: 4/4 (all covered, most appear multiple times)
-- Anchor facets: relevance appears in Scenarios 1 and 4; counter_argument_engagement appears in Scenarios 1 and 5
+- Social dynamics: 3/3 (all covered, most appear multiple times)
+- Anchor facets: relevance appears in Scenarios 1 and 4; perspective_engagement appears in Scenarios 1, 2, and 5
 
 ---
 
@@ -91,12 +91,12 @@ Target facets:
   gap is between the evidence's scope (Pacific Ocean) and the project's scope
   (their school). The persona doesn't notice the mismatch because the
   documentary was so dramatic.
-  Cognitive pattern: overgeneralization. Social dynamic: conformity (the other
+  Cognitive pattern: overgeneralization. Social dynamic: group pressure (the other
   persona finds the documentary compelling and doesn't push back on the
   relevance gap).
   Carrier persona: the ocean-pollution advocate.
 
-- Counter-argument engagement (Scope lens) — the persona arguing for
+- Perspective engagement (Scope lens) — the persona arguing for
   deforestation raises real concerns about feasibility, but the group moves
   past them rather than actually engaging.
   Signal mechanism: When the deforestation persona raises feasibility concerns
@@ -127,7 +127,7 @@ because they were wrong, but because they stopped pressing.
 ### Design Notes
 
 - The relevance gap should be subtle — the documentary evidence is real and interesting, just not relevant to their specific local project scope. If the gap is too obvious, the dialog writer has failed.
-- The counter-argument dismissal ("we can figure that out later") should feel natural, not cartoonish. Real groups do this constantly.
+- The perspective-engagement dismissal ("we can figure that out later") should feel natural, not cartoonish. Real groups do this constantly.
 - Check that the conflict avoidance dynamic is visible — the deforestation persona should push back at least once before yielding.
 
 ---
@@ -175,7 +175,7 @@ Target facets:
   (the other persona defers because "you researched it").
   Carrier persona: the rain-barrel advocate.
 
-- Perspective breadth (Scope lens) — neither persona considers the custodial
+- Perspective engagement (Scope lens) — neither persona considers the custodial
   staff who would maintain the system, the science teacher who runs the garden
   club, or what happens over summer break.
   Signal mechanism: Both students shift into excited planning mode — where to
@@ -188,7 +188,7 @@ Target facets:
   absence of other stakeholders is what students need to notice — it's about
   who's NOT in the conversation, not about what argument was dismissed.
   Cognitive pattern: egocentric thinking (only considered their own
-  perspective as students). Social dynamic: groupthink (both were excited
+  perspective as students). Social dynamic: group pressure (both were excited
   and neither stepped back to ask "who else should we talk to?").
   Carrier persona: both (but the rain-barrel advocate drives the planning).
 
@@ -209,8 +209,8 @@ conversation, not what's wrong with what's said.
 ### Design Notes
 
 - The sufficiency weakness should be clear in hindsight but not obvious on first read — "one website" is thin evidence, but the persona's confidence makes it feel adequate in the moment.
-- The perspective breadth gap tests a different kind of Scope weakness than counter-argument engagement — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
-- Check that authority deference is distinguishable from conformity — the hose persona defers specifically because the other "did the research," not because of general social pressure.
+- The perspective engagement gap tests a different kind of Scope weakness than the counter-argument aspect of this same facet — it's about who's missing, not what argument was dismissed. Students looking through Scope should be able to name specific missing stakeholders.
+- Check that authority deference is distinguishable from group pressure — the hose persona defers specifically because the other "did the research," not because of general social pressure.
 
 ---
 
@@ -262,7 +262,7 @@ Target facets:
   environmental cost the sibling mentioned.
   Cognitive pattern: false cause (treats the staff's difficulty as a
   reason the environmental outcome would be the same). Social dynamic:
-  conformity (both personas want to make the staff's job easier, which
+  group pressure (both personas want to make the staff's job easier, which
   makes the flawed inference feel reasonable).
 
 The personas should start on opposite sides — one wants single-stream
@@ -318,7 +318,7 @@ Target facets:
   not "the planet." The evidence supports "recycling aluminum saves energy"
   but gets stretched to "recycling saves the planet."
   Cognitive pattern: overgeneralization (stretches a specific finding to
-  a universal claim). Social dynamic: groupthink (both personas like the
+  a universal claim). Social dynamic: group pressure (both personas like the
   dramatic phrasing and don't question whether it's technically accurate
   for a public poster).
 - Condition sensitivity (Scope lens) — the group decides on several
@@ -327,7 +327,7 @@ Target facets:
   For what kinds of waste? The claims are stated as universal facts
   when they're actually conditional on specific circumstances.
   Cognitive pattern: false certainty (presents conditional findings as
-  unconditional facts). Social dynamic: conformity (neither persona
+  unconditional facts). Social dynamic: group pressure (neither persona
   wants to weaken the poster's impact by adding qualifications, so
   they both accept the unqualified claims).
 
@@ -342,7 +342,7 @@ discussion ends with them choosing dramatic, unqualified claims.
 
 - **Relevance signal (subtler than Scenario 1):** The aluminum recycling statistic IS about recycling — the evidence is topically relevant. The gap is between "recycling aluminum saves energy" and "recycling saves the planet." This is harder than Scenario 1 because the evidence isn't about a completely different place or topic; it's about a specific subset being generalized. Students who caught the Pacific-to-school gap in Scenario 1 now face a within-topic generalization.
 - **Condition sensitivity signal:** The unqualified claims are natural for a poster — students may initially think "of course you simplify for a poster." The Scope question is whether simplification crossed into inaccuracy. This is genuinely debatable, which makes peer exchange richer.
-- **Watch for:** The dialog writer may make the accuracy-minded persona too passive. They should actively question at least one claim's precision before getting swept up in poster excitement. The conformity dynamic should feel like shared enthusiasm, not pressure.
+- **Watch for:** The dialog writer may make the accuracy-minded persona too passive. They should actively question at least one claim's precision before getting swept up in poster excitement. The group pressure dynamic should feel like shared enthusiasm, not overt pressure.
 
 ---
 
@@ -350,7 +350,7 @@ discussion ends with them choosing dramatic, unqualified claims.
 
 ### Why This Scenario
 
-Counter-argument engagement returns, but the social dynamic is different. In Scenario 1, one persona dismissed the other's concern. Here, both personas genuinely engage with each other's arguments — but they both ignore the downstream consequences of their decision. The counter-argument weakness is not dismissal but scope: they argue well about the pros and cons of each option while failing to consider what happens after the trip.
+Perspective engagement returns, but the social dynamic is different. In Scenario 1, one persona dismissed the other's concern. Here, both personas genuinely engage with each other's arguments — but they both ignore the downstream consequences of their decision. The perspective-engagement weakness is not dismissal but scope: they argue well about the pros and cons of each option while failing to consider what happens after the trip.
 
 Consequence consideration (Extend) is the natural companion: the group makes a decision without examining its implications.
 
@@ -378,7 +378,7 @@ Instructional goals:
 Target complexity: 2 personas, 2 target facets
 
 Target facets:
-- Counter-argument engagement (Scope lens) — the two personas actually
+- Perspective engagement (Scope lens) — the two personas actually
   argue well — they listen to each other, respond to specific points,
   and make concessions. But their engagement is entirely about the
   trip experience itself (which is more fun, which is more educational,
@@ -401,7 +401,7 @@ Target facets:
   Cognitive pattern: black and white thinking (it's either "nature
   preserve" or "waste facility" — they don't consider how either
   choice plays out or whether elements of both could work). Social
-  dynamic: groupthink (they converge on the "fun" option quickly and
+  dynamic: group pressure (they converge on the "fun" option quickly and
   reinforce each other's enthusiasm without stepping back to check
   whether the choice actually serves their project goals).
 
@@ -414,7 +414,7 @@ how they treat each other. The discussion ends with a clear decision.
 
 ### Design Notes
 
-- **Counter-argument engagement signal (subtler than Scenario 1):** This is the hardest version of this facet in the sequence. The personas DO engage with each other's arguments — they listen, respond, concede. Students may rate this as "strong" on first read. The weakness is scope-level: they engage on trip-experience arguments but never raise implementation, preparation, or follow-up arguments. Scope students need to notice what categories of argument are missing, not that arguments are being dismissed.
+- **Perspective engagement signal (subtler than Scenario 1):** This is the hardest version of this facet in the sequence. The personas DO engage with each other's arguments — they listen, respond, concede. Students may rate this as "strong" on first read. The weakness is scope-level: they engage on trip-experience arguments but never raise implementation, preparation, or follow-up arguments. Scope students need to notice what categories of argument are missing, not that arguments are being dismissed.
 - **Consequence consideration signal:** The discussion ends with a decision but zero consideration of what happens next. This should feel natural — 6th graders excited about a field trip don't naturally think about logistics. The signal is in the absence, which is harder to detect than the presence of a flaw.
 - **Watch for:** The dialog writer may make the conversation too smooth (since both personas are engaging well) or introduce artificial tension to make it feel more like a "flawed" discussion. The discussion should genuinely sound like a good conversation — that's the point. The flaw is structural, not interpersonal.
 - **Pedagogical note:** This scenario challenges students' assumption that "good engagement = good reasoning." A discussion where people are respectful and responsive can still produce a poorly-considered decision. This is a sophisticated insight that builds on what students learned in Scenarios 1 and 3.
@@ -428,13 +428,12 @@ how they treat each other. The discussion ends with a clear decision.
 | Facet | Tier | Scenarios | Notes |
 |---|---|---|---|
 | relevance | Core | 1, **4** | Anchor — returns at higher subtlety |
-| counter_argument_engagement | Core | 1, **5** | Anchor — returns as structural rather than interpersonal weakness |
+| perspective_engagement | Core | 1, 2, **5** | Anchor — covers both missing perspectives and structural counter-argument weakness |
 | sufficiency | Core | 2 | |
-| perspective_breadth | Core | 2 | |
 | source_credibility | Core | 3 | |
 | inferential_validity | Core | 3 | Hardest — lowest cross-lens visibility |
 | condition_sensitivity | Extend | 4 | Pairs with returning relevance anchor |
-| consequence_consideration | Extend | 5 | Pairs with returning counter-argument anchor |
+| consequence_consideration | Extend | 5 | Pairs with returning perspective-engagement anchor |
 
 ### Cognitive Patterns
 
@@ -455,12 +454,11 @@ All 8 cognitive patterns covered.
 
 | Dynamic | Scenarios |
 |---|---|
-| conformity | 1, 3, 4 |
+| group_pressure | 1, 2, 3, 4, 5 |
 | conflict_avoidance | 1, 5 |
 | authority_deference | 2, 3 |
-| groupthink | 2, 4, 5 |
 
-All 4 social dynamics covered, each appearing 2-3 times.
+All 3 social dynamics covered, each appearing multiple times.
 
 ### Lens Usage
 

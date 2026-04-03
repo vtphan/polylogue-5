@@ -38,9 +38,12 @@ cognitive_patterns:
       supports it.
 
 social_dynamics:
-  - id: conformity
-    name: Conformity
-    description: Going along with the group even when you privately disagree.
+  - id: group_pressure
+    name: Group pressure
+    description: >
+      The group discouraging disagreement — whether through pressure that makes
+      individuals go along despite private doubts, or through collective
+      convergence where no one questions at all.
 
   - id: conflict_avoidance
     name: Conflict avoidance
@@ -51,9 +54,3 @@ social_dynamics:
     description: >
       Letting the loudest or most confident person win without evaluating
       their reasoning.
-
-  - id: groupthink
-    name: Groupthink
-    description: >
-      The group choosing to feel good about their answer instead of checking
-      whether it's right.

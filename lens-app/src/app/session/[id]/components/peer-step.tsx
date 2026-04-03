@@ -325,7 +325,7 @@ const COGNITIVE_KEYWORDS = [
   "focused on", "only looking", "assumed", "jumped to",
 ];
 const SOCIAL_KEYWORDS = [
-  "conformity", "conflict avoidance", "authority deference", "groupthink",
+  "group pressure", "conflict avoidance", "authority deference",
   "went along", "didn't disagree", "followed", "pressure", "group",
 ];
 
