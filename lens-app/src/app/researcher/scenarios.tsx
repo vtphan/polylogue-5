@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -163,7 +164,17 @@ export function ScenarioPanel() {
                     <TableCell className="text-sm">
                       {new Date(s.publishedAt).toLocaleDateString()}
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="space-x-1">
+                      <Link href={`/researcher/scenario/${s.id}/pipeline`}>
+                        <Button variant="ghost" size="sm">
+                          Pipeline
+                        </Button>
+                      </Link>
+                      <Link href={`/researcher/scenario/${s.id}/artifacts`}>
+                        <Button variant="ghost" size="sm">
+                          Artifacts
+                        </Button>
+                      </Link>
                       <Button
                         variant="ghost"
                         size="sm"

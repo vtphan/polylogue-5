@@ -4,6 +4,9 @@ import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { submitWithQueue } from "@/lib/offline/queue";
+import { StaleBanner } from "@/components/ui/stale-banner";
+import { useConnectivity } from "@/lib/offline/use-connectivity";
 import type {
   Passage,
   Turn,
@@ -29,6 +32,7 @@ interface Props {
   phase: "evaluate" | "explain";
   onRefresh: () => Promise<void>;
   onMoveToAI: () => void;
+  onSyncRefresh?: () => void;
 }
 
 export function PeerStep({
@@ -40,6 +44,7 @@ export function PeerStep({
   group,
   onRefresh,
   onMoveToAI,
+  onSyncRefresh,
 }: Props) {
   const [peerData, setPeerData] = useState<{
     members: { id: string; fullName: string }[];
@@ -47,13 +52,23 @@ export function PeerStep({
   } | null>(null);
   const [appendContent, setAppendContent] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
+  const connectivity = useConnectivity();
 
   const pollPeers = useCallback(async () => {
-    const res = await fetch(
-      `/api/sessions/${sessionId}/responses/peers?phase=${phase}`
-    );
-    if (res.ok) setPeerData(await res.json());
-  }, [sessionId, phase]);
+    try {
+      const res = await fetch(
+        `/api/sessions/${sessionId}/responses/peers?phase=${phase}`
+      );
+      if (res.ok) {
+        setPeerData(await res.json());
+        connectivity.markSuccess();
+      } else {
+        connectivity.markFailure();
+      }
+    } catch {
+      connectivity.markFailure();
+    }
+  }, [sessionId, phase, connectivity]);
 
   useEffect(() => {
     pollPeers();
@@ -71,17 +86,13 @@ export function PeerStep({
         ? `/api/sessions/${sessionId}/responses/evaluate`
         : `/api/sessions/${sessionId}/responses/explain`;
 
-    // C1 fix: use actual student lens, not hardcoded "evidence"
-    await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        passageId,
-        step: "peer",
-        lensId,
-        content: text.trim(),
-      }),
+    await submitWithQueue(studentId, endpoint, {
+      passageId,
+      step: "peer",
+      lensId,
+      content: text.trim(),
     });
+    onSyncRefresh?.();
 
     setAppendContent((prev) => ({ ...prev, [passageId]: "" }));
     await onRefresh();
@@ -101,6 +112,14 @@ export function PeerStep({
           </p>
         </div>
       </div>
+
+      {/* Stale connectivity banner */}
+      {connectivity.isStale && (
+        <StaleBanner
+          lastUpdated={connectivity.lastUpdated}
+          online={connectivity.online}
+        />
+      )}
 
       {/* Group members status */}
       <div className="border-b bg-accent/30 px-4 py-2">
@@ -157,7 +176,8 @@ export function PeerStep({
             return (
               <Card
                 key={passage.id}
-                className={highlightInfo ? "border-dashed border-amber-500" : ""}
+                className={highlightInfo ? "border-2 border-dashed border-amber-500" : ""}
+                aria-label={highlightInfo ? `Passage ${passage.id} — ${highlightInfo}` : `Passage ${passage.id}`}
               >
                 <CardHeader className="pb-2">
                   <CardTitle className="flex items-center gap-2 text-base">

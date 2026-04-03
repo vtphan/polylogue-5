@@ -54,7 +54,7 @@ export function ReadingScreen({
                 <p className="text-xs font-medium text-muted-foreground">
                   {turn.speaker}
                 </p>
-                <p className="text-sm">{turn.text}</p>
+                <p className="text-base">{turn.text}</p>
               </div>
             </div>
           ))}
@@ -65,7 +65,7 @@ export function ReadingScreen({
         <Button
           onClick={onFinished}
           disabled={!hasScrolledToEnd}
-          className="w-full max-w-sm"
+          className="w-full max-w-sm min-h-[44px] text-base"
         >
           {hasScrolledToEnd
             ? "Continue"

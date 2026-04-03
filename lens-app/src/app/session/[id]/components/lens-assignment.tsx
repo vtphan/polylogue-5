@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LENS_LABELS, LENS_QUESTIONS } from "../types";
+import { LENS_ICONS } from "@/lib/constants/lens-colors";
+import type { LensId } from "@/lib/constants/lens-colors";
 
 export function LensAssignmentScreen({
   sessionId,
@@ -36,7 +38,7 @@ export function LensAssignmentScreen({
                 {LENS_QUESTIONS[existingLens]}
               </p>
             </div>
-            <Button className="w-full" onClick={() => onAssigned(existingLens)}>
+            <Button className="w-full min-h-[44px] text-base" onClick={() => onAssigned(existingLens)}>
               Start Evaluating
             </Button>
           </CardContent>
@@ -73,24 +75,28 @@ export function LensAssignmentScreen({
           <p className="text-sm text-muted-foreground">
             Pick the lens you&apos;ll use to evaluate the discussion.
           </p>
-          {["evidence", "logic", "scope"].map((lens) => (
+          {(["evidence", "logic", "scope"] as LensId[]).map((lens) => (
             <button
               key={lens}
-              className={`w-full rounded-lg border-2 p-4 text-left transition-colors ${
+              className={`w-full rounded-lg border-2 p-4 text-left transition-colors min-h-[44px] ${
                 selected === lens
                   ? "border-primary bg-primary/5"
                   : "border-border hover:border-primary/50"
               }`}
               onClick={() => setSelected(lens)}
+              aria-pressed={selected === lens}
             >
-              <p className="font-medium">{LENS_LABELS[lens]}</p>
+              <p className="font-medium text-base">
+                <span aria-hidden="true" className="mr-1.5">{LENS_ICONS[lens]}</span>
+                {LENS_LABELS[lens]}
+              </p>
               <p className="text-sm text-muted-foreground">
                 {LENS_QUESTIONS[lens]}
               </p>
             </button>
           ))}
           <Button
-            className="w-full"
+            className="w-full min-h-[44px] text-base"
             disabled={!selected || submitting}
             onClick={handleChoose}
           >

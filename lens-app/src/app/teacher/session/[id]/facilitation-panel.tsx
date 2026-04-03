@@ -77,6 +77,7 @@ export function FacilitationPanel({
   selectedPassages,
   autoPhase,
   autoStep,
+  compact = false,
 }: {
   artifacts: Record<string, unknown>;
   groups: GroupData[];
@@ -84,6 +85,7 @@ export function FacilitationPanel({
   selectedPassages: string[] | null;
   autoPhase?: "evaluate" | "explain";
   autoStep?: "individual" | "peer" | "ai" | "consensus";
+  compact?: boolean;
 }) {
   const facilitation = artifacts.facilitation as FacilitationArtifact | undefined;
   const passageGuides = facilitation?.passage_guides || [];
@@ -296,36 +298,52 @@ export function FacilitationPanel({
           {/* Individual step content */}
           {stepView === "individual" && (
             <>
-              {(stepContent as { whats_here?: string })?.whats_here && (
-                <GuideSection
-                  title="What's Here"
-                  content={(stepContent as { whats_here: string }).whats_here}
-                />
-              )}
-              {(stepContent as { likely_observations?: Record<string, string> | string })
-                ?.likely_observations && (
-                <GuideSection
-                  title="Likely Observations"
-                  content={
-                    typeof (stepContent as { likely_observations: unknown }).likely_observations === "object"
-                      ? Object.entries(
-                          (stepContent as { likely_observations: Record<string, string> }).likely_observations
-                        )
-                          .map(([lens, obs]) => `${lens}: ${obs}`)
-                          .join("\n")
-                      : String((stepContent as { likely_observations: unknown }).likely_observations)
-                  }
-                />
-              )}
-              {(stepContent as { if_students_are_stuck?: string })
-                ?.if_students_are_stuck && (
-                <GuideSection
-                  title="If Students Are Stuck"
-                  content={
-                    (stepContent as { if_students_are_stuck: string })
-                      .if_students_are_stuck
-                  }
-                />
+              {/* Compact mode: only show "If Students Are Stuck" */}
+              {compact ? (
+                (stepContent as { if_students_are_stuck?: string })
+                  ?.if_students_are_stuck && (
+                  <GuideSection
+                    title="If Students Are Stuck"
+                    content={
+                      (stepContent as { if_students_are_stuck: string })
+                        .if_students_are_stuck
+                    }
+                  />
+                )
+              ) : (
+                <>
+                  {(stepContent as { whats_here?: string })?.whats_here && (
+                    <GuideSection
+                      title="What's Here"
+                      content={(stepContent as { whats_here: string }).whats_here}
+                    />
+                  )}
+                  {(stepContent as { likely_observations?: Record<string, string> | string })
+                    ?.likely_observations && (
+                    <GuideSection
+                      title="Likely Observations"
+                      content={
+                        typeof (stepContent as { likely_observations: unknown }).likely_observations === "object"
+                          ? Object.entries(
+                              (stepContent as { likely_observations: Record<string, string> }).likely_observations
+                            )
+                              .map(([lens, obs]) => `${lens}: ${obs}`)
+                              .join("\n")
+                          : String((stepContent as { likely_observations: unknown }).likely_observations)
+                      }
+                    />
+                  )}
+                  {(stepContent as { if_students_are_stuck?: string })
+                    ?.if_students_are_stuck && (
+                    <GuideSection
+                      title="If Students Are Stuck"
+                      content={
+                        (stepContent as { if_students_are_stuck: string })
+                          .if_students_are_stuck
+                      }
+                    />
+                  )}
+                </>
               )}
             </>
           )}
@@ -333,43 +351,69 @@ export function FacilitationPanel({
           {/* Peer step content */}
           {stepView === "peer" && (
             <>
-              {(stepContent as { likely_disagreements?: string })
-                ?.likely_disagreements && (
-                <GuideSection
-                  title="Likely Disagreements"
-                  content={
-                    (stepContent as { likely_disagreements: string })
-                      .likely_disagreements
-                  }
-                />
-              )}
-              {(stepContent as { productive_questions?: string[] })
-                ?.productive_questions && (
-                <Card>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-sm">
-                      Productive Questions
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <ul className="list-disc pl-4 space-y-1 text-sm">
-                      {(
-                        (stepContent as { productive_questions: string[] })
-                          .productive_questions
-                      ).map((q, i) => (
-                        <li key={i}>{q}</li>
-                      ))}
-                    </ul>
-                  </CardContent>
-                </Card>
-              )}
-              {(stepContent as { watch_for?: string })?.watch_for && (
-                <GuideSection
-                  title="Watch For"
-                  content={
-                    (stepContent as { watch_for: string }).watch_for
-                  }
-                />
+              {/* Compact mode: only show productive questions */}
+              {compact ? (
+                (stepContent as { productive_questions?: string[] })
+                  ?.productive_questions && (
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">
+                        Productive Questions
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="list-disc pl-4 space-y-1 text-sm">
+                        {(
+                          (stepContent as { productive_questions: string[] })
+                            .productive_questions
+                        ).map((q, i) => (
+                          <li key={i}>{q}</li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                )
+              ) : (
+                <>
+                  {(stepContent as { likely_disagreements?: string })
+                    ?.likely_disagreements && (
+                    <GuideSection
+                      title="Likely Disagreements"
+                      content={
+                        (stepContent as { likely_disagreements: string })
+                          .likely_disagreements
+                      }
+                    />
+                  )}
+                  {(stepContent as { productive_questions?: string[] })
+                    ?.productive_questions && (
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-sm">
+                          Productive Questions
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <ul className="list-disc pl-4 space-y-1 text-sm">
+                          {(
+                            (stepContent as { productive_questions: string[] })
+                              .productive_questions
+                          ).map((q, i) => (
+                            <li key={i}>{q}</li>
+                          ))}
+                        </ul>
+                      </CardContent>
+                    </Card>
+                  )}
+                  {(stepContent as { watch_for?: string })?.watch_for && (
+                    <GuideSection
+                      title="Watch For"
+                      content={
+                        (stepContent as { watch_for: string }).watch_for
+                      }
+                    />
+                  )}
+                </>
               )}
             </>
           )}
@@ -387,23 +431,28 @@ export function FacilitationPanel({
                   }
                 />
               )}
-              {(stepContent as { likely_student_reactions?: string })
-                ?.likely_student_reactions && (
-                <GuideSection
-                  title="Likely Student Reactions"
-                  content={
-                    (stepContent as { likely_student_reactions: string })
-                      .likely_student_reactions
-                  }
-                />
-              )}
-              {(stepContent as { follow_up?: string })?.follow_up && (
-                <GuideSection
-                  title="Follow Up"
-                  content={
-                    (stepContent as { follow_up: string }).follow_up
-                  }
-                />
+              {/* Full content only in non-compact mode */}
+              {!compact && (
+                <>
+                  {(stepContent as { likely_student_reactions?: string })
+                    ?.likely_student_reactions && (
+                    <GuideSection
+                      title="Likely Student Reactions"
+                      content={
+                        (stepContent as { likely_student_reactions: string })
+                          .likely_student_reactions
+                      }
+                    />
+                  )}
+                  {(stepContent as { follow_up?: string })?.follow_up && (
+                    <GuideSection
+                      title="Follow Up"
+                      content={
+                        (stepContent as { follow_up: string }).follow_up
+                      }
+                    />
+                  )}
+                </>
               )}
             </>
           )}

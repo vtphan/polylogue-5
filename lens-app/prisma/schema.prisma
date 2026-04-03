@@ -262,6 +262,7 @@ model LensAssignment {
 
 model EvaluateResponse {
   id                String       @id @default(uuid())
+  clientId          String?      @unique @map("client_id") // client-generated UUID for idempotent offline sync
   sessionId         String       @map("session_id")
   studentId         String       @map("student_id")
   passageId         String       @map("passage_id")
@@ -281,6 +282,7 @@ model EvaluateResponse {
 
 model ExplainResponse {
   id        String       @id @default(uuid())
+  clientId  String?      @unique @map("client_id") // client-generated UUID for idempotent offline sync
   sessionId String       @map("session_id")
   studentId String       @map("student_id")
   passageId String       @map("passage_id")

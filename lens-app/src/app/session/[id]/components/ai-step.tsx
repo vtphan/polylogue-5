@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { submitWithQueue } from "@/lib/offline/queue";
 import type {
   Passage,
   Turn,
@@ -37,10 +38,12 @@ interface Props {
   };
   onRefresh: () => Promise<void>;
   onFinished: () => void;
+  onSyncRefresh?: () => void;
 }
 
 export function AIStep({
   sessionId,
+  studentId,
   passages,
   lensId,
   evaluateResponses,
@@ -50,6 +53,7 @@ export function AIStep({
   analysis,
   onRefresh,
   onFinished,
+  onSyncRefresh,
 }: Props) {
   const [reflections, setReflections] = useState<Record<string, string>>({});
   const [submitted, setSubmitted] = useState<Set<string>>(new Set());
@@ -79,16 +83,13 @@ export function AIStep({
         ? `/api/sessions/${sessionId}/responses/evaluate`
         : `/api/sessions/${sessionId}/responses/explain`;
 
-    await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        passageId,
-        step: "ai",
-        lensId,
-        content: text.trim(),
-      }),
+    await submitWithQueue(studentId, endpoint, {
+      passageId,
+      step: "ai",
+      lensId,
+      content: text.trim(),
     });
+    onSyncRefresh?.();
 
     setSubmitted((prev) => new Set(prev).add(passageId));
     await onRefresh();

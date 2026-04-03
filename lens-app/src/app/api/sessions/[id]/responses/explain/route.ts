@@ -14,18 +14,37 @@ export async function POST(
   const body = await req.json();
 
   const session = await prisma.session.findFirst({
-    where: { id: sessionId, status: "active" },
+    where: { id: sessionId },
   });
 
   if (!session) {
+    return NextResponse.json(
+      { error: "Session not found" },
+      { status: 404 }
+    );
+  }
+
+  // Allow submission if session is active, or if closed (student finishing current work)
+  if (session.status === "draft") {
     return NextResponse.json(
       { error: "Session not active" },
       { status: 400 }
     );
   }
 
+  // Idempotent write: if clientId provided and already exists, return existing
+  if (body.clientId) {
+    const existing = await prisma.explainResponse.findUnique({
+      where: { clientId: body.clientId },
+    });
+    if (existing) {
+      return NextResponse.json(existing, { status: 409 });
+    }
+  }
+
   const response = await prisma.explainResponse.create({
     data: {
+      clientId: body.clientId || null,
       sessionId,
       studentId: auth.userId,
       passageId: body.passageId,

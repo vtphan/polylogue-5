@@ -280,13 +280,14 @@ export function ConsensusStep({
                               ? "default"
                               : "outline"
                           }
-                          size="sm"
+                          className="flex-1 min-h-[44px] text-base"
                           onClick={() =>
                             setPositions((prev) => ({
                               ...prev,
                               [passage.id]: "agree",
                             }))
                           }
+                          aria-pressed={positions[passage.id] === "agree"}
                         >
                           Agree
                         </Button>
@@ -296,19 +297,20 @@ export function ConsensusStep({
                               ? "default"
                               : "outline"
                           }
-                          size="sm"
+                          className="flex-1 min-h-[44px] text-base"
                           onClick={() =>
                             setPositions((prev) => ({
                               ...prev,
                               [passage.id]: "disagree",
                             }))
                           }
+                          aria-pressed={positions[passage.id] === "disagree"}
                         >
                           Disagree
                         </Button>
                       </div>
                       <textarea
-                        className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                        className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                         placeholder="Why does your group agree or disagree?"
                         value={rationales[passage.id] || ""}
                         onChange={(e) =>
@@ -319,7 +321,7 @@ export function ConsensusStep({
                         }
                       />
                       <Button
-                        size="sm"
+                        className="min-h-[44px]"
                         onClick={() => handleSubmitConsensus(passage.id)}
                         disabled={
                           !positions[passage.id] ||
@@ -340,7 +342,7 @@ export function ConsensusStep({
 
       {allConsensusSubmitted && (
         <div className="border-t p-4 text-center">
-          <Button onClick={onFinished}>
+          <Button className="min-h-[44px] px-8 text-base" onClick={onFinished}>
             {phase === "evaluate"
               ? "Continue to Explain Phase"
               : "Complete Session"}

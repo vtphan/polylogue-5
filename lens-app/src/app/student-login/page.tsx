@@ -137,7 +137,7 @@ export default function StudentLoginPage() {
               <Button
                 key={s.id}
                 variant="outline"
-                className="w-full justify-start"
+                className="w-full justify-start min-h-[44px] text-base"
                 onClick={() => handleSelectStudent(s.id)}
                 disabled={loading}
               >

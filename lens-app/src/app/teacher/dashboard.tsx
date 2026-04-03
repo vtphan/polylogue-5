@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { PedagogyPrimer } from "@/components/pedagogy-primer";
 
 interface ClassSummary {
   id: string;
@@ -21,12 +22,22 @@ interface ClassSummary {
   _count: { enrollments: number; sessions: number };
 }
 
+const PRIMER_SEEN_KEY = "polylogue_primer_seen";
+
 export function TeacherDashboardClient() {
   const router = useRouter();
   const [classes, setClasses] = useState<ClassSummary[]>([]);
   const [name, setName] = useState("");
   const [section, setSection] = useState("");
   const [creating, setCreating] = useState(false);
+  const [showPrimer, setShowPrimer] = useState(false);
+
+  // Show primer on first visit
+  useEffect(() => {
+    if (!localStorage.getItem(PRIMER_SEEN_KEY)) {
+      setShowPrimer(true);
+    }
+  }, []);
 
   async function loadClasses() {
     const res = await fetch("/api/classes");
@@ -62,14 +73,31 @@ export function TeacherDashboardClient() {
 
   return (
     <div className="mx-auto max-w-4xl p-8">
+      {showPrimer && (
+        <PedagogyPrimer
+          onClose={() => {
+            setShowPrimer(false);
+            localStorage.setItem(PRIMER_SEEN_KEY, "1");
+          }}
+        />
+      )}
+
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Teacher Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          className="text-sm text-muted-foreground underline hover:text-foreground"
-        >
-          Sign out
-        </button>
+        <div className="flex items-center gap-4">
+          <button
+            onClick={() => setShowPrimer(true)}
+            className="text-sm text-muted-foreground underline hover:text-foreground"
+          >
+            How it works
+          </button>
+          <button
+            onClick={handleLogout}
+            className="text-sm text-muted-foreground underline hover:text-foreground"
+          >
+            Sign out
+          </button>
+        </div>
       </div>
 
       <Card className="mb-6">

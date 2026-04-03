@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { submitWithQueue } from "@/lib/offline/queue";
 import type {
   Passage,
   Turn,
@@ -25,10 +26,12 @@ interface Props {
   analysis: unknown;
   onRefresh: () => Promise<void>;
   onReady: () => void;
+  onSyncRefresh?: () => void;
 }
 
 export function EvaluateIndividual({
   sessionId,
+  studentId,
   passages,
   turns,
   lensId,
@@ -37,6 +40,7 @@ export function EvaluateIndividual({
   session,
   onRefresh,
   onReady,
+  onSyncRefresh,
 }: Props) {
   const [activePassage, setActivePassage] = useState<string | null>(null);
 
@@ -60,6 +64,7 @@ export function EvaluateIndividual({
     return (
       <PassageModal
         sessionId={sessionId}
+        studentId={studentId}
         passage={passage}
         turns={turns}
         lensId={lensId}
@@ -69,6 +74,7 @@ export function EvaluateIndividual({
         onSubmit={async () => {
           await onRefresh();
         }}
+        onSyncRefresh={onSyncRefresh}
       />
     );
   }
@@ -131,12 +137,13 @@ export function EvaluateIndividual({
                   </div>
                   {passageHere && (
                     <button
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                         completedPassages.has(passageHere.id)
                           ? "bg-primary text-primary-foreground"
                           : "border-2 border-primary text-primary"
                       }`}
                       onClick={() => setActivePassage(passageHere.id)}
+                      aria-label={`Passage ${passages.indexOf(passageHere) + 1}${completedPassages.has(passageHere.id) ? " (completed)" : ""}`}
                     >
                       {passages.indexOf(passageHere) + 1}
                     </button>
@@ -163,6 +170,7 @@ export function EvaluateIndividual({
 
 function PassageModal({
   sessionId,
+  studentId,
   passage,
   turns,
   lensId,
@@ -170,8 +178,10 @@ function PassageModal({
   existingResponses,
   onClose,
   onSubmit,
+  onSyncRefresh,
 }: {
   sessionId: string;
+  studentId: string;
   passage: Passage;
   turns: Turn[];
   lensId: string;
@@ -179,6 +189,7 @@ function PassageModal({
   existingResponses: EvalResponse[];
   onClose: () => void;
   onSubmit: () => Promise<void>;
+  onSyncRefresh?: () => void;
 }) {
   const [rating, setRating] = useState<"strong" | "weak" | null>(null);
   const [content, setContent] = useState("");
@@ -203,10 +214,10 @@ function PassageModal({
     if (!rating || !content.trim()) return;
     setSubmitting(true);
 
-    const res = await fetch(`/api/sessions/${sessionId}/responses/evaluate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const { synced } = await submitWithQueue(
+      studentId,
+      `/api/sessions/${sessionId}/responses/evaluate`,
+      {
         passageId: passage.id,
         step: "individual",
         lensId,
@@ -214,18 +225,17 @@ function PassageModal({
         content: content.trim(),
         hintUsed,
         redirectTriggered: false,
-      }),
-    });
-
-    if (res.ok) {
-      // Check for misreading redirect
-      const redirect = checkMisreading(content, misreadings);
-      if (redirect) {
-        setRedirectMessage(redirect);
-      } else {
-        await onSubmit();
-        onClose();
       }
+    );
+    onSyncRefresh?.();
+
+    // Check for misreading redirect (works even if offline — local queue has the data)
+    const redirect = checkMisreading(content, misreadings);
+    if (redirect) {
+      setRedirectMessage(redirect);
+    } else {
+      if (synced) await onSubmit();
+      onClose();
     }
     setSubmitting(false);
   }
@@ -234,17 +244,18 @@ function PassageModal({
     if (!redirectContent.trim()) return;
     setSubmitting(true);
 
-    await fetch(`/api/sessions/${sessionId}/responses/evaluate`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    await submitWithQueue(
+      studentId,
+      `/api/sessions/${sessionId}/responses/evaluate`,
+      {
         passageId: passage.id,
         step: "individual",
         lensId,
         content: redirectContent.trim(),
         redirectTriggered: true,
-      }),
-    });
+      }
+    );
+    onSyncRefresh?.();
 
     await onSubmit();
     onClose();
@@ -252,13 +263,13 @@ function PassageModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background">
+    <div className="fixed inset-0 z-50 flex flex-col bg-background" role="dialog" aria-label={`Passage ${passage.id}`}>
       {/* Header */}
       <div className="flex items-center justify-between border-b p-4">
-        <h2 className="font-medium">
+        <h2 className="font-medium text-base">
           Passage {passage.id}
         </h2>
-        <Button variant="ghost" size="sm" onClick={onClose}>
+        <Button variant="ghost" size="sm" className="min-h-[44px] min-w-[44px]" onClick={onClose}>
           Close
         </Button>
       </div>
@@ -270,10 +281,10 @@ function PassageModal({
             <CardContent className="space-y-2 pt-4">
               {passageTurns.map((turn, i) => (
                 <div key={i}>
-                  <span className="text-xs font-medium text-muted-foreground">
+                  <span className="text-sm font-medium text-muted-foreground">
                     {turn.speaker}:
                   </span>{" "}
-                  <span className="text-sm">{turn.text}</span>
+                  <span className="text-base">{turn.text}</span>
                 </div>
               ))}
             </CardContent>
@@ -308,14 +319,14 @@ function PassageModal({
                 <Button
                   variant={rating === "strong" ? "default" : "outline"}
                   onClick={() => setRating("strong")}
-                  className="flex-1"
+                  className="flex-1 min-h-[44px] text-base"
                 >
                   Strong
                 </Button>
                 <Button
                   variant={rating === "weak" ? "default" : "outline"}
                   onClick={() => setRating("weak")}
-                  className="flex-1"
+                  className="flex-1 min-h-[44px] text-base"
                 >
                   Weak
                 </Button>
@@ -330,7 +341,7 @@ function PassageModal({
 
               {/* Articulation */}
               <textarea
-                className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                 placeholder="What do you notice?"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
@@ -338,7 +349,7 @@ function PassageModal({
 
               <div className="flex items-center justify-between">
                 {!showHint && hints.length > 0 && (
-                  <Button variant="ghost" size="sm" onClick={handleShowHint}>
+                  <Button variant="ghost" className="min-h-[44px]" onClick={handleShowHint}>
                     I need a hint
                   </Button>
                 )}
@@ -346,6 +357,7 @@ function PassageModal({
                   <Button
                     onClick={handleSubmit}
                     disabled={!rating || !content.trim() || submitting}
+                    className="min-h-[44px] px-6"
                   >
                     {submitting ? "Submitting..." : "Submit"}
                   </Button>
@@ -379,6 +391,7 @@ function PassageModal({
           {existingResponses.length > 0 && !redirectMessage && (
             <AppendBox
               sessionId={sessionId}
+              studentId={studentId}
               passageId={passage.id}
               lensId={lensId}
               step="individual"
@@ -386,6 +399,7 @@ function PassageModal({
               onSubmit={async () => {
                 await onSubmit();
               }}
+              onSyncRefresh={onSyncRefresh}
             />
           )}
         </div>
@@ -396,18 +410,22 @@ function PassageModal({
 
 function AppendBox({
   sessionId,
+  studentId,
   passageId,
   lensId,
   step,
   phase,
   onSubmit,
+  onSyncRefresh,
 }: {
   sessionId: string;
+  studentId: string;
   passageId: string;
   lensId: string;
   step: string;
   phase: string;
   onSubmit: () => Promise<void>;
+  onSyncRefresh?: () => void;
 }) {
   const [content, setContent] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -421,16 +439,13 @@ function AppendBox({
         ? `/api/sessions/${sessionId}/responses/evaluate`
         : `/api/sessions/${sessionId}/responses/explain`;
 
-    await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        passageId,
-        step,
-        lensId,
-        content: content.trim(),
-      }),
+    await submitWithQueue(studentId, endpoint, {
+      passageId,
+      step,
+      lensId,
+      content: content.trim(),
     });
+    onSyncRefresh?.();
 
     setContent("");
     await onSubmit();

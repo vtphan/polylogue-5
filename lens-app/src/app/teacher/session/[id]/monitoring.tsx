@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { StaleBanner } from "@/components/ui/stale-banner";
+import { useConnectivity } from "@/lib/offline/use-connectivity";
 import { FacilitationPanel } from "./facilitation-panel";
 
 interface StudentStatus {
@@ -93,11 +95,21 @@ export function MonitoringDashboard({
   const [data, setData] = useState<MonitorData | null>(null);
   const [selectedStudent, setSelectedStudent] = useState<string | null>(null);
   const [showGuide, setShowGuide] = useState(false);
+  const connectivity = useConnectivity();
 
   const poll = useCallback(async () => {
-    const res = await fetch(`/api/sessions/${sessionId}/monitor`);
-    if (res.ok) setData(await res.json());
-  }, [sessionId]);
+    try {
+      const res = await fetch(`/api/sessions/${sessionId}/monitor`);
+      if (res.ok) {
+        setData(await res.json());
+        connectivity.markSuccess();
+      } else {
+        connectivity.markFailure();
+      }
+    } catch {
+      connectivity.markFailure();
+    }
+  }, [sessionId, connectivity]);
 
   useEffect(() => {
     poll();
@@ -186,6 +198,14 @@ export function MonitoringDashboard({
           ) : null}
         </div>
       </div>
+
+      {/* Stale connectivity banner */}
+      {connectivity.isStale && (
+        <StaleBanner
+          lastUpdated={connectivity.lastUpdated}
+          online={connectivity.online}
+        />
+      )}
 
       {/* Main content */}
       <div className="flex flex-1 overflow-hidden">
@@ -328,9 +348,9 @@ export function MonitoringDashboard({
             )}
           </div>
 
-          {/* Facilitation guide panel */}
+          {/* Facilitation guide panel — compact on smaller screens (tablet) */}
           {showGuide && (
-            <div className="w-96 shrink-0 border-l overflow-y-auto">
+            <div className="w-72 shrink-0 border-l overflow-y-auto lg:w-96">
               <FacilitationPanel
                 artifacts={data.artifacts}
                 groups={groups}
@@ -338,6 +358,7 @@ export function MonitoringDashboard({
                 selectedPassages={session.selectedPassages}
                 autoPhase={getAutoPhase(groups)}
                 autoStep={getAutoStep(groups)}
+                compact={typeof window !== "undefined" && window.innerWidth < 1024}
               />
             </div>
           )}

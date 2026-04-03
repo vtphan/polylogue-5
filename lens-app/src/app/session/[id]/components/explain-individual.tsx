@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { submitWithQueue } from "@/lib/offline/queue";
 import type {
   Passage,
   Turn,
@@ -37,10 +38,12 @@ interface Props {
   analysis: unknown;
   onRefresh: () => Promise<void>;
   onReady: () => void;
+  onSyncRefresh?: () => void;
 }
 
 export function ExplainIndividual({
   sessionId,
+  studentId,
   passages,
   turns,
   lensId,
@@ -50,6 +53,7 @@ export function ExplainIndividual({
   session,
   onRefresh,
   onReady,
+  onSyncRefresh,
 }: Props) {
   const [activePassage, setActivePassage] = useState<string | null>(null);
 
@@ -74,6 +78,7 @@ export function ExplainIndividual({
     return (
       <ExplainPassageModal
         sessionId={sessionId}
+        studentId={studentId}
         passageId={activePassage}
         lensId={lensId}
         scaffolding={scaff}
@@ -85,6 +90,7 @@ export function ExplainIndividual({
         onSubmit={async () => {
           await onRefresh();
         }}
+        onSyncRefresh={onSyncRefresh}
       />
     );
   }
@@ -138,12 +144,13 @@ export function ExplainIndividual({
                   </div>
                   {passageHere && (
                     <button
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                         completedPassages.has(passageHere.id)
                           ? "bg-primary text-primary-foreground"
                           : "border-2 border-primary text-primary"
                       }`}
                       onClick={() => setActivePassage(passageHere.id)}
+                      aria-label={`Passage ${passages.indexOf(passageHere) + 1}${completedPassages.has(passageHere.id) ? " (completed)" : ""}`}
                     >
                       {passages.indexOf(passageHere) + 1}
                     </button>
@@ -170,6 +177,7 @@ export function ExplainIndividual({
 
 function ExplainPassageModal({
   sessionId,
+  studentId,
   passageId,
   lensId,
   scaffolding,
@@ -179,8 +187,10 @@ function ExplainPassageModal({
   showReferenceLists,
   onClose,
   onSubmit,
+  onSyncRefresh,
 }: {
   sessionId: string;
+  studentId: string;
   passageId: string;
   lensId: string;
   scaffolding?: PassageScaffolding;
@@ -190,6 +200,7 @@ function ExplainPassageModal({
   showReferenceLists: boolean;
   onClose: () => void;
   onSubmit: () => Promise<void>;
+  onSyncRefresh?: () => void;
 }) {
   const [content, setContent] = useState("");
   const [showMoreHelp, setShowMoreHelp] = useState(false);
@@ -206,15 +217,12 @@ function ExplainPassageModal({
     if (!content.trim()) return;
     setSubmitting(true);
 
-    await fetch(`/api/sessions/${sessionId}/responses/explain`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        passageId,
-        step: "individual",
-        content: content.trim(),
-      }),
+    await submitWithQueue(studentId, `/api/sessions/${sessionId}/responses/explain`, {
+      passageId,
+      step: "individual",
+      content: content.trim(),
     });
+    onSyncRefresh?.();
 
     setContent("");
     await onSubmit();
@@ -223,10 +231,10 @@ function ExplainPassageModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background">
+    <div className="fixed inset-0 z-50 flex flex-col bg-background" role="dialog" aria-label={`Explain passage ${passageId}`}>
       <div className="flex items-center justify-between border-b p-4">
-        <h2 className="font-medium">Explain — Passage {passageId}</h2>
-        <Button variant="ghost" size="sm" onClick={onClose}>
+        <h2 className="font-medium text-base">Explain — Passage {passageId}</h2>
+        <Button variant="ghost" size="sm" className="min-h-[44px] min-w-[44px]" onClick={onClose}>
           Close
         </Button>
       </div>
@@ -343,7 +351,7 @@ function ExplainPassageModal({
 
           {/* Input */}
           <textarea
-            className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+            className="flex min-h-[100px] w-full rounded-md border border-input bg-background px-3 py-2 text-base"
             placeholder="Why do you think they reasoned this way?"
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -352,7 +360,7 @@ function ExplainPassageModal({
           <Button
             onClick={handleSubmit}
             disabled={!content.trim() || submitting}
-            className="w-full"
+            className="w-full min-h-[44px] text-base"
           >
             {submitting ? "Submitting..." : "Submit"}
           </Button>

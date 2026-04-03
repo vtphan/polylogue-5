@@ -22,6 +22,13 @@ import { AIStep } from "./components/ai-step";
 import { ConsensusStep } from "./components/consensus-step";
 import { ExplainIndividual } from "./components/explain-individual";
 import { CompletionScreen } from "./components/completion";
+import { useSync } from "@/lib/offline/use-sync";
+import { SyncIndicator } from "@/components/ui/sync-indicator";
+import {
+  cacheArtifacts,
+  getCachedArtifacts,
+  evictCache,
+} from "@/lib/offline/artifact-cache";
 
 interface SessionData {
   session: SessionConfig;
@@ -90,16 +97,30 @@ export function SessionClient({
   const [data, setData] = useState<SessionData | null>(null);
   const [currentStep, setCurrentStep] = useState<SessionStep>("onboarding");
   const [loading, setLoading] = useState(true);
+  const sync = useSync(studentId);
 
   const loadSession = useCallback(async () => {
-    const res = await fetch(`/api/sessions/${sessionId}/student`);
-    if (res.ok) {
-      const d: SessionData = await res.json();
-      setData(d);
-      return d;
+    try {
+      const res = await fetch(`/api/sessions/${sessionId}/student`);
+      if (res.ok) {
+        const d: SessionData = await res.json();
+        setData(d);
+        // Cache artifacts for offline use (evicts previous session)
+        evictCache();
+        cacheArtifacts(sessionId, studentId, d);
+        return d;
+      }
+    } catch {
+      // Network error — try loading from cache
+      const cached = getCachedArtifacts(sessionId, studentId);
+      if (cached) {
+        const d = cached as SessionData;
+        setData(d);
+        return d;
+      }
     }
     return null;
-  }, [sessionId]);
+  }, [sessionId, studentId]);
 
   useEffect(() => {
     loadSession().then((d) => {
@@ -113,8 +134,32 @@ export function SessionClient({
   }, [loadSession]);
 
   const refresh = useCallback(async () => {
-    await loadSession();
-  }, [loadSession]);
+    const d = await loadSession();
+    // Detect session closed mid-work
+    if (d && d.session.status === "closed" && currentStep !== "complete") {
+      setCurrentStep("complete");
+    }
+  }, [loadSession, currentStep]);
+
+  // Poll for session status changes (e.g., teacher closes session)
+  useEffect(() => {
+    if (currentStep === "complete" || currentStep === "onboarding" || currentStep === "reading") return;
+    const interval = setInterval(async () => {
+      try {
+        const res = await fetch(`/api/sessions/${sessionId}/student`);
+        if (res.ok) {
+          const d: SessionData = await res.json();
+          if (d.session.status === "closed") {
+            setData(d);
+            setCurrentStep("complete");
+          }
+        }
+      } catch {
+        // Ignore — offline handling covers this
+      }
+    }, 10000); // Check every 10s
+    return () => clearInterval(interval);
+  }, [sessionId, currentStep]);
 
   if (loading || !data) {
     return (
@@ -123,6 +168,10 @@ export function SessionClient({
       </div>
     );
   }
+
+  const syncIndicator = (
+    <SyncIndicator status={sync.status} unsyncedCount={sync.unsyncedCount} />
+  );
 
   const { session, scenario, group, lensAssignment } = data;
   const artifacts = scenario.artifacts;
@@ -206,34 +255,44 @@ export function SessionClient({
 
     case "evaluate-individual":
       return (
+        <>{syncIndicator}
         <EvaluateIndividual
           {...commonProps}
           analysis={artifacts.analysis}
           onReady={() => setCurrentStep("evaluate-peer")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "evaluate-peer":
       return (
+        <>{syncIndicator}
         <PeerStep
           {...commonProps}
           phase="evaluate"
           onMoveToAI={() => setCurrentStep("evaluate-ai")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "evaluate-ai":
       return (
+        <>{syncIndicator}
         <AIStep
           {...commonProps}
           phase="evaluate"
           analysis={artifacts.analysis}
           onFinished={() => setCurrentStep("evaluate-consensus")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "evaluate-consensus":
       return (
+        <>{syncIndicator}
         <ConsensusStep
           {...commonProps}
           phase="evaluate"
@@ -245,44 +304,56 @@ export function SessionClient({
             setCurrentStep("explain-individual");
           }}
         />
+        </>
       );
 
     case "explain-individual":
       return (
+        <>{syncIndicator}
         <ExplainIndividual
           {...commonProps}
           analysis={artifacts.analysis}
           onReady={() => setCurrentStep("explain-peer")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "explain-peer":
       return (
+        <>{syncIndicator}
         <PeerStep
           {...commonProps}
           phase="explain"
           onMoveToAI={() => setCurrentStep("explain-ai")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "explain-ai":
       return (
+        <>{syncIndicator}
         <AIStep
           {...commonProps}
           phase="explain"
           analysis={artifacts.analysis}
           onFinished={() => setCurrentStep("explain-consensus")}
+          onSyncRefresh={sync.refreshCount}
         />
+        </>
       );
 
     case "explain-consensus":
       return (
+        <>{syncIndicator}
         <ConsensusStep
           {...commonProps}
           phase="explain"
           analysis={artifacts.analysis}
           onFinished={() => setCurrentStep("complete")}
         />
+        </>
       );
 
     case "complete":

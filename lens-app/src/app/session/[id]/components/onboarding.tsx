@@ -50,7 +50,7 @@ export function OnboardingScreen({
             different lenses.
           </p>
 
-          <Button className="w-full" onClick={onContinue}>
+          <Button className="w-full min-h-[44px] text-base" onClick={onContinue}>
             Read the Discussion
           </Button>
         </CardContent>
