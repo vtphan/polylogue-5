@@ -289,309 +289,342 @@ The teacher leads a whole-class debrief from here, using consensus data and the 
 
 ### Design Principles
 
-**1. Responsive, not device-specific.** The layout adapts to the available viewport. On a laptop (1024px+), the experience can use wider layouts and side-by-side panels. On a tablet (768-1024px), the layout consolidates. Below 768px, single-column. No device-specific code paths — one responsive layout.
+**1. One screen, not many.** Stop navigating between screens. During each phase, the student stays on one main view — the transcript with highlighted passages on one side, the workspace for the selected passage on the other. Selecting a passage updates the workspace without a page transition. The student never loses context.
 
-**2. Content-first, not chrome-first.** The student's attention should be on the passage text and their own writing, not on UI controls. Headers, navigation, and progress indicators should be minimal and unobtrusive. The writing environment should feel spacious.
+**2. Simple and warm.** This is for 6th graders, not developers. Rounded corners, soft shadows, warm colors, generous whitespace. The app should feel like a game, not a form. Lifeline hearts, celebratory animations, Dr. Chen as a character with a speech bubble — personality everywhere.
 
-**3. Reduce cognitive load at every step.** A 6th grader in a 50-minute class period should never feel lost. The current step, what's expected, and how to proceed should be obvious without instructions. Progressive disclosure — show what's needed now, reveal more on demand.
+**3. Responsive, not device-specific.** The layout adapts to the viewport. On wide screens (1024px+), the transcript and workspace sit side by side. On narrower screens, the transcript collapses and the workspace takes full width with a toggle to view the transcript. No device-specific code paths.
 
-**4. Shared-screen legibility.** During group discussion and group diagnosis, 2-4 students are looking at one screen while talking. Text must be readable at arm's length. Information density should sustain a conversation without excessive scrolling.
+**4. Reduce cognitive load.** A 6th grader in a 50-minute class should never feel lost. What's expected and how to proceed should be obvious without instructions. Progressive disclosure — show what's needed now, reveal more on demand.
 
-**5. Stability over dynamism.** No content should shift, disappear, or rearrange while the student is reading or writing. Polling updates should appear as additions (a peer's diagnosis appears), never as replacements. Loading states should be calm — a subtle indicator, not a spinner that replaces content.
+**5. Shared-screen legibility.** During group discussion, 2-4 students look at one screen while talking. Text readable at arm's length. Enough density to sustain conversation without excessive scrolling.
+
+**6. Stability over dynamism.** Nothing shifts or rearranges while the student reads or writes. Polling updates appear as additions (a name gets a checkmark), never replacements. Loading states are calm — a subtle dot, not a spinner.
 
 ### Layout Architecture
 
-#### Shell
+#### The Main Screen (Wide — 1024px+)
 
-Every session screen shares a common shell:
+During each phase, the student works from a single persistent screen:
 
 ```
-┌──────────────────────────────────────────────────┐
-│  Phase Label    Passage Status   [Lifelines: ●●○]│  ← Sticky header (compact)
-├──────────────────────────────────────────────────┤
-│                                                  │
-│                                                  │
-│               Main Content Area                  │  ← Scrollable
-│               (adapts per beat)                   │
-│                                                  │
-│                                                  │
-├──────────────────────────────────────────────────┤
-│                              [Primary Action]    │  ← Sticky footer (when action needed)
-└──────────────────────────────────────────────────┘
+┌────────────────────────────────────────────────────────┐
+│  🔍 Find the Problem    ● ● ○           ❤️ ❤️ ❤️      │
+├──────────┬─────────────────────────────────────────────┤
+│          │                                             │
+│ Transcript│                                            │
+│          │           Workspace                         │
+│ ┃ Alex:  │           (changes based on selected        │
+│ ┃ My     │            passage and its current beat)    │
+│ ┃ cousin │                                             │
+│ ┃ went   │                                             │
+│ ┃ to the │                                             │
+│ ┃ science│                                             │
+│ ┃ museum │                                             │
+│ ████████ │← highlighted passage (click to select)      │
+│ ████████ │                                             │
+│ ┃ Sam:   │                                             │
+│ ┃ Yeah,  │                                             │
+│ ┃ that   │                                             │
+│ ┃ makes  │                                             │
+│ ┃ sense  │                                             │
+│ ████████ │← another highlighted passage                │
+│ ████████ │                                             │
+│          │                                             │
+└──────────┴─────────────────────────────────────────────┘
 ```
 
-**Header:** Minimal. Shows the current phase ("Evaluate" / "Explain"), passage status indicators (which passages are at which beat), and the lifeline counter. No navigation menu — the flow is linear. The header is a single row, not a banner.
+**Left panel — Transcript (always visible).** The full conversation, scrollable. Highlighted passages have a warm-colored background directly on the passage text — like a highlighter pen on the actual words, not a tiny icon next to them. Clicking a highlighted section selects that passage and loads its workspace in the right panel. The currently selected passage has a stronger highlight (solid border or deeper color). Passage progress dots at the top of the left panel show completion status.
 
-**Footer:** Appears only when there's a primary action ("Submit Diagnosis", "Submit Group Diagnosis"). Sticky to bottom. Disappears when no action is available.
+**Right panel — Workspace (adapts per passage and beat).** When no passage is selected, shows a welcome prompt: "Click a highlighted section to investigate it." When a passage is selected, the workspace shows the appropriate content for that passage's current beat:
 
-**Content area:** Fluid width with a readable maximum. `max-w-4xl` (896px) on laptop for comfortable reading; full-width minus padding on tablet. Content is vertically scrollable.
+- **Not yet diagnosed:** Individual diagnosis form
+- **Submitted, waiting for peers:** Status ("Waiting for Jordan...") + option to work on another passage
+- **All in:** Share view with peer diagnoses + group diagnosis form
+- **Group diagnosis done:** Completed card with checkmark
+
+**Header.** One row: phase icon and label (🔍 "Find the Problem" or 🧩 "Figure Out Why"), passage progress dots (filled = done, outline = todo), lifeline hearts (❤️ filled = available, 🤍 outline = spent). The header color shifts with the phase — warm amber for Evaluate, cool purple for Explain.
+
+#### The Main Screen (Compact — below 1024px)
+
+The transcript panel collapses. The workspace takes full width. A floating button toggles the transcript as an overlay or slide-in panel. The student switches between reading the transcript and working in the workspace.
+
+The passage progress dots move into the header and serve as navigation — tapping a dot selects that passage.
 
 #### Responsive Breakpoints
 
-Three layout tiers:
+| Breakpoint | Layout |
+|---|---|
+| **< 768px** | Workspace only. Transcript as overlay. Passage dots as nav. |
+| **768px - 1023px** | Workspace only, wider. Transcript as slide-in panel. |
+| **1024px+** | Side-by-side: transcript (left ~35%) + workspace (right ~65%). |
 
-| Breakpoint | Viewport | Layout behavior |
-|---|---|---|
-| **Compact** | < 768px | Single column, stacked layout |
-| **Medium** | 768px - 1023px | Single column with wider content area |
-| **Wide** | 1024px+ | Optional side-by-side panels (passage + workspace) |
+### Onboarding & Reading
 
-### Step-by-Step UI Specifications
+**Onboarding.** Centered, single column. Topic as a friendly heading, context as a short paragraph, character cards with names and one-sentence descriptions (horizontal row on wide, stack on compact). Button: "Let's see what they said →". Warm, inviting — the start of an activity, not a test.
 
-#### Onboarding Screen
+**Reading.** Chat-style conversation, centered. Each turn: speaker avatar (colored circle with initial) + name + speech bubble. Speaker colors distinguish personas. Smooth scrolling — feels like overhearing classmates talk. "Start investigating →" button at bottom, disabled until scroll completes, with a subtle "Keep reading..." hint.
 
-**Layout:** Centered content, single column.
+After reading, the main screen appears with highlighted passages. The investigation begins.
 
-**Content:**
-- Topic as a heading
-- Context as a short paragraph
-- Character cards: each persona's name and brief description, laid out as a horizontal row on wide screens, vertical stack on compact
-- "Let's read what they said" button at bottom
+### Workspace States (Per Passage)
 
-**Tone:** Inviting, not instructional. This is the opening of an activity, not the start of a test.
+The right panel workspace cycles through states as the passage moves through its beats.
 
-#### Reading Screen
+#### State 1: Individual Diagnosis
 
-**Layout:** Chat-style conversation, single column, centered.
-
-**Content:**
-- Each turn: speaker name (bold) + speech bubble or indented text
-- Speaker colors or avatars for visual distinction between personas
-- Smooth scrolling — the transcript should feel like overhearing a conversation
-
-**Scroll gate:** The "Continue" button is visible at the bottom but disabled with a subtle indicator ("Keep reading...") until the student has scrolled through the full transcript.
-
-**Responsive:** Generous margins on wide screens for a comfortable reading column. Minimal margins on compact screens.
-
-#### Passage Dashboard
-
-After reading, the student enters the main workspace for the phase. The passage dashboard is the home screen throughout each phase — showing all passages, their status, and providing access to each one.
-
-**Layout:**
+The student writes their diagnosis for the selected passage.
 
 ```
-┌──────────────────────────────────────────────────┐
-│  Evaluate Phase                  [Lifelines: ●●●]│
-├──────────────────────────────────────────────────┤
-│                                                  │
-│  ┌─ Passage 1 ──────────────────────────────┐    │
-│  │  "Alex: My cousin went to the science    │    │
-│  │   museum and said it was boring..."      │    │
-│  │                                          │    │
-│  │  Hints: "Something about where Alex      │    │
-│  │  got this information..."                │    │
-│  │                                          │    │
-│  │  Status: Waiting for Jordan...           │    │
-│  │  [Your diagnosis ✓] [Maya ✓] [Jordan …] │    │
-│  └──────────────────────────────────────────┘    │
-│                                                  │
-│  ┌─ Passage 2 ──────────────────────────────┐    │
-│  │  "Maya: I looked it up and..."           │    │
-│  │                                          │    │
-│  │  Status: Ready — write your diagnosis    │    │
-│  │  [Write Diagnosis]                       │    │
-│  └──────────────────────────────────────────┘    │
-│                                                  │
-│  ┌─ Passage 3 ──────────────────────────────┐    │
-│  │  ...                                     │    │
-│  └──────────────────────────────────────────┘    │
-│                                                  │
-└──────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  Passage 1                                  │
+│                                             │
+│  💡 Something about where Alex got          │
+│     this information...                     │
+│  💡 Something about how sure he sounds...   │
+│                                             │
+│  [🔍 Get another clue ❤️]                   │
+│                                             │
+│  ─────────────────────────────────────────  │
+│                                             │
+│  What do you think the problem is?          │
+│                                             │
+│  ┌───────────────────────────────────────┐  │
+│  │                                       │  │
+│  │                                       │  │
+│  │                                       │  │
+│  └───────────────────────────────────────┘  │
+│                                             │
+│  What kind of problem?                      │
+│  [ Facts & sources ][ Reasoning ][ Missing ]│
+│                                             │
+│                          [Submit diagnosis] │
+└─────────────────────────────────────────────┘
 ```
 
-Each passage is a card showing:
-- A brief excerpt of the passage text (the highlighted turns)
-- Free hints (1-2 directional nudges from the pipeline)
-- Status: what beat this passage is at, who has submitted, who hasn't
-- An action button appropriate to the current beat
+**Hints area.** Free hints (1-2) shown at the top, always visible. Below them, the lifeline button: "🔍 Get another clue ❤️". Clicking it triggers a brief inline confirmation: "Use one of your group's clues? (2 left)" with two buttons: "Yes" / "Nah, I'll figure it out." On confirm, the new hint appears in the hints area and the header hearts update. After all lifelines spent, the button becomes "No more clues — you've got this!" and is disabled.
 
-Clicking a passage card opens the workspace for that passage.
+**Diagnosis textarea.** Generous (120px+ height, expandable). Prompt above in regular text, not placeholder. On wide screens, the passage text is visible in the left panel so the student can glance at it while writing.
 
-#### Individual Diagnosis Workspace
+**Lens tag.** Three pill-shaped buttons in a row. Each is tappable (44px+ height). Selecting one highlights it with the phase accent color; the others dim. The student can change selection before submitting.
 
-**Layout (wide — 1024px+): Split panel.**
+**Submit.** Disabled until text + tag. On submit:
+1. Deepening probe appears (from `lens_entry_prompts`) — a follow-up question that pushes deeper. The student can revise their diagnosis or proceed.
+2. After proceeding, misreading check runs. If triggered, redirect appears with a new text box.
+3. Passage dot in header fills to half (individual done, waiting for group).
 
-```
-┌─────────────────────────┬──────────────────────────┐
-│                         │                          │
-│   Passage Text          │   Your Diagnosis         │
-│   (highlighted turns    │                          │
-│    in context)          │   What do you think is   │
-│                         │   going on here?         │
-│                         │                          │
-│   Hints:                │   [Diagnosis textarea]   │
-│   "Something about      │                          │
-│    where Maya got her   │   What kind of problem?  │
-│    information..."      │   ○ Facts & sources      │
-│                         │   ○ Reasoning            │
-│                         │   ○ Full picture         │
-│   [Get another hint     │                          │
-│    — costs 1 lifeline]  │   [Submit]               │
-│                         │                          │
-└─────────────────────────┴──────────────────────────┘
-```
-
-The split panel keeps the passage visible while writing. The passage panel shows the highlighted turns plus free hints. An additional hint button is available (costs a lifeline). The workspace has the diagnosis textarea and the lens tag selector.
-
-**Layout (compact — below 1024px): Stacked.**
-
-Passage text at top, workspace below. Acceptable because passages are short (1-3 turns).
-
-**Diagnosis textarea.** Generous height — at least 120px, expandable. A simple prompt above: "What do you think is going on here?" No placeholder text.
-
-**Lens tag.** Three radio-style options in natural language. Selecting one is required before submitting. The student can change their selection before submitting.
-
-**Submit.** Disabled until the student has written something and tagged a lens. On submit, the student returns to the passage dashboard. The passage card updates to show their individual diagnosis as submitted.
-
-#### Share & Discuss View
-
-When all group members have submitted individual diagnoses for a passage, the passage card on the dashboard updates automatically — no button click needed. The card expands or the student taps to see the full share view.
-
-**Layout: Card-based display of all diagnoses.**
+#### State 2: Waiting for Peers
 
 ```
-┌──────────────────────────────────────────────────┐
-│  Passage 1 — Everyone's In                       │
-│                                                  │
-│  ┌────────────────────────────────────────────┐  │
-│  │  You [Reasoning]                           │  │
-│  │  "The reasoning jumps from the museum      │  │
-│  │   being boring to the amusement park       │  │
-│  │   being better — that doesn't follow."     │  │
-│  ├────────────────────────────────────────────┤  │
-│  │  Maya [Facts & sources]                    │  │
-│  │  "Alex only heard from one cousin.         │  │
-│  │   That's not enough to decide."            │  │
-│  ├────────────────────────────────────────────┤  │
-│  │  Jordan [Full picture]                     │  │
-│  │  "They're only thinking about fun and      │  │
-│  │   ignoring cost, learning, everything."    │  │
-│  └────────────────────────────────────────────┘  │
-│                                                  │
-│  ⚡ Different angles — you each saw something   │
-│     different in this passage.                   │
-│                                                  │
-│  [Submit Group Diagnosis]                        │
-└──────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  Passage 1 — Waiting for everyone           │
+│                                             │
+│  Your diagnosis ✓                           │
+│  Maya ✓                                     │
+│  Jordan ⏳                                  │
+│                                             │
+│  Work on another passage while you wait?    │
+│                                             │
+│  [Go to Passage 2 →]  [Go to Passage 3 →]  │
+└─────────────────────────────────────────────┘
 ```
 
-Each peer's diagnosis is a row: name, lens tag (in natural language), and their text. The student's own diagnosis is included (labeled "You").
+Shows who has submitted and who hasn't. Offers navigation to other passages. Updates live via polling — when Jordan submits, the display transitions to State 3 automatically.
 
-**Divergence highlighting.** When lens tags differ (e.g., one student tagged "Facts & sources" and another tagged "Reasoning"), a subtle flag appears: "Different angles — you each saw something different." This is a conversation starter for the face-to-face discussion.
-
-#### Group Diagnosis Submission
-
-After the group discusses face-to-face, one member submits the group diagnosis. This can be done from the share view:
-
-- A "Submit Group Diagnosis" button opens a workspace
-- The group writes their diagnosis together (one student types)
-- The group tags a lens together
-- Submit
-
-After submission, the passage card shows the group diagnosis as complete. Other group members can append additional thoughts.
-
-The student returns to the passage dashboard and continues individual work on other passages.
-
-#### Expert Reveal Screen
-
-After all passages have group diagnoses, the phase transitions to the expert reveal. Dr. Chen's perspective appears for every passage on a single scrollable screen.
-
-**Layout: Per-passage cards.**
+#### State 3: Share & Discuss
 
 ```
-┌──────────────────────────────────────────────────┐
-│  What Dr. Chen Noticed                           │
-├──────────────────────────────────────────────────┤
-│                                                  │
-│  ┌─ Passage 1 ──────────────────────────────┐    │
-│  │  Your group said: "The reasoning jumps   │    │
-│  │  from boring museum to better amusement  │    │
-│  │  park." [Reasoning]                      │    │
-│  │                                          │    │
-│  │  Dr. Chen: "Looking at the evidence,     │    │
-│  │  I notice Alex's only source is one      │    │
-│  │  cousin's opinion..."                    │    │
-│  │                                          │    │
-│  │  Something to think about: "Did anyone   │    │
-│  │  in the group push back on this?"        │    │
-│  └──────────────────────────────────────────┘    │
-│                                                  │
-│  ┌─ Passage 2 ──────────────────────────────┐    │
-│  │  ...                                     │    │
-│  └──────────────────────────────────────────┘    │
-│                                                  │
-│  [Continue to Explain Phase →]                   │
-└──────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│  Passage 1 — Everyone's in! 🎉             │
+│                                             │
+│  ┌─ You [Facts & sources] ──────────────┐   │
+│  │ "Alex only heard from one cousin.    │   │
+│  │  That's not enough to decide."       │   │
+│  └──────────────────────────────────────┘   │
+│                                             │
+│  ┌─ Maya [Reasoning] ──────────────────┐    │
+│  │ "Just because the museum is boring   │   │
+│  │  doesn't mean the park is better."   │   │
+│  └──────────────────────────────────────┘   │
+│                                             │
+│  ┌─ Jordan [What's missing] ───────────┐    │
+│  │ "They're only thinking about fun."   │   │
+│  └──────────────────────────────────────┘   │
+│                                             │
+│  💬 Different angles — you each found       │
+│     something different!                    │
+│                                             │
+│  ───── Your group's diagnosis ─────         │
+│                                             │
+│  What does your group think is the          │
+│  most important problem?                    │
+│                                             │
+│  ┌───────────────────────────────────────┐  │
+│  │                                       │  │
+│  └───────────────────────────────────────┘  │
+│                                             │
+│  [ Facts & sources ][ Reasoning ][ Missing ]│
+│                                             │
+│                     [Submit group diagnosis] │
+└─────────────────────────────────────────────┘
 ```
 
-Each passage shows the group's diagnosis alongside Dr. Chen's perspective. The comparison is the point — did the group catch what the expert caught? Did they see something different?
+Peer diagnoses as cards with name and lens tag as a colored pill. Student's own included (labeled "You").
 
-The expert's "something to think about" prompts (from `what_to_notice` in the pipeline) set up the Explain phase.
+**Divergence flag.** When lens tags differ: "Different angles — you each found something different!" — a conversation starter.
 
-#### Explain Phase Workspace
+**Group diagnosis form.** Inline below the peer cards — no separate screen. Group writes, tags, and submits together. After submission, the passage dot fills completely.
 
-Same passage dashboard, same per-passage cycle, adapted for the Explain question.
+#### State 4: Completed
 
-**Individual Explanation workspace** shows:
-- The passage text
-- The student's Evaluate diagnosis and the expert's perspective (read-only context)
-- A bridge prompt connecting Evaluate to Explain
-- The explanation textarea
-- The category tag (cognitive / social / both)
+```
+┌─────────────────────────────────────────────┐
+│  Passage 1 ✅                               │
+│                                             │
+│  Your group's diagnosis:                    │
+│  "Alex's only source is his cousin's        │
+│   opinion — that's not enough evidence      │
+│   for the whole class to decide on."        │
+│   [Facts & sources]                         │
+│                                             │
+│  [+ Add more thoughts]                      │
+└─────────────────────────────────────────────┘
+```
 
-**Lifeline hints** in Explain are passage-specific sentence starters:
-- "I think Maya felt so sure about the rain barrels because..."
-- "I think Jake stopped pushing his question because..."
+Read-only recap with option to append. Clean, brief.
 
-**Optional scaffolding** (teacher-configured):
-- Reference lists: browsable cognitive patterns and social dynamics with brief, student-friendly descriptions
+### Expert Reveal Screen
 
-**Share, group explanation, and expert reveal** follow the same pattern as Evaluate. Dr. Chen's Explain perspective introduces formal vocabulary — confirmation bias, group pressure — as labels for things the students have already described in their own words.
+After all passages reach State 4, the main screen transitions to the expert reveal. The left panel still shows the transcript. The right panel becomes a scrollable reveal:
 
-#### Completion Screen
+```
+┌─────────────────────────────────────────────┐
+│  🔍 Here's what Dr. Chen spotted            │
+│                                             │
+│  ┌─ Passage 1 ─────────────────────────┐    │
+│  │                                     │    │
+│  │  Your group: "Alex's only source    │    │
+│  │  is his cousin's opinion."          │    │
+│  │  [Facts & sources]                  │    │
+│  │                                     │    │
+│  │  🧑‍🔬 Dr. Chen:                      │    │
+│  │  "Looking at the evidence, I notice │    │
+│  │   Alex's only source is one         │    │
+│  │   cousin's opinion. That's a pretty │    │
+│  │   thin basis for a whole class      │    │
+│  │   decision."                        │    │
+│  │                                     │    │
+│  │  🤔 Did anyone in the group push    │    │
+│  │     back on this?                   │    │
+│  └─────────────────────────────────────┘    │
+│                                             │
+│  ┌─ Passage 2 ─────────────────────────┐    │
+│  │  ...                                │    │
+│  └─────────────────────────────────────┘    │
+│                                             │
+│  [🧩 Now let's figure out why → ]           │
+└─────────────────────────────────────────────┘
+```
 
-**Layout:** Centered, celebratory but not excessive.
+Dr. Chen appears with a small avatar and speech-bubble styling — a character, not a system message. The group's diagnosis sits beside Dr. Chen's perspective for direct comparison. Reflection prompts (🤔) appear as conversational questions.
 
-**Content:**
-- "Investigation Complete" heading
-- Passages diagnosed and explained (the reward count)
-- Lifelines used per phase
-- A brief encouragement note
+The transition button uses the Explain phase icon and color: "🧩 Now let's figure out why →". The app shifts to purple/indigo.
 
-If the session was closed by the teacher mid-work, the heading changes to "Session Closed" and the message acknowledges the early end.
+### Explain Phase — Visual Differences
+
+Same one-screen layout, same per-passage workspace cycle. Visually distinct:
+
+- **Header:** 🧩 "Figure Out Why" in purple/indigo
+- **Passage highlights:** Purple-tinted instead of amber
+- **Workspace prompt:** "Why did they think this way?" instead of "What's the problem?"
+- **Context at top of workspace:** Student's Evaluate diagnosis + Dr. Chen's perspective (read-only, collapsed by default, expandable)
+- **Bridge prompt:** Personalized to their lens tag — "You noticed something about the facts. Now think about *why* — what made them trust that one source?"
+- **Tag options:** Three pills: "Their thinking" / "The group" / "Both"
+- **Lifeline button:** "🧩 Get a starter ❤️" — reveals a sentence starter instead of a clue
+- **Dr. Chen reveal:** "🧩 Here's what might explain it" — introduces formal vocabulary (confirmation bias, group pressure) as labels for what students already described
+
+### Completion Screen
+
+Centered, celebratory. Phase colors blend (amber + purple gradient).
+
+```
+┌─────────────────────────────────────────────┐
+│                                             │
+│          🎉 Investigation Complete!         │
+│                                             │
+│    You diagnosed 3 passages                 │
+│    and explained 3 passages                 │
+│                                             │
+│    Clues used: ❤️ ❤️ 🤍   (2 of 3)         │
+│                                             │
+│    Great detective work!                    │
+│                                             │
+└─────────────────────────────────────────────┘
+```
+
+If teacher closed session early: "Session ended — your work is saved."
 
 ### Visual Design
 
 #### Typography
 
-- Body text: 16px minimum on all devices
-- Passage text and student writing: comfortable to read, slightly spacious line height
-- Headings: clear hierarchy — phase labels are prominent, passage numbers are secondary
+- Body text: 16px minimum everywhere
+- Passage text: 17-18px with generous line height (1.6) for comfortable reading
+- Student writing prompts: regular weight, warm color — not bold instructions
+- Headings: friendly, not corporate
 
-#### Color
+#### Color Palette
 
-- Lens tags use consistent colors: each lens has a color carried through tags and highlights, paired with labels (not color-alone) for accessibility
-- Expert perspective (Dr. Chen): muted blue-gray background — distinct but not commanding
-- Divergence highlights: dashed border + subtle badge, not alarm-red
-- Lifeline icons: warm color when available, dimmed when spent
+**Phase colors:**
+- Evaluate: amber/gold (#F59E0B family) — warm, investigative
+- Explain: purple/indigo (#8B5CF6 family) — thoughtful, deeper
 
-#### Interaction States
+**Lens tag colors** (consistent across both phases):
+- Facts & sources (Evidence): blue pill
+- Reasoning (Logic): green pill
+- What's missing (Scope): orange pill
+- Always paired with text label — never color-alone
 
-- Buttons: clear enabled/disabled states. Disabled buttons look inactive, not hidden
-- Textareas: generous, expandable. No tiny input boxes
-- Submit feedback: brief confirmation (checkmark animation, "Saved"), not a modal or toast
-- Polling/loading: subtle indicator in the header. Never a full-screen spinner
-- Offline: quiet banner "Saved locally — will sync when connected"
-- Lifeline confirmation: brief dialog before spending
+**Category tag colors** (Explain phase):
+- Their thinking (Cognitive): teal pill
+- The group (Social): rose pill
+- Both (Interaction): gradient pill (teal → rose)
+
+**Dr. Chen:** Muted blue-gray speech bubble with a small avatar. Distinct from student cards but not elevated.
+
+**Backgrounds:** Warm off-white (not cold gray). Cards with soft shadows and large rounded corners (12-16px border-radius).
+
+#### Interaction Design
+
+- **Buttons:** Large (48px+ height), rounded, clear enabled/disabled states. Primary actions use phase accent color.
+- **Pill selectors (tags):** 44px+ height, rounded-full, tap-friendly. Selected = filled; unselected = outlined.
+- **Textareas:** Generous (120px+ min-height), rounded corners, visible border. Prompt above in regular text.
+- **Submit feedback:** Brief checkmark animation + passage dot fills in header. No modal, no toast.
+- **Lifeline confirmation:** Inline below the button — not a modal popup. Keeps the student in context.
+- **Peer arrival:** Name quietly gets a ✓. No sound, no shake, no interruption.
+- **Phase transition:** Brief celebratory moment when the last passage completes, then expert reveal slides in.
+
+#### Micro-Celebrations
+
+6th graders need positive feedback loops:
+- **Passage diagnosed:** Passage dot fills with a small pop animation
+- **All group members in:** "Everyone's in! 🎉" header
+- **Group diagnosis submitted:** Brief sparkle on the completed card
+- **Phase complete:** Gentle confetti before expert reveal
+- **Expert match:** If the group's lens tag matches Dr. Chen's focus: "🎯 You nailed it!"
+
+These are brief (< 1 second) and non-blocking. They add warmth without interrupting flow.
 
 #### Accessibility
 
 - All interactive elements: minimum 44px tap target
-- Lens tag colors use color + icon/label combinations (color-blind safe)
-- Divergence highlighting uses pattern (dashed border) in addition to color
+- Lens/category tag colors paired with text labels (not color-alone)
+- Divergence highlighting: dashed border + text flag
+- Passage highlights: color + left border pattern (color-blind safe)
+- Phase identity: icon + color + label (triple redundancy)
 - Semantic HTML and ARIA landmarks throughout
 - Keyboard navigation for all interactive elements
-- Focus management: when a passage workspace opens, focus moves to the textarea
+- Focus management: selecting a passage moves focus to the workspace
 
 ### State Management Architecture
 
