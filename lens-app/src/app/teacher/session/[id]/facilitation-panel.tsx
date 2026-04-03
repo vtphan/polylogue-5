@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -75,11 +75,15 @@ export function FacilitationPanel({
   groups,
   consensus,
   selectedPassages,
+  autoPhase,
+  autoStep,
 }: {
   artifacts: Record<string, unknown>;
   groups: GroupData[];
   consensus: ConsensusEntry[];
   selectedPassages: string[] | null;
+  autoPhase?: "evaluate" | "explain";
+  autoStep?: "individual" | "peer" | "ai" | "consensus";
 }) {
   const facilitation = artifacts.facilitation as FacilitationArtifact | undefined;
   const passageGuides = facilitation?.passage_guides || [];
@@ -88,8 +92,17 @@ export function FacilitationPanel({
   const passages = selectedPassages || passageGuides.map((g) => g.passage_id || "");
 
   const [selectedPassage, setSelectedPassage] = useState(passages[0] || "");
-  const [phaseView, setPhaseView] = useState<PhaseView>("evaluate");
-  const [stepView, setStepView] = useState<StepView>("individual");
+  const [phaseView, setPhaseView] = useState<PhaseView>(autoPhase || "evaluate");
+  const [stepView, setStepView] = useState<StepView>(autoStep || "individual");
+  const [manualOverride, setManualOverride] = useState(false);
+
+  // Auto-update phase/step from student progress unless teacher overrode
+  useEffect(() => {
+    if (!manualOverride && autoPhase) setPhaseView(autoPhase);
+  }, [autoPhase, manualOverride]);
+  useEffect(() => {
+    if (!manualOverride && autoStep) setStepView(autoStep);
+  }, [autoStep, manualOverride]);
 
   if (phaseView === "debrief") {
     return (
@@ -231,11 +244,24 @@ export function FacilitationPanel({
             variant={phaseView === p ? "default" : "ghost"}
             size="sm"
             className="text-xs capitalize"
-            onClick={() => setPhaseView(p)}
+            onClick={() => {
+              setPhaseView(p);
+              setManualOverride(true);
+            }}
           >
             {p}
           </Button>
         ))}
+        {manualOverride && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-xs text-muted-foreground"
+            onClick={() => setManualOverride(false)}
+          >
+            Auto
+          </Button>
+        )}
       </div>
 
       {/* Step selector */}
@@ -248,7 +274,10 @@ export function FacilitationPanel({
                 variant={stepView === s ? "default" : "ghost"}
                 size="sm"
                 className="text-xs capitalize"
-                onClick={() => setStepView(s)}
+                onClick={() => {
+                  setStepView(s);
+                  setManualOverride(true);
+                }}
               >
                 {s}
               </Button>

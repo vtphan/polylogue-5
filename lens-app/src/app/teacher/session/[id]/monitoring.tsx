@@ -336,6 +336,8 @@ export function MonitoringDashboard({
                 groups={groups}
                 consensus={data.consensus}
                 selectedPassages={session.selectedPassages}
+                autoPhase={getAutoPhase(groups)}
+                autoStep={getAutoStep(groups)}
               />
             </div>
           )}
@@ -429,4 +431,32 @@ function getDominantStep(members: GroupMember[]): string {
     }
   }
   return max.replace(":", " / ") || "not started";
+}
+
+// Auto-detect dominant phase across all groups for facilitation guide
+function getAutoPhase(groups: GroupData[]): "evaluate" | "explain" {
+  const allMembers = groups.flatMap((g) => g.members);
+  const phases = allMembers.map((m) => m.status.phase);
+  const explainCount = phases.filter((p) => p === "explain").length;
+  return explainCount > phases.length / 2 ? "explain" : "evaluate";
+}
+
+function getAutoStep(
+  groups: GroupData[]
+): "individual" | "peer" | "ai" | "consensus" {
+  const allMembers = groups.flatMap((g) => g.members);
+  const steps = allMembers.map((m) => m.status.step);
+  const counts = new Map<string, number>();
+  for (const s of steps) {
+    counts.set(s, (counts.get(s) || 0) + 1);
+  }
+  let max = "individual";
+  let maxCount = 0;
+  for (const [s, c] of counts) {
+    if (c > maxCount && ["individual", "peer", "ai", "consensus"].includes(s)) {
+      max = s;
+      maxCount = c;
+    }
+  }
+  return max as "individual" | "peer" | "ai" | "consensus";
 }

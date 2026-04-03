@@ -102,23 +102,41 @@ export async function GET(
       (r) => r.redirectTriggered === true
     ).length;
 
-    return {
+    // Threshold data for curiosity trail
+    const thresholdEval = session.thresholdEvaluate;
+    const passagesBeyondThreshold = Math.max(
+      0,
+      evalPassages.size - (thresholdEval || evalPassages.size)
+    );
+
+    // Base data (safe for all roles)
+    const base = {
       sessionId: session.id,
       topic: session.scenario.topic,
       createdAt: session.createdAt,
       lensId: lens?.lensId || null,
       passagesEvaluated: evalPassages.size,
-      passagesExplained: new Set(
-        sessionExpl
-          .filter((r) => r.step === "individual")
-          .map((r) => r.passageId)
-      ).size,
-      avgWordCount,
-      hintCount,
-      redirectCount,
       peerAdditions,
       consensusCompleted: sessionConsensus.length > 0,
+      passagesBeyondThreshold,
     };
+
+    // Extended data (teacher/researcher only)
+    if (auth.role !== "student") {
+      return {
+        ...base,
+        passagesExplained: new Set(
+          sessionExpl
+            .filter((r) => r.step === "individual")
+            .map((r) => r.passageId)
+        ).size,
+        avgWordCount,
+        hintCount,
+        redirectCount,
+      };
+    }
+
+    return base;
   });
 
   // Perspectival range

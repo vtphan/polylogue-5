@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BehavioralSignals } from "@/lib/signals/behavioral";
@@ -350,7 +351,24 @@ export function ReviewClient({ sessionId }: { sessionId: string }) {
                           label="Redirect rate"
                           value={`${Math.round(signals.reasoning.redirectTriggerRate * 100)}%`}
                         />
+                        <SignalCard
+                          label="AI reflection words"
+                          value={signals.participation.aiReflectionWordCount}
+                        />
+                        <SignalCard
+                          label="Peer influence"
+                          value={`${Math.round(signals.discussing.peerInfluencedRate * 100)}%`}
+                        />
+                        <SignalCard
+                          label="Transcript ref"
+                          value={`${Math.round(signals.reasoning.transcriptReferenceRate * 100)}%`}
+                        />
+                        <SignalCard
+                          label="Group divergence"
+                          value={`${Math.round(signals.collaborating.individualToGroupDivergence * 100)}%`}
+                        />
                       </div>
+                      <GrowthNoteForm studentId={student.id} />
                     </CardContent>
                   </Card>
                 );
@@ -359,6 +377,66 @@ export function ReviewClient({ sessionId }: { sessionId: string }) {
           </div>
         </TabsContent>
       </Tabs>
+    </div>
+  );
+}
+
+function GrowthNoteForm({ studentId }: { studentId: string }) {
+  const [note, setNote] = useState("");
+  const [saved, setSaved] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch(`/api/students/${studentId}/growth`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.growthNote?.content) {
+          setNote(data.growthNote.content);
+        }
+        setLoaded(true);
+      });
+  }, [studentId]);
+
+  async function handleSave() {
+    setSaving(true);
+    const res = await fetch(`/api/students/${studentId}/growth-note`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: note }),
+    });
+    if (res.ok) {
+      setSaved(true);
+      setTimeout(() => setSaved(false), 2000);
+    }
+    setSaving(false);
+  }
+
+  if (!loaded) return null;
+
+  return (
+    <div className="mt-4 border-t pt-4 space-y-2">
+      <p className="text-xs font-medium text-muted-foreground">
+        Growth Note (visible to student)
+      </p>
+      <textarea
+        className="flex min-h-[60px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+        placeholder="Write a qualitative growth note for this student..."
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+      />
+      <div className="flex items-center gap-2">
+        <Button
+          size="sm"
+          onClick={handleSave}
+          disabled={!note.trim() || saving}
+        >
+          {saving ? "Saving..." : "Save Note"}
+        </Button>
+        {saved && (
+          <span className="text-xs text-green-600">Saved</span>
+        )}
+      </div>
     </div>
   );
 }

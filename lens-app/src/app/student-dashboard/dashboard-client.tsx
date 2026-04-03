@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
@@ -10,11 +12,9 @@ interface SessionSummary {
   createdAt: string;
   lensId: string | null;
   passagesEvaluated: number;
-  passagesExplained: number;
-  avgWordCount: number;
-  hintCount: number;
   peerAdditions: number;
   consensusCompleted: boolean;
+  passagesBeyondThreshold: number;
 }
 
 interface GrowthData {
@@ -22,6 +22,11 @@ interface GrowthData {
   lensesUsed: string[];
   sessions: SessionSummary[];
   growthNote: { content: string; updatedAt: string } | null;
+}
+
+interface ActiveSession {
+  sessionId: string;
+  topic: string;
 }
 
 const LENS_LABELS: Record<string, string> = {
@@ -40,12 +45,43 @@ export function StudentDashboardClient({
   studentName: string;
 }) {
   const [data, setData] = useState<GrowthData | null>(null);
+  const [activeSession, setActiveSession] = useState<ActiveSession | null>(null);
+  const [noActiveSession, setNoActiveSession] = useState(false);
 
   useEffect(() => {
+    // Load growth data
     fetch(`/api/students/${studentId}/growth`)
       .then((r) => r.json())
       .then(setData);
+
+    // Check for active session via /api/auth/me
+    // The student would have entered via join code, so check if they have a recent session
+    fetch("/api/auth/me")
+      .then((r) => r.json())
+      .then(() => {
+        // We don't have a direct "active session for student" endpoint,
+        // so we check the most recent session from growth data
+        setNoActiveSession(true);
+      });
   }, [studentId]);
+
+  // Derive active session from growth data (most recent session)
+  useEffect(() => {
+    if (!data) return;
+    if (data.sessions.length > 0) {
+      const latest = data.sessions[data.sessions.length - 1];
+      // If session was very recent (last 24 hours), show as active
+      const isRecent =
+        Date.now() - new Date(latest.createdAt).getTime() < 24 * 60 * 60 * 1000;
+      if (isRecent) {
+        setActiveSession({
+          sessionId: latest.sessionId,
+          topic: latest.topic,
+        });
+        setNoActiveSession(false);
+      }
+    }
+  }, [data]);
 
   if (!data) {
     return (
@@ -57,11 +93,11 @@ export function StudentDashboardClient({
 
   const { sessions, lensesUsed, growthNote } = data;
 
-  // Compute gamified indicators
+  // Compute gamified indicators using actual threshold data
   const totalPassagesBeyond = sessions.reduce(
-    (sum, s) => sum + Math.max(0, s.passagesEvaluated - 1),
+    (sum, s) => sum + s.passagesBeyondThreshold,
     0
-  ); // approximate — threshold not available here
+  );
   const sessionsWithPeerAdditions = sessions.filter(
     (s) => s.peerAdditions > 0
   ).length;
@@ -76,6 +112,29 @@ export function StudentDashboardClient({
         <h1 className="text-2xl font-bold">Hi, {studentName.split(" ")[0]}!</h1>
         <p className="text-sm text-muted-foreground">Your learning journey</p>
       </div>
+
+      {/* Active session card */}
+      {activeSession ? (
+        <Link href={`/session/${activeSession.sessionId}`}>
+          <Card className="border-2 border-primary cursor-pointer hover:bg-accent/50 transition-colors">
+            <CardContent className="pt-4 text-center">
+              <p className="text-lg font-bold">Current Session</p>
+              <p className="text-sm text-muted-foreground">
+                {activeSession.topic}
+              </p>
+              <Button className="mt-3 w-full">Enter Session</Button>
+            </CardContent>
+          </Card>
+        </Link>
+      ) : noActiveSession ? (
+        <Card className="border-dashed">
+          <CardContent className="pt-4 text-center">
+            <p className="text-sm text-muted-foreground">
+              No session right now. Check back when your teacher starts one!
+            </p>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {/* Growth indicators */}
       <div className="grid grid-cols-2 gap-3">
@@ -106,7 +165,7 @@ export function StudentDashboardClient({
           </CardContent>
         </Card>
 
-        {/* Curiosity trail */}
+        {/* Curiosity trail — uses actual passagesBeyondThreshold */}
         <Card>
           <CardContent className="pt-4 text-center">
             <div className="flex justify-center gap-0.5 mb-2">
@@ -134,13 +193,13 @@ export function StudentDashboardClient({
         <Card>
           <CardContent className="pt-4 text-center">
             <div
-              className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full text-2xl ${
+              className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full text-xl ${
                 sessionsWithPeerAdditions > 0
                   ? "bg-purple-100 dark:bg-purple-900"
                   : "bg-muted"
               }`}
             >
-              {sessionsWithPeerAdditions > 0 ? "💬" : "○"}
+              {sessionsWithPeerAdditions > 0 ? "\u{1F4AC}" : "\u25CB"}
             </div>
             <p className="text-xs font-medium mt-2">Voice</p>
             <p className="text-xs text-muted-foreground">
@@ -155,13 +214,13 @@ export function StudentDashboardClient({
         <Card>
           <CardContent className="pt-4 text-center">
             <div
-              className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full text-2xl ${
+              className={`mx-auto flex h-12 w-12 items-center justify-center rounded-full text-xl ${
                 sessionsWithConsensus > 0
                   ? "bg-blue-100 dark:bg-blue-900"
                   : "bg-muted"
               }`}
             >
-              {sessionsWithConsensus > 0 ? "🤝" : "○"}
+              {sessionsWithConsensus > 0 ? "\u{1F91D}" : "\u25CB"}
             </div>
             <p className="text-xs font-medium mt-2">Team</p>
             <p className="text-xs text-muted-foreground">
