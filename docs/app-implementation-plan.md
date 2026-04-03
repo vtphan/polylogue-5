@@ -23,7 +23,7 @@ All entities from the data model:
 - **User entities:** Researcher, Teacher, Student
 - **Class entities:** Class, ClassEnrollment, Group, GroupMembership
 - **Scenario:** Scenario (with jsonb artifacts field)
-- **Session entities:** Session (with join_code, config fields, lifecycle timestamps), SessionGroup, SessionGroupMembership, LensAssignment
+- **Session entities:** Session (with join_code, config fields, lifecycle timestamps incl. updated_at), SessionGroup, SessionGroupMembership, LensAssignment (with assigned_at)
 - **Response entities:** EvaluateResponse, ExplainResponse (append-only, separate tables)
 - **Consensus:** GroupConsensus
 - Run initial migration
@@ -57,7 +57,7 @@ The researcher can import scenarios. The teacher can manage classes, students, g
 ### 2.3 Class & Student Management (Teacher)
 - Teacher dashboard: class list with create button
 - Class detail page with Students tab:
-  - Batch student creation (paste names, deduplication check)
+  - Batch student creation (paste names, deduplication scoped to teacher's classes first then global)
   - Enroll/unenroll students
 - Class detail page with Groups tab:
   - Group CRUD (create, rename, delete)
@@ -121,13 +121,14 @@ The critical path. Students can enter a session and complete the full Evaluate �
 
 ### 3.5 Evaluate Phase — Consensus Step
 - Hard gate: all group members must finish AI step (polling for readiness)
-- Teacher can manually advance past gate
+- Teacher can manually advance past gate (needed when student leaves mid-session)
+- Monitoring flags groups blocked at consensus gate with an idle member
 - Per passage:
   - AI perspective (same as AI step)
   - Each group member's AI reflection (read-only)
 - Group submits per passage: Agree/Disagree + rationale
 - One member submits; others can append
-- After all passages → transition to Explain phase
+- After all passages → transition to Explain phase (per-group, not per-session — fast groups start Explain while slow groups finish Evaluate)
 
 ### 3.6 Explain Phase — Individual Step
 - Passage modal:
@@ -141,7 +142,7 @@ The critical path. Students can enter a session and complete the full Evaluate �
 ### 3.7 Explain Phase — Peer, AI, Consensus Steps
 - Peer step: same progressive reveal model, difference highlighting (cognitive vs. social)
 - AI step: explanatory vocabulary perspective, required reflection
-- Consensus step: same structure, richer question ("Does 'confirmation bias' match what you see?")
+- Consensus step: same structure, adjusted framing for causal claims ("The expert called this confirmation bias — does that match what you see, or is something else going on?")
 
 ### 3.8 Session Completion
 - Summary screen: passages evaluated/explained, lens used, group consensus outcomes
@@ -233,7 +234,7 @@ Framework exploration, pipeline transparency, and annotated artifact viewing.
 ### 6.2 Pipeline Walkthrough
 - Horizontal 5-stage flow diagram
 - Information barrier as visual divider (clickable: shows what was stripped/kept and why)
-- Clickable stage cards: agents involved, input/output artifacts, key decisions
+- Clickable stage cards: agents involved, input/output artifacts, key decisions (derived from stored artifacts, not process logs)
 - Links to artifact viewer for input/output
 
 ### 6.3 Artifact Viewer with Annotations
@@ -257,13 +258,15 @@ Framework exploration, pipeline transparency, and annotated artifact viewing.
 Harden the app for real classroom conditions.
 
 ### 7.1 Offline Response Queuing
-- Save responses to localStorage immediately on submission
+- Save responses to localStorage immediately on submission (client-generated UUID for idempotent sync)
 - Background sync to server when connectivity available
 - Recovery on next login if browser closed before sync
 - Visual indicator: "saved locally" vs. "synced"
+- Idempotent writes: server deduplicates by client UUID (handles multi-device login before sync)
 
 ### 7.2 Artifact Caching
 - On session entry, cache transcript + scaffolding + AI perspectives in localStorage
+- Cache eviction: only current session cached; previous session data cleared on new session entry
 - Student can continue Individual step work offline
 - Peer and Consensus steps show "last updated" timestamp when stale
 
@@ -282,7 +285,21 @@ Harden the app for real classroom conditions.
 - Always accessible via "How it works" link
 - No completion tracking
 
-**Phase 7 milestone:** App is classroom-ready. Handles connectivity drops, works well on tablets, and onboards teachers smoothly.
+### 7.6 Error States
+- Student submits while server is down: saves locally, "syncing..." indicator, auto-syncs on reconnect
+- Teacher closes session while student is mid-passage: student finishes current response, sees "session closed" on next poll
+- Browser refresh during consensus: server-side state preserved, student re-enters current step
+- Shared tablet: session cookie replaced on login, localStorage keyed by student ID
+
+### 7.7 Accessibility
+- Lens colors use color + shape/icon combinations (color-blind safe)
+- Disagreement highlighting uses pattern (dashed border) in addition to color
+- Keyboard navigation for teacher/researcher desktop views (shadcn/ui built-in + custom components)
+- Semantic HTML and ARIA landmarks
+- 16px minimum font on tablet passage modals
+- Conscious pilot scoping: full WCAG 2.1 AA audit deferred to production
+
+**Phase 7 milestone:** App is classroom-ready. Handles connectivity drops, works well on tablets, onboards teachers smoothly, and handles common error states gracefully.
 
 ---
 
