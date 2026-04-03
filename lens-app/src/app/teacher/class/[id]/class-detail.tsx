@@ -117,33 +117,41 @@ export function ClassDetailClient({ classId }: { classId: string }) {
             ) : (
               <div className="space-y-2">
                 {classData.sessions.map((s) => (
-                  <div
+                  <Link
                     key={s.id}
-                    className="flex items-center justify-between rounded-lg border p-4"
+                    href={
+                      s.status === "active" || s.status === "closed"
+                        ? `/teacher/session/${s.id}`
+                        : `/teacher/class/${classId}/session/new`
+                    }
                   >
-                    <div>
-                      <p className="font-medium">{s.scenario.topic}</p>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(s.createdAt).toLocaleDateString()}
-                      </p>
+                    <div className="flex cursor-pointer items-center justify-between rounded-lg border p-4 transition-colors hover:bg-accent/50">
+                      <div>
+                        <p className="font-medium">{s.scenario.topic}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {new Date(s.createdAt).toLocaleDateString()}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {s.joinCode && (
+                          <span className="font-mono text-sm">
+                            {s.joinCode}
+                          </span>
+                        )}
+                        <Badge
+                          variant={
+                            s.status === "active"
+                              ? "default"
+                              : s.status === "draft"
+                                ? "secondary"
+                                : "outline"
+                          }
+                        >
+                          {s.status}
+                        </Badge>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      {s.joinCode && (
-                        <span className="font-mono text-sm">{s.joinCode}</span>
-                      )}
-                      <Badge
-                        variant={
-                          s.status === "active"
-                            ? "default"
-                            : s.status === "draft"
-                              ? "secondary"
-                              : "outline"
-                        }
-                      >
-                        {s.status}
-                      </Badge>
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             )}
