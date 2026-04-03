@@ -71,6 +71,69 @@ export async function POST(
   return NextResponse.json(consensus, { status: 201 });
 }
 
+// Append to existing consensus (other group members add their input)
+export async function PATCH(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const auth = await requireAuth("student");
+  if (auth instanceof NextResponse) return auth;
+
+  const { id: sessionId } = await params;
+  const { passageId, phase, appendText } = await req.json();
+
+  if (!appendText?.trim()) {
+    return NextResponse.json(
+      { error: "appendText is required" },
+      { status: 400 }
+    );
+  }
+
+  const membership = await prisma.sessionGroupMembership.findFirst({
+    where: {
+      studentId: auth.userId,
+      sessionGroup: { sessionId },
+    },
+  });
+
+  if (!membership) {
+    return NextResponse.json(
+      { error: "Not in this session" },
+      { status: 403 }
+    );
+  }
+
+  const existing = await prisma.groupConsensus.findFirst({
+    where: {
+      sessionId,
+      sessionGroupId: membership.sessionGroupId,
+      passageId,
+      phase,
+    },
+  });
+
+  if (!existing) {
+    return NextResponse.json(
+      { error: "No consensus to append to" },
+      { status: 404 }
+    );
+  }
+
+  // Append with attribution
+  const student = await prisma.student.findUnique({
+    where: { id: auth.userId },
+    select: { fullName: true },
+  });
+  const appendLine = `\n[${student?.fullName || "Peer"}]: ${appendText.trim()}`;
+
+  const updated = await prisma.groupConsensus.update({
+    where: { id: existing.id },
+    data: { rationale: existing.rationale + appendLine },
+  });
+
+  return NextResponse.json(updated);
+}
+
 // Get consensus for student's group
 export async function GET(
   _req: NextRequest,

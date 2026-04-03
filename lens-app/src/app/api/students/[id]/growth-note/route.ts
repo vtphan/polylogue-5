@@ -20,6 +20,14 @@ export async function PUT(
     );
   }
 
+  // Verify student belongs to one of this teacher's classes
+  const enrollment = await prisma.classEnrollment.findFirst({
+    where: { studentId, class: { teacherId: auth.userId } },
+  });
+  if (!enrollment) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const note = await prisma.growthNote.upsert({
     where: {
       studentId_teacherId: {

@@ -98,6 +98,7 @@ export function ReviewClient({ sessionId }: { sessionId: string }) {
           <TabsTrigger value="by-student">By Student</TabsTrigger>
           <TabsTrigger value="by-group">By Group</TabsTrigger>
           <TabsTrigger value="engagement">Engagement</TabsTrigger>
+          <TabsTrigger value="growth">Growth</TabsTrigger>
         </TabsList>
 
         <TabsContent value="by-passage">
@@ -310,6 +311,16 @@ export function ReviewClient({ sessionId }: { sessionId: string }) {
           </div>
         </TabsContent>
 
+        <TabsContent value="growth">
+          <div className="space-y-4 pt-4">
+            {data.groups.flatMap((g) =>
+              g.members.map((student) => (
+                <GrowthTracker key={student.id} student={student} />
+              ))
+            )}
+          </div>
+        </TabsContent>
+
         <TabsContent value="engagement">
           <div className="space-y-4 pt-4">
             {data.groups.flatMap((g) =>
@@ -453,5 +464,202 @@ function SignalCard({
       <p className="text-xs text-muted-foreground">{label}</p>
       <p className="text-lg font-bold">{value}</p>
     </div>
+  );
+}
+
+interface GrowthSession {
+  sessionId: string;
+  topic: string;
+  createdAt: string;
+  lensId: string | null;
+  passagesEvaluated: number;
+  peerAdditions: number;
+  consensusCompleted: boolean;
+  passagesBeyondThreshold: number;
+  passagesExplained?: number;
+  avgWordCount?: number;
+  hintCount?: number;
+  redirectCount?: number;
+}
+
+interface GrowthData {
+  studentId: string;
+  lensesUsed: string[];
+  sessions: GrowthSession[];
+  growthNote: { content: string; updatedAt: string } | null;
+}
+
+function GrowthTracker({
+  student,
+}: {
+  student: { id: string; fullName: string; lens: string | null };
+}) {
+  const [growth, setGrowth] = useState<GrowthData | null>(null);
+
+  useEffect(() => {
+    fetch(`/api/students/${student.id}/growth`)
+      .then((r) => r.json())
+      .then(setGrowth);
+  }, [student.id]);
+
+  if (!growth || growth.sessions.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="pb-2">
+          <CardTitle className="text-base">{student.fullName}</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground">No session data yet.</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  const allLenses = ["logic", "evidence", "scope"];
+  const perspectivalRange = growth.lensesUsed.length;
+
+  // Articulation depth trend: avgWordCount across sessions
+  const wordCountTrend = growth.sessions
+    .filter((s) => s.avgWordCount !== undefined)
+    .map((s) => s.avgWordCount!);
+  const articulationTrend =
+    wordCountTrend.length >= 2
+      ? wordCountTrend[wordCountTrend.length - 1] - wordCountTrend[0]
+      : 0;
+
+  // Independence trend: hint + redirect rate trend
+  const hintTrend = growth.sessions
+    .filter((s) => s.hintCount !== undefined)
+    .map((s) => s.hintCount!);
+  const independenceTrend =
+    hintTrend.length >= 2
+      ? hintTrend[0] - hintTrend[hintTrend.length - 1]
+      : 0;
+
+  // Engagement trend: passages beyond threshold
+  const engagementTrend = growth.sessions.map(
+    (s) => s.passagesBeyondThreshold
+  );
+  const engagementDelta =
+    engagementTrend.length >= 2
+      ? engagementTrend[engagementTrend.length - 1] - engagementTrend[0]
+      : 0;
+
+  function trendLabel(delta: number): string {
+    if (delta > 0) return "↑ Improving";
+    if (delta < 0) return "↓ Declining";
+    return "→ Stable";
+  }
+
+  function trendColor(delta: number): string {
+    if (delta > 0) return "text-green-600";
+    if (delta < 0) return "text-amber-600";
+    return "text-muted-foreground";
+  }
+
+  return (
+    <Card>
+      <CardHeader className="pb-2">
+        <CardTitle className="flex items-center gap-2 text-base">
+          {student.fullName}
+          {student.lens && (
+            <Badge variant="outline" className="text-xs">
+              {LENS_LABELS[student.lens]}
+            </Badge>
+          )}
+          <span className="text-xs text-muted-foreground ml-auto">
+            {growth.sessions.length} session{growth.sessions.length !== 1 ? "s" : ""}
+          </span>
+        </CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="grid grid-cols-2 gap-4 text-sm sm:grid-cols-4">
+          <div>
+            <p className="text-xs text-muted-foreground">Perspectival Range</p>
+            <div className="flex gap-1 mt-1">
+              {allLenses.map((l) => (
+                <span
+                  key={l}
+                  className={`inline-block h-5 w-5 rounded-full border text-center text-xs leading-5 ${
+                    growth.lensesUsed.includes(l)
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted"
+                  }`}
+                  title={LENS_LABELS[l]}
+                >
+                  {l[0].toUpperCase()}
+                </span>
+              ))}
+            </div>
+            <p className="text-xs mt-0.5">{perspectivalRange}/3 lenses</p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Articulation Depth</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {wordCountTrend.length > 0
+                ? `${wordCountTrend[wordCountTrend.length - 1]} avg words`
+                : "—"}
+            </p>
+            <p className={`text-xs font-medium ${trendColor(articulationTrend)}`}>
+              {trendLabel(articulationTrend)}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Independence</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {hintTrend.length > 0
+                ? `${hintTrend[hintTrend.length - 1]} hints (latest)`
+                : "—"}
+            </p>
+            <p className={`text-xs font-medium ${trendColor(independenceTrend)}`}>
+              {trendLabel(independenceTrend)}
+            </p>
+          </div>
+          <div>
+            <p className="text-xs text-muted-foreground">Engagement</p>
+            <p className="text-xs text-muted-foreground mt-1">
+              {engagementTrend.length > 0
+                ? `${engagementTrend[engagementTrend.length - 1]} extra passages`
+                : "—"}
+            </p>
+            <p className={`text-xs font-medium ${trendColor(engagementDelta)}`}>
+              {trendLabel(engagementDelta)}
+            </p>
+          </div>
+        </div>
+
+        {/* Session history */}
+        {growth.sessions.length > 1 && (
+          <div className="mt-3 border-t pt-2">
+            <p className="text-xs font-medium text-muted-foreground mb-1">
+              Session History
+            </p>
+            <div className="space-y-1">
+              {growth.sessions.map((s) => (
+                <div
+                  key={s.sessionId}
+                  className="flex items-center gap-2 text-xs"
+                >
+                  <span className="text-muted-foreground">
+                    {new Date(s.createdAt).toLocaleDateString()}
+                  </span>
+                  <span className="truncate">{s.topic}</span>
+                  {s.lensId && (
+                    <Badge variant="outline" className="text-[10px] px-1">
+                      {LENS_LABELS[s.lensId]}
+                    </Badge>
+                  )}
+                  {s.avgWordCount !== undefined && (
+                    <span className="text-muted-foreground">
+                      {s.avgWordCount}w
+                    </span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </CardContent>
+    </Card>
   );
 }

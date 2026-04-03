@@ -27,17 +27,44 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // List scenario directories in the registry
+  // Validate resolved path is within the project's registry directory
   const resolvedPath = path.resolve(registryPath);
+  const allowedBase = path.resolve(process.cwd(), "..", "registry");
+  let realResolved: string;
+  try {
+    realResolved = await fs.realpath(resolvedPath);
+  } catch {
+    return NextResponse.json(
+      { error: `Cannot resolve registry path: ${resolvedPath}` },
+      { status: 400 }
+    );
+  }
+  let realBase: string;
+  try {
+    realBase = await fs.realpath(allowedBase);
+  } catch {
+    return NextResponse.json(
+      { error: "Registry base directory not found" },
+      { status: 500 }
+    );
+  }
+  if (!realResolved.startsWith(realBase + path.sep) && realResolved !== realBase) {
+    return NextResponse.json(
+      { error: "Registry path must be within the project registry directory" },
+      { status: 403 }
+    );
+  }
+
+  // List scenario directories in the registry
   let entries: string[];
   try {
-    const dirEntries = await fs.readdir(resolvedPath, { withFileTypes: true });
+    const dirEntries = await fs.readdir(realResolved, { withFileTypes: true });
     entries = dirEntries
       .filter((e) => e.isDirectory() && !e.name.startsWith(".") && e.name !== "Archived")
       .map((e) => e.name);
   } catch {
     return NextResponse.json(
-      { error: `Cannot read registry path: ${resolvedPath}` },
+      { error: `Cannot read registry path: ${realResolved}` },
       { status: 400 }
     );
   }
@@ -46,7 +73,7 @@ export async function POST(req: NextRequest) {
   const errors: { id: string; error: string }[] = [];
 
   for (const scenarioId of entries) {
-    const scenarioDir = path.join(resolvedPath, scenarioId);
+    const scenarioDir = path.join(realResolved, scenarioId);
 
     // Check if already imported
     const existing = await prisma.scenario.findUnique({

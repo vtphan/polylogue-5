@@ -268,7 +268,24 @@ export function PeerStep({
       </div>
 
       <div className="border-t p-4 text-center">
-        <Button onClick={onMoveToAI}>Move to AI Step</Button>
+        {(() => {
+          const peersWithResponses = (peerData?.responses || []).filter(
+            (r) => r.studentId !== studentId
+          );
+          const hasPeerResponses = peersWithResponses.length > 0;
+          return (
+            <>
+              {!hasPeerResponses && (
+                <p className="mb-2 text-sm text-muted-foreground">
+                  Waiting for at least one peer to share their responses...
+                </p>
+              )}
+              <Button onClick={onMoveToAI} disabled={!hasPeerResponses}>
+                Move to AI Step
+              </Button>
+            </>
+          );
+        })()}
       </div>
     </div>
   );

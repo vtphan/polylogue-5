@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { submitWithQueue } from "@/lib/offline/queue";
 import type {
   Passage,
   Turn,
@@ -38,6 +39,7 @@ interface Props {
   };
   onRefresh: () => Promise<void>;
   onFinished: () => void;
+  onSyncRefresh?: () => void;
 }
 
 export function ConsensusStep({
@@ -50,6 +52,7 @@ export function ConsensusStep({
   analysis,
   onRefresh,
   onFinished,
+  onSyncRefresh,
 }: Props) {
   const [peerData, setPeerData] = useState<{
     members: { id: string; fullName: string }[];
@@ -61,6 +64,7 @@ export function ConsensusStep({
   const [rationales, setRationales] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
   const [allReady, setAllReady] = useState(false);
+  const [appendTexts, setAppendTexts] = useState<Record<string, string>>({});
 
   // Poll for peer readiness (check if all members finished AI step OR teacher override)
   const checkReadiness = useCallback(async () => {
@@ -124,17 +128,34 @@ export function ConsensusStep({
     if (!positions[passageId] || !rationales[passageId]?.trim()) return;
     setSubmitting(true);
 
+    await submitWithQueue(studentId, `/api/sessions/${sessionId}/consensus`, {
+      passageId,
+      phase,
+      position: positions[passageId],
+      rationale: rationales[passageId].trim(),
+    });
+    onSyncRefresh?.();
+
+    await onRefresh();
+    setSubmitting(false);
+  }
+
+  async function handleAppendConsensus(passageId: string) {
+    const text = appendTexts[passageId];
+    if (!text?.trim()) return;
+    setSubmitting(true);
+
     await fetch(`/api/sessions/${sessionId}/consensus`, {
-      method: "POST",
+      method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         passageId,
         phase,
-        position: positions[passageId],
-        rationale: rationales[passageId].trim(),
+        appendText: text.trim(),
       }),
     });
 
+    setAppendTexts((prev) => ({ ...prev, [passageId]: "" }));
     await onRefresh();
     setSubmitting(false);
   }
@@ -257,7 +278,7 @@ export function ConsensusStep({
 
                   {/* Consensus form or result */}
                   {alreadySubmitted && existingConsensus ? (
-                    <div className="rounded border bg-accent/20 p-3">
+                    <div className="rounded border bg-accent/20 p-3 space-y-2">
                       <Badge
                         variant={
                           existingConsensus.position === "agree"
@@ -267,9 +288,34 @@ export function ConsensusStep({
                       >
                         Group {existingConsensus.position === "agree" ? "agrees" : "disagrees"}
                       </Badge>
-                      <p className="mt-1 text-sm">
+                      <p className="mt-1 text-sm whitespace-pre-line">
                         {existingConsensus.rationale}
                       </p>
+                      {/* Append form for other group members */}
+                      {existingConsensus.submittedBy !== studentId && (
+                        <div className="flex gap-2 border-t pt-2">
+                          <textarea
+                            className="flex min-h-[40px] flex-1 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                            placeholder="Add your thoughts to the group consensus..."
+                            value={appendTexts[passage.id] || ""}
+                            onChange={(e) =>
+                              setAppendTexts((prev) => ({
+                                ...prev,
+                                [passage.id]: e.target.value,
+                              }))
+                            }
+                          />
+                          <Button
+                            size="sm"
+                            onClick={() => handleAppendConsensus(passage.id)}
+                            disabled={
+                              !appendTexts[passage.id]?.trim() || submitting
+                            }
+                          >
+                            Add
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   ) : (
                     <div className="space-y-2 border-t pt-2">

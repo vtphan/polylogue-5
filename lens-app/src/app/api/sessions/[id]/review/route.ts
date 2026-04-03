@@ -34,6 +34,11 @@ export async function GET(
     return NextResponse.json({ error: "Session not found" }, { status: 404 });
   }
 
+  // Teachers can only review their own sessions
+  if (auth.role === "teacher" && session.createdById !== auth.userId) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const evaluateResponses = await prisma.evaluateResponse.findMany({
     where: { sessionId },
     include: { student: { select: { id: true, fullName: true } } },
@@ -51,6 +56,30 @@ export async function GET(
     orderBy: { createdAt: "asc" },
   });
 
+  // Extract passage texts from scenario artifacts for transcript reference computation
+  let passageTexts: Record<string, string> | undefined;
+  try {
+    const artifacts = JSON.parse(session.scenario.artifacts);
+    const transcript = artifacts.transcript;
+    const analysis = artifacts.analysis;
+    if (transcript?.turns && analysis?.passage_analyses) {
+      const turnTextMap: Record<string, string> = {};
+      for (const turn of transcript.turns) {
+        turnTextMap[turn.turn_id] = (turn.sentences || [])
+          .map((s: { text: string }) => s.text)
+          .join(" ");
+      }
+      passageTexts = {};
+      for (const passage of analysis.passage_analyses) {
+        passageTexts[passage.passage_id] = (passage.turns || [])
+          .map((tid: string) => turnTextMap[tid] || "")
+          .join(" ");
+      }
+    }
+  } catch {
+    // If artifacts can't be parsed, skip transcript reference — signals still compute
+  }
+
   // Compute behavioral signals per student
   const studentSignals: Record<string, ReturnType<typeof computeSignals>> = {};
 
@@ -63,7 +92,8 @@ export async function GET(
         consensus,
         session.thresholdEvaluate,
         session.thresholdExplain,
-        group.id
+        group.id,
+        passageTexts
       );
     }
   }

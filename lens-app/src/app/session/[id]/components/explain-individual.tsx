@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { submitWithQueue } from "@/lib/offline/queue";
+import { TABLET } from "@/lib/constants/tablet";
 import type {
   Passage,
   Turn,
@@ -231,7 +232,7 @@ function ExplainPassageModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background" role="dialog" aria-label={`Explain passage ${passageId}`}>
+    <div className={`${TABLET.fullscreenModal} flex flex-col bg-background`} role="dialog" aria-label={`Explain passage ${passageId}`}>
       <div className="flex items-center justify-between border-b p-4">
         <h2 className="font-medium text-base">Explain — Passage {passageId}</h2>
         <Button variant="ghost" size="sm" className="min-h-[44px] min-w-[44px]" onClick={onClose}>
@@ -266,7 +267,7 @@ function ExplainPassageModal({
 
           {/* Bridge prompt */}
           <div className="rounded-lg bg-accent/50 p-3">
-            <p className="text-sm">{bridgePrompt}</p>
+            <p className="text-base">{bridgePrompt}</p>
           </div>
 
           {/* Existing explain responses */}
@@ -288,7 +289,7 @@ function ExplainPassageModal({
               {GENERIC_STARTERS.map((starter, i) => (
                 <button
                   key={i}
-                  className="block w-full rounded border px-3 py-2 text-left text-sm text-muted-foreground hover:bg-accent/50"
+                  className="block w-full rounded border px-3 py-2 text-left text-base text-muted-foreground hover:bg-accent/50"
                   onClick={() => setContent(starter)}
                 >
                   {starter}
@@ -307,7 +308,7 @@ function ExplainPassageModal({
                 passageStarters.map((starter, i) => (
                   <button
                     key={`p-${i}`}
-                    className="block w-full rounded border border-amber-200 bg-amber-50 px-3 py-2 text-left text-sm dark:border-amber-800 dark:bg-amber-950"
+                    className="block w-full rounded border border-amber-200 bg-amber-50 px-3 py-2 text-left text-base dark:border-amber-800 dark:bg-amber-950"
                     onClick={() => setContent(starter)}
                   >
                     {starter}

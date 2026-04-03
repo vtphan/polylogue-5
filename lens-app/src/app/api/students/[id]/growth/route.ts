@@ -17,6 +17,16 @@ export async function GET(
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  // Teachers can only view growth for students in their classes
+  if (auth.role === "teacher") {
+    const enrollment = await prisma.classEnrollment.findFirst({
+      where: { studentId, class: { teacherId: auth.userId } },
+    });
+    if (!enrollment) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+  }
+
   // Get all sessions this student participated in
   const memberships = await prisma.sessionGroupMembership.findMany({
     where: { studentId },

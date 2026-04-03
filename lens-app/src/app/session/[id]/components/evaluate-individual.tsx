@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { submitWithQueue } from "@/lib/offline/queue";
+import { TABLET } from "@/lib/constants/tablet";
 import type {
   Passage,
   Turn,
@@ -232,9 +233,11 @@ function PassageModal({
     // Check for misreading redirect (works even if offline — local queue has the data)
     const redirect = checkMisreading(content, misreadings);
     if (redirect) {
+      // Refresh parent state so existingResponses updates before showing redirect
+      await onSubmit();
       setRedirectMessage(redirect);
     } else {
-      if (synced) await onSubmit();
+      await onSubmit();
       onClose();
     }
     setSubmitting(false);
@@ -263,7 +266,7 @@ function PassageModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex flex-col bg-background" role="dialog" aria-label={`Passage ${passage.id}`}>
+    <div className={`${TABLET.fullscreenModal} flex flex-col bg-background`} role="dialog" aria-label={`Passage ${passage.id}`}>
       {/* Header */}
       <div className="flex items-center justify-between border-b p-4">
         <h2 className="font-medium text-base">
@@ -292,10 +295,10 @@ function PassageModal({
 
           {/* Entry prompt */}
           <div className="rounded-lg bg-accent/50 p-3">
-            <p className="text-sm font-medium">
+            <p className="text-base font-medium">
               Looking through {LENS_LABELS[lensId]}:
             </p>
-            <p className="text-sm text-muted-foreground">{entryPrompt}</p>
+            <p className="text-base text-muted-foreground">{entryPrompt}</p>
           </div>
 
           {/* Previous responses (read-only) */}
@@ -369,11 +372,11 @@ function PassageModal({
           {/* Redirect */}
           {redirectMessage && (
             <div className="space-y-3">
-              <div className="rounded border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200">
+              <div className="rounded border border-blue-200 bg-blue-50 p-3 text-base text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200">
                 {redirectMessage}
               </div>
               <textarea
-                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base"
                 placeholder="Add to your thinking..."
                 value={redirectContent}
                 onChange={(e) => setRedirectContent(e.target.value)}
