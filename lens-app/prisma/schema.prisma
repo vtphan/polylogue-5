@@ -205,9 +205,10 @@ model Session {
 }
 
 model SessionGroup {
-  id        String @id @default(uuid())
-  sessionId String @map("session_id")
-  label     String
+  id              String  @id @default(uuid())
+  sessionId       String  @map("session_id")
+  label           String
+  gateOverrides   String? @map("gate_overrides") // JSON: e.g. {"evaluate_consensus": true}
 
   session     Session                  @relation(fields: [sessionId], references: [id])
   memberships SessionGroupMembership[]

@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth/session";
+import { SessionClient } from "./session-client";
 
 export default async function SessionPage({
   params,
@@ -12,13 +13,5 @@ export default async function SessionPage({
   }
 
   const { id } = await params;
-
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold">Session</h1>
-      <p className="mt-2 text-muted-foreground">
-        Welcome, {session.fullName}. Session: {id}
-      </p>
-    </div>
-  );
+  return <SessionClient sessionId={id} studentId={session.userId} />;
 }
