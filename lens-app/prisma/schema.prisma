@@ -7,6 +7,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// --- Enums ---
+
+enum CreatedByRole {
+  researcher
+  teacher
+}
+
+enum ScenarioStatus {
+  available
+  hidden
+}
+
+enum SessionStatus {
+  draft
+  active
+  closed
+}
+
+enum LensAssignmentMode {
+  assign
+  choice
+}
+
+enum LensId {
+  logic
+  evidence
+  scope
+}
+
+enum ResponseStep {
+  individual
+  peer
+  ai
+}
+
+enum Rating {
+  strong
+  weak
+}
+
+enum Phase {
+  evaluate
+  explain
+}
+
+enum ConsensusPosition {
+  agree
+  disagree
+}
+
 // --- User entities ---
 
 model Researcher {
@@ -37,19 +87,19 @@ model Teacher {
 }
 
 model Student {
-  id            String   @id @default(uuid())
-  fullName      String   @map("full_name")
-  createdByRole String   @map("created_by_role") // "researcher" | "teacher"
-  createdById   String   @map("created_by_id")
-  createdAt     DateTime @default(now()) @map("created_at")
+  id            String        @id @default(uuid())
+  fullName      String        @map("full_name")
+  createdByRole CreatedByRole @map("created_by_role")
+  createdById   String        @map("created_by_id")
+  createdAt     DateTime      @default(now()) @map("created_at")
 
-  classEnrollments       ClassEnrollment[]
-  groupMemberships       GroupMembership[]
+  classEnrollments        ClassEnrollment[]
+  groupMemberships        GroupMembership[]
   sessionGroupMemberships SessionGroupMembership[]
-  lensAssignments        LensAssignment[]
-  evaluateResponses      EvaluateResponse[]
-  explainResponses       ExplainResponse[]
-  submittedConsensus     GroupConsensus[]
+  lensAssignments         LensAssignment[]
+  evaluateResponses       EvaluateResponse[]
+  explainResponses        ExplainResponse[]
+  submittedConsensus      GroupConsensus[]
 
   @@map("students")
 }
@@ -109,12 +159,12 @@ model GroupMembership {
 // --- Scenario ---
 
 model Scenario {
-  id          String   @id // text ID from pipeline, not auto-generated
-  status      String   @default("available") // "available" | "hidden"
-  publishedBy String   @map("published_by")
+  id          String         @id // text ID from pipeline, not auto-generated
+  status      ScenarioStatus @default(available)
+  publishedBy String         @map("published_by")
   topic       String
-  artifacts   String   // JSON string (SQLite has no native jsonb)
-  publishedAt DateTime @default(now()) @map("published_at")
+  artifacts   String         // JSON string (SQLite has no native jsonb)
+  publishedAt DateTime       @default(now()) @map("published_at")
 
   publisher Researcher @relation(fields: [publishedBy], references: [id])
   sessions  Session[]
@@ -125,22 +175,22 @@ model Scenario {
 // --- Session entities ---
 
 model Session {
-  id                          String    @id @default(uuid())
-  classId                     String    @map("class_id")
-  scenarioId                  String    @map("scenario_id")
-  createdById                 String    @map("created_by")
-  status                      String    @default("draft") // "draft" | "active" | "closed"
-  joinCode                    String?   @unique @map("join_code")
-  lensAssignmentMode          String    @default("assign") @map("lens_assignment_mode") // "assign" | "choice"
-  selectedPassages            String?   @map("selected_passages") // JSON array of passage IDs
-  scaffoldingSentenceStarters Boolean   @default(true) @map("scaffolding_sentence_starters")
-  scaffoldingReferenceLists   Boolean   @default(true) @map("scaffolding_reference_lists")
-  thresholdEvaluate           Int?      @map("threshold_evaluate")
-  thresholdExplain            Int?      @map("threshold_explain")
-  createdAt                   DateTime  @default(now()) @map("created_at")
-  updatedAt                   DateTime  @updatedAt @map("updated_at")
-  activatedAt                 DateTime? @map("activated_at")
-  closedAt                    DateTime? @map("closed_at")
+  id                          String             @id @default(uuid())
+  classId                     String             @map("class_id")
+  scenarioId                  String             @map("scenario_id")
+  createdById                 String             @map("created_by")
+  status                      SessionStatus      @default(draft)
+  joinCode                    String?            @unique @map("join_code")
+  lensAssignmentMode          LensAssignmentMode @default(assign) @map("lens_assignment_mode")
+  selectedPassages            String?            @map("selected_passages") // JSON array of passage IDs
+  scaffoldingSentenceStarters Boolean            @default(true) @map("scaffolding_sentence_starters")
+  scaffoldingReferenceLists   Boolean            @default(true) @map("scaffolding_reference_lists")
+  thresholdEvaluate           Int?               @map("threshold_evaluate")
+  thresholdExplain            Int?               @map("threshold_explain")
+  createdAt                   DateTime           @default(now()) @map("created_at")
+  updatedAt                   DateTime           @updatedAt @map("updated_at")
+  activatedAt                 DateTime?          @map("activated_at")
+  closedAt                    DateTime?          @map("closed_at")
 
   class             Class              @relation(fields: [classId], references: [id])
   scenario          Scenario           @relation(fields: [scenarioId], references: [id])
@@ -159,9 +209,9 @@ model SessionGroup {
   sessionId String @map("session_id")
   label     String
 
-  session    Session                  @relation(fields: [sessionId], references: [id])
+  session     Session                  @relation(fields: [sessionId], references: [id])
   memberships SessionGroupMembership[]
-  consensus  GroupConsensus[]
+  consensus   GroupConsensus[]
 
   @@map("session_groups")
 }
@@ -180,7 +230,7 @@ model SessionGroupMembership {
 model LensAssignment {
   sessionId  String   @map("session_id")
   studentId  String   @map("student_id")
-  lensId     String   @map("lens_id") // "logic" | "evidence" | "scope"
+  lensId     LensId   @map("lens_id")
   assignedAt DateTime @default(now()) @map("assigned_at")
 
   session Session @relation(fields: [sessionId], references: [id])
@@ -193,17 +243,17 @@ model LensAssignment {
 // --- Response entities (append-only) ---
 
 model EvaluateResponse {
-  id                String   @id @default(uuid())
-  sessionId         String   @map("session_id")
-  studentId         String   @map("student_id")
-  passageId         String   @map("passage_id")
-  step              String   // "individual" | "peer" | "ai"
-  lensId            String   @map("lens_id") // "logic" | "evidence" | "scope"
-  rating            String?  // "strong" | "weak" — individual step only
+  id                String       @id @default(uuid())
+  sessionId         String       @map("session_id")
+  studentId         String       @map("student_id")
+  passageId         String       @map("passage_id")
+  step              ResponseStep
+  lensId            LensId       @map("lens_id")
+  rating            Rating?      // individual step only; null for peer/ai
   content           String
-  hintUsed          Boolean? @map("hint_used") // individual step only
-  redirectTriggered Boolean? @map("redirect_triggered") // individual step only
-  createdAt         DateTime @default(now()) @map("created_at")
+  hintUsed          Boolean?     @map("hint_used") // individual step only
+  redirectTriggered Boolean?     @map("redirect_triggered") // individual step only
+  createdAt         DateTime     @default(now()) @map("created_at")
 
   session Session @relation(fields: [sessionId], references: [id])
   student Student @relation(fields: [studentId], references: [id])
@@ -212,14 +262,14 @@ model EvaluateResponse {
 }
 
 model ExplainResponse {
-  id        String   @id @default(uuid())
-  sessionId String   @map("session_id")
-  studentId String   @map("student_id")
-  passageId String   @map("passage_id")
-  step      String   // "individual" | "peer" | "ai"
+  id        String       @id @default(uuid())
+  sessionId String       @map("session_id")
+  studentId String       @map("student_id")
+  passageId String       @map("passage_id")
+  step      ResponseStep
   content   String
-  hintUsed  Boolean? @map("hint_used") // individual step only
-  createdAt DateTime @default(now()) @map("created_at")
+  hintUsed  Boolean?     @map("hint_used") // individual step only
+  createdAt DateTime     @default(now()) @map("created_at")
 
   session Session @relation(fields: [sessionId], references: [id])
   student Student @relation(fields: [studentId], references: [id])
@@ -230,15 +280,15 @@ model ExplainResponse {
 // --- Group consensus ---
 
 model GroupConsensus {
-  id             String   @id @default(uuid())
-  sessionId      String   @map("session_id")
-  sessionGroupId String   @map("session_group_id")
-  passageId      String   @map("passage_id")
-  phase          String   // "evaluate" | "explain"
-  position       String   // "agree" | "disagree"
+  id             String            @id @default(uuid())
+  sessionId      String            @map("session_id")
+  sessionGroupId String            @map("session_group_id")
+  passageId      String            @map("passage_id")
+  phase          Phase
+  position       ConsensusPosition
   rationale      String
-  submittedBy    String   @map("submitted_by")
-  createdAt      DateTime @default(now()) @map("created_at")
+  submittedBy    String            @map("submitted_by")
+  createdAt      DateTime          @default(now()) @map("created_at")
 
   session      Session      @relation(fields: [sessionId], references: [id])
   sessionGroup SessionGroup @relation(fields: [sessionGroupId], references: [id])
