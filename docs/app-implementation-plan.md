@@ -6,6 +6,8 @@ This plan phases the build of the Perspectives app based on the design in `app-d
 
 **Guiding principle:** Build the student session experience first (it's the core value), wrap teacher and researcher tools around it. Defer polish and edge cases until the core flow works end-to-end.
 
+**Review gates:** Three review checkpoints (R1, R2, R3) are placed after Phases 2, 3, and 5. Each is an external agent review that verifies alignment between the implemented code and the design documents (`app-design.md`, `user-stories.md`). Reviews catch misalignment before it compounds — fixing a schema error after Phase 2 is cheap; discovering it after Phase 5 is expensive.
+
 ---
 
 ## Phase 1 — Foundation
@@ -76,6 +78,23 @@ The researcher can import scenarios. The teacher can manage classes, students, g
 - Session close/reopen
 
 **Phase 2 milestone:** Full management flow works. Researcher imports scenarios, teacher creates classes/groups and configures sessions through the wizard. Sessions can be activated.
+
+---
+
+## Review Gate R1 — Data Foundation
+
+External agent reviews the implemented schema, management flows, and scenario import against the design documents.
+
+**Verify:**
+- Prisma schema matches all entity definitions in `app-design.md` (fields, types, constraints, relationships)
+- Session wizard produces valid draft sessions with all config fields populated
+- Scenario import stores all 6 pipeline YAML artifacts correctly and they're queryable
+- Group snapshot model works: class groups copy into session groups, edits during draft don't affect class-level groups, activation freezes the snapshot
+- Session lifecycle transitions (draft → active → closed) enforce the right constraints (config locked on activate, no new responses on close)
+- Student deduplication scopes to teacher's classes first, then global
+- Auth: all three role types can log in; student join code + name selection works
+
+**Why here:** The data foundation — everything after this assumes the schema and management flows are right. A modeling error caught now costs hours to fix; caught after Phase 5, it could require rewriting queries across the entire assessment layer.
 
 ---
 
@@ -152,6 +171,26 @@ The critical path. Students can enter a session and complete the full Evaluate �
 
 ---
 
+## Review Gate R2 — Core Session Flow
+
+External agent reviews the complete student session experience against the design doc and user stories. This is the most critical review — the core product must be right before building monitoring, assessment, and researcher tools on top of it.
+
+**Verify:**
+- Full session flow matches `app-design.md` Session Experience Flow section and `user-stories.md` Student section
+- Both phases (Evaluate, Explain) with all four steps (Individual → Peer → AI → Consensus) work end-to-end
+- Evaluate phase: lens-specific entry prompts, Strong/Weak rating, hints, misreading redirects, progress tracking, soft gate at threshold
+- Peer step: progressive reveal (no all-ready gate), disagreement highlighting criteria match design (different ratings or same-lens different observations), cross-lens visibility, append-only additions
+- AI step: per-passage perspectives displayed correctly, required reflection enforced, framing as "one more voice"
+- Consensus step: hard gate (all members finish AI), teacher override works, group submits Agree/Disagree + rationale per passage, Explain consensus uses adjusted causal-claim framing
+- Phase transition is per-group (fast groups start Explain independently)
+- Append-only semantics enforced everywhere (no edits, only additions)
+- Response data structure: EvaluateResponse and ExplainResponse tables capture all fields needed for Phase 5 behavioral signals (step, hint_used, redirect_triggered, timestamps, content)
+- Error states: session close mid-passage, browser refresh during consensus, shared tablet data isolation
+
+**Why here:** The core product. If the session flow is wrong, Phases 4-7 build on a broken foundation. Also the last chance to verify that response data will support the assessment computations before they're built.
+
+---
+
 ## Phase 4 — Teacher Live Session Tools
 
 The teacher can monitor and facilitate a live session.
@@ -218,6 +257,29 @@ The teacher can review session data and track student growth.
 - Touch-first, tablet-optimized
 
 **Phase 5 milestone:** Complete assessment and growth tracking loop. Teacher reviews data, writes growth notes, tracks trends. Students see gamified dashboard.
+
+---
+
+## Review Gate R3 — Cross-Cutting Verification
+
+External agent reviews assessment, monitoring, facilitation guide, and student dashboard together — these all depend on the same response data and must be consistent with each other and with the design doc.
+
+**Verify:**
+- Behavioral signals compute correctly from real response data (not mocked):
+  - Engagement: passages beyond threshold, hint usage counts
+  - Participation: response counts per step, post-peer addition detection
+  - Reasoning: word count trajectories, redirect trigger rates, transcript keyword overlap
+  - Discussing: post-peer addition rates, peer-influenced content detection
+  - Collaborating: consensus positions, rationale lengths, individual-to-group divergence
+- Growth tracking across sessions: perspectival range, articulation depth trends, independence trends, engagement trends
+- Session review page views (by passage, by student, by group) show correct data from actual session responses
+- Monitoring dashboard (Phase 4) shows accurate per-student status across all four steps
+- Facilitation guide panel (Phase 4) shows correct content per step (whats_here with quality levels during Individual, productive_questions during Peer, etc.)
+- Student dashboard: gamified indicators (lens collection, curiosity trail, voice marker, team marker) reflect actual behavioral data
+- Teacher's qualitative growth note flows correctly (teacher writes → student sees read-only)
+- Students do NOT see: scores, rubric levels, speed metrics, peer comparisons, AI agreement rates
+
+**Why here:** Cross-cutting verification — assessment, monitoring, and the student dashboard all depend on the same data flowing through different views. This is where subtle misalignments between phases surface (e.g., a behavioral signal defined in the design doc but not actually computable from the response schema, or a dashboard indicator that doesn't match the underlying query).
 
 ---
 
@@ -309,13 +371,16 @@ Harden the app for real classroom conditions.
 |---|---|---|
 | **1. Foundation** | Project, schema, auth | — |
 | **2. Scenario + Management** | Researcher imports scenarios, teacher manages classes/sessions | Phase 1 |
-| **3. Student Session** | Complete student flow (both phases, all four steps) | Phase 2 (needs scenarios + sessions) |
-| **4. Teacher Live Tools** | Monitoring dashboard + facilitation guide panel | Phase 3 (needs live student data) |
-| **5. Review + Assessment** | Post-session review, behavioral signals, gamified dashboard | Phase 3 (needs response data) |
-| **6. Researcher Tools** | Framework explorer, pipeline walkthrough, artifact viewer | Phase 2 (needs scenario data) |
-| **7. Offline + Polish** | localStorage resilience, tablet optimization, primer | Phase 3+ (hardens existing features) |
+| **R1** | **Review: data foundation** | Phase 2 |
+| **3. Student Session** | Complete student flow (both phases, all four steps) | R1 passed |
+| **R2** | **Review: core session flow** | Phase 3 |
+| **4. Teacher Live Tools** | Monitoring dashboard + facilitation guide panel | R2 passed |
+| **5. Review + Assessment** | Post-session review, behavioral signals, gamified dashboard | R2 passed |
+| **R3** | **Review: cross-cutting verification** | Phases 4 + 5 |
+| **6. Researcher Tools** | Framework explorer, pipeline walkthrough, artifact viewer | R1 passed (needs scenario data) |
+| **7. Offline + Polish** | localStorage resilience, tablet optimization, primer, error states, accessibility | R2 passed (hardens existing features) |
 
-Phases 4, 5, and 6 are independent of each other and can be developed in any order after Phase 3.
+Phases 4, 5, and 6 are independent of each other and can be developed in any order after R2. Phase 6 only depends on R1 (scenario data), not on the student session flow. R3 runs after both Phases 4 and 5 are complete.
 
 ---
 
