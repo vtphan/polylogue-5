@@ -79,9 +79,10 @@ model Teacher {
   createdById  String   @map("created_by")
   createdAt    DateTime @default(now()) @map("created_at")
 
-  createdBy Researcher @relation(fields: [createdById], references: [id])
-  classes   Class[]
-  sessions  Session[]
+  createdBy   Researcher  @relation(fields: [createdById], references: [id])
+  classes     Class[]
+  sessions    Session[]
+  growthNotes GrowthNote[]
 
   @@map("teachers")
 }
@@ -100,8 +101,24 @@ model Student {
   evaluateResponses       EvaluateResponse[]
   explainResponses        ExplainResponse[]
   submittedConsensus      GroupConsensus[]
+  growthNotes             GrowthNote[]
 
   @@map("students")
+}
+
+model GrowthNote {
+  id        String   @id @default(uuid())
+  studentId String   @map("student_id")
+  teacherId String   @map("teacher_id")
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  student Student @relation(fields: [studentId], references: [id])
+  teacher Teacher @relation(fields: [teacherId], references: [id])
+
+  @@unique([studentId, teacherId])
+  @@map("growth_notes")
 }
 
 // --- Class entities ---

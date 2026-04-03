@@ -15,7 +15,7 @@ export default async function Home() {
     case "teacher":
       redirect("/teacher");
     case "student":
-      redirect("/student-login");
+      redirect("/student-dashboard");
     default:
       redirect("/login");
   }
