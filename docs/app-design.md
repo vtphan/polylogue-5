@@ -184,7 +184,7 @@ For any published scenario, a visual representation of the 5-stage pipeline show
 - **Agents involved** — which of the 9 pipeline agents ran at this stage, with brief role descriptions
 - **Input** — what artifacts or data entered this stage (with links to view the actual content)
 - **Output** — what artifacts were produced (with links to the artifact viewer)
-- **Key decisions** — for this specific scenario, what happened at this stage. E.g., Stage 1 might show "Targeted facets: sufficiency (weak), perspective_breadth (weak). Signal mechanisms: Maya uses single source, both students plan from own viewpoint only."
+- **Key decisions** — derived from the scenario's stored artifacts, not from agent process logs (which are not stored). E.g., Stage 1 shows targeted facets and signal mechanisms extracted from `scenario.yaml`; Stage 3 shows facet annotations extracted from `analysis.yaml`. The walkthrough reconstructs the pipeline story from outputs, not from execution traces.
 
 **Stage-to-stage flow** shows how artifacts transform: the scenario plan becomes a transcript becomes analysis becomes scaffolding becomes session config. Arrows between stages indicate data flow. A collaborator can trace the full lineage of any element — "this hint in the scaffolding exists because this facet was targeted in the scenario plan."
 
@@ -248,7 +248,7 @@ All IDs are UUIDs. All entities have `created_at` timestamps. Scenario IDs are t
 - `created_by_id` UUID
 - `created_at` timestamp
 
-A student can appear in multiple classes across multiple teachers (e.g., co-teaching). When batch-creating students, the system checks for existing students by name to avoid duplicates, with a confirmation flow for ambiguous matches.
+A student can appear in multiple classes across multiple teachers (e.g., co-teaching). When batch-creating students, the system checks for existing students **within the teacher's classes first**, then across all students. A confirmation flow handles ambiguous matches (e.g., two "Alex Chen" students). The teacher sees existing matches scoped to their classes prominently, with global matches shown as secondary options.
 
 **Teacher**
 - `id` UUID, PK
@@ -312,6 +312,7 @@ The researcher configures source locations (registry path, configs path). The ap
 - `threshold_evaluate` integer — min passages for evaluate phase
 - `threshold_explain` integer — min passages for explain phase
 - `created_at` timestamp
+- `updated_at` timestamp — tracks last draft edit (config or group changes)
 - `activated_at` timestamp
 - `closed_at` timestamp
 
@@ -330,10 +331,11 @@ The researcher configures source locations (registry path, configs path). The ap
 - `student_id` UUID -> Student
 - `lens_id` text: logic | evidence | scope
 - PK: (session_id, student_id)
+- `assigned_at` timestamp
 
 ### Response Entities
 
-Two tables, split by phase. No nullable fields for phase-specific data.
+Two tables, split by phase. Phase-specific fields (rating, hint_used, redirect_triggered) apply only to the individual step and are null for peer/ai appended observations — this is acceptable because the step enum makes the null semantics unambiguous (if step != individual, these fields are always null).
 
 **EvaluateResponse** (append-only)
 - `id` UUID, PK
@@ -342,10 +344,10 @@ Two tables, split by phase. No nullable fields for phase-specific data.
 - `passage_id` text, not null
 - `step` enum: individual | peer | ai
 - `lens_id` text, not null — logic | evidence | scope
-- `rating` enum: strong | weak — individual step only; null for peer/ai appended observations
+- `rating` enum: strong | weak — individual step only; null for peer/ai
 - `content` text, not null
-- `hint_used` boolean, default false — individual step only
-- `redirect_triggered` boolean, default false — individual step only
+- `hint_used` boolean, default false — individual step only; null for peer/ai
+- `redirect_triggered` boolean, default false — individual step only; null for peer/ai
 - `created_at` timestamp
 
 **ExplainResponse** (append-only)
@@ -691,7 +693,7 @@ After responding to all evaluated passages, the student enters the consensus wai
 
 #### Consensus Step
 
-When all group members finish their AI reflections, the consensus step opens. (Teacher can manually advance past this gate from the monitoring dashboard.)
+When all group members finish their AI reflections, the consensus step opens. (Teacher can manually advance past this gate from the monitoring dashboard — necessary when a student leaves mid-session, closes their browser, or is otherwise unavailable. The monitoring dashboard flags groups blocked at the consensus gate with an idle member.)
 
 For each evaluated passage, the group sees:
 - The AI perspective (same content from the AI step)
@@ -707,6 +709,8 @@ One group member submits on behalf of the group. After submission, any group mem
 The agree/disagree decision is deliberately binary — it gives 6th graders a concrete anchor for discussion rather than an open-ended prompt. Disagreeing is explicitly legitimate: "The expert noticed X, but we think Y matters more because..."
 
 After completing consensus for all passages, the group transitions to the Explain phase.
+
+**Phase transition is per-group, not per-session.** Fast groups begin Explain while slower groups are still finishing Evaluate consensus. The teacher may be facilitating both phases simultaneously — the facilitation guide panel supports this by letting the teacher view any phase's content regardless of where the majority of students are.
 
 ### Explain Phase — "Why did they think this way?"
 
@@ -760,7 +764,7 @@ The group discusses face-to-face, then submits a single consensus response per p
 - **Position:** Agree or Disagree with the AI's explanation
 - **Rationale:** Why the group agrees or disagrees (1-3 sentences)
 
-Same submission model: one member submits, others can append. The question here is richer than Evaluate — "The expert called this confirmation bias. Does that match what you see, or is something else going on?"
+Same submission model: one member submits, others can append. The question here is richer than Evaluate — the group is agreeing or disagreeing with a *causal claim* ("this happened because of confirmation bias"), not just an observation. The framing adjusts: "The expert called this confirmation bias — a tendency to only look for information that supports what you already believe. Does that match what you see in this discussion, or is something else going on?" The binary agree/disagree still anchors the discussion, but the prompt acknowledges the explanatory weight of the decision.
 
 After completing consensus for all passages -> **Session Complete** screen with summary and encouragement.
 
@@ -875,13 +879,15 @@ The facilitation guide is loaded from the scenario's stored artifacts when the s
 
 School networks are unreliable. The app must degrade gracefully rather than fail. The offline strategy uses **localStorage** — simple, reliable, and sufficient for a pilot.
 
-**Local storage queue:** Student responses are saved to localStorage immediately on submission, then synced to the server when connectivity is available. The student sees their own responses instantly regardless of network state. If the browser is closed before sync completes, queued responses are recovered on next login.
+**Local storage queue:** Student responses are saved to localStorage immediately on submission, then synced to the server when connectivity is available. The student sees their own responses instantly regardless of network state. If the browser is closed before sync completes, queued responses are recovered on next login. Each queued response includes a client-generated UUID — the server uses this for **idempotent writes**, so if a student logs in on a different device before the original device syncs, duplicate submissions are safely deduplicated.
 
 **Polling under degraded connectivity:** The client polls for updates (peer responses, consensus status, monitoring data) every 2-3 seconds. When connectivity drops, the display shows the last-known state with a "last updated" timestamp. When connectivity returns, polling resumes and new data appears automatically. No data is lost — only visibility is delayed.
 
 **Monitoring dashboard:** Same degraded-mode behavior. The teacher sees stale status indicators with timestamps rather than a broken page. A banner indicates when the dashboard is not receiving live updates.
 
 **Session artifacts:** The transcript, scaffolding hints, and AI perspectives are loaded at session entry and cached in localStorage. A student who loses connectivity mid-session can continue evaluating and writing — their responses queue locally and sync later. Only the peer and consensus steps require connectivity for their core function.
+
+**Cache eviction:** localStorage has a ~5-10MB limit per origin. The app caches only the current session's artifacts and evicts previous sessions' cached data on new session entry. Queued responses that have been successfully synced are cleared immediately. This prevents accumulation across sessions on shared devices.
 
 ---
 
@@ -1032,7 +1038,7 @@ The framework explorer, pipeline walkthrough, and artifact viewer are desktop ex
 |---|---|---|
 | **Framework** | Next.js (App Router) | Full-stack in one codebase. Server components reduce client bundle. Well-suited for AI-assisted development. |
 | **Language** | TypeScript | Type safety across API and UI. Prisma generates a fully typed client from the schema. |
-| **Database** | SQLite via Prisma ORM | Zero infrastructure. File-based. Handles a single-school pilot easily. Prisma's declarative relations suit the complex data model (many-to-many joins, group snapshots, append-only tables). Prisma Studio provides a browser-based data inspector useful during pilot development. |
+| **Database** | SQLite via Prisma ORM | Zero infrastructure. File-based. Prisma's declarative relations suit the complex data model (many-to-many joins, group snapshots, append-only tables). Prisma Studio provides a browser-based data inspector useful during pilot development. **Scaling note:** SQLite serializes writes. With ~30 students polling every 2-3s and submitting responses, write contention is the known ceiling. Sufficient for a single-classroom pilot; upgrade to PostgreSQL if scaling beyond one school. |
 | **UI components** | shadcn/ui + dnd-kit | shadcn/ui provides accessible, touch-friendly primitives (Dialog, Tabs, Accordion, Card, Table) that work natively with Next.js + Tailwind. Components are copied into the project — fully customizable, no runtime dependency. dnd-kit handles drag-and-drop for teacher group management, with touch support. |
 | **Real-time** | Short-interval polling | Progressive peer reveal, monitoring dashboard, consensus gating. Students submit via normal POST; the client polls every 2-3 seconds for updates. For one classroom (~30 students), polling is simple, reliable, and sufficient. Upgrade to SSE if scale demands it. |
 | **Offline** | localStorage response queue | Student responses are saved to localStorage immediately on submission, then synced to the server when connectivity is available. Session artifacts (transcript, scaffolding, AI perspectives) are cached in localStorage at session entry. Simpler and more reliable than a full Service Worker + IndexedDB approach — appropriate for a pilot. The peer and consensus steps require connectivity for their core function. |
@@ -1047,6 +1053,40 @@ Single-school pilot with minimal PII:
 - Student auth is name-only — no email, no password, no persistent identifiers beyond full name
 - No parental consent flow needed if the school/district approves under the "school official" exception (common for pilot research under IRB approval)
 - Confirm with IRB and school administration before deployment
+
+---
+
+## Error States and Edge Cases
+
+The app should handle common disruptions gracefully rather than failing silently or showing raw error messages.
+
+**Student submits while server is down:** The response saves to localStorage immediately — the student sees their submission appear normally. A subtle "saved locally, syncing..." indicator shows the response hasn't reached the server yet. When connectivity returns, it syncs automatically and the indicator updates to "synced." No user action required.
+
+**Teacher closes session while student is mid-passage:** The student can finish and submit their current response (it saves locally and syncs). On next poll, the student sees a "session closed" notice. They cannot start new passages but their in-progress work is preserved.
+
+**Student refreshes during consensus step:** The consensus state is server-side (GroupConsensus table). On refresh, the student re-enters the consensus step and sees any already-submitted consensus responses. Unsubmitted group decisions are lost (the group re-discusses), but individual AI reflections are preserved.
+
+**Student closes browser and returns:** Their session cookie identifies them. Queued responses in localStorage sync on return. The student resumes at their last step. If the group has advanced (e.g., now in consensus), the student sees the current group state.
+
+**Shared tablet, different students:** Each student logs in with the session join code + their name. The previous student's session cookie is replaced. localStorage is keyed by student ID to prevent data leakage between students on the same device.
+
+---
+
+## Accessibility
+
+The pilot prioritizes touch-first tablet design for students and responsive desktop/tablet layouts for teachers. The following accessibility considerations apply:
+
+**Color:** Lens colors (Logic, Evidence, Scope) must be distinguishable by color-blind users. Use color + shape/icon combinations — each lens has both a distinct color and a distinct icon. Disagreement highlighting uses pattern (e.g., dashed border) in addition to color.
+
+**Keyboard navigation:** Teacher and researcher views (desktop) support full keyboard navigation via shadcn/ui's built-in accessibility. Tab order, focus rings, and ARIA labels come from the component library. Custom components (framework explorer, artifact viewer) need explicit keyboard support.
+
+**Screen readers:** Not a primary target for the pilot (student interaction is tablet-touch with face-to-face discussion), but teacher/researcher views should have semantic HTML and ARIA landmarks. shadcn/ui components provide this by default.
+
+**Text size:** Passage modals and articulation text use a minimum 16px font on tablets. No critical information conveyed only through fine detail.
+
+**Motor accessibility:** Touch targets are 44px minimum (per Device Strategy). No drag-and-drop in student views — that's teacher-only for group management.
+
+This is a conscious scoping decision for the pilot. A production release would require a full accessibility audit against WCAG 2.1 AA.
 
 ---
 
