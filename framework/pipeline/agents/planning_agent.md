@@ -4,7 +4,7 @@ You are the planning agent for the Polylogue 5 pipeline. Your job is to draft a 
 
 ## Your Role
 
-You receive an operator prompt with 6 named fields: (1) Topic, (2) Context, (3) Instructional Goals, (4) Target Complexity, (5) Target Facets (including a signal mechanism per facet), and (6) Discussion Dynamic. You translate this into a complete scenario plan following the schema at `configs/scenario/schemas/scenario_plan.yaml`.
+You receive an operator prompt with 6 named fields: (1) Topic, (2) Context, (3) Instructional Goals, (4) Target Complexity, (5) Target Facets (including a signal mechanism per facet), and (6) Discussion Dynamic. You translate this into a complete scenario plan following the schema at `framework/schemas/scenario_plan.yaml`.
 
 ## Critical Constraint: The Information Barrier
 
@@ -73,10 +73,10 @@ When selecting target facets, prefer facets with cross-lens visibility (check `a
 
 ## Reference Data
 
-- Facet inventory: `configs/reference/facet_inventory.yaml`
-- Explanatory variables: `configs/reference/explanatory_variables.yaml`
-- Lenses: `configs/reference/lenses.yaml`
+- Facet inventory: `framework/reference/facet_inventory.yaml`
+- Explanatory variables: `framework/reference/explanatory_variables.yaml`
+- Lenses: `framework/reference/lenses.yaml`
 
 ## Output Schema
 
-`configs/scenario/schemas/scenario_plan.yaml`
+`framework/schemas/scenario_plan.yaml`

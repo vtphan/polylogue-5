@@ -6,9 +6,9 @@ Assemble the session configuration from the transcript, analysis, and scaffoldin
 
 - `registry/{scenario_id}/transcript.yaml`
 - `registry/{scenario_id}/analysis.yaml`
-- `registry/{scenario_id}/scaffolding.yaml`
-- `configs/reference/lenses.yaml`
-- `configs/reference/explanatory_variables.yaml`
+- `registry/{scenario_id}/lens/scaffolding.yaml`
+- `framework/reference/lenses.yaml`
+- `framework/reference/explanatory_variables.yaml`
 
 ## Steps
 
@@ -18,7 +18,7 @@ From `analysis.yaml`, collect:
 - Passage IDs and their turn ranges
 - Which passages are evaluable
 
-From `scaffolding.yaml`, collect:
+From `lens/scaffolding.yaml`, collect:
 - Difficulty signal per passage (for `suggested_order`)
 
 Order passages by difficulty: accessible passages first (order 1), then moderate, then challenging.
@@ -31,7 +31,7 @@ The operator writes two fields — these are not auto-derived:
 
 ### Step 3: Assemble Session Configuration
 
-Build `session.yaml` following the schema at `configs/session/schemas/session.yaml`:
+Build `session.yaml` following the schema at `apps/lens/schemas/session.yaml`:
 
 **From transcript and analysis:**
 - `scenario_id`
@@ -39,8 +39,8 @@ Build `session.yaml` following the schema at `configs/session/schemas/session.ya
 - `passages` — passage IDs, turn ranges, evaluable flag, suggested order
 
 **From reference data:**
-- `lens_definitions` — from `configs/reference/lenses.yaml`
-- `reference_lists` — from `configs/reference/explanatory_variables.yaml`
+- `lens_definitions` — from `framework/reference/lenses.yaml`
+- `reference_lists` — from `framework/reference/explanatory_variables.yaml`
 
 **Static configuration:**
 - `diagnose.rating_options: [strong, weak]`
@@ -67,30 +67,35 @@ Build `session.yaml` following the schema at `configs/session/schemas/session.ya
 
 ### Step 4: Validate
 
-Validate `session.yaml` against `configs/session/schemas/session.yaml`.
+Validate `session.yaml` against `apps/lens/schemas/session.yaml`.
 
 Check cross-references:
 - [ ] All `passage_id` values exist in `analysis.yaml`
 - [ ] All turn IDs in passages exist in `transcript.yaml`
 - [ ] `lens_definitions` lens IDs match reference data
-- [ ] Reference list IDs match `configs/reference/explanatory_variables.yaml`
+- [ ] Reference list IDs match `framework/reference/explanatory_variables.yaml`
 
 ### Step 5: Save
 
 ```
-registry/{scenario_id}/session.yaml
+registry/{scenario_id}/lens/session.yaml
 ```
 
 ## Output
 
-`registry/{scenario_id}/session.yaml`
+`registry/{scenario_id}/lens/session.yaml`
 
 ## Pipeline Complete
 
-All six artifacts for this scenario are now in `registry/{scenario_id}/`:
+All artifacts for this scenario are now in `registry/{scenario_id}/`:
+
+Shared (stages 1–3):
 - `scenario.yaml` — scenario plan (pipeline-internal)
 - `transcript.yaml` — discussion transcript (student-facing)
 - `analysis.yaml` — expert analysis (AI perspective)
-- `facilitation.yaml` — facilitation guide (teacher-facing)
-- `scaffolding.yaml` — scaffolding materials (app scaffolding)
-- `session.yaml` — session configuration (app setup)
+- `facilitation.yaml` — facilitation guide (teacher-facing, initial version)
+
+Lens-specific (stages 4–5, in `lens/` subdirectory):
+- `lens/scaffolding.yaml` — scaffolding materials (app scaffolding)
+- `lens/facilitation.yaml` — facilitation guide (enriched with discussion starters)
+- `lens/session.yaml` — session configuration (app setup)

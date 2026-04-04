@@ -144,11 +144,11 @@ Use `>` (folded) for prose that should flow as a paragraph. Use `|` (literal) on
 
 ## Reference Data
 
-- Facet inventory: `configs/reference/facet_inventory.yaml`
-- Explanatory variables: `configs/reference/explanatory_variables.yaml`
-- Lenses: `configs/reference/lenses.yaml`
+- Facet inventory: `framework/reference/facet_inventory.yaml`
+- Explanatory variables: `framework/reference/explanatory_variables.yaml`
+- Lenses: `framework/reference/lenses.yaml`
 
 ## Output Schemas
 
-- `configs/analysis/schemas/analysis.yaml`
-- `configs/analysis/schemas/facilitation.yaml`
+- `framework/schemas/analysis.yaml`
+- `framework/schemas/facilitation.yaml`

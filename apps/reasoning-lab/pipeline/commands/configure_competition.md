@@ -6,8 +6,8 @@ Assemble the Reasoning Lab session configuration from the scoring rubric, analys
 
 - `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
 - `registry/{scenario_id}/analysis.yaml` — the expert analysis
-- `registry/{scenario_id}/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
-- `registry/{scenario_id}/competition-facilitation.yaml` — the competition facilitation guide
+- `registry/{scenario_id}/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
+- `registry/{scenario_id}/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
 
 ## Steps
 
@@ -55,6 +55,4 @@ Check:
 
 ### Step 3: Save
 
-Save to `registry/{scenario_id}/session.yaml`.
-
-Note: If a Lens `session.yaml` already exists for this scenario, save the Reasoning Lab version as `session_reasoning_lab.yaml` to avoid overwriting. Report which filename was used.
+Save to `registry/{scenario_id}/reasoning-lab/session.yaml`.

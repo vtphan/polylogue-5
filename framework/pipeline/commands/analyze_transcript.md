@@ -30,7 +30,7 @@ Present the segmentation to the operator for approval before proceeding.
 
 ### Step 2: Evaluator Agent — Produce Analysis and Facilitation Guide
 
-Read the evaluator prompt at `configs/analysis/agents/evaluator.md`.
+Read the evaluator prompt at `framework/pipeline/agents/evaluator.md`.
 
 Pass the enumerated transcript, the full scenario plan, and the approved passage segmentation to the evaluator.
 
@@ -49,12 +49,12 @@ The evaluator produces two artifacts:
 **Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
 
 Then validate both artifacts against their schemas:
-- `configs/analysis/schemas/analysis.yaml`
-- `configs/analysis/schemas/facilitation.yaml`
+- `framework/schemas/analysis.yaml`
+- `framework/schemas/facilitation.yaml`
 
 ### Step 3: Analysis Reviewer — Quality Gate
 
-Read the analysis reviewer prompt at `configs/analysis/agents/analysis_reviewer.md`.
+Read the analysis reviewer prompt at `framework/pipeline/agents/analysis_reviewer.md`.
 
 Pass both artifacts, the transcript, and the scenario plan to the reviewer. The reviewer checks:
 1. Facet annotation accuracy

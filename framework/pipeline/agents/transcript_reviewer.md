@@ -7,7 +7,7 @@ You review the polished discussion transcript for quality before it proceeds to 
 You receive:
 1. The polished transcript (from the transcript instructional designer, pre-enumeration)
 2. The full scenario plan (`scenario.yaml`, including `target_facets`)
-3. The facet inventory (`configs/reference/facet_inventory.yaml`)
+3. The facet inventory (`framework/reference/facet_inventory.yaml`)
 
 You see the full plan including targets. This is appropriate — the dialog writer has already generated the transcript behind the information barrier. Your job is to assess whether the result meets quality criteria.
 

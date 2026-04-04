@@ -12,9 +12,9 @@ Generate the scripted group discussion from a scenario plan. This command enforc
 
 Create the dialog writer's input by removing `target_facets` from the scenario plan.
 
-Run `configs/transcript/scripts/strip_scenario.py`:
+Run `framework/pipeline/scripts/strip_scenario.py`:
 ```bash
-python3 configs/transcript/scripts/strip_scenario.py \
+python3 framework/pipeline/scripts/strip_scenario.py \
   registry/{scenario_id}/scenario.yaml \
   registry/{scenario_id}/intermediates/dialog_writer_input.yaml
 ```
@@ -25,21 +25,21 @@ If `strip_scenario.py` is not available, strip manually:
 3. Save as `registry/{scenario_id}/intermediates/dialog_writer_input.yaml`
 4. **Verify** the output contains NO `target_facets`, NO facet IDs, NO lens names, NO cognitive pattern names, NO social dynamic names — only check the `weaknesses` and `accomplishes` fields (they should already be clean from the planning stage)
 
-Validate the stripped file against `configs/transcript/schemas/dialog_writer_input.yaml`.
+Validate the stripped file against `framework/schemas/dialog_writer_input.yaml`.
 
 ### Step 2: Dialog Writer — Generate the Discussion
 
-Read the dialog writer prompt at `configs/transcript/agents/dialog_writer.md`.
+Read the dialog writer prompt at `framework/pipeline/agents/dialog_writer.md`.
 
 Pass ONLY the stripped input (`dialog_writer_input.yaml`) to the dialog writer. **Do not pass the full scenario plan.** The dialog writer must never see `target_facets`.
 
-The dialog writer produces a pre-enumeration transcript following `configs/transcript/schemas/transcript_pre.yaml`.
+The dialog writer produces a pre-enumeration transcript following `framework/schemas/transcript_pre.yaml`.
 
 ### Step 3: Structural Review
 
-Run `configs/transcript/scripts/review_transcript.py`:
+Run `framework/pipeline/scripts/review_transcript.py`:
 ```bash
-python3 configs/transcript/scripts/review_transcript.py \
+python3 framework/pipeline/scripts/review_transcript.py \
   registry/{scenario_id}/intermediates/transcript_raw.yaml \
   registry/{scenario_id}/intermediates/dialog_writer_input.yaml
 ```
@@ -56,7 +56,7 @@ If `review_transcript.py` is not available, verify manually:
 
 ### Step 4: Transcript Instructional Designer — Polish
 
-Read the transcript ID prompt at `configs/transcript/agents/transcript_id.md`.
+Read the transcript ID prompt at `framework/pipeline/agents/transcript_id.md`.
 
 Pass the raw transcript AND the full scenario plan (including `target_facets`) to the instructional designer. The ID operates outside the information barrier — they need to see targets to sharpen signals.
 
@@ -70,7 +70,7 @@ Save the polished transcript to `registry/{scenario_id}/intermediates/transcript
 
 ### Step 5: Transcript Reviewer — Quality Gate
 
-Read the transcript reviewer prompt at `configs/transcript/agents/transcript_reviewer.md`.
+Read the transcript reviewer prompt at `framework/pipeline/agents/transcript_reviewer.md`.
 
 Pass the polished transcript and the full scenario plan to the reviewer. The reviewer checks:
 1. Naturalness — sounds like real 6th graders
@@ -94,9 +94,9 @@ Present the reviewer's report to the operator. The operator decides:
 
 Assign sequential IDs to turns and sentences.
 
-Run `configs/transcript/scripts/enumerate_transcript.py`:
+Run `framework/pipeline/scripts/enumerate_transcript.py`:
 ```bash
-python3 configs/transcript/scripts/enumerate_transcript.py \
+python3 framework/pipeline/scripts/enumerate_transcript.py \
   registry/{scenario_id}/intermediates/transcript_polished.yaml \
   registry/{scenario_id}/transcript.yaml
 ```
@@ -105,7 +105,7 @@ If `enumerate_transcript.py` is not available, enumerate manually:
 - Turn IDs: `turn_01`, `turn_02`, ... (zero-padded two digits)
 - Sentence IDs: `turn_01.s01`, `turn_01.s02`, ... (zero-padded within turn)
 
-Validate the enumerated transcript against `configs/transcript/schemas/transcript.yaml`.
+Validate the enumerated transcript against `framework/schemas/transcript.yaml`.
 
 ### Step 8: Save
 

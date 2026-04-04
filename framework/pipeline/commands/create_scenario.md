@@ -52,22 +52,22 @@ Discussion dynamic: The personas must genuinely disagree...
 
 ### Step 1: Planning Agent — Draft the Scenario Plan
 
-Read the planning agent prompt at `configs/scenario/agents/planning_agent.md`.
+Read the planning agent prompt at `framework/pipeline/agents/planning_agent.md`.
 
-Using the operator's input and the reference data files, draft a complete scenario plan following the schema at `configs/scenario/schemas/scenario_plan.yaml`.
+Using the operator's input and the reference data files, draft a complete scenario plan following the schema at `framework/schemas/scenario_plan.yaml`.
 
 **Key requirements:**
 - `weaknesses` and `accomplishes` must use natural language only — no framework terminology
 - Personas must genuinely disagree
 - Turn outline must have 10-14 turns with a narrative arc
-- `target_facets` must reference valid IDs from `configs/reference/facet_inventory.yaml`
-- `designed_explanation` must reference valid IDs from `configs/reference/explanatory_variables.yaml`
+- `target_facets` must reference valid IDs from `framework/reference/facet_inventory.yaml`
+- `designed_explanation` must reference valid IDs from `framework/reference/explanatory_variables.yaml`
 
 Proceed directly to validation — do not pause for operator review.
 
 ### Step 2: Validation Agent — Review the Plan
 
-Read the validation agent prompt at `configs/scenario/agents/validation_agent.md`.
+Read the validation agent prompt at `framework/pipeline/agents/validation_agent.md`.
 
 Review the scenario plan against all six criteria:
 1. Facet detectability

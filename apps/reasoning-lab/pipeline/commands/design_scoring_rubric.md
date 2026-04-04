@@ -65,10 +65,10 @@ Verify coherence between scoring.yaml and competition-facilitation.yaml:
 
 ### Step 4: Save Outputs
 
-Save both files to `registry/{scenario_id}/`:
+Save both files to `registry/{scenario_id}/reasoning-lab/`:
 ```
-registry/{scenario_id}/scoring.yaml
-registry/{scenario_id}/competition-facilitation.yaml
+registry/{scenario_id}/reasoning-lab/scoring.yaml
+registry/{scenario_id}/reasoning-lab/competition-facilitation.yaml
 ```
 
 Report the number of observation buckets and explanation buckets per passage, along with the rarity distribution (how many common/uncommon/rare per passage).

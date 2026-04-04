@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Initialize the Lens application pipeline.
+"""Initialize the Reasoning Lab application pipeline.
 
 Syncs shared upstream commands/agents from framework/pipeline/ and
-Lens-specific commands/agents from apps/lens/pipeline/ into .claude/.
+Reasoning Lab commands/agents from apps/reasoning-lab/pipeline/ into .claude/.
 Verifies reference data, schemas, and registry.
 
 Usage:
-    python3 apps/lens/pipeline/initialize_polylogue.py [--project-root <path>]
+    python3 apps/reasoning-lab/pipeline/initialize_polylogue.py [--project-root <path>]
 
 If --project-root is not specified, uses the current working directory.
 """
@@ -33,11 +33,11 @@ FRAMEWORK_SCHEMAS = [
     "framework/schemas/facilitation.yaml",
 ]
 
-# Lens-specific schemas
-LENS_SCHEMAS = [
-    "apps/lens/schemas/scaffolding.yaml",
-    "apps/lens/schemas/session.yaml",
-    "apps/lens/schemas/student_annotations.yaml",
+# Reasoning Lab-specific schemas
+APP_SCHEMAS = [
+    "apps/reasoning-lab/schemas/scoring.yaml",
+    "apps/reasoning-lab/schemas/competition_facilitation.yaml",
+    "apps/reasoning-lab/schemas/session.yaml",
 ]
 
 
@@ -62,17 +62,17 @@ def initialize(project_root):
         dst = os.path.join(commands_dest, os.path.basename(src))
         shutil.copy2(src, dst)
 
-    # --- Sync Lens-specific commands ---
-    lens_commands = glob.glob(
-        os.path.join(project_root, "apps", "lens", "pipeline", "commands", "*.md")
+    # --- Sync Reasoning Lab commands ---
+    app_commands = glob.glob(
+        os.path.join(project_root, "apps", "reasoning-lab", "pipeline", "commands", "*.md")
     )
-    for src in lens_commands:
+    for src in app_commands:
         dst = os.path.join(commands_dest, os.path.basename(src))
         shutil.copy2(src, dst)
 
-    total_commands = len(framework_commands) + len(lens_commands)
+    total_commands = len(framework_commands) + len(app_commands)
     print(f"Commands: synced {total_commands} files to .claude/commands/ "
-          f"({len(framework_commands)} shared + {len(lens_commands)} Lens)")
+          f"({len(framework_commands)} shared + {len(app_commands)} Reasoning Lab)")
 
     # --- Sync shared upstream agents (framework) ---
     framework_agents = glob.glob(
@@ -82,17 +82,17 @@ def initialize(project_root):
         dst = os.path.join(agents_dest, os.path.basename(src))
         shutil.copy2(src, dst)
 
-    # --- Sync Lens-specific agents ---
-    lens_agents = glob.glob(
-        os.path.join(project_root, "apps", "lens", "pipeline", "agents", "*.md")
+    # --- Sync Reasoning Lab agents ---
+    app_agents = glob.glob(
+        os.path.join(project_root, "apps", "reasoning-lab", "pipeline", "agents", "*.md")
     )
-    for src in lens_agents:
+    for src in app_agents:
         dst = os.path.join(agents_dest, os.path.basename(src))
         shutil.copy2(src, dst)
 
-    total_agents = len(framework_agents) + len(lens_agents)
+    total_agents = len(framework_agents) + len(app_agents)
     print(f"Agents: synced {total_agents} files to .claude/agents/ "
-          f"({len(framework_agents)} shared + {len(lens_agents)} Lens)")
+          f"({len(framework_agents)} shared + {len(app_agents)} Reasoning Lab)")
 
     # --- Verify reference data ---
     ref_dir = os.path.join(project_root, "framework", "reference")
@@ -112,7 +112,7 @@ def initialize(project_root):
         ok = False
 
     # --- Verify schemas ---
-    all_schemas = FRAMEWORK_SCHEMAS + LENS_SCHEMAS
+    all_schemas = FRAMEWORK_SCHEMAS + APP_SCHEMAS
     schema_ok = True
     for schema in all_schemas:
         path = os.path.join(project_root, schema)
@@ -121,7 +121,7 @@ def initialize(project_root):
             schema_ok = False
     if schema_ok:
         print(f"Schemas: {len(all_schemas)} files verified "
-              f"({len(FRAMEWORK_SCHEMAS)} shared + {len(LENS_SCHEMAS)} Lens)")
+              f"({len(FRAMEWORK_SCHEMAS)} shared + {len(APP_SCHEMAS)} Reasoning Lab)")
     else:
         ok = False
 
@@ -135,7 +135,7 @@ def initialize(project_root):
 
     # --- Report ---
     if ok:
-        print("\nLens pipeline initialized. Run /create_scenario to begin.")
+        print("\nReasoning Lab pipeline initialized. Run /create_scenario to begin.")
     else:
         print("\nERROR: Missing files — see above.", file=sys.stderr)
 
@@ -144,7 +144,7 @@ def initialize(project_root):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Initialize the Lens application pipeline"
+        description="Initialize the Reasoning Lab application pipeline"
     )
     parser.add_argument(
         "--project-root", default=os.getcwd(),

@@ -1,5 +1,5 @@
 # Schema: Facet Inventory
-# Describes the structure of configs/reference/facet_inventory.yaml
+# Describes the structure of framework/reference/facet_inventory.yaml
 # Source: pipeline-spec.md Section 8
 
 schema:

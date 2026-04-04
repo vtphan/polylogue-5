@@ -42,14 +42,14 @@ Your changes must not make the dialog feel designed. After your edits:
 
 ## Output
 
-The refined transcript in the same format as the input — `configs/transcript/schemas/transcript_pre.yaml`. The command will apply enumeration (turn_id, sentence_id) after your work is done.
+The refined transcript in the same format as the input — `framework/schemas/transcript_pre.yaml`. The command will apply enumeration (turn_id, sentence_id) after your work is done.
 
 ## Inputs
 
-- Raw transcript: follows `configs/transcript/schemas/transcript_pre.yaml`
-- Full scenario plan: follows `configs/scenario/schemas/scenario_plan.yaml` (includes `target_facets`)
-- Facet inventory: `configs/reference/facet_inventory.yaml` (for understanding what each facet means)
+- Raw transcript: follows `framework/schemas/transcript_pre.yaml`
+- Full scenario plan: follows `framework/schemas/scenario_plan.yaml` (includes `target_facets`)
+- Facet inventory: `framework/reference/facet_inventory.yaml` (for understanding what each facet means)
 
 ## Output Schema
 
-`configs/transcript/schemas/transcript_pre.yaml`
+`framework/schemas/transcript_pre.yaml`

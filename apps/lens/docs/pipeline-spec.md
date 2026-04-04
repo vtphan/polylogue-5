@@ -713,11 +713,11 @@ Five scripts handle mechanical operations. These are pure Python (PyYAML only), 
 
 | Script | Location | What it does | When it runs |
 |---|---|---|---|
-| `initialize_polylogue.py` | `configs/` | Syncs commands/agents from `configs/` to `.claude/`, verifies reference data and 13 schemas, creates registry if needed | Before first slash command, and after any edit to files in `configs/*/commands/` or `configs/*/agents/` |
-| `enumerate_transcript.py` | `configs/transcript/scripts/` | Assigns sequential turn and sentence IDs to a raw transcript | After instructional designer polish, before analysis |
-| `validate_schema.py` | `configs/shared/` | Validates any YAML artifact against its schema definition | After every artifact is produced |
-| `review_transcript.py` | `configs/transcript/scripts/` | Structural checks: turn count in range, speaker names match plan, turn order follows outline | After dialog writer output, before instructional designer |
-| `segment_passages.py` | `configs/analysis/scripts/` | Segments an enumerated transcript into passages (groups of 1-3 turns) based on topic shifts, new claims, or direction changes | After enumeration, before evaluation. May be manual or heuristic. |
+| `initialize_polylogue.py` | `apps/lens/pipeline/` | Syncs shared + Lens commands/agents to `.claude/`, verifies reference data and schemas, creates registry if needed | Before first slash command, and after any edit to pipeline files |
+| `enumerate_transcript.py` | `framework/pipeline/scripts/` | Assigns sequential turn and sentence IDs to a raw transcript | After instructional designer polish, before analysis |
+| `validate_schema.py` | `framework/pipeline/scripts/` | Validates any YAML artifact against its schema definition | After every artifact is produced |
+| `review_transcript.py` | `framework/pipeline/scripts/` | Structural checks: turn count in range, speaker names match plan, turn order follows outline | After dialog writer output, before instructional designer |
+| `segment_passages.py` | `framework/pipeline/scripts/` | Segments an enumerated transcript into passages (groups of 1-3 turns) based on topic shifts, new claims, or direction changes | After enumeration, before evaluation. May be manual or heuristic. |
 
 **Notes:**
 - `segment_passages.py` is the most uncertain script. Passage segmentation requires judgment — where does a "segment" of discussion begin and end? A simple heuristic (every 2-3 turns) may suffice for the pilot. If segmentation quality matters, this could be an agent task rather than a script. To be validated in the first end-to-end run.

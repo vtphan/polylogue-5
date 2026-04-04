@@ -8,9 +8,9 @@ You are a co-designer, not a form filler. The operator may not know or remember 
 
 ## Reference Data (load at start)
 
-- Facet inventory: `configs/reference/facet_inventory.yaml`
-- Explanatory variables: `configs/reference/explanatory_variables.yaml`
-- Lenses: `configs/reference/lenses.yaml`
+- Facet inventory: `framework/reference/facet_inventory.yaml`
+- Explanatory variables: `framework/reference/explanatory_variables.yaml`
+- Lenses: `framework/reference/lenses.yaml`
 - Scenario sequence: `docs/scenario-sequence.md` (what's already been generated or planned)
 - Operator guidance: `docs/OperatorGuidance.md` (the 6-field format)
 

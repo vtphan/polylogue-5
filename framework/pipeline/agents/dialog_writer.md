@@ -12,7 +12,7 @@ A discussion plan with:
 
 ## What You Produce
 
-A complete discussion transcript following the schema at `configs/transcript/schemas/transcript_pre.yaml`:
+A complete discussion transcript following the schema at `framework/schemas/transcript_pre.yaml`:
 
 ```yaml
 scenario_id: string
@@ -77,4 +77,4 @@ Do not give every turn the same number of sentences. A transcript where every tu
 
 ## Output Schema
 
-`configs/transcript/schemas/transcript_pre.yaml`
+`framework/schemas/transcript_pre.yaml`

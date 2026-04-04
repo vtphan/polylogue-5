@@ -124,11 +124,11 @@ Use `>` (folded) for prose. Never use bare unquoted strings for text that contai
 
 ## Reference Data
 
-- Facet inventory: `configs/reference/facet_inventory.yaml`
-- Explanatory variables: `configs/reference/explanatory_variables.yaml`
-- Lenses: `configs/reference/lenses.yaml`
+- Facet inventory: `framework/reference/facet_inventory.yaml`
+- Explanatory variables: `framework/reference/explanatory_variables.yaml`
+- Lenses: `framework/reference/lenses.yaml`
 
 ## Output Schemas
 
-- `configs/scaffolding/schemas/scaffolding.yaml`
-- `configs/analysis/schemas/facilitation.yaml` (enriched — same schema, added productive_questions)
+- `apps/lens/schemas/scaffolding.yaml`
+- `framework/schemas/facilitation.yaml` (enriched — same schema, added productive_questions)

@@ -14,7 +14,7 @@ Modes:
 Example:
     python3 validate_schema.py \
         registry/ocean-vs-deforestation/transcript.yaml \
-        configs/transcript/schemas/transcript.yaml
+        framework/schemas/transcript.yaml
 """
 
 import re

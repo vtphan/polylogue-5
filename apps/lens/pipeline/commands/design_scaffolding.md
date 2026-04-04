@@ -23,7 +23,7 @@ This preserves the evaluator's original output for debugging.
 
 ### Step 2: Scaffolding Instructional Designer — Produce Scaffolding and Enrich Facilitation
 
-Read the scaffolding ID prompt at `configs/scaffolding/agents/scaffolding_id.md`.
+Read the scaffolding ID prompt at `apps/lens/pipeline/agents/scaffolding_id.md`.
 
 Pass the analysis, facilitation guide, transcript, and scenario plan to the scaffolding ID.
 
@@ -49,12 +49,12 @@ The agent produces two outputs:
 **Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
 
 Then validate both artifacts:
-- `scaffolding.yaml` against `configs/scaffolding/schemas/scaffolding.yaml`
-- `facilitation.yaml` against `configs/analysis/schemas/facilitation.yaml`
+- `scaffolding.yaml` against `apps/lens/schemas/scaffolding.yaml`
+- `facilitation.yaml` against `framework/schemas/facilitation.yaml`
 
 ### Step 3: Scaffolding Reviewer — Quality Gate
 
-Read the scaffolding reviewer prompt at `configs/scaffolding/agents/scaffolding_reviewer.md`.
+Read the scaffolding reviewer prompt at `apps/lens/pipeline/agents/scaffolding_reviewer.md`.
 
 Pass the scaffolding materials, enriched facilitation guide, analysis, and transcript to the reviewer. The reviewer checks:
 1. Scaffold sequence structure and hint calibration (min 2 entries, AI last, where to look not what to see)
@@ -80,8 +80,8 @@ Present the reviewer's report to the operator. The operator decides:
 ### Step 5: Save
 
 ```
-registry/{scenario_id}/scaffolding.yaml
-registry/{scenario_id}/facilitation.yaml      (enriched version — overwrites initial)
+registry/{scenario_id}/lens/scaffolding.yaml
+registry/{scenario_id}/lens/facilitation.yaml   (enriched version)
 ```
 
 Intermediates preserved:
@@ -91,8 +91,8 @@ registry/{scenario_id}/intermediates/facilitation_pre_enrichment.yaml
 
 ## Output
 
-- `registry/{scenario_id}/scaffolding.yaml`
-- `registry/{scenario_id}/facilitation.yaml` (enriched)
+- `registry/{scenario_id}/lens/scaffolding.yaml`
+- `registry/{scenario_id}/lens/facilitation.yaml` (enriched)
 
 ## Next Step
 

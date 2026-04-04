@@ -1,5 +1,5 @@
 # Schema: Explanatory Variables
-# Describes the structure of configs/reference/explanatory_variables.yaml
+# Describes the structure of framework/reference/explanatory_variables.yaml
 # Source: pipeline-spec.md Section 8
 
 schema:

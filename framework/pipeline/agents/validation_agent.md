@@ -52,7 +52,7 @@ Also check: does `discussion_dynamic` align with `discussion_arc` and `turn_outl
 
 ## Output Format
 
-Report your findings following the schema at `configs/scenario/schemas/validation_output.yaml`:
+Report your findings following the schema at `framework/schemas/validation_output.yaml`:
 
 ```yaml
 scenario_id: string
@@ -71,10 +71,10 @@ summary: string
 
 ## Reference Data
 
-- Facet inventory: `configs/reference/facet_inventory.yaml`
-- Explanatory variables: `configs/reference/explanatory_variables.yaml`
-- Lenses: `configs/reference/lenses.yaml`
+- Facet inventory: `framework/reference/facet_inventory.yaml`
+- Explanatory variables: `framework/reference/explanatory_variables.yaml`
+- Lenses: `framework/reference/lenses.yaml`
 
 ## Output Schema
 
-`configs/scenario/schemas/validation_output.yaml`
+`framework/schemas/validation_output.yaml`

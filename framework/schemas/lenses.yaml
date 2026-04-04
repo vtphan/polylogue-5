@@ -1,5 +1,5 @@
 # Schema: Lens Definitions
-# Describes the structure of configs/reference/lenses.yaml
+# Describes the structure of framework/reference/lenses.yaml
 # Source: pipeline-spec.md Section 8
 
 schema:
