@@ -25,23 +25,22 @@ Check both directions:
 - Are there facet signals in the transcript that the evaluator missed? (Read the transcript fresh, then compare.)
 - Are emergent (non-targeted) facets genuinely present, or are they spurious?
 
-### 2. AI Perspective Split — Evaluate Block
-For each passage's `ai_perspective_evaluate`:
-- Does it contain ONLY per-lens observations?
-- Flag any explanatory vocabulary: cognitive pattern names, social dynamic names, "bias," "thinking pattern," "group pressure," or similar.
-- Are observations written as perspectives ("I notice...") not verdicts ("This is wrong...")?
+### 2. Unified AI Perspective — Per-Lens Observations
+For each passage's `ai_perspective`:
+- Are per-lens observations (`through_logic`, `through_evidence`, `through_scope`) written as perspectives ("I notice...") not verdicts ("This is wrong...")?
+- Do observations note both sound and weak reasoning when present (mixed-valence)?
 - Are `key_sentences` valid references into the transcript?
 
-### 3. AI Perspective Split — Explain Block
-For each passage's `ai_perspective_explain`:
-- Does it introduce vocabulary as perspective ("A cognitive scientist might say...") or as verdict ("This is confirmation bias")?
+### 3. Unified AI Perspective — Explanation
+For each passage's `ai_perspective.why_it_happened`:
+- Does it introduce cognitive/social vocabulary as perspective ("A cognitive scientist might say...") or as verdict ("This is confirmation bias")?
 - Quote any problematic phrasing.
-- Does the `interaction_note` (if present) genuinely describe how cognitive and social forces interact, not just list both?
+- When both cognitive and social forces are present, does the explanation describe how they interact, not just list both?
 
-### 4. Split Cleanliness
-- Could a student read the evaluate block without being primed for the explain block?
-- Is there any forward reference — the evaluate block hinting at explanatory concepts that belong in the explain block?
-- Are `what_to_notice` prompts thought-provoking without telegraphing the explanation?
+### 4. AI Perspective Flow and Tone
+- Does the AI perspective read as one natural voice moving from observation to explanation?
+- Are `what_to_notice` prompts thought-provoking without giving away the answer?
+- Is the overall tone "one more voice in the exchange" rather than "the correct answer"?
 
 ### 5. Diversity Metadata
 - Are `expected_lens_split` assessments realistic?

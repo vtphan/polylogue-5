@@ -14,9 +14,12 @@ You receive:
 
 Report each criterion as **PASS**, **ISSUE** (must be addressed), or **SUGGESTION** (non-blocking improvement).
 
-### 1. Partial Hint Calibration
-For each `partial_hint`:
-- Does it direct attention to WHERE to look without naming WHAT to see?
+### 1. Scaffold Sequence Structure and Hint Calibration
+For each passage's `scaffold_sequence`:
+- Does it have minimum 2 entries (at least 1 hint + AI perspective)?
+- Is the AI perspective always the final entry?
+- Are hints progressively more revealing without giving away the answer?
+- Does each hint direct attention to WHERE to look without naming WHAT to see?
 - Quote any hint that gives away the observation.
 - GOOD: "Something about the sources..." (region)
 - BAD: "The sources all come from one place" (observation)
@@ -40,21 +43,19 @@ For each `explanation_rubric` entry:
 - Does the interaction category's differentiated level model how cognitive and social forces amplify each other (not just list both)?
 - Is the interaction category absent at the basic level?
 
-### 5. Bridge Prompt Quality
-For each `bridge_prompt`:
-- Does it connect a specific Evaluate observation to the perspective-taking task?
-- Or is it generic enough to work for any passage? (Should be passage-specific.)
+### 5. Deepening Probe Quality
+For each `deepening_probe`:
+- Does it push toward explanation ("why did they reason this way?"), not just further evaluation?
 - Are all three lens variants present and meaningfully different?
+- Is it passage-specific, not generic?
 
 ### 6. AI Reflection Prompt Quality
-For each `ai_reflection_prompt`:
-- Does it reference the specific content of the AI perspective it follows?
+For the `ai_reflection_prompt` and the AI perspective entry's `text` in the scaffold sequence:
+- Does it reference the specific content of the AI perspective?
 - Or is it generic ("What do you think?")? Generic prompts fail the specificity requirement.
 
-### 7. Lens Entry Prompt Quality
-For each `lens_entry_prompt`:
-- Does it add value beyond the generic lens question?
-- Is it passage-specific?
+### 7. (Reserved)
+This criterion number is reserved for future use.
 
 ### 8. Language Appropriateness
 - Is ALL text in `scaffolding.yaml` in student-friendly language?
@@ -63,21 +64,20 @@ For each `lens_entry_prompt`:
 
 ### 9. Facilitation Guide Enrichment
 Check the enriched `facilitation.yaml`:
-- Were `productive_questions` added to both `evaluate.peer` and `explain.peer`?
+- Were `productive_questions` added to `discuss.productive_questions`?
 - Do the new questions duplicate any existing content?
 - Do they contradict the evaluator's `likely_disagreements` or `watch_for`?
 - Was all existing content preserved (no deletions, no modifications to other fields)?
 
 ### 10. Scaffolding Field Completeness
 Verify all required fields are present per the scaffolding schema:
-- `difficulty`, `partial_hints`, `lens_entry_prompts`, `ai_reflection_prompts` (evaluate)
-- `passage_sentence_starters`, `bridge_prompts`, `ai_reflection_prompt` (explain)
+- `difficulty`, `scaffold_sequence` (min 2 entries, AI perspective last)
+- `deepening_probes` (all three lens IDs), `ai_reflection_prompt`
 - `common_misreadings`, `observation_rubric`, `explanation_rubric`
-- Are per-lens fields (`partial_hints`, `lens_entry_prompts`, `ai_reflection_prompts`, `bridge_prompts`) keyed by all three lens IDs?
 
 ### 11. Cross-Artifact Coherence
-- Do scaffolding hints align with (but not duplicate) the evaluator's observations in `analysis.yaml`? A hint should point toward what the evaluator found, not restate it.
-- Do the `ai_reflection_prompts` reference actual content from the corresponding AI perspective blocks in `analysis.yaml`?
+- Do scaffold sequence hints align with (but not duplicate) the evaluator's observations in `analysis.yaml`? A hint should point toward what the evaluator found, not restate it.
+- Does the `ai_reflection_prompt` reference actual content from the AI perspective in `analysis.yaml`?
 - Do the observation rubric examples align with the evaluator's `likely_student_observations`?
 
 ## Output Format

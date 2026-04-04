@@ -26,7 +26,7 @@ schema:
           session_timing:
             type: string
             required: true
-            description: Suggested time allocation for Evaluate and Explain phases.
+            description: Suggested time allocation for the session.
           what_to_expect:
             type: string
             required: true
@@ -82,105 +82,63 @@ schema:
                     required: true
                     description: Why it's this way — cognitive pattern, social dynamic, or both.
 
-            # --- Evaluate phase scaffolding ---
-            evaluate:
+            # --- State-based facilitation (per-passage state machine) ---
+            diagnose:
               type: object
               required: true
+              description: >
+                Guidance for the Diagnose state — individual students writing
+                their diagnosis before peers' are visible.
               fields:
-                individual:
-                  type: object
+                if_students_are_stuck:
+                  type: string
                   required: true
-                  fields:
-                    if_students_are_stuck:
-                      type: string
-                      required: true
-                      description: >
-                        Lens-based redirects. E.g., "Try looking through the
-                        Evidence lens — what do you notice about the sources?"
-                peer:
-                  type: object
-                  required: true
-                  fields:
-                    likely_disagreements:
-                      type: string
-                      required: true
-                      description: Where students are likely to see different things.
-                    productive_questions:
-                      type: list
-                      required: true
-                      description: >
-                        Questions the teacher can pose to deepen discussion.
-                        Initially from evaluator; enriched by scaffolding ID.
-                      items:
-                        type: string
-                    watch_for:
-                      type: string
-                      required: true
-                      description: Signs that discussion is productive vs. stalled.
-                ai:
-                  type: object
-                  required: true
-                  fields:
-                    what_the_ai_will_say:
-                      type: string
-                      required: true
-                      description: Summary of the Evaluate AI perspective (no surprises for teacher).
-                    likely_student_reactions:
-                      type: string
-                      required: true
-                    follow_up:
-                      type: string
-                      required: true
-                      description: Bridge to the Explain phase.
+                  description: >
+                    Lens-based redirects. E.g., "Try looking through the
+                    Evidence lens — what do you notice about the sources?"
 
-            # --- Explain phase scaffolding ---
-            explain:
+            discuss:
               type: object
               required: true
+              description: >
+                Guidance for the Discuss state — group discussion after
+                all members have submitted diagnoses.
               fields:
-                individual:
-                  type: object
+                likely_disagreements:
+                  type: string
                   required: true
-                  fields:
-                    if_students_are_stuck:
-                      type: string
-                      required: true
-                      description: >
-                        Prompts for explanation. E.g., "Think about what was
-                        happening in the group when this happened..."
-                peer:
-                  type: object
+                  description: Where students are likely to see different things.
+                productive_questions:
+                  type: list
                   required: true
-                  fields:
-                    likely_disagreements:
-                      type: string
-                      required: true
-                    productive_questions:
-                      type: list
-                      required: true
-                      description: >
-                        Questions that push toward cognitive-social interaction.
-                        Initially from evaluator; enriched by scaffolding ID.
-                      items:
-                        type: string
-                    watch_for:
-                      type: string
-                      required: true
-                ai:
-                  type: object
+                  description: >
+                    Questions the teacher can pose to deepen discussion.
+                    Initially from evaluator; enriched by scaffolding ID.
+                  items:
+                    type: string
+                watch_for:
+                  type: string
                   required: true
-                  fields:
-                    what_the_ai_will_say:
-                      type: string
-                      required: true
-                      description: Summary of the Explain AI perspective (vocabulary introduction).
-                    likely_student_reactions:
-                      type: string
-                      required: true
-                    follow_up:
-                      type: string
-                      required: true
-                      description: What to do after the session.
+                  description: Signs that discussion is productive vs. stalled.
+
+            ai_perspective:
+              type: object
+              required: true
+              description: >
+                Guidance for the Reviewing AI state — after group accesses
+                the AI perspective (via lifeline or free after assessment).
+              fields:
+                what_the_ai_will_say:
+                  type: string
+                  required: true
+                  description: Summary of the unified AI perspective (no surprises for teacher).
+                likely_student_reactions:
+                  type: string
+                  required: true
+                follow_up:
+                  type: string
+                  required: true
+                  description: How to build on the AI perspective in discussion.
 
             # --- Observation predictions ---
             likely_observations:
@@ -210,7 +168,7 @@ schema:
       debrief:
         type: object
         required: true
-        description: Materials for whole-class discussion after groups complete both phases.
+        description: Materials for whole-class discussion after groups complete all passages.
         fields:
           key_takeaways:
             type: list

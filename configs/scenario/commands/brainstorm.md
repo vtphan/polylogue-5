@@ -46,7 +46,7 @@ Map their answer to facets. If their description matches multiple facets, explai
 
 Once the operator has one facet, suggest a second that pairs well pedagogically:
 - Different primary lenses (so students with different lenses see different things)
-- Complementary cognitive patterns (so the Explain phase is rich)
+- Complementary cognitive patterns (so explanation is rich)
 - Check `docs/scenario-sequence.md` for what's already covered — suggest facets that fill gaps
 
 > "You picked sufficiency (Evidence lens). For a good pairing, **perspective breadth** (Scope lens) would give students with different lenses very different observations. Or **inferential validity** (Logic lens) if you want to test whether the reasoning holds up. What sounds right?"

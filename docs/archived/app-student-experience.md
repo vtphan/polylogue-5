@@ -3,9 +3,11 @@
 This document specifies the student session experience for the Lens app. It replaces the Session Experience Flow section of `app-design.md` and supersedes the tablet-first assumptions in `app-implementation-plan.md`. The student experience is responsive (laptop and tablet), not tablet-first.
 
 **Companion documents:**
-- `polylogue-v5-4.md` — Conceptual framework (perspectival learning model, lenses, facets, explanatory variables)
+- `polylogue-v5-5.md` — Conceptual framework (perspectival learning model, lenses, facets, explanatory variables)
 - `app-design.md` — Full app design (roles, data model, assessment) — session flow section is superseded by this document
 - `app-implementation-plan.md` — Build plan (Phase 3 will reference this document)
+
+> **Revision note (2026-04-03):** This document uses the old two-phase (Evaluate/Explain) design with "Dr. Chen" as expert, a three-beat rhythm, and batch expert reveal. The current design uses a single integrated flow with a per-passage state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment), chat-style interaction, a unified scaffold sequence, AI voice as fallible reference (not "Dr. Chen"), and teacher-led whole-class debrief. This document needs a full rewrite. See `docs/revision-plan-2026-04-03.md` for the plan and `RESEARCH-OVERVIEW.md` for the current instructional design.
 
 ---
 

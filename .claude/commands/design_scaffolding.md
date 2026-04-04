@@ -30,15 +30,16 @@ Pass the analysis, facilitation guide, transcript, and scenario plan to the scaf
 The agent produces two outputs:
 
 **`scaffolding.yaml`** — Student-facing materials for each evaluable passage:
-- Evaluate phase: difficulty, partial hints, lens entry prompts, AI reflection prompts
-- Explain phase: passage sentence starters, bridge prompts, AI reflection prompt
+- Difficulty rating
+- Unified scaffold sequence (graduated hints → AI perspective as final entry)
+- Deepening probes (per-lens, shown after diagnosis)
+- AI reflection prompt
 - Common misreadings with redirects
 - Observation rubric (per-lens, three levels)
 - Explanation rubric (per-category, with levels)
 
 **Enriched `facilitation.yaml`** — The existing facilitation guide with passage-specific discussion starter questions added to:
-- `evaluate.peer.productive_questions`
-- `explain.peer.productive_questions`
+- `discuss.productive_questions`
 
 **Enrichment rules:**
 - All existing content must be preserved — no deletions, no modifications to other fields
@@ -56,13 +57,13 @@ Then validate both artifacts:
 Read the scaffolding reviewer prompt at `configs/scaffolding/agents/scaffolding_reviewer.md`.
 
 Pass the scaffolding materials, enriched facilitation guide, analysis, and transcript to the reviewer. The reviewer checks:
-1. Partial hint calibration (where to look, not what to see)
+1. Scaffold sequence structure and hint calibration (min 2 entries, AI last, where to look not what to see)
 2. Common misreading quality (plausible patterns, calibrated redirects)
 3. Observation rubric differentiation (three genuinely distinct levels)
 4. Explanation rubric differentiation (interaction category depth)
-5. Bridge prompt quality (passage-specific, per-lens)
+5. Deepening probe quality (pushes toward explanation, per-lens, passage-specific)
 6. AI reflection prompt quality (references specific AI content)
-7. Lens entry prompt quality (adds value beyond generic)
+7. (Reserved)
 8. Language appropriateness (6th-grade, no framework terminology)
 9. Facilitation guide enrichment (preserved content, no duplicates)
 10. Scaffolding field completeness (all required fields present)

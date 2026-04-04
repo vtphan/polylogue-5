@@ -10,8 +10,8 @@ You receive:
 3. Passage segmentation — which turns belong to which passage
 
 You produce two artifacts:
-1. **`analysis.yaml`** — Expert analysis with hidden-layer annotations and two visible AI perspective blocks
-2. **`facilitation.yaml`** — Teacher-facing facilitation guide with scaffolding organized by phase and step
+1. **`analysis.yaml`** — Expert analysis with hidden-layer annotations and a unified AI perspective per passage
+2. **`facilitation.yaml`** — Teacher-facing facilitation guide with scaffolding organized by passage state (diagnose, discuss, AI perspective)
 
 ## Output 1: Expert Analysis (`analysis.yaml`)
 
@@ -36,15 +36,19 @@ For each facet annotation:
 - `was_targeted` — true if this facet appears in the scenario plan's `target_facets`, false if emergent
 - `notes` — your observations, especially for emergent facets or unexpected findings
 
-### Visible Layer: AI Perspective — Evaluate Block (`ai_perspective_evaluate`)
+### Visible Layer: Unified AI Perspective (`ai_perspective`)
 
-**This block is shown to students after the Evaluate phase's peer discussion.**
+**This is a single integrated block per passage — shown to students as the final entry in the unified scaffold sequence.** It is free after the group submits their assessment, or costs a lifeline if accessed earlier.
 
-Write per-lens observations — what you notice through Logic, Evidence, and Scope. The critical rules:
+The AI perspective moves from observation to explanation in one natural voice. It combines per-lens observations with an explanation of why the characters reasoned the way they did.
+
+#### Per-Lens Observations (`through_logic`, `through_evidence`, `through_scope`)
+
+Write what you notice through each lens:
 
 1. **Per-lens, not per-facet.** Students see observations organized by the lenses they've been using. A single observation through Evidence might touch multiple facets without naming any of them.
 
-2. **No explanatory vocabulary.** Do not use cognitive pattern names, social dynamic names, or any language that explains *why* the reasoning is the way it is. This block answers "what do you see?" not "why did they think this way?"
+2. **Mixed-valence.** Note both sound and weak reasoning when present. Sound moments provide contrast and calibration — critical thinking is not just flaw detection.
 
 3. **Write as perspective, not verdict.** The tone is "here's what I notice" not "here's what's wrong."
    - GOOD: "Looking at the evidence here, I notice that both sources come from the same organization. When all your evidence traces back to one origin, it can look like a lot of support but actually represent a single perspective."
@@ -52,27 +56,25 @@ Write per-lens observations — what you notice through Logic, Evidence, and Sco
 
 4. **Null is fine.** Not every lens has an observation for every passage. If you have nothing notable to say through a lens, leave `observation` as null and `key_sentences` as an empty list.
 
-5. **`what_to_notice`** — A brief, student-friendly prompt that bridges toward the Explain phase without giving away the answer. Point to a **region of the text** worth examining — do not construct the contrast or observation for the student.
-   - GOOD: "Think about what Maya's evidence is actually about. Does it match what the group needs to decide?" (points to a region, student discovers the mismatch)
-   - BAD: "Maya's evidence is about the Pacific Ocean. Their project is at their school. Does that matter?" (constructs the contrast — the prompt nearly answers itself)
-   - GOOD: "Something interesting to think about: did anyone in the group push back on this?" (directs attention to a dynamic without naming it)
-   - If two facts need to be compared, name at most one — let the student discover the other.
+#### Integrated Explanation (`why_it_happened`)
 
-### Visible Layer: AI Perspective — Explain Block (`ai_perspective_explain`)
+After the per-lens observations, explain why the characters may have reasoned this way. This introduces cognitive and social vocabulary as disciplinary perspective:
 
-**This block is shown to students after the Explain phase's peer discussion.**
-
-Introduce cognitive and social vocabulary as disciplinary perspective:
-
-1. **`explanatory_note`** — Introduces the vocabulary: "A cognitive scientist might call this..." or "In group dynamics research, this pattern is called..." Frame it as one possible reading, not the correct answer.
-
-2. **`cognitive_connection`** — How a cognitive pattern accounts for what was observed. Write as "one way to think about this..." not "this is..."
-
-3. **`social_connection`** — How a social dynamic accounts for what was observed.
-
-4. **`interaction_note`** — How cognitive and social forces interacted. This is the deepest level: "Notice how [pattern] persisted because [dynamic]..." or the reverse. Not every passage needs this — only where interaction is genuinely present.
+- Frame as one possible reading, not the correct answer: "One way to think about this is..." or "A cognitive scientist might say..."
+- Cover cognitive pattern, social dynamic, and their interaction when both are relevant
+- Not every passage needs all three — only include what's genuinely present
+- The deepest level: how cognitive and social forces interacted ("Notice how [pattern] persisted because [dynamic]...")
 
 The tone throughout: you are one more voice in the exchange, offering what you notice, not declaring what is correct. Students who encountered different readings in peer discussion now have a disciplinary perspective to compare against their own.
+
+#### `what_to_notice`
+
+A brief, student-friendly prompt pointing to a **region of the text** worth examining — do not construct the contrast or observation for the student.
+
+- GOOD: "Think about what Maya's evidence is actually about. Does it match what the group needs to decide?" (points to a region, student discovers the mismatch)
+- BAD: "Maya's evidence is about the Pacific Ocean. Their project is at their school. Does that matter?" (constructs the contrast — the prompt nearly answers itself)
+- GOOD: "Something interesting to think about: did anyone in the group push back on this?" (directs attention to a dynamic without naming it)
+- If two facts need to be compared, name at most one — let the student discover the other.
 
 ### Diversity Metadata (`diversity_potential`)
 
@@ -99,25 +101,26 @@ For each evaluable passage:
 **`whats_here`** — What is structurally present, using facet language:
 - Facet name, quality level, which lenses reveal it, why it's this way (cognitive/social explanation)
 
-**`evaluate`** section (Individual → Peer → AI scaffolding):
-- `individual.if_students_are_stuck` — lens-based redirects, never answers
-- `peer.likely_disagreements` — where students will see different things
-- `peer.productive_questions` — questions to deepen discussion (initial set; enriched by scaffolding ID in Stage 4)
-- `peer.watch_for` — signs of productive vs. stalled discussion
-- `ai.what_the_ai_will_say` — summary so the teacher isn't surprised
-- `ai.likely_student_reactions` — how students typically respond to AI observations
-- `ai.follow_up` — bridge to the Explain phase
+**State-based scaffolding** (aligned with the per-passage state machine):
 
-**`explain`** section (same structure):
-- `individual.if_students_are_stuck` — explanatory prompts ("Think about what was happening in the group...")
-- `peer.productive_questions` — questions that push toward cognitive-social interaction
-- `ai.follow_up` — what to do after the session
+**`diagnose`** — Guidance for the Diagnose state (individual):
+- `if_students_are_stuck` — lens-based redirects, never answers
+
+**`discuss`** — Guidance for the Discuss state (group):
+- `likely_disagreements` — where students will see different things
+- `productive_questions` — questions to deepen discussion (initial set; enriched by scaffolding ID in Stage 4)
+- `watch_for` — signs of productive vs. stalled discussion
+
+**`ai_perspective`** — Guidance for the Reviewing AI state:
+- `what_the_ai_will_say` — summary so the teacher isn't surprised
+- `likely_student_reactions` — how students typically respond
+- `follow_up` — how to build on the AI perspective in discussion
 
 **`likely_observations`** — Per-lens predictions inlined for teacher convenience (same content as diversity_potential in analysis.yaml, formatted for classroom use)
 
 ### Debrief Section
 
-Whole-class discussion materials for after groups complete both phases:
+Whole-class discussion materials for after groups complete all passages:
 
 - **`key_takeaways`** (2-3) — Main insights from this scenario. Written in teacher language using facet vocabulary.
 - **`cross_group_prompts`** — Questions that surface cross-group and cross-lens patterns, making the perspectival learning model visible at the class level. These should reference how different lenses produce different observations on the same discussion.

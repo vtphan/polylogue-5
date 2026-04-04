@@ -1,6 +1,8 @@
 # User Stories
 
-This document describes how each role interacts with the Lens app. It is written to ensure the pipeline produces sufficiently rich artifacts for every interaction described here, and to validate that the student experience aligns with the conceptual framework (`polylogue-v5-4.md`).
+This document describes how each role interacts with the Lens app. It is written to ensure the pipeline produces sufficiently rich artifacts for every interaction described here, and to validate that the student experience aligns with the conceptual framework (`polylogue-v5-5.md`).
+
+> **Revision note (2026-04-03):** This document uses the old two-phase (Evaluate/Explain) design with Individual → Peer → AI → Consensus cycles. The current design uses a single integrated flow with a per-passage state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment), chat-style interaction, a unified scaffold sequence, and teacher-led whole-class debrief. This document needs updating. See `docs/revision-plan-2026-04-03.md` for the plan and `RESEARCH-OVERVIEW.md` for the current instructional design.
 
 **Roles:** Researcher, Teacher, Student
 

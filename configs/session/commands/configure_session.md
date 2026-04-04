@@ -40,51 +40,30 @@ Build `session.yaml` following the schema at `configs/session/schemas/session.ya
 
 **From reference data:**
 - `lens_definitions` — from `configs/reference/lenses.yaml`
-- `explain_phase.reference_lists` — from `configs/reference/explanatory_variables.yaml`
+- `reference_lists` — from `configs/reference/explanatory_variables.yaml`
 
 **Static configuration:**
-- `lens_scope: evaluate_only`
-- `evaluate_phase.sequence: [individual, peer, ai]`
-- `explain_phase.sequence: [individual, peer, ai]`
-- `evaluate_phase.individual.rating_options: [strong, weak]`
-- `evaluate_phase.ai.source: ai_perspective_evaluate`
-- `explain_phase.ai.source: ai_perspective_explain`
-- `evaluate_phase.ai.response_required: true`
-- `explain_phase.ai.response_required: true`
+- `diagnose.rating_options: [strong, weak]`
+- `ai_perspective.source: ai_perspective`
+- `ai_perspective.response_required: true`
 
-**Operator-authored content:**
+**Operator-authored content (per-state):**
 - `onboarding.topic_summary` and `onboarding.reading_instruction` (from Step 2)
-- `evaluate_phase.individual.instructions` — E.g., "Read this passage and rate the reasoning as strong or weak through your assigned lens. Then explain what you noticed."
-- `evaluate_phase.individual.articulation_prompt` — E.g., "What do you see? Why did you rate it this way?"
-- `evaluate_phase.peer.instructions` — E.g., "See how your group members evaluated this passage. What did they notice that you didn't?"
-- `evaluate_phase.ai.instructions` — E.g., "Here's what an expert noticed when looking through each lens."
-- `evaluate_phase.ai.response_prompt` — E.g., "After reading the AI's observations, what stands out to you?"
-- `explain_phase.individual.instructions` — E.g., "Now think about *why* the group reasoned the way they did."
-- `explain_phase.individual.explanation_prompt` — E.g., "Why do you think they reasoned this way? What was going on in the group?"
-- `explain_phase.peer.instructions` — E.g., "See how your group members explained what happened. Did anyone think about it differently?"
-- `explain_phase.ai.instructions` — E.g., "Here's how a cognitive scientist and social psychologist might think about what happened."
-- `explain_phase.ai.response_prompt` — E.g., "Does the AI's explanation match what you were thinking, or do you see it differently?"
+- `diagnose.instructions` — E.g., "Read this passage and choose one or more lenses. Rate the reasoning as strong or weak through each lens, then explain what you noticed."
+- `diagnose.articulation_prompt` — E.g., "What do you see? Why did you rate it this way?"
+- `discuss.instructions` — E.g., "See how your group members diagnosed this passage. What did they notice that you didn't? Discuss and decide what your group thinks."
+- `ai_perspective.instructions` — E.g., "Here's one more perspective on what's happening in this passage."
+- `ai_perspective.response_prompt` — E.g., "After reading the AI's perspective, what stands out to you? Does it match what your group was thinking?"
+- `submit_assessment.instructions` — E.g., "As a group, write your assessment of the reasoning in this passage."
+- `submit_assessment.assessment_prompt` — E.g., "What did you notice about the reasoning? Why do you think they reasoned this way?"
 
-**Session-level sentence starters:**
-```yaml
-sentence_starters:
-  - category: cognitive
-    starter: "I think they reasoned this way because they were focused on..."
-  - category: social
-    starter: "I think the group..."
-  - category: interaction
-    starter: "The group made it easier/harder for this kind of thinking because..."
-```
-
-**Completion thresholds:**
-- `evaluate_phase.completion_threshold` — suggest 2 (minimum passages before peer step)
-- `explain_phase.completion_threshold` — suggest 1 (minimum passages before peer step)
-
-The operator may adjust these values.
+**Lifeline configuration:**
+- `lifelines.pool_size` — operator decides (suggest 5 per group)
+- `lifelines.hint_cost` — typically 1
 
 **Reference list toggles:**
-- `explain_phase.reference_lists.show_cognitive_patterns` — operator decides (suggest `true` for later sessions, `false` for early sessions)
-- `explain_phase.reference_lists.show_social_dynamics` — operator decides
+- `reference_lists.show_cognitive_patterns` — operator decides (suggest `true` for later sessions, `false` for early sessions)
+- `reference_lists.show_social_dynamics` — operator decides
 
 ### Step 4: Validate
 

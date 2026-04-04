@@ -29,7 +29,7 @@ schema:
       onboarding:
         type: object
         required: true
-        description: Displayed before evaluation begins.
+        description: Displayed before the session begins.
         fields:
           topic_summary:
             type: string
@@ -94,191 +94,144 @@ schema:
               required: true
               description: The lens question.
 
-      lens_scope:
-        type: string
-        required: true
-        description: >
-          Lenses apply to the Evaluate phase only. The Explain phase is
-          lens-independent.
-        constraints:
-          enum: [evaluate_only]
+      # --- Per-passage state machine configuration ---
+      # The state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment)
+      # lives in the app. The session config provides the content the app needs
+      # at each state, not the state machine logic itself.
 
-      # --- Evaluate phase configuration ---
-      evaluate_phase:
+      diagnose:
         type: object
         required: true
+        description: Configuration for the Diagnose state (individual).
         fields:
-          sequence:
+          instructions:
+            type: string
+            required: true
+            description: What the app tells the student to do.
+          rating_options:
             type: list
             required: true
             constraints:
-              value: [individual, peer, ai]
-          individual:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-                description: What the app tells the student to do.
-              rating_options:
-                type: list
-                required: true
-                constraints:
-                  value: [strong, weak]
-              articulation_prompt:
-                type: string
-                required: true
-                description: E.g., "What do you see? Why did you rate it this way?"
-          peer:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-          ai:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-              source:
-                type: string
-                required: true
-                description: Which block in analysis.yaml to render.
-                constraints:
-                  enum: [ai_perspective_evaluate]
-              response_required:
-                type: boolean
-                required: true
-                description: >
-                  If true, student must write a brief response before phase is complete.
-              response_prompt:
-                type: string
-                required: true
-                description: >
-                  Prompt for the required response. Passage-specific reflection
-                  prompts from scaffolding.yaml override this generic prompt.
-          # CHECKLIST: evaluate_phase.completion_threshold
-          completion_threshold:
-            type: integer
-            required: true
-            description: Minimum passages to evaluate before moving to Peer step.
-
-      # --- Explain phase configuration ---
-      explain_phase:
-        type: object
-        required: true
-        fields:
-          sequence:
-            type: list
-            required: true
-            constraints:
-              value: [individual, peer, ai]
-          individual:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-              explanation_prompt:
-                type: string
-                required: true
-                description: E.g., "Why do you think they reasoned this way?"
-              # CHECKLIST: explain_phase.individual.sentence_starters
-              sentence_starters:
-                type: list
-                required: true
-                description: >
-                  Session-level generic starters. Teacher-controlled.
-                  Distinct from passage-specific starters in scaffolding.yaml.
-                items:
-                  type: object
-                  fields:
-                    category:
-                      type: string
-                      required: true
-                      constraints:
-                        enum: [cognitive, social, interaction]
-                    starter:
-                      type: string
-                      required: true
-                      description: >
-                        E.g., cognitive: "I think they reasoned this way because
-                        they were focused on..."
-          peer:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-          ai:
-            type: object
-            required: true
-            fields:
-              instructions:
-                type: string
-                required: true
-              source:
-                type: string
-                required: true
-                constraints:
-                  enum: [ai_perspective_explain]
-              response_required:
-                type: boolean
-                required: true
-              response_prompt:
-                type: string
-                required: true
-          # CHECKLIST: explain_phase.reference_lists
-          reference_lists:
-            type: object
+              value: [strong, weak]
+          articulation_prompt:
+            type: string
             required: true
             description: >
-              Optional browsable vocabulary reference. Teacher decides whether to show.
-            fields:
-              show_cognitive_patterns:
-                type: boolean
-                required: true
-              show_social_dynamics:
-                type: boolean
-                required: true
-              cognitive_patterns:
-                type: list
-                required: true
-                items:
-                  type: object
-                  fields:
-                    id:
-                      type: string
-                      required: true
-                    name:
-                      type: string
-                      required: true
-                    description:
-                      type: string
-                      required: true
-              social_dynamics:
-                type: list
-                required: true
-                items:
-                  type: object
-                  fields:
-                    id:
-                      type: string
-                      required: true
-                    name:
-                      type: string
-                      required: true
-                    description:
-                      type: string
-                      required: true
-          # CHECKLIST: explain_phase.completion_threshold
-          completion_threshold:
+              E.g., "What do you see? Why did you rate it this way?"
+              Student chooses one or more lenses and rates strong/weak per lens.
+
+      discuss:
+        type: object
+        required: true
+        description: >
+          Configuration for the Discuss state (group). Gated — all group
+          members must submit diagnoses before peers' are visible.
+        fields:
+          instructions:
+            type: string
+            required: true
+
+      ai_perspective:
+        type: object
+        required: true
+        description: >
+          Configuration for the Reviewing AI state. Costs a lifeline if
+          accessed before assessment; free after group submits assessment.
+        fields:
+          instructions:
+            type: string
+            required: true
+          source:
+            type: string
+            required: true
+            description: Which block in analysis.yaml to render.
+            constraints:
+              enum: [ai_perspective]
+          response_required:
+            type: boolean
+            required: true
+            description: >
+              If true, student must write a brief response after viewing.
+          response_prompt:
+            type: string
+            required: true
+            description: >
+              Prompt for the required response. Passage-specific reflection
+              prompts from scaffolding.yaml override this generic prompt.
+
+      submit_assessment:
+        type: object
+        required: true
+        description: >
+          Configuration for the Submit Assessment state (group).
+          Assessment is always revisable — no finality.
+        fields:
+          instructions:
+            type: string
+            required: true
+          assessment_prompt:
+            type: string
+            required: true
+            description: >
+              E.g., "As a group, what's your assessment of the reasoning
+              in this passage?"
+
+      # --- Explanatory vocabulary reference ---
+      reference_lists:
+        type: object
+        required: true
+        description: >
+          Optional browsable vocabulary reference. Teacher decides whether to show.
+          Available throughout the session (not phase-gated).
+        fields:
+          show_cognitive_patterns:
+            type: boolean
+            required: true
+          show_social_dynamics:
+            type: boolean
+            required: true
+          cognitive_patterns:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true
+          social_dynamics:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true
+
+      # --- Lifeline configuration ---
+      lifelines:
+        type: object
+        required: true
+        description: Shared pool of lifelines per group.
+        fields:
+          pool_size:
             type: integer
             required: true
-            description: Minimum passages to explain before moving to Peer step.
+            description: Number of lifelines available per group for the session.
+          hint_cost:
+            type: integer
+            required: true
+            description: Lifelines consumed per hint (typically 1).

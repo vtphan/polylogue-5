@@ -1,6 +1,6 @@
 # A Perspectival Framework for Teaching Critical Thinking
 
-This document defines a conceptual framework for teaching critical thinking to middle school students through the evaluation of group discussions. The framework has a visible layer and a hidden layer. Students see three evaluative lenses and two explanatory variables — they evaluate *what* they see in reasoning, then explain *why* the reasoning turned out that way. Beneath this, a hidden structural layer — facets — connects lenses to explanatory variables, gives the reasoning its internal complexity, and is what students discover through the act of evaluation without ever being taught it directly. The framework is grounded in a perspectival learning model: students learn by articulating what they see and encountering how others see it differently.
+This document defines a conceptual framework for teaching critical thinking to middle school students through the evaluation of group discussions. The framework has a visible layer and a hidden layer. Students see three evaluative lenses and two explanatory variables — they articulate *what* they see in reasoning and consider *why* the characters reasoned the way they did, in one integrated flow. Beneath this, a hidden structural layer — facets — connects lenses to explanatory variables, gives the reasoning its internal complexity, and is what students discover through the act of articulation without ever being taught it directly. The framework is grounded in a perspectival learning model: students learn by articulating what they see and encountering how others see it differently.
 
 ---
 
@@ -8,12 +8,12 @@ This document defines a conceptual framework for teaching critical thinking to m
 
 Critical thinking is not flaw detection. It is the ability to evaluate reasoning quality — recognizing strength, weakness, and complexity — and to reason about why people think the way they do. Teaching critical thinking means developing students' capacity to look at a piece of reasoning, articulate what they see in it, engage with how others see it differently, and consider the forces that shaped it.
 
-This framework operationalizes that premise through two questions, asked in sequence:
+This framework operationalizes that premise through two intertwined questions:
 
 1. **What do you see in the reasoning?** (Evaluation)
 2. **Why did they think this way?** (Perspective taking)
 
-The first question is answered through three evaluative lenses. The second is answered through two interacting explanatory variables. Connecting them is a hidden structural layer — facets — that lenses reveal and explanatory variables account for.
+These are not sequential phases — they are two dimensions of a single act of reasoning about reasoning. Students respond to both in an integrated flow: articulating what they see in a passage and considering what produced it. Three evaluative lenses direct the first question. Two interacting explanatory variables address the second. Connecting them is a hidden structural layer — facets — that lenses reveal and explanatory variables account for.
 
 ```
           Visible layer:     Lenses ——→ Facets ——→ Explanatory Variables
@@ -24,7 +24,7 @@ The first question is answered through three evaluative lenses. The second is an
           (system-facing)               articulation, never taught directly
 ```
 
-The path runs in one direction: students look through lenses, perceive specific features of reasoning (facets), and then explain why those features are the way they are (explanatory variables). Facets mediate between evaluation and explanation — they are the shared referent, the specific thing a student identified and then accounts for. Students are never taught facets as a taxonomy, never shown a facet list, never asked to classify by facet. The hidden layer is where the framework's structural precision lives; the visible layer is where the learning happens.
+The path runs in one direction: students look through lenses, perceive specific features of reasoning (facets), and consider why those features are the way they are (explanatory variables). Facets mediate between evaluation and explanation — they are the shared referent, the specific thing a student identified and then accounts for. Students are never taught facets as a taxonomy, never shown a facet list, never asked to classify by facet. The hidden layer is where the framework's structural precision lives; the visible layer is where the learning happens.
 
 ---
 
@@ -161,11 +161,11 @@ The framework is grounded in a specific theory of how students learn: **students
 
 ### Why Perspectives Drive Learning
 
-**Articulation externalizes thinking.** When a student puts what they see into words, they transform a vague impression into an examinable claim. The act of articulating is itself cognitive work — it forces precision, reveals gaps, and creates something that can be shared. A student who writes "the evidence seems weak" has committed to a position. A student who writes "there's a lot of evidence but the sources aren't reliable" has done more cognitive work — they've differentiated their perception. The framework values both, and growth over time looks like the second emerging from the first.
+**Articulation and brainstorming are complementary learning modes.** Learning happens through both written articulation and verbal brainstorming, each doing different cognitive work. **Articulation** (written) requires precision — putting what you see into words forces you to transform a vague impression into an examinable claim. A student who writes "the evidence seems weak" has committed to a position. A student who writes "there's a lot of evidence but the sources aren't reliable" has done more cognitive work — they've differentiated their perception. **Brainstorming** (verbal) requires fluidity — ideas come fast, half-formed, reactive. A peer says something that triggers a connection you wouldn't have reached alone. The framework values both modes. The app captures articulation; the classroom enables brainstorming; the learning happens in the interaction between the two.
 
 **Multiple perspectives reveal multiple dimensions.** No single perspective captures everything about a passage's reasoning quality. When students encounter how peers saw it differently — attended to different facets, looked through a different lens, offered a different explanation for why — they discover aspects of the reasoning they didn't notice. Understanding grows through accumulation of perspectives, not convergence on a single correct reading.
 
-**Expert perspectives offer vocabulary, not verdicts.** The AI introduces formal terms (confirmation bias, group pressure) as named perspectives from cognitive science and social psychology — ways of seeing that a discipline has found useful. Students engage with these perspectives: does that match what I see? Does it add something I missed? Does it name something I was trying to say? The AI's perspective is one more voice in the exchange, not the answer key.
+**AI perspectives offer vocabulary, not verdicts.** The AI introduces formal terms (confirmation bias, group pressure) as named perspectives from cognitive science and social psychology — ways of seeing that a discipline has found useful. Students engage with these perspectives: does that match what I see? Does it add something I missed? Does it name something I was trying to say? The AI's perspective is one more voice in the exchange, not the answer key. The teacher — the human expert in the room — is who contextualizes, validates, and extends what the AI offered.
 
 ### Cognitive Conflict Within Perspectival Exchange
 
@@ -173,41 +173,43 @@ The framework does not eliminate cognitive conflict — it changes its source. W
 
 This preserves the established learning benefits of cognitive conflict — motivation to revise, schema restructuring (Doise & Mugny, 1984; Limón, 2001) — without the classroom risks of authority-driven correction with middle school students: ego threat, shutdown, and unreflective deference.
 
-### Three Sources of Perspective
+### Four Sources of Perspective
 
-Every learning activity moves through three sources of perspective in a fixed sequence:
+Every learning activity moves through four sources of perspective in a fixed sequence:
 
 1. **Individual** — the student forms and articulates their own perspective before encountering anyone else's
 2. **Peer** — the student encounters how peers in their group saw it differently
-3. **Expert (AI)** — the student encounters a perspective informed by cognitive science and social psychology
+3. **AI voice** — the student encounters a disciplinary perspective generated by AI
+4. **Teacher** — the human expert synthesizes across groups in whole-class discussion
 
 The sequence matters:
 
 - **Individual before peers** ensures every student commits to a perspective before encountering others. This prevents weaker students from simply adopting stronger students' views (anchoring effects in collaborative learning; Schwarz et al., 2000) and ensures every student has done the cognitive work of articulation.
 - **Peers before AI** creates genuine discussion because no participant has authority — students argue on merit, not status. It also creates "activated knowledge" (Kapur's productive failure research) that makes the AI perspective more useful when it arrives.
-- **AI last** adds expert vocabulary and formal analysis after students have committed individually and engaged socially. They have a perspective to compare against, not a blank slate to fill.
+- **AI as reference, not authority.** The AI voice provides disciplinary vocabulary and a worked example of expert reasoning, but it is positioned as a fallible external reference — one more perspective, not the answer key. This reflects an accurate epistemic stance (AI analysis can be insightful but also partial) and leverages students' existing intuition that AI can miss things. Because the group has already committed to a diagnosis, the AI perspective creates productive tension to engage with, not a verdict to accept.
+- **Teacher as authority.** The teacher is the real expert — the person who reads the room, sees which groups caught what, and connects perspectives across groups that no single group had access to. Authority lives with the human, not the algorithm. The teacher's whole-class debrief is where perspectival diversity reaches its full expression: students discover the range of what was seen across the entire class.
 
 ---
 
 ## 6. What the Framework Teaches
 
-The framework aims to build three capacities:
+The framework aims to build three integrated capacities. These are not tied to separate phases — all three develop together as students articulate what they see in reasoning and consider why the characters reasoned the way they did.
 
 ### Evaluative Differentiation
 
-Students move from undifferentiated judgments ("that's bad reasoning") to specific, multi-dimensional evaluations ("the logic holds but the evidence is thin and they only considered one perspective"). Growth looks like increasing specificity in articulation — not convergence on correct answers, but increasingly fine-grained perception of what is in the reasoning.
+Students move from undifferentiated judgments ("that's bad reasoning") to specific, multi-dimensional observations ("the logic holds but the evidence is thin and they only considered one perspective"). Differentiation means pinpointing specific facets of reasoning quality — the particular dimension that is strong or weak — and specific cognitive or social mechanisms that may have produced it, with increasing precision. Growth looks like increasing specificity, not convergence on correct answers.
 
 The three lenses provide the structure for differentiation. A student who starts saying "the evidence is weak" and later says "there's plenty of evidence but it all comes from one source, and it doesn't really support a conclusion that broad" has developed evaluative differentiation. The lenses gave them angles to look from; the multi-dimensionality within each lens — the facets — gave the object internal structure worth differentiating.
 
 ### Perspectival Engagement
 
-Students move from treating disagreement as error ("I'm right and you're wrong") to treating it as information ("we saw different things, and both are there"). They learn that a peer who evaluated the same passage differently isn't confused — they attended to a different facet of the reasoning or looked through a different lens.
+Students move from treating disagreement as error ("I'm right and you're wrong") to treating it as information ("we saw different things, and both are there"). They learn that a peer who diagnosed the same passage differently isn't confused — they attended to a different facet of the reasoning or looked through a different lens.
 
 This is the social-epistemic capacity that transfers beyond critical thinking. A student who learns to ask "what did you see?" before defending their own reading has acquired a general orientation toward other minds that serves them in any collaborative or evaluative context.
 
 ### Explanatory Reasoning as Perspective Taking
 
-Students begin to consider *why* people reason the way they do, taking the perspective of the characters and the group to consider both cognitive and social forces and their interaction. A student who says "she was so focused on her idea that she stopped listening, and nobody pushed back, so she just kept going" has connected a cognitive pattern to a social dynamic without needing formal vocabulary for either. The student is not diagnosing a correct cause — they are practicing the act of reasoning about another person's thinking, which is perspective taking in its most cognitively demanding form.
+Students consider *why* people reason the way they do, taking the perspective of the characters and the group to identify both cognitive and social forces and their interaction. A student who says "she was so focused on her idea that she stopped listening, and nobody pushed back, so she just kept going" has connected a cognitive pattern to a social dynamic without needing formal vocabulary for either. When students encounter sound reasoning, they explain it contrastively — "here they actually questioned each other, unlike the other passage where everyone just went along." The student is not diagnosing a correct cause — they are practicing the act of reasoning about another person's thinking, which is perspective taking in its most cognitively demanding form.
 
 This is the most demanding capacity. Early on, students may offer only one possible force. Over time, they should consider how cognitive and social forces interact, and engage with peers and the AI who offer different readings of the same moment.
 
@@ -216,14 +218,14 @@ This is the most demanding capacity. Early on, students may offer only one possi
 Learning is not measured by correctness of flaw identification. It is measured by:
 
 - **Articulation quality** — Can the student express what they see and why, with increasing specificity?
-- **Perspectival range** — Can the student evaluate through more than one lens and engage meaningfully with perspectives different from their own?
+- **Perspectival range** — Can the student look through more than one lens and engage meaningfully with perspectives different from their own?
 - **Explanatory depth** — Can the student take the perspective of others and reason about *why* using both cognitive and social variables, and begin to see their interaction?
 
 ### What Students Are Not Expected to Learn
 
 - **Facet terminology.** Students don't need to say "evidence sufficiency." They need to say "the evidence doesn't cover enough to prove that big a claim." Facets are the hidden structure; student articulations are the visible perception of that structure.
 - **Formal cognitive science vocabulary.** If a student picks up "confirmation bias" from the AI, that's a bonus. The learning objective is the underlying perception, not the label.
-- **Exhaustive analysis.** Students don't need to evaluate every passage through every lens. Depth on a few passages is more valuable than shallow coverage of many.
+- **Exhaustive analysis.** Students don't need to examine every passage through every lens. Depth on a few passages is more valuable than shallow coverage of many.
 
 ---
 

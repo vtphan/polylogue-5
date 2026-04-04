@@ -4,8 +4,10 @@ This document describes the design of the Lens app — the student-facing applic
 
 **Companion documents:**
 - `user-stories.md` — Role interactions and pipeline artifact requirements
-- `polylogue-v5-4.md` — Conceptual framework (lenses, facets, explanatory variables)
+- `polylogue-v5-6.md` — Conceptual framework (lenses, facets, explanatory variables)
 - `pipeline-spec.md` — Pipeline technical specification (6 artifacts, 5 stages)
+
+> **Revision note (2026-04-03):** This document contains references to the old two-phase (Evaluate/Explain) session design with a four-step cycle (Individual → Peer → AI → Consensus). The current design uses a single integrated flow with a per-passage state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment), chat-style interaction, a unified scaffold sequence, and a teacher-led whole-class debrief. The session flow, data model, UI specifications, and assessment sections need to be updated to reflect this new design. See `docs/revision-plan-2026-04-03.md` for the full plan and `RESEARCH-OVERVIEW.md` for the current instructional design. The conceptual framework sections (roles, framework explorer, pipeline walkthrough) remain current.
 
 ---
 

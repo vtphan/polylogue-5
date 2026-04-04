@@ -38,13 +38,12 @@ The evaluator produces two artifacts:
 
 **`analysis.yaml`** with per-passage:
 - Hidden layer: facet annotations (targeted and emergent)
-- Visible layer: AI perspective — evaluate block (per-lens observations, no explanatory vocabulary)
-- Visible layer: AI perspective — explain block (cognitive/social vocabulary as perspective)
+- Visible layer: unified AI perspective (per-lens observations + integrated explanation via `why_it_happened`)
 - Diversity metadata (expected lens split, likely student observations)
 
 **`facilitation.yaml`** with:
 - Overview (topic, targeted facets summary, timing, what to expect)
-- Per-passage guides (whats_here, evaluate scaffolding, explain scaffolding, likely observations)
+- Per-passage guides (whats_here, state-based scaffolding: diagnose/discuss/ai_perspective, likely observations)
 - Debrief (key takeaways, cross-group prompts, connection to next)
 
 **Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
@@ -59,9 +58,9 @@ Read the analysis reviewer prompt at `configs/analysis/agents/analysis_reviewer.
 
 Pass both artifacts, the transcript, and the scenario plan to the reviewer. The reviewer checks:
 1. Facet annotation accuracy
-2. AI perspective split — evaluate block (no explanatory vocabulary)
-3. AI perspective split — explain block (perspective, not verdict)
-4. Split cleanliness (no cross-contamination)
+2. Unified AI perspective — per-lens observations (perspective, not verdict; mixed-valence)
+3. Unified AI perspective — explanation (`why_it_happened` as perspective, not verdict)
+4. AI perspective flow and tone (natural voice, thought-provoking `what_to_notice`)
 5. Diversity metadata realism
 6. Facilitation guide quality
 7. Debrief quality

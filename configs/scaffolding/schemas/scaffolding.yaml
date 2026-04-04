@@ -29,147 +29,75 @@ schema:
               items:
                 type: string
 
-            # --- Evaluate phase scaffolding ---
-            evaluate:
-              type: object
+            # --- Unified scaffold sequence ---
+            difficulty:
+              type: string
               required: true
-              fields:
-                # CHECKLIST: passage_scaffolding[].evaluate.difficulty
-                difficulty:
-                  type: string
-                  required: true
-                  description: >
-                    Based on two criteria: (1) cross-lens visibility — high = accessible,
-                    low = challenging; (2) signal strength — how obvious the targeted
-                    facet is in the text. The app uses this to suggest passage order.
-                  constraints:
-                    enum: [accessible, moderate, challenging]
+              description: >
+                Based on two criteria: (1) cross-lens visibility — high = accessible,
+                low = challenging; (2) signal strength — how obvious the targeted
+                facet is in the text. The app uses this to suggest passage order.
+              constraints:
+                enum: [accessible, moderate, challenging]
 
-                # CHECKLIST: passage_scaffolding[].evaluate.partial_hints
-                partial_hints:
-                  type: list
-                  required: true
-                  description: >
-                    Per-lens starting points for stuck students. Deliberately incomplete —
-                    direct attention to WHERE to look, not WHAT to see.
-                  items:
-                    type: object
-                    fields:
-                      lens:
-                        type: string
-                        required: true
-                        constraints:
-                          enum: [logic, evidence, scope]
-                      hints:
-                        type: list
-                        required: true
-                        description: >
-                          E.g., "Something about the sources..." or
-                          "Notice how the conclusion compares to the evidence..."
-                        items:
-                          type: string
-
-                # CHECKLIST: passage_scaffolding[].evaluate.lens_entry_prompts
-                lens_entry_prompts:
-                  type: list
-                  required: true
-                  description: >
-                    Per-lens, per-passage prompts more specific than the generic
-                    lens question. Keyed by lens ID.
-                  items:
-                    type: object
-                    fields:
-                      lens:
-                        type: string
-                        required: true
-                        constraints:
-                          enum: [logic, evidence, scope]
-                      prompt:
-                        type: string
-                        required: true
-                        description: >
-                          E.g., "Looking through Evidence: what sources did they use,
-                          and are those sources convincing?"
-
-                # CHECKLIST: passage_scaffolding[].evaluate.ai_reflection_prompts
-                ai_reflection_prompts:
-                  type: list
-                  required: true
-                  description: >
-                    Per-lens prompts shown after the Evaluate AI reveal. Keyed by lens ID.
-                  items:
-                    type: object
-                    fields:
-                      lens:
-                        type: string
-                        required: true
-                        constraints:
-                          enum: [logic, evidence, scope]
-                      prompt:
-                        type: string
-                        required: true
-                        description: >
-                          E.g., "The AI noticed the sources all come from one place.
-                          Did you notice that too, or were you looking at something different?"
-
-            # --- Explain phase scaffolding ---
-            explain:
-              type: object
+            scaffold_sequence:
+              type: list
               required: true
-              fields:
-                # CHECKLIST: passage_scaffolding[].explain.passage_sentence_starters
-                passage_sentence_starters:
-                  type: list
-                  required: true
-                  description: >
-                    Passage-specific starters, more directed than the generic
-                    session-level starters.
-                  items:
-                    type: object
-                    fields:
-                      category:
-                        type: string
-                        required: true
-                        constraints:
-                          enum: [cognitive, social, interaction]
-                      starter:
-                        type: string
-                        required: true
-                        description: >
-                          E.g., "I think Maya kept going back to cost because..."
+              description: >
+                Ordered list of graduated scaffolds. Each hint is progressively more
+                revealing but never gives away the answer. AI perspective is always
+                the final entry. Minimum 2 entries (1 hint + AI perspective).
+                Each hint costs 1 lifeline from the shared pool; AI perspective
+                is free after the group submits an assessment.
+              constraints:
+                min_length: 2
+              items:
+                type: object
+                fields:
+                  type:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [hint, ai_perspective]
+                  text:
+                    type: string
+                    required: true
+                    description: >
+                      For hints: progressively more revealing, directing attention
+                      to WHERE to look, not WHAT to see.
+                      For ai_perspective: reflection prompt shown after AI perspective
+                      is revealed. E.g., "The AI noticed something about the sources.
+                      Did you notice that too, or were you looking at something different?"
 
-                # CHECKLIST: passage_scaffolding[].explain.bridge_prompts
-                bridge_prompts:
-                  type: list
-                  required: true
-                  description: >
-                    Per-lens prompts connecting the student's Evaluate observation
-                    to the Explain task. The app selects the variant matching the
-                    student's Evaluate lens. Keyed by lens ID.
-                  items:
-                    type: object
-                    fields:
-                      lens:
-                        type: string
-                        required: true
-                        constraints:
-                          enum: [logic, evidence, scope]
-                      prompt:
-                        type: string
-                        required: true
-                        description: >
-                          E.g., Evidence: "You noticed something about the evidence.
-                          Now think about *why* — what was going on in the group
-                          when this happened?"
+            deepening_probes:
+              type: list
+              required: true
+              description: >
+                Lens-specific prompts shown after a student submits a diagnosis.
+                Push toward explanation, not just evaluation.
+              items:
+                type: object
+                fields:
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  prompt:
+                    type: string
+                    required: true
+                    description: >
+                      E.g., "You noticed something about the evidence. Now think
+                      about *why* — what was going on in the group when this happened?"
 
-                # CHECKLIST: passage_scaffolding[].explain.ai_reflection_prompt
-                ai_reflection_prompt:
-                  type: string
-                  required: true
-                  description: >
-                    Shown after the Explain AI reveal. E.g., "The AI called this
-                    confirmation bias. Does that match what you were trying to say,
-                    or do you see it differently?"
+            ai_reflection_prompt:
+              type: string
+              required: true
+              description: >
+                Shown after the AI perspective is revealed. References specific
+                content from the AI perspective. E.g., "The AI called this
+                confirmation bias. Does that match what you were trying to say,
+                or do you see it differently?"
 
             # CHECKLIST: passage_scaffolding[].common_misreadings
             common_misreadings:
@@ -211,7 +139,7 @@ schema:
               type: list
               required: true
               description: >
-                Per-lens rubric for Evaluate phase articulation quality.
+                Per-lens rubric for observation articulation quality.
                 Three differentiation levels.
               items:
                 type: object
@@ -245,7 +173,7 @@ schema:
               type: object
               required: true
               description: >
-                Lens-independent rubric for Explain phase. Organized by explanation
+                Lens-independent rubric for explanatory depth. Organized by explanation
                 type (cognitive, social, interaction) and level.
               fields:
                 categories:

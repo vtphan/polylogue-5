@@ -18,13 +18,17 @@ You produce two outputs:
 
 For each evaluable passage, produce all of the following:
 
-### Evaluate Phase Scaffolding
+### Difficulty
 
 **`difficulty`** — Rate as `accessible`, `moderate`, or `challenging` based on two criteria:
 1. Cross-lens visibility — high = accessible (students likely to see something regardless of lens), low = challenging
 2. Signal strength — how obvious the targeted facet is in the text
 
-**`partial_hints`** — Per-lens starting points for stuck students.
+### Unified Scaffold Sequence (`scaffold_sequence`)
+
+An ordered list of graduated scaffolds per passage. Minimum 2 entries (1 hint + AI perspective). The AI perspective is always the final entry.
+
+**Hints** — Progressively more revealing, but even the last hint does not give away the answer.
 
 THE CALIBRATION PRINCIPLE: Direct attention to WHERE to look, not WHAT to see.
 - GOOD: "Something about the sources..." (points to a region)
@@ -34,20 +38,25 @@ THE CALIBRATION PRINCIPLE: Direct attention to WHERE to look, not WHAT to see.
 
 For some passages, directing to a region makes the observation practically obvious because there's only one notable thing there. This is acceptable — the student still articulates the observation in their own words.
 
-**`lens_entry_prompts`** — Per-lens, per-passage prompts more specific than the generic lens question. E.g., "Looking through Evidence: what sources did they use, and are those sources convincing?"
+Each hint costs 1 lifeline from the shared pool. Hints must be consumed in order (can't skip to hint 3). Groups can skip remaining hints by submitting their assessment (AI perspective unlocks free after assessment).
 
-**`ai_reflection_prompts`** — Per-lens prompts shown after the Evaluate AI reveal. These must reference the specific content of the AI perspective, not be generic. E.g., "The AI noticed the sources all come from one place. Did you notice that too, or were you looking at something different?"
+Determine the number of hints based on passage complexity:
+- Accessible passages: 1 hint + AI perspective (minimum)
+- Moderate passages: 2 hints + AI perspective
+- Challenging passages: 2-3 hints + AI perspective
 
-### Explain Phase Scaffolding
+**AI perspective entry** — The final entry in the sequence. Its `text` field is the reflection prompt shown after the AI perspective is revealed. This must reference the specific content of the AI perspective, not be generic. E.g., "The AI noticed something about where the evidence comes from. Did you notice that too, or were you looking at something different?"
 
-**`passage_sentence_starters`** — Passage-specific starters, more directed than the generic session-level starters. E.g., "I think Maya kept going back to cost because..." Gesture toward what's structurally present without naming the pattern.
+### Deepening Probes (`deepening_probes`)
 
-**`bridge_prompts`** — Per-lens prompts connecting the student's Evaluate observation to the Explain task. Pre-compute one variant per lens:
+Per-lens prompts shown after a student submits a diagnosis. These push toward explanation, not just evaluation:
 - Evidence: "You noticed something about the evidence. Now think about *why* — what was going on in the group when this happened?"
 - Logic: "You noticed something about the reasoning. Now think about *why* — what led them to think that way?"
 - Scope: "You noticed something about what was missing. Now think about *why* — what kept the group from looking more broadly?"
 
-**`ai_reflection_prompt`** — Shown after the Explain AI reveal. Must reference the AI perspective's specific content. E.g., "The AI called this confirmation bias. Does that match what you were trying to say, or do you see it differently?"
+### AI Reflection Prompt (`ai_reflection_prompt`)
+
+Shown after the AI perspective is revealed. Must reference the AI perspective's specific content. E.g., "The AI called this confirmation bias. Does that match what you were trying to say, or do you see it differently?"
 
 ### Common Misreadings
 
@@ -59,7 +68,7 @@ For each misreading:
 
 ### Assessment Rubrics
 
-**`observation_rubric`** — Per-lens, three levels of differentiation for the Evaluate phase:
+**`observation_rubric`** — Per-lens, three levels of differentiation for observation articulation:
 - **Basic:** Surface-level observation. E.g., "the evidence is weak"
 - **Developing:** Identifies a specific aspect. E.g., "they didn't have enough evidence for that big a claim"
 - **Differentiated:** Articulates nuance. E.g., "there's plenty of evidence but it all comes from one source, and one source isn't enough for something that affects everyone"
@@ -79,8 +88,7 @@ Ensure the three levels are genuinely distinct — not just the same observation
 ## Output 2: Enriched Facilitation Guide
 
 Read the existing `facilitation.yaml`. For each passage guide, add passage-specific discussion starter questions to:
-- `evaluate.peer.productive_questions`
-- `explain.peer.productive_questions`
+- `discuss.productive_questions`
 
 **Rules for enrichment:**
 - **Preserve all existing content.** Do not modify any field other than adding to `productive_questions`.
