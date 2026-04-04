@@ -4,19 +4,28 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Polylogue 5 is a research project for teaching critical thinking to middle school students (grades 6-8) through evaluation of AI-generated group discussions. It consists of a **generation pipeline** (this repo, built first) and a **Lens app** (built separately after the pipeline).
+Polylogue is a research project for teaching critical thinking to middle school students (grades 6-8). It consists of three layers:
 
-Students examine scripted discussions through three lenses (Logic, Evidence, Scope), articulating what they see and considering why characters reasoned the way they did — using cognitive patterns and social dynamics as explanatory tools. A hidden structural layer — **facets** — connects lenses to explanatory variables but is never shown to students.
+1. **Conceptual framework** — The application-agnostic theory: three evaluative lenses (Logic, Evidence, Scope), a hidden structural layer of ten facets, two explanatory variables (cognitive patterns, social dynamics), and a perspectival learning model. Students articulate what they see in reasoning and encounter how others see it differently. See `framework/docs/conceptual-framework.md`.
 
-## Architecture
+2. **Applications** — Each application realizes the framework through a specific student experience. Each application has two parts:
+   - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts — using slash commands, agents, schemas, and scripts orchestrated in this repo.
+   - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime.
 
-The pipeline takes an operator prompt (6 named fields: topic, context, instructional goals, target complexity, target facets with signal mechanisms, and discussion dynamic) as input and produces 6 YAML artifacts per scenario through 5 stages orchestrated by Claude Code slash commands:
+3. **Scenario sequence** — A shared progression design that determines which facets, cognitive patterns, and social dynamics to introduce across a sequence of scenarios. Application-agnostic. See `framework/docs/scenario-sequence.md`.
 
-```
-create_scenario → create_transcript → analyze_transcript → design_scaffolding → configure_session
-```
+### Applications
 
-### Directory Structure
+| Application | Status | Description |
+|---|---|---|
+| **Lens** | Pipeline operational, app not yet built | Students read AI-generated discussions and evaluate passages through lenses. Reflective, writing-centered, depth-oriented. |
+| **Reasoning Lab** | Experimental design only | Forensic investigation metaphor with competitive scoring. Teams use scanner tools (lenses) to investigate discussions; rare findings score triple. Energy-oriented. |
+
+Lens is the priority. Its pipeline must be fully operational and produce correct artifacts before any other application work proceeds. Reasoning Lab is experimental — its game design document exists (`apps/reasoning-lab/docs/game-design.md`) but no pipeline or app work should begin until Lens is stable.
+
+## Current System (Operational)
+
+The current working system lives in the original directory structure. **These directories must not be moved, renamed, or reorganized until the new structure is operational with Lens producing identical artifacts.**
 
 ```
 configs/
@@ -33,11 +42,21 @@ docs/                   # Design documents (conceptual framework, specs, user st
 references/             # External reference materials (PBL curriculum docs)
 ```
 
-### Key Design Documents
+### Key Design Documents (current locations)
 
-- `docs/polylogue-v5-6.md` — Conceptual framework + facet inventory (lenses, facets, explanatory variables, perspectival learning model, 10 facets, coverage tables)
+- `docs/polylogue-v5-6.md` — Monolithic source: conceptual framework (Part I) + Lens instructional design (Part II) + Lens artifact generation (Part III)
 - `docs/pipeline-spec.md` — Technical specification (6 artifacts, 5 stages, 9 agents, 13 schemas)
-- `docs/pipeline-alignment-plan.md` — v5-5 → v5-6 alignment tracking (schemas, agents, commands)
+- `docs/pipeline-alignment-plan.md` — v5-5 → v5-6 alignment tracking
+- `docs/scenario-sequence.md` — Scenario sequence with operator prompts
+- `docs/OperatorGuidance.md` — Operator guidance for running the pipeline
+
+### Pipeline (Lens)
+
+The pipeline takes an operator prompt (6 named fields: topic, context, instructional goals, target complexity, target facets with signal mechanisms, and discussion dynamic) and produces 6 YAML artifacts per scenario through 5 stages:
+
+```
+create_scenario → create_transcript → analyze_transcript → design_scaffolding → configure_session
+```
 
 ### Pipeline Artifacts (per scenario)
 
@@ -61,6 +80,33 @@ references/             # External reference materials (PBL curriculum docs)
 7. **Transcript reviewer** — Reviews transcript quality: naturalness, facet signal subtlety, barrier integrity, persona voices
 8. **Analysis reviewer** — Reviews analysis accuracy: facet annotations, unified AI perspective, diversity metadata, facilitation guide
 9. **Scaffolding reviewer** — Reviews scaffolding calibration: hint specificity, rubric differentiation, misreading plausibility, cross-artifact coherence
+
+## New Structure (Target)
+
+The target directory structure decomposes the system into framework and applications:
+
+```
+framework/
+└── docs/
+    ├── conceptual-framework.md   # Extracted from polylogue-v5-6.md Part I
+    └── scenario-sequence.md      # Shared progression design
+
+apps/
+├── lens/
+│   └── docs/
+│       └── instructional-design.md  # Extracted from polylogue-v5-6.md Parts II & III
+└── reasoning-lab/
+    └── docs/
+        └── game-design.md          # Reasoning Lab game design
+```
+
+**Migration plan:** The new structure currently holds design documents only. The current system (`configs/`, `registry/`, `docs/`) remains the operational system. Migration to the new structure will happen only after:
+
+1. The Lens pipeline is fully operational under `apps/lens/` and produces artifacts identical to the current system
+2. The shared upstream pipeline (scenario → transcript → analysis) is factored out
+3. Both systems have been verified to produce the same outputs
+
+Until then, `framework/docs/` and `apps/*/docs/` are the authoritative design documents. `configs/`, `registry/`, and `docs/` are the operational pipeline. Both coexist.
 
 ## Critical Design Constraints
 
@@ -95,7 +141,7 @@ Each passage has a graduated scaffold sequence: one or more hints (each costing 
 - Cognitive patterns (8): `confirmation_bias`, `tunnel_vision`, `overgeneralization`, `false_cause`, `uncritical_acceptance`, `black_and_white_thinking`, `egocentric_thinking`, `false_certainty`
 - Social dynamics (3): `group_pressure`, `conflict_avoidance`, `authority_deference`
 
-## Session Structure
+## Lens Session Structure
 
 One integrated flow with a per-passage state machine. No phase separation between evaluation and explanation — students articulate what they see and consider why in one response.
 
