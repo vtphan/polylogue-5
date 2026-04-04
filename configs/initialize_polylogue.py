@@ -40,9 +40,13 @@ REQUIRED_SCHEMAS = [
 def initialize(project_root):
     ok = True
 
-    # --- Sync commands ---
-    commands_dest = os.path.join(project_root, ".claude", "commands")
-    agents_dest = os.path.join(project_root, ".claude", "agents")
+    # --- Clean .claude/ to prevent leakage between applications ---
+    claude_dir = os.path.join(project_root, ".claude")
+    commands_dest = os.path.join(claude_dir, "commands")
+    agents_dest = os.path.join(claude_dir, "agents")
+    for d in [commands_dest, agents_dest]:
+        if os.path.isdir(d):
+            shutil.rmtree(d)
     os.makedirs(commands_dest, exist_ok=True)
     os.makedirs(agents_dest, exist_ok=True)
 
