@@ -1,0 +1,254 @@
+# Schema: Scoring Rubric
+# Describes the structure of registry/{scenario_id}/scoring.yaml
+# Observation and explanation buckets for cross-group comparison and scoring.
+# Produced by the scoring rubric agent from analysis.yaml.
+# Application: Reasoning Lab
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      scoring_parameters:
+        type: object
+        required: true
+        description: >
+          Point values for the scoring system. Stored here (not hardcoded in
+          the app) so they can be tuned per scenario if needed.
+        fields:
+          shared_finding:
+            type: integer
+            required: true
+            description: Points when multiple teams match the same bucket.
+            constraints:
+              default: 1
+          rare_finding:
+            type: integer
+            required: true
+            description: Points when only one team matches a bucket.
+            constraints:
+              default: 3
+          deep_finding_bonus:
+            type: integer
+            required: true
+            description: Bonus points for a Level 3 (differentiated) observation.
+            constraints:
+              default: 1
+          explanatory_bonus:
+            type: integer
+            required: true
+            description: >
+              Bonus points per observation that includes a valid "why"
+              explanation (cognitive pattern, social dynamic, or interaction).
+            constraints:
+              default: 1
+          max_observations_per_report:
+            type: integer
+            required: true
+            description: Maximum observations a team can include in a case report.
+            constraints:
+              default: 4
+
+      passage_scoring:
+        type: list
+        required: true
+        description: One entry per evaluable passage.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "passage_\\d{2}"
+            turns:
+              type: list
+              required: true
+              items:
+                type: string
+
+            difficulty:
+              type: string
+              required: true
+              description: >
+                Same criteria as Lens scaffolding: cross-lens visibility and
+                signal strength. Used for passage ordering.
+              constraints:
+                enum: [accessible, moderate, challenging]
+
+            # --- Observation buckets ---
+            observation_buckets:
+              type: list
+              required: true
+              description: >
+                Pre-computed observation categories for cross-group matching.
+                Each bucket represents a distinct valid observation a team
+                might make. At runtime, the app matches each team's case
+                report observations against these buckets to determine
+                shared vs. rare findings.
+              items:
+                type: object
+                fields:
+                  bucket_id:
+                    type: string
+                    required: true
+                    description: >
+                      Unique ID for this observation bucket. Used for
+                      matching at runtime.
+                    constraints:
+                      pattern: "obs_\\d{2}"
+
+                  facet_id:
+                    type: string
+                    required: true
+                    description: >
+                      Which facet this observation targets. From the facet
+                      inventory. A single facet may have multiple buckets
+                      if it can be articulated at different levels.
+
+                  primary_lens:
+                    type: string
+                    required: true
+                    description: The lens through which this observation is most natural.
+                    constraints:
+                      enum: [logic, evidence, scope]
+
+                  also_reachable_through:
+                    type: list
+                    required: true
+                    description: >
+                      Other lenses that could produce a similar observation
+                      via cross-lens visibility. Empty if convergent.
+                    items:
+                      type: string
+                      constraints:
+                        enum: [logic, evidence, scope]
+
+                  differentiation_level:
+                    type: string
+                    required: true
+                    description: >
+                      How sophisticated this observation is. Level 3 earns
+                      the deep finding bonus.
+                    constraints:
+                      enum: [basic, developing, differentiated]
+
+                  match_phrases:
+                    type: list
+                    required: true
+                    description: >
+                      Paraphrases of what a student might write that would
+                      match this bucket. Used for approximate text matching
+                      at runtime — no LLM required. Multiple phrasings
+                      increase matching accuracy.
+                    items:
+                      type: string
+
+                  predicted_rarity:
+                    type: string
+                    required: true
+                    description: >
+                      Pipeline's estimate of how many teams will find this,
+                      based on signal subtlety and cross-lens visibility.
+                      Used for the competition facilitation guide (predicted
+                      scoreboard outcomes), not for actual scoring — actual
+                      rarity is computed from real team submissions.
+                    constraints:
+                      enum: [common, uncommon, rare]
+
+                  notes:
+                    type: string
+                    required: false
+                    description: >
+                      Agent notes — why this bucket is expected to be common
+                      or rare, what makes it hard to see.
+
+            # --- Explanation buckets ---
+            explanation_buckets:
+              type: list
+              required: true
+              description: >
+                Valid "why" explanations for this passage. Used to validate
+                the explanatory bonus. Organized by type.
+              items:
+                type: object
+                fields:
+                  explanation_id:
+                    type: string
+                    required: true
+                    constraints:
+                      pattern: "exp_\\d{2}"
+
+                  type:
+                    type: string
+                    required: true
+                    description: >
+                      Whether this explanation references a cognitive pattern,
+                      a social dynamic, or their interaction.
+                    constraints:
+                      enum: [cognitive, social, interaction]
+
+                  variable_ids:
+                    type: list
+                    required: true
+                    description: >
+                      Cognitive pattern and/or social dynamic IDs from the
+                      framework inventory that this explanation references.
+                    items:
+                      type: string
+
+                  match_phrases:
+                    type: list
+                    required: true
+                    description: >
+                      Paraphrases for runtime matching. Include both formal
+                      vocabulary ("confirmation bias") and natural language
+                      ("she only looked for things that agreed with her").
+                    items:
+                      type: string
+
+                  applies_to_buckets:
+                    type: list
+                    required: true
+                    description: >
+                      Which observation bucket(s) this explanation is valid
+                      for. An explanation can apply to multiple observations.
+                    items:
+                      type: string
+                      constraints:
+                        pattern: "obs_\\d{2}"
+
+            # --- Senior analyst report ---
+            senior_analyst:
+              type: object
+              required: true
+              description: >
+                The AI perspective for this passage, adapted for Reasoning Lab.
+                Shown to the whole class after the scoreboard reveal. References
+                what the class collectively found and names anything missed.
+                Source content is the same ai_perspective block from analysis.yaml,
+                reframed for the competitive context.
+              fields:
+                report_text:
+                  type: string
+                  required: true
+                  description: >
+                    Expert analysis written as a senior analyst briefing.
+                    Names what was found across teams, highlights rare
+                    findings, and identifies anything the class missed.
+                    Introduces vocabulary as perspective, not verdict.
+                class_missed:
+                  type: list
+                  required: true
+                  description: >
+                    Observation bucket IDs that no team is predicted to find.
+                    Used to generate the "something the class missed" segment
+                    of the scoreboard reveal if actual submissions confirm
+                    the prediction.
+                  items:
+                    type: string
+                    constraints:
+                      pattern: "obs_\\d{2}"

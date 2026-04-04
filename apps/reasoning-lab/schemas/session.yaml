@@ -1,0 +1,302 @@
+# Schema: Session Configuration (Reasoning Lab)
+# Describes the structure of registry/{scenario_id}/session.yaml
+# for Reasoning Lab sessions. Assembled from scoring.yaml + analysis.yaml.
+# Application: Reasoning Lab
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      application:
+        type: string
+        required: true
+        description: Identifies which application this session config is for.
+        constraints:
+          value: reasoning_lab
+
+      transcript_file:
+        type: string
+        required: true
+        description: Path to transcript.yaml (shared artifact).
+
+      analysis_file:
+        type: string
+        required: true
+        description: Path to analysis.yaml (shared artifact).
+
+      scoring_file:
+        type: string
+        required: true
+        description: Path to scoring.yaml (Reasoning Lab artifact).
+
+      facilitation_file:
+        type: string
+        required: true
+        description: Path to competition-facilitation.yaml (Reasoning Lab artifact).
+
+      # --- Case setup ---
+      onboarding:
+        type: object
+        required: true
+        description: Displayed before the session begins.
+        fields:
+          case_title:
+            type: string
+            required: true
+            description: >
+              Short, engaging title. E.g., "Case 1: The Ocean Project Debate"
+          topic_summary:
+            type: string
+            required: true
+            description: >
+              Brief context for students. E.g., "A group of students is
+              deciding between two environmental projects..."
+          instructions:
+            type: string
+            required: true
+            description: >
+              E.g., "Your team is a forensic analysis unit. Use your
+              scanner tools to investigate this discussion. Find what
+              others miss."
+
+      # --- Passages ---
+      passages:
+        type: list
+        required: true
+        description: Which parts of the transcript teams investigate.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "passage_\\d{2}"
+            turns:
+              type: list
+              required: true
+              items:
+                type: string
+            evaluable:
+              type: boolean
+              required: true
+            suggested_order:
+              type: integer
+              required: false
+              description: Based on difficulty from scoring.yaml.
+
+      # --- Scanner configuration ---
+      scanner_definitions:
+        type: list
+        required: true
+        description: The three scanner tools, as shown to students.
+        items:
+          type: object
+          fields:
+            scanner_id:
+              type: string
+              required: true
+              constraints:
+                enum: [evidence_scanner, logic_probe, scope_detector]
+            lens_id:
+              type: string
+              required: true
+              description: Maps to framework lens.
+              constraints:
+                enum: [logic, evidence, scope]
+            display_name:
+              type: string
+              required: true
+              description: >
+                Student-facing name. E.g., "Evidence Scanner"
+            question:
+              type: string
+              required: true
+              description: >
+                The scanner's question. E.g., "Is the claim supported?"
+
+      scanner_assignment:
+        type: object
+        required: true
+        description: >
+          How scanners are distributed within teams. The app uses these
+          rules to assign scanners; the teacher can override.
+        fields:
+          team_of_2:
+            type: list
+            required: true
+            description: >
+              Which two scanners to assign for 2-person teams.
+              The third lens is uncovered — a strategic gap.
+            items:
+              type: string
+              constraints:
+                enum: [evidence_scanner, logic_probe, scope_detector]
+          team_of_3:
+            type: list
+            required: true
+            description: One scanner per student. All three covered.
+            items:
+              type: string
+              constraints:
+                enum: [evidence_scanner, logic_probe, scope_detector]
+          team_of_4:
+            type: object
+            required: true
+            description: >
+              One scanner is doubled. Which one depends on the scenario's
+              targeted facets — the doubled scanner should have the highest
+              cross-lens visibility for this scenario.
+            fields:
+              assignments:
+                type: list
+                required: true
+                items:
+                  type: string
+                  constraints:
+                    enum: [evidence_scanner, logic_probe, scope_detector]
+              doubled_scanner:
+                type: string
+                required: true
+                description: Which scanner appears twice.
+                constraints:
+                  enum: [evidence_scanner, logic_probe, scope_detector]
+              rationale:
+                type: string
+                required: true
+                description: >
+                  Why this scanner is doubled. E.g., "Evidence Scanner is
+                  doubled because both targeted facets (relevance,
+                  perspective_engagement) are visible through Evidence
+                  via cross-lens routes."
+
+      # --- Timing ---
+      timer_defaults:
+        type: object
+        required: true
+        description: >
+          Default timer durations per phase (in minutes). The teacher
+          controls pacing — these are starting points, not rigid.
+        fields:
+          briefing:
+            type: integer
+            required: true
+            constraints:
+              default: 3
+          scan:
+            type: integer
+            required: true
+            constraints:
+              default: 4
+          brief:
+            type: integer
+            required: true
+            constraints:
+              default: 5
+          file:
+            type: integer
+            required: true
+            constraints:
+              default: 3
+          scoreboard:
+            type: integer
+            required: true
+            constraints:
+              default: 5
+          debrief:
+            type: integer
+            required: true
+            constraints:
+              default: 10
+
+      # --- Lab resources ---
+      lab_resources:
+        type: object
+        required: true
+        description: >
+          Shared pool of lab consult resources per team.
+          Equivalent to Lens's lifeline system.
+        fields:
+          pool_size:
+            type: integer
+            required: true
+            description: Number of lab consults available per team.
+          consult_cost:
+            type: integer
+            required: true
+            description: Resources consumed per consult (typically 1).
+
+      # --- Leaderboard ---
+      leaderboard:
+        type: object
+        required: true
+        description: >
+          Configuration for the session leaderboard. Teacher can
+          toggle visibility and anonymity.
+        fields:
+          show_leaderboard:
+            type: boolean
+            required: true
+            description: Whether to display the running leaderboard.
+          anonymous_teams:
+            type: boolean
+            required: true
+            description: >
+              If true, teams are shown as "Team 1", "Team 2", etc.
+              If false, team names are displayed.
+          show_running_total:
+            type: boolean
+            required: true
+            description: >
+              Whether to show cumulative scores across passages
+              or only per-passage scores.
+
+      # --- Explanatory vocabulary reference ---
+      reference_lists:
+        type: object
+        required: true
+        description: >
+          Optional browsable vocabulary reference. Same content as
+          Lens's reference_lists — cognitive patterns and social
+          dynamics with student-friendly descriptions.
+        fields:
+          show_cognitive_patterns:
+            type: boolean
+            required: true
+          show_social_dynamics:
+            type: boolean
+            required: true
+          cognitive_patterns:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true
+          social_dynamics:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true

@@ -1,0 +1,262 @@
+# Schema: Competition Facilitation Guide
+# Describes the structure of registry/{scenario_id}/competition-facilitation.yaml
+# The teacher's game-master companion for running a Reasoning Lab session.
+# Produced by the scoring rubric agent from analysis.yaml and scoring.yaml.
+# Application: Reasoning Lab
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      case_briefing:
+        type: object
+        required: true
+        description: >
+          Materials for the opening 3 minutes. Sets the scene for
+          the investigation.
+        fields:
+          case_title:
+            type: string
+            required: true
+            description: >
+              A short, engaging title for this case. E.g.,
+              "The Ocean Project Debate"
+          context_for_teacher:
+            type: string
+            required: true
+            description: >
+              What the teacher needs to know about this scenario —
+              topic, targeted facets, what's structurally present,
+              what students are likely to find and miss. Uses
+              framework terminology (teacher-facing, not student-facing).
+          context_for_students:
+            type: string
+            required: true
+            description: >
+              Brief scenario introduction to read aloud or display.
+              Student-friendly language. No framework terminology.
+
+      passage_facilitation:
+        type: list
+        required: true
+        description: One entry per evaluable passage.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "passage_\\d{2}"
+
+            # --- Pacing ---
+            pacing:
+              type: object
+              required: true
+              description: Timing guidance for each phase of this passage.
+              fields:
+                scan_minutes:
+                  type: integer
+                  required: true
+                  description: Recommended time for individual scanning.
+                brief_minutes:
+                  type: integer
+                  required: true
+                  description: Recommended time for team briefing.
+                file_minutes:
+                  type: integer
+                  required: true
+                  description: Recommended time for filing case reports.
+                scoreboard_minutes:
+                  type: integer
+                  required: true
+                  description: >
+                    Recommended time for scoreboard reveal + senior analyst.
+
+            # --- Predicted scoreboard ---
+            predicted_scoreboard:
+              type: object
+              required: true
+              description: >
+                What the teacher should expect to see when the scoreboard
+                reveals. Based on signal design and predicted rarity
+                from scoring.yaml.
+              fields:
+                likely_common:
+                  type: list
+                  required: true
+                  description: >
+                    Observations most teams will probably find. Teacher
+                    should expect these to appear as shared findings.
+                  items:
+                    type: object
+                    fields:
+                      bucket_id:
+                        type: string
+                        required: true
+                      description:
+                        type: string
+                        required: true
+                        description: >
+                          Brief description of what this observation is,
+                          in teacher-facing language.
+                likely_rare:
+                  type: list
+                  required: true
+                  description: >
+                    Observations only one or two teams will probably find.
+                    These are the moments the teacher should highlight.
+                  items:
+                    type: object
+                    fields:
+                      bucket_id:
+                        type: string
+                        required: true
+                      description:
+                        type: string
+                        required: true
+                      why_hard_to_see:
+                        type: string
+                        required: true
+                        description: >
+                          Why this observation is likely rare — low cross-lens
+                          visibility, subtle signal, requires differentiated
+                          perception.
+                      highlight_language:
+                        type: string
+                        required: true
+                        description: >
+                          Suggested language for the teacher to use when
+                          highlighting this finding on the scoreboard.
+                          E.g., "Team 2 caught something really subtle here —
+                          they noticed that..."
+                likely_missed:
+                  type: list
+                  required: true
+                  description: >
+                    Observations no team is predicted to find. The senior
+                    analyst report will surface these.
+                  items:
+                    type: object
+                    fields:
+                      bucket_id:
+                        type: string
+                        required: true
+                      description:
+                        type: string
+                        required: true
+                      why_missed:
+                        type: string
+                        required: true
+
+            # --- Transition language ---
+            transitions:
+              type: object
+              required: true
+              description: >
+                Suggested teacher language for phase transitions.
+                Keeps energy high and builds anticipation.
+              fields:
+                open_scan:
+                  type: string
+                  required: true
+                  description: >
+                    E.g., "Evidence site 1 is open. Run your scanners —
+                    you have 4 minutes."
+                open_brief:
+                  type: string
+                  required: true
+                  description: >
+                    E.g., "Scan reports are in. Brief your team — what
+                    did your scanners pick up?"
+                call_for_filing:
+                  type: string
+                  required: true
+                  description: >
+                    E.g., "One minute to file your case reports. Remember —
+                    you can only submit 4 observations. Choose your best."
+                scoreboard_reveal:
+                  type: string
+                  required: true
+                  description: >
+                    E.g., "Case reports are in. Let's see what the class
+                    found..."
+
+      # --- Debrief ---
+      debrief:
+        type: object
+        required: true
+        description: >
+          Materials for the teacher-led debrief (final 10 minutes).
+          Focuses on "why" since the scoreboard has already surfaced
+          cross-group "what."
+        fields:
+          key_takeaways:
+            type: list
+            required: true
+            description: >
+              2-3 main points for the teacher to surface. Framework
+              terminology with student-friendly translations.
+            items:
+              type: object
+              fields:
+                takeaway:
+                  type: string
+                  required: true
+                translation:
+                  type: string
+                  required: true
+                  description: How to say this to students.
+
+          why_questions:
+            type: list
+            required: true
+            description: >
+              Discussion questions focused on why the characters reasoned
+              this way. These drive the explanatory reasoning dimension.
+            items:
+              type: string
+
+          cross_passage_connections:
+            type: string
+            required: false
+            description: >
+              How the two passages connect — patterns across passages,
+              how one observation informs the other.
+
+          preview_next_case:
+            type: string
+            required: false
+            description: >
+              Brief tease of the next case to maintain engagement
+              across sessions.
+
+      # --- Energy management ---
+      energy_management:
+        type: object
+        required: true
+        description: >
+          Guidance for managing the competitive dynamics.
+        fields:
+          if_too_heated:
+            type: string
+            required: true
+            description: >
+              What to do if competition becomes counterproductive —
+              teams arguing about scoring, students upset about points.
+          if_disengaged:
+            type: string
+            required: true
+            description: >
+              What to do if teams aren't engaging — low energy,
+              minimal observations, perfunctory case reports.
+          if_gaming:
+            type: string
+            required: true
+            description: >
+              What to do if teams submit random or overly broad
+              observations to try to game the rarity bonus.
