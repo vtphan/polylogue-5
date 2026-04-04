@@ -6,7 +6,7 @@ This document guides you through operating the Polylogue 5 pipeline — from wri
 
 - Python 3 with PyYAML installed
 - Claude Code CLI
-- Run `/initialize_polylogue` (or `python3 configs/system/scripts/sync_configs.py`) to sync commands and agents to `.claude/`
+- Run `python3 configs/initialize_polylogue.py` to bootstrap the pipeline (syncs commands and agents to `.claude/`, verifies reference data and schemas)
 
 ## Pipeline Overview
 

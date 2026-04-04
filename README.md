@@ -12,7 +12,7 @@ The pipeline is operated through Claude Code. You give instructions at each step
 ## Quick Reference
 
 ```
-/initialize_polylogue  →  /create_scenario  →  /create_transcript  →  /analyze_transcript  →  /design_scaffolding  →  /configure_session
+python3 configs/initialize_polylogue.py  →  /create_scenario  →  /create_transcript  →  /analyze_transcript  →  /design_scaffolding  →  /configure_session
 ```
 
 Each command includes a quality reviewer that reports to you. You gate each step.
@@ -23,26 +23,22 @@ Each command includes a quality reviewer that reports to you. You gate each step
 
 ### 1. Initialize the Pipeline
 
-Run in Claude Code:
-
-```
-/initialize_polylogue
-```
-
-This syncs commands and agent prompts to `.claude/`, verifies reference data, and confirms schemas are in place. You should see:
-
-```
-Commands: synced 6 files
-Agents: synced 9 files
-Reference data: 3 files verified
-Schemas: 13 files found
-Registry: exists
-```
-
-If `initialize_polylogue` is not available as a slash command, run the sync script directly:
+Run from the project root:
 
 ```bash
-python3 configs/system/scripts/sync_configs.py
+python3 configs/initialize_polylogue.py
+```
+
+This syncs commands and agent prompts to `.claude/`, verifies reference data and all 13 schema files, and confirms the registry exists. You should see:
+
+```
+Commands: synced 7 files to .claude/commands/
+Agents: synced 9 files to .claude/agents/
+Reference data: 3 files verified
+Schemas: 13 files verified
+Registry: exists
+
+Pipeline initialized. Run /create_scenario to begin.
 ```
 
 ---
@@ -209,7 +205,7 @@ All 6 should report PASS.
 
 | Script | Location | When to use |
 |---|---|---|
-| `sync_configs.py` | `configs/system/scripts/` | At session start — syncs commands/agents to `.claude/` |
+| `initialize_polylogue.py` | `configs/` | Bootstrap: syncs commands/agents to `.claude/`, verifies reference data and schemas |
 | `strip_scenario.py` | `configs/transcript/scripts/` | During `/create_transcript` — enforces information barrier |
 | `review_transcript.py` | `configs/transcript/scripts/` | During `/create_transcript` — structural checks |
 | `enumerate_transcript.py` | `configs/transcript/scripts/` | During `/create_transcript` — assigns turn/sentence IDs |
@@ -356,7 +352,7 @@ configs/
 ├── analysis/           # analyze_transcript command, evaluator + reviewer
 ├── scaffolding/        # design_scaffolding command, scaffolding ID + reviewer
 ├── session/            # configure_session command
-├── system/             # initialize_polylogue command, sync script
+├── initialize_polylogue.py  # Bootstrap script
 └── shared/             # Cross-cutting scripts (validate_schema)
 registry/               # Generated outputs: registry/{scenario_id}/ per scenario
 docs/                   # Design documents

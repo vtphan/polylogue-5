@@ -20,13 +20,13 @@ create_scenario → create_transcript → analyze_transcript → design_scaffold
 
 ```
 configs/
+├── initialize_polylogue.py  # Bootstrap script: syncs commands/agents to .claude/, verifies pipeline
 ├── reference/          # Source-of-truth data files (lenses, facets, explanatory variables) + schemas
 ├── scenario/           # create_scenario command, planning + validation agents
 ├── transcript/         # create_transcript command, dialog writer + transcript ID agents
 ├── analysis/           # analyze_transcript command, evaluator agent
 ├── scaffolding/        # design_scaffolding command, scaffolding ID agent
 ├── session/            # configure_session command
-├── system/             # initialize_polylogue command, sync script
 └── shared/             # Cross-cutting scripts (validate_schema, etc.)
 registry/               # Generated outputs: registry/{scenario_id}/ per scenario
 docs/                   # Design documents (conceptual framework, specs, user stories)
@@ -85,6 +85,7 @@ Each passage has a graduated scaffold sequence: one or more hints (each costing 
 - **Canonical IDs use snake_case.** All IDs propagate from `configs/reference/` into every schema, prompt, and artifact.
 - **Reference data files are the source of truth** — not schema definitions. Schemas describe structure.
 - **Python scripts** use pure Python + PyYAML. Scripts accept file paths as arguments, no hardcoded paths.
+- **Syncing configs:** Agent prompts and commands live in `configs/` (organized by pipeline stage). Claude Code reads them from `.claude/`. After editing any file in `configs/*/commands/` or `configs/*/agents/`, run `python3 configs/initialize_polylogue.py` to sync the changes to `.claude/`. This script is also the bootstrap for a fresh environment — it creates `.claude/` if it doesn't exist.
 - **Implementation is phased:** Foundation → Schemas → Agent Prompts → Commands → Review → End-to-End Run → Scripts
 
 ### Canonical IDs

@@ -709,14 +709,15 @@ These reference files are the source of truth for all IDs used across the pipeli
 
 ## 9. Scripts
 
-Four deterministic scripts handle mechanical operations. These are pure Python (PyYAML only), accept file paths as arguments, and validate their own output.
+Five scripts handle mechanical operations. These are pure Python (PyYAML only), accept file paths as arguments, and validate their own output.
 
-| Script | What it does | When it runs |
-|---|---|---|
-| `enumerate_transcript.py` | Assigns sequential turn and sentence IDs to a raw transcript | After instructional designer polish, before analysis |
-| `validate_schema.py` | Validates any YAML artifact against its schema definition | After every artifact is produced |
-| `review_transcript.py` | Structural checks: turn count in range, speaker names match plan, turn order follows outline | After dialog writer output, before instructional designer |
-| `segment_passages.py` | Segments an enumerated transcript into passages (groups of 1-3 turns) based on topic shifts, new claims, or direction changes | After enumeration, before evaluation. May be manual or heuristic. |
+| Script | Location | What it does | When it runs |
+|---|---|---|---|
+| `initialize_polylogue.py` | `configs/` | Syncs commands/agents from `configs/` to `.claude/`, verifies reference data and 13 schemas, creates registry if needed | Before first slash command, and after any edit to files in `configs/*/commands/` or `configs/*/agents/` |
+| `enumerate_transcript.py` | `configs/transcript/scripts/` | Assigns sequential turn and sentence IDs to a raw transcript | After instructional designer polish, before analysis |
+| `validate_schema.py` | `configs/shared/` | Validates any YAML artifact against its schema definition | After every artifact is produced |
+| `review_transcript.py` | `configs/transcript/scripts/` | Structural checks: turn count in range, speaker names match plan, turn order follows outline | After dialog writer output, before instructional designer |
+| `segment_passages.py` | `configs/analysis/scripts/` | Segments an enumerated transcript into passages (groups of 1-3 turns) based on topic shifts, new claims, or direction changes | After enumeration, before evaluation. May be manual or heuristic. |
 
 **Notes:**
 - `segment_passages.py` is the most uncertain script. Passage segmentation requires judgment — where does a "segment" of discussion begin and end? A simple heuristic (every 2-3 turns) may suffice for the pilot. If segmentation quality matters, this could be an agent task rather than a script. To be validated in the first end-to-end run.
