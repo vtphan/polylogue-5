@@ -1,0 +1,74 @@
+# Schema: Dialog Writer Input
+# The scenario plan minus target_facets — the information barrier in schema form.
+# Derived from scenario_plan.yaml with target_facets removed.
+# This schema prevents accidental leakage of framework terminology to the dialog writer.
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      topic:
+        type: string
+        required: true
+
+      context:
+        type: string
+        required: true
+
+      instructional_goals:
+        type: list
+        required: true
+        items:
+          type: string
+
+      personas:
+        type: list
+        required: true
+        constraints:
+          min_length: 2
+          max_length: 3
+        items:
+          type: object
+          fields:
+            name:
+              type: string
+              required: true
+            perspective:
+              type: string
+              required: true
+            knowledge:
+              type: string
+              required: true
+            weaknesses:
+              type: string
+              required: true
+              description: >
+                Character traits only — no facet names, no framework terminology.
+
+      # NOTE: target_facets is intentionally absent. This is the information barrier.
+
+      discussion_arc:
+        type: string
+        required: true
+
+      turn_outline:
+        type: list
+        required: true
+        constraints:
+          min_length: 10
+          max_length: 14
+        items:
+          type: object
+          fields:
+            speaker:
+              type: string
+              required: true
+            accomplishes:
+              type: string
+              required: true
+              description: >
+                Natural language only — no facet names, no framework terminology.

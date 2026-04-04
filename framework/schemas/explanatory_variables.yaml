@@ -1,0 +1,62 @@
+# Schema: Explanatory Variables
+# Describes the structure of configs/reference/explanatory_variables.yaml
+# Source: pipeline-spec.md Section 8
+
+schema:
+  root:
+    type: object
+    fields:
+      cognitive_patterns:
+        type: list
+        required: true
+        description: Eight individual thinking tendencies.
+        items:
+          type: object
+          fields:
+            id:
+              type: string
+              required: true
+              description: Snake_case cognitive pattern identifier.
+              constraints:
+                enum:
+                  - confirmation_bias
+                  - tunnel_vision
+                  - overgeneralization
+                  - false_cause
+                  - uncritical_acceptance
+                  - black_and_white_thinking
+                  - egocentric_thinking
+                  - false_certainty
+            name:
+              type: string
+              required: true
+              description: Display name.
+            description:
+              type: string
+              required: true
+              description: 6th-grade accessible description of this pattern.
+
+      social_dynamics:
+        type: list
+        required: true
+        description: Three group interaction patterns.
+        items:
+          type: object
+          fields:
+            id:
+              type: string
+              required: true
+              description: Snake_case social dynamic identifier.
+              constraints:
+                enum:
+                  - group_pressure
+                  - conflict_avoidance
+                  - authority_deference
+            name:
+              type: string
+              required: true
+              description: Display name.
+            description:
+              type: string
+              required: true
+              description: 6th-grade accessible description of this dynamic.

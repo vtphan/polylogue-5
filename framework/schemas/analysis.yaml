@@ -1,0 +1,212 @@
+# Schema: Expert Analysis
+# Describes the structure of registry/{scenario_id}/analysis.yaml
+# The pipeline's most framework-dependent artifact — bridges hidden and visible layers.
+# Source: pipeline-spec.md Section 2.3
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      passage_analyses:
+        type: list
+        required: true
+        description: One entry per evaluable passage (a passage is 1-3 consecutive turns).
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              description: Sequential passage ID (e.g., "passage_01").
+              constraints:
+                pattern: "passage_\\d{2}"
+
+            turns:
+              type: list
+              required: true
+              description: Turn IDs included in this passage.
+              items:
+                type: string
+                constraints:
+                  pattern: "turn_\\d{2}"
+
+            sentence_range:
+              type: list
+              required: true
+              description: All sentence IDs in this passage.
+              items:
+                type: string
+                constraints:
+                  pattern: "turn_\\d{2}\\.s\\d{2}"
+
+            # --- Hidden layer (not shown to students) ---
+            facet_annotations:
+              type: list
+              required: true
+              description: Facet-level analysis. Hidden from students.
+              items:
+                type: object
+                fields:
+                  facet_id:
+                    type: string
+                    required: true
+                    description: From facet inventory.
+                  quality_level:
+                    type: string
+                    required: true
+                    description: '"strong", "weak", or a brief qualitative description.'
+                  evidence_sentences:
+                    type: list
+                    required: true
+                    description: Sentence IDs where this facet is observable.
+                    items:
+                      type: string
+                  primary_lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  also_visible_through:
+                    type: list
+                    required: true
+                    items:
+                      type: string
+                      constraints:
+                        enum: [logic, evidence, scope]
+                  explanatory_variables:
+                    type: object
+                    required: true
+                    fields:
+                      cognitive_pattern:
+                        type: string
+                        required: false
+                        description: Cognitive pattern ID or null.
+                      social_dynamic:
+                        type: string
+                        required: false
+                        description: Social dynamic ID or null.
+                      interaction:
+                        type: string
+                        required: false
+                        description: How cognitive and social forces interact here.
+                  was_targeted:
+                    type: boolean
+                    required: true
+                    description: Whether this facet was a design target in the scenario plan.
+                  notes:
+                    type: string
+                    required: false
+                    description: Evaluator observations — unexpected findings, quality issues.
+
+            # --- Visible layer: Unified AI perspective ---
+            ai_perspective:
+              type: object
+              required: true
+              description: >
+                Single integrated AI perspective per passage. Per-lens observations
+                combined with explanation of why the characters reasoned this way.
+                Written as perspective, not verdict. Notes both sound and weak reasoning.
+                This is the final entry in the unified scaffold sequence.
+              fields:
+                through_logic:
+                  type: object
+                  required: true
+                  fields:
+                    observation:
+                      type: string
+                      required: false
+                      description: >
+                        Written as perspective: "Looking at the logic here, I notice..."
+                        Null if nothing notable through this lens for this passage.
+                        Should note both sound and weak reasoning when present.
+                    key_sentences:
+                      type: list
+                      required: true
+                      description: Sentence IDs the observation references.
+                      items:
+                        type: string
+                through_evidence:
+                  type: object
+                  required: true
+                  fields:
+                    observation:
+                      type: string
+                      required: false
+                    key_sentences:
+                      type: list
+                      required: true
+                      items:
+                        type: string
+                through_scope:
+                  type: object
+                  required: true
+                  fields:
+                    observation:
+                      type: string
+                      required: false
+                    key_sentences:
+                      type: list
+                      required: true
+                      items:
+                        type: string
+                why_it_happened:
+                  type: string
+                  required: false
+                  description: >
+                    Integrated cognitive × social explanation. Introduces vocabulary
+                    as perspective: "One way to think about this is..." or
+                    "A cognitive scientist might say..." Covers cognitive pattern,
+                    social dynamic, and their interaction when relevant.
+                what_to_notice:
+                  type: string
+                  required: true
+                  description: >
+                    Brief, student-friendly prompt. E.g., "Something interesting
+                    to think about: did anyone in the group push back on this?"
+                what_to_notice_sentences:
+                  type: list
+                  required: false
+                  description: Optional sentence IDs that "this" refers to.
+                  items:
+                    type: string
+
+            # --- Perspectival diversity metadata (hidden layer) ---
+            diversity_potential:
+              type: object
+              required: true
+              description: >
+                Used for pipeline quality assessment and shared with facilitation guide.
+                Not shown to students.
+              fields:
+                expected_lens_split:
+                  type: string
+                  required: true
+                  description: Which lenses are likely to produce different readings.
+                likely_student_observations:
+                  type: list
+                  required: true
+                  description: What students are likely to see and miss, per lens.
+                  items:
+                    type: object
+                    fields:
+                      lens:
+                        type: string
+                        required: true
+                        constraints:
+                          enum: [logic, evidence, scope]
+                      observations:
+                        type: list
+                        required: true
+                        description: Discrete expected observations (not a summary paragraph).
+                        items:
+                          type: string
+                      might_miss:
+                        type: list
+                        required: true
+                        description: Specific things students might not notice.
+                        items:
+                          type: string

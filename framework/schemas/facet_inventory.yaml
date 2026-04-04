@@ -1,0 +1,102 @@
+# Schema: Facet Inventory
+# Describes the structure of configs/reference/facet_inventory.yaml
+# Source: pipeline-spec.md Section 8
+
+schema:
+  root:
+    type: object
+    fields:
+      facets:
+        type: list
+        required: true
+        description: The ten facets connecting lenses to explanatory variables.
+        items:
+          type: object
+          fields:
+            id:
+              type: string
+              required: true
+              description: Snake_case facet identifier.
+              constraints:
+                enum:
+                  - source_credibility
+                  - source_diversity
+                  - relevance
+                  - sufficiency
+                  - inferential_validity
+                  - internal_consistency
+                  - reasoning_completeness
+                  - perspective_engagement
+                  - consequence_consideration
+                  - condition_sensitivity
+            name:
+              type: string
+              required: true
+              description: Human-readable facet name.
+            definition:
+              type: string
+              required: true
+              description: What this facet means.
+            quality_range:
+              type: object
+              required: true
+              description: Descriptions of strong and weak quality for this facet.
+              fields:
+                strong:
+                  type: string
+                  required: true
+                weak:
+                  type: string
+                  required: true
+            primary_lens:
+              type: string
+              required: true
+              description: The lens most likely to reveal this facet.
+              constraints:
+                enum: [logic, evidence, scope]
+            cross_lens_visibility:
+              type: list
+              required: true
+              description: Other lenses that can reveal this facet. Empty list if none.
+              items:
+                type: string
+                constraints:
+                  enum: [logic, evidence, scope]
+            explanatory_connections:
+              type: object
+              required: true
+              description: Which cognitive patterns and social dynamics connect to this facet.
+              fields:
+                cognitive_patterns:
+                  type: list
+                  required: true
+                  description: Connected cognitive pattern IDs. Empty list if none.
+                  items:
+                    type: string
+                    constraints:
+                      enum:
+                        - confirmation_bias
+                        - tunnel_vision
+                        - overgeneralization
+                        - false_cause
+                        - uncritical_acceptance
+                        - black_and_white_thinking
+                        - egocentric_thinking
+                        - false_certainty
+                social_dynamics:
+                  type: list
+                  required: true
+                  description: Connected social dynamic IDs. Empty list if none.
+                  items:
+                    type: string
+                    constraints:
+                      enum:
+                        - group_pressure
+                        - conflict_avoidance
+                        - authority_deference
+            priority_tier:
+              type: string
+              required: true
+              description: Implementation priority tier.
+              constraints:
+                enum: [core, extend, reserve]

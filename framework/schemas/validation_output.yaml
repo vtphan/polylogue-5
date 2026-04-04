@@ -1,0 +1,58 @@
+# Schema: Validation Output
+# Describes the structure of the validation agent's output
+# Source: pipeline-spec.md Section 3, Stage 1
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      verdict:
+        type: string
+        required: true
+        description: Overall validation result.
+        constraints:
+          enum: [pass, revise, reject]
+
+      criteria:
+        type: list
+        required: true
+        description: Individual validation checks.
+        items:
+          type: object
+          fields:
+            criterion:
+              type: string
+              required: true
+              description: What was checked.
+              constraints:
+                enum:
+                  - facet_detectability
+                  - cross_lens_visibility
+                  - persona_tension
+                  - information_barrier_compliance
+                  - turn_outline_anti_patterns
+                  - signal_mechanism_fidelity
+            result:
+              type: string
+              required: true
+              constraints:
+                enum: [pass, issue, suggestion]
+            explanation:
+              type: string
+              required: true
+              description: Details about the finding.
+            references:
+              type: list
+              required: false
+              description: Specific fields or values in the scenario plan that triggered the finding.
+              items:
+                type: string
+
+      summary:
+        type: string
+        required: true
+        description: Brief overall assessment for the operator.

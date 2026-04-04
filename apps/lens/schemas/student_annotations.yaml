@@ -1,0 +1,81 @@
+# Schema: Student Annotations
+# App-side schema — not produced by the pipeline, but specified here so
+# pipeline assessment-relevant fields align with what the app stores.
+# Source: pipeline-spec.md Section 2.7
+#
+# Thread-based model: all student activity for a passage is an append-only
+# message thread. No editing — students append new messages to update.
+# Supports multi-lens diagnosis (one or more lenses per diagnosis).
+
+schema:
+  root:
+    type: object
+    fields:
+      student_id:
+        type: string
+        required: true
+
+      session_id:
+        type: string
+        required: true
+
+      passage_id:
+        type: string
+        required: true
+        constraints:
+          pattern: "passage_\\d{2}"
+
+      messages:
+        type: list
+        required: true
+        description: >
+          Append-only thread of all student activity for this passage.
+          Messages are never edited — new messages update prior thinking.
+          The "current assessment" is the most recent assessment-type message.
+        items:
+          type: object
+          fields:
+            type:
+              type: string
+              required: true
+              description: >
+                The state that produced this message.
+                diagnosis = individual diagnosis (Diagnose state).
+                discussion = group discussion message (Discuss state).
+                assessment = group assessment submission (Submit Assessment state).
+                post_hint = response after viewing a hint (Reviewing AI / scaffold).
+                post_ai = response after viewing AI perspective (Reviewing AI state).
+              constraints:
+                enum: [diagnosis, discussion, assessment, post_hint, post_ai]
+            text:
+              type: string
+              required: true
+              description: What the student wrote.
+            timestamp:
+              type: datetime
+              required: true
+            lenses:
+              type: list
+              required: false
+              description: >
+                Present for diagnosis and assessment messages.
+                Student chooses one or more lenses, rates each strong/weak.
+              items:
+                type: object
+                fields:
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  rating:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [strong, weak]
+            hint_level:
+              type: integer
+              required: false
+              description: >
+                Present for post_hint messages. Which hint in the scaffold
+                sequence was viewed (1-indexed).

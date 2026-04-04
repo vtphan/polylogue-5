@@ -1,0 +1,237 @@
+# Schema: Session Configuration
+# Describes the structure of registry/{scenario_id}/session.yaml
+# Assembled from transcript + analysis + scaffolding artifacts.
+# Source: pipeline-spec.md Section 2.5
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      transcript_file:
+        type: string
+        required: true
+        description: Path to transcript.yaml.
+
+      analysis_file:
+        type: string
+        required: true
+        description: Path to analysis.yaml.
+
+      scaffolding_file:
+        type: string
+        required: true
+        description: Path to scaffolding.yaml.
+
+      onboarding:
+        type: object
+        required: true
+        description: Displayed before the session begins.
+        fields:
+          topic_summary:
+            type: string
+            required: true
+            description: >
+              Brief context for students. E.g., "A group of students is discussing..."
+          reading_instruction:
+            type: string
+            required: true
+            description: >
+              E.g., "Read the discussion, then we'll look at it together through
+              different lenses."
+
+      passages:
+        type: list
+        required: true
+        description: Which parts of the transcript students evaluate.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              description: Must match passage_ids in analysis.yaml.
+              constraints:
+                pattern: "passage_\\d{2}"
+            turns:
+              type: list
+              required: true
+              description: Turn IDs in this passage.
+              items:
+                type: string
+            evaluable:
+              type: boolean
+              required: true
+              description: Whether students evaluate this passage (some are context-setting).
+            suggested_order:
+              type: integer
+              required: false
+              description: >
+                Suggested evaluation order (1 = first). Based on difficulty signal
+                from scaffolding.yaml. Teacher can override.
+
+      lens_definitions:
+        type: list
+        required: true
+        description: The three lenses, as shown to students.
+        items:
+          type: object
+          fields:
+            lens_id:
+              type: string
+              required: true
+              constraints:
+                enum: [logic, evidence, scope]
+            name:
+              type: string
+              required: true
+              description: Display name.
+            question:
+              type: string
+              required: true
+              description: The lens question.
+
+      # --- Per-passage state machine configuration ---
+      # The state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment)
+      # lives in the app. The session config provides the content the app needs
+      # at each state, not the state machine logic itself.
+
+      diagnose:
+        type: object
+        required: true
+        description: Configuration for the Diagnose state (individual).
+        fields:
+          instructions:
+            type: string
+            required: true
+            description: What the app tells the student to do.
+          rating_options:
+            type: list
+            required: true
+            constraints:
+              value: [strong, weak]
+          articulation_prompt:
+            type: string
+            required: true
+            description: >
+              E.g., "What do you see? Why did you rate it this way?"
+              Student chooses one or more lenses and rates strong/weak per lens.
+
+      discuss:
+        type: object
+        required: true
+        description: >
+          Configuration for the Discuss state (group). Gated — all group
+          members must submit diagnoses before peers' are visible.
+        fields:
+          instructions:
+            type: string
+            required: true
+
+      ai_perspective:
+        type: object
+        required: true
+        description: >
+          Configuration for the Reviewing AI state. Costs a lifeline if
+          accessed before assessment; free after group submits assessment.
+        fields:
+          instructions:
+            type: string
+            required: true
+          source:
+            type: string
+            required: true
+            description: Which block in analysis.yaml to render.
+            constraints:
+              enum: [ai_perspective]
+          response_required:
+            type: boolean
+            required: true
+            description: >
+              If true, student must write a brief response after viewing.
+          response_prompt:
+            type: string
+            required: true
+            description: >
+              Prompt for the required response. Passage-specific reflection
+              prompts from scaffolding.yaml override this generic prompt.
+
+      submit_assessment:
+        type: object
+        required: true
+        description: >
+          Configuration for the Submit Assessment state (group).
+          Assessment is always revisable — no finality.
+        fields:
+          instructions:
+            type: string
+            required: true
+          assessment_prompt:
+            type: string
+            required: true
+            description: >
+              E.g., "As a group, what's your assessment of the reasoning
+              in this passage?"
+
+      # --- Explanatory vocabulary reference ---
+      reference_lists:
+        type: object
+        required: true
+        description: >
+          Optional browsable vocabulary reference. Teacher decides whether to show.
+          Available throughout the session (not phase-gated).
+        fields:
+          show_cognitive_patterns:
+            type: boolean
+            required: true
+          show_social_dynamics:
+            type: boolean
+            required: true
+          cognitive_patterns:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true
+          social_dynamics:
+            type: list
+            required: true
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                name:
+                  type: string
+                  required: true
+                description:
+                  type: string
+                  required: true
+
+      # --- Lifeline configuration ---
+      lifelines:
+        type: object
+        required: true
+        description: Shared pool of lifelines per group.
+        fields:
+          pool_size:
+            type: integer
+            required: true
+            description: Number of lifelines available per group for the session.
+          hint_cost:
+            type: integer
+            required: true
+            description: Lifelines consumed per hint (typically 1).

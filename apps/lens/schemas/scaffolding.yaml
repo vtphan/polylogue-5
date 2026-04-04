@@ -1,0 +1,209 @@
+# Schema: Scaffolding Materials
+# Describes the structure of registry/{scenario_id}/scaffolding.yaml
+# Pedagogical materials the app needs at runtime — hints, prompts, starters, rubrics.
+# Source: pipeline-spec.md Section 2.6
+
+schema:
+  root:
+    type: object
+    fields:
+      scenario_id:
+        type: string
+        required: true
+
+      passage_scaffolding:
+        type: list
+        required: true
+        description: One entry per evaluable passage.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "passage_\\d{2}"
+            turns:
+              type: list
+              required: true
+              items:
+                type: string
+
+            # --- Unified scaffold sequence ---
+            difficulty:
+              type: string
+              required: true
+              description: >
+                Based on two criteria: (1) cross-lens visibility — high = accessible,
+                low = challenging; (2) signal strength — how obvious the targeted
+                facet is in the text. The app uses this to suggest passage order.
+              constraints:
+                enum: [accessible, moderate, challenging]
+
+            scaffold_sequence:
+              type: list
+              required: true
+              description: >
+                Ordered list of graduated scaffolds. Each hint is progressively more
+                revealing but never gives away the answer. AI perspective is always
+                the final entry. Minimum 2 entries (1 hint + AI perspective).
+                Each hint costs 1 lifeline from the shared pool; AI perspective
+                is free after the group submits an assessment.
+              constraints:
+                min_length: 2
+              items:
+                type: object
+                fields:
+                  type:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [hint, ai_perspective]
+                  text:
+                    type: string
+                    required: true
+                    description: >
+                      For hints: progressively more revealing, directing attention
+                      to WHERE to look, not WHAT to see.
+                      For ai_perspective: reflection prompt shown after AI perspective
+                      is revealed. E.g., "The AI noticed something about the sources.
+                      Did you notice that too, or were you looking at something different?"
+
+            deepening_probes:
+              type: list
+              required: true
+              description: >
+                Lens-specific prompts shown after a student submits a diagnosis.
+                Push toward explanation, not just evaluation.
+              items:
+                type: object
+                fields:
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  prompt:
+                    type: string
+                    required: true
+                    description: >
+                      E.g., "You noticed something about the evidence. Now think
+                      about *why* — what was going on in the group when this happened?"
+
+            ai_reflection_prompt:
+              type: string
+              required: true
+              description: >
+                Shown after the AI perspective is revealed. References specific
+                content from the AI perspective. E.g., "The AI called this
+                confirmation bias. Does that match what you were trying to say,
+                or do you see it differently?"
+
+            # CHECKLIST: passage_scaffolding[].common_misreadings
+            common_misreadings:
+              type: list
+              required: true
+              description: >
+                Per-lens predictable misinterpretations the app can detect and
+                respond to without LLM access at runtime.
+              items:
+                type: object
+                fields:
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  misreadings:
+                    type: list
+                    required: true
+                    items:
+                      type: object
+                      fields:
+                        pattern:
+                          type: string
+                          required: true
+                          description: >
+                            What the student might write. Specific enough for
+                            keyword/semantic matching without LLM access at runtime.
+                        redirect:
+                          type: string
+                          required: true
+                          description: >
+                            Gentle prompt that redirects without giving the answer.
+                            Student-friendly language. Does not name the correct
+                            observation — just redirects attention.
+
+            # CHECKLIST: passage_scaffolding[].observation_rubric
+            observation_rubric:
+              type: list
+              required: true
+              description: >
+                Per-lens rubric for observation articulation quality.
+                Three differentiation levels.
+              items:
+                type: object
+                fields:
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  levels:
+                    type: list
+                    required: true
+                    description: Three levels of differentiation.
+                    items:
+                      type: object
+                      fields:
+                        level:
+                          type: string
+                          required: true
+                          constraints:
+                            enum: [basic, developing, differentiated]
+                        examples:
+                          type: list
+                          required: true
+                          description: Example student articulations at this level.
+                          items:
+                            type: string
+
+            # CHECKLIST: passage_scaffolding[].explanation_rubric
+            explanation_rubric:
+              type: object
+              required: true
+              description: >
+                Lens-independent rubric for explanatory depth. Organized by explanation
+                type (cognitive, social, interaction) and level.
+              fields:
+                categories:
+                  type: list
+                  required: true
+                  items:
+                    type: object
+                    fields:
+                      category:
+                        type: string
+                        required: true
+                        constraints:
+                          enum: [cognitive, social, interaction]
+                      levels:
+                        type: list
+                        required: true
+                        description: >
+                          Cognitive and social categories have basic and developing.
+                          Interaction category has developing and differentiated
+                          (no basic — interaction is inherently at least developing).
+                        items:
+                          type: object
+                          fields:
+                            level:
+                              type: string
+                              required: true
+                              constraints:
+                                enum: [basic, developing, differentiated]
+                            examples:
+                              type: list
+                              required: true
+                              items:
+                                type: string
