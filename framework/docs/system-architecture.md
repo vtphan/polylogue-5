@@ -154,9 +154,9 @@ The initialization script:
 
 To initialize for a specific application:
 ```bash
-python3 apps/lens/pipeline/initialize_polylogue.py
+python3 apps/lens/pipeline/initialize_lens.py
 # or
-python3 apps/reasoning-lab/pipeline/initialize_polylogue.py
+python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py
 ```
 
 Each script sources from its own application plus the shared framework. Running one clears and replaces the previous application's commands.
