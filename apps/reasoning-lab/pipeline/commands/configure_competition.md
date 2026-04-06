@@ -1,13 +1,30 @@
+---
+description: Assemble the final Reasoning Lab session configuration from all preceding artifacts
+argument-hint: <scenario_id>
+---
+
 # Configure Competition
 
 Assemble the Reasoning Lab session configuration from the scoring rubric, analysis, and transcript.
 
 ## Prerequisites
 
-- `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
-- `registry/{scenario_id}/analysis.yaml` — the expert analysis
-- `registry/{scenario_id}/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
-- `registry/{scenario_id}/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
+- `artifacts/$1/transcript.yaml` — the enumerated transcript
+- `artifacts/$1/analysis.yaml` — the expert analysis
+- `artifacts/$1/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
+- `artifacts/$1/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
+
+## Telemetry
+
+Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+
+```bash
+python3 framework/pipeline/scripts/log_pipeline_event.py \
+  --scenario $1 --command configure_competition \
+  --stage <stage> [--verdict <V>] [--notes "<text>"]
+```
+
+This is the final command in the Reasoning Lab pipeline; the most useful entries are `--stage start` and `--stage save --verdict <SAVE|FAIL>`.
 
 ## Steps
 
@@ -44,15 +61,27 @@ Build `session.yaml` for this scenario by assembling from the existing artifacts
 
 **`reference_lists`**: Include cognitive patterns and social dynamics from the framework reference data (`framework/reference/explanatory_variables.yaml`). Default both `show_cognitive_patterns` and `show_social_dynamics` to `false` (teacher toggles on when ready to introduce vocabulary).
 
-### Step 2: Validate
+### Step 2: Save
 
-Validate `session.yaml` against `apps/reasoning-lab/schemas/session.yaml`.
+Write the assembled `session.yaml` to disk so the validator can read it:
+
+```
+artifacts/$1/reasoning-lab/session.yaml
+```
+
+### Step 3: Validate
+
+Run schema validation explicitly — **halt on non-zero exit**:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/reasoning-lab/session.yaml \
+  apps/reasoning-lab/schemas/session.yaml
+```
+
+If the validator reports issues, the saved file is invalid — surface the issues to the operator, fix the assembly, and re-save before proceeding.
 
 Check:
 - Passage IDs match across all referenced files
 - Scanner assignment covers all team sizes
 - File references point to existing files
-
-### Step 3: Save
-
-Save to `registry/{scenario_id}/reasoning-lab/session.yaml`.

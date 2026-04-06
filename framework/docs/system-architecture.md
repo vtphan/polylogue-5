@@ -118,12 +118,53 @@ Run once per scenario per application. Consumes shared artifacts and produces ap
 | 4a. Design Scoring Rubric | `/design_scoring_rubric` | Scoring rubric agent | `scoring.yaml`, `competition-facilitation.yaml` |
 | 5a. Configure Competition | `/configure_competition` | (script) | `session.yaml` |
 
+## Operator Role
+
+The **operator** (a human running these slash commands inside Claude Code) is involved at the *boundaries* of the pipeline, not in the middle of it. The pipeline is autonomous between operator touchpoints — agents produce artifacts, reviewer subagents gate them, and the operator's attention is conserved for decisions only a human can make.
+
+### Authorship touchpoints (operator MUST be involved)
+
+| Touchpoint | What the operator does |
+|---|---|
+| **Brainstorm** (`/brainstorm`) | Co-designs the 6-field operator prompt with Claude — explores topic, pedagogical intent, target facets |
+| **Kickoff** (`/create_scenario`) | Provides the validated 6-field prompt as input |
+| **Finalize Lens** (`/configure_session`) | Authors student-facing onboarding strings, per-state instructions, lifeline pool size, reference-list visibility toggles |
+| **Finalize Reasoning Lab** (`/configure_competition`) | Analogous content decisions for the competitive format |
+
+These encode pedagogical intent that no agent can infer.
+
+### Autonomous touchpoints (operator does NOT intervene mid-flow)
+
+The middle commands — `/create_transcript`, `/analyze_transcript`, `/design_scaffolding`, `/design_scoring_rubric` — run end-to-end without operator gates. Each command's reviewer subagent (`validation_agent`, `transcript_reviewer`, `analysis_reviewer`, `scaffolding_reviewer`) is the structural quality gate. The operator does not second-guess reviewers in flow.
+
+Each producer/reviewer pair has a bounded retry budget (typically 1 revise pass, plus a small regeneration limit on `/create_transcript`). If the budget is exhausted, the command halts — see the escape hatch below.
+
+### Failure-mode escape hatch (reactive, not routine)
+
+If a reviewer's retry budget is exhausted, the command halts with:
+- The latest version of the artifact(s) it was producing
+- The latest reviewer report
+- A pointer to `artifacts/{scenario_id}/intermediates/` for stage-by-stage debugging
+
+The operator then decides:
+- **Edit and resume** — manually adjust the failing artifact and re-run downstream commands
+- **Accept as-is** — save the latest version and proceed despite reviewer concerns
+- **Restart upstream** — return to an earlier stage (e.g., `/create_scenario`) if the failure indicates a structural problem with the input
+
+### Inspection (optional, anytime)
+
+Everything in `artifacts/{scenario_id}/` is YAML on disk. The operator can inspect any artifact at any time, before or after completion. Intermediate working files are preserved in `artifacts/{scenario_id}/intermediates/` for stage-by-stage review.
+
+### Why this design
+
+An earlier version of the pipeline interleaved operator gates between each producer and the next stage. Those gates were redundant with the reviewer subagents and put the operator in a continuous-attention role. The autonomous design separates concerns cleanly: **operator owns authorship; agents own production and QA**. The operator's attention is conserved for the touchpoints where their judgment is irreplaceable.
+
 ## Artifact Storage
 
-Generated artifacts live in `registry/{scenario_id}/`. Shared and app-specific artifacts are separated by subdirectory:
+Generated artifacts live in `artifacts/{scenario_id}/`. Shared and app-specific artifacts are separated by subdirectory:
 
 ```
-registry/{scenario_id}/
+artifacts/{scenario_id}/
 ├── scenario.yaml                    # Shared (stage 1)
 ├── transcript.yaml                  # Shared (stage 2)
 ├── analysis.yaml                    # Shared (stage 3)
@@ -150,7 +191,7 @@ The initialization script:
 3. **Copies** application-specific commands and agents from `apps/{app-id}/pipeline/`
 4. **Verifies** reference data in `framework/reference/`
 5. **Verifies** schemas in `framework/schemas/` and `apps/{app-id}/schemas/`
-6. **Verifies** the registry directory exists
+6. **Verifies** the artifacts directory exists
 
 To initialize for a specific application:
 ```bash
@@ -173,7 +214,7 @@ All pipeline commands and agent prompts use paths relative to the project root:
 | Shared scripts | `framework/pipeline/scripts/{script}.py` |
 | App-specific schemas | `apps/{app-id}/schemas/{schema}.yaml` |
 | App-specific agent prompts | `apps/{app-id}/pipeline/agents/{agent}.md` |
-| Generated artifacts (shared) | `registry/{scenario_id}/{artifact}.yaml` |
-| Generated artifacts (app) | `registry/{scenario_id}/{app-id}/{artifact}.yaml` |
+| Generated artifacts (shared) | `artifacts/{scenario_id}/{artifact}.yaml` |
+| Generated artifacts (app) | `artifacts/{scenario_id}/{app-id}/{artifact}.yaml` |
 
 No pipeline file should reference `configs/`. The `configs/` directory is the legacy system and will be retired after migration.

@@ -3,7 +3,7 @@
 
 Syncs shared upstream commands/agents from framework/pipeline/ and
 Reasoning Lab commands/agents from apps/reasoning-lab/pipeline/ into .claude/.
-Verifies reference data, schemas, and registry.
+Verifies reference data, schemas, and artifacts directory.
 
 Usage:
     python3 apps/reasoning-lab/pipeline/initialize_polylogue.py [--project-root <path>]
@@ -96,7 +96,12 @@ def initialize(project_root):
 
     # --- Verify reference data ---
     ref_dir = os.path.join(project_root, "framework", "reference")
-    ref_files = ["lenses.yaml", "facet_inventory.yaml", "explanatory_variables.yaml"]
+    ref_files = [
+        "lenses.yaml",
+        "facet_inventory.yaml",
+        "explanatory_variables.yaml",
+        "scenario_sequence.yaml",
+    ]
     ref_ok = True
     for fname in ref_files:
         path = os.path.join(ref_dir, fname)
@@ -125,13 +130,13 @@ def initialize(project_root):
     else:
         ok = False
 
-    # --- Verify registry ---
-    registry = os.path.join(project_root, "registry")
-    if os.path.isdir(registry):
-        print("Registry: exists")
+    # --- Verify artifacts ---
+    artifacts = os.path.join(project_root, "artifacts")
+    if os.path.isdir(artifacts):
+        print("Artifacts: exists")
     else:
-        os.makedirs(registry)
-        print("Registry: created")
+        os.makedirs(artifacts)
+        print("Artifacts: created")
 
     # --- Report ---
     if ok:

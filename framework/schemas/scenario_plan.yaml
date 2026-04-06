@@ -1,5 +1,5 @@
 # Schema: Scenario Plan
-# Describes the structure of registry/{scenario_id}/scenario.yaml
+# Describes the structure of artifacts/{scenario_id}/scenario.yaml
 # Source: pipeline-spec.md Section 2.1
 
 schema:
@@ -65,6 +65,15 @@ schema:
               description: >
                 What they'll get wrong and why — phrased as character traits,
                 NOT as facet names or framework terminology.
+            strengths:
+              type: string
+              required: true
+              description: >
+                What they'll get right and why — phrased as character traits,
+                NOT as facet names or framework terminology. Barrier-safe
+                translation of the relevant target_strengths signal mechanisms
+                (the persona named as carrier of one or more target_strengths
+                must have non-trivial content here).
 
       target_facets:
         type: list
@@ -80,8 +89,12 @@ schema:
             target_quality:
               type: string
               required: true
+              description: >
+                Always "weak" — target_facets carries designed weaknesses only.
+                Designed strengths live in the parallel top-level target_strengths
+                field, which has no target_quality (it is implicitly strong).
               constraints:
-                enum: [weak, strong]
+                enum: [weak]
             primary_lens:
               type: string
               required: true
@@ -125,6 +138,63 @@ schema:
                 manifests in the discussion. Copied verbatim from the operator
                 prompt. Used by the planning agent to derive the carrier persona's
                 weaknesses field and the relevant turn_outline accomplishes fields.
+
+      target_strengths:
+        type: list
+        required: true
+        description: >
+          Which facets are targeted for strength (hidden layer). Doctrinally
+          required: every scenario must engineer at least one moment of
+          genuine sound reasoning so the deficit-only explanatory variables
+          can be applied contrastively. Symmetric with target_facets, minus
+          designed_explanation — strengths are explained contrastively against
+          the deficit vocabulary, not assigned positive cognitive/social
+          variables (the framework deliberately has no positive explanatory
+          variables; see system-evaluation-20260406.md suggestion E).
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            facet_id:
+              type: string
+              required: true
+              description: From facet inventory.
+            primary_lens:
+              type: string
+              required: true
+              description: The lens most likely to reveal this strength.
+              constraints:
+                enum: [logic, evidence, scope]
+            also_visible_through:
+              type: list
+              required: true
+              description: Other lenses that can reveal it (from facet inventory).
+              items:
+                type: string
+                constraints:
+                  enum: [logic, evidence, scope]
+            carrier_persona:
+              type: string
+              required: true
+              description: Which persona primarily manifests this facet strength.
+            signal_mechanism:
+              type: string
+              required: true
+              description: >
+                Operator-authored narrative of how this facet strength concretely
+                manifests in the discussion. Copied verbatim from the operator
+                prompt. Used by the planning agent to derive the carrier persona's
+                strengths field and the relevant turn_outline accomplishes fields.
+            contrastive_note:
+              type: string
+              required: false
+              description: >
+                Optional: how this strength would be explained contrastively
+                using the deficit vocabulary (e.g., "here the group checked
+                their sources, where in earlier scenarios they would have
+                accepted the first thing they read"). Provides a hint for the
+                evaluator's contrastive write-up.
 
       discussion_arc:
         type: string

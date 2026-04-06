@@ -1,5 +1,5 @@
 # Schema: Scaffolding Materials
-# Describes the structure of registry/{scenario_id}/scaffolding.yaml
+# Describes the structure of artifacts/{scenario_id}/scaffolding.yaml
 # Pedagogical materials the app needs at runtime — hints, prompts, starters, rubrics.
 # Source: pipeline-spec.md Section 2.6
 

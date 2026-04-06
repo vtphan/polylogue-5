@@ -97,7 +97,7 @@ The consequence: the pipeline must anticipate what the app will need. Every scaf
 
 ## What the Pipeline Produces
 
-The pipeline produces six artifacts per scenario. Each is a YAML file stored in `registry/{scenario_id}/`.
+The pipeline produces six artifacts per scenario. Each is a YAML file stored in `artifacts/{scenario_id}/`.
 
 | Artifact | File | Consumer | Purpose |
 |---|---|---|---|
@@ -144,9 +144,9 @@ The scenario plan is consumed only by the pipeline itself — it governs generat
 
 The information barrier prevents the dialog writer from producing discussion that feels designed rather than natural. It operates through two mechanisms:
 
-1. **Schema stripping.** The `create_transcript` command strips `target_facets` and `discussion_dynamic` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
+1. **Schema stripping.** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
 
-2. **Language discipline.** The `weaknesses` and `accomplishes` fields in the scenario plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt enforces this translation.
+2. **Language discipline.** The `weaknesses`, `strengths`, and `accomplishes` fields in the scenario plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt enforces this translation.
 
 The transcript instructional designer, evaluator, and scaffolding instructional designer all operate *outside* the barrier — they need to see the full plan to do their jobs (sharpening signals, annotating facets, producing scaffolding). The barrier exists only for the dialog writer.
 
@@ -163,7 +163,7 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
 
 **Stage 1: Create Scenario.** The operator specifies the topic, instructional goals, and which facets to target. A planning agent drafts the scenario plan — personas, discussion arc, turn outline. A validation agent reviews the plan: Are the targeted facets detectable? Do they have sufficient cross-lens visibility? Are personas in genuine tension? Is the language barrier-safe? The operator reviews and approves.
 
-**Stage 2: Create Transcript.** The dialog writer receives the scenario plan with `target_facets` stripped (information barrier) and writes the discussion as natural prose. A structural check validates turn count, speaker names, and turn order. A transcript instructional designer — who sees the full plan — sharpens expression: ensures signal moments are visible but natural, enforces 6th-grade language. An enumeration script assigns sequential IDs to turns and sentences.
+**Stage 2: Create Transcript.** The dialog writer receives the scenario plan with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped (information barrier) and writes the discussion as natural prose. A structural check validates turn count, speaker names, and turn order. A transcript instructional designer — who sees the full plan — sharpens expression: ensures signal moments for both designed weaknesses and designed strengths are visible but natural, enforces 6th-grade language. An enumeration script assigns sequential IDs to turns and sentences.
 
 **Stage 3: Analyze Transcript.** The operator segments the transcript into evaluable passages (groups of 1–3 consecutive turns). An evaluator agent reads the full transcript and scenario plan and produces the expert analysis (facet annotations, AI perspective, diversity metadata) and the facilitation guide (organized by passage and state, with whole-class debrief materials).
 

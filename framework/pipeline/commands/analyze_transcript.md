@@ -1,43 +1,50 @@
+---
+description: Produce expert analysis and facilitation guide from an enumerated transcript
+argument-hint: <scenario_id>
+---
+
 # Analyze Transcript
 
 Produce the expert analysis and facilitation guide from the enumerated transcript.
 
 ## Input
 
-- `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
-- `registry/{scenario_id}/scenario.yaml` — the full scenario plan (including `target_facets`)
+- `artifacts/$1/transcript.yaml` — the enumerated transcript
+- `artifacts/$1/scenario.yaml` — the full scenario plan (including `target_facets` and `target_strengths`)
+
+## Telemetry
+
+Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+
+```bash
+python3 framework/pipeline/scripts/log_pipeline_event.py \
+  --scenario $1 --command analyze_transcript \
+  --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] \
+  [--retries-remaining <n>] [--notes "<text>"]
+```
+
+Required log points are called out in each step.
+
+**Log immediately on entry:** `--stage start --verdict START`.
 
 ## Steps
 
-### Step 1: Passage Segmentation
+### Step 1: Evaluator Agent — Segment, Annotate, and Write Both Artifacts
 
-Segment the transcript into evaluable passages. A passage is 1-3 consecutive turns that contain a coherent segment of the discussion.
+**Use the Task tool with `subagent_type: evaluator`.**
 
-**Segmentation guidelines:**
-- Place boundaries where the discussion shifts topic, introduces a new claim, or changes direction
-- Target 3-5 passages total, of which 2-3 contain targeted facets
-- Remaining passages provide context or show strong reasoning (not every passage needs a weakness)
-- Each passage gets a sequential ID: `passage_01`, `passage_02`, ...
+The evaluator handles **passage segmentation as part of its task** — this is no longer a separate operator-approved step. The operator does not pre-approve boundaries; the evaluator records them in `analysis.yaml` and the operator can edit and re-run downstream commands if the boundaries turn out to be wrong.
 
-If `segment_passages.py` is available, run it. Otherwise, segment manually:
+Pass the agent:
+- Path to `artifacts/$1/transcript.yaml` (enumerated)
+- Path to `artifacts/$1/scenario.yaml` (full plan, including `target_facets` and `target_strengths`)
 
-1. Read the transcript
-2. Identify natural break points (topic shifts, new claims, direction changes)
-3. Group 1-3 consecutive turns per passage
-4. Record: passage_id, turn IDs, sentence IDs for each passage
-
-Present the segmentation to the operator for approval before proceeding.
-
-### Step 2: Evaluator Agent — Produce Analysis and Facilitation Guide
-
-Read the evaluator prompt at `framework/pipeline/agents/evaluator.md`.
-
-Pass the enumerated transcript, the full scenario plan, and the approved passage segmentation to the evaluator.
+Instruct it to write outputs to `artifacts/$1/analysis.yaml` and `artifacts/$1/facilitation.yaml`.
 
 The evaluator produces two artifacts:
 
 **`analysis.yaml`** with per-passage:
-- Hidden layer: facet annotations (targeted and emergent)
+- Hidden layer: facet annotations (targeted weaknesses, targeted strengths, and emergent)
 - Visible layer: unified AI perspective (per-lens observations + integrated explanation via `why_it_happened`)
 - Diversity metadata (expected lens split, likely student observations)
 
@@ -48,15 +55,43 @@ The evaluator produces two artifacts:
 
 **Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
 
-Then validate both artifacts against their schemas:
-- `framework/schemas/analysis.yaml`
-- `framework/schemas/facilitation.yaml`
+Then validate both artifacts explicitly with the schema script — **halt on non-zero exit**:
 
-### Step 3: Analysis Reviewer — Quality Gate
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/analysis.yaml \
+  framework/schemas/analysis.yaml
 
-Read the analysis reviewer prompt at `framework/pipeline/agents/analysis_reviewer.md`.
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/facilitation.yaml \
+  framework/schemas/facilitation.yaml
+```
 
-Pass both artifacts, the transcript, and the scenario plan to the reviewer. The reviewer checks:
+If either validator reports issues, do not proceed to the reviewer — surface them to the operator (or feed back into a re-invocation of the evaluator if the issues are minor).
+
+Then run the analysis-specific cross-field invariant check — **halt on non-zero exit**:
+
+```bash
+python3 framework/pipeline/scripts/check_analysis_invariants.py \
+  artifacts/$1/analysis.yaml \
+  artifacts/$1/scenario.yaml
+```
+
+This enforces the invariants the descriptive schema cannot express: every `quality_level: strong` annotation must have a non-empty `contrastive_explanation` and null `explanatory_variables.cognitive_pattern` / `social_dynamic`; every entry in the scenario plan's `target_strengths` must appear as at least one strong, was_targeted=true annotation. (See suggestion E in `framework/docs/system-evaluation-20260406.md`.) If the invariant check reports issues, treat them the same as a schema-validation failure: do not proceed to the reviewer; either fix the assembly or feed the issues back into a re-invocation of the evaluator.
+
+**Log:** `--stage evaluator --agent evaluator --attempt <n>` after each evaluator invocation, then `--stage schema_validation --verdict <PASS|FAIL>` (covers both the schema-validate and the invariant-check pass — they are folded into one logical "validation" stage from the operator's perspective; surface a `--notes "<failure>"` on FAIL identifying which check failed).
+
+### Step 2: Analysis Reviewer — Quality Gate
+
+**Use the Task tool with `subagent_type: analysis_reviewer`.** Independent fresh-context review.
+
+Pass the agent the paths to all four artifacts:
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/facilitation.yaml`
+- `artifacts/$1/transcript.yaml`
+- `artifacts/$1/scenario.yaml`
+
+The reviewer checks:
 1. Facet annotation accuracy
 2. Unified AI perspective — per-lens observations (perspective, not verdict; mixed-valence)
 3. Unified AI perspective — explanation (`why_it_happened` as perspective, not verdict)
@@ -66,25 +101,30 @@ Pass both artifacts, the transcript, and the scenario plan to the reviewer. The 
 7. Debrief quality
 8. Cross-reference integrity (all sentence IDs valid)
 
-The reviewer reports PASS/ISSUE/SUGGESTION per criterion.
+The reviewer reports PASS/ISSUE/SUGGESTION per criterion and an overall verdict: **ACCEPT** or **REVISE** (the analysis_reviewer's allowed subset of the standardized ACCEPT / REVISE / REGENERATE / REJECT vocabulary — REGENERATE and REJECT are not applicable here).
 
-### Step 4: Operator Gate
+### Step 3: Reviewer-Driven Flow
 
-Present the reviewer's report to the operator. The operator decides:
-- **Accept** — save artifacts and proceed
-- **Revise** — address specific issues with the evaluator and re-review
+- **ACCEPT** → proceed to save (Step 4).
+- **REVISE** → re-invoke the evaluator (Step 1) with the reviewer's specific issues as feedback, then re-run the reviewer. **Retry budget: 1 revise pass.** If a second review still returns REVISE, halt and surface the latest analysis/facilitation and the reviewer report to the operator. (See *Failure-mode escape hatch* in `framework/docs/system-architecture.md`.)
 
-### Step 5: Save
+The pipeline is autonomous through this loop.
+
+**Log on each verdict:** `--stage analysis_review --agent analysis_reviewer --attempt <n> --verdict <ACCEPT|REVISE> --retries-remaining <n>`. On exhaustion, log `--stage halt --verdict HALT`.
+
+### Step 4: Save
 
 ```
-registry/{scenario_id}/analysis.yaml
-registry/{scenario_id}/facilitation.yaml
+artifacts/$1/analysis.yaml
+artifacts/$1/facilitation.yaml
 ```
+
+**Log:** `--stage save --verdict SAVE`.
 
 ## Output
 
-- `registry/{scenario_id}/analysis.yaml`
-- `registry/{scenario_id}/facilitation.yaml` (initial version — enriched in `/design_scaffolding`)
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/facilitation.yaml` (initial version — enriched in `/design_scaffolding`)
 
 ## Next Step
 

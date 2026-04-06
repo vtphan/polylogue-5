@@ -1,0 +1,49 @@
+scenario_id: ocean-vs-deforestation-project
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Okay, we have to do ocean pollution, you guys."
+      - text: "I watched this documentary last weekend about the Great Pacific Garbage Patch and it was insane, like there's literally an island of trash out there."
+  - speaker: Jordan
+    sentences:
+      - text: "I was actually gonna say deforestation though, because we read about the Amazon fires in current events."
+      - text: "And like, we could actually plant trees on the side of the school by the fence — my uncle showed me how you do it."
+  - speaker: Jordan
+    sentences:
+      - text: "Wait, but who would water them over summer though? Because nobody's here."
+  - speaker: Maya
+    sentences:
+      - text: "I mean, trees are cool, but the documentary said there's millions of tons of plastic in the ocean right now."
+      - text: "Millions. Like that's so much more important."
+  - speaker: Maya
+    sentences:
+      - text: "And they showed this one sea turtle that was all tangled up in a plastic bag and it couldn't swim right, it was so sad."
+      - text: "We have to do something about that, we can't just ignore it."
+  - speaker: Jordan
+    sentences:
+      - text: "Yeah but, like, we don't even live near the ocean?"
+      - text: "I don't really get what we'd actually do about plastic that's in the middle of the Pacific."
+  - speaker: Maya
+    sentences:
+      - text: "We can figure that part out later, that's not the hard part."
+      - text: "The point is it's literally the biggest environmental problem right now and we'd be helping the whole planet."
+  - speaker: Jordan
+    sentences:
+      - text: "I just mean, like, what would we even show for our project though?"
+  - speaker: Maya
+    sentences:
+      - text: "The documentary said the currents pull all the trash into one spot and it just keeps growing."
+      - text: "This is the most urgent thing happening, everyone says so."
+  - speaker: Jordan
+    sentences:
+      - text: "Yeah, I guess it is a bigger deal when you put it like that."
+  - speaker: Maya
+    sentences:
+      - text: "Right? Okay, so we're doing ocean pollution, that's settled."
+  - speaker: Jordan
+    sentences:
+      - text: "Sure, okay."
+  - speaker: Maya
+    sentences:
+      - text: "Yes! This is gonna be so good, I already have like a million ideas."
+      - text: "Everyone's gonna actually care about our project, I'm so excited."

@@ -1,5 +1,5 @@
 # Schema: Scoring Rubric
-# Describes the structure of registry/{scenario_id}/scoring.yaml
+# Describes the structure of artifacts/{scenario_id}/scoring.yaml
 # Observation and explanation buckets for cross-group comparison and scoring.
 # Produced by the scoring rubric agent from analysis.yaml.
 # Application: Reasoning Lab

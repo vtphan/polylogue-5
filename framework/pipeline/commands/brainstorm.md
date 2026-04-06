@@ -1,6 +1,12 @@
+---
+description: Co-design a 6-field operator prompt for /create_scenario through guided conversation
+---
+
 # Brainstorm
 
 Help an operator design an operator prompt for `/create_scenario`. Guide them through the 6 required fields conversationally — suggest ideas, translate plain-language descriptions into framework terms, and output a complete prompt ready to paste into `/create_scenario`.
+
+> **No telemetry.** Brainstorm is conversational and produces no artifacts — there is no `scenario_id` and no directory to log under. The first telemetry events for a session are emitted by `/create_scenario` (initially under a `_pending_<timestamp>` id, then merged into the real scenario directory once the planning agent assigns one).
 
 ## How This Works
 
@@ -11,8 +17,8 @@ You are a co-designer, not a form filler. The operator may not know or remember 
 - Facet inventory: `framework/reference/facet_inventory.yaml`
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`
-- Scenario sequence: `docs/scenario-sequence.md` (what's already been generated or planned)
-- Operator guidance: `docs/OperatorGuidance.md` (the 6-field format)
+- Scenario sequence: `framework/docs/scenario-sequence.md` (what's already been generated or planned)
+- Operator guidance: `framework/docs/OperatorGuidance.md` (the 6-field format)
 
 ## Conversation Flow
 
@@ -47,7 +53,7 @@ Map their answer to facets. If their description matches multiple facets, explai
 Once the operator has one facet, suggest a second that pairs well pedagogically:
 - Different primary lenses (so students with different lenses see different things)
 - Complementary cognitive patterns (so explanation is rich)
-- Check `docs/scenario-sequence.md` for what's already covered — suggest facets that fill gaps
+- Check `framework/docs/scenario-sequence.md` for what's already covered — suggest facets that fill gaps
 
 > "You picked sufficiency (Evidence lens). For a good pairing, **perspective breadth** (Scope lens) would give students with different lenses very different observations. Or **inferential validity** (Logic lens) if you want to test whether the reasoning holds up. What sounds right?"
 
@@ -77,6 +83,24 @@ If the operator isn't sure, propose a concrete mechanism based on the topic and 
 
 The signal mechanism must be specific — not "the evidence is insufficient" but the concrete narrative of what happens.
 
+### 4b. Design the strength signal (mixed-valence)
+
+Every scenario must engineer at least one moment of genuine sound reasoning. This is not decorative — it is what justifies using deficit-only explanatory variables. Without an engineered strength, the discussion collapses into flaw-finding.
+
+Ask: **"Where in this discussion does someone actually reason well? What's the one thing the group gets right?"**
+
+If the operator isn't sure, propose one based on the topic and the chosen weaknesses. Pick a facet that is *not* one of the targeted weaknesses, and prefer one with a different primary lens than the weaknesses (so a student looking through that lens sees something to admire while another sees something to question). Then describe a concrete signal mechanism:
+
+> "For the rain barrel discussion, you've got Lena being overconfident about her one source (sufficiency, weak). For the strength: Maya could ask 'But who's actually going to fill these every week? My mom?' — that's consequence consideration done well. It's a Scope strength, so a Scope student notices the careful thinking right where an Evidence student is noticing Lena's thin source. Sound right?"
+
+The strength must:
+- Have a clear carrier persona (which character demonstrates it)
+- Have a concrete signal mechanism (what they say or do)
+- Have room in the turn outline to actually appear
+- Not collapse the discussion's tension — the strength should sit *alongside* the disagreement, not resolve it
+
+Optionally, ask: **"How would you explain why this is strong here, when in earlier scenarios the group might have done the lazy thing?"** That becomes the `contrastive_note`.
+
 ### 5. Design the discussion dynamic
 
 Ask: **"How should the conversation unfold between the students?"**
@@ -96,9 +120,9 @@ Guide them through:
 
 ### 7. Assemble and present
 
-Write the complete prompt in the 6-field format (see `docs/OperatorGuidance.md` for the format). Present it to the operator and ask:
+Write the complete prompt in the 6-field format (see `framework/docs/OperatorGuidance.md` for the format). Present it to the operator and ask:
 
-> "Here's your complete prompt. Read it through — does the signal mechanism capture what you want students to notice? Does the discussion dynamic feel right? Anything you'd change?"
+> "Here's your complete prompt. Read it through — does the weakness signal mechanism capture what you want students to notice? Does the strength feel like a moment a real 6th grader would actually reason well in? Does the discussion dynamic feel right? Anything you'd change?"
 
 Make any adjustments, then confirm:
 
@@ -109,5 +133,5 @@ Make any adjustments, then confirm:
 - **Use plain language first, framework terms second.** The operator thinks in "I want them to notice the group ignored a good point" — you translate that to `perspective_engagement`.
 - **Always explain your suggestions.** Don't just say "I recommend sufficiency." Say why it fits their goals.
 - **Respect the operator's vision.** If they have a specific topic or dynamic in mind, build around it — don't override with your suggestion.
-- **Check the sequence.** Consult `docs/scenario-sequence.md` to see what's already covered. Suggest facets and patterns that fill gaps.
+- **Check the sequence.** Consult `framework/docs/scenario-sequence.md` to see what's already covered. Suggest facets and patterns that fill gaps.
 - **Keep it conversational.** This is a brainstorm, not a questionnaire. Let the operator skip around, change their mind, or start with a topic instead of a facet.

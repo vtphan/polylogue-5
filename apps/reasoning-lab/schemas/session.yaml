@@ -1,5 +1,5 @@
 # Schema: Session Configuration (Reasoning Lab)
-# Describes the structure of registry/{scenario_id}/session.yaml
+# Describes the structure of artifacts/{scenario_id}/session.yaml
 # for Reasoning Lab sessions. Assembled from scoring.yaml + analysis.yaml.
 # Application: Reasoning Lab
 

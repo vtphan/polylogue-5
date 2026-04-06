@@ -1,14 +1,33 @@
+---
+description: Assemble the final Lens session configuration from all preceding artifacts
+argument-hint: <scenario_id>
+---
+
 # Configure Session
 
 Assemble the session configuration from the transcript, analysis, and scaffolding artifacts. This is largely mechanical — all inputs have already been reviewed.
 
 ## Input
 
-- `registry/{scenario_id}/transcript.yaml`
-- `registry/{scenario_id}/analysis.yaml`
-- `registry/{scenario_id}/lens/scaffolding.yaml`
+- `artifacts/$1/transcript.yaml`
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/lens/scaffolding.yaml`
 - `framework/reference/lenses.yaml`
 - `framework/reference/explanatory_variables.yaml`
+- `framework/reference/scenario_sequence.yaml` — planned sequence with per-position Lens toggles (lifeline pool, vocabulary visibility)
+- `apps/lens/reference/default_instructions.yaml` — standard student-facing strings (diagnose / discuss / ai_perspective / submit_assessment)
+
+## Telemetry
+
+Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+
+```bash
+python3 framework/pipeline/scripts/log_pipeline_event.py \
+  --scenario $1 --command configure_session \
+  --stage <stage> [--verdict <V>] [--notes "<text>"]
+```
+
+This is the final command in the Lens pipeline; the most useful entries are `--stage start`, `--stage save --verdict SAVE` (or `FAIL`), and any operator override of toggles derived from `scenario_sequence.yaml` (`--stage toggle_override --notes "..."`).
 
 ## Steps
 
@@ -47,27 +66,59 @@ Build `session.yaml` following the schema at `apps/lens/schemas/session.yaml`:
 - `ai_perspective.source: ai_perspective`
 - `ai_perspective.response_required: true`
 
-**Operator-authored content (per-state):**
-- `onboarding.topic_summary` and `onboarding.reading_instruction` (from Step 2)
-- `diagnose.instructions` — E.g., "Read this passage and choose one or more lenses. Rate the reasoning as strong or weak through each lens, then explain what you noticed."
-- `diagnose.articulation_prompt` — E.g., "What do you see? Why did you rate it this way?"
-- `discuss.instructions` — E.g., "See how your group members diagnosed this passage. What did they notice that you didn't? Discuss and decide what your group thinks."
-- `ai_perspective.instructions` — E.g., "Here's one more perspective on what's happening in this passage."
-- `ai_perspective.response_prompt` — E.g., "After reading the AI's perspective, what stands out to you? Does it match what your group was thinking?"
-- `submit_assessment.instructions` — E.g., "As a group, write your assessment of the reasoning in this passage."
-- `submit_assessment.assessment_prompt` — E.g., "What did you notice about the reasoning? Why do you think they reasoned this way?"
+**Operator-authored content:**
+- `onboarding.topic_summary` and `onboarding.reading_instruction` (from Step 2). These are the only student-facing strings the operator authors per scenario.
 
-**Lifeline configuration:**
-- `lifelines.pool_size` — operator decides (suggest 5 per group)
-- `lifelines.hint_cost` — typically 1
+**Default student-facing strings (loaded from `apps/lens/reference/default_instructions.yaml`):**
 
-**Reference list toggles:**
-- `reference_lists.show_cognitive_patterns` — operator decides (suggest `true` for later sessions, `false` for early sessions)
-- `reference_lists.show_social_dynamics` — operator decides
+Read the defaults file and copy each entry verbatim into the matching field on `session.yaml`:
 
-### Step 4: Validate
+| Default key | session.yaml field |
+|---|---|
+| `defaults.diagnose.instructions` | `diagnose.instructions` |
+| `defaults.diagnose.articulation_prompt` | `diagnose.articulation_prompt` |
+| `defaults.discuss.instructions` | `discuss.instructions` |
+| `defaults.ai_perspective.instructions` | `ai_perspective.instructions` |
+| `defaults.ai_perspective.response_prompt` | `ai_perspective.response_prompt` |
+| `defaults.submit_assessment.instructions` | `submit_assessment.instructions` |
+| `defaults.submit_assessment.assessment_prompt` | `submit_assessment.assessment_prompt` |
 
-Validate `session.yaml` against `apps/lens/schemas/session.yaml`.
+Do not modify the defaults file from this command. If the operator has explicitly asked to deviate for this session (e.g., a softer prompt for an early-pilot class), apply the override to the relevant field only and emit a `--stage instruction_override --notes "<field>: <reason>"` telemetry event so the divergence is visible. If a deviation should become permanent, edit `apps/lens/reference/default_instructions.yaml` directly — that's the single source of truth.
+
+**Lifeline and vocabulary toggles (derived from scenario sequence):**
+
+Look up `$1` in `framework/reference/scenario_sequence.yaml` under `sequence[*].scenario_id`. If found, use the matching entry's `lens` block to set:
+- `lifelines.pool_size` ← `lens.lifeline_pool`
+- `reference_lists.show_cognitive_patterns` ← `lens.show_cognitive_patterns`
+- `reference_lists.show_social_dynamics` ← `lens.show_social_dynamics`
+
+`lifelines.hint_cost` is always `1`.
+
+If the operator has explicitly asked to override any of these for this session, honor the override and note it (one line) in your final report so the divergence from the planned sequence is visible.
+
+If `$1` is **not** in `scenario_sequence.yaml` (an experimental scenario outside the plan), fall back to: `lifeline_pool: 5`, `show_cognitive_patterns: false`, `show_social_dynamics: false`, and warn the operator that this scenario is not part of the planned sequence — they may want to add it to `framework/reference/scenario_sequence.yaml` (and `framework/docs/scenario-sequence.md`) before pilot.
+
+### Step 4: Save
+
+Write the assembled `session.yaml` to disk so the validator can read it:
+
+```
+artifacts/$1/lens/session.yaml
+```
+
+### Step 5: Validate
+
+Run schema validation explicitly — **halt on non-zero exit**:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/lens/session.yaml \
+  apps/lens/schemas/session.yaml
+```
+
+If the validator reports issues, the saved file is invalid — surface the issues to the operator, fix the assembly, and re-save before proceeding.
+
+**Log:** `--stage save --verdict SAVE` on success, or `--stage save --verdict FAIL --notes "schema validation failed"` on failure.
 
 Check cross-references:
 - [ ] All `passage_id` values exist in `analysis.yaml`
@@ -75,19 +126,13 @@ Check cross-references:
 - [ ] `lens_definitions` lens IDs match reference data
 - [ ] Reference list IDs match `framework/reference/explanatory_variables.yaml`
 
-### Step 5: Save
-
-```
-registry/{scenario_id}/lens/session.yaml
-```
-
 ## Output
 
-`registry/{scenario_id}/lens/session.yaml`
+`artifacts/$1/lens/session.yaml`
 
 ## Pipeline Complete
 
-All artifacts for this scenario are now in `registry/{scenario_id}/`:
+All artifacts for this scenario are now in `artifacts/$1/`:
 
 Shared (stages 1–3):
 - `scenario.yaml` — scenario plan (pipeline-internal)

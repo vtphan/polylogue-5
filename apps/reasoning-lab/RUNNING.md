@@ -23,7 +23,7 @@ Stages 1–3 are shared with Lens. If you've already run them for a scenario, sk
 /create_scenario
 ```
 
-**Output:** `registry/{scenario_id}/scenario.yaml`
+**Output:** `artifacts/{scenario_id}/scenario.yaml`
 
 ### Stage 2: Create Transcript (shared)
 
@@ -31,7 +31,7 @@ Stages 1–3 are shared with Lens. If you've already run them for a scenario, sk
 /create_transcript
 ```
 
-**Output:** `registry/{scenario_id}/transcript.yaml`
+**Output:** `artifacts/{scenario_id}/transcript.yaml`
 
 ### Stage 3: Analyze Transcript (shared)
 
@@ -39,7 +39,7 @@ Stages 1–3 are shared with Lens. If you've already run them for a scenario, sk
 /analyze_transcript
 ```
 
-**Output:** `registry/{scenario_id}/analysis.yaml`, `registry/{scenario_id}/facilitation.yaml`
+**Output:** `artifacts/{scenario_id}/analysis.yaml`, `artifacts/{scenario_id}/facilitation.yaml`
 
 ### Stage 4a: Design Scoring Rubric (Reasoning Lab-specific)
 
@@ -49,7 +49,7 @@ Stages 1–3 are shared with Lens. If you've already run them for a scenario, sk
 
 The scoring rubric agent produces observation buckets (with match phrases, rarity predictions, differentiation levels), explanation buckets, senior analyst reports, and the competition facilitation guide.
 
-**Output:** `registry/{scenario_id}/reasoning-lab/scoring.yaml`, `registry/{scenario_id}/reasoning-lab/competition-facilitation.yaml`
+**Output:** `artifacts/{scenario_id}/reasoning-lab/scoring.yaml`, `artifacts/{scenario_id}/reasoning-lab/competition-facilitation.yaml`
 
 ### Stage 5a: Configure Competition (Reasoning Lab-specific)
 
@@ -59,12 +59,12 @@ The scoring rubric agent produces observation buckets (with match phrases, rarit
 
 Assembles the session configuration — scanner assignments, timer defaults, leaderboard settings, lab resource pool.
 
-**Output:** `registry/{scenario_id}/reasoning-lab/session.yaml`
+**Output:** `artifacts/{scenario_id}/reasoning-lab/session.yaml`
 
 ## Final Artifact Layout
 
 ```
-registry/{scenario_id}/
+artifacts/{scenario_id}/
 ├── scenario.yaml                          # Shared — stage 1
 ├── transcript.yaml                        # Shared — stage 2
 ├── analysis.yaml                          # Shared — stage 3

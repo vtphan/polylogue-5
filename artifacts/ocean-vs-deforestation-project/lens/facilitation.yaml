@@ -1,0 +1,366 @@
+scenario_id: ocean-vs-deforestation-project
+overview:
+  topic: >
+    A 6th-grade group choosing between an ocean pollution project and a deforestation
+    project for their semester PBL.
+  targeted_facets_summary: >
+    Two designed weaknesses and one designed strength. Weakness 1 (relevance, evidence
+    lens): Maya cites real, dramatic facts from a documentary about the Great Pacific
+    Garbage Patch and uses them as if they decide what her local school group should
+    do — the evidence is about the Pacific, the project is about their school, and
+    nobody names that gap. Weakness 2 (perspective engagement, scope lens): Jordan
+    raises the strongest objection — they don't live near the ocean, what would they
+    actually do — and Maya half-acknowledges it ("we can figure that out later") and
+    pivots back to scale. Jordan softens rather than restates, and the question never
+    gets answered. Strength (consequence consideration, scope lens): early in the
+    discussion, before he loses his nerve, Jordan grounds his deforestation idea in
+    concrete next steps — planting trees by the fence, who would water them over
+    summer.
+  session_timing: >
+    Plan for about 35-40 minutes: 5 minutes to read, 8-10 minutes individual
+    diagnose across passages, 12-15 minutes group discussion, 8-10 minutes whole-class
+    debrief.
+  what_to_expect: >
+    Students usually notice the dramatic facts first — the millions of tons, the sea
+    turtle — and many will say "Maya is right, that's a real problem." The harder
+    move is noticing that the evidence is about a place far from the school. Expect
+    students to also feel the social ending ("Jordan just gave up") before they can
+    name what happened. Some students will defend Maya as just being passionate;
+    that's a productive disagreement to surface, not to correct.
+
+passage_guides:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    summary: >
+      Maya opens with the documentary and her project pitch. Jordan counters with
+      deforestation and immediately grounds it in a specific plan and a real
+      follow-up question.
+    whats_here:
+      - facet: consequence consideration
+        quality: strong
+        visible_through: [scope, logic]
+        explanation: >
+          Jordan thinks in concrete next steps — a specific place (the fence), a
+          specific time (summer), specific people (who would water them). This is
+          sound Scope reasoning about what would actually happen, and it's the
+          strength designed into the scenario. It shows up early, before the social
+          dynamic with Maya pulls him off it.
+      - facet: source credibility
+        quality: weak (emergent)
+        visible_through: [evidence]
+        explanation: >
+          Maya leans on "a documentary" without naming it or asking how she'd
+          check it. Not the designed target, but students often surface this.
+    diagnose:
+      if_students_are_stuck: >
+        Try the Scope lens — is anyone in this passage talking about specific people,
+        specific places, or specific times? Who?
+    discuss:
+      likely_disagreements: >
+        Some students will say Jordan's tree question is just "being negative," while
+        others will see it as the most useful thing said so far. Both readings are
+        worth surfacing.
+      productive_questions:
+        - What does Jordan do in his two turns that Maya hasn't done yet?
+        - Is Jordan's "who would water them" a real problem or a small detail?
+        - If you took Jordan's two turns out of the discussion, what would change?
+        - >
+          Notice how each person opens. Maya leads with her conclusion; Jordan
+          leads with an idea and then asks himself a question about it. What does
+          that difference set up for the rest of the conversation?
+        - >
+          Both Maya and Jordan are leaning on a single source — Maya on a
+          documentary, Jordan on his uncle. Why does Maya's source feel like
+          stronger evidence even though both are just one source?
+        - >
+          If your group were planning a real project, would you rather start
+          from Maya's kind of opening or Jordan's? Why?
+      watch_for: >
+        Productive: students notice that Jordan is doing a different kind of
+        thinking, not just disagreeing. Stalled: the group reduces it to "Maya
+        cares more, Jordan is being picky."
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will frame Jordan's grounding (specific place, specific time) as
+        sound Scope reasoning that's easy to miss, and warn students to watch what
+        happens to it later in the discussion.
+      likely_student_reactions: >
+        Students often nod at this and then are surprised when Jordan disappears
+        later. Some will say "wait, he was right" — which is the moment to ask what
+        changed.
+      follow_up: >
+        Ask the group to mark the latest turn where Jordan is still doing this
+        kind of thinking, and the earliest turn where he isn't. What's between them?
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Jordan is the one actually asking what would happen next.
+        might_miss:
+          - Maya's opening "we have to" is a conclusion before any reasoning.
+      - lens: evidence
+        will_likely_see:
+          - Maya is already leaning on a single documentary.
+        might_miss:
+          - Jordan's "my uncle showed me" is also a single source.
+      - lens: scope
+        will_likely_see:
+          - Jordan names a specific place and a specific time.
+        might_miss:
+          - This kind of grounding will disappear from the rest of the discussion.
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05]
+    summary: >
+      Maya replies to the tree plan not by engaging with it but by pulling out
+      dramatic facts and images from the documentary and using them as if they
+      settle the project choice.
+    whats_here:
+      - facet: relevance
+        quality: weak
+        visible_through: [evidence, logic, scope]
+        explanation: >
+          The "millions of tons" stat and the sea turtle are real, but they're
+          about the middle of the Pacific Ocean. The project is about something
+          a school group can do. The evidence and the claim are at different
+          scales. Cognitively, this is overgeneralization — stretching a global
+          fact into a local conclusion. Socially, the emotional weight of the
+          turtle image creates group pressure: pushing back on it can feel like
+          you don't care about animals, which makes the scale gap hard to name.
+    diagnose:
+      if_students_are_stuck: >
+        Through the Evidence lens, ask: where is this evidence from, and where is
+        the project? Are they the same kind of place?
+    discuss:
+      likely_disagreements: >
+        Some students will say the documentary is good evidence because it's true.
+        Others will say it doesn't matter for this project. Both are partly right —
+        the evidence is true and irrelevant at the same time. That distinction is
+        the heart of relevance.
+      productive_questions:
+        - The fact about plastic is true. Why isn't that enough?
+        - If your group cared about turtles, would this evidence tell you what to do?
+        - What kind of evidence would actually help the group pick a project?
+        - >
+          Maya's reply doesn't actually engage with the tree plan. What does she
+          do instead, and why does it feel like a response even though it isn't?
+        - >
+          If you tried to push back on the sea turtle story, what would that feel
+          like in a real group? Does that feeling tell you anything about why
+          nobody in this group pushes back?
+        - >
+          Try saying it out loud: "That fact is true and it doesn't help us
+          decide." Does that sentence feel weird? If so, why?
+      watch_for: >
+        Productive: students separate "is this true" from "does this support the
+        specific claim." Stalled: the discussion turns into whether ocean
+        pollution is bad (it is — that's not the question).
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will name the scale gap directly — Pacific Ocean evidence vs.
+        school-group project — and introduce overgeneralization as one way to
+        think about why it's easy to miss. It will also note the social pressure
+        of the turtle image.
+      likely_student_reactions: >
+        Some students will feel defensive on Maya's behalf. Others will say "oh,
+        that's the thing I couldn't put into words." Both are useful.
+      follow_up: >
+        Ask: can you think of a different piece of evidence Maya could have used
+        that would actually help the group decide?
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya doesn't actually answer the tree-planting plan.
+        might_miss:
+          - '"Way more important" is an unsupported comparison.'
+      - lens: evidence
+        will_likely_see:
+          - The "millions of tons" stat is dramatic but it's about the Pacific.
+        might_miss:
+          - The turtle image is doing persuasive work the number alone wouldn't.
+      - lens: scope
+        will_likely_see:
+          - The evidence is about somewhere very far from the school.
+        might_miss:
+          - Maya never says what the group itself would do.
+
+  - passage_id: passage_03
+    turns: [turn_06, turn_07, turn_08]
+    summary: >
+      Jordan raises his strongest objection — they don't live near the ocean.
+      Maya brushes it off and pivots to scale. Jordan tries the feasibility
+      point once more, more weakly.
+    whats_here:
+      - facet: perspective engagement
+        quality: weak
+        visible_through: [scope, logic]
+        explanation: >
+          The signature is half-acknowledgment-then-pivot. Jordan's question is
+          about feasibility; Maya's answer is about importance. Cognitively,
+          this looks like confirmation bias — already attached to ocean pollution,
+          Maya hears the objection as an obstacle to get past, not a question to
+          think about. Socially, Jordan softens rather than restating, which is
+          conflict avoidance. Together, the strongest counterargument in the
+          whole discussion never actually gets answered.
+    diagnose:
+      if_students_are_stuck: >
+        Through the Scope lens, ask: what is Jordan's question really about, and
+        what is Maya's answer about? Are they the same thing?
+    discuss:
+      likely_disagreements: >
+        Some students will say Maya answered Jordan ("she said they'd figure it
+        out"). Others will say she didn't. This disagreement is the lesson —
+        students need to feel the difference between acknowledging a question
+        and answering it.
+      productive_questions:
+        - What was Jordan actually asking?
+        - What did Maya say back? Are those about the same thing?
+        - If you were in this group, what would you have wanted Maya to say?
+        - >
+          Compare Jordan's turn 6 and his turn 8. He's asking the same kind of
+          question — but how he asks it is different. What changed between
+          those two turns?
+        - >
+          Is "we can figure that out later" an answer, or is it a way of
+          putting the question off? What's the difference?
+        - >
+          When have you seen a real conversation where someone half-answered
+          your question and then changed the subject? What did it feel like —
+          and what would have helped you keep your question alive?
+      watch_for: >
+        Productive: students can articulate the topic shift. Stalled: students
+        treat "we can figure it out later" as a real answer.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will name this as a topic shift — feasibility question, importance
+        answer — and offer confirmation bias and conflict avoidance as one way to
+        think about why it happens.
+      likely_student_reactions: >
+        Recognition. Many students have been in this exact dynamic and will say so.
+      follow_up: >
+        Ask: have you ever been Jordan in a group? What would have helped you
+        keep your question alive?
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya's reply changes the subject from feasibility to importance.
+        might_miss:
+          - '"We can figure that out later" treats a real problem as already solved.'
+      - lens: evidence
+        will_likely_see:
+          - Maya is still using the documentary, not new information.
+        might_miss:
+          - Jordan never gets asked to bring evidence for his side.
+      - lens: scope
+        will_likely_see:
+          - Jordan's question is the strongest thing said in the whole discussion.
+        might_miss:
+          - The question gets dropped, not answered.
+
+  - passage_id: passage_04
+    turns: [turn_09, turn_10, turn_11, turn_12, turn_13]
+    summary: >
+      Maya brings up another documentary fact, Jordan softens, Maya treats
+      that as agreement, and the group lands on ocean pollution with the
+      feasibility question still hanging in the air.
+    whats_here:
+      - facet: sufficiency
+        quality: weak (emergent)
+        visible_through: [evidence, logic]
+        explanation: >
+          The decision gets made on one more dramatic fact plus "everyone says
+          so" — and on Jordan's quiet "sure, okay." Cognitively, this is false
+          certainty: nobody's objecting any more, so the group treats the
+          question as answered. Socially, group pressure plus Jordan's
+          conflict avoidance turn silence into apparent consensus.
+    diagnose:
+      if_students_are_stuck: >
+        Through the Logic lens, ask: how did the group actually decide? What
+        was the last thing that changed Jordan's mind — or did anything?
+    discuss:
+      likely_disagreements: >
+        Some students will say "they decided." Others will say "Jordan just
+        gave up." Surface this — it's the heart of the passage.
+      productive_questions:
+        - Did Jordan change his mind, or change his behavior?
+        - What's the difference between agreeing and stopping arguing?
+        - What would it have taken for this decision to be a real one?
+        - >
+          Read Jordan's turn 12 out loud. Does "sure, okay" sound like
+          someone who got convinced? If not, what does it sound like?
+        - >
+          Look back across the whole discussion. Where did every piece of
+          evidence come from? What does that tell you about how much the
+          group actually knew when they decided?
+        - >
+          Maya says "everyone says so" in turn 9. Is that evidence? What
+          work is that phrase doing in the conversation?
+        - >
+          If this group came back tomorrow and tried to start their ocean
+          pollution project, what's the first question they'd hit — and is
+          it a question they ever answered?
+      watch_for: >
+        Productive: students can name that "we stopped arguing" isn't the same
+        as "we agreed." Stalled: the group accepts the decision as final
+        because the characters did.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will distinguish "we stopped arguing" from "we agreed," and
+        offer false certainty as a way to think about how the group landed
+        on a decision without answering its own question.
+      likely_student_reactions: >
+        Often quiet recognition. This is a moment where students sometimes
+        bring up their own group experiences.
+      follow_up: >
+        Ask the class: what could the group have done differently in the
+        last three turns to make this a real decision?
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Jordan's softening doesn't actually mean he agrees.
+        might_miss:
+          - '"Everyone says so" is doing real work in the closing turns.'
+      - lens: evidence
+        will_likely_see:
+          - The closing facts are still about the Pacific.
+        might_miss:
+          - All evidence in the discussion comes from one documentary.
+      - lens: scope
+        will_likely_see:
+          - Jordan's feasibility question never got answered.
+        might_miss:
+          - Nobody asked what success would even look like for either project.
+
+debrief:
+  key_takeaways:
+    - >
+      Relevance is not the same as truth. Maya's documentary facts are true and
+      they don't support the specific claim she's making. Students need practice
+      separating "is this true" from "does this support what we're trying to
+      decide right now."
+    - >
+      Engaging a perspective is not the same as acknowledging it. Maya nods at
+      Jordan's worry and then doesn't address it. The whole discussion turns on
+      the difference between hearing an objection and answering it.
+    - >
+      Group decisions can look settled when they aren't. Jordan's silence at the
+      end isn't agreement — it's stopping. Students can practice noticing when a
+      decision was made by reasoning and when it was made by one person running
+      out of energy.
+  cross_group_prompts:
+    - >
+      Different groups, raise your hands: which lens did you find most useful in
+      passage 2 — Evidence or Scope? What did that lens show you that the other
+      one didn't?
+    - >
+      Did any group's Logic-lens reader notice something in passage 4 that the
+      Scope-lens reader missed, or vice versa? What was it?
+    - >
+      Across all your groups, did anyone defend Maya? What was the strongest
+      version of that defense, and what would you say back to it?
+  connection_to_next: >
+    This session exercised the move from noticing dramatic evidence to asking
+    whether the evidence fits the specific decision at hand, and the move from
+    feeling a social ending to naming what happened in it. Future sessions can
+    build on either thread — relevance with quieter, less dramatic evidence,
+    or perspective engagement in groups where the social pressure runs the
+    other direction.

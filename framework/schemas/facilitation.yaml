@@ -1,5 +1,5 @@
 # Schema: Facilitation Guide
-# Describes the structure of registry/{scenario_id}/facilitation.yaml
+# Describes the structure of artifacts/{scenario_id}/facilitation.yaml
 # Teacher-facing document. Uses facet language openly.
 # Produced by evaluator (Stage 3), enriched by scaffolding ID (Stage 4).
 # Source: pipeline-spec.md Section 2.4

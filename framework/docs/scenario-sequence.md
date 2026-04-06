@@ -1,5 +1,11 @@
 # Scenario Sequence: Anchor + Breadth (Structure C)
 
+> **This document is the design rationale.** The machine-readable form is at `framework/reference/scenario_sequence.yaml` — keep the two in sync. `/check_coverage` and `/configure_session` read the YAML; the prose here is the source of truth for *why* the sequence is shaped this way.
+>
+> **Mixed-valence is doctrinal.** Every scenario's operator-prompt code block must include a `Target strengths:` section (at least one entry) — this is a hard contract enforced by `/create_scenario` and the validation_agent. See suggestion A in `framework/docs/system-evaluation-20260406.md` and the `target_strengths` field in `framework/schemas/scenario_plan.yaml`. The strength is *not* decorative — it is what justifies using the framework's deficit-only cognitive/social vocabulary, because positive reasoning gets explained contrastively against the deficit baseline.
+>
+> **The operator-prompt code blocks below are designed to paste directly into `/create_scenario`.** If a block fails Step 0 validation, the doc and the pipeline contract have drifted — fix the block, not the contract.
+
 ## Rationale
 
 This sequence uses two **anchor facets** — relevance and perspective engagement — that appear in the first scenario and return later at higher subtlety. Between the anchors, three scenarios introduce the remaining three Core-tier facets and two Extend-tier facets (using priority tiers from the facet inventory, Section 10 of `polylogue-v5-6.md`).
@@ -22,15 +28,37 @@ High cross-lens visibility makes these facets ideal for early sessions, where th
 
 ### Why Logic Appears as Primary Lens in Only One Scenario
 
-The Logic lens appears as a primary targeting lens only in Scenario 3 (inferential validity + source credibility). This is intentional, not an oversight.
+The Logic lens appears as a primary targeting lens only in Scenario 3 (inferential validity + source credibility). The 1-of-5 allocation rests on **two distinct constraints — one structural, one contingent.** Disentangling them clarifies what is and isn't open to revision.
 
-**Logic is the convergence lens.** Inferential validity — the most Logic-specific facet — has no cross-lens visibility. When students all see the same broken inference, perspectival diversity collapses. The framework's learning model depends on students seeing *different things* in the same passage; Logic-primary passages work against this.
+**Constraint 1 — Lens-collapse (structural).** `inferential_validity`, the most Logic-specific facet, has no cross-lens visibility. When two students with different lenses both see the same broken inference, the framework's perspectival learning model collapses by construction — there are no "different things to see in the same passage." Any Logic-primary scenario built around inferential_validity reproduces this collapse. This is a structural limit, not a design challenge: better designs do not relax it. Scenario 3 is the *one* place this constraint is worth paying for, because the inferential-validity facet itself is critical-thinking-foundational and students need to encounter it explicitly.
 
-**Logic already operates through cross-lens visibility in 4 of 5 scenarios.** The cross-lens visibility map shows Logic as a secondary route for relevance (Scenarios 1, 4), source credibility (Scenario 3), sufficiency (Scenario 2), perspective engagement (Scenarios 1, 2, 5), consequence consideration (Scenario 5), and condition sensitivity (Scenario 4). A student assigned the Logic lens will find productive observations in most scenarios — they just arrive through a different angle than the primary targeting.
+**Constraint 2 — Design difficulty (contingent).** The other Logic-primary facets are deferred for *design* reasons, not structural ones:
 
-**Discovery through cross-lens routes is stronger pedagogy.** A Logic student who discovers a relevance problem in an Evidence-targeted passage — "wait, I see a logic issue here" — has a more powerful learning moment than one who finds a logic problem in a passage designed for them to find it. It validates the perspectival model: your lens revealed something others might miss.
+- `reasoning_completeness` is abstract for 6th graders and overlaps with how students naturally perceive sufficiency ("they jumped to a conclusion") and inferential_validity ("the conclusion doesn't follow"). Designing it as *distinct* from these requires fine calibration.
+- `internal_consistency` is Reserve-tier per the facet inventory: contradictions in a 10–14 turn 2-persona discussion tend to feel planted rather than natural.
 
-**The remaining Logic-primary facets are harder to design naturally for 6th graders.** Internal consistency (Reserve tier — hardest to design for) and reasoning completeness are abstract and harder to make feel natural in a 10–14 turn discussion between two personas.
+These are real constraints — but contingent on design effort, not on the framework's perspectival commitments. Investing focused design time in either could in principle produce a working scenario. We have not made that investment yet for the 5-scenario pilot, and a poorly-designed Logic scenario is worse than no second Logic scenario — it would teach students that Logic is artificial or planted.
+
+**Logic operates through cross-lens visibility in 4 of 5 scenarios.** The cross-lens visibility map shows Logic as a secondary route for relevance (Scenarios 1, 4), source credibility (Scenario 3), sufficiency (Scenario 2), perspective engagement (Scenarios 1, 2, 5), consequence consideration (Scenario 5), and condition sensitivity (Scenario 4). A student assigned the Logic lens will find productive observations in most scenarios — they just arrive through a different angle than the primary targeting. Discovery through an unexpected cross-lens route is genuinely a powerful learning moment: "my lens revealed something others might miss" validates the perspectival model in a way that doing the assigned task does not.
+
+**What this means for a Logic-assigned student.** A 6th grader randomly assigned the Logic lens spends 1 of 5 scenarios doing primary work and 4 of 5 making secondary observations through cross-lens routes. The cross-lens routes are pedagogically valuable (see above), but a 4-to-1 ratio against "your lens is the right tool here" is borderline. We accept this for the 5-scenario pilot and **measure** student experience as part of the pilot data — see *Decision criteria for Scenario 6* below.
+
+**Mitigation in the 5-scenario pilot.** Even within the current sequence, the evaluator agent should mark passages where Logic is the *cleanest primary route* to the most informative observation, regardless of which facet was the design target. This lives in `analysis.yaml`'s `diversity_potential.expected_lens_split` field, which already exists. The intent is that a Logic-assigned student encounters at least one "your lens is the right tool here" passage per scenario, even when the scenario's overall facet targets are Evidence- or Scope-primary. This costs no new scenario design — it asks the evaluator to honestly identify Logic-primary moments in passages whose design target was something else.
+
+**To be revisited after pilot data.** The Constraint-2 deferral is not permanent. After the first pilot run, mine telemetry and student annotations for the question *"are Logic-assigned students productively engaged, or sitting out?"* If the data says they're underserved, the appropriate response is to design **one careful Logic-primary scenario as Scenario 6** — built **not** around inferential_validity (which would repeat the lens-collapse problem) but around a **cross-lens-visible facet that is cleanest through Logic**.
+
+Example shape for such a scenario: a discussion where one persona reasons *"I have one example of X, therefore X is generally true."* Evidence and Scope students find productive observations (the evidence is thin; other cases are missing), but the cleanest diagnosis — *"this inference doesn't hold from one case to a general claim"* — arrives through Logic. The facet itself stays cross-lens-visible, preserving perspectival diversity, while the *cleanest primary route* belongs to Logic. This is the only model that lets Logic operate as a peer primary lens without the structural lens-collapse problem.
+
+#### Decision criteria for Scenario 6
+
+After the first end-to-end pilot run, the decision to design Scenario 6 should be driven by data, not architectural argument. Flip to *yes* if any of the following hold:
+
+- **Engagement gap:** Logic-assigned students make materially fewer observations per passage than Evidence- or Scope-assigned students, on average across the 5 scenarios.
+- **Self-reported usefulness:** Logic-assigned students self-report their lens as "useful for this passage" in less than half of passages, while Evidence and Scope students report higher.
+- **Cross-group distinctiveness:** In peer discussion, Logic students bring observations that are distinct from Evidence/Scope students in fewer passages than the framework's perspectival model predicts.
+- **Sequence growth:** The pilot is being extended past 5 scenarios for any reason. At 6+ scenarios, a single Logic-primary scenario is structurally underweighted regardless of pilot data.
+
+If none of these hold, the rationale is vindicated and the 1-of-5 allocation is sustainable for any pilot at this size — revisit only if sequence size or pedagogical commitments change.
 
 ### Progression Logic
 
@@ -73,7 +101,7 @@ The difficulty increases through two mechanisms:
 
 ## Scenario 1: Ocean vs Deforestation
 
-**Status:** GENERATED (exists at `registry/ocean-vs-deforestation/`)
+**Status:** Generated under the legacy system at `registry/ocean-vs-deforestation/`. Not yet regenerated under the new pipeline (`artifacts/`). Re-running `/create_scenario` with the updated operator prompt below is the recommended next step — it exercises the full A/F/I/D/G/E gate stack.
 
 ### Operator Prompt
 
@@ -128,6 +156,19 @@ Target facets:
   pressing).
   Carrier persona: the ocean-pollution advocate.
 
+Target strengths:
+- Consequence consideration (Scope lens) — Carrier: the deforestation advocate.
+  Signal mechanism: Briefly, the deforestation persona grounds the discussion
+  in concrete downstream effects — "we could actually plant trees at school"
+  and "who would water them over summer?" — naming specific, actionable
+  consequences of their proposed project. This is sound Scope reasoning about
+  what would actually happen, distinct from their feasibility argument (which
+  is the cross-cut of perspective engagement). The strength shows up early
+  before the persona starts backing down. Contrastive note: where in earlier
+  scenarios the same kind of project-planning conversation would have run on
+  pure enthusiasm without grounding in concrete next steps (cf. scenario 2's
+  egocentric_thinking, scenario 5's tunnel_vision).
+
 Discussion dynamic: The personas must genuinely disagree — they want different
 projects, not just different angles on the same project. One is passionate
 about ocean pollution because of a documentary; the other thinks deforestation
@@ -152,7 +193,7 @@ because they were wrong, but because they stopped pressing.
 
 ## Scenario 2: School Garden Water
 
-**Status:** GENERATED (exists at `registry/school-garden-water/`)
+**Status:** Generated under the legacy system at `registry/school-garden-water/`. Not yet regenerated under the new pipeline (`artifacts/`).
 
 ### Operator Prompt
 
@@ -212,6 +253,20 @@ Target facets:
   closed the first question carried over, making it feel unnecessary to
   ask "who else should we talk to?").
   Carrier persona: both (but the rain-barrel advocate drives the planning).
+
+Target strengths:
+- Relevance (Evidence lens) — Carrier: the hose advocate.
+  Signal mechanism: Before deferring to the other persona's "research," the
+  hose persona keeps the evidence grounded in the actual question — "the hose
+  works right now," "the principal said by spring," "we know it gets the
+  garden watered." Their evidence is unglamorous but tightly aligned to what
+  the group is actually deciding. This is sound Evidence reasoning about
+  relevance: their information matches the scope of their decision. The
+  strength is brief and visible early, before authority deference takes over.
+  Contrastive note: where the rain-barrel persona stretches Portland data
+  (different climate, different scale) to confident certainty about their
+  garden — overgeneralization that the hose persona's grounded relevance
+  pointedly avoids.
 
 Discussion dynamic: The personas should disagree about which option is
 better — one wants the simple hose, the other wants the rain barrels. The
@@ -290,6 +345,19 @@ Target facets:
   formal evidence from a website trumps informal evidence from a
   sibling, making the flawed inference go unchallenged).
 
+Target strengths:
+- Consequence consideration (Scope lens) — Carrier: the worried persona.
+  Signal mechanism: The worried persona's sibling-sourced concern is
+  specifically about *what happens after* the recycling leaves the bin —
+  "it actually ends up in landfills more often." This is sound Scope
+  reasoning about downstream effects: they're asking the right question about
+  where the material actually goes, not just whether the immediate sorting
+  works. The strength is visible in their initial position before authority
+  deference collapses it. Contrastive note: where in this same scenario the
+  recycling-company website triggers uncritical_acceptance, the worried
+  persona's downstream-effects question models the kind of grounding that
+  uncritical_acceptance pointedly avoids.
+
 The personas should start on opposite sides — one wants single-stream
 (it's easier), the other is worried about environmental impact (the
 sibling's claim). The worried persona gets won over by the "data" from
@@ -357,6 +425,19 @@ Target facets:
   unconditional facts). Social dynamic: group pressure (neither persona
   wants to weaken the poster's impact by adding qualifications, so
   they both accept the unqualified claims).
+
+Target strengths:
+- Sufficiency (Evidence lens) — Carrier: the accuracy-minded persona.
+  Signal mechanism: Before getting swept up in poster-design excitement,
+  the accuracy persona explicitly questions whether one statistic is
+  enough to support a sweeping claim — "but that's just about aluminum,
+  is one number really enough to put on a poster about the whole planet?"
+  This is sound Evidence reasoning about sufficiency: noticing that the
+  weight of the evidence doesn't match the weight of the conclusion. The
+  strength is brief and visible early, before capitulation. Contrastive
+  note: where the same persona later goes silent and lets the
+  overgeneralization stand — the strength is precisely what
+  overgeneralization (and, downstream, false_certainty) erase.
 
 The personas should have slightly different priorities — one wants the
 poster to be dramatic and attention-grabbing, the other wants it to be
@@ -436,6 +517,23 @@ Target facets:
   decision's downstream effects would risk the harmony they worked
   to achieve).
 
+Target strengths:
+- Relevance (Evidence lens) — Carrier: one of the personas (the dialog
+  writer chooses which fits more naturally with their voice).
+  Signal mechanism: Briefly, one persona pulls the discussion back to
+  their actual class context — "but how does this connect to what we're
+  building for the project?" — keeping the evidence about each trip
+  aligned to the question the group is actually answering (a class
+  proposal, not a personal preference). This is sound Evidence reasoning
+  about relevance: their question matches the scope of the decision.
+  The strength is brief, gets a perfunctory acknowledgment, and is moved
+  past — illustrating that the structural weakness of this scenario is
+  not interpersonal hostility but the conversation's failure to dwell
+  on the right kind of grounding. Contrastive note: where in earlier
+  scenarios the same kind of "but does this match what we need?"
+  question would have surfaced overgeneralization (cf. scenario 1's
+  Pacific-to-school stretch).
+
 The personas should genuinely disagree at first — one wants the preserve,
 the other wants the waste facility. But unlike Scenario 1, they should
 argue respectfully and make concessions. The discussion should feel like
@@ -483,7 +581,7 @@ Three facets from the inventory are not targeted in this 5-scenario sequence:
 | Pattern | Scenarios |
 |---|---|
 | overgeneralization | 1, 4 |
-| confirmation_bias | 1, 4 |
+| confirmation_bias | 1 |
 | false_certainty | 2, 4 |
 | egocentric_thinking | 2 |
 | uncritical_acceptance | 3 |

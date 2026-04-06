@@ -10,8 +10,8 @@ Usage:
 
 Example:
     python3 enumerate_transcript.py \
-        registry/ocean-vs-deforestation/intermediates/transcript_polished.yaml \
-        registry/ocean-vs-deforestation/transcript.yaml
+        artifacts/ocean-vs-deforestation/intermediates/transcript_polished.yaml \
+        artifacts/ocean-vs-deforestation/transcript.yaml
 """
 
 import sys

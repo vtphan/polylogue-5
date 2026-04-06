@@ -3,7 +3,7 @@
 
 Syncs shared upstream commands/agents from framework/pipeline/ and
 Lens-specific commands/agents from apps/lens/pipeline/ into .claude/.
-Verifies reference data, schemas, and registry.
+Verifies reference data, schemas, and artifacts directory.
 
 Usage:
     python3 apps/lens/pipeline/initialize_polylogue.py [--project-root <path>]
@@ -96,7 +96,12 @@ def initialize(project_root):
 
     # --- Verify reference data ---
     ref_dir = os.path.join(project_root, "framework", "reference")
-    ref_files = ["lenses.yaml", "facet_inventory.yaml", "explanatory_variables.yaml"]
+    ref_files = [
+        "lenses.yaml",
+        "facet_inventory.yaml",
+        "explanatory_variables.yaml",
+        "scenario_sequence.yaml",
+    ]
     ref_ok = True
     for fname in ref_files:
         path = os.path.join(ref_dir, fname)
@@ -110,6 +115,19 @@ def initialize(project_root):
         print(f"Reference data: {len(ref_files)} files verified")
     else:
         ok = False
+
+    # --- Verify Lens-specific reference data ---
+    lens_ref_dir = os.path.join(project_root, "apps", "lens", "reference")
+    lens_ref_files = ["default_instructions.yaml"]
+    for fname in lens_ref_files:
+        path = os.path.join(lens_ref_dir, fname)
+        if not os.path.exists(path):
+            print(f"  MISSING: {path}", file=sys.stderr)
+            ok = False
+        else:
+            with open(path) as f:
+                yaml.safe_load(f)
+    print(f"Lens reference data: {len(lens_ref_files)} files verified")
 
     # --- Verify schemas ---
     all_schemas = FRAMEWORK_SCHEMAS + LENS_SCHEMAS
@@ -125,13 +143,13 @@ def initialize(project_root):
     else:
         ok = False
 
-    # --- Verify registry ---
-    registry = os.path.join(project_root, "registry")
-    if os.path.isdir(registry):
-        print("Registry: exists")
+    # --- Verify artifacts ---
+    artifacts = os.path.join(project_root, "artifacts")
+    if os.path.isdir(artifacts):
+        print("Artifacts: exists")
     else:
-        os.makedirs(registry)
-        print("Registry: created")
+        os.makedirs(artifacts)
+        print("Artifacts: created")
 
     # --- Report ---
     if ok:

@@ -8,7 +8,7 @@ The pipeline is designed from the conceptual framework (`polylogue-v5-6.md`) and
 
 ## 1. What the Pipeline Produces
 
-The pipeline produces six artifacts per scenario. Each is a YAML file stored in `registry/{scenario_id}/`.
+The pipeline produces six artifacts per scenario. Each is a YAML file stored in `artifacts/{scenario_id}/`.
 
 | Artifact | File | Who consumes it | Purpose |
 |---|---|---|---|
@@ -62,10 +62,12 @@ personas:                              # 2-3 discussion participants
     knowledge: string                  # What they've researched or experienced
     weaknesses: string                 # What they'll get wrong and why — phrased as character
                                        # traits, NOT as facet names or framework terminology
+    strengths: string                  # What they'll get right and why — phrased as character
+                                       # traits, NOT as facet names or framework terminology
 
 target_facets:                         # Which facets are targeted for weakness (hidden layer)
   - facet_id: string                   # From facet inventory (e.g., "source_credibility")
-    target_quality: weak | strong      # Usually weak — what quality level is designed
+    target_quality: weak               # Always weak — strengths live in target_strengths below
     primary_lens: string               # The lens most likely to reveal this facet
     also_visible_through:              # Other lenses that can reveal it (from facet inventory)
       - string
@@ -74,6 +76,19 @@ target_facets:                         # Which facets are targeted for weakness 
       social_dynamic: string | null    # From the social dynamics list (e.g., "group_pressure")
       interaction_note: string | null  # How the cognitive and social forces interact, if both present
     carrier_persona: string            # Which persona primarily manifests this facet weakness
+    signal_mechanism: string           # Operator-authored narrative of how this weakness manifests
+
+target_strengths:                      # Which facets are targeted for strength (hidden layer).
+                                       # Doctrinally required: ≥1 entry — mixed-valence is what
+                                       # justifies the deficit-only explanatory variables.
+  - facet_id: string                   # From facet inventory
+    primary_lens: string               # The lens most likely to reveal this strength
+    also_visible_through: [string]     # Other lenses that can reveal it
+    carrier_persona: string            # Which persona primarily manifests this facet strength
+    signal_mechanism: string           # Operator-authored narrative of how this strength manifests
+    contrastive_note: string | null    # Optional: how this strength is explained contrastively
+                                       # against the deficit vocabulary. No designed_explanation
+                                       # because the framework has no positive cog/social variables.
 
 discussion_arc: string                 # Narrative description of how the discussion unfolds —
                                        # where tension rises, where it resolves or fails to resolve
@@ -87,7 +102,7 @@ turn_outline:                          # Ordered sequence of turns
 **Design notes:**
 
 - `weaknesses` and `accomplishes` fields use natural language, not framework terminology. This is the information barrier — the dialog writer sees persona traits and narrative goals, not facet targets. The pipeline operator writes these fields with the facet targets in mind, but the dialog writer reads them as character and story.
-- `target_facets` is stripped before the scenario plan is passed to the dialog writer. The dialog writer never sees facet IDs, lens names, or explanatory variables.
+- `target_facets`, `target_strengths`, and `discussion_dynamic` are stripped before the scenario plan is passed to the dialog writer. The dialog writer never sees facet IDs, lens names, or explanatory variables — only the persona-level `weaknesses` and `strengths` (barrier-safe character traits).
 - `designed_explanation` captures the *intended* cognitive-social account. The evaluator may identify different or additional explanatory variables in the generated transcript — the designed explanation is a target, not a constraint.
 - Personas must have genuine disagreement — different positions on a decision, tradeoff, or interpretation, not just different areas of focus toward the same conclusion.
 
@@ -141,6 +156,14 @@ passage_analyses:                      # One per evaluable passage (a passage is
           interaction: string | null   # How cognitive and social forces interact here
         was_targeted: boolean          # Whether this facet was a design target in the scenario plan
         notes: string | null           # Evaluator observations — unexpected findings, quality issues
+        contrastive_explanation: string | null
+                                       # REQUIRED when quality_level is "strong". Explains the
+                                       # sound reasoning contrastively using the deficit vocabulary
+                                       # — what cognitive pattern or social dynamic the group
+                                       # avoided here. The framework has no positive explanatory
+                                       # variables; this field is how strong annotations get
+                                       # explained. See system-evaluation-20260406.md suggestion E.
+                                       # Omit for weak annotations.
 
     # --- Visible layer: AI perspective (unified) ---
     # The final entry in the per-passage scaffold sequence. Shown free after the
@@ -476,17 +499,17 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
 
 **Output:** `scenario.yaml`
 
-**Information barrier:** The scenario plan contains `target_facets` with full framework terminology. This section is stripped before the plan is passed to Stage 2. The dialog writer sees personas, discussion arc, and turn outline — character and story, not framework targets.
+**Information barrier:** The scenario plan contains `target_facets`, `target_strengths`, and `discussion_dynamic` with full framework terminology. These sections are stripped before the plan is passed to Stage 2. The dialog writer sees personas (with barrier-safe `weaknesses` and `strengths`), discussion arc, and turn outline — character and story, not framework targets.
 
 ### Stage 2: `create_transcript`
 
-**Input:** `scenario.yaml` (with `target_facets` stripped)
+**Input:** `scenario.yaml` (with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped)
 
 **Process:**
 1. A dialog writer agent receives the scenario plan minus target facets and writes the discussion as natural prose — characters speaking in 6th-grade language, with distinct voices and the narrative arc specified in the plan.
 2. A structural review (script or manual) checks: turn count within range, speaker names match plan, turn order follows outline, all turns present.
    - If structural issues are found, the dialog writer is re-invoked (clean retry, no feedback from the failed attempt, max 3 attempts). If the plan consistently produces structural failures, the plan is the problem.
-3. An instructional designer agent receives the raw transcript and the full scenario plan (including `target_facets`). The instructional designer sharpens expression: ensures signal moments are visible but natural, enforces 6th-grade language, checks that designed weaknesses are perceptible. The instructional designer does not add or remove content — only refines phrasing and signal clarity.
+3. An instructional designer agent receives the raw transcript and the full scenario plan (including `target_facets` and `target_strengths`). The instructional designer sharpens expression: ensures signal moments are visible but natural for both designed weaknesses and designed strengths, enforces 6th-grade language. The instructional designer does not add or remove content — only refines phrasing and signal clarity.
 4. An enumeration step (deterministic script) assigns sequential IDs to turns and sentences.
 
 **Output:** `transcript.yaml`
@@ -498,7 +521,7 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
 
 ### Stage 3: `analyze_transcript`
 
-**Input:** `transcript.yaml`, `scenario.yaml` (full, including `target_facets`)
+**Input:** `transcript.yaml`, `scenario.yaml` (full, including `target_facets` and `target_strengths`)
 
 **Process:**
 1. The operator (or a script) segments the transcript into evaluable passages — groups of 1-3 consecutive turns that contain a coherent segment of the discussion. Passage boundaries are placed where the discussion shifts topic, introduces a new claim, or changes direction. Each passage gets a sequential ID.
@@ -582,7 +605,7 @@ The pipeline uses six agents. Each has a single role, a defined input, and a def
 
 The information barrier prevents the dialog writer from producing discussion that feels designed rather than natural. It operates through two mechanisms:
 
-1. **Schema stripping:** The `create_transcript` command strips `target_facets` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
+1. **Schema stripping:** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
 
 2. **Language discipline:** The `weaknesses` and `accomplishes` fields in the scenario plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt must enforce this translation.
 
@@ -713,7 +736,7 @@ Five scripts handle mechanical operations. These are pure Python (PyYAML only), 
 
 | Script | Location | What it does | When it runs |
 |---|---|---|---|
-| `initialize_polylogue.py` | `apps/lens/pipeline/` | Syncs shared + Lens commands/agents to `.claude/`, verifies reference data and schemas, creates registry if needed | Before first slash command, and after any edit to pipeline files |
+| `initialize_polylogue.py` | `apps/lens/pipeline/` | Syncs shared + Lens commands/agents to `.claude/`, verifies reference data and schemas, creates artifacts directory if needed | Before first slash command, and after any edit to pipeline files |
 | `enumerate_transcript.py` | `framework/pipeline/scripts/` | Assigns sequential turn and sentence IDs to a raw transcript | After instructional designer polish, before analysis |
 | `validate_schema.py` | `framework/pipeline/scripts/` | Validates any YAML artifact against its schema definition | After every artifact is produced |
 | `review_transcript.py` | `framework/pipeline/scripts/` | Structural checks: turn count in range, speaker names match plan, turn order follows outline | After dialog writer output, before instructional designer |
@@ -731,7 +754,7 @@ Five scripts handle mechanical operations. These are pure Python (PyYAML only), 
 |---|---|---|
 | Scenario plan | `scenario.yaml` | New |
 | Validation output | Planning agent → operator feedback | New |
-| Dialog writer input | Scenario plan minus `target_facets` | New (derived from scenario plan schema) |
+| Dialog writer input | Scenario plan minus `target_facets`, `target_strengths`, `discussion_dynamic` | New (derived from scenario plan schema) |
 | Transcript (pre-enumeration) | Raw dialog writer output | Transfer from v4 |
 | Transcript (post-enumeration) | `transcript.yaml` | Transfer from v4 |
 | Expert analysis | `analysis.yaml` | New |

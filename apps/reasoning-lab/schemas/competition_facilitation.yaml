@@ -1,5 +1,5 @@
 # Schema: Competition Facilitation Guide
-# Describes the structure of registry/{scenario_id}/competition-facilitation.yaml
+# Describes the structure of artifacts/{scenario_id}/competition-facilitation.yaml
 # The teacher's game-master companion for running a Reasoning Lab session.
 # Produced by the scoring rubric agent from analysis.yaml and scoring.yaml.
 # Application: Reasoning Lab

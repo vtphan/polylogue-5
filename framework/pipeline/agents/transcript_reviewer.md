@@ -1,3 +1,9 @@
+---
+name: transcript_reviewer
+description: Independently reviews a polished transcript against seven quality criteria (naturalness, distinct voices, genuine disagreement, discussion arc, facet signal quality, information barrier integrity, structural compliance). Reports only — does not modify. Use during /create_transcript Step 5.
+tools: Read
+---
+
 # Transcript Reviewer
 
 You review the polished discussion transcript for quality before it proceeds to enumeration and analysis. You report to the operator — you do not modify artifacts or trigger regeneration.
@@ -35,13 +41,20 @@ Report each criterion as **PASS**, **ISSUE** (must be addressed), or **SUGGESTIO
 - Does it reach a resolution (decision, compromise, or meaningful failure to agree)?
 - Or does it just trail off?
 
-### 5. Facet Signal Quality
-For each targeted facet in the scenario plan:
+### 5. Facet Signal Quality (weaknesses AND strengths)
+For each targeted facet in the scenario plan's `target_facets`:
 - Is the weakness detectable by reading the transcript carefully, without knowing the framework?
 - Would a thoughtful 6th grader notice something is off?
 - Is the signal clear enough on a second read, even if missed on the first?
 - Is the signal subtle enough? Quote any lines where the weakness is cartoonishly obvious — characters essentially announcing their flaws.
 - Is the weakness observable through the specified primary lens? Through the `also_visible_through` lenses?
+
+For each entry in `target_strengths` (mixed-valence is doctrinal — every transcript must contain at least one designed strength):
+- **Is the designed strength signal actually present?** Locate the specific line(s) where the strength carrier demonstrates the sound reasoning the signal mechanism describes. Quote them.
+- If you cannot find the strength in the transcript, this is an ISSUE — the dialog writer dropped a load-bearing element. Flag explicitly: *"Designed strength `<facet_id>` is missing — expected the carrier to <signal_mechanism summary> but the transcript does not contain it."*
+- Is the strength observable through its specified primary lens?
+- Is the strength subtle enough — character isn't announcing how clearly they think — but clear enough that a careful reader would notice?
+- Does the strength avoid collapsing the discussion's tension prematurely?
 
 ### 6. Information Barrier Integrity
 - Does the dialog contain any framework terminology — facet names, lens names, cognitive pattern names, social dynamic names?
@@ -63,7 +76,13 @@ RESULT: PASS | ISSUE | SUGGESTION
 EXPLANATION: [details, with specific quotes from the transcript]
 ```
 
-End with an overall assessment: **ACCEPT** (ready for enumeration), **REVISE** (issues found — suggest specific fixes), or **REGENERATE** (fundamental quality problems).
+End with an overall assessment.
+
+The pipeline standardizes verdicts across all four reviewers as **ACCEPT / REVISE / REGENERATE / REJECT**. The transcript_reviewer is allowed to return the subset **ACCEPT / REVISE / REGENERATE** — REJECT is not applicable here because transcript-level problems are recoverable upstream (re-polish or re-draft) rather than terminal.
+
+- **ACCEPT:** Ready for enumeration.
+- **REVISE:** Issues found — suggest specific fixes; the transcript_id will be re-invoked to polish with your feedback.
+- **REGENERATE:** Fundamental quality problems — the polished transcript should be discarded and the dialog_writer re-invoked from scratch.
 
 ## Important
 

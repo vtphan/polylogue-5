@@ -1,5 +1,5 @@
 # Schema: Expert Analysis
-# Describes the structure of registry/{scenario_id}/analysis.yaml
+# Describes the structure of artifacts/{scenario_id}/analysis.yaml
 # The pipeline's most framework-dependent artifact — bridges hidden and visible layers.
 # Source: pipeline-spec.md Section 2.3
 
@@ -101,6 +101,22 @@ schema:
                     type: string
                     required: false
                     description: Evaluator observations — unexpected findings, quality issues.
+                  contrastive_explanation:
+                    type: string
+                    required: false
+                    description: >
+                      REQUIRED when quality_level is "strong". Explains the
+                      sound reasoning *contrastively* using the deficit
+                      vocabulary — i.e., what cognitive pattern or social
+                      dynamic the personas avoided here that they (or other
+                      personas in earlier scenarios) might have fallen into.
+                      Example: "Here the group checked the source's interest
+                      before accepting the claim, where in the recycling
+                      scenario the same kind of website triggered uncritical
+                      acceptance." This is how the framework's deficit-only
+                      explanatory variables describe positive reasoning —
+                      see system-evaluation-20260406.md suggestion E. Omit
+                      for weak-quality annotations.
 
             # --- Visible layer: Unified AI perspective ---
             ai_perspective:

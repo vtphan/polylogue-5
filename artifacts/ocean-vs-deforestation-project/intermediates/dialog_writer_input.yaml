@@ -1,0 +1,91 @@
+scenario_id: ocean-vs-deforestation-project
+topic: Whether the group's environmental project should focus on ocean pollution or deforestation
+context: 'A 6th-grade STEM class is working on the PBL driving question: "What are the
+
+  major threats affecting our global environment, and what can our communities
+
+  do to protect our ecosystems?" This group must choose one environmental issue
+
+  for their semester project. They''re debating between ocean pollution (one
+
+  member saw a documentary about plastic in the Pacific) and deforestation
+
+  (another member read about Amazon fires). They can only pick one.
+
+  '
+instructional_goals:
+- Practice noticing when someone's evidence doesn't actually support the specific claim they're making
+- Practice noticing when the group only considers one side of a question
+personas:
+- name: Maya
+  perspective: Believes the group should do an ocean pollution project because plastic in the ocean is
+    a huge, urgent problem and she feels strongly about saving sea animals.
+  knowledge: Watched a documentary about the Great Pacific Garbage Patch last weekend. Remembers vivid
+    statistics — millions of tons of plastic — and a scene with a sea turtle tangled in a bag.
+  weaknesses: Gets swept up by dramatic facts and pictures and treats them as if they automatically prove
+    what her group should do, without checking whether a problem in the middle of the Pacific Ocean has
+    anything to do with what a school group can actually work on. When someone raises a worry that gets
+    in the way of her preferred project, she nods at it for a second and then jumps right back to how
+    big and important the problem is, instead of actually answering the worry.
+  strengths: Genuinely cares about the topic and brings energy to the conversation.
+- name: Jordan
+  perspective: Thinks deforestation is the better choice because the group could actually do something
+    about it — like planting trees on school grounds — instead of picking a problem they can't touch.
+  knowledge: Read an article about the Amazon fires for a current-events assignment. Has helped his uncle
+    plant saplings before and knows a little about what trees need to survive.
+  weaknesses: Doesn't like pushing back when someone else is excited and confident. When his concerns
+    get brushed aside, he tends to drop them rather than repeat himself, even when he was right.
+  strengths: Thinks in terms of what would actually happen next — who would do the work, whether the thing
+    they plant would still be alive in three months, what specific steps a school group could take. He
+    grounds excited conversations in concrete details before getting carried away.
+discussion_arc: 'Maya opens with passion for an ocean pollution project, citing her documentary. Jordan
+  counters with deforestation and — early, before he loses his nerve — grounds it in concrete next steps
+  like planting trees at school and who would water them. Maya answers not with feasibility but with bigger
+  and more dramatic statistics from the documentary. Jordan raises the strongest objection: they don''t
+  live near the ocean and can''t really touch the Pacific Garbage Patch. Maya brushes it off ("we can
+  figure that out later") and pivots back to the scale of the problem. Jordan tries once more, more weakly,
+  then stops pressing. The group lands on ocean pollution by enthusiasm rather than by answering Jordan''s
+  questions. His concerns sit there unresolved.
+
+  '
+turn_outline:
+- speaker: Maya
+  accomplishes: Opens with excitement, pitching ocean pollution and bringing up the documentary she just
+    watched.
+- speaker: Jordan
+  accomplishes: Pushes back with a different idea — deforestation — and immediately names something concrete
+    the group could actually do, like planting trees on school grounds.
+- speaker: Jordan
+  accomplishes: Adds a specific follow-up question about the tree idea — who would water them over summer
+    break — showing he's thinking about what would really happen after the project starts.
+- speaker: Maya
+  accomplishes: Doesn't really respond to the tree-planting plan; instead pulls out a dramatic statistic
+    from the documentary about millions of tons of plastic and uses it as if it settles which project
+    the group should pick.
+- speaker: Maya
+  accomplishes: Describes the sea turtle scene from the documentary in vivid detail, treating the emotional
+    weight of it as a reason the school group should choose ocean pollution.
+- speaker: Jordan
+  accomplishes: Raises the strongest worry he has — they don't live anywhere near the ocean and he isn't
+    sure what their group could actually do about plastic in the Pacific.
+- speaker: Maya
+  accomplishes: Acknowledges the worry for half a second and then waves it away with "we can figure that
+    out later," steering the conversation back to how huge and important the ocean problem is.
+- speaker: Jordan
+  accomplishes: Tries the feasibility point one more time, a little less firmly, asking what they would
+    even do for an ocean project at school.
+- speaker: Maya
+  accomplishes: Brings up another documentary fact about ocean currents and repeats that this is the most
+    urgent problem on the planet, again skipping past what the group itself could do.
+- speaker: Jordan
+  accomplishes: Starts to back down, saying maybe Maya is right that it's a bigger problem, even though
+    his actual question never got answered.
+- speaker: Maya
+  accomplishes: Takes Jordan's softening as agreement and gets more confident, framing the choice as basically
+    settled.
+- speaker: Jordan
+  accomplishes: Quietly goes along with the ocean pollution choice, not because his concerns were resolved
+    but because he doesn't want to keep arguing.
+- speaker: Maya
+  accomplishes: Wraps up enthusiastically, treating the decision as obvious and moving on to talk about
+    how excited she is, with the feasibility question still hanging in the air.

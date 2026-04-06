@@ -1,3 +1,8 @@
+---
+description: Produce Reasoning Lab scoring rubric and competition facilitation guide
+argument-hint: <scenario_id>
+---
+
 # Design Scoring Rubric
 
 Produce the scoring rubric and competition facilitation guide for a Reasoning Lab session.
@@ -5,25 +10,44 @@ Produce the scoring rubric and competition facilitation guide for a Reasoning La
 ## Prerequisites
 
 The shared upstream pipeline must have completed for this scenario:
-- `registry/{scenario_id}/scenario.yaml` — the scenario plan
-- `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
-- `registry/{scenario_id}/analysis.yaml` — the expert analysis
+- `artifacts/$1/scenario.yaml` — the scenario plan
+- `artifacts/$1/transcript.yaml` — the enumerated transcript
+- `artifacts/$1/analysis.yaml` — the expert analysis
 
 These are produced by the shared pipeline commands (`/create_scenario`, `/create_transcript`, `/analyze_transcript`).
 
 ## Input
 
-- `registry/{scenario_id}/analysis.yaml` — the expert analysis (facet annotations, AI perspectives, diversity metadata)
-- `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
-- `registry/{scenario_id}/scenario.yaml` — the full scenario plan
+- `artifacts/$1/analysis.yaml` — the expert analysis (facet annotations, AI perspectives, diversity metadata)
+- `artifacts/$1/transcript.yaml` — the enumerated transcript
+- `artifacts/$1/scenario.yaml` — the full scenario plan
+
+## Telemetry
+
+Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+
+```bash
+python3 framework/pipeline/scripts/log_pipeline_event.py \
+  --scenario $1 --command design_scoring_rubric \
+  --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] [--notes "<text>"]
+```
+
+Required log points are called out in each step.
+
+**Log immediately on entry:** `--stage start --verdict START`.
 
 ## Steps
 
 ### Step 1: Scoring Rubric Agent — Produce Scoring Rubric and Competition Facilitation
 
-Read the scoring rubric agent prompt at `apps/reasoning-lab/pipeline/agents/scoring_rubric_agent.md`.
+**Use the Task tool with `subagent_type: scoring_rubric_agent`.**
 
-Pass the analysis, transcript, and scenario plan to the agent.
+Pass the agent the paths to:
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/transcript.yaml`
+- `artifacts/$1/scenario.yaml`
+
+Instruct it to write outputs to `artifacts/$1/reasoning-lab/scoring.yaml` and `artifacts/$1/reasoning-lab/competition-facilitation.yaml`.
 
 The agent produces two outputs:
 
@@ -44,8 +68,21 @@ The agent produces two outputs:
 
 ### Step 2: Schema Validation
 
-Validate `scoring.yaml` against `apps/reasoning-lab/schemas/scoring.yaml`.
-Validate `competition-facilitation.yaml` against `apps/reasoning-lab/schemas/competition_facilitation.yaml`.
+Run schema validation explicitly — **halt on non-zero exit**:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/reasoning-lab/scoring.yaml \
+  apps/reasoning-lab/schemas/scoring.yaml
+
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/reasoning-lab/competition-facilitation.yaml \
+  apps/reasoning-lab/schemas/competition_facilitation.yaml
+```
+
+If either validator reports issues, do not proceed — fix and re-run.
+
+**Log:** `--stage scoring_rubric --agent scoring_rubric_agent --attempt <n>` after each invocation, then `--stage schema_validation --verdict <PASS|FAIL>`.
 
 Check:
 - Every passage in `analysis.yaml` has a corresponding entry in both output files
@@ -65,10 +102,12 @@ Verify coherence between scoring.yaml and competition-facilitation.yaml:
 
 ### Step 4: Save Outputs
 
-Save both files to `registry/{scenario_id}/reasoning-lab/`:
+Save both files to `artifacts/$1/reasoning-lab/`:
 ```
-registry/{scenario_id}/reasoning-lab/scoring.yaml
-registry/{scenario_id}/reasoning-lab/competition-facilitation.yaml
+artifacts/$1/reasoning-lab/scoring.yaml
+artifacts/$1/reasoning-lab/competition-facilitation.yaml
 ```
 
 Report the number of observation buckets and explanation buckets per passage, along with the rarity distribution (how many common/uncommon/rare per passage).
+
+**Log:** `--stage save --verdict SAVE`.

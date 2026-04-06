@@ -1,13 +1,33 @@
+---
+description: Produce Lens scaffolding materials (hints, rubrics) and enrich the facilitation guide
+argument-hint: <scenario_id>
+---
+
 # Design Scaffolding
 
 Produce the scaffolding materials and enrich the facilitation guide with passage-specific discussion starters.
 
 ## Input
 
-- `registry/{scenario_id}/analysis.yaml` — the expert analysis
-- `registry/{scenario_id}/facilitation.yaml` — the facilitation guide (initial version from `/analyze_transcript`)
-- `registry/{scenario_id}/transcript.yaml` — the enumerated transcript
-- `registry/{scenario_id}/scenario.yaml` — the full scenario plan
+- `artifacts/$1/analysis.yaml` — the expert analysis
+- `artifacts/$1/facilitation.yaml` — the facilitation guide (initial version from `/analyze_transcript`)
+- `artifacts/$1/transcript.yaml` — the enumerated transcript
+- `artifacts/$1/scenario.yaml` — the full scenario plan
+
+## Telemetry
+
+Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+
+```bash
+python3 framework/pipeline/scripts/log_pipeline_event.py \
+  --scenario $1 --command design_scaffolding \
+  --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] \
+  [--retries-remaining <n>] [--notes "<text>"]
+```
+
+Required log points are called out in each step.
+
+**Log immediately on entry:** `--stage start --verdict START`.
 
 ## Steps
 
@@ -15,17 +35,23 @@ Produce the scaffolding materials and enrich the facilitation guide with passage
 
 Before any modifications, copy the current facilitation guide:
 ```bash
-cp registry/{scenario_id}/facilitation.yaml \
-   registry/{scenario_id}/intermediates/facilitation_pre_enrichment.yaml
+cp artifacts/$1/facilitation.yaml \
+   artifacts/$1/intermediates/facilitation_pre_enrichment.yaml
 ```
 
 This preserves the evaluator's original output for debugging.
 
 ### Step 2: Scaffolding Instructional Designer — Produce Scaffolding and Enrich Facilitation
 
-Read the scaffolding ID prompt at `apps/lens/pipeline/agents/scaffolding_id.md`.
+**Use the Task tool with `subagent_type: scaffolding_id`.**
 
-Pass the analysis, facilitation guide, transcript, and scenario plan to the scaffolding ID.
+Pass the agent the paths to:
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/facilitation.yaml`
+- `artifacts/$1/transcript.yaml`
+- `artifacts/$1/scenario.yaml`
+
+Instruct it to write outputs to `artifacts/$1/lens/scaffolding.yaml` and the enriched `artifacts/$1/lens/facilitation.yaml`.
 
 The agent produces two outputs:
 
@@ -48,15 +74,33 @@ The agent produces two outputs:
 
 **Before proceeding, verify both files are valid YAML** — parse each with `yaml.safe_load()`. If parsing fails (commonly from unescaped quotes or apostrophes in natural language text), fix the quoting before continuing. Use block scalars (`>`) for any string containing `"`, `'`, `:`, or `#`.
 
-Then validate both artifacts:
-- `scaffolding.yaml` against `apps/lens/schemas/scaffolding.yaml`
-- `facilitation.yaml` against `framework/schemas/facilitation.yaml`
+Then validate both artifacts explicitly with the schema script — **halt on non-zero exit**:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/lens/scaffolding.yaml \
+  apps/lens/schemas/scaffolding.yaml
+
+python3 framework/pipeline/scripts/validate_schema.py \
+  artifacts/$1/lens/facilitation.yaml \
+  framework/schemas/facilitation.yaml
+```
+
+If either validator reports issues, do not proceed to the reviewer — surface them to the operator.
+
+**Log:** `--stage scaffolding_id --agent scaffolding_id --attempt <n>` after each invocation, then `--stage schema_validation --verdict <PASS|FAIL>`.
 
 ### Step 3: Scaffolding Reviewer — Quality Gate
 
-Read the scaffolding reviewer prompt at `apps/lens/pipeline/agents/scaffolding_reviewer.md`.
+**Use the Task tool with `subagent_type: scaffolding_reviewer`.** Independent fresh-context review.
 
-Pass the scaffolding materials, enriched facilitation guide, analysis, and transcript to the reviewer. The reviewer checks:
+Pass the agent the paths to:
+- `artifacts/$1/lens/scaffolding.yaml`
+- `artifacts/$1/lens/facilitation.yaml`
+- `artifacts/$1/analysis.yaml`
+- `artifacts/$1/transcript.yaml`
+
+The reviewer checks:
 1. Scaffold sequence structure and hint calibration (min 2 entries, AI last, where to look not what to see)
 2. Common misreading quality (plausible patterns, calibrated redirects)
 3. Observation rubric differentiation (three genuinely distinct levels)
@@ -69,30 +113,35 @@ Pass the scaffolding materials, enriched facilitation guide, analysis, and trans
 10. Scaffolding field completeness (all required fields present)
 11. Cross-artifact coherence (hints align with but don't duplicate evaluator observations)
 
-The reviewer reports PASS/ISSUE/SUGGESTION per criterion.
+The reviewer reports PASS/ISSUE/SUGGESTION per criterion and an overall verdict: **ACCEPT** or **REVISE** (the scaffolding_reviewer's allowed subset of the standardized ACCEPT / REVISE / REGENERATE / REJECT vocabulary — REGENERATE and REJECT are not applicable here).
 
-### Step 4: Operator Gate
+### Step 4: Reviewer-Driven Flow
 
-Present the reviewer's report to the operator. The operator decides:
-- **Accept** — save artifacts and proceed
-- **Revise** — address specific issues with the scaffolding ID and re-review
+- **ACCEPT** → proceed to save (Step 5).
+- **REVISE** → re-invoke scaffolding_id (Step 2) with the reviewer's specific issues as feedback, then re-run the reviewer. **Retry budget: 1 revise pass.** If a second review still returns REVISE, halt and surface the latest scaffolding artifacts and the reviewer report to the operator. (See *Failure-mode escape hatch* in `framework/docs/system-architecture.md`.)
+
+The pipeline is autonomous through this loop.
+
+**Log on each verdict:** `--stage scaffolding_review --agent scaffolding_reviewer --attempt <n> --verdict <ACCEPT|REVISE> --retries-remaining <n>`. On exhaustion, log `--stage halt --verdict HALT`.
 
 ### Step 5: Save
 
 ```
-registry/{scenario_id}/lens/scaffolding.yaml
-registry/{scenario_id}/lens/facilitation.yaml   (enriched version)
+artifacts/$1/lens/scaffolding.yaml
+artifacts/$1/lens/facilitation.yaml   (enriched version)
 ```
+
+**Log:** `--stage save --verdict SAVE`.
 
 Intermediates preserved:
 ```
-registry/{scenario_id}/intermediates/facilitation_pre_enrichment.yaml
+artifacts/$1/intermediates/facilitation_pre_enrichment.yaml
 ```
 
 ## Output
 
-- `registry/{scenario_id}/lens/scaffolding.yaml`
-- `registry/{scenario_id}/lens/facilitation.yaml` (enriched)
+- `artifacts/$1/lens/scaffolding.yaml`
+- `artifacts/$1/lens/facilitation.yaml` (enriched)
 
 ## Next Step
 

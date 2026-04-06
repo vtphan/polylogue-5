@@ -13,9 +13,14 @@ schema:
       verdict:
         type: string
         required: true
-        description: Overall validation result.
+        description: >
+          Overall validation result. Standardized across all four reviewers
+          as ACCEPT / REVISE / REGENERATE / REJECT. The validation_agent is
+          allowed to return ACCEPT, REVISE, or REJECT — REGENERATE is not
+          applicable here because the scenario plan is the producer's first
+          output and there is nothing upstream to regenerate from.
         constraints:
-          enum: [pass, revise, reject]
+          enum: [ACCEPT, REVISE, REJECT]
 
       criteria:
         type: list
@@ -36,11 +41,12 @@ schema:
                   - information_barrier_compliance
                   - turn_outline_anti_patterns
                   - signal_mechanism_fidelity
+                  - strength_signal_fidelity
             result:
               type: string
               required: true
               constraints:
-                enum: [pass, issue, suggestion]
+                enum: [PASS, ISSUE, SUGGESTION]
             explanation:
               type: string
               required: true

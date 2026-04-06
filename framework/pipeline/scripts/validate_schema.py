@@ -13,7 +13,7 @@ Modes:
 
 Example:
     python3 validate_schema.py \
-        registry/ocean-vs-deforestation/transcript.yaml \
+        artifacts/ocean-vs-deforestation/transcript.yaml \
         framework/schemas/transcript.yaml
 """
 

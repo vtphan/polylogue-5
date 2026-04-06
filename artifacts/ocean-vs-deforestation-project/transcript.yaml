@@ -1,0 +1,93 @@
+scenario_id: ocean-vs-deforestation-project
+personas:
+- name: Maya
+  perspective: Wants the group to do an ocean pollution project after watching a documentary about plastic in the Pacific.
+- name: Jordan
+  perspective: Thinks deforestation is the better choice because the group could actually plant trees at school.
+turns:
+- speaker: Maya
+  sentences:
+  - text: Okay, we have to do ocean pollution, you guys.
+    sentence_id: turn_01.s01
+  - text: I watched this documentary last weekend about the Great Pacific Garbage Patch and it was insane
+      — like there's literally an island of trash out there.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Jordan
+  sentences:
+  - text: I was actually gonna say deforestation, because we read about the Amazon fires in current events.
+    sentence_id: turn_02.s01
+  - text: And we could really do something — like plant trees by the fence on the side of the school.
+      My uncle showed me how you do it.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Jordan
+  sentences:
+  - text: Wait, but who would water them over summer? Nobody's even here.
+    sentence_id: turn_03.s01
+  turn_id: turn_03
+- speaker: Maya
+  sentences:
+  - text: I mean, trees are cool, but the documentary said there's millions of tons of plastic in the
+      ocean right now.
+    sentence_id: turn_04.s01
+  - text: Millions. That's like way more important.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: And they showed this one sea turtle all tangled up in a plastic bag and it couldn't even swim
+      right, it was so sad.
+    sentence_id: turn_05.s01
+  - text: We have to do something, we can't just ignore that.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Jordan
+  sentences:
+  - text: Yeah but, like… we don't even live near the ocean?
+    sentence_id: turn_06.s01
+  - text: I don't really get what we'd actually do about plastic that's in the middle of the Pacific.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: We can figure that part out later, that's not the hard part.
+    sentence_id: turn_07.s01
+  - text: The point is it's literally the biggest environmental problem right now, and we'd be helping
+      the whole planet.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Jordan
+  sentences:
+  - text: I just mean… what would we even show for our project, though?
+    sentence_id: turn_08.s01
+  turn_id: turn_08
+- speaker: Maya
+  sentences:
+  - text: The documentary said the currents pull all the trash into one giant spot and it just keeps growing.
+    sentence_id: turn_09.s01
+  - text: This is the most urgent thing happening, everyone says so.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Jordan
+  sentences:
+  - text: Yeah, I guess it is a bigger deal when you put it that way.
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Maya
+  sentences:
+  - text: Right?? Okay, so we're doing ocean pollution, that's settled.
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Jordan
+  sentences:
+  - text: Sure, okay.
+    sentence_id: turn_12.s01
+  turn_id: turn_12
+- speaker: Maya
+  sentences:
+  - text: Yes! This is gonna be so good, I already have like a million ideas.
+    sentence_id: turn_13.s01
+  - text: Everyone's gonna actually care about our project, I'm so excited.
+    sentence_id: turn_13.s02
+  turn_id: turn_13

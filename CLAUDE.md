@@ -14,7 +14,7 @@ Polylogue is a research project for teaching critical thinking to middle school 
 
 3. **Scenario sequence** (`framework/docs/scenario-sequence.md`) — Shared progression design: which facets, cognitive patterns, and social dynamics to introduce across scenarios.
 
-For the full architecture, see `framework/docs/system-architecture.md`.
+For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (`/brainstorm`, `/create_scenario`, `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
 
 ### Applications
 
@@ -55,8 +55,9 @@ apps/reasoning-lab/
 │   └── initialize_reasoning_lab.py
 └── RUNNING.md               # Step-by-step runbook
 
-registry/                    # Generated artifacts per scenario
-configs/                     # Legacy system (operational, preserved until migration verified)
+artifacts/                   # Generated artifacts per scenario (NEW system output)
+registry/                    # Legacy artifacts (current system output, preserved)
+configs/                     # Legacy system pipeline (operational, preserved until migration verified)
 docs/                        # Legacy design documents
 ```
 
@@ -75,8 +76,15 @@ LENS:    /design_scaffolding → /configure_session    REASONING LAB:
 
 ## Artifact Storage
 
+The project runs two systems in parallel during migration:
+
+- **New system** (`framework/` + `apps/`) writes to `artifacts/{scenario_id}/`.
+- **Legacy system** (`configs/`) writes to `registry/{scenario_id}/`.
+
+`registry/` is frozen — do not write to it from new pipeline files. New pipeline commands, schemas, and scripts must reference `artifacts/` exclusively. Layout (identical for both, only the root differs):
+
 ```
-registry/{scenario_id}/
+artifacts/{scenario_id}/
 ├── scenario.yaml              # Shared (stage 1)
 ├── transcript.yaml            # Shared (stage 2)
 ├── analysis.yaml              # Shared (stage 3)
@@ -106,16 +114,17 @@ Each script clears `.claude/commands/` and `.claude/agents/` (preventing cross-a
 
 ## Legacy System
 
-The original system (`configs/`, `docs/`) is preserved and operational. **Do not move, rename, or delete these directories until the new system produces identical Lens artifacts.**
+The original system (`configs/`, `docs/`, `registry/`) is preserved and operational. **Do not move, rename, or delete these directories until the new system produces identical Lens artifacts in `artifacts/`.**
 
-- `configs/initialize_polylogue.py` — Legacy bootstrap (sources from `configs/`)
+- `configs/initialize_polylogue.py` — Legacy bootstrap (sources from `configs/`, writes to `registry/`)
+- `registry/` — Legacy artifact output. Read-only from the perspective of the new system.
 - `docs/polylogue-v5-6.md` — Monolithic source document (now decomposed into `framework/docs/` + `apps/lens/docs/`)
 - `docs/pipeline-spec.md` — Full pipeline spec (copied to `apps/lens/docs/`)
 
 ## Critical Design Constraints
 
 ### Information Barrier
-The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. The `target_facets` and `discussion_dynamic` fields are stripped from the scenario plan before passing to the dialog writer.
+The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. The `target_facets`, `target_strengths`, and `discussion_dynamic` fields are stripped from the scenario plan before passing to the dialog writer.
 
 ### Discussion Constraints
 - 10-14 turns, 1-3 sentences per turn, <400 words total
@@ -135,7 +144,7 @@ Graduated hints → AI perspective as final entry. Hints cost lifelines; AI pers
 - **Canonical IDs use snake_case.** All IDs propagate from `framework/reference/` into every schema, prompt, and artifact.
 - **Reference data files are the source of truth** — not schema definitions.
 - **Python scripts** use pure Python + PyYAML. Scripts accept file paths as arguments, no hardcoded paths.
-- **No pipeline file references `configs/`.** The new system uses `framework/` and `apps/{app-id}/` paths exclusively.
+- **No new pipeline file references `configs/` or `registry/`.** The new system uses `framework/`, `apps/{app-id}/`, and `artifacts/` exclusively. Legacy pipeline files under `configs/` continue to use `registry/`.
 
 ### Canonical IDs
 

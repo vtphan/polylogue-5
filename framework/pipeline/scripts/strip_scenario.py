@@ -8,15 +8,15 @@ Usage:
     python3 strip_scenario.py <scenario_path> <output_path>
 
 Example:
-    python3 strip_scenario.py registry/ocean-vs-deforestation/scenario.yaml \
-        registry/ocean-vs-deforestation/intermediates/dialog_writer_input.yaml
+    python3 strip_scenario.py artifacts/ocean-vs-deforestation/scenario.yaml \
+        artifacts/ocean-vs-deforestation/intermediates/dialog_writer_input.yaml
 """
 
 import sys
 import yaml
 
 
-BARRIER_FIELDS = ["target_facets", "discussion_dynamic"]
+BARRIER_FIELDS = ["target_facets", "target_strengths", "discussion_dynamic"]
 
 # Terms that should NOT appear in the stripped output's weaknesses/accomplishes
 FRAMEWORK_TERMS = [
@@ -57,6 +57,12 @@ def strip_scenario(scenario_path, output_path):
             if term.replace("_", " ") in weaknesses or term in weaknesses:
                 warnings.append(
                     f"  WARNING: '{term}' found in {persona['name']}'s weaknesses"
+                )
+        strengths = persona.get("strengths", "").lower()
+        for term in FRAMEWORK_TERMS:
+            if term.replace("_", " ") in strengths or term in strengths:
+                warnings.append(
+                    f"  WARNING: '{term}' found in {persona['name']}'s strengths"
                 )
     for i, turn in enumerate(plan.get("turn_outline", [])):
         accomplishes = turn.get("accomplishes", "").lower()

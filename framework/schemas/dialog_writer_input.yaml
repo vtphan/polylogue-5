@@ -48,8 +48,15 @@ schema:
               required: true
               description: >
                 Character traits only — no facet names, no framework terminology.
+            strengths:
+              type: string
+              required: true
+              description: >
+                Character traits only — no facet names, no framework terminology.
+                Describes what this persona reasons well about and why.
 
-      # NOTE: target_facets is intentionally absent. This is the information barrier.
+      # NOTE: target_facets and target_strengths are intentionally absent.
+      # This is the information barrier.
 
       discussion_arc:
         type: string
