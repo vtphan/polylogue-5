@@ -100,7 +100,6 @@ def initialize(project_root):
         "lenses.yaml",
         "facet_inventory.yaml",
         "explanatory_variables.yaml",
-        "scenario_sequence.yaml",
     ]
     ref_ok = True
     for fname in ref_files:

@@ -51,7 +51,7 @@ The framework is application-agnostic. It defines the theory, the shared data, a
 | `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` | Source-of-truth data. All IDs propagate from here. |
 | `framework/schemas/` | Shared upstream schemas (incl. `episode_plan.yaml`, `episode_writer_input.yaml`) | Contracts for shared artifacts |
 | `framework/pipeline/agents/` | Shared upstream agents (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer, projection reviewer, story_consistency_reviewer) | Shared upstream agents |
-| `framework/pipeline/commands/` | Shared upstream commands (`create_episode`, `brainstorm`, `create_transcript`, `analyze_transcript`, `check_coverage`) | Shared upstream commands |
+| `framework/pipeline/commands/` | Shared upstream commands (`create_episode`, `brainstorm`, `create_transcript`, `analyze_transcript`) | Shared upstream commands |
 | `framework/pipeline/scripts/` | Shared upstream scripts (`validate_schema.py`, `validate_story.py`, `enumerate_transcript.py`, `review_transcript.py`, `check_analysis_invariants.py`, `log_pipeline_event.py`) | Shared upstream scripts |
 
 ### Applications (`apps/{app-id}/`)

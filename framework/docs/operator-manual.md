@@ -9,7 +9,7 @@ The pipeline is split into four phases:
 - **Phase 5 (cleanup, done)** — schemas and pipeline files brought into line with the episodes-first model. You are starting from a clean codebase.
 - **Phase 6 (prose authoring)** — you author the story design doc and per-episode drafts, iterating with `validate_story.py` and `story_consistency_reviewer`. No pipeline runs.
 - **Phase 7 (pipeline execution)** — you run the slash commands for each episode in order, capturing friction.
-- **Phase 8 (closeout)** — lessons-learned, legacy file deletion, memory update.
+- **Phase 8 (closeout)** — lessons-learned, legacy file deletion, memory update. Completed 2026-04-07.
 
 This manual covers Phases 6 and 7. Phase 8 is a single-conversation cleanup at the end.
 
@@ -302,4 +302,4 @@ For Phase 7, the same protocol works. Each slash command reads what it needs fro
 - **The full per-episode draft template.** That's Appendix B of `framework/docs/story-pipeline-revision.md`.
 - **The architectural rationale.** That's `framework/docs/system-architecture.md` for the system shape and `framework/docs/story-pipeline-revision.md` (especially Part 13) for why the model is the way it is.
 - **The conceptual framework itself.** That's `framework/docs/conceptual-framework.md`.
-- **Phase 8 closeout.** That's a single conversation at the very end of the project: lessons-learned writeup, deletion of `framework/reference/scenario_sequence.yaml` and `framework/docs/scenario-sequence.md`, memory update.
+- **Phase 8 closeout.** Completed 2026-04-07 after the first story shipped: lessons-learned writeup appended to the story's friction log, legacy scenario-sequence files removed, memory updated.

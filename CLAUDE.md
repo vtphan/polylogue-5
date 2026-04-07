@@ -133,7 +133,7 @@ Each script clears `.claude/commands/` and `.claude/agents/` (preventing cross-a
 
 The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) remains frozen indefinitely as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required between legacy and new, and no legacy directory is removed by the new pipeline. See `framework/docs/story-pipeline-revision.md` Part 8 for the rationale.
 
-The only planned legacy deletion is `framework/reference/scenario_sequence.yaml` and `framework/docs/scenario-sequence.md`, scheduled for Phase 5 step 24 of the story-pipeline revision — after the first story has been authored, validated, and run end-to-end through the new pipeline.
+The legacy scenario-sequence files (`framework/reference/scenario_sequence.yaml`, `framework/docs/scenario-sequence.md`) and the legacy `check_coverage` script and command were removed in Phase 8 closeout (2026-04-07) after the first story shipped. Story-based coverage is now checked by `validate_story.py`.
 
 ## Critical Design Constraints
 

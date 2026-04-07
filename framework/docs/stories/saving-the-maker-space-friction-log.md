@@ -1058,3 +1058,182 @@ The Part-4D conditional validator (verbatim copy of `cognitive_signal`,
 `episode.yaml`) ran cleanly with no friction. Worth recording the
 *absence* of friction here because this rule was identified as a risk
 during Phase 5 design.
+
+---
+
+## 2026-04-07 — Phase 8 lessons-learned summary
+
+Closeout per story-pipeline-revision.md step 42. Captures v2 candidates
+surfaced across the episodes 1–5 authoring run. No v2 fixes are
+implemented in Phase 8 — this section is the inbox for a future
+revision pass.
+
+### Observation logging gap (meta)
+
+Episodes 1 and 2 are extensively documented above. Episodes 3, 4, and
+5 produced no friction-log entries. Two possible readings: (a) the
+runs were actually frictionless, which is plausible given that the
+schema audit and template-minimization work in episode 2 fixed the
+main recurring issues; (b) logging discipline slipped once the
+pipeline started feeling routine. Either way, v2 should either
+require a per-episode "no friction" stub or drop the expectation.
+
+### Candidate continuity_reviewer scope
+
+Obs 1 exposed that cross-episode character continuity has no
+structural enforcer. `story_consistency_reviewer` runs prose-on-prose
+against drafts, but once the pipeline produces transcript.yaml the
+audience-facing layer is invisible to any reviewer. Sam's "present
+but silent across episodes 1–3" commitment landed in the analysis
+layer via evaluator.md edits, not in transcripts. A continuity_reviewer
+for v2 would:
+
+- Read the story design doc cast section plus every committed
+  `transcript.yaml` in sequence.
+- Flag characters declared present-but-silent who appear in zero
+  transcripts across the promised window.
+- Flag characters whose voice drifts between episodes (harder;
+  subjective; may be out of scope).
+
+Scope decision deferred. The minimum useful version is just the
+present-but-silent check.
+
+### Schema gaps surfaced during authoring
+
+1. **Transcript schema has no place for non-verbal beats.**
+   `transcript.yaml` is dialog-only. Stage directions, glances,
+   visible silences have no slot. This forced Sam's continuity into
+   the teacher-mediated analysis layer. A `stage_directions` or
+   `non_verbal_beats` optional field on turns would fix it, at the
+   cost of dialog_writer prompt changes and app rendering work.
+   High cost, high benefit if a second story also needs
+   present-but-silent characters.
+
+2. **Projection schema lacks a `background_characters` slot.**
+   `episode_writer_input.yaml` only carries `lead_characters` (2–3).
+   The Obs 1 fix routes background presence through `discussion_arc`
+   and `accomplishes` prose, which worked for the projection but
+   cannot produce transcript beats (schema gap 1). Lighter v2 fix
+   than gap 1 and barrier-safe.
+
+3. **Phase-5 scenario→episode rename was incomplete across
+   downstream schemas.** Fixed in-run (see the Obs 2/3 resolution
+   block) but the structural lesson is that the rename audit
+   touched planning_agent + episode.yaml and skipped
+   `transcript.yaml`, `facilitation.yaml`, `analysis.yaml`,
+   `validation_output.yaml`, and every `apps/*/schemas/*.yaml`. The
+   audit pass should have been schema-global.
+
+4. **Schema naming inconsistency** surfaced on
+   `/analyze_transcript 2` (`passage_analyses` vs `passage_guides`
+   vs `passages`). Cause never fully diagnosed — unclear whether it
+   was schema drift or model variance. Needs observation across
+   future stories.
+
+### Agent prompts that misfired
+
+1. **`planning_agent.md`** ignored the draft's authorial-notes
+   section for background-character continuity intent until the
+   Obs 1 fix added an explicit instruction. Fix applied in-run. v2:
+   consider whether the agent should treat draft prose outside
+   frontmatter-mapped fields as first-class input by default.
+
+2. **`evaluator.md`** propagated identifiers into `analysis.yaml`
+   only, not `facilitation.yaml`. Fixed preemptively before
+   `/analyze_transcript 1`. Same bug class as the schema audit
+   miss — the agent prompt was authored against the pre-audit
+   schema shape and never re-synced.
+
+3. **`scaffolding_id.md`** had zero identifier-propagation
+   instructions at all. Fixed in-run. The gap was probably
+   pre-existing and latent, not introduced by Phase 5.
+
+4. **`scoring_rubric_agent.md` (reasoning-lab)** was never
+   audited. Likely has the same identifier-propagation gap as the
+   Lens agents. Audit before the first reasoning-lab run.
+
+### Validator messages that were unactionable
+
+1. **`review_transcript.py`** reported "Extra speakers not in
+   plan: {'Mira', 'Theo', 'Ren'}" when the plan-speakers set was
+   empty due to a field-name leftover. The tautology (same names on
+   both sides) hid the real cause. Fixed in-run to fail loudly
+   when the expected key is missing. v2 rule: every set-difference
+   validator should fail loudly on empty reference sets, not
+   silently report all observed items as "extras."
+
+2. **`validate_schema.py`** reported `root.scenario_id: required
+   field missing` on a transcript that should have been addressed
+   by `story_id` + `episode_number`. The message was technically
+   correct but pointed at the legacy field, not the correct new
+   one. v2: schema-level deprecation hints would help ("did you
+   mean story_id/episode_number?").
+
+### Infrastructure candidates
+
+1. **Integration test fixture.** The single largest missing
+   artifact. A test that runs every Phase-7 command end-to-end
+   against `episode_01` as a fixture would have caught Obs 2 and
+   Obs 3 before episode 1 ever ran. Wire into initialize_*.py or a
+   `make check` target. Gate Phase-5-style cleanups behind passing
+   the fixture.
+
+2. **Script audit sweep.** `log_pipeline_event.py` still has
+   `--scenario`/`scenario_id` legacy references noted as benign but
+   never resolved. Sweep at the same time as the schema audit.
+   (`check_coverage.py` and its command were deleted in Phase 8
+   step 43.)
+
+3. **Operator manual: re-init between stages.** Any time an agent
+   or command source file changes mid-Phase-7, `initialize_*.py`
+   must be re-run before the next stage or the harness runs the
+   stale prompt. This bit us twice (planning_agent, evaluator) and
+   should be documented in the operator manual's stage-transition
+   section.
+
+### Diagnostic-discipline lessons
+
+Obs 5 and its long recurrence thread (the slash-command misbinding
+saga) produced three instances of confidently-wrong architectural
+reasoning about slash command behavior: the phantom "Claude Code
+expander," the bash-guard hardening that turned out to be dead code,
+and the template standardization that made things actively worse.
+The generalized rule, already captured inline: **when debugging a
+flaky model-or-harness interaction, never commit to a fix based on
+architectural reasoning alone. Always get a falsifying observation
+first.** The verification subagent that refused to confirm a causal
+link for the standardization should have been treated as a stop
+signal.
+
+The minimal-form slash command template
+(`## Arguments` header → bare bash block → no prose, no guard, two
+`$1`/`$2` occurrences total) is the empirically stable form. Why it
+works is unexplained. v2: run a template-echo test to pin down how
+`$1`/`$2` substitution actually flows from Claude Code → model →
+bash before adding any more "hardening."
+
+### Open v2 candidates remaining open
+
+- `stage_directions` / `non_verbal_beats` field on `transcript.yaml`
+- `background_characters` field on `episode_writer_input.yaml`
+- continuity_reviewer agent (minimum: present-but-silent check)
+- Integration test fixture
+- Script audit (`log_pipeline_event.py` legacy refs)
+- Reasoning-lab agent identifier-propagation audit
+- Schema-level deprecation hints in `validate_schema.py`
+- Template-echo test for `$1`/`$2` substitution mechanism
+- Schema naming inconsistency root cause
+  (`passage_analyses`/`passage_guides`/`passages`)
+- `saving-the-maker-space` → `saving_the_maker_space` rename if
+  misbindings ever recur on a future story
+- Friction log as priming surface — consider excluding from
+  executing Claude's context
+- Per-episode "no friction" log stub requirement (or drop the
+  expectation)
+
+### Closure
+
+Phases 1–7 of story-pipeline-revision.md are done. Saving the Maker
+Space shipped 5 episodes through `/create_episode` → `/configure_session`.
+The pipeline works. The v2 candidates above are improvement targets,
+not blockers.
