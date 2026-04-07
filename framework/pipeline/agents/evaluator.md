@@ -192,6 +192,21 @@ observation: "Looking at the evidence, I notice Maya says "we should definitely 
 
 Use `>` (folded) for prose that should flow as a paragraph. Use `|` (literal) only when line breaks matter. Never use bare unquoted strings for text that contains `"`, `'`, `:`, or `#`.
 
+**This rule applies to list items too**, not just mapping values. A list item that *starts* with a double-quoted phrase and then continues with unquoted text on the same or next line is the most common failure mode — YAML parses the quoted phrase as a complete scalar and then chokes on the continuation. Always wrap such items in single quotes (escaping interior single quotes by doubling) or use a `>-` block scalar:
+
+```yaml
+# GOOD
+observations:
+  - '"We all agree, right?" closes the conversation before it opens.'
+  - >-
+      "The kids love it" is a feeling, not a fact about
+      whether the room helps kids learn.
+
+# BAD — parser error: expected <block end>, but found '<scalar>'
+observations:
+  - "We all agree, right?" closes the conversation before it opens.
+```
+
 ## Reference Data
 
 - Facet inventory: `framework/reference/facet_inventory.yaml`

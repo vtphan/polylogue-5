@@ -63,6 +63,41 @@ def _load_reference_terms(reference_dir="framework/reference"):
     return facet_ids, cog_ids, soc_ids
 
 
+_QUOTED_LIST_ITEM_RE = re.compile(r'^(\s*)-\s+"[^"]*"\s*\S')
+
+
+def _find_quoted_list_item_lines(text):
+    """Return [(0-indexed line number, raw line)] of likely-broken list items."""
+    return [
+        (i, ln)
+        for i, ln in enumerate(text.splitlines())
+        if _QUOTED_LIST_ITEM_RE.match(ln)
+    ]
+
+
+def _autofix_quoted_list_items(text):
+    """Wrap offending list items in single quotes (doubling interior ').
+
+    Returns (new_text, list of (1-indexed lineno, original, replacement)).
+    Conservative: only rewrites lines matching _QUOTED_LIST_ITEM_RE.
+    """
+    lines = text.splitlines(keepends=True)
+    fixes = []
+    for idx, raw in enumerate(lines):
+        stripped = raw.rstrip("\n")
+        if not _QUOTED_LIST_ITEM_RE.match(stripped):
+            continue
+        m = re.match(r"^(\s*-\s+)(.*)$", stripped)
+        if not m:
+            continue
+        prefix, body = m.group(1), m.group(2)
+        body_escaped = body.replace("'", "''")
+        new_line = f"{prefix}'{body_escaped}'\n" if raw.endswith("\n") else f"{prefix}'{body_escaped}'"
+        lines[idx] = new_line
+        fixes.append((idx + 1, stripped, new_line.rstrip("\n")))
+    return "".join(lines), fixes
+
+
 class SchemaValidator:
     def __init__(self, mode="strict"):
         self.mode = mode
@@ -71,7 +106,46 @@ class SchemaValidator:
 
     def validate(self, artifact_path, schema_path):
         with open(artifact_path) as f:
-            artifact = yaml.safe_load(f)
+            text = f.read()
+        try:
+            artifact = yaml.safe_load(text)
+        except yaml.YAMLError as exc:
+            schema_basename = os.path.basename(schema_path)
+            # Never auto-fix the barrier-safe projection — security-sensitive.
+            allow_autofix = schema_basename != "episode_writer_input.yaml"
+            fixed_artifact = None
+            applied = []
+            if allow_autofix and _find_quoted_list_item_lines(text):
+                new_text, applied = _autofix_quoted_list_items(text)
+                if applied:
+                    try:
+                        fixed_artifact = yaml.safe_load(new_text)
+                    except yaml.YAMLError:
+                        fixed_artifact = None
+                    if fixed_artifact is not None:
+                        with open(artifact_path, "w") as f:
+                            f.write(new_text)
+            if fixed_artifact is None:
+                print(f"Validating: {artifact_path}")
+                print(f"  Schema: {schema_path}")
+                print(f"  FAIL: YAML parse error")
+                print(f"    {exc}")
+                hits = _find_quoted_list_item_lines(text)
+                if hits:
+                    lineno, raw = hits[0]
+                    print(
+                        f"  HINT: line {lineno + 1} looks like a list item starting with a "
+                        f"double-quoted phrase followed by unquoted text. Wrap the whole item "
+                        f"in single quotes or use a `>-` block scalar."
+                    )
+                    print(f"    offending: {raw.strip()}")
+                return False
+            print(f"Validating: {artifact_path}")
+            print(f"  AUTO-FIXED: rewrote {len(applied)} quoted-list-item line(s) to single-quoted form")
+            for lineno, before, after in applied:
+                print(f"    line {lineno}: {before.strip()}")
+                print(f"             -> {after.strip()}")
+            artifact = fixed_artifact
         with open(schema_path) as f:
             schema_doc = yaml.safe_load(f)
 
