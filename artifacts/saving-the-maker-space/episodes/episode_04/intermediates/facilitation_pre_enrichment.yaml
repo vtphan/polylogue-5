@@ -1,0 +1,396 @@
+story_id: saving-the-maker-space
+episode_number: 4
+scenario_id: saving-the-maker-space-ep-04
+
+overview:
+  topic: >
+    Regrouping after the principal's reply: Mira is drafting petition v2, and the group
+    has to figure out who the petition is actually for.
+  targeted_facets_summary: >
+    The episode is built around perspective_engagement (scope lens). Mira opens by
+    speaking for "the kids" without ever having asked any kids outside the group, and
+    Sam — who has been silently in the room for every meeting since the start — finally
+    breaks the consensus and names the gap. The same character carries the weakness in
+    the opening passage and the strength in the middle passage; that is the inflection,
+    not a contradiction. Ren also lands a smaller growth beat on source_credibility by
+    auditing her own three sources from episode 1 between meetings.
+  session_timing: >
+    35-45 minutes total. 5 min framing, 20-25 min in groups across the four passages,
+    10-15 min whole-class debrief.
+  what_to_expect: >
+    Students will land hard on Sam's intervention in passage_03 and may underrate the
+    opening passage as "nothing is happening." The opening is the setup — the framing
+    failure has to be visible before the inflection can land. Watch for students who
+    treat Mira as the villain; she is not. She is taking the principal's pushback
+    seriously and rewriting from scratch. The point is that revising your evidence is
+    not the same thing as revising who you are arguing for. Note also that Theo and
+    Dev are present in the maker space but do not speak this episode — students will
+    not notice and that is fine, but it matters that Sam and Ren are doing this in
+    front of the rest of the group, not in private.
+
+passage_guides:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    summary: >
+      Mira opens with "we know what the kids need" and jumps to drafting petition v2.
+      Sam, in the corner, glances up at the line and then looks back down without
+      speaking.
+    whats_here:
+      - facet: perspective engagement
+        quality: weak
+        visible_through: [scope, logic]
+        explanation: >
+          Mira's premature-consensus move under group_pressure: she states what the
+          group thinks before checking, and the room's default response is to nod.
+          Mira means well — she is taking the principal seriously — but she is
+          revising the evidence base without revising who the petition is for.
+      - facet: perspective engagement
+        quality: weak (as absence)
+        visible_through: [scope]
+        explanation: >
+          Sam carries the same facet from the opposite direction. She has the missing
+          piece — she is the kid who has noticed which other kids never use the maker
+          space — and her conflict_avoidance default is to absorb Mira's framing
+          rather than break it. This is the silent half of the move/response pair.
+          Teachers should know Sam is at the table for the entire opening; the stage
+          direction in turn_02 is the load-bearing beat.
+    diagnose:
+      if_students_are_stuck: >
+        Try the scope lens — ask what "we" means in Mira's first sentence and what
+        "the kids" means. Are they the same group? If not, what's the relationship
+        between them? If they still can't see it, ask them to look at turn_02 — what
+        is Sam doing in that beat?
+    discuss:
+      likely_disagreements: >
+        Some students will say Mira is doing fine — she is taking the principal
+        seriously and rewriting. Others will catch the framing problem. The
+        productive disagreement is about whether "fixing the evidence" is the same
+        thing as "fixing the argument."
+      productive_questions:
+        - Who is the "we" in Mira's first sentence?
+        - Who are "the kids"?
+        - What is Sam doing in turn_02? Why does the script bother to show it?
+        - If Mira is right that the principal's pushback was mostly about evidence, why does the framing matter?
+      watch_for: >
+        Productive: students noticing the gap between "we" and "the kids" and asking
+        whether anyone has actually been consulted. Stalled: students treating the
+        opening as "nothing happened" and skipping ahead to passage_03.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI notes that Mira treats one big claim as already settled, names the
+        gap between "we" and "the kids," and points out that Sam's silent glance is
+        itself the room's response to the framing move. It frames this through the
+        social vocabulary of group pressure without naming Sam's pattern yet —
+        that is reserved for passage_03.
+      likely_student_reactions: >
+        Students who missed the framing gap will go back and reread Mira's first
+        line. Students who caught it will feel validated and may want to jump ahead.
+      follow_up: >
+        Ask: "If you were Sam at this moment, what would it cost you to say
+        something?" That sets up passage_03 without spoiling it.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Mira treats the underlying claim as settled.
+          - She moves straight to drafting v2 with no checking step.
+        might_miss:
+          - That "we know" is a social move, not just a logic move.
+      - lens: evidence
+        will_likely_see:
+          - No new evidence is offered; Mira refers vaguely to "real numbers."
+        might_miss:
+          - That the absence of evidence here is itself the point.
+      - lens: scope
+        will_likely_see:
+          - Mira speaks for "the kids" without specifying which.
+          - Sam is in the room and silent.
+        might_miss:
+          - The stage direction in turn_02 — fast readers will skip past it.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04]
+    summary: >
+      Ren reports that she went back and read her three sources from episode 1, and
+      two of them aren't really about kids like them. Mira accepts the correction
+      immediately but says the underlying point still stands.
+    whats_here:
+      - facet: source credibility
+        quality: strong
+        visible_through: [evidence, logic, scope]
+        explanation: >
+          Ren has done the audit between meetings, on her own time. She names which
+          two sources fail and why — a press release and a study about high schoolers
+          in another state. The contrast is with episode 1, where she treated three
+          sources as roughly equivalent input under uncritical_acceptance. The
+          strength is fragile by design (she will still slip in episode 5), but the
+          beat is real.
+      - facet: perspective engagement
+        quality: weak
+        visible_through: [scope, logic]
+        explanation: >
+          Mira accepts the source correction at the level of evidence and tries to
+          push straight back to "the point still stands." She has revised what she
+          cites; she has not revised who she is citing it for. Group_pressure is
+          still active — the framing about "the kids in this school" gets restated
+          as already-known.
+    diagnose:
+      if_students_are_stuck: >
+        Through the evidence lens — what specifically did Ren say about each of her
+        two bad sources? Through the scope lens — what does Mira actually fix in
+        turn_04, and what does she leave alone?
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether Mira's quick acceptance is a strength
+        (she is not defensive) or a deflection (she gives up the small thing to
+        protect the big thing). Both readings are productive.
+      productive_questions:
+        - What did Ren actually do between meetings? Why does it matter that she did it on her own?
+        - When Mira says "the point still stands," which point does she mean?
+        - Is it possible to fix the sources without fixing the framing? Why or why not?
+      watch_for: >
+        Productive: students drawing a line between "evidence" and "framing" and
+        asking whether they can be separated. Stalled: students treating Ren's audit
+        as "she admitted she was wrong" without seeing the work she did to get there.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI calls Ren's audit out as a model evidence move — going back to read
+        sources you already brought in is unusual and worth noticing. It then names
+        Mira's pattern: she fixes the evidence half quickly and leaves the framing
+        half untouched, because changing your evidence is easier than changing who
+        you think you're arguing for.
+      likely_student_reactions: >
+        Students will probably treat Ren's audit as the main event of the passage
+        and may not notice that Mira's response is the load-bearing beat for what
+        comes next.
+      follow_up: >
+        Ask: "Mira drops the bad sources without arguing. Why is the framing harder
+        to drop than the sources?" This sets up passage_03.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Mira separates evidence from claim and only fixes the evidence.
+        might_miss:
+          - That the separation is the move worth questioning.
+      - lens: evidence
+        will_likely_see:
+          - Ren names specific sources and specific reasons they fail.
+          - The audit happened between meetings.
+        might_miss:
+          - That Ren is the same kid who originally brought those sources in.
+      - lens: scope
+        will_likely_see:
+          - Mira's "the kids in this school" still does not include any actual kids.
+        might_miss:
+          - That this is the same framing as the opening with one extra word.
+
+  - passage_id: passage_03
+    turns: [turn_05, turn_06, turn_07, turn_08]
+    summary: >
+      Sam asks "...does it?" The room turns. When Mira asks what she means, Sam
+      says: "We keep saying 'the kids,' but I think we mean us. There's like four
+      hundred kids in this school, and we know maybe forty of them. The petition
+      was written for the forty." Mira opens her mouth to restate the consensus
+      and stops.
+    whats_here:
+      - facet: perspective engagement
+        quality: strong
+        visible_through: [scope, logic]
+        explanation: >
+          The inflection. Sam carries the same facet she carried as a weakness in
+          passage_01, now flipped: she is the one naming who is missing instead of
+          being the missing voice herself. The contrast is with three episodes of
+          conflict_avoidance — the social default she has been carrying since
+          episode 1. Important: this is fragile by design. Sam is not becoming a
+          confident person; she is doing one hard thing once, and the closing beat
+          (in passage_04) shows that it cost her.
+      - facet: perspective engagement
+        quality: weak, self-arresting
+        visible_through: [scope, logic]
+        explanation: >
+          Mira's premature-consensus move catches itself mid-sentence in turn_08
+          ("That's not — I mean, we're not just — ...okay."). The group_pressure
+          dynamic does not generate a defensive move this time. She does not have
+          a new framing yet, but the old one is no longer automatic.
+    diagnose:
+      if_students_are_stuck: >
+        Through the scope lens — read Sam's three sentences in turn_07 carefully.
+        What do the numbers do? Through the logic lens — what is Mira about to say
+        in turn_08, and why doesn't she say it?
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether Sam's "forty" number counts as
+        evidence. They may also disagree about whether Mira's "...okay" is a
+        capitulation, a real shift, or just confusion. The productive read is that
+        it is none of those — it is the absence of the move she usually makes.
+      productive_questions:
+        - Why does Sam start with "Does it?" instead of with the longer sentence?
+        - What do the numbers (400 vs 40) do that a vaguer version would not have done?
+        - Why is Mira's stopped sentence in turn_08 important?
+        - Why is Sam — and not Ren or Mira — the one who can name this?
+      watch_for: >
+        Productive: students connecting Sam's silence in passage_01 to her speaking
+        here, and seeing the inflection. Stalled: students treating Sam as a hero
+        who has changed, missing that the strength is fragile and costly.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI walks through Sam's two-word question, the contrast in the numbers,
+        and Mira's self-arresting sentence. It names what it took for Sam to do
+        this — she had been letting the moment pass for three meetings — without
+        framing her as a transformed character.
+      likely_student_reactions: >
+        Strong reactions to Sam. Some students will want to celebrate her; some
+        will be uncomfortable that Mira is not "called out" more sharply. Both are
+        productive entry points.
+      follow_up: >
+        Ask: "What do you predict happens to Sam right after this scene? Does she
+        feel good or does she feel something else?" That bridges to passage_04 and
+        the closing beat.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Sam uses contrast (400 vs 40), not argument.
+          - Mira self-interrupts.
+        might_miss:
+          - That "Does it?" is itself a logic move.
+      - lens: evidence
+        will_likely_see:
+          - Sam offers a number she has not formally sourced.
+        might_miss:
+          - That the number comes from her own observation as the person who watches.
+      - lens: scope
+        will_likely_see:
+          - Sam names exactly who has been excluded.
+          - Mira's framing breaks for the first time in the season.
+        might_miss:
+          - That this is the same kid who was silent in passage_01.
+
+  - passage_id: passage_04
+    turns: [turn_09, turn_10, turn_11, turn_12, turn_13]
+    summary: >
+      Ren turns Sam's observation into a question — who would they actually have
+      to ask? Sam names categories of kids the group has not been talking to (gym
+      kids at lunch, drama kids, kids who go straight home). Ren names two
+      specific names. Mira starts taking notes. Sam answers Ren's last question
+      briefly and then leaves, looking unsteady.
+    whats_here:
+      - facet: perspective engagement
+        quality: strong (emergent, not pre-targeted)
+        visible_through: [scope, logic]
+        explanation: >
+          The rebuild. The group is doing perspective work in real time —
+          enumerating the missing categories specifically enough to actually go
+          talk to them. Ren's pivot from "is Sam right?" to "who do we ask?" gives
+          Sam social cover and operationalizes the observation. Mira's "let me
+          write that down" is the smallest possible reversal — for the first time
+          she is taking notes on someone else's framing instead of restating her
+          own. Theo and Dev are present in the maker space throughout, silent;
+          this matters cumulatively for the season but not for this passage's
+          discussion.
+      - facet: perspective engagement
+        quality: fragile-strong (Sam's exit)
+        visible_through: [scope]
+        explanation: >
+          Sam answers Ren's direct question briefly and then says "I have to go."
+          The closing beat is designed to be unsteady, not triumphant. The growth
+          is real and the cost is real, and episode 5 will not redeem the cost.
+          If students read the exit as flat, the design is doing its job.
+    diagnose:
+      if_students_are_stuck: >
+        Through the scope lens — list the kids the group is now naming. How is
+        that list different from "the kids" in passage_01? Through the logic lens
+        — what does Ren do in turn_09 instead of arguing about whether Sam is right?
+    discuss:
+      likely_disagreements: >
+        Students may disagree about Sam's exit. Some will read it as anticlimactic,
+        some will read it as costly, some may not notice it. The productive
+        reading is that doing the hardest thing she has done in this group cost
+        her something and the episode does not pretend otherwise.
+      productive_questions:
+        - What does Ren do in turn_09 that turns Sam's observation into a plan?
+        - Why does Mira start writing things down instead of arguing?
+        - Why does Sam leave right after answering Ren's last question?
+        - The petition started as "for the kids." What is it now for?
+      watch_for: >
+        Productive: students noticing Mira's note-taking as a small but real
+        reversal, and reading Sam's exit as costly rather than flat. Stalled:
+        students treating the rebuild as the obvious next step and missing that
+        the rebuild itself is the perspective work the group has been failing at
+        for three episodes.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI names Ren's pivot from litigation to operationalization, points
+        out Mira's quiet shift from speaker to note-taker, and reads Sam's exit
+        as the cost of the intervention. It connects Ren's earlier audit to
+        Sam's intervention as two related growth beats — both kids doing
+        something between or across meetings that nobody asked them to do.
+      likely_student_reactions: >
+        Students may want a tidier ending. They will not get one. That is the
+        teaching moment.
+      follow_up: >
+        Ask: "If you were in this room, would you have noticed Sam leaving? Why
+        does the script bother to show it?" Then ask what episode 5 would owe
+        Sam given how this episode ends.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Ren operationalizes instead of litigating.
+          - Mira shifts from speaker to note-taker.
+        might_miss:
+          - That switching from "is X true?" to "what do we do about X?" is itself a logic move.
+      - lens: evidence
+        will_likely_see:
+          - Categories are still informal; nobody has actually talked to anyone yet.
+        might_miss:
+          - That the next step the group lands on is a data-collection step.
+      - lens: scope
+        will_likely_see:
+          - Specific categories of missing kids get named.
+          - Two specific kids get named by name.
+          - Sam leaves unsteadily.
+        might_miss:
+          - The cost of Sam's intervention — easy to read as flat.
+
+debrief:
+  key_takeaways:
+    - >
+      Revising your evidence is not the same as revising who you are arguing
+      for. Mira drops two sources in one beat and still cannot drop the framing
+      "we know what the kids need" without something breaking — because the
+      framing is doing different work than the evidence is. This is the central
+      perspective_engagement lesson of the episode.
+    - >
+      Perspective work has a cost, and the person best positioned to do it is
+      often the person it costs the most. Sam is the only kid in the room who
+      can name the gap, because she is the only one who has been watching from
+      the edge — and she is also the kid for whom breaking consensus is the
+      hardest. The episode honors both halves: the growth is real and it is
+      costly.
+    - >
+      Auditing your own earlier work between meetings — Ren going back to read
+      her three sources from episode 1 — is unglamorous and load-bearing. It is
+      what makes the difference between source_credibility as a one-time check
+      and source_credibility as a habit. Note also that Ren is the same kid who
+      originally shipped those weak sources; the strength is in the same hands
+      as the earlier weakness.
+  cross_group_prompts:
+    - >
+      Compare what your scope-lens groups noticed in passage_01 with what your
+      logic-lens groups noticed. Did the scope groups get to the framing gap
+      faster? Did the logic groups frame Mira's confidence as a separate issue?
+      What does that tell you about which lens "wants" to see what?
+    - >
+      How many groups read Sam's exit in passage_04 as costly, and how many
+      read it as flat? What in the text would have to be different for the
+      "flat" reading to be the right one?
+    - >
+      The same character (Sam) carries a perspective_engagement weakness in
+      passage_01 and a perspective_engagement strength in passage_03. Did your
+      groups treat this as growth or as inconsistency? What is the difference
+      between those two readings?
+  connection_to_next: >
+    This episode exercised perspective_engagement under social pressure and
+    asked students to read a fragile, costly inflection rather than a clean
+    one. A future session could pick up on what episode 5 owes Sam — whether
+    growth that costs something has to be honored by what comes next, or
+    whether the cost is its own kind of honoring. It could also pick up Ren's
+    arc, which is explicitly flagged as still uneven.

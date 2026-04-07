@@ -1,0 +1,112 @@
+story_id: saving-the-maker-space
+episode_number: 5
+scenario_id: saving-the-maker-space-ep-05
+personas:
+- name: Dev
+  perspective: 'Wants to deliver the proposal cleanly and earn the principal''s acceptance. Believes in
+    the shared-room compromise and has rehearsed the new framing, but knows under pressure he tends to
+    reach for the line that feels good in his mouth.
+
+    '
+- name: Mira
+  perspective: 'Wants the principal to accept the proposal and is focused entirely on what would actually
+    persuade her, not on what would feel best to say. Has agreed with Dev beforehand on the table-tap
+    as a quiet cue if he slips.
+
+    '
+- name: Ren
+  perspective: 'Wants to be ready if the principal asks for a number. Has spent part of the last two weeks
+    preparing for exactly that. Believes her job is to back up the proposal, not to deliver it.
+
+    '
+- name: Sam
+  perspective: 'Wants the kids on the Tuesday schedule to be heard. Does not want to take the floor unless
+    the moment requires it. Believes that her job in this meeting is to land one specific sentence at
+    the right time.
+
+    '
+- name: Theo
+  perspective: 'Has done his work earlier in the season and is in the meeting as a steadying presence.
+    Does not need to speak during the proposal itself. Holds the season''s honest assessment for the walk
+    back.
+
+    '
+turns:
+- speaker: Dev
+  sentences:
+  - text: So our idea is we share the room — robotics gets Mondays and Wednesdays, the art kids get Thursdays,
+      and Tuesdays and Fridays stay open for anyone.
+    sentence_id: turn_01.s01
+  - text: The equipment cost drops by about a third because we're not buying a second set of anything.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Dev
+  sentences:
+  - text: And honestly, the kids in this school just really love that room, you can kind of feel it the
+      second you walk in—
+    sentence_id: turn_02.s01
+  turn_id: turn_02
+- speaker: Mira
+  sentences:
+  - text: (taps the table once, quietly, next to him)
+    sentence_id: turn_03.s01
+  turn_id: turn_03
+- speaker: Dev
+  sentences:
+  - text: —sorry, um, back to the cost part.
+    sentence_id: turn_04.s01
+  - text: The soldering irons and the printer are already in the room, so on Thursdays the art kids just
+      use what's there, and that's where the lower number comes from.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Ren
+  sentences:
+  - text: That number's from the maintenance log — I checked the dates last week.
+    sentence_id: turn_05.s01
+  - text: I took a picture of the page, it's right here on my phone.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Sam
+  sentences:
+  - text: The kids on the Tuesday schedule said they'd want it open after school sometimes too. I wrote
+      that on page three.
+    sentence_id: turn_06.s01
+  turn_id: turn_06
+- speaker: Mira
+  sentences:
+  - text: Yeah, we can do the closing-up thing on shared days, that's fair.
+    sentence_id: turn_07.s01
+  - text: Thank you.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Mira
+  sentences:
+  - text: Hey — was Monday actually the right day for robotics, though?
+    sentence_id: turn_08.s01
+  - text: Because band is Monday and some of the robotics kids do band.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Dev
+  sentences:
+  - text: I don't know.
+    sentence_id: turn_09.s01
+  - text: I didn't check that.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Sam
+  sentences:
+  - text: I keep thinking about the kids I didn't get to talk to.
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Ren
+  sentences:
+  - text: (checking her phone) Photo's still there.
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Theo
+  sentences:
+  - text: It's a partial win.
+    sentence_id: turn_12.s01
+  - text: I'm okay with that.
+    sentence_id: turn_12.s02
+  turn_id: turn_12

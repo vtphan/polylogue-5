@@ -1,0 +1,59 @@
+---
+timestamp: '2026-04-07T22:26:20+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T22:32:47+00:00'
+command: create_episode
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T22:36:44+00:00'
+command: create_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T22:41:50+00:00'
+command: analyze_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T22:47:06+00:00'
+command: analyze_transcript
+stage: analysis_review
+agent: analysis_reviewer
+attempt: 1
+verdict: ACCEPT
+---
+timestamp: '2026-04-07T22:47:06+00:00'
+command: analyze_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T22:48:38+00:00'
+command: design_scaffolding
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T22:53:11+00:00'
+command: design_scaffolding
+stage: scaffolding_review
+agent: scaffolding_reviewer
+attempt: 1
+verdict: ACCEPT
+---
+timestamp: '2026-04-07T22:53:11+00:00'
+command: design_scaffolding
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T23:06:51+00:00'
+command: configure_session
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T23:07:42+00:00'
+command: configure_session
+stage: save
+verdict: SAVE

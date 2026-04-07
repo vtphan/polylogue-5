@@ -1,0 +1,63 @@
+personas:
+  - name: Mira
+    perspective: >
+      Wants to fix the petition's wording and evidence so it lands
+      better this time.
+  - name: Ren
+    perspective: >
+      Went back and re-read her old sources between meetings and is
+      ready to admit what didn't hold up.
+  - name: Sam
+    perspective: >
+      Has been quietly noticing all year that the petition really
+      only speaks for the kids already in the room.
+turns:
+  - speaker: Mira
+    sentences:
+      - text: "Okay, so we know what the kids need — we just have to say it better this time, right?"
+      - text: "I already started v2, and I think if we tighten the opening and swap in real numbers, she basically can't say no."
+  - speaker: Sam
+    sentences:
+      - text: "(glances up at Mira, opens her mouth, then looks back down at the table)"
+  - speaker: Ren
+    sentences:
+      - text: "So, um, I went back and actually read the three things I brought in at the beginning."
+      - text: "Two of them aren't really about kids like us — one's a company press release, and the other one's about high schoolers in another state."
+  - speaker: Mira
+    sentences:
+      - text: "Okay, so we cut those, that's fine."
+      - text: "The point still stands though — we know what the kids in this school need, we just need cleaner sources behind it."
+  - speaker: Sam
+    sentences:
+      - text: "...does it?"
+  - speaker: Mira
+    sentences:
+      - text: "Wait — what?"
+  - speaker: Sam
+    sentences:
+      - text: "We keep saying 'the kids,' but I think we mean us."
+      - text: "There's like four hundred kids in this school, and we know maybe forty of them."
+      - text: "The petition was written for the forty."
+  - speaker: Mira
+    sentences:
+      - text: "That's not — I mean, we're not just —"
+      - text: "...okay."
+  - speaker: Ren
+    sentences:
+      - text: "Okay so — who would we even have to ask?"
+      - text: "Like, who's not in this room right now?"
+  - speaker: Sam
+    sentences:
+      - text: "The kids in the gym at lunch. The drama kids."
+      - text: "The ones who just go home right after the bell — nobody ever asks them anything."
+  - speaker: Mira
+    sentences:
+      - text: "Hold on, let me — let me write that down."
+  - speaker: Ren
+    sentences:
+      - text: "Like, what about Priya? Or that kid Marcus from homeroom?"
+      - text: "Sam, who do you think would actually talk to us?"
+  - speaker: Sam
+    sentences:
+      - text: "Priya, maybe. I can ask her tomorrow."
+      - text: "I have to go."

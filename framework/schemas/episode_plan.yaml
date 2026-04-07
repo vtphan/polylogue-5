@@ -59,10 +59,10 @@ schema:
       personas:
         type: list
         required: true
-        description: 2-3 discussion participants.
+        description: 2-5 discussion participants.
         constraints:
           min_length: 2
-          max_length: 3
+          max_length: 5
         items:
           type: object
           fields:

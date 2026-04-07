@@ -36,7 +36,7 @@ Checks:
        - focused: >=3 facets, >=1 cognitive pattern, >=1 social dynamic.
   2. Per-draft schema sanity (light): every episode draft has the
      required frontmatter fields, episode_number is unique and in
-     [1, episode_count], lead_characters has 2-3 names, primary_lens is
+     [1, episode_count], lead_characters has 2-5 names, primary_lens is
      valid, mixed_valence_shape is valid.
   3. Lens distribution: every lens (logic, evidence, scope) appears as
      primary_lens in >=1 episode AND no lens appears in more than half
@@ -277,9 +277,27 @@ def main():
             fail("draft_episode_oob",
                  f"{path}: episode_number {ep} outside [1, {declared_ep_count}]")
         leads = fm.get("lead_characters") or []
-        if not (2 <= len(leads) <= 3):
+        if not (2 <= len(leads) <= 5):
             fail("draft_lead_count",
-                 f"episode {ep}: lead_characters must have 2-3 names, got {len(leads)}")
+                 f"episode {ep}: lead_characters must have 2-5 names, got {len(leads)}")
+        # Carrier-in-leads rule: every strength and weakness carrier must be
+        # a lead character in the same episode. Otherwise the carrier has no
+        # speaker slot in the transcript and the designed beat cannot land.
+        leads_set = set(leads)
+        for ts in (fm.get("strengths") or []):
+            c = ts.get("carrier")
+            if c and c not in leads_set:
+                fail("strength_carrier_not_lead",
+                     f"episode {ep}: strengths[].carrier '{c}' is not in "
+                     f"lead_characters {leads}; a designed carrier must be "
+                     f"able to speak in the episode")
+        for tf in (fm.get("targets") or []):
+            c = tf.get("carrier")
+            if c and c not in leads_set:
+                fail("weakness_carrier_not_lead",
+                     f"episode {ep}: targets[].carrier '{c}' is not in "
+                     f"lead_characters {leads}; a designed carrier must be "
+                     f"able to speak in the episode")
         pl = fm.get("primary_lens")
         if pl not in LENSES:
             fail("draft_primary_lens",

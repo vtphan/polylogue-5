@@ -1,0 +1,343 @@
+scenario_id: saving-the-maker-space-ep-04
+story_id: saving-the-maker-space
+episode_number: 4
+topic: >
+  Regrouping after the principal's reply: Mira is drafting a second petition,
+  and the group has to figure out who the petition is actually for.
+context: >
+  Five 6th graders are fighting to save their school's maker space. The
+  principal has rejected the first petition with calm, well-reasoned pushback.
+  Mira is already drafting version two. The group meets in the maker space
+  the day after the principal's office. Sam, who has been silently in the
+  room for every meeting since the start, is the only one who has noticed
+  that the petition has been speaking for "us" while claiming to speak for
+  "the kids."
+instructional_goals:
+  - Notice when a group's framing leaves people out without anyone in the
+    room realizing it.
+  - Recognize that revising your evidence is not the same thing as revising
+    who you are arguing for.
+  - See what it looks like — and what it costs — for a quiet member of a
+    group to break consensus on something that matters.
+  - Practice auditing your own earlier work between meetings, not just
+    during them.
+
+personas:
+  - name: Mira
+    perspective: >
+      Mira believes the first petition lost on technicalities — the evidence
+      base was thin, the principal poked holes in it — and that a tighter
+      second petition with better numbers will land. She is drafting it
+      already and treats the group's underlying claim ("the kids need this
+      room") as the part that does not need rethinking.
+    knowledge: >
+      She has the principal's pushback fresh in her head, a fresh notebook,
+      and a working draft of petition v2 with a different evidence base. She
+      has not asked any kid outside the group what they think.
+    weaknesses: >
+      Mira moves fast, and she states what the group thinks before checking
+      whether the group actually thinks it. When she says "we know what the
+      kids need," she means it — but the "we" in her sentence is the five
+      of them, and the "kids" in her sentence is also the five of them, and
+      she does not hear the gap. She revises her view of the evidence
+      readily; she does not revise her view of who the petition is for,
+      because that question has not occurred to her yet.
+    strengths: >
+      She is taking the principal's pushback seriously enough to rewrite
+      from scratch, and when Sam finally says the hard thing, Mira's mouth
+      opens to restate the consensus and then closes — she registers the
+      correction without defending herself, which is not nothing.
+  - name: Ren
+    perspective: >
+      Ren is starting to suspect that the group's first round of research
+      was sloppier than she wanted to believe. Between this meeting and the
+      last one she went back through her own three sources from the
+      beginning of the story and actually read them, and she walks in
+      ready to admit what she found.
+    knowledge: >
+      She has now actually read the three sources she brought in episode 1
+      — a peer-reviewed study, an advocacy blog, and a manufacturer press
+      release — and figured out that two of them are not really about her
+      school or kids like her at all.
+    strengths: >
+      She did the homework between meetings, unprompted. She is also the
+      first one to take Sam's side when Sam speaks up, and the one who
+      turns Sam's observation into a concrete next step instead of letting
+      it dissolve into a feeling. When she sees a useful question she
+      grabs it.
+    weaknesses: >
+      Her growth is uneven. She still tends to treat any source that
+      sounds careful as roughly equivalent to any other source that sounds
+      careful, and she will slip back into that habit in later meetings.
+      In this meeting she is at her best, but it is not yet stable.
+  - name: Sam
+    perspective: >
+      Sam has been watching the group draft a petition "for the kids" for
+      three meetings now, and she has known the whole time that the petition
+      is really for the five of them. She has not said so. She thinks she
+      should — she has thought she should for weeks — and she has been
+      letting the moment pass because saying it means interrupting Mira,
+      and interrupting Mira is the thing she most wants to avoid in any
+      room.
+    knowledge: >
+      She is the most observant kid in the group. She knows which kids in
+      her grade actually use the maker space and which ones never set
+      foot in it, because she watches. She has not put this in front of
+      the group because nobody asked.
+    weaknesses: >
+      Her default in any disagreement is to absorb it instead of voicing
+      it. In the opening of this meeting she does what she always does —
+      she glances up when Mira says something that lands wrong, and she
+      keeps her mouth shut. The thing she knows is the thing the group
+      most needs, and her instinct is to wait until someone else says it.
+      Nobody else is going to.
+    strengths: >
+      Once she finally speaks, she names the thing exactly. She does not
+      build up to it, she does not soften it, she does not perform — she
+      asks a small question ("Does it?"), and then when Mira asks what
+      she means she says the precise sentence: "We keep saying 'the kids'
+      — but I think we mean us." That sentence is the kind of clarity the
+      group has not had access to all season, and it lands because it
+      comes from the person in the room who has been paying the most
+      attention to who is not in the room.
+
+target_facets:
+  - facet_id: perspective_engagement
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: group_pressure
+      interaction_note: >
+        Mira does not have a cognitive_pattern target this episode. Her
+        false_certainty pattern is still active in the prose — she still
+        treats the new framing as more settled than it should be — but
+        the engineered failure in this episode is the perspective failure,
+        not the certainty failure, and overloading the same character with
+        both at once would muddy which one Sam's intervention is correcting.
+      cognitive_signal: >
+        Mira opens the meeting with "we know what the kids need" — speaking
+        for a population she has not asked, projecting the group's
+        experience onto the school as a whole. The framing is the same
+        one the petition shipped with, surviving even after the principal
+        has shown the group its evidence base does not hold. Mira has
+        revised her view of the evidence; she has not revised her view
+        of who the petition is for.
+      social_signal: >
+        Mira's premature-consensus move ("we know what the kids need")
+        is the move; the group's nodding-by-default in the first half of
+        the meeting is the response. The pattern is the same one from
+        episodes 1, 2, and 3 — except this episode is when it gets broken,
+        and broken by the one character who has been letting it happen
+        the longest.
+    carrier_persona: Mira
+    signal_mechanism: >
+      Mira opens the meeting by stating, as a settled fact, that the group
+      knows what the kids in the school need. She means the five of them
+      when she says "we" and she also means the five of them when she
+      says "the kids," and she does not hear the gap. The room nods by
+      default, the way it has nodded for three episodes, and the petition
+      v2 starts being drafted on top of the same unexamined framing as
+      petition v1. The failure here is not that Mira is wrong about
+      caring; it is that she has not asked who she is speaking for.
+
+  - facet_id: perspective_engagement
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: conflict_avoidance
+      interaction_note: >
+        This target is the setup for the same-episode strength entry on
+        Sam below. The weakness and the strength are the same character
+        carrying the same facet — the inflection IS the carrier flipping
+        valence within the episode. story_consistency_reviewer should
+        read this as the growth arc inflection, not as contradiction.
+        The conflict_avoidance dynamic only attaches to Sam because the
+        whole season has been showing her absorbing the group's pressure
+        in silence; episode 4 is the first and only time she carries it
+        as a target, because it is the episode where she breaks it.
+      cognitive_signal: >
+        In the opening beats Sam glances up at Mira's framing and does
+        not speak. It is the same default she has taken in every meeting
+        since episode 1. Her silence is the perspective failure as
+        *absence*: she has the missing piece — she is the kid in the
+        group who has actually noticed which other kids don't use the
+        maker space, because she is the most observant of the five — and
+        she is not contributing it.
+      social_signal: >
+        The move/response pair: Mira states the framing ("we know what
+        the kids need"), Sam stays silent rather than break the consensus.
+        Sam's silence is the response Mira's certainty has been getting
+        since episode 1; the petition shipped because no one in the room
+        was Sam, and Sam was in the room.
+    carrier_persona: Sam
+    signal_mechanism: >
+      In the opening of the meeting Sam is in her usual seat, watching.
+      Mira says the line about knowing what the kids need; Sam glances
+      up; Sam does not speak. The thing she knows — that the petition's
+      "kids" is a much smaller group than the school's "kids" — is sitting
+      in her head, and she lets the moment pass the way she has let every
+      moment pass this season. The weakness here is structural: the group
+      cannot self-correct its perspective if the only person who can see
+      the gap is the person who never breaks consensus.
+
+target_strengths:
+  - facet_id: perspective_engagement
+    primary_lens: scope
+    also_visible_through: [logic]
+    carrier_persona: Sam
+    signal_mechanism: >
+      Sam, after letting the framing go past once, stops the room with a
+      small question — "Does it?" — and then, when Mira turns and asks
+      what she means, says the specific sentence the season has been
+      building toward: "We keep saying 'the kids' — but I think we mean
+      us. There are like four hundred kids in this school. We know maybe
+      forty of them. The petition was written for the forty." She is not
+      performing certainty when she says it; she is doing the hardest
+      thing she has done in this group all year, and the room registers
+      that it cost her. The strength is the same facet she failed at in
+      the opening beats — she is now the one naming who is missing
+      instead of being the missing voice herself.
+    contrastive_note: >
+      In earlier episodes, the missing-perspective question would have
+      stayed in Sam's head because the group's nodding was easier to
+      absorb than to break. Here she breaks it once, fragilely, at real
+      personal cost — and the whole season's growth arc lives in that
+      one beat.
+
+  - facet_id: source_credibility
+    primary_lens: evidence
+    also_visible_through: [logic, scope]
+    carrier_persona: Ren
+    signal_mechanism: >
+      Ren walks into the meeting having actually gone back through her
+      own three sources from episode 1 — between meetings, on her own
+      time, without being asked — and she reports the audit unprompted
+      at her first turn: "I went back through the three sources from
+      last week. Two of them aren't actually about us." It is the
+      episode 1 homework, finally done, by the kid who brought the
+      sources in the first place. Later, she is the first to take Sam's
+      side when Sam speaks up, and she is the one who turns Sam's
+      observation into a usable next step ("okay, so — who would we
+      have to ask? Like, who's not in this room right now?").
+    contrastive_note: >
+      In episode 1 Ren treated three sources as roughly equivalent input
+      because she had no consistent way of telling them apart. Here she
+      has done the work to tell them apart, and she is willing to say
+      out loud which of her own sources do not survive scrutiny.
+
+discussion_dynamic: >
+  The meeting opens with Mira already in motion on petition v2 and the
+  group nodding along the way it has nodded for three episodes. Ren
+  interrupts the momentum with her unprompted source audit; Mira absorbs
+  the correction at the level of evidence but not at the level of framing
+  and tries to push past it ("okay, so we cut those, but the point still
+  stands"). Sam, who has been silent through the whole opening, finally
+  asks one small question — "Does it?" — and the room turns. When Mira
+  asks her to explain, Sam says the precise sentence about the petition
+  having been written for the forty kids the group already knows, and
+  the room stops moving. Mira opens her mouth to restate the consensus,
+  and stops. Ren, immediately, takes Sam's side and turns the
+  observation into a question about who they would actually have to ask.
+  The rest of the meeting is a slow rebuild — Sam and Ren sketching out
+  the categories of kids the group has not been talking to, Mira slowly
+  starting to take notes — and the closing beat is Sam walking out
+  unsteadily, because doing the hardest thing she has ever done in this
+  group cost her something and the episode does not pretend otherwise.
+
+discussion_arc: >
+  The meeting opens with Mira already drafting and speaking as if the
+  group's underlying view is settled. Ren breaks the momentum first, on
+  the smaller question of which sources actually held up. Sam, who has
+  been silently in the room the whole time, finally asks a one-word
+  question that turns the room. When Mira pushes her, Sam says the thing
+  she has been holding onto for three meetings: the petition was written
+  for the forty kids they already know, not the four hundred kids in the
+  school. Mira starts to argue back, stops, and the meeting becomes a
+  quiet rebuild — who would they actually have to ask, who has not been
+  in this room. Sam walks out at the end looking shaken, because the
+  growth was real and it cost her.
+
+turn_outline:
+  - speaker: Mira
+    accomplishes: >
+      Mira opens the meeting bright and in motion, fresh notebook open,
+      saying "okay, we know what the kids need, we just have to say it
+      better this time." The line about knowing lands without her hearing
+      what's wrong with it.
+  - speaker: Sam
+    accomplishes: >
+      Sam, in the corner, glances up at Mira's line. She does not speak.
+      The beat needs to be visible without being narrated — a small
+      reaction, then nothing. (This is the silent half of the move-response
+      pair: Mira makes the framing move, Sam's non-response is what the
+      framing has been getting all season.)
+  - speaker: Ren
+    accomplishes: >
+      Ren, looking at her phone, says she went back through the three
+      sources from last week and that two of them aren't actually about
+      kids like them. She reports it matter-of-factly, like the homework
+      she should have done the first time.
+  - speaker: Mira
+    accomplishes: >
+      Mira accepts the source correction quickly — "okay, so we cut
+      those" — and tries to push straight back to the underlying point,
+      saying it still stands. She is rewriting the evidence base without
+      rewriting who the petition is for. (This is the second move in the
+      pair with Sam: Mira repeats the framing under pressure.)
+  - speaker: Sam
+    accomplishes: >
+      Sam, quietly, says "Does it?" Just the two words. The room turns
+      toward her. (This is Sam's response, and it is the first time all
+      season she has not absorbed the consensus by default.)
+  - speaker: Mira
+    accomplishes: >
+      Mira, caught off guard, asks "what?" — not defensive yet, just
+      genuinely not understanding what Sam is pushing on.
+  - speaker: Sam
+    accomplishes: >
+      Sam, more clearly now, says the precise sentence: "We keep saying
+      'the kids' — but I think we mean us. There are like four hundred
+      kids in this school. We know maybe forty of them. The petition was
+      written for the forty." She does not soften it.
+  - speaker: Mira
+    accomplishes: >
+      Mira opens her mouth to restate the consensus the way she always
+      does — and stops. Beat. She does not have a sentence ready. This
+      is the first time in the season that her premature-consensus move
+      has been broken from a direction she didn't expect.
+  - speaker: Ren
+    accomplishes: >
+      Ren, immediately, takes Sam's side and turns the observation into
+      a usable question: "okay, so — who would we have to ask? Like,
+      who's not in this room right now?" She gives Sam social cover and
+      points the meeting at a next step.
+  - speaker: Sam
+    accomplishes: >
+      Sam, a little steadier now that she is not alone, starts naming
+      categories of kids — the ones who are in the gym at lunch, the
+      ones who are in drama, the ones who go straight home after school
+      — kids the group has never thought to ask.
+  - speaker: Mira
+    accomplishes: >
+      Mira, slowly, picks up her pen and starts taking notes on what Sam
+      and Ren are saying. She is not arguing back. She is not enthusiastic.
+      She is doing the thing she did not do for three episodes, which is
+      letting someone else's framing into her notebook.
+  - speaker: Ren
+    accomplishes: >
+      Ren keeps the rebuild going — naming one or two specific kids by
+      name, asking Sam who would actually be willing to talk to them.
+      The conversation is no longer about petition v2; it is about a
+      question the group had not asked.
+  - speaker: Sam
+    accomplishes: >
+      Sam answers Ren's last question briefly, then stands up to leave.
+      The meeting is winding down. The closing beat — Sam walking out of
+      the maker space looking unsteady, the growth real but costly — has
+      to be visible in how she says her last line and how short it is.
+      She does not look triumphant. She looks like someone who just did
+      something hard.

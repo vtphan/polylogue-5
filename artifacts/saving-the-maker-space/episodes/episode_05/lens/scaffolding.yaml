@@ -1,0 +1,522 @@
+story_id: saving-the-maker-space
+episode_number: 5
+scenario_id: saving-the-maker-space-ep-05
+
+passage_scaffolding:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03, turn_04]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read turns 1, 2, and 4 one after the other. Something about the
+          way Dev is talking changes between turn 1 and turn 2, and then
+          changes again by turn 4. Where is his attention in each one?
+      - type: hint
+        text: >
+          Now look at turn 3. Nothing is said out loud. But something
+          happens there that seems to matter. What do you think is going
+          on between Mira and Dev in that moment?
+      - type: ai_perspective
+        text: >
+          The AI pointed at the slide from one kind of line to another
+          kind of line, and then the quiet thing that pulled Dev back.
+          Did you notice the same moment, or were you watching something
+          else in the passage?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Dev's reasons hold up. Now think
+          about why — what is different about the reasons he gives in
+          turn 1 and turn 4 compared to what he almost says in turn 2?
+      - lens: evidence
+        prompt: >
+          You noticed something about what Dev is leaning on. Now think
+          about why — what kind of support is he offering, and what would
+          a principal actually want to hear?
+      - lens: scope
+        prompt: >
+          You noticed something about whose question Dev is answering.
+          Now think about why — what made him start to drift, and what
+          pulled him back?
+    ai_reflection_prompt: >
+      The AI said an old habit does not always go away — sometimes a group
+      builds a way to catch it instead. Does that match how you were
+      reading the table-tap, or were you seeing it differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              dev's argument is clear and makes sense
+            redirect: >
+              You noticed the clean parts. Now look at turn 2 on its own
+              — does that sentence do the same job as turn 1?
+          - pattern: >-
+              dev is bad at explaining things
+            redirect: >
+              Look at turn 4 again. Is the problem really that Dev can't
+              explain, or is something else going on?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              dev doesn't give any proof
+            redirect: >
+              Check turn 1 again. He names a number and a reason for the
+              number. Is the question about whether he has proof, or
+              about where the proof comes from?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              dev messed up and said the wrong thing
+            redirect: >
+              Look at what happens after turn 2. Does the passage end
+              with the slip, or does something change it?
+          - pattern: >-
+              mira interrupted dev
+            redirect: >
+              Read turn 3 one more time. Did Mira actually take the
+              floor? What exactly did she do?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Dev explains the plan.
+              - >-
+                The reasons don't match in turn 2.
+          - level: developing
+            examples:
+              - >-
+                In turn 1 Dev gives a specific reason the cost drops, but
+                in turn 2 he switches to how the room feels.
+          - level: differentiated
+            examples:
+              - >-
+                Dev's argument holds together in turns 1 and 4 because he
+                names what makes the cost actually go down, but in turn 2
+                he almost replaces that reason with a feeling, and the
+                passage only works because he comes back to the real
+                reason.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Dev says a number.
+          - level: developing
+            examples:
+              - >-
+                Dev says the cost drops by about a third but doesn't say
+                where that came from yet.
+          - level: differentiated
+            examples:
+              - >-
+                Dev names a specific cost reduction and ties it to a
+                concrete mechanism — the equipment is already in the
+                room — which is a different kind of support than just
+                saying the room matters.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Dev starts talking about how kids feel.
+          - level: developing
+            examples:
+              - >-
+                Dev starts out answering the principal's question about
+                cost and schedule, but then switches to how the kids
+                feel about the room.
+          - level: differentiated
+            examples:
+              - >-
+                Dev begins by answering the question the principal
+                actually cares about, slides into a sweeping line that
+                is more about the speakers than the audience, and then
+                gets pulled back by a silent cue so the rest of his
+                answer goes back to the principal's question.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Dev just messed up.
+            - level: developing
+              examples:
+                - >-
+                  Dev has a habit of reaching for the line that feels
+                  good in his mouth when he is under pressure, even when
+                  it isn't the line that fits the question.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Mira helped him.
+            - level: developing
+              examples:
+                - >-
+                  Mira and Dev agreed on the table-tap ahead of time, so
+                  Mira could catch Dev without taking the floor away
+                  from him.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Dev still has the habit and Mira knows he has it, so
+                  they made a cue together that lets her pull him back.
+            - level: differentiated
+              examples:
+                - >-
+                  Dev's old reflex is still there under pressure, and
+                  the group did not try to pretend it wasn't — instead
+                  Mira and Dev built a quiet cue ahead of time so that
+                  when the reflex showed up, the group could catch it
+                  without Dev having to stop being himself.
+
+  - passage_id: passage_02
+    turns: [turn_05, turn_06, turn_07]
+    difficulty: accessible
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read turn 5 closely. Ren is not just saying a number — she is
+          doing several specific things in a row. What are they?
+      - type: hint
+        text: >
+          Now look at turn 6. Sam speaks once in the whole meeting. Why
+          might this one sentence, here, matter more than a long speech
+          would?
+      - type: ai_perspective
+        text: >
+          The AI pointed at Ren having the source ready, not just having
+          it, and at Sam's one sentence doing a lot of work. Did you see
+          the same thing, or did you land somewhere else?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how the argument gets backed up.
+          Now think about why — what does it mean that the support was
+          ready before the question was asked?
+      - lens: evidence
+        prompt: >
+          You noticed something about Ren's source. Now think about why
+          — what had to happen before this meeting for her to answer
+          that fast?
+      - lens: scope
+        prompt: >
+          You noticed something about Sam's one sentence. Now think
+          about why — whose voices would be missing from the proposal
+          if she had not said it?
+    ai_reflection_prompt: >
+      The AI said growth can look like a habit or like a single hard
+      thing you do at the right moment. Does that fit how you were
+      thinking about Ren and Sam, or do you see them differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              the argument is complete now
+            redirect: >
+              What specifically made it complete — the source existing,
+              or Ren being able to pull it up right away?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              ren got lucky she had the photo
+            redirect: >
+              Look at turn 5 again. When did she take the photo, and why
+              would she have done that before the meeting?
+          - pattern: >-
+              a photo isn't real proof
+            redirect: >
+              What is the photo a photo of? Does that change what kind
+              of support it is?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              sam barely said anything
+            redirect: >
+              Count what her one sentence does. Whose perspective does
+              she put into the proposal that wasn't there before?
+          - pattern: >-
+              mira gave up by agreeing with the principal
+            redirect: >
+              Look at what the principal asked for. Was it a big change
+              or a small addition? Does agreeing with it mean the same
+              thing as giving up?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Ren backs up the number.
+          - level: developing
+            examples:
+              - >-
+                The cost number from passage 1 finally has a reason
+                behind it now.
+          - level: differentiated
+            examples:
+              - >-
+                The argument is only sufficient because Ren prepared the
+                support in advance — having a source and being able to
+                produce it on the spot are two different things.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Ren shows a photo.
+          - level: developing
+            examples:
+              - >-
+                Ren names the maintenance log, says when she checked it,
+                and shows a photo of the page.
+          - level: differentiated
+            examples:
+              - >-
+                Ren had the source ready on her phone because she had
+                photographed the maintenance-log page between meetings —
+                the preparation, not the finding, is what makes the
+                evidence actually support the claim.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Sam talks about other kids.
+          - level: developing
+            examples:
+              - >-
+                Sam names the Tuesday-schedule kids, who weren't in the
+                main proposal.
+          - level: differentiated
+            examples:
+              - >-
+                Sam says one sentence that puts a whole group of kids
+                back into the proposal, and she points to where she
+                wrote it down — the shortness is the point, not a
+                smaller version of a longer speech.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Ren is prepared.
+            - level: developing
+              examples:
+                - >-
+                  Ren has started thinking about what she might be asked
+                  before the meeting happens, not just during it.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Sam waited for the right time to talk.
+            - level: developing
+              examples:
+                - >-
+                  Sam and the group agreed ahead of time that she would
+                  speak once at the right moment, so her one line had a
+                  planned place in the meeting.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Ren did the work between sessions and Sam prepared her
+                  sentence, so when the meeting actually happened the
+                  group could answer the principal fast.
+            - level: differentiated
+              examples:
+                - >-
+                  Growth in this group shows up in more than one shape:
+                  Ren turned checking sources into a habit between
+                  sessions, and Sam turned speaking up into one planned
+                  sentence at the right moment, and the two different
+                  shapes worked together because the group built the
+                  meeting around each person doing the thing they
+                  actually could do.
+
+  - passage_id: passage_03
+    turns: [turn_08, turn_09, turn_10, turn_11, turn_12]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          They just won. Read the whole passage and ask yourself: what is
+          each person doing in the hallway? Go person by person.
+      - type: hint
+        text: >
+          Now think about who has been silent until turn 12. How long has
+          Theo been in the room? Why might his first line be the last
+          line of the season?
+      - type: hint
+        text: >
+          Look at Theo's two sentences together. "It's a partial win" and
+          "I'm okay with that" are doing two different jobs at once. What
+          do you think each one means?
+      - type: ai_perspective
+        text: >
+          The AI said "okay with that" has to be honest, not resigned —
+          two different things that look alike from the outside. Is that
+          how you were reading Theo's line, or did it feel different to
+          you?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed Dev saying "I don't know." Now think about why —
+          what would faking an answer right after winning have cost the
+          group?
+      - lens: evidence
+        prompt: >
+          You noticed Ren checking the photo after the meeting is over.
+          Now think about why — what does that tell you about how her
+          habits have changed?
+      - lens: scope
+        prompt: >
+          You noticed something about what each person is carrying out
+          of the meeting. Now think about why — what is the group paying
+          attention to that they would not have paid attention to
+          earlier in the season?
+    ai_reflection_prompt: >
+      The AI said good reasoning often produces a partial thing nobody
+      fully likes, plus a list of things still missing. Does that match
+      what you saw in the hallway, or does your group read the ending a
+      different way?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              dev doesn't know what he's talking about
+            redirect: >
+              He just finished a proposal that the principal accepted.
+              What is the difference between not knowing the answer to
+              one new question and not knowing what you are doing?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              ren is being paranoid about the photo
+            redirect: >
+              The meeting is over. Why would she still check? Is this
+              anxiety, or is it a habit now?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              the group lost or is sad because they didn't get everything
+            redirect: >
+              Did they lose? What did the principal actually do? What is
+              the difference between losing and getting only part of
+              what you wanted?
+          - pattern: >-
+              theo is giving up when he says he's okay with that
+            redirect: >
+              Look at what Theo says right before "I'm okay with that."
+              Is he saying the win doesn't matter, or is he saying
+              something about what kind of win it is?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Dev doesn't know something.
+          - level: developing
+            examples:
+              - >-
+                Dev admits he didn't check the band-Monday conflict
+                instead of making something up.
+          - level: differentiated
+            examples:
+              - >-
+                Dev saying "I don't know" right after winning is the
+                opposite of the move he almost made in the meeting —
+                instead of reaching for a line that sounds good, he lets
+                the gap be a gap.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Ren checks her phone again.
+          - level: developing
+            examples:
+              - >-
+                Ren still checks the photo even after the meeting is done.
+          - level: differentiated
+            examples:
+              - >-
+                Ren's check after the meeting shows that keeping the
+                source in a place she can find it has become a habit,
+                not something she only does when someone is asking her.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Nobody is happy.
+          - level: developing
+            examples:
+              - >-
+                Each person is noticing something the proposal didn't
+                handle — Monday conflicts, kids who weren't talked to.
+          - level: differentiated
+            examples:
+              - >-
+                The group won and is already naming what the win did
+                not cover — missing kids, a schedule conflict, a source
+                worth double-checking — and Theo names the whole thing
+                as partial without pretending it is bigger or smaller
+                than it is.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  They are being careful.
+            - level: developing
+              examples:
+                - >-
+                  The group has learned to keep asking questions even
+                  after they got what they asked for, instead of closing
+                  the question when it felt comfortable.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  They support each other.
+            - level: developing
+              examples:
+                - >-
+                  Theo has been quiet the whole meeting on purpose so
+                  that his one line at the end could name the outcome
+                  for the whole group.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Each person is still doing what they do — Mira
+                  questioning, Sam noticing missing voices, Ren
+                  checking — and Theo names it as a partial win.
+            - level: differentiated
+              examples:
+                - >-
+                  The group's habits under pressure (Mira surfacing
+                  conditions, Sam seeing missing voices, Ren preserving
+                  the source, Dev refusing to fake certainty) show up
+                  without anyone needing to ask, and Theo's line holds
+                  the whole thing together by calling the outcome
+                  partial without flinching from either half.

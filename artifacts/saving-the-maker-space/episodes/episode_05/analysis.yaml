@@ -1,0 +1,379 @@
+story_id: saving-the-maker-space
+episode_number: 5
+scenario_id: saving-the-maker-space-ep-05
+
+passage_analyses:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03, turn_04]
+    sentence_range:
+      - turn_01.s01
+      - turn_01.s02
+      - turn_02.s01
+      - turn_03.s01
+      - turn_04.s01
+      - turn_04.s02
+    facet_annotations:
+      - facet_id: relevance
+        quality_level: weak
+        evidence_sentences: [turn_02.s01]
+        evidence_basis: >
+          Mid-presentation Dev abandons the specific cost-and-schedule case and reaches
+          for a sweeping feel-of-the-room line ("the kids in this school just really love
+          that room") that does not address the principal's budget question.
+        primary_lens: scope
+        also_visible_through: [logic, evidence]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction: >
+            The slip is a personal reflex under pressure rather than a group-level
+            pattern; the episode declines to assign a deficit label and instead shows
+            the reflex being managed by a coordination mechanism.
+        was_targeted: true
+        notes: >
+          The reflex has not been fixed in Dev; it has been brought under group control
+          via the pre-agreed table-tap cue. Per the design, no cognitive_pattern or
+          social_dynamic is assigned — this is the stalemate marker.
+      - facet_id: relevance
+        quality_level: strong
+        evidence_sentences: [turn_03.s01, turn_04.s01, turn_04.s02]
+        evidence_basis: >
+          Mira's silent table-tap, sitting next to Dev, redirects him back to the
+          specific cost-and-schedule framing without taking the floor — the same
+          organizing instinct that earlier produced premature consensus is here
+          producing an audience-pointed correction.
+        primary_lens: scope
+        also_visible_through: [logic, evidence]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: true
+        contrastive_explanation: >
+          Earlier in the season Mira's organizing instinct produced premature consensus
+          ("okay so we all agree, right?") that closed conversations before they had
+          opened; here the same instinct produces a quiet, non-floor-taking cue that
+          keeps Dev pointed at what would actually persuade the principal rather than
+          at what feels good to say.
+      - facet_id: inferential_validity
+        quality_level: strong
+        evidence_sentences: [turn_01.s01, turn_01.s02, turn_04.s02]
+        evidence_basis: >
+          Dev's framing — shared room, schedule split, and a specific mechanism for
+          why the cost drops (the equipment is already in the room, art kids use what's
+          there on Thursdays) — has the conclusion following from named premises rather
+          than from a feeling.
+        primary_lens: logic
+        also_visible_through: [evidence, scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: true
+        contrastive_explanation: >
+          In episode 2 Dev's persuasive delivery rode premises that did not actually
+          support the conclusion — warmth substituting for argument. Here the same
+          delivery rides premises the group has pressure-tested between sessions, so
+          the proposal earns its conclusion instead of asserting it.
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic here, I notice the proposal opens with a clean structure:
+          a specific schedule, a specific cost claim, and a specific reason the cost
+          drops. The conclusion follows from the premises because the premises name
+          mechanisms — what equipment is already there, who uses it when. That is
+          different from saying the room matters because people feel it matters.
+        key_sentences: [turn_01.s01, turn_01.s02, turn_04.s02]
+      through_evidence:
+        observation: null
+        key_sentences: []
+      through_scope:
+        observation: >
+          Through the scope lens, something interesting happens twice in a row. Dev
+          starts with a framing that addresses the principal's question — cost,
+          schedule, who uses the room. Then mid-sentence he slides toward a different
+          framing — how the room feels — which is about the speakers more than about
+          the audience. Then he comes back. Watching the slide and the recovery
+          together is more useful than watching either one alone.
+        key_sentences: [turn_02.s01, turn_03.s01, turn_04.s01]
+      why_it_happened: >
+          One way to think about this is that an old reasoning reflex does not
+          disappear just because someone has learned a better one — it sits underneath
+          and surfaces under pressure. What is interesting in this passage is that the
+          group built a way to handle the reflex without pretending it was gone. Mira
+          does not correct Dev out loud. She does not take the floor. She taps the
+          table once, because she and Dev had agreed on that cue beforehand. A
+          cognitive scientist might say the reflex is still there in Dev; a social
+          scientist might say the group has learned to compensate for each other in
+          a way that none of them could compensate for themselves. Both are true at
+          the same time.
+      what_to_notice: >
+          Watch the moment between Dev's two framings. Something happens in the room
+          that nobody says out loud. What changes between the line he starts and the
+          line he finishes?
+      what_to_notice_sentences: [turn_02.s01, turn_03.s01, turn_04.s01]
+    diversity_potential:
+      expected_lens_split: >
+        Logic readers are most likely to anchor on the clean opening and miss the slip;
+        scope readers are most likely to anchor on the slip and the audience-question
+        framing; evidence readers will have the least to grab onto in this passage.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Dev's opening lays out a schedule and a cost claim with a stated reason.
+            - The cost reason names a mechanism (existing equipment) rather than a feeling.
+          might_miss:
+            - That Dev briefly leaves the argument structure entirely in turn 02.
+            - That the recovery is what makes the logic hold, not the opening alone.
+        - lens: evidence
+          observations:
+            - Dev cites "about a third" as a cost reduction without yet showing a source.
+          might_miss:
+            - That the source question is set up here and answered in the next passage.
+        - lens: scope
+          observations:
+            - The opening framing is pointed at the principal's question (cost, schedule, who uses the room).
+            - Mid-sentence Dev shifts to a framing about how kids feel about the room.
+            - Something silent happens between Mira and Dev that changes the framing back.
+          might_miss:
+            - That the table-tap is a pre-agreed cue rather than improvisation.
+            - That Dev's recovery is itself a kind of strength even though the slip is a weakness.
+
+  - passage_id: passage_02
+    turns: [turn_05, turn_06, turn_07]
+    sentence_range:
+      - turn_05.s01
+      - turn_05.s02
+      - turn_06.s01
+      - turn_07.s01
+      - turn_07.s02
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: strong
+        evidence_sentences: [turn_05.s01, turn_05.s02]
+        evidence_basis: >
+          Asked for a source on the cost number, Ren names where it came from
+          (the maintenance log), when she checked it (last week), and produces
+          the photo on her phone immediately — the citation exists in a form she
+          can retrieve on demand because she prepared it between sessions.
+        primary_lens: evidence
+        also_visible_through: [logic, scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: true
+        contrastive_explanation: >
+          In episodes 1-2 Ren brought whatever she found to the table and treated all
+          finds as roughly equivalent input — she had not yet learned that backing a
+          claim is a different job from finding a claim. Here she has done the
+          checking ahead of time and preserved the citation in retrievable form, so
+          the proposal is sufficient because she made it sufficient before the meeting,
+          not because she improvised.
+      - facet_id: perspective_engagement
+        quality_level: strong
+        evidence_sentences: [turn_06.s01]
+        evidence_basis: >
+          Sam, who has not spoken in the meeting, lands one prepared sentence naming
+          a constituency the proposal would otherwise have left unaddressed (the
+          Tuesday-schedule kids), and points to where it lives in the document.
+        primary_lens: scope
+        also_visible_through: [evidence, logic]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: true
+        contrastive_explanation: >
+          In episodes 1-3 Sam contributed almost nothing to the record, defaulting to
+          silence in rooms where adults were talking; in episode 4 she interrupted the
+          group to name who the petition was excluding. Here she neither stays fully
+          silent nor takes the floor — she lands one prepared sentence at the moment
+          it will most matter, which is the right size for a growth that is real but
+          partial.
+      - facet_id: condition_sensitivity
+        quality_level: emerging
+        evidence_sentences: [turn_07.s01, turn_07.s02]
+        evidence_basis: >
+          Mira accepts the principal's modification (closing-up duty on shared days)
+          on the spot rather than treating the proposal as a fixed object; the group
+          does not argue an addition that a reasonable adult would make.
+        primary_lens: scope
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: false
+        notes: >
+          Emergent — not a designed target. Worth surfacing because students may read
+          Mira's quick "yes" as capitulation when it is closer to recognizing that not
+          every modification is worth fighting. Theo is in the room and silent for this
+          whole exchange; his quiet presence is part of why the acceptance does not
+          feel hasty.
+    ai_perspective:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Looking at the evidence here, I notice Ren does something specific. The
+          principal asks where a number came from. Ren names the source, names when
+          she checked it, and produces a photo of it. The thing to notice is not just
+          that she had a source — it is that she had it ready. That is a different
+          habit from finding a source in the moment.
+        key_sentences: [turn_05.s01, turn_05.s02]
+      through_scope:
+        observation: >
+          Through the scope lens, Sam's one sentence is doing a lot of work for how
+          short it is. She names a group of kids whose preference is not in the main
+          proposal, and she points to where she wrote it down. She speaks once and
+          then stops. Theo is also in the room for this whole exchange and does not
+          speak — his quiet presence is part of the meeting too.
+        key_sentences: [turn_06.s01]
+      why_it_happened: >
+          One way to think about Ren and Sam together: growth can take more than one
+          shape. Ren's growth looks like a habit — she did the work between sessions
+          and so the work was already done when the meeting needed it. Sam's growth
+          looks like a single hard thing she can do when the moment requires it,
+          rather than something she does all the time. A teacher might call those
+          "preparation" and "intervention." Both count. Neither is bigger than the
+          other. And Mira's quick yes to the principal's addition is its own small
+          thing — recognizing that not every change to your proposal is worth fighting
+          is part of negotiating in good faith.
+      what_to_notice: >
+          Sam says one sentence in the whole meeting. Why might one sentence be the
+          right size here, instead of a longer speech?
+      what_to_notice_sentences: [turn_06.s01]
+    diversity_potential:
+      expected_lens_split: >
+        Evidence readers will anchor on Ren's source move; scope readers will anchor
+        on Sam's one sentence and on the silent characters in the room; logic readers
+        will have less to grab.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - The cost claim from passage 1 gets backed by a named source here.
+          might_miss:
+            - That sufficiency is about having the support ready, not just having it exist.
+        - lens: evidence
+          observations:
+            - Ren names the source, the date she checked, and shows the photo.
+            - The source is a maintenance log, which is a primary record.
+          might_miss:
+            - That preparation between sessions is what made this possible.
+        - lens: scope
+          observations:
+            - Sam names a constituency (Tuesday-schedule kids) the main proposal does not address.
+            - Mira accepts the principal's modification without arguing.
+          might_miss:
+            - That Theo is present and silent throughout this exchange.
+            - That Sam's brevity is the point, not understatement.
+
+  - passage_id: passage_03
+    turns: [turn_08, turn_09, turn_10, turn_11, turn_12]
+    sentence_range:
+      - turn_08.s01
+      - turn_08.s02
+      - turn_09.s01
+      - turn_09.s02
+      - turn_10.s01
+      - turn_11.s01
+      - turn_12.s01
+      - turn_12.s02
+    facet_annotations:
+      - facet_id: condition_sensitivity
+        quality_level: strong
+        evidence_sentences: [turn_08.s01, turn_08.s02, turn_09.s01, turn_09.s02]
+        evidence_basis: >
+          Walking out of a meeting they just won, Mira immediately surfaces a
+          condition the schedule may not handle (band conflicts on Mondays); Dev
+          plainly says he doesn't know rather than performing certainty.
+        primary_lens: scope
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: false
+        contrastive_explanation: >
+          In earlier episodes the group treated acceptance as the end of the
+          question and would have walked out celebrating; here they treat
+          acceptance as the beginning of the next round of conditions, and Dev
+          declines to fake an answer he does not have.
+      - facet_id: perspective_engagement
+        quality_level: strong
+        evidence_sentences: [turn_10.s01]
+        evidence_basis: >
+          Sam's "the kids I didn't get to talk to" names voices missing from the
+          record she just helped land — the growth from the previous passage is
+          carried into the walk-back as cost rather than as victory.
+        primary_lens: scope
+        also_visible_through: [evidence]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        was_targeted: true
+        contrastive_explanation: >
+          In episodes 1-3 Sam would not have named the missing voices at all; in
+          episode 4 naming them was the intervention. Here naming them is the
+          residue of the intervention — she now sees the kids she did not reach,
+          and seeing them is heavier than not seeing them. The strength is real
+          and the strength is costly.
+        notes: >
+          This is the second appearance of perspective_engagement / Sam in the
+          episode. The earlier passage is the prepared one-line beat; this one is
+          the cost beat. Both are needed to land the design.
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic here, Dev says "I don't know" out loud. That is a
+          small thing and it is doing a lot of work. The group just won. He could
+          have invented an answer. He didn't.
+        key_sentences: [turn_09.s01, turn_09.s02]
+      through_evidence:
+        observation: >
+          Ren is checking her phone again to make sure the maintenance-log photo
+          is still there. She already used it. The check is now a habit, not a
+          response to a question.
+        key_sentences: [turn_11.s01]
+      through_scope:
+        observation: >
+          Through the scope lens this passage is the whole season's argument
+          compressed into a hallway. The group won and is not celebrating. Mira is
+          asking whether Mondays were even right. Sam is naming kids she did not
+          get to. Theo says it is a partial win and he is okay with that. Notice
+          that "okay with that" is doing two jobs at once — it is honest, and it
+          is not resigned.
+        key_sentences: [turn_08.s01, turn_10.s01, turn_12.s01, turn_12.s02]
+      why_it_happened: >
+          One way to think about this passage is that good reasoning rarely produces
+          a tidy ending. It produces a partial thing that nobody fully likes,
+          followed by a list of things you now notice are still missing. A cognitive
+          scientist might say the group has learned to keep the question open after
+          it would have been comfortable to close it. The interesting move is Theo's
+          line: he is naming the win as partial without flinching from either half.
+          That is a different stance from "we lost" and a different stance from
+          "we won."
+      what_to_notice: >
+          They just won. Why isn't anyone celebrating? See if you can name what
+          each character is doing in the hallway.
+      what_to_notice_sentences: [turn_08.s01, turn_10.s01, turn_11.s01, turn_12.s01]
+    diversity_potential:
+      expected_lens_split: >
+        Scope readers will see the most here — the post-acceptance conditions, the
+        missing voices. Logic readers will catch Dev's refusal to fake certainty.
+        Evidence readers will catch Ren's habit-check.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Dev says "I don't know" instead of inventing an answer.
+          might_miss:
+            - That this is itself a strength, not a weakness.
+        - lens: evidence
+          observations:
+            - Ren checks the photo even though the meeting is over.
+          might_miss:
+            - That checking after the fact is a habit being formed, not nervousness.
+        - lens: scope
+          observations:
+            - Mira surfaces a Monday/band conflict the group hadn't accounted for.
+            - Sam names kids she didn't reach during the rebuild.
+            - Theo names the outcome as partial.
+          might_miss:
+            - That Theo has been silent the whole meeting and only speaks at the end.
+            - That "okay with that" is meant as honest, not as resigned.

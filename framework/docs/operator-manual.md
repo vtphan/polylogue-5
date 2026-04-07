@@ -91,7 +91,7 @@ The frontmatter fields the validator and `planning_agent` will consume:
 
 - `story_id`, `episode_number`, `title`
 - `premise` — one paragraph in narrative terms (no framework vocabulary)
-- `lead_characters` — 2–3 names from the design doc cast
+- `lead_characters` — 2–5 names from the design doc cast; every strength/weakness carrier must appear in this list
 - `primary_lens` — `logic`, `evidence`, or `scope`
 - `mixed_valence_shape` — `early_strength_collapse`, `strength_prevails`, `stalemate`, `self_correction`, or `unresolved_disagreement`
 - `previously` — one or two narrative sentences recapping prior episodes (empty string for episode 1)

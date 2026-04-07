@@ -1,0 +1,114 @@
+story_id: saving-the-maker-space
+episode_number: 4
+scenario_id: saving-the-maker-space-ep-04
+personas:
+- name: Mira
+  perspective: 'Mira believes the first petition lost on technicalities — the evidence base was thin,
+    the principal poked holes in it — and that a tighter second petition with better numbers will land.
+    She is drafting it already and treats the group''s underlying claim ("the kids need this room") as
+    the part that does not need rethinking.
+
+    '
+- name: Ren
+  perspective: 'Ren is starting to suspect that the group''s first round of research was sloppier than
+    she wanted to believe. Between this meeting and the last one she went back through her own three sources
+    from the beginning of the story and actually read them, and she walks in ready to admit what she found.
+
+    '
+- name: Sam
+  perspective: 'Sam has been watching the group draft a petition "for the kids" for three meetings now,
+    and she has known the whole time that the petition is really for the five of them. She has not said
+    so. She thinks she should — she has thought she should for weeks — and she has been letting the moment
+    pass because saying it means interrupting Mira, and interrupting Mira is the thing she most wants
+    to avoid in any room.
+
+    '
+turns:
+- speaker: Mira
+  sentences:
+  - text: Okay, so we know what the kids need — we just have to say it better this time, right?
+    sentence_id: turn_01.s01
+  - text: I already started v2, and I think if we tighten the opening and swap in real numbers, she basically
+      can't say no.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Sam
+  sentences:
+  - text: (glances up at Mira, opens her mouth, then looks back down at the table)
+    sentence_id: turn_02.s01
+  turn_id: turn_02
+- speaker: Ren
+  sentences:
+  - text: So, um, I went back and actually read the three things I brought in at the beginning.
+    sentence_id: turn_03.s01
+  - text: Two of them aren't really about kids like us — one's a company press release, and the other
+      one's about high schoolers in another state.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Mira
+  sentences:
+  - text: Okay, so we cut those, that's fine.
+    sentence_id: turn_04.s01
+  - text: The point still stands though — we know what the kids in this school need, we just need cleaner
+      sources behind it.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Sam
+  sentences:
+  - text: '...does it?'
+    sentence_id: turn_05.s01
+  turn_id: turn_05
+- speaker: Mira
+  sentences:
+  - text: Wait — what?
+    sentence_id: turn_06.s01
+  turn_id: turn_06
+- speaker: Sam
+  sentences:
+  - text: We keep saying 'the kids,' but I think we mean us.
+    sentence_id: turn_07.s01
+  - text: There's like four hundred kids in this school, and we know maybe forty of them.
+    sentence_id: turn_07.s02
+  - text: The petition was written for the forty.
+    sentence_id: turn_07.s03
+  turn_id: turn_07
+- speaker: Mira
+  sentences:
+  - text: That's not — I mean, we're not just —
+    sentence_id: turn_08.s01
+  - text: '...okay.'
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Ren
+  sentences:
+  - text: Okay so — who would we even have to ask?
+    sentence_id: turn_09.s01
+  - text: Like, who's not in this room right now?
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Sam
+  sentences:
+  - text: The kids in the gym at lunch. The drama kids.
+    sentence_id: turn_10.s01
+  - text: The ones who just go home right after the bell — nobody ever asks them anything.
+    sentence_id: turn_10.s02
+  turn_id: turn_10
+- speaker: Mira
+  sentences:
+  - text: Hold on, let me — let me write that down.
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Ren
+  sentences:
+  - text: Like, what about Priya? Or that kid Marcus from homeroom?
+    sentence_id: turn_12.s01
+  - text: Sam, who do you think would actually talk to us?
+    sentence_id: turn_12.s02
+  turn_id: turn_12
+- speaker: Sam
+  sentences:
+  - text: Priya, maybe. I can ask her tomorrow.
+    sentence_id: turn_13.s01
+  - text: I have to go.
+    sentence_id: turn_13.s02
+  turn_id: turn_13

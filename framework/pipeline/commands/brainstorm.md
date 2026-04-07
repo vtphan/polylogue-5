@@ -50,7 +50,7 @@ Ask: **"What's happening this episode? What situation are the characters in?"** 
 
 ### 4. Pick lead characters
 
-2–3 characters from the design doc cast. Confirm each lead is a natural carrier for at least one of the targets you're considering — their design-doc identity should support the cognitive_pattern or social_dynamic you'd assign them.
+2–5 characters from the design doc cast. Every strength/weakness carrier must be a lead (they need a speaker slot in the transcript). Confirm each lead is a natural carrier for at least one of the targets you're considering — their design-doc identity should support the cognitive_pattern or social_dynamic you'd assign them.
 
 ### 5. Author each target
 

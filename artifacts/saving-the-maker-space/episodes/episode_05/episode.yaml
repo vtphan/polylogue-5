@@ -1,0 +1,329 @@
+scenario_id: saving-the-maker-space-ep-05
+story_id: saving-the-maker-space
+episode_number: 5
+topic: Presenting the shared-room compromise proposal to the principal
+context: >
+  Two weeks after Sam named that the petition spoke for "us" instead of "the
+  kids," the group has interviewed students who don't use the maker space and
+  rebuilt their proposal around a shared-room schedule. Today they bring it
+  to the principal in the same office where the petition failed in episode 3.
+  Dev delivers, Mira keeps him honest with a pre-agreed table-tap cue, Ren
+  has the maintenance log photographed on her phone, Sam will speak once,
+  and Theo is a quiet presence whose closing line carries the season's coda.
+instructional_goals:
+  - Notice that good reasoning produces partial wins, not tidy victories.
+  - See that an old reflex can be managed by a group's coordination even
+    when it has not been fixed in the individual.
+  - See preparation between sessions (not just improvisation in sessions)
+    as a form of growth.
+  - See one quiet voice landing one specific sentence as a complete
+    contribution, not as understatement.
+
+discussion_dynamic: >
+  Starting position: the group has rebuilt the proposal and rehearsed who
+  does what. They walk in cautiously confident, not triumphant. Shift
+  mechanism: the proposal is delivered cleanly, Dev's reflex slip is
+  caught by Mira's table-tap and recovered without comment, Ren produces
+  the maintenance-log photo on demand, Sam delivers her one sentence, and
+  the principal accepts the proposal with one modification of her own.
+  Ending condition: the group walks back from the office not celebrating —
+  Mira already second-guessing the schedule, Sam already worrying about
+  kids she didn't talk to, Ren double-checking the source she already
+  produced, Theo naming the partial win and being okay with it.
+  Interaction quality: competence with residue. Four strengths and one
+  weakness, distributed across all five leads, with Theo carrying no
+  target but anchoring the closing beat. The principal is present in the
+  room as a non-lead voice; her questions and acceptance are narrated
+  through the leads' turns rather than given their own speaker slots.
+
+personas:
+  - name: Dev
+    perspective: >
+      Wants to deliver the proposal cleanly and earn the principal's
+      acceptance. Believes in the shared-room compromise and has
+      rehearsed the new framing, but knows under pressure he tends to
+      reach for the line that feels good in his mouth.
+    knowledge: >
+      Has rehearsed the opening. Knows the schedule split (robotics
+      Mondays/Wednesdays, art Thursdays). Knows the cost story at a
+      summary level but is leaning on Ren for any specific number.
+    weaknesses: >
+      Under pressure, his mouth still reaches for the warm, sweeping
+      line about how much the kids love the room — the same move that
+      hollowed out the petition presentation. He has learned to catch
+      it, but only with a cue from someone next to him; left alone,
+      his reflex would take over again.
+    strengths: >
+      He can actually walk into a room and deliver a proposal out loud,
+      which nobody else in the group can do as well. When the argument
+      has been built properly behind him, his delivery makes it land —
+      the conclusion follows from the reasons because the reasons
+      finally do the work.
+
+  - name: Mira
+    perspective: >
+      Wants the principal to accept the proposal and is focused entirely
+      on what would actually persuade her, not on what would feel best
+      to say. Has agreed with Dev beforehand on the table-tap as a quiet
+      cue if he slips.
+    knowledge: >
+      Knows the proposal cold. Has the notebook. Knows which framings
+      tested well in the two weeks of rebuilding and which didn't.
+    weaknesses: >
+      Still the kid who states the group's consensus a beat early, and
+      once she's said "okay so we're all agreed, right?" the group nods
+      along whether or not it should. That hasn't gone away — what's changed is that today she's using
+      her organizing instinct in service of the question "what would
+      land on this adult?" instead of "what does our group already
+      believe?"
+    strengths: >
+      She keeps the group pointed at the audience instead of at itself.
+      In this meeting that means she's tracking Dev's delivery in
+      real time and ready to correct it without taking the floor away
+      from him.
+
+  - name: Ren
+    perspective: >
+      Wants to be ready if the principal asks for a number. Has spent
+      part of the last two weeks preparing for exactly that. Believes
+      her job is to back up the proposal, not to deliver it.
+    knowledge: >
+      Checked the maintenance log between meetings, photographed the
+      relevant page on her phone, knows which cost number on the
+      handout came from where.
+    weaknesses: >
+      Still uneven about source quality in general — she has not become
+      a different researcher. But on this specific proposal she did the
+      checking ahead of time.
+    strengths: >
+      She does the work between sessions now, not only at sessions.
+      When the principal asks where a number came from, she pulls up
+      the photo immediately because she put it on her phone last week
+      knowing she might need it.
+
+  - name: Sam
+    perspective: >
+      Wants the kids on the Tuesday schedule to be heard. Does not want
+      to take the floor unless the moment requires it. Believes that
+      her job in this meeting is to land one specific sentence at the
+      right time.
+    knowledge: >
+      Talked to the kids on the Tuesday schedule personally. Wrote what
+      they said on page three of the proposal in her own handwriting.
+    weaknesses: >
+      Still defaults to silence in rooms where adults are talking — her
+      growth from the regrouping episode is real but partial, and the
+      story is honest about that. She can speak when the stakes require
+      it; she does not yet reliably do it the rest of the time.
+    strengths: >
+      She notices whose voices are missing from a room and can name
+      them when it matters. Today she has prepared one sentence and she
+      will say it once.
+
+  - name: Theo
+    perspective: >
+      Has done his work earlier in the season and is in the meeting as
+      a steadying presence. Does not need to speak during the proposal
+      itself. Holds the season's honest assessment for the walk back.
+    knowledge: >
+      Has been in every meeting. Knows what the proposal says and why.
+      Trusts the rebuild.
+    weaknesses: >
+      None carried in this episode. Theo is in the room and quiet on
+      purpose; the story is not asking him to perform.
+    strengths: >
+      Can name a partial outcome as a partial outcome without flinching
+      from either half — neither pretending it's a full win nor letting
+      the loss collapse the win.
+
+target_facets:
+  - facet_id: relevance
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through: [logic, evidence]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: null
+      interaction_note: >
+        This target is what makes episode 5 a stalemate, not a victory.
+        Dev's reflex hasn't disappeared; it has been brought under group
+        control through a coordination mechanism (the table tap) that
+        Mira and Dev had to negotiate ahead of time. The story refuses
+        to pretend the kids are different people now — they have learned
+        to compensate for each other, which is a smaller and more honest
+        thing than transformation.
+      cognitive_signal: >
+        Mid-presentation Dev starts to slip back into his "the kids love
+        this" framing — the same move from episode 2 — and only stops
+        because Mira, sitting next to him, taps the table once as a cue
+        they had agreed on beforehand. The relevance failure is no longer
+        his default but it is still his reflex under pressure, and the
+        story is not pretending he has stopped having it.
+      social_signal: null
+    carrier_persona: Dev
+    signal_mechanism: >
+      Mid-presentation, Dev reaches for the warm sweeping line about how
+      much the kids love the room — the same shape that hollowed out the
+      episode 2 petition. Mira, sitting next to him, taps the table once,
+      a cue they had agreed on beforehand. Dev stops, restarts in the
+      rebuilt framing, and continues. The principal sees the tap and says
+      nothing about it. The reflex is visible; the recovery is visible;
+      neither cancels the other.
+
+target_strengths:
+  - facet_id: relevance
+    primary_lens: scope
+    also_visible_through: [logic, evidence]
+    carrier_persona: Mira
+    signal_mechanism: >
+      Mira keeps the group pointed at what would actually persuade the
+      principal, not at what would feel best to say. The table-tap is
+      that instinct in action: she is using her organizing reflex in
+      service of the audience's question instead of in service of the
+      group's existing consensus. The same instinct that produced her
+      premature-consensus moves earlier in the season now produces a
+      coordinated correction.
+    contrastive_note: >
+      Earlier in the season Mira's organizing instinct produced premature
+      consensus — "okay so we all agree, right?" — that closed the
+      conversation too early. Here the same instinct produces a quiet
+      cue mid-delivery that keeps Dev on the rebuilt framing.
+
+  - facet_id: sufficiency
+    primary_lens: evidence
+    also_visible_through: [logic, scope]
+    carrier_persona: Ren
+    signal_mechanism: >
+      When the principal asks for the source on a cost number in the
+      handout, Ren produces it immediately — she had checked the
+      maintenance log between meetings and photographed the relevant
+      page on her phone. The proposal is sufficient because Ren made it
+      sufficient ahead of time. Her growth shows up as preparation, not
+      improvisation: she now does the work between sessions, not only
+      at sessions.
+    contrastive_note: >
+      In episodes 1-2 Ren brought whatever she found and treated all
+      finds as roughly equivalent input. Here she has done the checking
+      ahead of time and preserved the citation in a form she can produce
+      on demand.
+
+  - facet_id: inferential_validity
+    primary_lens: logic
+    also_visible_through: [evidence, scope]
+    carrier_persona: Dev
+    signal_mechanism: >
+      Despite the reflex slip mid-presentation, Dev delivers a proposal
+      whose argument actually follows from what the group learned: a
+      shared room lowers equipment cost, is better than full closure for
+      the principal's budget question, and accommodates the kids who
+      were not being heard. The proposal earns its conclusion because
+      the premises are doing the work — Dev's stable strength as the
+      cast's messenger lands here, not because he has become rigorous
+      but because the group has finally written him a proposal whose
+      argument holds up when delivered.
+    contrastive_note: >
+      In episode 2 Dev's persuasive delivery sat on premises that did
+      not hold up the conclusion. Here the same delivery rides premises
+      the group has actually pressure-tested.
+
+  - facet_id: perspective_engagement
+    primary_lens: scope
+    also_visible_through: [evidence, logic]
+    carrier_persona: Sam
+    signal_mechanism: >
+      Sam speaks once in the meeting. Her one line — "The kids on the
+      Tuesday schedule said they'd want it open after school sometimes
+      too. I wrote that on page three." — is the line the principal
+      underlines in pen. The growth from the regrouping episode is real
+      but partial: Sam can speak up when the stakes require it, not all
+      the time. The closing beat (Sam already worrying about the kids
+      who weren't on her list) keeps the growth costly — she now sees
+      the missing voices, and seeing them is heavier than not seeing
+      them.
+    contrastive_note: >
+      In episodes 1-3 Sam contributed almost nothing to the record. In
+      episode 4 she interrupted the group to name who the petition was
+      excluding. Here she lands one prepared sentence at the moment it
+      will most matter and then returns to silence.
+
+discussion_arc: >
+  The group walks into the principal's office cautiously confident. Dev
+  opens with the rebuilt framing. The proposal is delivered cleanly until
+  Dev's old reflex starts to surface mid-presentation; Mira's quiet
+  table-tap cue catches it and Dev recovers without comment. The principal
+  asks for a source on a cost number; Ren produces the maintenance-log
+  photo from her phone immediately. The principal looks at the proposal
+  for a long beat. Sam, who has not spoken, says one prepared sentence
+  about the kids on the Tuesday schedule and the principal underlines it
+  in pen. The principal accepts the proposal with one modification of her
+  own about who closes up the room on shared days; the group does not
+  argue. Walking back from the office, nobody is celebrating: Mira is
+  second-guessing the Monday choice, Dev doesn't have an answer, Sam is
+  worrying about the kids who weren't on her list, Ren is checking the
+  maintenance-log photo on her phone, and Theo names the partial win and
+  says he is okay with it.
+
+turn_outline:
+  - speaker: Dev
+    accomplishes: >
+      Standing in front of the principal's desk, opens the proposal in
+      the rebuilt framing — names the shared-room arrangement, the
+      schedule split (robotics Mondays/Wednesdays, art Thursdays), and
+      the lower equipment cost. Specific, not sweeping.
+  - speaker: Dev
+    accomplishes: >
+      Mid-presentation, slides toward the warm sweeping line about how
+      much the kids love the room — the same shape from the petition.
+      The line starts to leave his mouth.
+  - speaker: Mira
+    accomplishes: >
+      Without taking the floor away from Dev, taps the table once next
+      to him — the cue they had agreed on beforehand. Says nothing
+      aloud. The principal sees the tap and does not comment on it.
+  - speaker: Dev
+    accomplishes: >
+      Stops, restarts in the rebuilt framing, sticks to the specific
+      cost-and-schedule argument. The recovery is visible without being
+      announced. The principal then asks where one of the cost numbers
+      in the handout came from — calm, not adversarial.
+  - speaker: Ren
+    accomplishes: >
+      Immediately: it's from the maintenance log, she checked the dates
+      last week. Pulls up the photo of the log on her phone and turns
+      it so the principal can see. The principal looks at it, then
+      back at the proposal, and reads for a long beat.
+  - speaker: Sam
+    accomplishes: >
+      Into the long beat of silence, says her one prepared sentence:
+      "The kids on the Tuesday schedule said they'd want it open after
+      school sometimes too. I wrote that on page three." It is the
+      only thing she says in the meeting. The principal underlines the
+      line in pen.
+  - speaker: Mira
+    accomplishes: >
+      The principal accepts the proposal with one modification of her
+      own — a constraint about who closes up the room on shared days.
+      Mira nods, says they can do that, does not push back. The group
+      walks out of the office.
+  - speaker: Mira
+    accomplishes: >
+      On the walk back down the hallway, asks Dev whether Mondays were
+      really the right day for robotics. Already second-guessing the
+      schedule choice they just made.
+  - speaker: Dev
+    accomplishes: >
+      Doesn't know. Says so plainly. Does not perform certainty he
+      doesn't have.
+  - speaker: Sam
+    accomplishes: >
+      Quietly says she's already thinking about the kids who weren't
+      on her list — the ones she didn't get to talk to in the two
+      weeks of rebuilding. The growth is real and the growth is costly.
+  - speaker: Ren
+    accomplishes: >
+      Pulls out her phone and checks that the maintenance-log photo is
+      still there — just to make sure. Habit now, not improvisation.
+  - speaker: Theo
+    accomplishes: >
+      Closes the season. Says it's a partial win and he's okay with
+      that. The okay-with-that has to land as honest, not as resignation.

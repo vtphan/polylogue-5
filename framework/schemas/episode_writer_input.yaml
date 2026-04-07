@@ -68,10 +68,10 @@ schema:
       lead_characters:
         type: list
         required: true
-        description: 2-3 lead characters for this episode.
+        description: 2-5 lead characters for this episode.
         constraints:
           min_length: 2
-          max_length: 3
+          max_length: 5
         items:
           type: object
           fields:

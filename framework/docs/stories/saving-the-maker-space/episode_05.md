@@ -12,7 +12,7 @@ premise: >
   the principal asks for a number. Sam will speak once. The principal
   accepts the proposal with one modification of her own. Nobody walks
   out of the office celebrating.
-lead_characters: [Dev, Mira, Ren]
+lead_characters: [Dev, Mira, Ren, Sam, Theo]
 primary_lens: scope
 mixed_valence_shape: stalemate
 previously: >

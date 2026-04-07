@@ -28,7 +28,7 @@ You produce two artifacts:
 The episode draft frontmatter (Appendix B) gives you, directly, every field you need to assemble `episode.yaml`:
 
 - `story_id`, `episode_number`, `title`, `premise`, `previously`
-- `lead_characters` (2–3 names from the story design doc cast)
+- `lead_characters` (2–5 names from the story design doc cast; every strength/weakness carrier MUST appear here)
 - `primary_lens`, `mixed_valence_shape`
 - `targets[]` — each entry is a `(facet, lens, carrier, cognitive_pattern, social_dynamic, cognitive_signal, social_signal, interaction_note)` bundle. `cognitive_signal` is required iff `cognitive_pattern` is non-null; `social_signal` is required iff `social_dynamic` is non-null. The author wrote these as concrete behavioral traces / move-response shapes for this episode.
 - `strengths[]` — each entry is a `(facet, carrier, note)` bundle. No signals required (strengths are the carrier reasoning *well*, not exhibiting a pattern).
@@ -93,7 +93,7 @@ A complete `episode.yaml` conforming to `framework/schemas/episode_plan.yaml`, w
 4. `topic` — the discussion topic in plain language, taken from the draft's `premise`.
 5. `context` — narrative context (story setting from the design doc + episode situation from the draft).
 6. `instructional_goals` — what students will practice. Derive from the draft's targets.
-7. `personas` (2-3, matching `lead_characters`) — for each:
+7. `personas` (2-5, matching `lead_characters` exactly) — for each:
    - `name` — exact match to a cast name in the story design doc.
    - `perspective` — what they believe and want in this episode.
    - `knowledge` — what they have researched or experienced.
@@ -121,13 +121,13 @@ A complete `episode_writer_input.yaml` conforming to `framework/schemas/episode_
 - `episode_premise` — one paragraph from the draft's `premise`, narratively retold.
 - `episode_number` — integer.
 - `previously` — 1-2 sentences summarizing what students saw in earlier episodes that this episode references. **Empty string for episode 1.** Use the draft's `previously` field as your starting point; you may consult prior `episode_writer_input.yaml` files and prior draft `previously` fields for continuity, but NOT prior `analysis.yaml` files (which contain framework labels). Narrative recap is the easiest place for paraphrased leakage to creep in; be especially careful here.
-- `lead_characters` — 2-3 entries. For each: `name`, `voice` (derived from the design doc cast prose, barrier-safe), `perspective` (this episode), `knowledge`, `weaknesses` (barrier-safe translation), `strengths` (barrier-safe translation), `prior_beats` (1-2 sentences of narrative continuity, empty string for episode 1).
+- `lead_characters` — 2-5 entries. For each: `name`, `voice` (derived from the design doc cast prose, barrier-safe), `perspective` (this episode), `knowledge`, `weaknesses` (barrier-safe translation), `strengths` (barrier-safe translation), `prior_beats` (1-2 sentences of narrative continuity, empty string for episode 1).
 - `discussion_arc` — narrative description of how tension rises and resolves. No framework terms.
 - `turn_outline` — same length and ordering as the `episode.yaml` turn outline. Each entry has `speaker` and `accomplishes` only. The move/response beats encoded here are the only carrier of the social signal into `dialog_writer`.
 
 ### Background characters (present-but-not-lead)
 
-If the per-episode draft's prose body — especially the authorial notes — declares that a non-lead character is **present in the scene** (e.g., "Sam is in the room but contributes nothing — she has to be visibly silent here, not absent"), or that a non-lead should be **referenced in the dialog** (e.g., "the episode mentions Dev once or twice without making him a beat"), you must thread that intent into the projection. The projection schema's `lead_characters` list is hard-capped at 2–3 names, so you cannot add background characters as a fourth lead. Instead:
+If the per-episode draft's prose body — especially the authorial notes — declares that a non-lead character is **present in the scene but never speaks** (e.g., "Sam is in the room but contributes nothing — she has to be visibly silent here, not absent"), or that a non-lead should be **referenced in the dialog** (e.g., "the episode mentions Dev once or twice without making him a beat"), you must thread that intent into the projection. The projection schema's `lead_characters` list caps at 5, and any character who actually *speaks* — including a single designed line — must be a lead and have a turn in the outline. For a character who is truly silent or only referenced, you cannot add them as a lead. Instead:
 
 - **Mention the background character by name in `discussion_arc`** in a way that establishes their physical presence (e.g., "Mira, Theo, and Ren do most of the talking, while Sam sits at the table without speaking").
 - **And/or thread the name into one or two specific `accomplishes` lines** so `dialog_writer` has a natural place to put a glance, an aside, or a beat of silence (e.g., "Mira glances at Sam, who says nothing, and keeps going").

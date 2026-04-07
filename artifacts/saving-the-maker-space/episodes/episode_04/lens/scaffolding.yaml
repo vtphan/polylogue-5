@@ -1,0 +1,643 @@
+story_id: saving-the-maker-space
+episode_number: 4
+scenario_id: saving-the-maker-space-ep-04
+
+passage_scaffolding:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Mira's first sentence again. Pay attention to the small words
+          like "we" and "the kids."
+      - type: hint
+        text: >
+          Now look at turn_02. Sam doesn't say anything out loud — but the
+          script bothers to show what she does. Why?
+      - type: hint
+        text: >
+          Try putting Mira's words and Sam's silent moment side by side.
+          Something is happening between them, even though only one person
+          is talking.
+      - type: ai_perspective
+        text: >
+          The AI noticed something about who Mira is speaking for, and about
+          what Sam's silent moment is doing in the scene. Did you notice the
+          same thing, or were you focused somewhere else?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about Mira's reasoning. Now think about why —
+          what makes her so sure before anyone has checked?
+      - lens: evidence
+        prompt: >
+          You noticed something about evidence here. Now think about why —
+          what is missing, and why hasn't anyone asked for it?
+      - lens: scope
+        prompt: >
+          You noticed something about who is being left out. Now think about
+          why — what is going on in the room that lets this slide?
+    ai_reflection_prompt: >
+      The AI pointed out the gap between "we" and "the kids," and treated
+      Sam's silent glance as part of the scene, not just a stage direction.
+      Does that match what you were trying to say, or do you see it
+      differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              Mira is being confident, which is good for a leader.
+            redirect: >
+              Confidence is one thing — but look closely at what she is being
+              confident about. Has anyone checked it?
+          - pattern: >-
+              Mira has a good plan because she is already drafting v2.
+            redirect: >
+              Look again at what she is drafting on top of. Is the part she
+              is keeping the part the principal pushed back on?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              There is no evidence problem here because she mentions real numbers.
+            redirect: >
+              Read the line about "real numbers" again. Are the numbers
+              actually in the scene, or is she just promising them?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              Sam is just shy and not part of what is happening.
+            redirect: >
+              The script chose to show Sam looking up and then looking down.
+              Why include that beat at all?
+          - pattern: >-
+              Mira is speaking for everyone, which is fine.
+            redirect: >
+              Look at who is actually in the room when she says "we." Is the
+              "we" in the sentence the same as the "kids" in the sentence?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Mira is too sure of herself.
+          - level: developing
+            examples:
+              - >-
+                Mira treats the main idea as already decided and jumps
+                straight to fixing the wording.
+          - level: differentiated
+            examples:
+              - >-
+                Mira separates the evidence from the underlying claim and
+                only plans to fix the evidence — she never stops to check
+                whether the claim itself was ever tested.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                There is no evidence yet.
+          - level: developing
+            examples:
+              - >-
+                Mira mentions "real numbers" but doesn't actually have any
+                in the scene.
+          - level: differentiated
+            examples:
+              - >-
+                The missing evidence isn't just an oversight — Mira is
+                planning to swap in numbers later, but the underlying claim
+                she would attach them to has never been checked with anyone
+                outside the room.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Mira is talking about the kids without asking them.
+          - level: developing
+            examples:
+              - >-
+                Mira says "we" and "the kids" like they are the same group,
+                but they are not — the "we" is just the five of them.
+          - level: differentiated
+            examples:
+              - >-
+                Mira says "we know what the kids need" and means the five
+                people in the room — and Sam, who is one of those five,
+                glances up because she knows that is wrong but does not say
+                so. The gap is on both sides of the table.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Mira is just too confident.
+            - level: developing
+              examples:
+                - >-
+                  Mira treats her own group's experience as if it were
+                  everybody's experience, so she doesn't even notice she
+                  hasn't asked anyone.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Nobody is disagreeing with her.
+            - level: developing
+              examples:
+                - >-
+                  Sam sees the problem but doesn't speak up because
+                  interrupting Mira feels harder than just letting it go.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Mira talks like the answer is already decided, and Sam
+                  stays quiet, so the framing just keeps going.
+            - level: differentiated
+              examples:
+                - >-
+                  Mira says "we know" without checking, and the one person
+                  in the room who could correct her is the same person whose
+                  default is to never interrupt — so the move and the
+                  silence feed each other and the framing survives another
+                  meeting.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at what Ren says she did between meetings. That's unusual —
+          why does it matter?
+      - type: hint
+        text: >
+          Now look at what Mira fixes in her reply, and what she does not
+          fix. Are those the same thing?
+      - type: ai_perspective
+        text: >
+          The AI noticed that Ren did something unusual with her sources,
+          and that Mira's quick acceptance only fixes part of the problem.
+          Did you see both halves, or just one?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Mira answered Ren. Now think about
+          why — what part of the argument is she protecting?
+      - lens: evidence
+        prompt: >
+          You noticed something about Ren's audit. Now think about why — why
+          do you think she went back on her own time?
+      - lens: scope
+        prompt: >
+          You noticed something about who is still missing. Now think about
+          why — what would it cost Mira to ask that question?
+    ai_reflection_prompt: >
+      The AI called Ren's between-meetings audit a model move, and pointed
+      out that Mira fixed her sources but not her framing. Does that match
+      what you were trying to say?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              Mira is being reasonable because she accepts the correction right away.
+            redirect: >
+              Accepting one correction can be a way to protect a different
+              part of the argument. What did she NOT change?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              Ren was wrong before so she is unreliable now.
+            redirect: >
+              Look at what she did between meetings. Does fixing your own
+              earlier work make you less reliable, or more?
+          - pattern: >-
+              The sources are fine because Ren brought sources at all.
+            redirect: >
+              Read the part where she says which two don't hold up and why.
+              That detail is doing work — what work?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              Mira added "in this school" so the scope problem is solved.
+            redirect: >
+              Compare "the kids" from the opening with "the kids in this
+              school." How much actually changed?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Mira gives in fast.
+          - level: developing
+            examples:
+              - >-
+                Mira fixes the evidence half of her argument but keeps the
+                main claim exactly the same.
+          - level: differentiated
+            examples:
+              - >-
+                Mira treats the evidence and the underlying claim as if they
+                were two separate things — so she can drop the sources
+                without it costing the claim anything. But they were never
+                really separate.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Ren read her sources.
+          - level: developing
+            examples:
+              - >-
+                Ren went back between meetings and figured out which two of
+                her sources don't hold up and why.
+          - level: differentiated
+            examples:
+              - >-
+                Ren is the same person who brought those sources in the
+                first place, and she is the one saying out loud which ones
+                fail — that's the audit working, not just an apology.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                She still doesn't ask anyone.
+          - level: developing
+            examples:
+              - >-
+                Mira changes "the kids" to "the kids in this school" but
+                still hasn't talked to any of them.
+          - level: differentiated
+            examples:
+              - >-
+                Mira can swap two sources in one beat but cannot let go of
+                "we know what the kids need," because that sentence is the
+                thing the whole petition has been resting on.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Mira just doesn't want to be wrong about the big stuff.
+            - level: developing
+              examples:
+                - >-
+                  Mira can change her mind about facts more easily than she
+                  can change her mind about who she's arguing for, because
+                  the framing has become invisible to her.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Nobody else is pushing on the framing yet.
+            - level: developing
+              examples:
+                - >-
+                  Ren pushes on the sources but not on the framing, so Mira
+                  only has to defend half of her position.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Ren only challenges the easy part, and Mira accepts the
+                  easy part, so the hard part stays untouched.
+            - level: differentiated
+              examples:
+                - >-
+                  Ren did a real audit and Mira gives ground on it
+                  immediately — but giving ground on the sources lets Mira
+                  keep the framing intact, and nobody in the room has yet
+                  named the framing as the actual problem.
+
+  - passage_id: passage_03
+    turns: [turn_05, turn_06, turn_07, turn_08]
+    difficulty: accessible
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Sam's three sentences in turn_07 slowly. Look at the numbers
+          she uses.
+      - type: hint
+        text: >
+          Now look at Mira's reply in turn_08. She starts a sentence and
+          then stops. What was she about to say, and why doesn't she finish?
+      - type: ai_perspective
+        text: >
+          The AI noticed how Sam's numbers do work that an argument couldn't,
+          and how Mira's unfinished sentence is itself the change. Did you
+          read it that way too?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Sam makes her point. Now think
+          about why — why use a contrast (400 vs 40) instead of an argument?
+      - lens: evidence
+        prompt: >
+          You noticed something about Sam's "forty" number. Now think about
+          why — where did that number come from, and does it count?
+      - lens: scope
+        prompt: >
+          You noticed Sam naming who has been left out. Now think about why
+          — why is SHE the one who can see this, and not Mira or Ren?
+    ai_reflection_prompt: >
+      The AI said Sam's "...does it?" is itself a logic move, and that
+      Mira's half-finished sentence isn't capitulation — it's the absence
+      of the move she usually makes. Does that match how you read it?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              "Does it?" is just a feeling, not an argument.
+            redirect: >
+              Look at what happens in the room right after she says it. Does
+              the question do something an argument would have done?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              Sam's number is made up so it doesn't count.
+            redirect: >
+              Where could a number like "forty kids" come from if you are
+              the kid who watches the room every day?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              Sam is the hero now and Mira is the villain.
+            redirect: >
+              Look at Sam in passage_01 and Sam here. Has she suddenly
+              become a different person, or is she doing one hard thing
+              once?
+          - pattern: >-
+              Mira gives up because she has nothing to say.
+            redirect: >
+              Read turn_08 again. Is "...okay" the same as agreeing? What
+              else might it be?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Sam asks a question.
+          - level: developing
+            examples:
+              - >-
+                Sam uses the contrast between 400 and 40 to make her point
+                instead of arguing.
+          - level: differentiated
+            examples:
+              - >-
+                "Does it?" is a tiny sentence that asks the room to check
+                whether the claim Mira just made actually holds — and then
+                the numbers do the rest of the work without needing an
+                argument.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Sam doesn't have a source for the forty.
+          - level: developing
+            examples:
+              - >-
+                Sam's "forty" number comes from her own watching, not from
+                a study.
+          - level: differentiated
+            examples:
+              - >-
+                Sam is the most observant kid in the room, and her number
+                is informal but it's the kind of evidence the group hasn't
+                been collecting — first-hand attention to who is and isn't
+                there.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Sam says they only know forty kids.
+          - level: developing
+            examples:
+              - >-
+                Sam names exactly who the petition has been written for and
+                exactly who has been left out.
+          - level: differentiated
+            examples:
+              - >-
+                Sam is naming the gap she has been the silent half of for
+                three episodes — she has gone from being the missing voice
+                to being the one who names who is missing, and Mira's
+                unfinished sentence shows the framing breaking for the
+                first time.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Sam finally said what she was thinking.
+            - level: developing
+              examples:
+                - >-
+                  Sam could see the gap because she was watching from
+                  outside the consensus the whole time.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  The group got quiet so Sam could speak.
+            - level: developing
+              examples:
+                - >-
+                  Sam broke her own pattern of staying quiet, and Mira
+                  didn't double down — those two changes happened in the
+                  same beat.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Sam stopped absorbing the consensus and Mira stopped
+                  defending it, so the framing finally broke.
+            - level: differentiated
+              examples:
+                - >-
+                  The kid who could see the gap was the same kid whose
+                  default was to never interrupt — so when she finally
+                  spoke, she paid for it, and Mira's half-finished sentence
+                  shows that the move she usually makes wasn't automatic
+                  anymore. Both sides of the pattern had to give for the
+                  framing to come apart.
+
+  - passage_id: passage_04
+    turns: [turn_09, turn_10, turn_11, turn_12, turn_13]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at what Ren does in turn_09. She doesn't argue with Sam —
+          she does something else. What?
+      - type: hint
+        text: >
+          Now look at Sam's last two lines in turn_13. She answers, and
+          then she leaves. Why right then?
+      - type: ai_perspective
+        text: >
+          The AI noticed how Ren turns Sam's observation into a plan, how
+          Mira shifts from speaker to note-taker, and how Sam's exit is
+          costly — not flat. Did you catch all three?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Ren responds. Now think about why
+          — why is "who would we ask?" a stronger move than "are you right?"
+      - lens: evidence
+        prompt: >
+          You noticed something about the kids being named. Now think about
+          why — what would the next step actually have to be?
+      - lens: scope
+        prompt: >
+          You noticed something about the rebuild. Now think about why —
+          what makes naming Priya and Marcus different from saying "more
+          kids"?
+    ai_reflection_prompt: >
+      The AI read Sam's exit as costly, not flat, and called Mira's
+      note-taking the smallest possible reversal. Does that match what you
+      were trying to say, or did you read the ending differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+              Ren is just changing the subject.
+            redirect: >
+              Look at what her question lets the group do next. Is it a
+              subject change, or is it the next step on the same subject?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+              Now they have evidence because they named some kids.
+            redirect: >
+              Have they actually talked to Priya or Marcus yet? What is the
+              difference between naming someone and asking them?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+              Sam leaves because she's mad at the group.
+            redirect: >
+              Look at what she just did right before she leaves. What does
+              it cost a quiet kid to do that?
+          - pattern: >-
+              The ending is happy because they figured it out.
+            redirect: >
+              Read Sam's last line again. Does she sound triumphant? What
+              else could the ending be doing?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                Ren agrees with Sam.
+          - level: developing
+            examples:
+              - >-
+                Ren turns Sam's observation into a question about what to
+                do next instead of arguing about whether Sam is right.
+          - level: differentiated
+            examples:
+              - >-
+                Ren skips the "is Sam right?" debate entirely and goes
+                straight to "what do we do about it?" — that move is what
+                gives Sam social cover and makes the rebuild possible.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                They list some kids.
+          - level: developing
+            examples:
+              - >-
+                The group is naming categories and specific names, but
+                nobody has actually talked to anyone yet.
+          - level: differentiated
+            examples:
+              - >-
+                The next step the group lands on is going to talk to people
+                — that's a real data-collection plan, but it's still
+                pending, not done.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                They list more kinds of kids.
+          - level: developing
+            examples:
+              - >-
+                The group goes from saying "the kids" to naming categories
+                (gym, drama, the ones who go straight home) and then
+                specific names.
+          - level: differentiated
+            examples:
+              - >-
+                The rebuild IS the perspective work the group has been
+                failing at for three episodes — and the closing beat is
+                Sam leaving unsteadily because doing the hard thing cost
+                her something the episode doesn't pretend was free.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Ren is good at solving problems.
+            - level: developing
+              examples:
+                - >-
+                  Ren had just done her own audit, so she was already in
+                  the mode of fixing things instead of defending them.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                  Everyone is being nice to Sam.
+            - level: developing
+              examples:
+                - >-
+                  Ren immediately taking Sam's side gives Sam cover, and
+                  Mira picking up her pen instead of arguing means the
+                  group's usual pattern isn't running anymore.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                  Sam broke the framing and Ren turned it into a plan, so
+                  the rebuild could happen.
+            - level: differentiated
+              examples:
+                - >-
+                  Sam could break the framing because she watched from
+                  outside, and Ren could turn the break into a plan because
+                  she had just audited her own work — two growth beats
+                  feeding each other, with Mira's quiet note-taking as the
+                  smallest possible third reversal. None of it is dramatic,
+                  and Sam still pays for it on the way out.

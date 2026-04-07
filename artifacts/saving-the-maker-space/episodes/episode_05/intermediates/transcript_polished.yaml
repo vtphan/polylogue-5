@@ -1,0 +1,55 @@
+personas:
+  - name: Dev
+    perspective: Wants to deliver the rebuilt proposal cleanly and get the principal to say yes.
+  - name: Mira
+    perspective: Tracking how the pitch lands on the principal and ready to cue Dev if he slips.
+  - name: Ren
+    perspective: Ready to back up any number the principal asks about.
+  - name: Sam
+    perspective: Here to land one sentence about the kids on the Tuesday schedule.
+  - name: Theo
+    perspective: Quiet presence in the meeting; holds the honest read for the walk back.
+turns:
+  - speaker: Dev
+    sentences:
+      - text: "So our idea is we share the room — robotics gets Mondays and Wednesdays, the art kids get Thursdays, and Tuesdays and Fridays stay open for anyone."
+      - text: "The equipment cost drops by about a third because we're not buying a second set of anything."
+  - speaker: Dev
+    sentences:
+      - text: "And honestly, the kids in this school just really love that room, you can kind of feel it the second you walk in—"
+  - speaker: Mira
+    sentences:
+      - text: "(taps the table once, quietly, next to him)"
+  - speaker: Dev
+    sentences:
+      - text: "—sorry, um, back to the cost part."
+      - text: "The soldering irons and the printer are already in the room, so on Thursdays the art kids just use what's there, and that's where the lower number comes from."
+  - speaker: Ren
+    sentences:
+      - text: "That number's from the maintenance log — I checked the dates last week."
+      - text: "I took a picture of the page, it's right here on my phone."
+  - speaker: Sam
+    sentences:
+      - text: "The kids on the Tuesday schedule said they'd want it open after school sometimes too. I wrote that on page three."
+  - speaker: Mira
+    sentences:
+      - text: "Yeah, we can do the closing-up thing on shared days, that's fair."
+      - text: "Thank you."
+  - speaker: Mira
+    sentences:
+      - text: "Hey — was Monday actually the right day for robotics, though?"
+      - text: "Because band is Monday and some of the robotics kids do band."
+  - speaker: Dev
+    sentences:
+      - text: "I don't know."
+      - text: "I didn't check that."
+  - speaker: Sam
+    sentences:
+      - text: "I keep thinking about the kids I didn't get to talk to."
+  - speaker: Ren
+    sentences:
+      - text: "(checking her phone) Photo's still there."
+  - speaker: Theo
+    sentences:
+      - text: "It's a partial win."
+      - text: "I'm okay with that."
