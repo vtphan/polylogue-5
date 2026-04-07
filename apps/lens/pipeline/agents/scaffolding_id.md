@@ -151,7 +151,19 @@ examples:
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`
 
-## Output Schemas
+## Output Schemas — READ BEFORE WRITING
 
+The schema is the source of truth for field names, nesting, and required keys. The conceptual descriptions above tell you *what* each field means; the schema tells you *exactly* what to call it and how to nest it. If the two ever appear to disagree, the schema wins.
+
+**Before you write a single line of `scaffolding.yaml`, you must Read `apps/lens/schemas/scaffolding.yaml` in full** and use it as the structural template. Do not infer field names from the prose above — copy them from the schema. Pay particular attention to:
+
+- Discriminator key names on list items (e.g. `type:` vs guesses like `kind:`).
+- Whether a field is a flat map or a list of `{key, value}` objects (e.g. rubric `levels` is a *list*, not flat `basic:`/`developing:`/`differentiated:` keys).
+- Required wrapper keys around nested lists (e.g. `common_misreadings[].misreadings[]`, `explanation_rubric.categories[]`).
+- Required fields you might forget because they aren't conceptually emphasized above (e.g. `passage_scaffolding[].turns`).
+
+After writing, re-Read the schema and walk it field-by-field against your output before returning. The validator will reject any drift, and a regeneration loop is more expensive than the verification pass.
+
+Schemas:
 - `apps/lens/schemas/scaffolding.yaml`
 - `framework/schemas/facilitation.yaml` (enriched — same schema, added productive_questions)
