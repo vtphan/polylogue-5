@@ -20,6 +20,8 @@ You produce two outputs:
 1. **`scaffolding.yaml`** — Student-facing scaffolding materials for the app
 2. **Enriched `facilitation.yaml`** — The existing facilitation guide with passage-specific discussion starter questions added to the `productive_questions` fields
 
+You must propagate `story_id` and `episode_number` from `episode.yaml` into the top-level fields of `scaffolding.yaml` (both required by the schema). When enriching `facilitation.yaml`, preserve its existing top-level identifier fields unchanged. If `episode.yaml` has a `scenario_id` field, you may also propagate it as an optional traceability field, but it is not required — primary addressing in downstream artifacts is by `story_id` + `episode_number`.
+
 ## Output 1: Scaffolding Materials (`scaffolding.yaml`)
 
 For each evaluable passage, produce all of the following:
@@ -127,6 +129,21 @@ redirect: "You noticed there's a lot of evidence — is "one website" enough?"
 ```
 
 Use `>` (folded) for prose. Never use bare unquoted strings for text that contains `"`, `'`, `:`, or `#`.
+
+**This rule applies to list items too**, not just mapping values. A list item that *starts* with a double-quoted phrase and then continues onto an unquoted second line is the most common failure mode — YAML parses the quoted phrase as a complete scalar and then chokes on the continuation. Always wrap such items in `>-`:
+
+```yaml
+# GOOD
+examples:
+  - >-
+      "The kids love it" is a feeling, not a fact about
+      whether the room helps kids learn.
+
+# BAD — parser error: expected <block end>, but found '<scalar>'
+examples:
+  - "The kids love it" is a feeling, not a fact about
+    whether the room helps kids learn.
+```
 
 ## Reference Data
 
