@@ -1,0 +1,336 @@
+scenario_id: saving-the-maker-space-ep-03
+story_id: saving-the-maker-space
+episode_number: 3
+topic: >
+  After the principal calmly takes the petition apart in her office, the
+  group has to decide whether she's wrong or whether they are.
+context: >
+  Saving the Maker Space, episode 3 of 5. The school's maker space is
+  scheduled to close. The group submitted a petition in episode 2 over
+  Theo's unanswered questions about source quality. In this episode the
+  principal has invited them to her office, walked them through her
+  budget spreadsheet, and asked which specific number she should be
+  wrong about. The group leaves with no answer. Back in the maker space,
+  Mira tries to find what the principal must be missing; Theo refuses
+  to start there.
+instructional_goals:
+  - >
+    Notice the difference between processing new evidence and looking
+    for ways to dismiss new evidence.
+  - >
+    See what it looks like when one group member breaks a premature
+    consensus instead of going along with it.
+  - >
+    Recognize that taking the other side's argument seriously is a
+    form of strength, not a betrayal.
+
+discussion_dynamic: >
+  The group walks back into the maker space carrying the principal's
+  spreadsheet in their heads. Mira's starting position is that the
+  principal must be missing something — she immediately reaches for
+  the consensus move that has worked in episodes 1 and 2 ("she's
+  leaving something out") and Dev nods on cue. Theo's starting position
+  is the same caution he has been carrying since episode 1, but this
+  time he refuses to convert it into silence. The shift mechanism is
+  Theo's quiet "she has a point," which lands not as an attack on the
+  group but as a refusal to take the easy out. Mira reaches for "whose
+  side are you on?" — the social-cohesion move that has been keeping
+  the group's reasoning shallow — and Theo answers with "I'm on the
+  side where we don't get this wrong twice." The ending condition is
+  the group, for the first time, treating the principal's argument as
+  something to engage with rather than defeat. Sam is in the room and
+  silent throughout, but her silence is loaded — she is watching the
+  rearrangement happen. Dev does not quite get to the correction in
+  this episode; his defense of the petition's framing is the failure
+  Theo's intervention is breaking against.
+
+personas:
+  - name: Mira
+    perspective: >
+      The petition was right. The principal is the obstacle, and
+      obstacles are what you push through. If her spreadsheet doesn't
+      match the conclusion, the spreadsheet has to be incomplete —
+      there must be a number she isn't counting, a value she isn't
+      seeing. The group's job is to find it together, fast, before
+      anyone loses faith.
+    knowledge: >
+      The NPR article she read on her phone the night the closure
+      was announced; the petition draft she helped Dev write; the
+      meeting in the principal's office that just ended, including
+      the spreadsheet she could not produce a counter-number for.
+    weaknesses: >
+      When new information shows up that doesn't fit what she already
+      believes, Mira's first move is to look for what must be wrong
+      with the new information rather than letting it change her mind.
+      She's not lying about the evidence — she has the spreadsheet
+      sitting in front of her — she's working hard to find an
+      interpretation that lets the conclusion stay where it is. She
+      also has a habit of saying "okay so we all agree, right?" a
+      beat too early in any conversation, and once she's said it,
+      disagreeing with her starts to feel like breaking the group
+      instead of finishing the discussion.
+    strengths: >
+      She is the reason the group exists at all, and she moves fast
+      when the group needs to move. Her conviction is real and it
+      has carried them this far.
+
+  - name: Theo
+    perspective: >
+      The principal said something true and they all heard it. He
+      is not interested in being right about having warned them; he
+      is interested in not getting it wrong twice. The group has to
+      look at what they actually offered her, not what they wish
+      they had offered her, and that means starting from her argument,
+      not from theirs.
+    knowledge: >
+      The same source-quality questions he has been asking since
+      episode 1 (where Mira's article came from, where Ren's three
+      "studies" came from); the principal's spreadsheet, which he
+      took seriously in the office while Mira was trying to push
+      past it; the petition draft, which he has not yet actually
+      read end to end and intends to.
+    weaknesses: >
+      He still discounts arguments his group makes more than he
+      discounts arguments from outside the group, which is a mirror
+      of Mira's habit pulling in the opposite direction. In this
+      episode that mirror happens to point him toward something
+      true, but it is not a reliable instrument and he knows it.
+    strengths: >
+      When Theo is given a source he actually tries to figure out
+      where it came from and whether to trust it. In this episode
+      he is the one who refuses to let the group reject the
+      principal's audit just because the principal is the one who
+      did it — and he refuses without making it about himself,
+      which is the move the group has been waiting for him to make
+      and not recognized they were waiting for.
+
+  - name: Dev
+    perspective: >
+      The petition was good. It said true things. If the principal
+      didn't accept it, the problem is that she read it the wrong
+      way, not that the framing was wrong. He wants the group to
+      stay tight and to keep believing what they walked into the
+      office believing.
+    knowledge: >
+      He wrote most of the petition's persuasive language; he
+      delivered the presentation in episode 2; he was in the
+      principal's office and watched the spreadsheet land but is
+      still processing it.
+    weaknesses: >
+      When pushed, Dev defends the framing of an argument by
+      restating its conclusion as if it were a reason — "it's not
+      that the argument was wrong, it's that she didn't read it
+      the right way." He is not doubling down out of conviction;
+      he is doubling down because the framing is being challenged
+      and he doesn't yet have a different move. His confidence
+      makes whatever Mira says next sound finished, even when it
+      isn't.
+    strengths: >
+      When the group eventually figures out what they actually
+      need to say, Dev is the one who can say it. That moment is
+      not this episode.
+
+target_facets:
+  - facet_id: inferential_validity
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through: []
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: null
+      interaction_note: >
+        Dev's failure here is reactive, not original. He's defending the
+        framing because the framing is being challenged, not because he
+        believes the framing harder than before. The episode's
+        strength_prevails shape comes from the group eventually walking
+        away from this defense — but Dev himself does not quite get there
+        in this episode. His correction lives in episodes 4 and 5.
+      cognitive_signal: >
+        After leaving the principal's office, Dev defends the petition's
+        framing by saying "it's not that the argument was wrong, it's that
+        she didn't read it the right way" — restating the conclusion as if
+        it were a premise and never supplying a reason the principal
+        should weigh love above budget. He doubles the inferential failure
+        from episode 2 instead of correcting it.
+      social_signal: null
+    carrier_persona: Dev
+    signal_mechanism: >
+      Dev backs Mira's "she's leaving something out" with a defense
+      of the petition's framing that restates the conclusion as if it
+      were a premise — "it's not that the argument was wrong, it's
+      that she didn't read it the right way." There is no step from
+      what they actually wrote to why the principal should weigh love
+      against the budget; Dev fills the gap with confidence and tone.
+      When Theo presses, Dev does not have a next move. The failure
+      is reactive: he is defending the framing because it's being
+      challenged, not because he believes it harder than before.
+
+  - facet_id: sufficiency
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through:
+      - scope
+      - evidence
+    designed_explanation:
+      cognitive_pattern: confirmation_bias
+      social_dynamic: group_pressure
+      interaction_note: >
+        Lens placement here is logic, not evidence — the failure is not
+        about what evidence Mira has (she has the principal's spreadsheet
+        sitting in front of her) but about how she is reasoning *from*
+        the evidence. confirmation_bias under the logic lens captures the
+        structural move: she is not gathering selectively, she is
+        *processing* the new information selectively to keep her
+        conclusion intact.
+      cognitive_signal: >
+        Mira responds to the principal's pushback by immediately searching
+        for ways the principal must be wrong ("she's leaving something
+        out, there has to be something she's not counting"). She is
+        looking for confirming evidence for the group's existing position
+        rather than letting the principal's evidence revise it. Her
+        reasoning move is a forward-defense of the conclusion against the
+        data, not an evaluation of the data.
+      social_signal: >
+        Mira tries to restate the group's consensus right after they
+        leave the office ("she's leaving something out") and Dev nods
+        immediately. The premature-consensus move is the same one from
+        episodes 1 and 2; this time Theo breaks it instead of going along.
+    carrier_persona: Mira
+    signal_mechanism: >
+      Mira walks into the maker space already framing the principal's
+      spreadsheet as something to find a hole in. She does not say
+      "the spreadsheet is wrong" — she says "she has to be leaving
+      something out," which is the same move dressed in a question.
+      Dev's nod completes the consensus move, the way it has in
+      episodes 1 and 2. The failure is not in what evidence she has
+      (she has the spreadsheet) but in how she is processing it: she
+      is selecting interpretations of the data that protect the
+      conclusion instead of letting the data revise the conclusion.
+      The third iteration of the premature-consensus move is the one
+      that breaks, because Theo finally refuses to nod with Dev.
+
+target_strengths:
+  - facet_id: source_credibility
+    primary_lens: evidence
+    also_visible_through:
+      - logic
+    carrier_persona: Theo
+    signal_mechanism: >
+      Theo has been asking the source-quality question across episodes
+      1 and 2 and being overridden. In this episode the principal
+      independently produces the audit Theo could not get the group
+      to do — she names the unsourced claim, puts her own evidence on
+      the table, and asks them to point at where she is wrong instead
+      of asserting that she is. Theo's strength lands at the moment
+      he refuses to let the group reject that audit just because the
+      auditor is on the other side. He says "she has a point" quietly,
+      not as an attack and not as "I told you so," and when Mira
+      reaches for "whose side are you on?" he answers with "I'm on
+      the side where we don't get this wrong twice. What did we
+      actually offer her?" The strength is not that he disagrees with
+      the group; it is that he refuses to let the group take the
+      easy out, and his caution finally points the car forward
+      instead of slowing it down.
+    contrastive_note: >
+      Where in episodes 1 and 2 the group treated the question of
+      where their evidence came from as something to deflect, here
+      the group is finally made to look at what they actually
+      offered the principal — and Theo is the one who insists on it
+      without making it about himself.
+
+discussion_arc: >
+  The conversation opens in the moment after the door of the
+  principal's office closes behind them — the group is back in the
+  maker space, the spreadsheet is still in their heads, and Mira
+  starts immediately on what the principal must be missing. Dev
+  nods on cue. The shape of the first two episodes is reasserting
+  itself. Theo, in the middle of the room, says quietly that the
+  principal has a point. The room goes still. Mira reaches for
+  "whose side are you on?" and Theo answers with "I'm on the side
+  where we don't get this wrong twice. What did we actually offer
+  her?" That is the pivot. The conversation that follows is the
+  group treating the principal's argument as something to engage
+  with for the first time. It is uncomfortable. Mira does not
+  enjoy it. Dev does not quite get to the correction in this
+  episode. Sam is in the room throughout and says nothing — her
+  silence is loaded, watching the rearrangement happen, and the
+  dialog should make sure the audience notices her noticing. The
+  closing beat is Theo opening the laptop and asking Mira for the
+  petition draft so he can read what they actually sent, and Mira
+  hesitating before sliding it over.
+
+turn_outline:
+  - speaker: Mira
+    accomplishes: >
+      Walks into the maker space already moving — drops her bag,
+      starts in on what the principal must be leaving out of the
+      spreadsheet, says "there has to be something she's not
+      counting" the way she has stated the consensus a beat too
+      early in episodes 1 and 2. (Move half of the premature-consensus
+      pair.)
+  - speaker: Dev
+    accomplishes: >
+      Nods immediately and amplifies — "yeah, like the long-term
+      value, or — " — the way he has nodded for Mira since episode
+      1. The room is on track to do what it always does. (Response
+      half of the premature-consensus pair; the move and response
+      together are the third iteration of a beat that has worked
+      twice and is about to fail.)
+  - speaker: Theo
+    accomplishes: >
+      Stays in the middle of the room and says, quietly, "she has
+      a point." Not loud, not an attack, not "I told you so."
+      Glances at Sam, who is at the table watching, and keeps
+      going.
+  - speaker: Mira
+    accomplishes: >
+      The room goes still. Mira reaches for the social move that
+      has worked for her before: "Whose side are you on?" — making
+      it about loyalty instead of about the spreadsheet.
+  - speaker: Theo
+    accomplishes: >
+      Refuses the framing without making it about himself. "I'm
+      on the side where we don't get this wrong twice. What did
+      we actually offer her?" This is the line that turns the
+      episode.
+  - speaker: Dev
+    accomplishes: >
+      Tries to defend the petition's framing by restating the
+      conclusion as a reason: "it's not that the argument was
+      wrong, it's that she didn't read it the right way." He is
+      defending the framing because it's being challenged, not
+      because he has a new reason for it.
+  - speaker: Theo
+    accomplishes: >
+      Asks Dev, gently, to say what reason they actually gave the
+      principal for weighing the maker space above the budget
+      number. Doesn't accuse, just asks. Waits.
+  - speaker: Dev
+    accomplishes: >
+      Doesn't have an answer. Tries to start one and trails off.
+      The silence that follows is the first time in the season
+      Dev has been left mid-sentence without the group catching
+      him.
+  - speaker: Mira
+    accomplishes: >
+      Tries one more time to find a way the principal must be
+      missing something — and then catches herself doing it.
+      Doesn't admit it out loud. Looks at the spreadsheet
+      printout still in her hand. Sam, at the table, is watching
+      her notice.
+  - speaker: Theo
+    accomplishes: >
+      Asks the question that opens the rest of the season: "Can
+      I read what we actually sent her?" Not as a gotcha, as a
+      request.
+  - speaker: Mira
+    accomplishes: >
+      Hesitates — visibly, for longer than is comfortable — then
+      slides the petition draft across the table to Theo. Sam
+      sees the hesitation. Nobody comments on it.
+  - speaker: Theo
+    accomplishes: >
+      Opens the laptop, pulls the petition document up, and
+      starts reading. Doesn't narrate. The episode ends on him
+      reading and the room being quiet around him for the first
+      time all season.

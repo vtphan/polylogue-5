@@ -1,0 +1,658 @@
+story_id: saving-the-maker-space
+episode_number: 3
+scenario_id: saving-the-maker-space-ep-03
+
+passage_scaffolding:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Mira's very first sentence again. Pay attention to what she
+          is asking the group to agree to before anyone has done anything.
+      - type: hint
+        text: >
+          Now look at Dev's reply. He names a thing — but try to picture
+          where that thing actually lives. Can you point at it?
+      - type: ai_perspective
+        text: >
+          The AI noticed that Mira is starting from the answer and working
+          backward, and that Dev's reply sounds like a reason without
+          pointing at anything real. Did you see the same thing, or were
+          you looking somewhere else?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Mira is reasoning. Now think
+          about why — what is going on in the room that lets her skip
+          straight to the answer?
+      - lens: evidence
+        prompt: >
+          You noticed something about what Dev is pointing at. Now think
+          about why — what might make a person reach for a reason that
+          sounds good without checking if it is really there?
+      - lens: scope
+        prompt: >
+          You noticed something about whose view is missing. Now think
+          about why — what is keeping the group from looking wider?
+    ai_reflection_prompt: >
+      The AI said Mira is starting from her conclusion and Dev is filling
+      in a placeholder. Does that match what you were trying to say, or
+      do you see it a little differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+                Mira is being a good leader and keeping the group together.
+            redirect: >
+              You noticed Mira is pulling the group together. Now look more
+              closely at what she is asking them to agree to — has anyone
+              actually looked at the spreadsheet yet?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+                Dev gave a good reason with long-term value.
+            redirect: >
+              You heard Dev name something. Now try to picture where that
+              thing actually is — can you point at a specific number or
+              example he is using?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+                Nothing is missing, they are all in the room.
+            redirect: >
+              You looked around the room. Now think about whose thinking is
+              actually in this conversation so far — who has not weighed in?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Mira is not really asking, she is telling.
+          - level: developing
+            examples:
+              - >-
+                  Mira starts from the idea that the principal is wrong
+                  before anyone checks the spreadsheet.
+          - level: differentiated
+            examples:
+              - >-
+                  Mira's "we all agree, right?" closes the conversation
+                  before it starts, and then everything the group says
+                  next is about protecting the answer instead of testing it.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Dev did not give real proof.
+          - level: developing
+            examples:
+              - >-
+                  Dev says "long-term value" but does not point at any
+                  actual number or example.
+          - level: differentiated
+            examples:
+              - >-
+                  Dev's "long-term value" sounds like a reason but there
+                  is nothing behind it yet — meanwhile the spreadsheet the
+                  principal actually gave them is sitting there unread.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Somebody is missing.
+          - level: developing
+            examples:
+              - >-
+                  The principal's side of the story is not in this
+                  conversation at all.
+          - level: differentiated
+            examples:
+              - >-
+                  The principal's spreadsheet is physically in the room
+                  but nobody has looked at it, and Sam is at the table not
+                  saying anything — the views that could slow the group
+                  down are present but unused.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    Mira just wanted to be right.
+            - level: developing
+              examples:
+                - >-
+                    Mira only looks for reasons that protect what she
+                    already believes, so the new spreadsheet becomes
+                    something to poke holes in instead of something to
+                    learn from.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    The group just goes along with Mira.
+            - level: developing
+              examples:
+                - >-
+                    When Mira says "we all agree, right?" and Dev nods
+                    right away, disagreeing starts to feel like breaking
+                    the group instead of finishing the conversation.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                    Mira wants her answer to stay true and Dev agrees
+                    quickly, so nobody slows down to actually open the
+                    spreadsheet.
+            - level: differentiated
+              examples:
+                - >-
+                    Mira is looking for a hole in the spreadsheet instead
+                    of reading it, and Dev's fast nod makes that feel
+                    normal — the two moves hold each other up, so the
+                    group can keep their answer without ever testing it.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04, turn_05]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Listen carefully to how Mira and Theo are each describing the
+          disagreement. They are not talking about the same kind of thing.
+      - type: hint
+        text: >
+          Look at Theo's answer in turn 5. He does not pick a side the way
+          Mira is asking him to. Notice what he answers with instead.
+      - type: hint
+        text: >
+          Now think about Mira's question in turn 4. What does the word
+          "side" do to a disagreement that used to be about a spreadsheet?
+      - type: ai_perspective
+        text: >
+          The AI said Theo is engaging with the other side's argument
+          without switching sides, and that Mira's "whose side" question
+          turns a disagreement about an argument into a loyalty test. Does
+          that line up with what you noticed?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how Theo answers. Now think about
+          why — what is he trying to protect that is not about winning?
+      - lens: evidence
+        prompt: >
+          You noticed something about Theo taking the principal's work
+          seriously. Now think about why — what made this hard for the
+          group to do until now?
+      - lens: scope
+        prompt: >
+          You noticed something about Mira's "whose side" move. Now think
+          about why — what does a loyalty question do to the group's
+          ability to look at the other view?
+    ai_reflection_prompt: >
+      The AI said Theo is doing engagement, not surrender, and that a
+      group's social closeness can start costing more than it is worth.
+      Does that match what you were trying to say about Theo, or were
+      you thinking of it differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+                Theo is giving up and siding with the principal.
+            redirect: >
+              You heard Theo say "she has a point." Now read what he says
+              right after Mira asks whose side he is on — what does he say
+              he is on the side of?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+                Theo is just being negative about his own group.
+            redirect: >
+              You noticed Theo is pushing against his own group. Now look
+              at what he is asking them to do — is he attacking them, or
+              asking them to look at something?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+                Mira is right, you have to stick with your friends.
+            redirect: >
+              You noticed Mira wants the group to stay close. Now think
+              about what her "whose side" question turns the disagreement
+              into — is it still about the spreadsheet?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Theo disagrees with the group.
+          - level: developing
+            examples:
+              - >-
+                  Theo answers with the work — "not getting it wrong
+                  twice" — instead of picking a side.
+          - level: differentiated
+            examples:
+              - >-
+                  Theo refuses to turn the disagreement into sides; he
+                  answers with what the group is trying to do, which
+                  makes saying "she has a point" feel like finishing the
+                  thinking instead of switching teams.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Theo listens to the principal.
+          - level: developing
+            examples:
+              - >-
+                  Theo is letting the principal's work count even though
+                  she disagrees with the group.
+          - level: differentiated
+            examples:
+              - >-
+                  Theo treats the principal's spreadsheet as something
+                  real even though she is on the other side — he is
+                  saying the work is the work no matter who did it, which
+                  nobody in the group has done all season.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Mira is being mean.
+          - level: developing
+            examples:
+              - >-
+                  Mira turns the disagreement into a question about
+                  loyalty instead of about the argument.
+          - level: differentiated
+            examples:
+              - >-
+                  Mira's "whose side" flips the disagreement from being
+                  about what the petition actually said into being about
+                  who is loyal to the group — once it is about loyalty,
+                  taking the principal seriously looks like betrayal.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    Mira only wants to hear people who agree.
+            - level: developing
+              examples:
+                - >-
+                    Mira is splitting the room into two sides, so anyone
+                    who is not clearly with her starts to look like they
+                    are against her.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    The group wants to stick together.
+            - level: developing
+              examples:
+                - >-
+                    The group has been staying tight by calling
+                    disagreements loyalty tests, and Mira reaches for
+                    that move when Theo pushes back.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                    Mira's "whose side" would normally shut Theo down,
+                    but Theo answers with the work instead of with a
+                    side, so the move does not work this time.
+            - level: differentiated
+              examples:
+                - >-
+                    Mira uses the same loyalty move that has kept the
+                    group tight for two episodes, and it would normally
+                    make disagreeing feel impossible — but Theo refuses
+                    to turn it into a fight about him, so the move that
+                    was holding the group's shallow thinking in place
+                    finally stops working.
+
+  - passage_id: passage_03
+    turns: [turn_06, turn_07, turn_08]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Dev's first sentence in turn 6 slowly. Try to find the
+          part that is supposed to be the reason.
+      - type: hint
+        text: >
+          Now read Dev's attempt in turn 8 out loud, all the way to where
+          he trails off. Listen for where the sentence actually stops
+          saying anything new.
+      - type: ai_perspective
+        text: >
+          The AI said Dev is using the conclusion as if it were a reason,
+          and that when Theo asks him to say it slowly the gap becomes
+          visible. Did you catch the same thing, or did you notice
+          something different about why Dev trails off?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about Dev's reasoning. Now think about
+          why — what is he actually trying to defend, and why does it
+          run out?
+      - lens: evidence
+        prompt: >
+          You noticed something about what Dev is and is not pointing at.
+          Now think about why — what is missing from the thing he is
+          trying to say?
+      - lens: scope
+        prompt: >
+          You noticed something about whether Dev's reason meets the
+          principal's question. Now think about why — what is the
+          principal actually weighing that Dev is not addressing?
+    ai_reflection_prompt: >
+      The AI said Dev is defending the framing because it is being
+      challenged, not because he believes it harder. Does that match
+      what you thought was happening when he trailed off?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+                Dev is just nervous and forgot his words.
+            redirect: >
+              You noticed Dev lost his words. Now look at what he was
+              trying to say — was there a reason waiting in the sentence
+              that he just forgot, or was the reason not there to begin
+              with?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+                Dev gave a real reason — kids build things in the room.
+            redirect: >
+              You heard Dev say kids build things in the room. Now check
+              if that sentence answers what Theo asked — why should the
+              room come before the budget number?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+                The principal is just being mean about money.
+            redirect: >
+              You noticed the principal cares about money. Now think
+              about what decision she actually has to make — does Dev's
+              reason help her make that decision?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Dev does not really have a reason.
+          - level: developing
+            examples:
+              - >-
+                  Dev repeats the conclusion ("we were right") as if
+                  that were a reason for the conclusion.
+          - level: differentiated
+            examples:
+              - >-
+                  Dev's sentence uses the answer as the reason for the
+                  answer — when Theo asks him to say the reason plainly,
+                  the sentence has nowhere to go, because the reason was
+                  never actually there.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Dev does not give proof.
+          - level: developing
+            examples:
+              - >-
+                  Dev never points at a specific thing in the petition
+                  that the principal was supposed to read.
+          - level: differentiated
+            examples:
+              - >-
+                  Dev keeps saying the petition "said the real stuff"
+                  but never names what that real stuff actually is —
+                  the evidence he is defending is something he hasn't
+                  named out loud yet.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Dev is talking about the wrong thing.
+          - level: developing
+            examples:
+              - >-
+                  Dev's reason is about what the maker space means to
+                  the kids, but the principal is asking about the budget.
+          - level: differentiated
+            examples:
+              - >-
+                  The principal is weighing the room against a real
+                  dollar number, and Dev's answer is about what the room
+                  feels like for the kids — the two things are not in
+                  the same conversation, so no matter how true Dev's
+                  answer is, it does not answer her question.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    Dev is being stubborn.
+            - level: developing
+              examples:
+                - >-
+                    Dev is stuck in one way of describing the room and
+                    cannot switch to a description that would actually
+                    answer the principal's question.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    Dev does not want the group to look bad.
+            - level: developing
+              examples:
+                - >-
+                    Dev is defending the petition because the group made
+                    it together, so admitting the reasoning is thin feels
+                    like letting the group down.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                    Dev wants to protect the petition and does not have
+                    another move, so he doubles down even though the
+                    sentence runs out.
+            - level: differentiated
+              examples:
+                - >-
+                    Dev is stuck on one way of describing the room
+                    because the group's whole petition used that
+                    description, and when Theo asks him to say it
+                    plainly there is nowhere to go — the reactive
+                    defense and the group's shared framing are propping
+                    each other up until Dev runs out of sentence.
+
+  - passage_id: passage_04
+    turns: [turn_09, turn_10, turn_11, turn_12]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Mira's two sentences in turn 9 back to back. Notice the
+          exact place where the first sentence stops.
+      - type: hint
+        text: >
+          Now look at who made her stop. Was it Theo? Was it Dev? Was it
+          anyone else in the room?
+      - type: hint
+        text: >
+          Watch the small physical moment in turn 11. Mira does something
+          with the petition — and she takes a second before she does it.
+      - type: ai_perspective
+        text: >
+          The AI said Mira interrupted herself — nobody else stopped her
+          — and that Theo's earlier move gave her a third option that was
+          not "she's wrong" and not "we're wrong." Does that match what
+          you noticed about why she stops?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed Mira stopped herself. Now think about why — what
+          changed in the room that made stopping possible?
+      - lens: evidence
+        prompt: >
+          You noticed Theo asked to read the petition. Now think about
+          why — what is different about looking at your own work compared
+          to defending it?
+      - lens: scope
+        prompt: >
+          You noticed the group has shifted. Now think about why — what
+          is the group doing right now that they were not doing two
+          minutes ago?
+    ai_reflection_prompt: >
+      The AI said Theo's earlier move gave Mira a third option — "let's
+      look" — and that sliding the petition over was the group agreeing
+      to be looked at for the first time. Does that fit how you read
+      Mira's hesitation?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >-
+                Mira gave up.
+            redirect: >
+              You noticed Mira stopped. Now check if she said the group
+              was wrong. What is she actually agreeing to do?
+      - lens: evidence
+        misreadings:
+          - pattern: >-
+                Nothing really happens in this passage.
+            redirect: >
+              You noticed there is no big argument here. Now look for
+              the small moments — Mira's unfinished sentence, her pause
+              before sliding the petition. What do those mean together?
+      - lens: scope
+        misreadings:
+          - pattern: >-
+                Theo finally won the argument.
+            redirect: >
+              You noticed Theo got what he asked for. Now look again —
+              is he celebrating, or is he asking to do something the
+              group could have done together all along?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Mira stops talking.
+          - level: developing
+            examples:
+              - >-
+                  Mira interrupts her own sentence before anyone else
+                  does.
+          - level: differentiated
+            examples:
+              - >-
+                  Mira interrupts herself in the middle of the same move
+                  she has used all season, and nobody else stops her —
+                  which means the move lost its own hold on her, not
+                  that someone else knocked it down.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  Theo wants to read the petition.
+          - level: developing
+            examples:
+              - >-
+                  Theo is asking the group to look at their own work
+                  instead of defending it.
+          - level: differentiated
+            examples:
+              - >-
+                  Theo's request is the first time anyone has asked the
+                  group to audit their own petition in front of each
+                  other — the petition has been the thing they were
+                  defending, and now it is about to become the thing
+                  they actually examine.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - >-
+                  The group changed their minds.
+          - level: developing
+            examples:
+              - >-
+                  The group shifted from arguing against the principal
+                  to looking at what they offered her.
+          - level: differentiated
+            examples:
+              - >-
+                  The group moved from "she's wrong" to "let's look"
+                  without saying out loud that anything changed — Mira's
+                  small pause before sliding the petition is the whole
+                  shift, and nobody needs to call it out for it to count.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    Mira finally listened.
+            - level: developing
+              examples:
+                - >-
+                    Mira noticed herself doing the same move again and
+                    stopped it on her own, which is different from being
+                    convinced by somebody else.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - >-
+                    The group calmed down.
+            - level: developing
+              examples:
+                - >-
+                    The group is no longer using loyalty to hold itself
+                    together, so slowing down stopped feeling like
+                    betrayal.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >-
+                    Theo's earlier answer gave Mira a new option besides
+                    "she's wrong" or "we're wrong," and she used it.
+            - level: differentiated
+              examples:
+                - >-
+                    Theo's "not getting it wrong twice" earlier made a
+                    third option possible in the room, and when Mira
+                    catches herself starting the old move again she has
+                    somewhere to land that is not surrender and not
+                    doubling down — the group change is not someone
+                    winning, it is a new option existing where there
+                    wasn't one before.

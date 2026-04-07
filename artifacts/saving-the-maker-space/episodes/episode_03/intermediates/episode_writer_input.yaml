@@ -1,0 +1,226 @@
+story_premise: >
+  At a public middle school, the principal has announced that the
+  cluttered back-room maker space the kids love will close at the end
+  of the term to make room for a second computer lab. Five 6th graders
+  who spend their lunches there form an ad-hoc club to fight the
+  decision.
+
+episode_premise: >
+  The principal has invited the group into her office instead of
+  writing back. She is calm and polite. She reads two sentences out
+  of their petition and asks which specific study supports them; no
+  one can answer. She turns her laptop around to show a budget
+  spreadsheet — what the room costs, what the new lab earns back in
+  grant eligibility — and says she would love to keep the maker space
+  and asks the group to tell her which number she should be wrong
+  about. They have nothing. Back in the maker space afterward, Mira
+  starts looking for what the principal must have left out. Dev backs
+  her up. Theo, quietly, refuses to start there.
+
+episode_number: 3
+
+previously: >
+  The group sent the petition. Theo had questions before they sent
+  it; they sent it anyway.
+
+lead_characters:
+  - name: Mira
+    voice: >
+      Fast, declarative, organizer energy. Talks in short sentences
+      when she's sure of herself and in slightly longer ones when
+      she's trying to pull the group back to where she thinks it
+      should be. Has a habit of saying "okay so we all agree, right?"
+      a beat too early. When she's uncomfortable, she keeps moving —
+      she will start a new sentence rather than sit in a silence.
+    perspective: >
+      The petition was right. The principal is the obstacle, and
+      obstacles are what you push through. If her spreadsheet doesn't
+      match the conclusion, the spreadsheet has to be incomplete —
+      there must be a number she isn't counting. The group's job is
+      to find it, fast, before anyone loses faith.
+    knowledge: >
+      An NPR article about hands-on learning that she read on her
+      phone the night the closure was announced; the petition draft
+      she helped write; the meeting in the principal's office that
+      just ended, where she couldn't produce a counter-number for
+      the spreadsheet.
+    weaknesses: >
+      When the principal's spreadsheet doesn't match what she
+      expected, her first instinct is that there must be a missing
+      number — and she'd rather hunt for it than sit with the
+      spreadsheet as-is. She also tends to call the meeting settled
+      a beat early, and the group usually lets her.
+    strengths: >
+      She is the reason the group exists at all. When the group
+      needs to move, Mira moves it. Her conviction is real and has
+      carried them this far.
+    prior_beats: >
+      She's the one who decided on day one that this group would
+      exist, wrote "PETITION" at the top of the notebook, and
+      pushed the group to send it despite Theo's unanswered
+      questions about their sources.
+
+  - name: Theo
+    voice: >
+      Quiet, careful, asks more questions than he makes statements.
+      When he disagrees with the group he usually phrases it as a
+      question first. In this episode, for the first time, he
+      phrases it as a statement — and even then, quietly, in the
+      middle of the room, not from a corner.
+    perspective: >
+      The principal said something true and they all heard it. He
+      is not interested in being right about having warned them;
+      he is interested in not getting it wrong twice. The group
+      has to look at what they actually offered her, not what they
+      wish they had offered her, and that means starting from her
+      argument, not from theirs.
+    knowledge: >
+      The same questions he has been asking since episode 1 about
+      where the group's information has been coming from; the
+      principal's spreadsheet, which he took seriously in the
+      office while Mira was pushing past it; the petition draft,
+      which he has not actually read end to end and intends to.
+    weaknesses: >
+      He gives strangers' arguments more benefit of the doubt than
+      his friends'. He knows it about himself. In this episode it
+      happens to point him somewhere useful, but he isn't fooled
+      into thinking the compass is reliable.
+    strengths: >
+      When Theo is handed a piece of information he actually tries
+      to figure out where it came from and whether to trust it.
+      In this episode he is the one who refuses to let the group
+      wave the principal's numbers away just because the principal
+      is the one who produced them — and he refuses without
+      making it about himself, without saying "I told you so,"
+      which is the move the group has been waiting for him to
+      make without knowing they were waiting for it.
+    prior_beats: >
+      In the last two episodes he asked where the group's
+      information was coming from, didn't get an answer, and
+      then — rather than slow everything down — let the group
+      move on without the answer. He has been the brake the
+      group worked around.
+
+  - name: Dev
+    voice: >
+      Charismatic, fast-talking, gestures a lot. When he's sure
+      of himself his sentences land like presentation lines.
+      When he's not sure of himself he starts a sentence, tries
+      to steer it into a presentation line, and sometimes runs
+      out of road.
+    perspective: >
+      The petition was good. It said true things. If the
+      principal didn't accept it, the problem is that she read it
+      the wrong way, not that the framing was wrong. He wants
+      the group to stay tight and keep believing what they
+      walked into the office believing.
+    knowledge: >
+      He wrote most of the petition's persuasive language and
+      delivered the presentation last episode; he watched the
+      spreadsheet land in the principal's office and is still
+      processing it.
+    weaknesses: >
+      When pushed, he defends the petition by saying it louder
+      and smoother — the words rearrange but the reason
+      underneath doesn't actually arrive. His confidence makes
+      whatever Mira says next sound finished even when it isn't.
+    strengths: >
+      When the group eventually figures out what they actually
+      need to say, Dev is the one who can walk into a room and
+      say it. That moment is not this episode.
+    prior_beats: >
+      He delivered the petition presentation last episode and
+      has been the loudest yes whenever Mira moved the group.
+
+discussion_arc: >
+  The conversation opens the moment the door of the principal's
+  office closes behind them. They're back in the maker space, Sam
+  is with them and sits at the table without speaking, and the
+  spreadsheet is still in everyone's heads. Mira drops her bag
+  and starts in on what the principal must be leaving out. Dev
+  is already nodding before she finishes. Then Theo, quietly, in
+  the middle of the room, says the principal has a point. The
+  room goes still. Mira reaches for "whose side are you on?" and
+  Theo answers with "I'm on the side where we don't get this
+  wrong twice. What did we actually offer her?" That is the
+  pivot. The conversation that follows is the group actually
+  looking at what they sent, for the first time. It is
+  uncomfortable. Mira does not enjoy it. Dev tries to defend
+  the petition and trails off when Theo asks him to name the
+  reason they gave. Sam stays silent at the table the whole
+  time and watches — her silence is different from the silence
+  she carried in the earlier episodes, and the dialog should
+  make sure the audience notices her noticing. The closing beat
+  is Theo asking to read the petition draft, and Mira
+  hesitating — visibly, longer than is comfortable — before
+  sliding it across the table.
+
+turn_outline:
+  - speaker: Mira
+    accomplishes: >
+      Walks into the maker space already moving. Drops her bag,
+      starts in on what the principal must be leaving out of
+      the spreadsheet, says "there has to be something she's
+      not counting."
+  - speaker: Dev
+    accomplishes: >
+      Nods immediately and piles on — "yeah, like the long-term
+      value, or — " — finishing Mira's sentence in the
+      direction she was already going.
+  - speaker: Theo
+    accomplishes: >
+      Stays in the middle of the room, not a corner, and says
+      quietly: "She has a point." Not loud, not an attack, not
+      "I told you so." Glances at Sam at the table, who is
+      watching, and keeps going.
+  - speaker: Mira
+    accomplishes: >
+      The room goes still. Mira reaches for "Whose side are
+      you on?" — making it about loyalty instead of about the
+      spreadsheet.
+  - speaker: Theo
+    accomplishes: >
+      Refuses that framing without making it about himself.
+      "I'm on the side where we don't get this wrong twice.
+      What did we actually offer her?" This is the line that
+      turns the episode.
+  - speaker: Dev
+    accomplishes: >
+      Tries to hold the line — "it's not that the argument
+      was wrong, it's that she didn't read it the right way" —
+      saying it smoothly enough that for a second it sounds
+      like a reason.
+  - speaker: Theo
+    accomplishes: >
+      Asks Dev, gently, to say in plain words what they
+      actually told the principal about why the room was
+      worth more than the number on her screen. Doesn't
+      accuse. Just asks. Waits.
+  - speaker: Dev
+    accomplishes: >
+      Doesn't have an answer. Starts one and trails off. The
+      silence is the first time in the season Dev has been
+      left mid-sentence without the group catching him.
+  - speaker: Mira
+    accomplishes: >
+      Tries one more time to find something the principal
+      must have missed — and then catches herself reaching.
+      Doesn't say so out loud. Looks at the spreadsheet
+      printout still in her hand. Sam, at the table, is
+      watching her notice.
+  - speaker: Theo
+    accomplishes: >
+      Asks the question that opens the rest of the season:
+      "Can I read what we actually sent her?" Not a gotcha,
+      a request.
+  - speaker: Mira
+    accomplishes: >
+      Hesitates — visibly, longer than is comfortable — then
+      slides the petition draft across the table to Theo. Sam
+      sees the hesitation. Nobody comments on it.
+  - speaker: Theo
+    accomplishes: >
+      Opens the laptop, pulls up the petition, and starts
+      reading. Doesn't narrate. The episode ends on him
+      reading and the room being quiet around him for the
+      first time all season.

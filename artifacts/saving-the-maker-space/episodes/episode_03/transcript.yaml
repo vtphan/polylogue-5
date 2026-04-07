@@ -1,0 +1,97 @@
+story_id: saving-the-maker-space
+episode_number: 3
+scenario_id: saving-the-maker-space-ep-03
+personas:
+- name: Mira
+  perspective: 'The petition was right. The principal is the obstacle, and obstacles are what you push
+    through. If her spreadsheet doesn''t match the conclusion, the spreadsheet has to be incomplete —
+    there must be a number she isn''t counting, a value she isn''t seeing. The group''s job is to find
+    it together, fast, before anyone loses faith.
+
+    '
+- name: Theo
+  perspective: 'The principal said something true and they all heard it. He is not interested in being
+    right about having warned them; he is interested in not getting it wrong twice. The group has to look
+    at what they actually offered her, not what they wish they had offered her, and that means starting
+    from her argument, not from theirs.
+
+    '
+- name: Dev
+  perspective: 'The petition was good. It said true things. If the principal didn''t accept it, the problem
+    is that she read it the wrong way, not that the framing was wrong. He wants the group to stay tight
+    and to keep believing what they walked into the office believing.
+
+    '
+turns:
+- speaker: Mira
+  sentences:
+  - text: Okay, so we all agree, right? — there has to be something she's not counting.
+    sentence_id: turn_01.s01
+  - text: No way that spreadsheet is the whole picture. We just gotta find the number she left out.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Dev
+  sentences:
+  - text: Yeah, exactly — like the long-term value, or the stuff you can't even put in a spreadsheet.
+    sentence_id: turn_02.s01
+  turn_id: turn_02
+- speaker: Theo
+  sentences:
+  - text: She kind of has a point, though.
+    sentence_id: turn_03.s01
+  turn_id: turn_03
+- speaker: Mira
+  sentences:
+  - text: Wait — whose side are you even on right now?
+    sentence_id: turn_04.s01
+  turn_id: turn_04
+- speaker: Theo
+  sentences:
+  - text: I'm on the side where we don't get this wrong twice.
+    sentence_id: turn_05.s01
+  - text: Like — what did we actually offer her in there?
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Dev
+  sentences:
+  - text: I mean, it's not that we were wrong, it's that she didn't read it the right way.
+    sentence_id: turn_06.s01
+  - text: The petition said the real stuff. She just kind of skimmed past it.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Theo
+  sentences:
+  - text: Okay, but — just say it plain. What reason did we give her for putting the room above her number?
+    sentence_id: turn_07.s01
+  turn_id: turn_07
+- speaker: Dev
+  sentences:
+  - text: We said — okay, we said it's where kids actually, like, build things, and that matters because…
+    sentence_id: turn_08.s01
+  - text: I mean, it — yeah.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Mira
+  sentences:
+  - text: 'There''s gotta be a grant thing she''s not — '
+    sentence_id: turn_09.s01
+  - text: …okay, hold on.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Theo
+  sentences:
+  - text: Can I just read what we actually sent her?
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Mira
+  sentences:
+  - text: I — yeah.
+    sentence_id: turn_11.s01
+  - text: Here.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Theo
+  sentences:
+  - text: Okay.
+    sentence_id: turn_12.s01
+  turn_id: turn_12

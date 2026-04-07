@@ -1,0 +1,56 @@
+personas:
+  - name: Mira
+    perspective: >
+      Thinks the principal's spreadsheet must be missing a number, and
+      the group's job is to find it fast.
+  - name: Theo
+    perspective: >
+      Thinks the group needs to look honestly at what they actually
+      offered the principal before arguing back.
+  - name: Dev
+    perspective: >
+      Thinks the petition was good and the principal just read it the
+      wrong way.
+turns:
+  - speaker: Mira
+    sentences:
+      - text: "Okay, there has to be something she's not counting."
+      - text: "Like, no way that spreadsheet is the whole picture — we just need to find the number she left out."
+  - speaker: Dev
+    sentences:
+      - text: "Yeah, exactly, like the long-term value, or — the stuff you can't even put in a spreadsheet, you know?"
+  - speaker: Theo
+    sentences:
+      - text: "She kind of has a point, though."
+  - speaker: Mira
+    sentences:
+      - text: "Wait, whose side are you even on right now?"
+  - speaker: Theo
+    sentences:
+      - text: "I'm on the side where we don't get this wrong twice."
+      - text: "Like — what did we actually offer her in there?"
+  - speaker: Dev
+    sentences:
+      - text: "I mean, it's not that we were wrong, it's that she didn't read it the right way."
+      - text: "The petition said the real stuff, she just kind of skimmed past it."
+  - speaker: Theo
+    sentences:
+      - text: "Okay, but — just say it plain. What did we tell her the room was worth more than her number for?"
+  - speaker: Dev
+    sentences:
+      - text: "We said — okay, we said it's where kids actually, like, build things, and that matters because…"
+      - text: "I mean, it — yeah."
+  - speaker: Mira
+    sentences:
+      - text: "There's gotta be a grant thing she's not — "
+      - text: "…"
+  - speaker: Theo
+    sentences:
+      - text: "Can I read what we actually sent her?"
+  - speaker: Mira
+    sentences:
+      - text: "I — yeah."
+      - text: "Here."
+  - speaker: Theo
+    sentences:
+      - text: "Okay."

@@ -1,0 +1,135 @@
+story_id: saving-the-maker-space
+episode_number: 3
+scenario_id: saving-the-maker-space-ep-03
+transcript_file: transcript.yaml
+analysis_file: analysis.yaml
+scaffolding_file: lens/scaffolding.yaml
+onboarding:
+  topic_summary: Mira, Dev, Ren, Theo, and Sam went to the principal with a petition
+    to save the maker space. The principal heard them out and gave a calm, unexpected
+    answer. In this discussion, the group is reacting to what she said and trying
+    to figure out what to do next.
+  reading_instruction: Read the discussion carefully. Then we'll look at it together
+    through different lenses.
+passages:
+- passage_id: passage_01
+  turns:
+  - turn_01
+  - turn_02
+  evaluable: true
+  suggested_order: 1
+- passage_id: passage_02
+  turns:
+  - turn_03
+  - turn_04
+  - turn_05
+  evaluable: true
+  suggested_order: 3
+- passage_id: passage_03
+  turns:
+  - turn_06
+  - turn_07
+  - turn_08
+  evaluable: true
+  suggested_order: 2
+- passage_id: passage_04
+  turns:
+  - turn_09
+  - turn_10
+  - turn_11
+  - turn_12
+  evaluable: true
+  suggested_order: 4
+lens_definitions:
+- lens_id: logic
+  name: Logic
+  question: Does the reasoning hold?
+- lens_id: evidence
+  name: Evidence
+  question: Is the claim supported?
+- lens_id: scope
+  name: Scope
+  question: Is the analysis thorough?
+diagnose:
+  instructions: 'Read this passage and choose one or more lenses. Rate the reasoning
+    as strong or weak through each lens, then explain what you noticed.
+
+    '
+  rating_options:
+  - strong
+  - weak
+  articulation_prompt: 'What do you see? Why did you rate it this way?
+
+    '
+discuss:
+  instructions: 'See how your group members diagnosed this passage. What did they
+    notice that you didn''t? Discuss and decide what your group thinks.
+
+    '
+ai_perspective:
+  instructions: 'Here''s one more perspective on what''s happening in this passage.
+
+    '
+  source: ai_perspective
+  response_required: true
+  response_prompt: 'After reading the AI''s perspective, what stands out to you? Does
+    it match what your group was thinking?
+
+    '
+submit_assessment:
+  instructions: 'As a group, write your assessment of the reasoning in this passage.
+
+    '
+  assessment_prompt: 'What did you notice about the reasoning? Why do you think they
+    reasoned this way?
+
+    '
+reference_lists:
+  show_cognitive_patterns: false
+  show_social_dynamics: false
+  cognitive_patterns:
+  - id: confirmation_bias
+    name: Confirmation bias
+    description: Only looking for information that supports what you already believe.
+  - id: tunnel_vision
+    name: Tunnel vision
+    description: Focusing so narrowly on one aspect that you miss the bigger picture.
+  - id: overgeneralization
+    name: Overgeneralization
+    description: Drawing a broad conclusion from too little evidence.
+  - id: false_cause
+    name: False cause
+    description: Assuming one thing caused another just because they're connected.
+  - id: uncritical_acceptance
+    name: Uncritical acceptance
+    description: Believing something without checking the source or reasoning.
+  - id: black_and_white_thinking
+    name: Black-and-white thinking
+    description: Seeing only two options instead of recognizing complexity.
+  - id: egocentric_thinking
+    name: Egocentric thinking
+    description: Only considering the perspectives of people like yourself.
+  - id: false_certainty
+    name: False certainty
+    description: 'Feeling confident about something without checking whether the reasoning
+      supports it.
+
+      '
+  social_dynamics:
+  - id: group_pressure
+    name: Group pressure
+    description: "The group discouraging disagreement \u2014 whether through pressure\
+      \ that makes individuals go along despite private doubts, or through collective\
+      \ convergence where no one questions at all.\n"
+  - id: conflict_avoidance
+    name: Conflict avoidance
+    description: Giving up a point you believe in because disagreeing feels uncomfortable.
+  - id: authority_deference
+    name: Authority deference
+    description: 'Letting the loudest or most confident person win without evaluating
+      their reasoning.
+
+      '
+lifelines:
+  pool_size: 5
+  hint_cost: 1

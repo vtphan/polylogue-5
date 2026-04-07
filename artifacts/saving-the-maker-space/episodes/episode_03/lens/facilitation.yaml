@@ -1,0 +1,407 @@
+story_id: saving-the-maker-space
+episode_number: 3
+scenario_id: saving-the-maker-space-ep-03
+
+overview:
+  topic: >
+    After the principal calmly takes the petition apart in her office, the
+    group has to decide whether she's wrong or whether they are. The episode
+    is the season's pivot: Theo refuses to let the group take the easy out.
+  targeted_facets_summary: >
+    The episode is built around a sufficiency weakness (Mira processes the
+    principal's spreadsheet looking for holes rather than letting it revise
+    her conclusion — confirmation_bias under group_pressure) and an
+    inferential_validity weakness (Dev defends the petition's framing by
+    restating its conclusion as if it were a reason). The targeted strength
+    is source_credibility, carried by Theo, who refuses to let the group
+    dismiss the principal's audit just because the principal is the one who
+    did it.
+  session_timing: >
+    35-45 minutes. Four passages; passage_02 and passage_04 are the load-
+    bearing ones and deserve the most discussion time.
+  what_to_expect: >
+    Students often arrive on the group's side and have to be slowed down on
+    the first passage — Mira's "we all agree, right?" sounds normal until
+    you ask what she's asking the group to agree to. The big surprise of
+    the episode is Theo's "she has a point" landing as a strength rather
+    than a betrayal; some students will read it as Theo siding with the
+    enemy, and the discussion question is what side he's actually on.
+    Sam is in the room throughout this episode and never speaks — her
+    silence is loaded and matters for episode 4. Make sure students know
+    she is present even though she does not appear in any turn; the
+    transcript cannot carry that.
+
+passage_guides:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    summary: >
+      Mira and Dev open the conversation back in the maker space by
+      treating the principal's spreadsheet as something that must be
+      missing a number. Mira opens with "we all agree, right?" and Dev
+      nods on cue with "long-term value, or the stuff you can't even put
+      in a spreadsheet." Sam is at the table, silent.
+    whats_here:
+      - facet: sufficiency
+        quality: weak
+        visible_through: [logic, scope, evidence]
+        explanation: >
+          Mira is processing the principal's evidence selectively to
+          protect the conclusion (confirmation_bias), and Dev's nod
+          completes the premature-consensus move (group_pressure). Lens
+          is logic, not evidence — she has the spreadsheet, the failure
+          is in how she's reasoning from it. Sam's silence in this opening
+          is part of the scene; she is watching, not absent.
+    diagnose:
+      if_students_are_stuck: >
+        Try the logic lens. Ask: what is Mira asking the group to agree
+        to in turn 1, and has anyone actually opened the spreadsheet?
+    discuss:
+      likely_disagreements: >
+        Some students will say Mira is being a good leader (rallying the
+        group); others will say she is closing the conversation. Both are
+        partly right and the disagreement is productive.
+      productive_questions:
+        - What is the difference between "find the hole in the spreadsheet" and "look at the spreadsheet"?
+        - What is Dev actually pointing at when he says "long-term value"?
+        - Whose voice is missing from this opening exchange?
+        - >-
+            If Mira had said "let's open the spreadsheet" instead of "we all
+            agree, right?", what would the next sixty seconds of the
+            conversation look like?
+        - >-
+            What would "long-term value" have to point at to stop being a
+            placeholder?
+        - >-
+            Sam is in the room and silent. What does her silence add to, or
+            take away from, what Mira is doing?
+      watch_for: >
+        Productive: students notice the conclusion is doing the work of a
+        premise. Stalled: students read this as a normal pep talk and miss
+        that no one has examined the evidence yet.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will name Mira's move as starting from the conclusion and
+        working backward, name Dev's "long-term value" as a placeholder
+        without specifics, and explain the cognitive-social interaction
+        (confirmation bias under premature consensus).
+      likely_student_reactions: >
+        Some students will defend Mira ("she's being a leader"). Use that
+        — it is exactly the conversation the episode wants.
+      follow_up: >
+        Ask the students who defended Mira whether they would still defend
+        her if Theo had nodded along. The answer often surfaces what the
+        social move is doing.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Mira starts from the conclusion, not the spreadsheet.
+          - '"We all agree, right?" closes the conversation early.'
+        might_miss:
+          - That Dev's nod is what makes the move stick.
+      - lens: evidence
+        will_likely_see:
+          - Dev's "long-term value" doesn't point at any specific thing.
+        might_miss:
+          - That the spreadsheet is right there and nobody has read it.
+      - lens: scope
+        will_likely_see:
+          - Some will ask whose perspective is missing.
+        might_miss:
+          - That Sam is in the room and silent.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04, turn_05]
+    summary: >
+      Theo says quietly that the principal "kind of has a point." Mira
+      reframes the disagreement as a loyalty test ("whose side are you
+      even on?"). Theo answers with the work, not a side: "I'm on the
+      side where we don't get this wrong twice. What did we actually
+      offer her?" This is the season's pivot.
+    whats_here:
+      - facet: source credibility
+        quality: strong
+        visible_through: [evidence, logic]
+        explanation: >
+          Theo lets the principal's audit count on its merits even though
+          the auditor disagrees with the group. Across episodes 1 and 2
+          his caution had been converting into silence under group
+          pressure; here it finally lands without becoming "I told you
+          so." This is the strength_prevails moment of the episode and
+          the season's payoff target for Theo. Sam is at the table
+          throughout this exchange, watching the rearrangement happen
+          and not speaking — note her presence; her silence here matters
+          for episode 4.
+      - facet: perspective engagement
+        quality: weak
+        visible_through: [scope, logic]
+        explanation: >
+          Mira's "whose side are you even on?" converts a disagreement
+          about an argument into a question about loyalty. The social-
+          cohesion move that has been letting the group ship shallow
+          reasoning shows its cost openly here for the first time
+          (black_and_white_thinking under group_pressure).
+    diagnose:
+      if_students_are_stuck: >
+        Try the scope lens on Mira's question and the logic lens on
+        Theo's answer. They are framing the disagreement differently —
+        what is each of them saying it is about?
+    discuss:
+      likely_disagreements: >
+        The big one: is Theo siding with the principal or doing something
+        else? Some students will read "she has a point" as betrayal.
+        That reading is the live wire.
+      productive_questions:
+        - What side is Theo actually on?
+        - What does Mira's "whose side" question turn the disagreement into?
+        - Is taking the other side's argument seriously the same as agreeing with it?
+        - >-
+            Theo says "not getting it wrong twice." What is the first time
+            he is counting, and what does that tell you about what he is
+            actually protecting?
+        - >-
+            Rewind the beat with Theo silent instead. What happens next,
+            and what does that tell you about what his line is doing in
+            the room?
+        - >-
+            Mira's question is six words long. What work is the word "side"
+            doing that the rest of the sentence isn't?
+      watch_for: >
+        Productive: students articulate that engaging with an argument
+        is not the same as switching sides. Stalled: students stay in
+        the loyalty frame and read Theo as a traitor.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will name Theo's move as engagement-not-surrender, name
+        Mira's reframe as a sides-vs-evidence move, and explain that
+        this is the moment a group's social cohesion stops paying for
+        itself.
+      likely_student_reactions: >
+        Some students experience genuine relief when the AI confirms
+        Theo isn't a traitor; others push back and want him to apologize
+        to Mira. Both are good signals.
+      follow_up: >
+        Ask the class to imagine the same beat with Theo silent. What
+        would have happened next? This makes the cost of conflict
+        avoidance visible without the teacher having to name it.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Theo answers with the work, not a side.
+          - '"She has a point" is engagement, not surrender.'
+        might_miss:
+          - That this is the same caution Theo has been carrying since episode 1.
+      - lens: evidence
+        will_likely_see:
+          - Theo lets the audit count even though the auditor disagrees with the group.
+        might_miss:
+          - That nobody else has done this before.
+      - lens: scope
+        will_likely_see:
+          - Mira reframes a disagreement about an argument as a question about loyalty.
+        might_miss:
+          - Sam, present and silent, watching this on purpose.
+
+  - passage_id: passage_03
+    turns: [turn_06, turn_07, turn_08]
+    summary: >
+      Dev defends the petition's framing ("it's not that we were wrong,
+      it's that she didn't read it the right way"). Theo asks him,
+      gently, to say plainly what reason the petition gave the principal.
+      Dev tries, runs out of sentence, and trails off.
+    whats_here:
+      - facet: inferential validity
+        quality: weak
+        visible_through: [logic]
+        explanation: >
+          Dev restates the conclusion ("we were right") as if it were a
+          reason. When pushed to name the actual premise, the gap between
+          conclusion and premise becomes visible in real time. The
+          targets file deliberately leaves cognitive_pattern and
+          social_dynamic null — this is a structural inference failure
+          driven by reactive defense, not a bias-driven one.
+      - facet: relevance
+        quality: weak
+        visible_through: [logic, scope]
+        explanation: >
+          Dev's attempted reason is about what the maker space is for the
+          kids; the principal is weighing the room against a budget
+          number. The reason and the decision are not in the same
+          conversation (tunnel_vision).
+    diagnose:
+      if_students_are_stuck: >
+        Try the logic lens. Ask students to say Dev's sentence in turn 8
+        out loud and identify which part is the reason and which part is
+        the thing the reason was supposed to support.
+    discuss:
+      likely_disagreements: >
+        Students often disagree about whether Dev is being stubborn or
+        being honest. Both are partly right — he's defending reactively,
+        not from new conviction.
+      productive_questions:
+        - What reason does Dev actually give for the petition's claim?
+        - What would a reason that engaged with the principal's question sound like?
+        - Why does Dev trail off?
+        - >-
+            Read turn 6 and turn 8 back to back. What is different between
+            Dev confident and Dev slowing down, and which version is
+            actually answering the question?
+        - >-
+            If you had to finish Dev's sentence for him — a sentence that
+            actually answered what the principal asked — what would come
+            after "and that matters because"?
+        - >-
+            Is Dev defending the petition, or defending himself for having
+            delivered it? How would we tell the difference from the
+            transcript?
+      watch_for: >
+        Productive: students name the gap between conclusion and premise.
+        Stalled: students treat Dev's confidence as if it were content.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will name the conclusion-as-premise move and the relevance
+        gap, and frame Dev's defense as reactive — defending the framing
+        because it is being challenged, not because he believes it harder.
+      likely_student_reactions: >
+        Some students feel sorry for Dev here. That is appropriate — the
+        episode is not asking them to dislike him.
+      follow_up: >
+        Ask the class to write the reason Dev was reaching for and could
+        not find. This previews episode 4 directly.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Dev restates the conclusion as a reason.
+          - When pushed, Dev runs out of sentence.
+        might_miss:
+          - That Dev is defending reactively, not from new conviction.
+      - lens: evidence
+        will_likely_see:
+          - Dev never points at any specific evidence.
+        might_miss:
+          - That this is the same shallow framing that lost in the office.
+      - lens: scope
+        will_likely_see:
+          - Dev's reason is about the kids; the principal is asking about the budget.
+        might_miss:
+          - That this gap is what the petition itself had.
+
+  - passage_id: passage_04
+    turns: [turn_09, turn_10, turn_11, turn_12]
+    summary: >
+      Mira starts a fourth iteration of "she's not counting something"
+      and catches herself mid-sentence. Theo asks to read the petition
+      out loud. Mira hesitates, then slides it over. Theo opens the
+      laptop and starts reading. The episode ends in the first quiet
+      the room has had all season.
+    whats_here:
+      - facet: perspective engagement
+        quality: strong
+        visible_through: [scope, logic, evidence]
+        explanation: >
+          Mira interrupts her own consensus move — nobody else stops her,
+          she stops herself — and the group, for the first time, agrees
+          to look at what they actually offered the principal. The
+          conflict_avoidance / group_pressure pattern that had been
+          shipping shallow reasoning is the contrast: this beat would
+          have been impossible an episode ago. Sam is at the table
+          throughout, watching the hesitation specifically; the design
+          doc commits her noticing here as load-bearing for episode 4.
+    diagnose:
+      if_students_are_stuck: >
+        Try the scope lens. Ask: what is the group doing now that they
+        weren't doing two minutes ago?
+    discuss:
+      likely_disagreements: >
+        Students will disagree about whether Mira's self-interruption
+        counts as growth (she didn't admit anything) or as the start of
+        growth (she stopped the move on her own).
+      productive_questions:
+        - Mira interrupts herself. Why does that matter more than if Theo had interrupted her?
+        - What is the difference between defending a petition and reading a petition?
+        - Sam has been here the whole time. What is she seeing right now?
+        - >-
+            Mira says "I — yeah. Here" and slides the petition over. What
+            is the pause before "Here" doing that the words aren't?
+        - >-
+            Nothing loud happens in this passage. What is the quietest
+            moment, and why is it the biggest one?
+        - >-
+            The episode ends with Theo reading instead of talking. What
+            does that tell you about what the group is finally ready to do?
+      watch_for: >
+        Productive: students name the hesitation in turn 11 as significant
+        without the teacher pointing at it. Stalled: students read the
+        ending as flat because nothing dramatic happens.
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will frame this as the moment Theo's earlier intervention
+        gave Mira a third option — not "she's wrong," not "we're wrong,"
+        but "let's look" — and as the first time the group has audited
+        its own work in front of itself.
+      likely_student_reactions: >
+        Students often miss the Mira self-interrupt on first read and
+        catch it after the AI points to it. The reread is worth doing.
+      follow_up: >
+        Ask the class what they expect to happen in the next conversation.
+        Note who, in their predictions, speaks first. This is the bridge
+        to episode 4 and Sam's intervention.
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Mira stops her own sentence.
+        might_miss:
+          - That nobody else stops her, which is what makes it count.
+      - lens: evidence
+        will_likely_see:
+          - Theo asks to read the petition — the group will audit its own work.
+        might_miss:
+          - That this is the audit Theo could not get the group to do in episodes 1 and 2.
+      - lens: scope
+        will_likely_see:
+          - The group has shifted from defending a position to examining it.
+          - Mira's hesitation before sliding the petition over.
+        might_miss:
+          - That Sam is watching this hesitation specifically and will speak about it next episode.
+
+debrief:
+  key_takeaways:
+    - >
+      Processing new evidence is different from looking for ways to
+      dismiss new evidence. Mira's sufficiency failure in this episode
+      is not about what she has — she has the principal's spreadsheet —
+      it is about what she does with it. confirmation_bias under
+      group_pressure can be at work even when the evidence is sitting
+      right in front of you.
+    - >
+      Caution is a contribution, not a brake. Theo's source_credibility
+      strength lands here because he refuses to let the group reject
+      the principal's audit just because the auditor is on the other
+      side — and he refuses without making it about himself. Engaging
+      with someone else's argument is not the same as switching sides.
+    - >
+      A confident sentence is not the same as a sentence that holds up.
+      Dev's inferential_validity failure is visible in real time when
+      Theo asks him to say the reason out loud and Dev runs out of
+      sentence. The petition had this gap before this conversation;
+      this conversation is just where it becomes visible.
+  cross_group_prompts:
+    - >
+      Across groups: who read Theo's "she has a point" as siding with
+      the principal, and who read it as engagement? What did each
+      reading do to the rest of the conversation?
+    - >
+      Across lenses: what did Logic readers notice in passage 3 that
+      Scope readers missed, and vice versa? Which lens caught Mira's
+      self-interruption in passage 4?
+    - >
+      Sam was in the room for the whole episode and said nothing. What
+      did your group think she was doing? Compare predictions across
+      groups.
+  connection_to_next: >
+    This session exercised the capacity to notice when a group is
+    processing new evidence vs. defending against it, and the capacity
+    to recognize engagement-with-the-other-side as a strength rather
+    than a betrayal. The next episode in the story picks up the
+    morning after — with the petition draft now actually being read
+    out loud, and with Sam, who has been silent for three episodes,
+    about to say something.
