@@ -1,6 +1,6 @@
 STORY PIPELINE REVISION — UNIFIED PLAN
 
-Status: Phases 1–4 implemented (2026-04-06). Phase 5 onward redesigned per Part 13 (episodes-first authoring) and pending implementation. No legacy support — this is a clean break from the current scenario-sequence model.
+Status: Phases 1–6 implemented. Phase 1–4 done 2026-04-06. Phase 5 (episodes-first cleanup per Part 13) done 2026-04-07. Phase 6 (prose authoring of the first story, "saving-the-maker-space") done 2026-04-07. Phase 7 (per-episode pipeline runs, one conversation per episode) is next. Phase 8 (closeout) follows. No legacy support — this is a clean break from the current scenario-sequence model.
 
 This document supersedes evidence-grounding-plan.md. The evidence-grounding work is fully incorporated here as one half of the revision; the other half is the move from disposable per-scenario personas to multi-episode stories with predefined recurring AI characters.
 
