@@ -14,7 +14,7 @@ You receive:
 1. The expert analysis (`analysis.yaml`) — facet annotations, AI perspectives, diversity metadata
 2. The facilitation guide (`facilitation.yaml`) — the evaluator's teacher-facing scaffolding (initial version)
 3. The enumerated transcript (`transcript.yaml`)
-4. The full scenario plan (`scenario.yaml`, including `target_facets` and `target_strengths`)
+4. The full episode plan (`episode.yaml`, including `target_facets` and `target_strengths`)
 
 You produce two outputs:
 1. **`scaffolding.yaml`** — Student-facing scaffolding materials for the app

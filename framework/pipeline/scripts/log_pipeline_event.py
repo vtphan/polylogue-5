@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Append a telemetry entry to a scenario's pipeline log.
+"""Append a telemetry entry to an episode's pipeline log.
 
 Each pipeline command calls this helper at meaningful stage boundaries
 (agent invocation, reviewer verdict, retry, halt, save). The log is a
 YAML stream — one document per entry, separated by `---` — at:
 
-    artifacts/<scenario_id>/pipeline_log.yaml
+    artifacts/<story_id>/episodes/episode_<NN>/pipeline_log.yaml
 
 Append-only by design: each invocation opens the log in append mode and
 writes a single document. There is no read-modify-write step, so an
@@ -31,7 +31,8 @@ just the trace — so the log is safe to commit and grep.
 
 Usage:
     python3 framework/pipeline/scripts/log_pipeline_event.py \\
-        --scenario <scenario_id> \\
+        --story <story_id> \\
+        --episode <episode_number> \\
         --command <command_name> \\
         --stage <stage_label> \\
         [--agent <agent_name>] \\
@@ -41,19 +42,10 @@ Usage:
         [--notes "<free text>"] \\
         [--artifacts <root>]   # default: artifacts
 
-For /create_scenario, the scenario_id is not known until after the planning
-agent runs. Log the early events under a per-run timestamped pending id
-(e.g. `_pending_20260406T173000Z`) so concurrent or sequential aborted
-runs do not stomp on each other. Once the real scenario_id is assigned,
-merge the pending log into the real directory:
-
-    python3 framework/pipeline/scripts/log_pipeline_event.py \\
-        --rename-pending <pending_id> <real_scenario_id> \\
-        [--artifacts <root>]
-
-The merge moves (or concatenates) the pending log into the real scenario
-directory, removes the empty pending directory, and records the merge as
-a `rename_pending` event in the destination log.
+Under the episodes-first model, story_id and episode_number are known
+before /create_episode runs (the per-episode draft has been authored in
+Phase 6). The legacy `--rename-pending` flow is retained for backward
+compatibility but is not used by the new pipeline.
 """
 
 import argparse
@@ -130,7 +122,9 @@ def main():
         description=__doc__,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
-    ap.add_argument("--scenario")
+    ap.add_argument("--scenario", help="Legacy: full scenario_id (used by legacy commands).")
+    ap.add_argument("--story", help="story_id under the episodes-first model.")
+    ap.add_argument("--episode", type=int, help="episode_number (1-indexed) under the episodes-first model.")
     ap.add_argument("--command")
     ap.add_argument("--stage")
     ap.add_argument("--agent", default=None)
@@ -152,11 +146,18 @@ def main():
     if args.rename_pending:
         return rename_pending(args.artifacts, *args.rename_pending)
 
-    if not (args.scenario and args.command and args.stage):
-        ap.error("--scenario, --command, and --stage are required "
-                 "unless using --rename-pending")
+    if not args.command or not args.stage:
+        ap.error("--command and --stage are required unless using --rename-pending")
 
-    log_path = os.path.join(args.artifacts, args.scenario, "pipeline_log.yaml")
+    if args.story and args.episode is not None:
+        ep_nn = f"{args.episode:02d}"
+        log_path = os.path.join(
+            args.artifacts, args.story, "episodes", f"episode_{ep_nn}", "pipeline_log.yaml"
+        )
+    elif args.scenario:
+        log_path = os.path.join(args.artifacts, args.scenario, "pipeline_log.yaml")
+    else:
+        ap.error("either --story and --episode, or --scenario, must be provided")
 
     entry = {
         "timestamp": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),

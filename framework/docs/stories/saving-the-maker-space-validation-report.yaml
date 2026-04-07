@@ -1,0 +1,84 @@
+story_id: saving-the-maker-space
+result: PASS
+issues: []
+audit:
+  story_id: saving-the-maker-space
+  coverage_mode: focused
+  episode_count_declared: 5
+  episode_count_found: 5
+  facets:
+    inferential_validity:
+      weakness_episodes:
+      - 2
+      - 3
+      strength_episodes:
+      - 5
+    perspective_engagement:
+      weakness_episodes:
+      - 4
+      - 4
+      strength_episodes:
+      - 4
+      - 5
+    relevance:
+      weakness_episodes:
+      - 2
+      - 5
+      strength_episodes:
+      - 5
+    source_credibility:
+      weakness_episodes:
+      - 1
+      strength_episodes:
+      - 1
+      - 2
+      - 3
+      - 4
+    sufficiency:
+      weakness_episodes:
+      - 1
+      - 2
+      - 3
+      strength_episodes:
+      - 5
+  cognitive_patterns:
+    confirmation_bias:
+      episodes:
+      - 1
+      - 3
+    false_certainty:
+      episodes:
+      - 1
+      - 2
+  social_dynamics:
+    conflict_avoidance:
+      episodes:
+      - 4
+    group_pressure:
+      episodes:
+      - 1
+      - 2
+      - 3
+      - 4
+  lens_distribution:
+    logic: 1
+    evidence: 2
+    scope: 2
+  shape_distribution:
+    early_strength_collapse: 1
+    unresolved_disagreement: 1
+    strength_prevails: 1
+    self_correction: 1
+    stalemate: 1
+  strengths_per_character:
+    Theo: 3
+    Sam: 2
+    Ren: 2
+    Mira: 1
+    Dev: 1
+  weaknesses_per_character:
+    Mira: 4
+    Ren: 1
+    Dev: 4
+    Sam: 1
+  hedged_annotation_check_ran: false

@@ -1,0 +1,72 @@
+scenario_id: ocean-vs-deforestation-project
+
+personas:
+  - name: Maya
+    perspective: >
+      Believes ocean pollution is the most urgent environmental issue after
+      watching a documentary about plastic in the Pacific.
+  - name: Ethan
+    perspective: >
+      Thinks deforestation is the better project choice because it's something
+      they could actually do at their school.
+
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Okay so I know exactly what we should do our project on — ocean pollution."
+      - text: "I watched this documentary last weekend about all the plastic in the ocean and it literally changed how I think about everything."
+
+  - speaker: Ethan
+    sentences:
+      - text: "I was actually thinking we should do deforestation."
+      - text: "Like, we could plant trees right here at school — that's something we could actually do, not just talk about."
+
+  - speaker: Maya
+    sentences:
+      - text: "But do you know how bad the ocean thing is?"
+      - text: "There's like millions of tons of plastic floating in the Pacific right now, and it's this huge area called the Great Pacific Garbage Patch that's like twice the size of Texas."
+      - text: "They showed these sea turtles that got stuck in plastic rings and I almost cried."
+
+  - speaker: Ethan
+    sentences:
+      - text: "Okay wow, that does sound really bad."
+      - text: "But with deforestation we could actually go outside and plant stuff — like a real hands-on project right at our school."
+
+  - speaker: Maya
+    sentences:
+      - text: "Ocean pollution is destroying entire ecosystems though."
+      - text: "Like, we're talking about the whole ocean — that's way bigger than some trees."
+
+  - speaker: Ethan
+    sentences:
+      - text: "Yeah but we don't even live near the ocean."
+      - text: "What would we actually do for the project — like what's our actual plan?"
+
+  - speaker: Maya
+    sentences:
+      - text: "We can figure that part out later, the point is we should pick the issue that actually matters most."
+      - text: "Millions of animals are dying because of this, Ethan."
+
+  - speaker: Ethan
+    sentences:
+      - text: "I just feel like with trees we already know what we'd do, and ocean pollution is still kind of... I don't know, vague?"
+
+  - speaker: Maya
+    sentences:
+      - text: "We could do like a beach cleanup or an awareness campaign or something."
+      - text: "And ocean pollution doesn't just affect people near the coast — the plastic gets into fish and then people eat the fish."
+      - text: "It affects literally everyone."
+
+  - speaker: Ethan
+    sentences:
+      - text: "I mean, those facts from the documentary are pretty hard to argue with."
+
+  - speaker: Maya
+    sentences:
+      - text: "Right? So let's do ocean pollution!"
+      - text: "We could make posters about the Garbage Patch and maybe even do a thing where we show how much plastic our school uses in a week."
+
+  - speaker: Ethan
+    sentences:
+      - text: "Okay yeah, let's do ocean pollution I guess."
+      - text: "We still need to figure out what exactly we're gonna do though, like the actual project part."

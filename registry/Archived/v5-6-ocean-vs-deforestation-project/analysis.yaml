@@ -1,0 +1,629 @@
+scenario_id: ocean-vs-deforestation-project
+
+passage_analyses:
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+    sentence_range:
+      - turn_01.s01
+      - turn_01.s02
+      - turn_02.s01
+      - turn_02.s02
+
+    facet_annotations:
+      - facet_id: source_diversity
+        quality_level: weak
+        evidence_sentences:
+          - turn_01.s02
+        primary_lens: evidence
+        also_visible_through:
+          - scope
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent. Maya's entire position rests on a single documentary. This
+          becomes more significant as the discussion develops — she never
+          introduces a second source. Faint at this point but establishes the
+          pattern.
+
+    ai_perspective:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: >
+          Both Maya and Ethan bring personal experience to support their
+          positions — Maya saw a documentary, Ethan has practical ideas about
+          tree planting. At this point, both are stating what they know and
+          believe. Notice that each person's starting position comes from a
+          single experience.
+        key_sentences:
+          - turn_01.s02
+          - turn_02.s02
+      through_scope:
+        observation: >
+          Right from the start, Maya and Ethan are approaching the same
+          decision from different angles — Maya is thinking about which problem
+          is most important, while Ethan is thinking about which project they
+          can actually do. Those are two different questions, and it's worth
+          watching whether the group notices that.
+        key_sentences:
+          - turn_01.s01
+          - turn_02.s02
+      why_it_happened: null
+      what_to_notice: >
+        Pay attention to what each person is basing their idea on. What kind
+        of experience is each one drawing from?
+      what_to_notice_sentences:
+        - turn_01.s02
+        - turn_02.s02
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence and Scope students will see different things. Evidence
+        students will notice the single-source basis. Scope students will
+        notice the two different framing questions (importance vs. feasibility).
+        Logic students have little to work with at this point.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Both people state their positions clearly
+          might_miss:
+            - The two positions are answering different underlying questions
+        - lens: evidence
+          observations:
+            - Maya's idea comes from a documentary
+            - Ethan's idea comes from practical knowledge about their school
+          might_miss:
+            - Both positions rest on a single source of experience
+        - lens: scope
+          observations:
+            - Maya is focused on which problem matters most
+            - Ethan is focused on what they can actually do
+          might_miss:
+            - These are fundamentally different decision criteria
+
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+    sentence_range:
+      - turn_03.s01
+      - turn_03.s02
+      - turn_03.s03
+      - turn_04.s01
+      - turn_04.s02
+      - turn_05.s01
+      - turn_05.s02
+
+    facet_annotations:
+      - facet_id: relevance
+        quality_level: weak
+        evidence_sentences:
+          - turn_03.s02
+          - turn_03.s03
+          - turn_05.s01
+          - turn_05.s02
+        primary_lens: evidence
+        also_visible_through:
+          - logic
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: group_pressure
+          interaction: >
+            Maya overgeneralizes from dramatic documentary evidence about a
+            global-scale problem to justify a local school project. The
+            evidence is real and compelling, which creates implicit group
+            pressure — Ethan acknowledges it sounds serious (turn_04.s01)
+            rather than questioning whether it connects to their decision.
+        was_targeted: true
+        notes: >
+          The relevance gap is between the evidence's scope (Pacific Ocean,
+          global ecosystem destruction) and the decision's scope (a school
+          group project). Maya cites millions of tons of plastic and sea
+          turtles — all true, all dramatic, and all about what's happening
+          thousands of miles away. She never connects this to what their
+          group could do about it.
+
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences:
+          - turn_03.s02
+          - turn_03.s03
+        primary_lens: evidence
+        also_visible_through:
+          - scope
+          - logic
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent. Maya's entire case rests on one documentary. She cites
+          multiple facts but they all trace to a single source. The dramatic
+          quality of the evidence masks how thin the evidential base actually
+          is — lots of vivid details but from one origin.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the reasoning here, I notice Maya is making a big move
+          — she's saying that because ocean pollution is a huge problem, it
+          should be their school project. But think about what's connecting
+          those two ideas. The size of a problem and whether a school group
+          should take it on are different questions, and the step between
+          them is missing.
+        key_sentences:
+          - turn_03.s02
+          - turn_05.s02
+      through_evidence:
+        observation: >
+          Maya brings in some powerful facts — millions of tons of plastic,
+          the Great Pacific Garbage Patch, sea turtles trapped in plastic
+          rings. These are real and worth knowing. But notice where this
+          evidence comes from and what it's actually about. It's all from
+          one documentary, and it's all about what's happening in the Pacific
+          Ocean. The group is deciding on a school project, not evaluating
+          whether ocean pollution is a real problem.
+        key_sentences:
+          - turn_03.s02
+          - turn_03.s03
+          - turn_04.s01
+      through_scope:
+        observation: >
+          Ethan tries to bring the conversation back to what they can actually
+          do at their school, which is a different kind of argument from
+          Maya's. He's talking about their project scope, she's talking about
+          the problem's scale. Both are valid, but notice how the dramatic
+          scale of Maya's evidence makes Ethan's practical point feel smaller,
+          even though it's directly about their actual situation.
+        key_sentences:
+          - turn_04.s02
+          - turn_05.s02
+      why_it_happened: >
+        One way to think about what's happening here is through
+        overgeneralization — drawing a broad conclusion from evidence that
+        doesn't quite match. Maya watched a powerful documentary about a
+        massive problem, and she's applying what she learned directly to a
+        much smaller decision. The documentary evidence is real, but it's
+        about the Pacific Ocean, not about what a 6th-grade group can do
+        at their school. The dramatic quality of the facts makes it feel
+        like they automatically apply, when really there's a gap between
+        "this is a huge problem" and "this should be our school project."
+        Notice too how Ethan responds — he says "that does sound really bad"
+        before offering his counterpoint. Even he seems impressed by the
+        scale of Maya's evidence, which makes it harder for him to push back.
+      what_to_notice: >
+        Think about what Maya's documentary facts are actually about. Then
+        think about what the group is trying to decide.
+      what_to_notice_sentences:
+        - turn_03.s02
+        - turn_05.s02
+
+    diversity_potential:
+      expected_lens_split: >
+        Strong split between Evidence and Logic. Evidence students will focus
+        on the source (one documentary) and what it's about (Pacific, not
+        local). Logic students will notice the inferential gap between "ocean
+        pollution is a huge problem" and "we should do this for our school
+        project." Scope students will see the scale mismatch (global problem
+        vs. school project).
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya jumps from "ocean pollution is bad" to "we should do it for our project"
+            - The connection between how big a problem is and what their group should do is unclear
+          might_miss:
+            - That the jump feels natural because the evidence is so dramatic
+        - lens: evidence
+          observations:
+            - All of Maya's facts come from one documentary
+            - The facts are about the Pacific Ocean, not about their local situation
+          might_miss:
+            - That the evidence is genuinely accurate — the issue is relevance to their decision, not truth
+        - lens: scope
+          observations:
+            - Maya is arguing about the problem's scale, Ethan about the project's scope
+            - Ethan's practical counterpoint gets overshadowed by dramatic facts
+          might_miss:
+            - That both arguments are valid but about different things
+
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+    sentence_range:
+      - turn_06.s01
+      - turn_06.s02
+      - turn_07.s01
+      - turn_07.s02
+
+    facet_annotations:
+      - facet_id: perspective_engagement
+        quality_level: weak
+        evidence_sentences:
+          - turn_06.s01
+          - turn_06.s02
+          - turn_07.s01
+          - turn_07.s02
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+          - logic
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: conflict_avoidance
+          interaction: >
+            Maya's confirmation bias leads her to dismiss the feasibility
+            concern because it threatens her preferred choice. She
+            acknowledges it just enough ("we can figure that part out later")
+            then redirects to emotional urgency ("millions of animals are
+            dying"). The concern isn't refuted — it's replaced. Ethan's
+            conflict avoidance means he doesn't force the issue, even though
+            his question is the strongest counterargument in the discussion.
+        was_targeted: true
+        notes: >
+          This is the critical passage. Ethan asks the most important
+          question in the entire discussion — what would they actually do?
+          Maya's response is a textbook deflection: acknowledge minimally,
+          then pivot to something emotionally compelling. The feasibility
+          question is never answered.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Something worth paying attention to: Ethan asks a direct question
+          — what would they actually do for the project? Instead of an
+          answer, Maya says they can figure that out later and switches to
+          talking about how many animals are dying. That's a redirect, not
+          a response. The question is still sitting there unanswered.
+        key_sentences:
+          - turn_06.s02
+          - turn_07.s01
+      through_evidence:
+        observation: >
+          When Ethan challenges the plan, Maya doesn't offer any evidence
+          about what their group could do about ocean pollution. Instead,
+          she goes back to how bad the problem is. Notice the difference
+          between evidence that a problem exists and evidence that a project
+          is feasible — those are two different things, and only one of
+          them has been addressed.
+        key_sentences:
+          - turn_07.s01
+          - turn_07.s02
+      through_scope:
+        observation: >
+          This is where the group makes a key choice without realizing it.
+          Ethan raises a concern about whether they can actually do anything
+          about ocean pollution — they don't live near the ocean. That's a
+          question about the scope of their project. Maya's response is about
+          the scope of the problem. The concern gets acknowledged ("we can
+          figure that part out later") but never actually addressed. Watch
+          what happens to this question as the discussion continues.
+        key_sentences:
+          - turn_06.s01
+          - turn_06.s02
+          - turn_07.s01
+      why_it_happened: >
+        A cognitive scientist might describe what's happening here as
+        confirmation bias — when you already want a particular answer, it's
+        natural to treat challenges to that answer as obstacles to get past
+        rather than questions to take seriously. Maya wants ocean pollution,
+        so when Ethan raises a concern that threatens that choice, she
+        redirects rather than engages. But notice the social side too: Ethan
+        doesn't press his question. He asked something important — maybe the
+        most important question in this whole discussion — and then let it
+        go when Maya moved on. Sometimes in groups, it takes more energy to
+        keep pushing a point than to let it slide, even when you believe
+        you're right. That combination — one person deflecting, the other
+        not insisting — is how a strong counterargument can disappear from
+        a conversation.
+      what_to_notice: >
+        Look at what Ethan asks in this part. Does anyone actually answer
+        his question?
+      what_to_notice_sentences:
+        - turn_06.s02
+        - turn_07.s01
+
+    diversity_potential:
+      expected_lens_split: >
+        All three lenses produce strong readings. Scope students see the
+        dismissed perspective most directly. Evidence students notice the
+        missing evidence for feasibility. Logic students see the redirect
+        as a non-response. High perspectival diversity potential.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya doesn't actually answer Ethan's question
+            - She switches from the feasibility topic to the importance topic
+          might_miss:
+            - That "we can figure that out later" is a deflection, not a plan
+        - lens: evidence
+          observations:
+            - No evidence is offered about what the group could actually do
+            - Maya returns to evidence about the problem's size instead
+          might_miss:
+            - That the group needs a different kind of evidence here (feasibility, not severity)
+        - lens: scope
+          observations:
+            - Ethan's concern about not living near the ocean goes unanswered
+            - The group is choosing without addressing whether the project is possible
+          might_miss:
+            - How natural it is for this to happen — Maya isn't being deliberately unfair
+
+  - passage_id: passage_04
+    turns:
+      - turn_08
+      - turn_09
+    sentence_range:
+      - turn_08.s01
+      - turn_09.s01
+      - turn_09.s02
+      - turn_09.s03
+
+    facet_annotations:
+      - facet_id: perspective_engagement
+        quality_level: weak
+        evidence_sentences:
+          - turn_08.s01
+          - turn_09.s01
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+          - logic
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: conflict_avoidance
+          interaction: >
+            The pattern from passage 3 continues. Ethan tries again but with
+            less conviction — his language shifts from direct questions to
+            hedging ("I just feel like," "kind of... I don't know"). Maya
+            offers thin solutions (beach cleanup, awareness campaign) that
+            don't actually address the feasibility gap, then immediately
+            pivots to a new emotional argument. Ethan's decreasing
+            assertiveness signals the social dynamic taking hold.
+        was_targeted: true
+        notes: >
+          Continuation of the perspective engagement weakness. Ethan's
+          language is visibly weaker here — ellipses, hedging, trailing off.
+          Maya's beach cleanup suggestion sounds responsive but is
+          essentially hand-waving; she immediately moves to "it affects
+          literally everyone" rather than working through the logistics.
+
+      - facet_id: reasoning_completeness
+        quality_level: weak
+        evidence_sentences:
+          - turn_09.s01
+          - turn_09.s02
+        primary_lens: logic
+        also_visible_through:
+          - evidence
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+        notes: >
+          Emergent. Maya offers "beach cleanup day or awareness campaign"
+          as project ideas but skips the reasoning that would connect them —
+          how would a school group that doesn't live near the ocean do a
+          beach cleanup? The suggestion appears to answer Ethan's question
+          but the reasoning chain has a gap.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Maya offers some project ideas here — a beach cleanup, an awareness
+          campaign. On the surface, it sounds like she's answering Ethan's
+          earlier question about what they'd actually do. But think about
+          whether these ideas are developed enough to count as a plan. She
+          mentions them and moves on immediately.
+        key_sentences:
+          - turn_09.s01
+      through_evidence:
+        observation: >
+          Maya introduces a new claim — that ocean pollution affects everyone
+          because plastic gets into fish that people eat. This is a different
+          kind of evidence than the documentary facts. Notice that she offers
+          it right after Ethan pushes back, as a way of broadening the
+          argument rather than addressing his specific concern.
+        key_sentences:
+          - turn_09.s02
+          - turn_09.s03
+      through_scope:
+        observation: >
+          Ethan tries one more time to raise his concern — that ocean
+          pollution feels vague compared to the clear plan they'd have with
+          trees. His language is less direct this time. Maya responds with
+          quick suggestions and then shifts to a bigger claim about how the
+          problem affects everyone. The practical question is still there,
+          but it's fading.
+        key_sentences:
+          - turn_08.s01
+          - turn_09.s01
+      why_it_happened: >
+        Notice how Ethan's language has changed. Earlier he asked a direct
+        question: "What would we actually do?" Now he says "I just feel
+        like" and trails off with "I don't know, vague?" When someone
+        starts hedging a point they believe in, that often signals something
+        social is happening — it can be easier to soften your position than
+        to keep disagreeing, especially when the other person seems more
+        certain. Meanwhile, Maya's quick suggestions ("beach cleanup or
+        awareness campaign or something") look like engagement with the
+        concern, but they're offered and abandoned in the same breath. The
+        "or something" is revealing — it suggests the ideas aren't fully
+        thought through.
+      what_to_notice: >
+        Compare how Ethan talks here to how he talked a moment ago. What
+        changed?
+      what_to_notice_sentences:
+        - turn_08.s01
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic and Scope students will see different things. Logic students
+        will notice Maya's project suggestions lack follow-through. Scope
+        students will see Ethan's concern fading without resolution.
+        Evidence students may notice the new claim about fish.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Maya's project suggestions are vague and undeveloped
+            - She moves past them immediately rather than building on them
+          might_miss:
+            - That the suggestions are meant to look responsive without actually being a plan
+        - lens: evidence
+          observations:
+            - Maya introduces a new fact about plastic in fish
+            - She uses it to broaden her argument rather than address feasibility
+          might_miss:
+            - That this is a pivot away from the question Ethan asked
+        - lens: scope
+          observations:
+            - Ethan is backing down even though his concern hasn't been addressed
+            - The practical question about what they'd actually do remains open
+          might_miss:
+            - The shift in Ethan's language as a signal of the social dynamic
+
+  - passage_id: passage_05
+    turns:
+      - turn_10
+      - turn_11
+      - turn_12
+    sentence_range:
+      - turn_10.s01
+      - turn_11.s01
+      - turn_11.s02
+      - turn_12.s01
+      - turn_12.s02
+
+    facet_annotations:
+      - facet_id: relevance
+        quality_level: weak
+        evidence_sentences:
+          - turn_10.s01
+        primary_lens: evidence
+        also_visible_through:
+          - logic
+        explanatory_variables:
+          cognitive_pattern: overgeneralization
+          social_dynamic: group_pressure
+          interaction: >
+            Ethan's concession reveals the group pressure mechanism. He says
+            the documentary facts are "hard to argue with" — but the question
+            was never whether the facts were true. It was whether they were
+            relevant to the project decision. The impressiveness of the
+            evidence substituted for its applicability.
+        was_targeted: true
+        notes: >
+          The relevance weakness culminates here. Ethan explicitly concedes
+          based on the documentary's impressiveness rather than its relevance
+          to the project. "Hard to argue with" is accurate — the facts are
+          real — but being impressive and being relevant are different things.
+
+      - facet_id: perspective_engagement
+        quality_level: weak
+        evidence_sentences:
+          - turn_12.s02
+        primary_lens: scope
+        also_visible_through:
+          - evidence
+          - logic
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: conflict_avoidance
+          interaction: null
+        was_targeted: true
+        notes: >
+          The perspective engagement weakness resolves here — or rather,
+          fails to resolve. Ethan's final sentence echoes his original
+          concern ("still need to figure out what exactly we're gonna do")
+          but reframes it as a detail rather than a blocker. The strongest
+          counterargument in the discussion has been reduced to an
+          afterthought.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Look at how the decision gets made. Ethan says the documentary
+          facts are hard to argue with, and the group moves forward. But
+          being hard to argue with and being the right basis for this
+          particular decision are two different things. The facts were never
+          in question — what was in question was whether they connect to
+          what a school group can do.
+        key_sentences:
+          - turn_10.s01
+          - turn_12.s02
+      through_evidence:
+        observation: >
+          In the end, the documentary wins the argument. Ethan says the
+          facts are "pretty hard to argue with," and he's right — they're
+          real facts about a real problem. But the group was choosing a
+          project, not deciding whether ocean pollution is real. The most
+          dramatic evidence isn't always the most useful evidence for the
+          decision you're actually making.
+        key_sentences:
+          - turn_10.s01
+          - turn_11.s02
+      through_scope:
+        observation: >
+          Notice Ethan's very last sentence — he says they still need to
+          figure out what they're actually going to do, but he says it like
+          it's a small thing, not the big concern he raised earlier. The
+          question that started as "what would we actually do?" has become
+          "we still need to figure that out." The concern is the same, but
+          it went from a challenge to a footnote.
+        key_sentences:
+          - turn_12.s01
+          - turn_12.s02
+      why_it_happened: >
+        This is where everything comes together. The group made their
+        decision, but think about what actually drove it. Maya's documentary
+        evidence was impressive and true, but it was about the Pacific
+        Ocean — not about what their school group could do. Ethan's
+        feasibility question was arguably the most important point in the
+        whole discussion, but it was deflected and then softened until it
+        became a detail. A cognitive scientist might say this is what happens
+        when overgeneralization meets conflict avoidance — one person applies
+        dramatic evidence too broadly, and the other person stops pushing
+        back. The result is a decision that feels agreed-upon but has an
+        unresolved question at its center.
+      what_to_notice: >
+        Think about what convinced Ethan to agree. Was it the same thing
+        he was asking about earlier?
+      what_to_notice_sentences:
+        - turn_10.s01
+        - turn_12.s02
+
+    diversity_potential:
+      expected_lens_split: >
+        All three lenses reveal different aspects of the resolution.
+        Evidence students see the documentary facts winning despite relevance
+        gap. Logic students see the disconnect between what convinced Ethan
+        and what the decision required. Scope students see the unresolved
+        feasibility concern reduced to a footnote.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Ethan agrees based on how impressive the facts are, not on whether they apply
+            - The decision is made without answering the feasibility question
+          might_miss:
+            - That Ethan's concession language ("hard to argue with") reveals what won the argument
+        - lens: evidence
+          observations:
+            - The documentary evidence drove the decision
+            - No evidence about project feasibility was ever offered
+          might_miss:
+            - That the evidence was genuinely accurate — the issue is its fit, not its truth
+        - lens: scope
+          observations:
+            - Ethan's last sentence still mentions needing to figure out what to do
+            - The concern went from a challenge to an afterthought
+          might_miss:
+            - How gradually Ethan's position weakened across the discussion

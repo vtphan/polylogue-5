@@ -12,7 +12,7 @@ The pipeline produces six artifacts per scenario. Each is a YAML file stored in 
 
 | Artifact | File | Who consumes it | Purpose |
 |---|---|---|---|
-| Scenario plan | `scenario.yaml` | Pipeline (internal) | Blueprint for discussion generation — topic, personas, targeted facets, turn outline |
+| Scenario plan | `episode.yaml` | Pipeline (internal) | Blueprint for discussion generation — topic, personas, targeted facets, turn outline |
 | Discussion transcript | `transcript.yaml` | App (student-facing) | The scripted group discussion students evaluate, fully enumerated |
 | Expert analysis | `analysis.yaml` | App (AI perspective phase), pipeline (quality check) | Per-passage expert observations through each lens, with facet identification and explanatory variable mapping |
 | Facilitation guide | `facilitation.yaml` | Teacher | What's structurally present, what students are likely to see and miss, scaffolding suggestions |
@@ -39,15 +39,15 @@ The pipeline artifacts support this structure:
 - **Assessment:** The scaffolding materials include observation rubric entries — what a student might say at different levels of differentiation — enabling the app to do approximate matching without LLM access at runtime.
 - **Teacher:** The facilitation guide, organized by passage. The teacher's role is minimal during the session (observing, not intervening) and active during the whole-class debrief at the end.
 
-The scenario plan is consumed only by the pipeline itself — it governs generation but is not rendered by the app.
+The episode plan is consumed only by the pipeline itself — it governs generation but is not rendered by the app.
 
 ---
 
 ## 2. Artifact Specifications
 
-### 2.1 Scenario Plan (`scenario.yaml`)
+### 2.1 Scenario Plan (`episode.yaml`)
 
-The blueprint for a single discussion. Created by the operator (via `create_scenario`) and consumed by the pipeline's generation agents.
+The blueprint for a single discussion. Created by the operator (via `create_episode`) and consumed by the pipeline's generation agents.
 
 ```yaml
 scenario_id: string                    # kebab-case identifier (e.g., "ocean-pollution-solutions")
@@ -102,7 +102,7 @@ turn_outline:                          # Ordered sequence of turns
 **Design notes:**
 
 - `weaknesses` and `accomplishes` fields use natural language, not framework terminology. This is the information barrier — the dialog writer sees persona traits and narrative goals, not facet targets. The pipeline operator writes these fields with the facet targets in mind, but the dialog writer reads them as character and story.
-- `target_facets`, `target_strengths`, and `discussion_dynamic` are stripped before the scenario plan is passed to the dialog writer. The dialog writer never sees facet IDs, lens names, or explanatory variables — only the persona-level `weaknesses` and `strengths` (barrier-safe character traits).
+- `target_facets`, `target_strengths`, and `discussion_dynamic` are stripped before the episode plan is passed to the dialog writer. The dialog writer never sees facet IDs, lens names, or explanatory variables — only the persona-level `weaknesses` and `strengths` (barrier-safe character traits).
 - `designed_explanation` captures the *intended* cognitive-social account. The evaluator may identify different or additional explanatory variables in the generated transcript — the designed explanation is a target, not a constraint.
 - Personas must have genuine disagreement — different positions on a decision, tradeoff, or interpretation, not just different areas of focus toward the same conclusion.
 
@@ -154,7 +154,7 @@ passage_analyses:                      # One per evaluable passage (a passage is
           cognitive_pattern: string | null
           social_dynamic: string | null
           interaction: string | null   # How cognitive and social forces interact here
-        was_targeted: boolean          # Whether this facet was a design target in the scenario plan
+        was_targeted: boolean          # Whether this facet was a design target in the episode plan
         notes: string | null           # Evaluator observations — unexpected findings, quality issues
         contrastive_explanation: string | null
                                        # REQUIRED when quality_level is "strong". Explains the
@@ -476,19 +476,19 @@ messages:                              # Append-only thread — all student inte
 The pipeline runs as a sequence of operator-invoked commands. Each command orchestrates one or more agents and produces one or more artifacts.
 
 ```
-create_scenario ——→ create_transcript ——→ analyze_transcript ——→ design_scaffolding ——→ configure_session
+create_episode ——→ create_transcript ——→ analyze_transcript ——→ design_scaffolding ——→ configure_session
      ↓                     ↓                      ↓                     ↓                     ↓
-scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.yaml       session.yaml
+episode.yaml        transcript.yaml         analysis.yaml        scaffolding.yaml       session.yaml
                                              facilitation.yaml ←── (enriched)
 ```
 
-### Stage 1: `create_scenario`
+### Stage 1: `create_episode`
 
 **Input:** Operator prompt — topic, PBL context, instructional goals, number of personas, targeted facets.
 
 **Process:**
 1. The operator specifies the topic, instructional goals, and which facets to target (by ID from the facet inventory). The operator also specifies the desired cognitive patterns and social dynamics.
-2. A planning agent drafts the scenario plan: personas with perspectives and weaknesses, the discussion arc, and the turn outline with `accomplishes` fields.
+2. A planning agent drafts the episode plan: personas with perspectives and weaknesses, the discussion arc, and the turn outline with `accomplishes` fields.
 3. A validation agent reviews the plan against pedagogical criteria:
    - Are the targeted facets detectable through the lenses specified?
    - Do the facets have sufficient cross-lens visibility to produce perspectival diversity?
@@ -497,19 +497,19 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
    - Does the turn outline avoid anti-patterns (extended unchecked agreement, concerns raised but never acknowledged)?
 4. The operator reviews the validation, revises if needed, and approves the plan.
 
-**Output:** `scenario.yaml`
+**Output:** `episode.yaml`
 
-**Information barrier:** The scenario plan contains `target_facets`, `target_strengths`, and `discussion_dynamic` with full framework terminology. These sections are stripped before the plan is passed to Stage 2. The dialog writer sees personas (with barrier-safe `weaknesses` and `strengths`), discussion arc, and turn outline — character and story, not framework targets.
+**Information barrier:** The episode plan contains `target_facets`, `target_strengths`, and `discussion_dynamic` with full framework terminology. These sections are stripped before the plan is passed to Stage 2. The dialog writer sees personas (with barrier-safe `weaknesses` and `strengths`), discussion arc, and turn outline — character and story, not framework targets.
 
 ### Stage 2: `create_transcript`
 
-**Input:** `scenario.yaml` (with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped)
+**Input:** `episode.yaml` (with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped)
 
 **Process:**
-1. A dialog writer agent receives the scenario plan minus target facets and writes the discussion as natural prose — characters speaking in 6th-grade language, with distinct voices and the narrative arc specified in the plan.
+1. A dialog writer agent receives the episode plan minus target facets and writes the discussion as natural prose — characters speaking in 6th-grade language, with distinct voices and the narrative arc specified in the plan.
 2. A structural review (script or manual) checks: turn count within range, speaker names match plan, turn order follows outline, all turns present.
    - If structural issues are found, the dialog writer is re-invoked (clean retry, no feedback from the failed attempt, max 3 attempts). If the plan consistently produces structural failures, the plan is the problem.
-3. An instructional designer agent receives the raw transcript and the full scenario plan (including `target_facets` and `target_strengths`). The instructional designer sharpens expression: ensures signal moments are visible but natural for both designed weaknesses and designed strengths, enforces 6th-grade language. The instructional designer does not add or remove content — only refines phrasing and signal clarity.
+3. An instructional designer agent receives the raw transcript and the full episode plan (including `target_facets` and `target_strengths`). The instructional designer sharpens expression: ensures signal moments are visible but natural for both designed weaknesses and designed strengths, enforces 6th-grade language. The instructional designer does not add or remove content — only refines phrasing and signal clarity.
 4. An enumeration step (deterministic script) assigns sequential IDs to turns and sentences.
 
 **Output:** `transcript.yaml`
@@ -521,11 +521,11 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
 
 ### Stage 3: `analyze_transcript`
 
-**Input:** `transcript.yaml`, `scenario.yaml` (full, including `target_facets` and `target_strengths`)
+**Input:** `transcript.yaml`, `episode.yaml` (full, including `target_facets` and `target_strengths`)
 
 **Process:**
 1. The operator (or a script) segments the transcript into evaluable passages — groups of 1-3 consecutive turns that contain a coherent segment of the discussion. Passage boundaries are placed where the discussion shifts topic, introduces a new claim, or changes direction. Each passage gets a sequential ID.
-2. An evaluator agent reads the full transcript and scenario plan and produces the expert analysis:
+2. An evaluator agent reads the full transcript and episode plan and produces the expert analysis:
    - **Hidden layer:** For each passage, identifies which facets are present, at what quality level, through which lenses, with what explanatory variables. Flags whether each facet was a design target or an emergent observation.
    - **AI perspective (unified):** For each passage, writes an integrated perspective — per-lens observations (what the AI notices through Logic, Evidence, and Scope) combined with an explanation of why the characters may have reasoned this way (introducing cognitive patterns and social dynamics as disciplinary vocabulary). Written as perspective, not verdict. Models cognitive × social interaction where natural.
    - **Diversity metadata:** For each passage, assesses which lenses are likely to produce different readings and lists discrete expected student observations per lens.
@@ -534,17 +534,17 @@ scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.ya
 **Output:** `analysis.yaml`, `facilitation.yaml` (initial version — enriched in Stage 4)
 
 **Notes:**
-- The evaluator sees everything — transcript, full scenario plan, facet inventory. It operates entirely outside the information barrier. Its job is to produce both the hidden-layer annotations (for quality assessment and teacher facilitation) and the visible-layer AI perspective (for students).
+- The evaluator sees everything — transcript, full episode plan, facet inventory. It operates entirely outside the information barrier. Its job is to produce both the hidden-layer annotations (for quality assessment and teacher facilitation) and the visible-layer AI perspective (for students).
 - The AI perspective must be written as perspective, not verdict. The evaluator prompt must encode this distinction carefully: "write as if you are one more voice in the exchange, offering what you notice, not what is correct."
 - The facilitation guide produced here contains the evaluator's analytical scaffolding: what's structurally present, what students are likely to see and miss, basic productive questions for peer discussion. Stage 4 (design_scaffolding) enriches the facilitation guide's `productive_questions` with passage-specific discussion starters written in teacher-friendly language. The facilitation guide is produced in Stage 3, enriched in Stage 4.
 - Passage segmentation could be done by the evaluator agent, by the operator, or by a simple heuristic script (e.g., every 2-3 turns). The key constraint is that passage IDs must be consistent across `analysis.yaml`, `facilitation.yaml`, and `session.yaml`.
 
 ### Stage 4: `design_scaffolding`
 
-**Input:** `analysis.yaml`, `facilitation.yaml`, `transcript.yaml`, `scenario.yaml` (full)
+**Input:** `analysis.yaml`, `facilitation.yaml`, `transcript.yaml`, `episode.yaml` (full)
 
 **Process:**
-1. A scaffolding instructional designer agent receives the evaluator's full output (expert analysis and facilitation guide), the transcript, and the scenario plan.
+1. A scaffolding instructional designer agent receives the evaluator's full output (expert analysis and facilitation guide), the transcript, and the episode plan.
 2. For each evaluable passage, the agent produces:
    - **Unified scaffold sequence** — a graduated series of hints followed by the AI perspective as the final entry. Each hint is progressively more revealing and supportive, directing attention to *where* to look, not *what* to see. Minimum 2 entries (1 hint + AI perspective). The pipeline determines depth based on passage complexity.
    - **Difficulty signals** — accessible / moderate / challenging, based on cross-lens visibility (high = accessible, low = challenging).
@@ -588,8 +588,8 @@ The pipeline uses six agents. Each has a single role, a defined input, and a def
 
 | Agent | Stage | Sees target facets? | Role |
 |---|---|---|---|
-| **Planning agent** | create_scenario | Yes | Drafts scenario plans: personas, discussion arc, turn outline |
-| **Validation agent** | create_scenario | Yes | Reviews scenario plans against pedagogical and structural criteria |
+| **Planning agent** | create_episode | Yes | Drafts episode plans: personas, discussion arc, turn outline |
+| **Validation agent** | create_episode | Yes | Reviews episode plans against pedagogical and structural criteria |
 | **Dialog writer** | create_transcript | **No** (information barrier) | Writes natural discussion prose from character and narrative descriptions |
 | **Transcript instructional designer** | create_transcript | Yes | Sharpens expression and signal moments without adding or removing content |
 | **Evaluator** | analyze_transcript | Yes | Produces expert analysis (hidden + visible layers) and facilitation guide |
@@ -605,9 +605,9 @@ The pipeline uses six agents. Each has a single role, a defined input, and a def
 
 The information barrier prevents the dialog writer from producing discussion that feels designed rather than natural. It operates through two mechanisms:
 
-1. **Schema stripping:** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
+1. **Schema stripping:** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the episode plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
 
-2. **Language discipline:** The `weaknesses` and `accomplishes` fields in the scenario plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt must enforce this translation.
+2. **Language discipline:** The `weaknesses` and `accomplishes` fields in the episode plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt must enforce this translation.
 
 The instructional designer and evaluator operate *outside* the barrier — they need to see the full plan to do their jobs (sharpening signals, annotating facets). The barrier exists only for the dialog writer.
 
@@ -752,9 +752,9 @@ Five scripts handle mechanical operations. These are pure Python (PyYAML only), 
 
 | Schema | Governs | New / Transfer |
 |---|---|---|
-| Scenario plan | `scenario.yaml` | New |
+| Scenario plan | `episode.yaml` | New |
 | Validation output | Planning agent → operator feedback | New |
-| Dialog writer input | Scenario plan minus `target_facets`, `target_strengths`, `discussion_dynamic` | New (derived from scenario plan schema) |
+| Dialog writer input | Scenario plan minus `target_facets`, `target_strengths`, `discussion_dynamic` | New (derived from episode plan schema) |
 | Transcript (pre-enumeration) | Raw dialog writer output | Transfer from v4 |
 | Transcript (post-enumeration) | `transcript.yaml` | Transfer from v4 |
 | Expert analysis | `analysis.yaml` | New |

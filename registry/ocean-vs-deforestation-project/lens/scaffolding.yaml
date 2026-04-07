@@ -1,0 +1,801 @@
+scenario_id: ocean-vs-deforestation-project
+
+passage_scaffolding:
+  # ============================================================
+  # PASSAGE 1 — Opening positions + documentary evidence
+  # ============================================================
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+      - turn_03
+    difficulty: accessible
+
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look closely at the facts Maya brings up. Where do those facts
+          come from, and what are they actually describing?
+      - type: ai_perspective
+        text: >
+          The AI pointed out something about how Maya's facts relate to what
+          the group is trying to decide. Did you notice the same thing, or
+          were you focused on something else?
+
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how the argument works here. Now think
+          about why — what might have made Maya connect those ideas the way
+          she did?
+      - lens: evidence
+        prompt: >
+          You noticed something about the evidence. Now think about why Maya
+          might not have questioned it — what about the documentary might have
+          made it feel like all the proof she needed?
+      - lens: scope
+        prompt: >
+          You noticed something about how the two proposals compare. Now think
+          about why the group might not have noticed that difference yet —
+          what was grabbing their attention?
+
+    ai_reflection_prompt: >
+      The AI talked about how a powerful experience can change the way we use
+      information. Does that match what you were thinking, or did you see
+      something different happening here?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: both sides make good arguments so nothing is wrong
+            redirect: >
+              You noticed both sides have reasons. Now look more closely at
+              Maya's reasons — do they connect to the specific decision the
+              group is making?
+          - pattern: Maya has more facts so her argument is stronger
+            redirect: >
+              You noticed Maya has more details. But look at what those details
+              are about — is that the same thing the group is deciding about?
+      - lens: evidence
+        misreadings:
+          - pattern: the documentary evidence is strong because it has specific numbers
+            redirect: >
+              You noticed the numbers are specific — that is true. Now look at
+              what those numbers describe. Does that match what the group needs
+              to figure out?
+          - pattern: Maya did more research than Leo
+            redirect: >
+              Think about what kind of research each person did. Maya watched a
+              documentary about one thing. Leo knows about something else. Is
+              one type of research always better?
+      - lens: scope
+        misreadings:
+          - pattern: ocean pollution is a bigger problem so it should be the project
+            redirect: >
+              You are thinking about which problem is bigger. But is the group
+              choosing which problem is bigger, or which project they can do?
+              Those might be different questions.
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Maya gives more reasons than Leo
+          - level: developing
+            examples:
+              - Maya's facts are about something really big but the project is something small
+          - level: differentiated
+            examples:
+              - >
+                Maya's reasons come from a documentary about the whole Pacific
+                Ocean, but the group is choosing a school project — knowing
+                about a huge problem does not automatically mean your school
+                group can do something about it
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Maya has good evidence from a documentary
+          - level: developing
+            examples:
+              - All of Maya's facts come from one documentary she watched
+          - level: differentiated
+            examples:
+              - >
+                Maya's evidence is from one documentary about the Pacific
+                Ocean, which is a totally different situation than a school
+                project — the facts are real but they do not really tell the
+                group whether they can do an ocean pollution project at school
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - They are talking about two different topics
+          - level: developing
+            examples:
+              - Maya is talking about a global problem and Leo is talking about something they could do at school
+          - level: differentiated
+            examples:
+              - >
+                Maya's idea is about a huge worldwide problem and Leo's is
+                about something hands-on at their school — they are not just
+                choosing between topics, they are choosing between very
+                different kinds of projects
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Maya just really liked the documentary so she thinks it proves her point
+            - level: developing
+              examples:
+                - >
+                  Maya saw something really dramatic and it stuck with her, so
+                  she is using those facts for everything even though the
+                  documentary was about a different situation
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - The documentary facts sounded impressive so Leo could not really argue
+            - level: developing
+              examples:
+                - >
+                  When someone brings up really dramatic facts with specific
+                  numbers, it is hard for the other person to push back because
+                  the facts sound so certain
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya was really affected by the documentary so she uses those
+                  facts for everything, and Leo cannot push back because the
+                  facts sound so powerful
+            - level: differentiated
+              examples:
+                - >
+                  Maya is so excited about the documentary that she does not
+                  notice her facts are about a different situation, and because
+                  those facts sound so impressive and specific, Leo does not
+                  feel like he can question whether they actually fit — her
+                  excitement and the dramatic numbers work together to make it
+                  seem like the argument is settled when it actually is not
+
+  # ============================================================
+  # PASSAGE 2 — Feasibility challenge + dismissal
+  # ============================================================
+  - passage_id: passage_02
+    turns:
+      - turn_04
+      - turn_05
+    difficulty: moderate
+
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Pay attention to what Leo asks in this part.
+      - type: hint
+        text: >
+          Now look at what Maya says back. Think about whether Leo's question
+          gets answered.
+      - type: ai_perspective
+        text: >
+          The AI noticed something about how the group handled Leo's question.
+          Did you see the same thing, or did you read this part differently?
+
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how the conversation moves here. Now
+          think about why — what might make someone skip over a question
+          instead of answering it?
+      - lens: evidence
+        prompt: >
+          You noticed something about what kind of support Maya gives here.
+          Now think about why she might have shifted to talking about urgency
+          instead of addressing what Leo asked.
+      - lens: scope
+        prompt: >
+          You noticed something about Leo's concern. Now think about why the
+          group moved past it — what was making it hard for them to stay on
+          that question?
+
+    ai_reflection_prompt: >
+      The AI suggested that when someone is excited about their idea, they
+      might brush past a challenge without realizing it. Does that fit what
+      you saw, or do you think something else was going on?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Maya answered Leo by saying they can figure it out later
+            redirect: >
+              You noticed Maya's response. But think about what Leo actually
+              asked — did her response give him an answer to that specific
+              question?
+      - lens: evidence
+        misreadings:
+          - pattern: Maya is right that ocean pollution is a huge problem
+            redirect: >
+              The problem being huge is one thing. But what was Leo asking
+              about? Is he questioning whether ocean pollution is important, or
+              something else?
+      - lens: scope
+        misreadings:
+          - pattern: it makes sense to figure out the details later and pick the topic first
+            redirect: >
+              That is a reasonable way to think about it. But look at what
+              Leo's concern actually is — is it a small detail, or is it
+              something that might affect whether the project works at all?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Maya does not really answer Leo
+          - level: developing
+            examples:
+              - Leo asks a practical question and Maya changes the subject to how important the problem is
+          - level: differentiated
+            examples:
+              - >
+                Leo asks whether they can actually do anything about ocean
+                pollution from their school, and instead of answering, Maya
+                talks about how big the problem is — but how big it is and
+                whether they can do something about it are two different
+                questions
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Maya does not give evidence for how they would do the project
+          - level: developing
+            examples:
+              - Maya shifts from facts about ocean pollution to talking about how urgent it is, without addressing what Leo asked
+          - level: differentiated
+            examples:
+              - >
+                When Leo asks what they would actually do, Maya does not offer
+                any evidence or plan — she just talks about how serious the
+                problem is, which does not help the group figure out if the
+                project would work
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Leo has a concern that does not get addressed
+          - level: developing
+            examples:
+              - Leo raises the question of whether they can do anything about ocean pollution from their school and it gets brushed aside
+          - level: differentiated
+            examples:
+              - >
+                Leo is asking the most important practical question — can they
+                actually do this from their school? — and it gets pushed aside
+                with "we'll figure it out later," but it never actually gets
+                figured out
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Maya just ignored the question because she wants to do ocean pollution
+            - level: developing
+              examples:
+                - >
+                  Maya is so set on ocean pollution that when Leo asks a hard
+                  question about it, she does not really hear it as a real
+                  challenge — she just sees it as something to get past
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Leo did not push back hard enough
+            - level: developing
+              examples:
+                - >
+                  When Maya brushed off his question and got more intense about
+                  how important ocean pollution is, it probably made Leo feel
+                  like his question was not that important
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya skipped the question because she already made up her
+                  mind, and Leo did not push back because she was so
+                  enthusiastic
+            - level: differentiated
+              examples:
+                - >
+                  Maya already decided what she wants, so Leo's question feels
+                  like an obstacle to get past instead of something to think
+                  about — and because she pushes past it so confidently, Leo
+                  starts to feel like maybe his question was not that important
+                  even though it actually was the most practical concern anyone
+                  raised
+
+  # ============================================================
+  # PASSAGE 3 — Practical pushback, emotional escalation, wavering
+  # ============================================================
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+      - turn_08
+    difficulty: moderate
+
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at what each person is talking about in this part. Are they
+          responding to each other, or talking about different things?
+      - type: hint
+        text: >
+          Pay attention to how Leo sounds at the end of this section compared
+          to the beginning.
+      - type: ai_perspective
+        text: >
+          The AI noticed something about what each person was actually arguing
+          about and how the conversation shifted. Did you catch the same thing?
+
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about the arguments here. Now think about why
+          — when someone compares the size of two problems, does that answer
+          whether a specific project would work?
+      - lens: evidence
+        prompt: >
+          You noticed something about the types of support each person gives.
+          Now think about why one type might feel more convincing in the
+          moment, even if it does not answer the right question.
+      - lens: scope
+        prompt: >
+          You noticed the conversation narrowing here. Now think about why Leo
+          might start backing down — what is it about the way the conversation
+          is going that makes it harder to keep disagreeing?
+
+    ai_reflection_prompt: >
+      The AI pointed out that Leo and Maya were actually arguing about
+      different things — one about what is practical and the other about what
+      is important. Did you notice that disconnect, or did the conversation
+      seem like a normal back-and-forth to you?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Maya makes a good point that ocean pollution is bigger
+            redirect: >
+              You noticed Maya's comparison. But think about what Leo said
+              right before — was he arguing about which problem is bigger?
+          - pattern: Leo agrees because Maya convinced him
+            redirect: >
+              Look carefully at how Leo responds. Does he sound like someone
+              who was convinced, or like something else is happening?
+      - lens: evidence
+        misreadings:
+          - pattern: Maya has stronger evidence because millions of animals are dying
+            redirect: >
+              That is a powerful fact. But what question is Leo trying to
+              answer, and does that fact help answer it?
+      - lens: scope
+        misreadings:
+          - pattern: the group is just having a normal disagreement
+            redirect: >
+              Look at what happens to Leo's idea after this exchange. Does the
+              group explore it, or does it fade away?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Maya argues ocean pollution is more important
+          - level: developing
+            examples:
+              - Leo talks about what they could do at school and Maya responds by comparing problem size, which is a different argument
+          - level: differentiated
+            examples:
+              - >
+                Leo makes a specific practical case — planting trees, measuring
+                growth — and Maya responds by saying ocean pollution is bigger,
+                but bigger does not mean their school group can do a better
+                project about it, so she is not actually addressing what he
+                said
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Leo has a plan and Maya has big numbers
+          - level: developing
+            examples:
+              - Leo offers concrete details about what they could do and Maya offers an emotional appeal about the scale of the problem
+          - level: differentiated
+            examples:
+              - >
+                Leo brings evidence about what is actually doable — planting,
+                measuring, documenting — while Maya brings evidence about how
+                bad the problem is, and these answer completely different
+                questions, but the emotional one ends up winning
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Leo starts to give up
+          - level: developing
+            examples:
+              - The conversation is moving toward ocean pollution because Maya is more passionate, not because Leo's points were addressed
+          - level: differentiated
+            examples:
+              - >
+                The practical option is disappearing from the discussion not
+                because anyone showed it was a bad idea, but because Maya's
+                enthusiasm and big numbers make Leo feel like his practical
+                concerns are less important — the scope of what the group is
+                considering is shrinking
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Maya just keeps bringing up how bad ocean pollution is
+            - level: developing
+              examples:
+                - >
+                  Maya is so focused on ocean pollution being the right answer
+                  that she does not actually respond to what Leo is saying —
+                  she just keeps going back to how important her issue is
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Leo backs down because Maya is louder
+            - level: developing
+              examples:
+                - >
+                  After making his best case and getting a comparison about
+                  problem size in return, Leo starts giving in because it feels
+                  like Maya is not going to listen
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya keeps redirecting to ocean pollution and Leo gives up
+                  because she will not engage with his ideas
+            - level: differentiated
+              examples:
+                - >
+                  Because Maya is already set on ocean pollution, she hears
+                  Leo's practical plan and immediately redirects to how
+                  important her issue is — and because she does this so
+                  confidently, Leo starts to feel like his practical concerns
+                  must not matter as much, so he stops pressing them even
+                  though nobody actually showed his plan was bad
+
+  # ============================================================
+  # PASSAGE 4 — Pressing advantage, last tentative concern
+  # ============================================================
+  - passage_id: passage_04
+    turns:
+      - turn_09
+      - turn_10
+    difficulty: challenging
+
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Think about how Leo sounds here compared to earlier in the
+          discussion.
+      - type: hint
+        text: >
+          What is Maya talking about in this part? Is she offering a plan for
+          the project, or something else?
+      - type: ai_perspective
+        text: >
+          The AI noticed a change in how Leo has been talking over the course
+          of the conversation. Did you pick up on that, or did this part seem
+          straightforward to you?
+
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about the claims being made here. Now think
+          about why — when someone says they can "make a real difference,"
+          what would need to come next for that to be a complete argument?
+      - lens: evidence
+        prompt: >
+          You noticed something about the support in this section. Now think
+          about why the conversation keeps going even though the support has
+          not really changed — what is driving things forward if it is not new
+          information?
+      - lens: scope
+        prompt: >
+          You noticed something about Leo's role in the conversation here.
+          Now think about why — what has the conversation been like for Leo
+          up to this point, and how might that affect how he is talking now?
+
+    ai_reflection_prompt: >
+      The AI pointed out that Leo's way of raising concerns has gotten softer
+      over the conversation. Did you notice that change, or did it seem like
+      Leo was just naturally coming around to Maya's idea?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: Maya is right that they could make a real difference
+            redirect: >
+              Maya says they could make a difference. Is she explaining how, or
+              just saying it would be great?
+      - lens: evidence
+        misreadings:
+          - pattern: nothing new is happening here
+            redirect: >
+              You are right that there is not much new information. But look at
+              how the conversation feels — has something changed about the way
+              Leo is participating?
+      - lens: scope
+        misreadings:
+          - pattern: Leo is starting to agree with Maya
+            redirect: >
+              Look at the words Leo uses. Does he sound excited, or does he
+              sound like something else? Compare to how he talked a few turns
+              ago.
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Maya says they could save ocean animals
+          - level: developing
+            examples:
+              - Maya promises they could make a real difference but does not explain how
+          - level: differentiated
+            examples:
+              - >
+                Maya keeps making big claims about making a difference and
+                saving animals, but those are hopes, not a plan — Leo asks
+                how they would actually help and that is a question that still
+                has not gotten a real answer since earlier in the conversation
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Nobody brings up new facts
+          - level: developing
+            examples:
+              - The group is moving toward a decision without any new information being added
+          - level: differentiated
+            examples:
+              - >
+                The decision is being made on excitement and big claims, not on
+                any evidence about what they could actually do — all the real
+                evidence was from the documentary, which was about a completely
+                different situation
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Leo seems less sure of himself
+          - level: developing
+            examples:
+              - Leo is still raising the same concern but in a weaker way, like he does not expect it to matter
+          - level: differentiated
+            examples:
+              - >
+                Compare how Leo talks now to how he talked earlier — he went
+                from direct questions to hedging and tentative phrasing, which
+                shows he is giving up on being heard, not that he changed his
+                mind
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Maya is just really excited and not listening
+            - level: developing
+              examples:
+                - >
+                  Maya keeps pushing her idea with big promises because she has
+                  not really considered whether the group could actually do
+                  what she is describing
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Leo stopped fighting for his idea
+            - level: developing
+              examples:
+                - >
+                  After getting his concerns brushed aside multiple times, Leo
+                  does not have the energy to keep pushing back against someone
+                  who seems so sure
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya is too focused on her idea to hear Leo's concerns, and
+                  Leo has been shut down enough times that he is running out of
+                  energy to keep trying
+            - level: differentiated
+              examples:
+                - >
+                  Every time Leo raised a concern, Maya pushed past it with
+                  more enthusiasm — and each time that happened, it got a
+                  little harder for Leo to try again, so by now his concerns
+                  come out as hesitant questions instead of clear challenges,
+                  which makes them even easier for Maya to brush off, creating
+                  a cycle where the more he gets dismissed the less he pushes
+                  back
+
+  # ============================================================
+  # PASSAGE 5 — Hollow resolution
+  # ============================================================
+  - passage_id: passage_05
+    turns:
+      - turn_11
+      - turn_12
+    difficulty: accessible
+
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at how the group makes their final decision. Pay attention to
+          how Leo sounds when he agrees.
+      - type: ai_perspective
+        text: >
+          The AI pointed out something about the difference between someone
+          agreeing and someone giving in. Does that match what you noticed
+          about the ending?
+
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about how the decision was made. Now think
+          about why — what was missing from the group's reasoning when they
+          chose their project?
+      - lens: evidence
+        prompt: >
+          You noticed something about the final plan. Now think about why —
+          if the group had looked more carefully at the gap between their
+          evidence and their plan, what might they have realized?
+      - lens: scope
+        prompt: >
+          You noticed something about how Leo ended up. Now think about why —
+          what happened across the whole conversation that led to this
+          moment?
+
+    ai_reflection_prompt: >
+      The AI talked about how one person's excitement and another person's
+      discomfort with disagreement can shape a group's decision. Have you ever
+      seen something like that happen in a group you were in?
+
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: they made a good decision because ocean pollution is important
+            redirect: >
+              You are thinking about whether the topic is important. But look
+              at their plan — does it connect to the evidence they talked about
+              earlier?
+      - lens: evidence
+        misreadings:
+          - pattern: a beach cleanup is a good plan
+            redirect: >
+              Think about where the group started — a documentary about the
+              Pacific Ocean. How does a local beach cleanup connect to that?
+      - lens: scope
+        misreadings:
+          - pattern: the group agreed so the discussion went well
+            redirect: >
+              They did agree. But look at how Leo agrees. Does he sound like
+              someone who is excited about the decision, or like something
+              else?
+
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Their plan is not very specific
+          - level: developing
+            examples:
+              - Maya says they could do a beach cleanup or posters but does not explain how that connects to the big Pacific Ocean problem they talked about
+          - level: differentiated
+            examples:
+              - >
+                The group started with evidence about millions of tons of
+                plastic in the Pacific and ended with a plan for a beach
+                cleanup or posters — there are a lot of missing steps between
+                those two things, and nobody in the group pointed that out
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - They do not have evidence that their plan will work
+          - level: developing
+            examples:
+              - The evidence was about the Pacific Ocean but the plan is about a local beach cleanup, which are very different things
+          - level: differentiated
+            examples:
+              - >
+                All the evidence in this conversation was about a massive
+                global problem, but the plan they ended up with is small and
+                local — nobody ever brought evidence about whether a beach
+                cleanup or posters actually help with the kind of problem the
+                documentary described
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Leo does not seem happy about the decision
+          - level: developing
+            examples:
+              - >
+                Leo says "okay fine" which sounds like he is giving in, not
+                like he actually agrees
+          - level: differentiated
+            examples:
+              - >
+                Leo's "okay fine" shows he stopped objecting but was not
+                actually persuaded — his practical concerns from earlier never
+                got answered, so the group's decision came from one person
+                being more forceful, not from the group actually working
+                through the disagreement
+
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Maya just wanted ocean pollution from the start and never really thought about it
+            - level: developing
+              examples:
+                - >
+                  Maya was so attached to her idea that she never actually
+                  considered whether their group could do what she was
+                  proposing — she treated the problem being important as the
+                  same thing as the project being a good idea
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Leo just went along with it
+            - level: developing
+              examples:
+                - >
+                  Leo gave up because disagreeing with someone that enthusiastic
+                  and confident felt harder than just going along, even though
+                  his questions were never really answered
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Maya never considered Leo's concerns because she was too
+                  attached to her idea, and Leo stopped raising them because
+                  Maya was too confident to argue with
+            - level: differentiated
+              examples:
+                - >
+                  Maya's excitement made her treat every concern as a small
+                  detail to get past, and each time she did that, it got
+                  harder for Leo to keep going — so by the end he just gave
+                  in, which meant the group's best practical thinking never
+                  actually got heard, not because it was wrong but because the
+                  person raising it ran out of energy to keep fighting for it

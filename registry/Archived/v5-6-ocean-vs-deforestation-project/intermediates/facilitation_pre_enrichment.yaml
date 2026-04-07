@@ -1,0 +1,507 @@
+scenario_id: ocean-vs-deforestation-project
+
+overview:
+  topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+  targeted_facets_summary: >
+    This scenario targets two facets. First, weak relevance (Evidence lens):
+    one student uses dramatic evidence from a documentary about the Great
+    Pacific Garbage Patch to argue for a school project on ocean pollution,
+    but the evidence is about a global-scale problem, not about what a school
+    group can actually do. Second, weak perspective engagement (Scope lens):
+    when the other student raises practical concerns about feasibility, those
+    concerns are acknowledged minimally and then redirected rather than
+    addressed. The two facets interact — the impressive but mismatched
+    evidence creates pressure that makes it harder to push back, and the
+    feasibility concern fades because the other student stops pressing.
+  session_timing: >
+    Approximately 40-45 minutes of a 50-minute class period. Allocate 5-7
+    minutes per passage for individual diagnosis and group discussion, with
+    passages 2 and 3 likely taking the longest. Reserve 10-12 minutes for
+    whole-class debrief.
+  what_to_expect: >
+    Students will likely notice the documentary facts quickly — they're vivid
+    and memorable. Many will initially focus on whether the facts are true
+    rather than whether they're relevant to the decision. The relevance gap
+    (Pacific Ocean evidence for a school project) usually takes a second
+    read to notice. The dismissed feasibility concern is harder for students
+    to spot because it happens subtly — Maya doesn't refuse to answer, she
+    just redirects. Students assigned the Scope lens are most likely to catch
+    this. Watch for students who get caught up debating whether ocean pollution
+    or deforestation is actually more important — redirect them to examine
+    how the group made their decision, not what the right answer is.
+
+passage_guides:
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+    summary: >
+      Maya proposes ocean pollution based on a documentary she watched. Ethan
+      proposes deforestation because they could plant trees at school. Both
+      state their positions and reasons.
+
+    whats_here:
+      - facet: Source diversity
+        quality: weak (emergent, faint)
+        visible_through:
+          - evidence
+          - scope
+        explanation: >
+          Maya's position rests entirely on one documentary. This becomes more
+          significant later but is faintly visible here. Students may not
+          notice it until they see the pattern develop.
+
+    diagnose:
+      if_students_are_stuck: >
+        This passage is mainly context-setting. If students aren't sure what
+        to write, suggest they notice what each person's idea is based on.
+        Evidence lens: what sources does each person mention? Scope lens: are
+        they talking about the same thing when they say "project"?
+
+    discuss:
+      likely_disagreements: >
+        Minimal disagreement expected here — most groups will note that both
+        students have reasonable starting positions. Some may already notice
+        that Maya and Ethan are framing the decision differently.
+      productive_questions:
+        - What is each person basing their idea on?
+        - Are Maya and Ethan talking about the same kind of project?
+      watch_for: >
+        If discussion stalls quickly, that's normal — this passage is setup.
+        Move groups forward to passage 2 where the substance begins.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI perspective notes that both students bring personal experience,
+        and that Maya and Ethan may be approaching the decision with different
+        questions — importance vs. feasibility.
+      likely_student_reactions: >
+        Most students will agree with the AI perspective here without much
+        pushback. Some may be surprised by the observation that the two
+        students are asking different questions.
+      follow_up: >
+        Ask the group whether they noticed the different framing before the
+        AI pointed it out. This sets up the importance vs. feasibility
+        tension that drives the rest of the discussion.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Both people have clear positions
+        might_miss:
+          - They're answering different underlying questions
+      - lens: evidence
+        will_likely_see:
+          - Maya mentions a documentary
+          - Ethan mentions planting trees at school
+        might_miss:
+          - Both rest on a single experience
+      - lens: scope
+        will_likely_see:
+          - Maya talks about problem importance
+          - Ethan talks about project feasibility
+        might_miss:
+          - These are fundamentally different decision criteria
+
+  - passage_id: passage_02
+    turns:
+      - turn_03
+      - turn_04
+      - turn_05
+    summary: >
+      Maya cites specific facts from the documentary — the Great Pacific
+      Garbage Patch, millions of tons of plastic, sea turtles. Ethan
+      acknowledges this sounds serious but counters with hands-on practicality.
+      Maya doubles down on the scale of the problem.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak (targeted)
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Maya's documentary evidence is about a global-scale problem in the
+          Pacific Ocean. The group's decision is about a school project.
+          The evidence is real but the scale doesn't match the decision.
+          Overgeneralization from dramatic evidence, reinforced by group
+          pressure (Ethan is impressed rather than questioning the fit).
+      - facet: Sufficiency
+        quality: weak (emergent)
+        visible_through:
+          - evidence
+          - scope
+          - logic
+        explanation: >
+          All of Maya's evidence traces to one documentary. Multiple vivid
+          facts but a single source origin. The dramatic quality masks how
+          narrow the evidential base is.
+
+    diagnose:
+      if_students_are_stuck: >
+        Evidence lens: Ask them to look carefully at Maya's facts — what are
+        they actually about? Where did they come from? Logic lens: Ask what
+        Maya's facts are supposed to prove, and whether they do. Scope lens:
+        Ask whether the scale of Maya's evidence matches the scale of their
+        project.
+
+    discuss:
+      likely_disagreements: >
+        Evidence and Logic students may disagree about whether the issue is
+        the evidence itself (is it good evidence?) or how it's being used
+        (does it support the decision?). Some students will defend Maya
+        because her facts are accurate. Others will sense something is off
+        but struggle to articulate the relevance gap.
+      productive_questions:
+        - Are Maya's facts true? Is that the same as being useful for this decision?
+        - What question is the group actually trying to answer here?
+      watch_for: >
+        Productive: students distinguishing between evidence being true and
+        evidence being relevant. Stalled: students debating whether ocean
+        pollution is actually worse than deforestation (redirect to how the
+        decision is being made, not what the right answer is).
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI identifies the relevance gap — documentary evidence about the
+        Pacific Ocean being used to justify a school project — and notes that
+        Ethan's practical counterpoint gets overshadowed by dramatic facts.
+        It frames this through overgeneralization.
+      likely_student_reactions: >
+        Some students will have an "aha" moment about the scale mismatch.
+        Others may push back, arguing that caring about big problems is
+        good. A few may feel the AI is being unfair to Maya because her
+        facts are real.
+      follow_up: >
+        Validate that Maya's facts are true and that caring about big problems
+        matters. Then ask: is there a difference between a problem being
+        important and a problem being the right fit for their group's project?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya jumps from "ocean pollution is bad" to "we should do it for our project"
+        might_miss:
+          - That the jump feels natural because the evidence is dramatic
+      - lens: evidence
+        will_likely_see:
+          - Maya's facts come from one documentary
+          - The facts are about the Pacific Ocean, not their school
+        might_miss:
+          - The evidence is genuinely accurate — the issue is fit, not truth
+      - lens: scope
+        will_likely_see:
+          - Maya argues about problem scale, Ethan about project scope
+        might_miss:
+          - Both arguments are valid but about different things
+
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+    summary: >
+      Ethan raises his strongest point — they don't live near the ocean, so
+      what would they actually do? Maya brushes it off, saying they can figure
+      it out later, and redirects to how many animals are dying.
+
+    whats_here:
+      - facet: Perspective engagement
+        quality: weak (targeted)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Ethan's feasibility concern is the strongest counterargument in the
+          discussion. Maya acknowledges it minimally then pivots to emotional
+          urgency. Confirmation bias (Maya deflects what threatens her
+          preferred choice) interacts with conflict avoidance (Ethan doesn't
+          force the issue). The result is a perspective raised but never
+          genuinely engaged with.
+
+    diagnose:
+      if_students_are_stuck: >
+        Scope lens: Ask what Ethan is worried about, and whether anyone
+        addresses it. Evidence lens: Ask what evidence Maya offers about
+        what they could actually do. Logic lens: Ask whether Maya's response
+        actually answers Ethan's question.
+
+    discuss:
+      likely_disagreements: >
+        Some students will think Maya did respond to Ethan — she said
+        they'd figure it out. Others will feel she dodged. This is a
+        productive disagreement: the difference between acknowledging a
+        concern and addressing it.
+      productive_questions:
+        - Did Maya answer Ethan's question, or did she change the subject?
+        - What would it look like if Maya actually engaged with Ethan's concern?
+      watch_for: >
+        Productive: students debating whether "we can figure it out later"
+        counts as an answer. Stalled: students agreeing quickly that Maya
+        was wrong without examining why this happens so naturally in groups.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI highlights the deflection pattern — Ethan asks a direct
+        question, Maya acknowledges it minimally and redirects. It introduces
+        the idea that wanting a particular answer can lead you to treat
+        challenges as obstacles rather than questions, and that it takes
+        energy to keep pushing a point in a group.
+      likely_student_reactions: >
+        Many students will recognize this dynamic from their own group work.
+        Some may sympathize with Ethan. A few may defend Maya, saying she
+        was going to come back to it later.
+      follow_up: >
+        Ask if anyone has ever been in Ethan's position — raising a concern
+        and then letting it go because the other person moved on. Why does
+        that happen? What would need to be different for the concern to
+        actually get discussed?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya doesn't answer Ethan's question
+          - She switches topics to animal deaths
+        might_miss:
+          - That "we can figure that out later" is a deflection, not a plan
+      - lens: evidence
+        will_likely_see:
+          - No evidence about project feasibility is offered
+        might_miss:
+          - The group needs a different kind of evidence here
+      - lens: scope
+        will_likely_see:
+          - Ethan's concern about not living near the ocean goes unanswered
+        might_miss:
+          - How natural this pattern is — Maya isn't being deliberately unfair
+
+  - passage_id: passage_04
+    turns:
+      - turn_08
+      - turn_09
+    summary: >
+      Ethan tries once more but with less conviction. Maya offers quick
+      project suggestions (beach cleanup, awareness campaign) and pivots to
+      arguing that ocean pollution affects everyone.
+
+    whats_here:
+      - facet: Perspective engagement
+        quality: weak (targeted, continuation)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          The pattern from passage 3 continues. Ethan's language weakens
+          (hedging, trailing off). Maya offers thin suggestions that look
+          responsive but aren't developed, then pivots to a new emotional
+          argument. Conflict avoidance is visibly taking hold.
+      - facet: Reasoning completeness
+        quality: weak (emergent)
+        visible_through:
+          - logic
+          - evidence
+        explanation: >
+          Maya's project suggestions (beach cleanup, awareness campaign) skip
+          the reasoning that would connect them to the feasibility concern.
+          They appear to answer the question but the reasoning chain has a
+          gap — how would a school group that doesn't live near the ocean do
+          a beach cleanup?
+
+    diagnose:
+      if_students_are_stuck: >
+        Logic lens: Ask about Maya's project suggestions — does she develop
+        them or just mention them? Scope lens: Ask how Ethan sounds compared
+        to before — has something changed? Evidence lens: Ask what evidence
+        supports Maya's suggestion that they could do a beach cleanup.
+
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether Maya's beach cleanup idea is a
+        real answer to Ethan's concern. Some will think she addressed it;
+        others will notice she moved on immediately.
+      productive_questions:
+        - Does Maya's beach cleanup idea actually solve the problem Ethan raised?
+        - What do you notice about how Ethan is talking compared to earlier?
+      watch_for: >
+        Productive: students noticing Ethan's language shift as a signal.
+        Stalled: students focusing on whether beach cleanups are good ideas
+        in general rather than whether this one addresses the concern.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI highlights Ethan's language change (from direct questions to
+        hedging) and Maya's thin suggestions. It introduces the idea that
+        softening your language when you still believe something can signal
+        a social dynamic at work.
+      likely_student_reactions: >
+        Students may recognize the language shift once it's pointed out.
+        Some may feel bad for Ethan. Others may not see the shift as
+        significant.
+      follow_up: >
+        Ask students to compare Ethan's exact words here with his words in
+        the previous passage. What's different? Why might someone change how
+        they talk about something they still care about?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya's project suggestions are vague
+        might_miss:
+          - The suggestions are meant to look responsive without being a plan
+      - lens: evidence
+        will_likely_see:
+          - Maya introduces a new fact about plastic in fish
+        might_miss:
+          - This is a pivot away from Ethan's question
+      - lens: scope
+        will_likely_see:
+          - Ethan is backing down
+        might_miss:
+          - The language shift as a signal of social pressure
+
+  - passage_id: passage_05
+    turns:
+      - turn_10
+      - turn_11
+      - turn_12
+    summary: >
+      Ethan concedes, saying the documentary facts are hard to argue with.
+      Maya treats the decision as made and starts planning. Ethan agrees but
+      mentions one last time that they still need to figure out the actual
+      project.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak (targeted, culmination)
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Ethan's concession reveals the relevance issue in its clearest
+          form. He says the documentary facts are "hard to argue with" — but
+          being impressive and being relevant to the decision are different
+          things. The drama of the evidence substituted for its applicability.
+      - facet: Perspective engagement
+        quality: weak (targeted, resolution)
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Ethan's final sentence echoes his original feasibility concern but
+          reframes it as a detail. The strongest counterargument has been
+          reduced to an afterthought — not refuted, just worn down.
+
+    diagnose:
+      if_students_are_stuck: >
+        Evidence lens: Ask what convinced Ethan — was it about whether the
+        evidence is true, or about whether it fits their project? Scope lens:
+        Ask what happened to Ethan's earlier concern about feasibility. Logic
+        lens: Ask whether the reason Ethan agrees matches the question he
+        was asking earlier.
+
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether the group made a good decision.
+        Some will think ocean pollution was the right choice because it's
+        a bigger problem. Others will feel uncomfortable that the feasibility
+        question was never answered. This disagreement is productive.
+      productive_questions:
+        - What was the main thing that convinced Ethan?
+        - Is that the same thing he was asking about before?
+        - Did the group answer the question of what they'd actually do?
+      watch_for: >
+        Productive: students connecting Ethan's concession to the earlier
+        feasibility question and realizing the concern was never addressed.
+        Stalled: students debating the right answer rather than how the
+        decision was made.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI connects both threads — the impressive but mismatched evidence
+        driving the decision, and the feasibility concern fading from
+        challenge to footnote. It frames the outcome through the interaction
+        of overgeneralization and conflict avoidance.
+      likely_student_reactions: >
+        This is often the passage where students have the strongest reactions.
+        Some will feel Ethan should have pushed harder. Others will recognize
+        that backing down is common and understandable. A few may question
+        whether the group actually agreed or one person just gave in.
+      follow_up: >
+        Ask the group: did Maya and Ethan actually agree, or did Ethan just
+        stop disagreeing? What's the difference? Is the group's decision
+        stronger or weaker because the feasibility question is still open?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Ethan agrees based on how impressive the facts are
+          - The feasibility question is never resolved
+        might_miss:
+          - That "hard to argue with" reveals what won the argument
+      - lens: evidence
+        will_likely_see:
+          - The documentary evidence drove the decision
+          - No evidence about feasibility was ever offered
+        might_miss:
+          - The evidence is accurate — the issue is fit, not truth
+      - lens: scope
+        will_likely_see:
+          - Ethan's last line still mentions figuring out what to do
+        might_miss:
+          - How gradually his position weakened across the discussion
+
+debrief:
+  key_takeaways:
+    - >
+      Evidence can be true and dramatic but still not relevant to the
+      decision you're making. This scenario demonstrates weak relevance:
+      the documentary facts about the Pacific Garbage Patch are accurate,
+      but they're about a global-scale problem, not about what a school
+      group can do locally. Students should come away understanding that
+      evaluating evidence means asking whether it fits the specific
+      question, not just whether it's impressive.
+    - >
+      A concern that gets acknowledged but not addressed can disappear from
+      a conversation. This scenario demonstrates weak perspective engagement:
+      Ethan's feasibility question is the strongest counterargument, but it
+      gets deflected and then softened until it's a footnote. Students
+      should notice how confirmation bias (deflecting what threatens your
+      preference) interacts with conflict avoidance (not pressing when
+      the other person moves on) to produce a decision that feels agreed-upon
+      but has an unresolved question at its center.
+    - >
+      Different lenses reveal different aspects of the same discussion.
+      Evidence students tend to notice the documentary's single-source basis
+      and scale mismatch first. Logic students tend to notice the inferential
+      gap and the unanswered question. Scope students tend to notice the
+      dismissed feasibility concern and Ethan's language shift. Making these
+      different readings visible to each other is the purpose of the
+      cross-group exchange.
+
+  cross_group_prompts:
+    - >
+      For groups that focused on the Evidence lens: What did you notice about
+      Maya's documentary facts? Did any other groups notice something
+      different about those same moments?
+    - >
+      For groups that focused on the Scope lens: What happened when Ethan
+      raised his concern about not living near the ocean? How did other
+      groups read that moment?
+    - >
+      For the whole class: Did the group make a good decision? How would you
+      know? What would the discussion need to look like for you to feel
+      confident in their choice?
+    - >
+      Cross-lens question: Some of you noticed issues with the evidence
+      itself, and some of you noticed how the group handled disagreement.
+      Are those the same problem or different problems?
+
+  connection_to_next: >
+    This session exercised noticing when evidence doesn't fit the decision
+    being made and noticing when a concern gets dismissed rather than
+    addressed. Future sessions might present scenarios where the evidence
+    is relevant but the reasoning has gaps, or where the group handles
+    disagreement well but misses something in the evidence. Each scenario
+    exercises different combinations of these capacities.

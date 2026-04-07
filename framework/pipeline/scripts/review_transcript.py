@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
-"""Structural review of a transcript against its scenario plan.
+"""Structural review of a transcript against its episode plan.
 
 Checks: turn count, sentences per turn, word count, speaker names, turn order.
 
 Usage:
     python3 review_transcript.py <transcript_path> <plan_path>
 
-The plan_path can be either the full scenario.yaml or the stripped
-dialog_writer_input.yaml — both have personas and turn_outline.
+The plan_path can be either the full episode.yaml or the barrier-safe
+episode_writer_input.yaml — both have personas and turn_outline.
 
 Exit code 0 = all checks pass, 1 = issues found.
 """

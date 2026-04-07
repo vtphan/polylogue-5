@@ -39,10 +39,15 @@ def collect_actual(scenario_yaml):
     Tolerates absent fields — a partially generated scenario should still
     show up in the report rather than crashing the script.
 
-    The scenario_plan.yaml schema stores cognitive_pattern and social_dynamic
+    The episode_plan.yaml schema stores cognitive_pattern and social_dynamic
     as singular, nullable fields nested inside designed_explanation on each
     target_facets entry — not as top-level lists. See
-    framework/schemas/scenario_plan.yaml.
+    framework/schemas/episode_plan.yaml.
+
+    NOTE: This script is part of the legacy disposable-scenario coverage
+    flow. It is preserved in Phase 5 and will be deleted in Phase 8 step
+    43 along with framework/reference/scenario_sequence.yaml. Story-based
+    coverage is now checked by validate_story.py.
     """
     plan = scenario_yaml or {}
 
@@ -148,7 +153,7 @@ def main():
 
         # Doctrinal: every scenario must have ≥1 target_strengths entry
         # (mixed-valence requirement from suggestion A — see
-        # framework/schemas/scenario_plan.yaml).
+        # framework/schemas/episode_plan.yaml).
         if actual["strength_count"] < 1:
             problems.append(
                 "target_strengths missing — mixed-valence is doctrinal "

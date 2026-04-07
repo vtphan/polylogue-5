@@ -1,0 +1,185 @@
+scenario_id: ocean-vs-deforestation-project
+
+topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+
+context: >
+  A 6th-grade STEM class is working on the PBL driving question: "What are the
+  major threats affecting our global environment, and what can our communities do
+  to protect our ecosystems?" This group needs to choose one environmental issue
+  for their semester project. They're debating between ocean pollution (one member
+  saw a documentary about plastic in the Pacific) and deforestation (another member
+  read about Amazon fires). They can only pick one.
+
+instructional_goals:
+  - Practice noticing when someone's evidence doesn't actually support the specific claim they're making
+  - Practice noticing when the group only considers one side of a question
+
+discussion_dynamic: >
+  The personas must genuinely disagree — they want different projects, not just
+  different angles on the same project. One is passionate about ocean pollution
+  because of a documentary; the other thinks deforestation is more practical
+  because they could plant trees at school. The ocean-pollution persona is more
+  enthusiastic and emotionally invested; the deforestation persona is more
+  practical but less assertive. The shift happens when the practical persona
+  starts backing down in the face of the other's enthusiasm and confident citing
+  of dramatic facts. The discussion ends when they pick ocean pollution, with the
+  deforestation persona's concerns unresolved — not because they were wrong, but
+  because they stopped pressing.
+
+personas:
+  - name: Maya
+    perspective: >
+      Believes ocean pollution is the most urgent environmental crisis and wants
+      the group to focus on it. Saw a documentary about the Great Pacific Garbage
+      Patch that deeply affected her — she feels this is the issue that matters
+      most and is excited to do something about it.
+    knowledge: >
+      Watched a documentary about plastic pollution in the Pacific Ocean. Can cite
+      specific facts: millions of tons of plastic, sea turtles eating plastic bags,
+      the Great Pacific Garbage Patch being twice the size of Texas. Has not
+      researched what a school group could realistically do about ocean pollution
+      or whether these global-scale problems connect to local action.
+    weaknesses: >
+      Gets swept up in how dramatic and important something sounds without
+      checking whether her evidence actually fits the situation. The documentary
+      was about a massive problem in the middle of the Pacific, but she talks
+      about it as if it directly supports her school project idea without noticing
+      the mismatch in scale. When someone raises a practical concern that threatens
+      her preferred choice, she brushes it aside with "we'll figure that out" and
+      redirects to how important the problem is — she doesn't actually engage with
+      the concern because it makes her less sure about what she wants.
+
+  - name: Leo
+    perspective: >
+      Thinks deforestation is a better project choice because it's something they
+      can actually do at their school — they could plant trees, measure growth, do
+      something hands-on. More interested in what's practical than what's dramatic.
+    knowledge: >
+      Read about Amazon rainforest fires and deforestation statistics. Also knows
+      about local tree-planting programs and has seen community groups do tree
+      plantings at parks. Understands that their school has a courtyard where they
+      could start a project.
+    weaknesses: >
+      Backs down too easily when someone is more enthusiastic or confident than
+      he is. Has good practical instincts and raises real concerns, but when
+      Maya pushes back with dramatic facts and excitement, he starts going along
+      with her rather than pressing his points. Lets his concerns drop not because
+      he's convinced but because disagreeing feels uncomfortable.
+
+target_facets:
+  - facet_id: relevance
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through:
+      - logic
+    designed_explanation:
+      cognitive_pattern: overgeneralization
+      social_dynamic: group_pressure
+      interaction_note: >
+        Maya overgeneralizes from the documentary — applying Pacific-scale
+        evidence to a school-scale project. Leo finds the documentary facts
+        compelling enough that he doesn't push back on the relevance gap,
+        reinforcing Maya's confidence that her evidence supports the project choice.
+    carrier_persona: Maya
+    signal_mechanism: >
+      The persona cites dramatic facts from a documentary about the Great Pacific
+      Garbage Patch — millions of tons of plastic, sea turtles — to argue their
+      school group should do an ocean pollution project. The documentary evidence
+      is real and compelling but it's about a global-scale problem in the Pacific,
+      not about what a school group can do locally. The gap is between the
+      evidence's scope (Pacific Ocean) and the project's scope (their school).
+      The persona doesn't notice the mismatch because the documentary was so
+      dramatic.
+
+  - facet_id: perspective_engagement
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through:
+      - evidence
+      - logic
+    designed_explanation:
+      cognitive_pattern: confirmation_bias
+      social_dynamic: conflict_avoidance
+      interaction_note: >
+        Maya's confirmation bias causes her to dismiss Leo's feasibility concerns
+        because they threaten her preferred choice. Leo's conflict avoidance means
+        he lets the concerns drop rather than pressing — the strongest
+        counterargument never gets addressed, it just fades out.
+    carrier_persona: Maya
+    signal_mechanism: >
+      When the deforestation persona raises feasibility concerns ("we don't live
+      near the ocean," "can we actually do anything about this?"), the
+      ocean-pollution persona dismisses them with "we can figure that out later"
+      and redirects to how important ocean pollution is. The concern is
+      acknowledged just enough to not feel ignored, but never actually addressed.
+      The feasibility question — which is the strongest counterargument — gets
+      replaced by emotional urgency about the problem's size.
+
+discussion_arc: >
+  The discussion opens with both personas stating their preferences and reasons.
+  Maya leads with enthusiasm about her documentary; Leo counters with a practical
+  alternative. Tension builds through the middle turns as Maya deploys
+  increasingly dramatic evidence while Leo raises feasibility concerns that get
+  brushed aside. The pivot comes when Leo starts to waver — he admits the
+  documentary stuff sounds important, and his pushback softens from direct
+  challenges to hedged suggestions. The discussion resolves with them choosing
+  ocean pollution, but the resolution is hollow: Leo's practical concerns were
+  never answered, he just stopped raising them. The strongest counterargument
+  disappeared not because it was wrong but because one persona was more
+  forceful than the other.
+
+turn_outline:
+  - speaker: Maya
+    accomplishes: >
+      Opens with excitement about her documentary and proposes ocean pollution
+      as the project topic — sets an enthusiastic, confident tone
+  - speaker: Leo
+    accomplishes: >
+      Proposes deforestation as an alternative, mentioning Amazon fires and the
+      possibility of planting trees at school — establishes a competing position
+      grounded in practicality
+  - speaker: Maya
+    accomplishes: >
+      Responds with specific facts from the documentary — millions of tons of
+      plastic, sea turtles eating bags, the garbage patch being twice the size
+      of Texas — to argue ocean pollution is a bigger deal
+  - speaker: Leo
+    accomplishes: >
+      Raises the first feasibility concern: they don't live near the ocean, so
+      what would they actually do for the project?
+  - speaker: Maya
+    accomplishes: >
+      Brushes off the concern with "we can figure out the details later" and
+      redirects to how urgent ocean pollution is — treats the practical question
+      as a minor detail rather than a real challenge
+  - speaker: Leo
+    accomplishes: >
+      Pushes back again, pointing out that with trees they could actually plant
+      something at school and measure it — tries to make the practical advantage
+      concrete
+  - speaker: Maya
+    accomplishes: >
+      Acknowledges the tree idea briefly but argues that ocean pollution is more
+      important because millions of animals are dying — escalates the emotional
+      stakes to override the practical argument
+  - speaker: Leo
+    accomplishes: >
+      Starts to waver, conceding that the documentary stuff does sound really
+      important — his confidence begins to soften in the face of Maya's certainty
+  - speaker: Maya
+    accomplishes: >
+      Senses Leo is coming around and presses the advantage, painting a picture
+      of how their project could help save ocean animals
+  - speaker: Leo
+    accomplishes: >
+      Makes one last attempt at a practical concern — asks how they'd actually
+      help with ocean pollution from their school — but phrases it tentatively
+  - speaker: Maya
+    accomplishes: >
+      Offers a vague reassurance that they could do a beach cleanup or awareness
+      campaign, quickly moving to how exciting the project would be
+  - speaker: Leo
+    accomplishes: >
+      Agrees to go with ocean pollution — not because his concerns were
+      addressed, but because he's tired of pushing back against Maya's
+      enthusiasm and certainty

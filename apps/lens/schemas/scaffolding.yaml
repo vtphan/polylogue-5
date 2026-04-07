@@ -1,7 +1,7 @@
 # Schema: Scaffolding Materials
-# Describes the structure of artifacts/{scenario_id}/scaffolding.yaml
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/lens/scaffolding.yaml
 # Pedagogical materials the app needs at runtime — hints, prompts, starters, rubrics.
-# Source: pipeline-spec.md Section 2.6
 
 schema:
   root:
@@ -10,6 +10,16 @@ schema:
       scenario_id:
         type: string
         required: true
+
+      story_id:
+        type: string
+        required: true
+        description: Story this episode belongs to. Propagated from episode.yaml.
+
+      episode_number:
+        type: integer
+        required: true
+        description: Episode number within the story (1-indexed).
 
       passage_scaffolding:
         type: list

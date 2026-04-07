@@ -1,24 +1,38 @@
 ---
 description: Produce expert analysis and facilitation guide from an enumerated transcript
-argument-hint: <scenario_id>
+argument-hint: <story_id> <episode_number>
 ---
 
 # Analyze Transcript
 
 Produce the expert analysis and facilitation guide from the enumerated transcript.
 
+## Arguments
+
+- `$1` = `story_id`
+- `$2` = `episode_number` (1-indexed)
+
+```bash
+STORY_ID="$1"
+EP_NUM="$2"
+EP_NN=$(printf "%02d" "$EP_NUM")
+EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
+```
+
 ## Input
 
-- `artifacts/$1/transcript.yaml` — the enumerated transcript
-- `artifacts/$1/scenario.yaml` — the full scenario plan (including `target_facets` and `target_strengths`)
+- `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
+- `${EPISODE_DIR}/episode.yaml` — the full episode plan (including `target_facets` and `target_strengths`)
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc (read by the evaluator for character context)
+- `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md` — the per-episode draft
 
 ## Telemetry
 
-Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+Throughout this command, log meaningful events to `${EPISODE_DIR}/pipeline_log.yaml`:
 
 ```bash
 python3 framework/pipeline/scripts/log_pipeline_event.py \
-  --scenario $1 --command analyze_transcript \
+  --story "$STORY_ID" --episode "$EP_NUM" --command analyze_transcript \
   --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] \
   [--retries-remaining <n>] [--notes "<text>"]
 ```
@@ -36,10 +50,12 @@ Required log points are called out in each step.
 The evaluator handles **passage segmentation as part of its task** — this is no longer a separate operator-approved step. The operator does not pre-approve boundaries; the evaluator records them in `analysis.yaml` and the operator can edit and re-run downstream commands if the boundaries turn out to be wrong.
 
 Pass the agent:
-- Path to `artifacts/$1/transcript.yaml` (enumerated)
-- Path to `artifacts/$1/scenario.yaml` (full plan, including `target_facets` and `target_strengths`)
+- Path to `${EPISODE_DIR}/transcript.yaml` (enumerated)
+- Path to `${EPISODE_DIR}/episode.yaml` (full plan, including `target_facets` and `target_strengths`)
+- Path to `framework/docs/stories/${STORY_ID}.md` (the story design doc)
+- Path to `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md` (the per-episode draft)
 
-Instruct it to write outputs to `artifacts/$1/analysis.yaml` and `artifacts/$1/facilitation.yaml`.
+Instruct it to write outputs to `${EPISODE_DIR}/analysis.yaml` and `${EPISODE_DIR}/facilitation.yaml`.
 
 The evaluator produces two artifacts:
 
@@ -59,11 +75,11 @@ Then validate both artifacts explicitly with the schema script — **halt on non
 
 ```bash
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/analysis.yaml \
+  "${EPISODE_DIR}/analysis.yaml" \
   framework/schemas/analysis.yaml
 
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/facilitation.yaml \
+  "${EPISODE_DIR}/facilitation.yaml" \
   framework/schemas/facilitation.yaml
 ```
 
@@ -73,11 +89,11 @@ Then run the analysis-specific cross-field invariant check — **halt on non-zer
 
 ```bash
 python3 framework/pipeline/scripts/check_analysis_invariants.py \
-  artifacts/$1/analysis.yaml \
-  artifacts/$1/scenario.yaml
+  "${EPISODE_DIR}/analysis.yaml" \
+  "${EPISODE_DIR}/episode.yaml"
 ```
 
-This enforces the invariants the descriptive schema cannot express: every `quality_level: strong` annotation must have a non-empty `contrastive_explanation` and null `explanatory_variables.cognitive_pattern` / `social_dynamic`; every entry in the scenario plan's `target_strengths` must appear as at least one strong, was_targeted=true annotation. (See suggestion E in `framework/docs/system-evaluation-20260406.md`.) If the invariant check reports issues, treat them the same as a schema-validation failure: do not proceed to the reviewer; either fix the assembly or feed the issues back into a re-invocation of the evaluator.
+This enforces the invariants the descriptive schema cannot express: every `quality_level: strong` annotation must have a non-empty `contrastive_explanation` and null `explanatory_variables.cognitive_pattern` / `social_dynamic`; every entry in the episode plan's `target_strengths` must appear as at least one strong, was_targeted=true annotation. (See suggestion E in `framework/docs/system-evaluation-20260406.md`.) If the invariant check reports issues, treat them the same as a schema-validation failure: do not proceed to the reviewer; either fix the assembly or feed the issues back into a re-invocation of the evaluator.
 
 **Log:** `--stage evaluator --agent evaluator --attempt <n>` after each evaluator invocation, then `--stage schema_validation --verdict <PASS|FAIL>` (covers both the schema-validate and the invariant-check pass — they are folded into one logical "validation" stage from the operator's perspective; surface a `--notes "<failure>"` on FAIL identifying which check failed).
 
@@ -86,10 +102,10 @@ This enforces the invariants the descriptive schema cannot express: every `quali
 **Use the Task tool with `subagent_type: analysis_reviewer`.** Independent fresh-context review.
 
 Pass the agent the paths to all four artifacts:
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/facilitation.yaml`
-- `artifacts/$1/transcript.yaml`
-- `artifacts/$1/scenario.yaml`
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/facilitation.yaml`
+- `${EPISODE_DIR}/transcript.yaml`
+- `${EPISODE_DIR}/episode.yaml`
 
 The reviewer checks:
 1. Facet annotation accuracy
@@ -115,17 +131,17 @@ The pipeline is autonomous through this loop.
 ### Step 4: Save
 
 ```
-artifacts/$1/analysis.yaml
-artifacts/$1/facilitation.yaml
+${EPISODE_DIR}/analysis.yaml
+${EPISODE_DIR}/facilitation.yaml
 ```
 
 **Log:** `--stage save --verdict SAVE`.
 
 ## Output
 
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/facilitation.yaml` (initial version — enriched in `/design_scaffolding`)
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/facilitation.yaml` (initial version — enriched in `/design_scaffolding`)
 
 ## Next Step
 
-Run `/design_scaffolding` with this scenario — it produces student-facing scaffolding materials (hints, rubrics, misreading redirects) and enriches the facilitation guide with discussion starter questions.
+Run `/design_scaffolding $1 $2` for this episode — it produces student-facing scaffolding materials (hints, rubrics, misreading redirects) and enriches the facilitation guide with discussion starter questions.

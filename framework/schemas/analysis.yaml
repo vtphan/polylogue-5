@@ -1,7 +1,7 @@
 # Schema: Expert Analysis
-# Describes the structure of artifacts/{scenario_id}/analysis.yaml
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/analysis.yaml
 # The pipeline's most framework-dependent artifact — bridges hidden and visible layers.
-# Source: pipeline-spec.md Section 2.3
 
 schema:
   root:
@@ -10,6 +10,17 @@ schema:
       scenario_id:
         type: string
         required: true
+
+      story_id:
+        type: string
+        required: true
+        description: >
+          Kebab-case identifier of the parent story. Mirrors episode.yaml.
+
+      episode_number:
+        type: integer
+        required: true
+        description: 1-indexed position within the parent story's arc.
 
       passage_analyses:
         type: list
@@ -65,6 +76,21 @@ schema:
                     description: Sentence IDs where this facet is observable.
                     items:
                       type: string
+                  evidence_basis:
+                    type: string
+                    required: true
+                    description: >
+                      REQUIRED on every annotation. One sentence pointing to
+                      the specific behavior in evidence_sentences that
+                      supports the cognitive_pattern and social_dynamic
+                      assignments. If evidence is consistent with multiple
+                      labels, name the alternatives here rather than
+                      committing. For pass-2 (non-targeted) annotations, this
+                      field cites the line(s) that prompted the evaluator to
+                      surface the facet at all. The rule is uniform — every
+                      annotation has an evidence_basis. See
+                      framework/docs/story-pipeline-revision.md Part 4C.
+                      Validated by validate_schema.py (Part 4D rule 3).
                   primary_lens:
                     type: string
                     required: true
@@ -82,13 +108,27 @@ schema:
                     required: true
                     fields:
                       cognitive_pattern:
-                        type: string
+                        type: string_or_list
                         required: false
-                        description: Cognitive pattern ID or null.
+                        description: >
+                          Cognitive pattern ID, list of IDs, or null. A
+                          single string is "confident" (single-label).
+                          A list is "hedged" (the evidence supports
+                          multiple labels and the evaluator declines to
+                          commit). Hedged annotations are honest but do
+                          NOT satisfy story-level coverage; only single-
+                          label annotations count. The evaluator MUST
+                          hedge whenever evidence underdetermines, even if
+                          doing so causes a coverage failure — the fix is
+                          never to push the evaluator to commit harder.
+                          See framework/docs/story-pipeline-revision.md
+                          Part 4C.
                       social_dynamic:
-                        type: string
+                        type: string_or_list
                         required: false
-                        description: Social dynamic ID or null.
+                        description: >
+                          Social dynamic ID, list of IDs, or null. Same
+                          hedging semantics as cognitive_pattern.
                       interaction:
                         type: string
                         required: false

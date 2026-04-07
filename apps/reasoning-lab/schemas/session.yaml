@@ -1,6 +1,7 @@
 # Schema: Session Configuration (Reasoning Lab)
-# Describes the structure of artifacts/{scenario_id}/session.yaml
-# for Reasoning Lab sessions. Assembled from scoring.yaml + analysis.yaml.
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/reasoning-lab/session.yaml
+# Assembled from scoring.yaml + analysis.yaml.
 # Application: Reasoning Lab
 
 schema:
@@ -10,6 +11,16 @@ schema:
       scenario_id:
         type: string
         required: true
+
+      story_id:
+        type: string
+        required: true
+        description: Story this episode belongs to. Propagated from episode.yaml.
+
+      episode_number:
+        type: integer
+        required: true
+        description: Episode number within the story (1-indexed).
 
       application:
         type: string

@@ -101,7 +101,7 @@ The pipeline produces six artifacts per scenario. Each is a YAML file stored in 
 
 | Artifact | File | Consumer | Purpose |
 |---|---|---|---|
-| Scenario plan | `scenario.yaml` | Pipeline only | Blueprint — topic, personas, targeted facets, discussion arc |
+| Scenario plan | `episode.yaml` | Pipeline only | Blueprint — topic, personas, targeted facets, discussion arc |
 | Discussion transcript | `transcript.yaml` | App (student-facing) | The scripted group discussion students evaluate |
 | Expert analysis | `analysis.yaml` | App (AI perspective) + teacher | Per-passage facet annotations, AI perspective, diversity metadata |
 | Facilitation guide | `facilitation.yaml` | Teacher | What's structurally present, what students will likely see/miss, debrief materials |
@@ -114,7 +114,7 @@ Each artifact exists because a specific consumer needs it at a specific moment. 
 
 **Diagnose** requires the transcript (what students read), the session configuration (which passages, lens definitions, suggested order), and the scaffolding materials (deepening probes after submission, misreading redirects after submission).
 
-**Discuss** requires no pipeline artifact for students — peer exchange uses live student responses. The teacher uses the facilitation guide's discussion prompts and observation predictions. The transcript must be rich enough to produce diverse readings, which is a generation concern (scenario plan + dialog writing).
+**Discuss** requires no pipeline artifact for students — peer exchange uses live student responses. The teacher uses the facilitation guide's discussion prompts and observation predictions. The transcript must be rich enough to produce diverse readings, which is a generation concern (episode plan + dialog writing).
 
 **Reviewing AI** requires the AI perspective from the expert analysis and the scaffold sequence from the scaffolding materials — the graduated hints leading to the AI perspective, plus the reflection prompt shown after the AI perspective is revealed.
 
@@ -124,7 +124,7 @@ Each artifact exists because a specific consumer needs it at a specific moment. 
 
 **Assessment (background)** requires the expert analysis (facet annotations as ground truth, diversity metadata for expected observations) and the scaffolding materials (rubrics at three differentiation levels).
 
-The scenario plan is consumed only by the pipeline itself — it governs generation but is not rendered by the app.
+The episode plan is consumed only by the pipeline itself — it governs generation but is not rendered by the app.
 
 ### What Each Artifact Contains
 
@@ -144,9 +144,9 @@ The scenario plan is consumed only by the pipeline itself — it governs generat
 
 The information barrier prevents the dialog writer from producing discussion that feels designed rather than natural. It operates through two mechanisms:
 
-1. **Schema stripping.** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the scenario plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
+1. **Schema stripping.** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the episode plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
 
-2. **Language discipline.** The `weaknesses`, `strengths`, and `accomplishes` fields in the scenario plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt enforces this translation.
+2. **Language discipline.** The `weaknesses`, `strengths`, and `accomplishes` fields in the episode plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt enforces this translation.
 
 The transcript instructional designer, evaluator, and scaffolding instructional designer all operate *outside* the barrier — they need to see the full plan to do their jobs (sharpening signals, annotating facets, producing scaffolding). The barrier exists only for the dialog writer.
 
@@ -155,17 +155,17 @@ The transcript instructional designer, evaluator, and scaffolding instructional 
 The pipeline runs as a sequence of operator-invoked commands. Each command orchestrates one or more agents and produces one or more artifacts.
 
 ```
-create_scenario ——→ create_transcript ——→ analyze_transcript ——→ design_scaffolding ——→ configure_session
+create_episode ——→ create_transcript ——→ analyze_transcript ——→ design_scaffolding ——→ configure_session
      ↓                     ↓                      ↓                     ↓                     ↓
-scenario.yaml        transcript.yaml         analysis.yaml        scaffolding.yaml       session.yaml
+episode.yaml        transcript.yaml         analysis.yaml        scaffolding.yaml       session.yaml
                                              facilitation.yaml ←── (enriched)
 ```
 
-**Stage 1: Create Scenario.** The operator specifies the topic, instructional goals, and which facets to target. A planning agent drafts the scenario plan — personas, discussion arc, turn outline. A validation agent reviews the plan: Are the targeted facets detectable? Do they have sufficient cross-lens visibility? Are personas in genuine tension? Is the language barrier-safe? The operator reviews and approves.
+**Stage 1: Create Scenario.** The operator specifies the topic, instructional goals, and which facets to target. A planning agent drafts the episode plan — personas, discussion arc, turn outline. A validation agent reviews the plan: Are the targeted facets detectable? Do they have sufficient cross-lens visibility? Are personas in genuine tension? Is the language barrier-safe? The operator reviews and approves.
 
-**Stage 2: Create Transcript.** The dialog writer receives the scenario plan with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped (information barrier) and writes the discussion as natural prose. A structural check validates turn count, speaker names, and turn order. A transcript instructional designer — who sees the full plan — sharpens expression: ensures signal moments for both designed weaknesses and designed strengths are visible but natural, enforces 6th-grade language. An enumeration script assigns sequential IDs to turns and sentences.
+**Stage 2: Create Transcript.** The dialog writer receives the episode plan with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped (information barrier) and writes the discussion as natural prose. A structural check validates turn count, speaker names, and turn order. A transcript instructional designer — who sees the full plan — sharpens expression: ensures signal moments for both designed weaknesses and designed strengths are visible but natural, enforces 6th-grade language. An enumeration script assigns sequential IDs to turns and sentences.
 
-**Stage 3: Analyze Transcript.** The operator segments the transcript into evaluable passages (groups of 1–3 consecutive turns). An evaluator agent reads the full transcript and scenario plan and produces the expert analysis (facet annotations, AI perspective, diversity metadata) and the facilitation guide (organized by passage and state, with whole-class debrief materials).
+**Stage 3: Analyze Transcript.** The operator segments the transcript into evaluable passages (groups of 1–3 consecutive turns). An evaluator agent reads the full transcript and episode plan and produces the expert analysis (facet annotations, AI perspective, diversity metadata) and the facilitation guide (organized by passage and state, with whole-class debrief materials).
 
 **Stage 4: Design Scaffolding.** A scaffolding instructional designer agent receives all prior artifacts and produces the scaffolding materials: scaffold sequence, difficulty signals, deepening probes, common misreadings, rubrics, and AI reflection prompts. This agent also enriches the facilitation guide's discussion prompts with passage-specific questions.
 

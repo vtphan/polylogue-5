@@ -1,33 +1,43 @@
 ---
 description: Assemble the final Lens session configuration from all preceding artifacts
-argument-hint: <scenario_id>
+argument-hint: <story_id> <episode_number>
 ---
 
 # Configure Session
 
-Assemble the session configuration from the transcript, analysis, and scaffolding artifacts. This is largely mechanical — all inputs have already been reviewed.
+Assemble the session configuration for one episode of a story. This is largely mechanical — all inputs have already been reviewed.
+
+## Arguments
+
+```bash
+STORY_ID="$1"
+EP_NUM="$2"
+EP_NN=$(printf "%02d" "$EP_NUM")
+EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
+```
 
 ## Input
 
-- `artifacts/$1/transcript.yaml`
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/lens/scaffolding.yaml`
+- `${EPISODE_DIR}/transcript.yaml`
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/episode.yaml` — the episode plan (read for `story_id`, `episode_number`)
+- `${EPISODE_DIR}/lens/scaffolding.yaml`
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc (cast, arc; used to populate onboarding strings that reference recurring characters)
 - `framework/reference/lenses.yaml`
 - `framework/reference/explanatory_variables.yaml`
-- `framework/reference/scenario_sequence.yaml` — planned sequence with per-position Lens toggles (lifeline pool, vocabulary visibility)
 - `apps/lens/reference/default_instructions.yaml` — standard student-facing strings (diagnose / discuss / ai_perspective / submit_assessment)
 
 ## Telemetry
 
-Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+Throughout this command, log meaningful events to `${EPISODE_DIR}/pipeline_log.yaml`:
 
 ```bash
 python3 framework/pipeline/scripts/log_pipeline_event.py \
-  --scenario $1 --command configure_session \
+  --story "$STORY_ID" --episode "$EP_NUM" --command configure_session \
   --stage <stage> [--verdict <V>] [--notes "<text>"]
 ```
 
-This is the final command in the Lens pipeline; the most useful entries are `--stage start`, `--stage save --verdict SAVE` (or `FAIL`), and any operator override of toggles derived from `scenario_sequence.yaml` (`--stage toggle_override --notes "..."`).
+This is the final command in the Lens pipeline; the most useful entries are `--stage start`, `--stage save --verdict SAVE` (or `FAIL`), and any operator override of session toggles (`--stage toggle_override --notes "..."`).
 
 ## Steps
 
@@ -52,8 +62,8 @@ The operator writes two fields — these are not auto-derived:
 
 Build `session.yaml` following the schema at `apps/lens/schemas/session.yaml`:
 
-**From transcript and analysis:**
-- `scenario_id`
+**From transcript, episode plan, and analysis:**
+- `scenario_id`, `story_id`, `episode_number` — copied from `${EPISODE_DIR}/episode.yaml`
 - `transcript_file`, `analysis_file`, `scaffolding_file` — relative paths
 - `passages` — passage IDs, turn ranges, evaluable flag, suggested order
 
@@ -67,7 +77,7 @@ Build `session.yaml` following the schema at `apps/lens/schemas/session.yaml`:
 - `ai_perspective.response_required: true`
 
 **Operator-authored content:**
-- `onboarding.topic_summary` and `onboarding.reading_instruction` (from Step 2). These are the only student-facing strings the operator authors per scenario.
+- `onboarding.topic_summary` and `onboarding.reading_instruction` (from Step 2). These are the only student-facing strings the operator authors per episode.
 
 **Default student-facing strings (loaded from `apps/lens/reference/default_instructions.yaml`):**
 
@@ -85,25 +95,22 @@ Read the defaults file and copy each entry verbatim into the matching field on `
 
 Do not modify the defaults file from this command. If the operator has explicitly asked to deviate for this session (e.g., a softer prompt for an early-pilot class), apply the override to the relevant field only and emit a `--stage instruction_override --notes "<field>: <reason>"` telemetry event so the divergence is visible. If a deviation should become permanent, edit `apps/lens/reference/default_instructions.yaml` directly — that's the single source of truth.
 
-**Lifeline and vocabulary toggles (derived from scenario sequence):**
+**Lifeline and vocabulary toggles (operator-set per session):**
 
-Look up `$1` in `framework/reference/scenario_sequence.yaml` under `sequence[*].scenario_id`. If found, use the matching entry's `lens` block to set:
-- `lifelines.pool_size` ← `lens.lifeline_pool`
-- `reference_lists.show_cognitive_patterns` ← `lens.show_cognitive_patterns`
-- `reference_lists.show_social_dynamics` ← `lens.show_social_dynamics`
+Under the story model the operator sets these explicitly at session-configuration time. The defaults are:
+- `lifelines.pool_size` = 5
+- `reference_lists.show_cognitive_patterns` = false
+- `reference_lists.show_social_dynamics` = false
+- `lifelines.hint_cost` = 1
 
-`lifelines.hint_cost` is always `1`.
-
-If the operator has explicitly asked to override any of these for this session, honor the override and note it (one line) in your final report so the divergence from the planned sequence is visible.
-
-If `$1` is **not** in `scenario_sequence.yaml` (an experimental scenario outside the plan), fall back to: `lifeline_pool: 5`, `show_cognitive_patterns: false`, `show_social_dynamics: false`, and warn the operator that this scenario is not part of the planned sequence — they may want to add it to `framework/reference/scenario_sequence.yaml` (and `framework/docs/scenario-sequence.md`) before pilot.
+If the operator overrides any of these for this session, honor the override and emit a `--stage toggle_override --notes "<field>: <reason>"` telemetry event so the divergence from the defaults is visible.
 
 ### Step 4: Save
 
 Write the assembled `session.yaml` to disk so the validator can read it:
 
 ```
-artifacts/$1/lens/session.yaml
+${EPISODE_DIR}/lens/session.yaml
 ```
 
 ### Step 5: Validate
@@ -112,7 +119,7 @@ Run schema validation explicitly — **halt on non-zero exit**:
 
 ```bash
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/lens/session.yaml \
+  ${EPISODE_DIR}/lens/session.yaml \
   apps/lens/schemas/session.yaml
 ```
 
@@ -128,14 +135,14 @@ Check cross-references:
 
 ## Output
 
-`artifacts/$1/lens/session.yaml`
+`${EPISODE_DIR}/lens/session.yaml`
 
 ## Pipeline Complete
 
-All artifacts for this scenario are now in `artifacts/$1/`:
+All artifacts for this episode are now in `${EPISODE_DIR}/`:
 
 Shared (stages 1–3):
-- `scenario.yaml` — scenario plan (pipeline-internal)
+- `episode.yaml` — episode plan (pipeline-internal)
 - `transcript.yaml` — discussion transcript (student-facing)
 - `analysis.yaml` — expert analysis (AI perspective)
 - `facilitation.yaml` — facilitation guide (teacher-facing, initial version)

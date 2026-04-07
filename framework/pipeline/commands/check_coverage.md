@@ -5,6 +5,8 @@ argument-hint: (no arguments)
 
 # Check Coverage
 
+**Note:** This command and its sequence file (`framework/reference/scenario_sequence.yaml`, `framework/docs/scenario-sequence.md`) belong to the legacy disposable-scenario model. They are preserved in Phase 5 and will be deleted in Phase 8 step 43 once the first story has shipped. Story-based coverage is checked by `validate_story.py`, not by this command.
+
 Compare generated scenarios in `artifacts/` against the planned scenario sequence in `framework/reference/scenario_sequence.yaml`. Reports per-scenario drift (facets, cognitive patterns, social dynamics that don't match the plan) and aggregate coverage of the plan's targets.
 
 This is a diagnostic command. It does not modify any artifacts. Use it during the pilot phase, especially when regenerating individual scenarios, to confirm the set as a whole still covers what the design intended.
@@ -41,7 +43,7 @@ The report has three sections:
 ### Step 3: Decide what to do
 
 - `MISSING` scenarios → run the pipeline for those scenario IDs.
-- `DRIFT` scenarios → either re-run `/create_scenario` for that ID with a corrected operator prompt, or update `framework/reference/scenario_sequence.yaml` if the plan itself has shifted. Keep the YAML in sync with `framework/docs/scenario-sequence.md`.
+- `DRIFT` scenarios → either re-run `/create_episode` for that ID with a corrected operator prompt, or update `framework/reference/scenario_sequence.yaml` if the plan itself has shifted. Keep the YAML in sync with `framework/docs/scenario-sequence.md`.
 - Aggregate gaps → consider whether the plan still matches your pilot intent before adding scenarios.
 
 ## Output

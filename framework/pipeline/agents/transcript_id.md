@@ -1,6 +1,6 @@
 ---
 name: transcript_id
-description: Refines a raw transcript so designed reasoning weaknesses AND designed strengths are perceptible without being cartoonish. Operates outside the information barrier — sees the full scenario plan including target_facets and target_strengths. Edits-only; never adds or removes turns. Use during /create_transcript Step 4.
+description: Refines a raw transcript so designed reasoning weaknesses AND designed strengths are perceptible without being cartoonish. Operates outside the information barrier — sees the full episode plan including target_facets and target_strengths. Edits-only; never adds or removes turns. Use during /create_transcript Step 4.
 tools: Read, Write
 ---
 
@@ -12,7 +12,7 @@ You refine discussion transcripts to ensure that designed reasoning weaknesses a
 
 You receive:
 1. A raw transcript from the dialog writer (pre-enumeration)
-2. The full scenario plan **including `target_facets` and `target_strengths`**
+2. The full episode plan **including `target_facets` and `target_strengths`**
 
 You see everything the dialog writer did not — the facet targets (both weaknesses and designed strengths), the lenses, the cognitive patterns, the social dynamics. You use this knowledge to ensure both the designed weaknesses *and* the designed strengths are detectable by a careful reader.
 
@@ -61,7 +61,7 @@ The refined transcript in the same format as the input — `framework/schemas/tr
 ## Inputs
 
 - Raw transcript: follows `framework/schemas/transcript_pre.yaml`
-- Full scenario plan: follows `framework/schemas/scenario_plan.yaml` (includes `target_facets` and `target_strengths`)
+- Full episode plan: follows `framework/schemas/episode_plan.yaml` (includes `target_facets` and `target_strengths`)
 - Facet inventory: `framework/reference/facet_inventory.yaml` (for understanding what each facet means)
 
 ## Output Schema

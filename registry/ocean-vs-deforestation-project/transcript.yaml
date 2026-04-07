@@ -1,0 +1,93 @@
+scenario_id: ocean-vs-deforestation-project
+personas:
+- name: Maya
+  perspective: 'Passionate about ocean pollution after watching a documentary about plastic in the Pacific
+    Ocean.
+
+    '
+- name: Leo
+  perspective: 'Thinks deforestation is a more practical project because they could plant trees at their
+    school.
+
+    '
+turns:
+- speaker: Maya
+  sentences:
+  - text: Okay so I watched this documentary last weekend about plastic in the ocean and it was seriously
+      so sad.
+    sentence_id: turn_01.s01
+  - text: I really think we should do our project on ocean pollution.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Leo
+  sentences:
+  - text: I was actually thinking we could do deforestation, because I read about the Amazon fires and
+      it's really bad too.
+    sentence_id: turn_02.s01
+  - text: Plus we could plant trees in the courtyard at school and actually see them grow.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Maya
+  sentences:
+  - text: But did you know there's like millions of tons of plastic just floating in the Pacific right
+      now?
+    sentence_id: turn_03.s01
+  - text: Sea turtles are eating plastic bags because they think they're jellyfish, and the garbage patch
+      out there is literally twice the size of Texas.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Leo
+  sentences:
+  - text: That's really sad, but we don't even live near the ocean, so what would we actually do?
+    sentence_id: turn_04.s01
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: We can figure that part out later, the point is this is a huge problem.
+    sentence_id: turn_05.s01
+  - text: Like, animals are literally dying every single day because of this.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Leo
+  sentences:
+  - text: I know, but with trees we could literally go outside and plant them.
+    sentence_id: turn_06.s01
+  - text: We could measure how much they grow and take pictures for our presentation.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: I mean yeah, trees are cool, but ocean pollution is way bigger than one courtyard.
+    sentence_id: turn_07.s01
+  - text: Millions of animals are dying out there, this is like a real emergency.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Leo
+  sentences:
+  - text: Yeah, I guess the documentary stuff does sound really important.
+    sentence_id: turn_08.s01
+  turn_id: turn_08
+- speaker: Maya
+  sentences:
+  - text: Right, and imagine if our project could actually help save ocean animals!
+    sentence_id: turn_09.s01
+  - text: We could make a real difference with this.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Leo
+  sentences:
+  - text: But like, how would we even help with ocean pollution from here?
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Maya
+  sentences:
+  - text: We could totally do like a beach cleanup trip or make posters about it or something.
+    sentence_id: turn_11.s01
+  - text: It's gonna be so good, I'm really excited about this.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Leo
+  sentences:
+  - text: Okay fine, let's just do ocean pollution.
+    sentence_id: turn_12.s01
+  turn_id: turn_12

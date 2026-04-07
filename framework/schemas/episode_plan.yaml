@@ -1,6 +1,7 @@
-# Schema: Scenario Plan
-# Describes the structure of artifacts/{scenario_id}/scenario.yaml
-# Source: pipeline-spec.md Section 2.1
+# Schema: Episode Plan
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/episode.yaml
+# Source: framework/docs/story-pipeline-revision.md Part 13.5
 
 schema:
   root:
@@ -10,6 +11,22 @@ schema:
         type: string
         required: true
         description: Kebab-case identifier (e.g., "ocean-pollution-solutions").
+
+      story_id:
+        type: string
+        required: true
+        description: >
+          Kebab-case identifier of the parent story. Required: every
+          episode belongs to exactly one story. The story design doc
+          lives at framework/docs/stories/{story_id}.md.
+
+      episode_number:
+        type: integer
+        required: true
+        description: >
+          1-indexed position of this episode within its parent story's
+          arc. Must match the episode_number in the per-episode draft at
+          framework/docs/stories/{story_id}/episode_{NN}.md.
 
       topic:
         type: string
@@ -32,11 +49,12 @@ schema:
         type: string
         required: true
         description: >
-          Operator-authored description of the discussion's interpersonal
+          Narrative description of the discussion's interpersonal
           mechanics: starting positions, shift mechanism, ending condition,
-          and interaction quality. Copied verbatim from the operator prompt.
-          Used by the planning agent to derive discussion_arc and turn_outline.
-          Stripped before passing to the dialog writer.
+          and interaction quality. Authored by planning_agent from the
+          per-episode draft frontmatter and the story design doc.
+          Used to derive discussion_arc and turn_outline. Stripped before
+          passing to the dialog writer.
 
       personas:
         type: list
@@ -126,6 +144,26 @@ schema:
                   type: string
                   required: false
                   description: How the cognitive and social forces interact, if both present.
+                cognitive_signal:
+                  type: string
+                  required: false
+                  description: >
+                    REQUIRED iff cognitive_pattern is non-null. One sentence
+                    describing the behavioral trace of the cognitive pattern
+                    in the dialog. Copied verbatim from the per-episode
+                    draft frontmatter (the operator's authoring artifact).
+                    Validated by validate_schema.py via a conditional rule
+                    (Part 4D).
+                social_signal:
+                  type: string
+                  required: false
+                  description: >
+                    REQUIRED iff social_dynamic is non-null. One sentence
+                    describing the move/response turn-pair shape that
+                    realizes the social dynamic. Must reference at least
+                    two turns. Copied verbatim from the per-episode draft
+                    frontmatter. Validated by validate_schema.py via a
+                    conditional rule (Part 4D).
             carrier_persona:
               type: string
               required: true
@@ -134,10 +172,12 @@ schema:
               type: string
               required: true
               description: >
-                Operator-authored narrative of how this facet weakness concretely
-                manifests in the discussion. Copied verbatim from the operator
-                prompt. Used by the planning agent to derive the carrier persona's
-                weaknesses field and the relevant turn_outline accomplishes fields.
+                Narrative of how this facet weakness concretely manifests
+                in the discussion. Authored by planning_agent from the
+                draft's cognitive_signal/social_signal/interaction_note and
+                the carrier's voice in the story design doc. Used to derive
+                the carrier persona's weaknesses field and the relevant
+                turn_outline accomplishes fields.
 
       target_strengths:
         type: list
@@ -182,10 +222,12 @@ schema:
               type: string
               required: true
               description: >
-                Operator-authored narrative of how this facet strength concretely
-                manifests in the discussion. Copied verbatim from the operator
-                prompt. Used by the planning agent to derive the carrier persona's
-                strengths field and the relevant turn_outline accomplishes fields.
+                Narrative of how this facet strength concretely manifests
+                in the discussion. Authored by planning_agent from the
+                draft's optional strength note and the carrier's voice in
+                the story design doc. Used to derive the carrier persona's
+                strengths field and the relevant turn_outline accomplishes
+                fields.
             contrastive_note:
               type: string
               required: false

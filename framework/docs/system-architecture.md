@@ -18,7 +18,7 @@ This document describes how the Polylogue system is organized — the relationsh
 │                      scripts (stages 1–3)                   │
 └────────────────────────┬────────────────────────────────────┘
                          │ Shared artifacts:
-                         │   scenario.yaml, transcript.yaml,
+                         │   episode.yaml, transcript.yaml,
                          │   analysis.yaml, facilitation.yaml
                          ▼
 ┌──────────────────────────────┐  ┌───────────────────────────┐
@@ -47,12 +47,12 @@ The framework is application-agnostic. It defines the theory, the shared data, a
 
 | Directory | Contents | Purpose |
 |---|---|---|
-| `framework/docs/` | `conceptual-framework.md`, `scenario-sequence.md`, this file | Theory and shared design |
+| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, this file, plus `framework/docs/stories/` (story design docs and per-episode drafts) | Theory and shared design |
 | `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` | Source-of-truth data. All IDs propagate from here. |
-| `framework/schemas/` | 10 schemas (3 reference + 7 upstream pipeline) | Contracts for shared artifacts |
-| `framework/pipeline/agents/` | 7 agent prompts (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer) | Shared upstream agents |
-| `framework/pipeline/commands/` | 4 commands (`create_scenario`, `brainstorm`, `create_transcript`, `analyze_transcript`) | Shared upstream commands |
-| `framework/pipeline/scripts/` | 4 scripts (enumerate, review, strip, validate_schema) | Shared upstream scripts |
+| `framework/schemas/` | Shared upstream schemas (incl. `episode_plan.yaml`, `episode_writer_input.yaml`) | Contracts for shared artifacts |
+| `framework/pipeline/agents/` | Shared upstream agents (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer, projection reviewer, story_consistency_reviewer) | Shared upstream agents |
+| `framework/pipeline/commands/` | Shared upstream commands (`create_episode`, `brainstorm`, `create_transcript`, `analyze_transcript`, `check_coverage`) | Shared upstream commands |
+| `framework/pipeline/scripts/` | Shared upstream scripts (`validate_schema.py`, `validate_story.py`, `enumerate_transcript.py`, `review_transcript.py`, `check_analysis_invariants.py`, `log_pipeline_event.py`) | Shared upstream scripts |
 
 ### Applications (`apps/{app-id}/`)
 
@@ -71,19 +71,19 @@ The pipeline runs in two phases: shared upstream (stages 1–3) and application-
 
 ### Shared Upstream Pipeline (Framework)
 
-All applications share these stages. Run once per scenario.
+All applications share these stages. Run once per episode. Every command takes `<story_id> <episode_number>` as its arguments.
 
 ```
-/create_scenario  →  /create_transcript  →  /analyze_transcript
+/create_episode  →  /create_transcript  →  /analyze_transcript
        ↓                     ↓                      ↓
-  scenario.yaml        transcript.yaml         analysis.yaml
+  episode.yaml         transcript.yaml         analysis.yaml
                                                facilitation.yaml
 ```
 
 | Stage | Command | Agents | Output |
 |---|---|---|---|
-| 1. Create Scenario | `/create_scenario` | Planning agent, validation agent | `scenario.yaml` |
-| 2. Create Transcript | `/create_transcript` | Dialog writer, transcript ID, transcript reviewer | `transcript.yaml` |
+| 1. Create Episode | `/create_episode` | Planning agent, validation agent | `episode.yaml`, `episode_writer_input.yaml` |
+| 2. Create Transcript | `/create_transcript` | Projection reviewer, dialog writer, transcript ID, transcript reviewer | `transcript.yaml` |
 | 3. Analyze Transcript | `/analyze_transcript` | Evaluator, analysis reviewer | `analysis.yaml`, `facilitation.yaml` |
 
 ### Application-Specific Downstream Pipeline
@@ -126,8 +126,8 @@ The **operator** (a human running these slash commands inside Claude Code) is in
 
 | Touchpoint | What the operator does |
 |---|---|
-| **Brainstorm** (`/brainstorm`) | Co-designs the 6-field operator prompt with Claude — explores topic, pedagogical intent, target facets |
-| **Kickoff** (`/create_scenario`) | Provides the validated 6-field prompt as input |
+| **Story design** (Phase 6 — prose authoring) | Authors `framework/docs/stories/{story_id}.md` (the story design doc) and `framework/docs/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/operator-manual.md`. `/brainstorm` is an optional conversational helper for the per-episode draft. |
+| **Kickoff** (`/create_episode`) | Runs the command with `<story_id> <episode_number>`. The per-episode draft IS the operator prompt — there is no inline input. |
 | **Finalize Lens** (`/configure_session`) | Authors student-facing onboarding strings, per-state instructions, lifeline pool size, reference-list visibility toggles |
 | **Finalize Reasoning Lab** (`/configure_competition`) | Analogous content decisions for the competitive format |
 
@@ -144,12 +144,12 @@ Each producer/reviewer pair has a bounded retry budget (typically 1 revise pass,
 If a reviewer's retry budget is exhausted, the command halts with:
 - The latest version of the artifact(s) it was producing
 - The latest reviewer report
-- A pointer to `artifacts/{scenario_id}/intermediates/` for stage-by-stage debugging
+- A pointer to `artifacts/{story_id}/episodes/episode_{NN}/intermediates/` for stage-by-stage debugging
 
 The operator then decides:
 - **Edit and resume** — manually adjust the failing artifact and re-run downstream commands
 - **Accept as-is** — save the latest version and proceed despite reviewer concerns
-- **Restart upstream** — return to an earlier stage (e.g., `/create_scenario`) if the failure indicates a structural problem with the input
+- **Restart upstream** — return to an earlier stage (e.g., `/create_episode`) if the failure indicates a structural problem with the input. If the failure is structural at the story level (the same signal fails to land across two episodes), return to Phase 6 and revise the per-episode draft, or the story design doc if the drift is character-level.
 
 ### Inspection (optional, anytime)
 
@@ -161,15 +161,15 @@ An earlier version of the pipeline interleaved operator gates between each produ
 
 ## Artifact Storage
 
-Generated artifacts live in `artifacts/{scenario_id}/`. Shared and app-specific artifacts are separated by subdirectory:
+Generated artifacts live in `artifacts/{story_id}/episodes/episode_{NN}/`. Shared and app-specific artifacts are separated by subdirectory:
 
 ```
-artifacts/{scenario_id}/
-├── scenario.yaml                    # Shared (stage 1)
+artifacts/{story_id}/episodes/episode_{NN}/
+├── episode.yaml                     # Shared (stage 1)
 ├── transcript.yaml                  # Shared (stage 2)
 ├── analysis.yaml                    # Shared (stage 3)
 ├── facilitation.yaml                # Shared (stage 3, enriched by Lens stage 4)
-├── intermediates/                   # Pipeline working files
+├── intermediates/                   # Pipeline working files (incl. episode_writer_input.yaml)
 ├── lens/                            # Lens-specific artifacts
 │   ├── scaffolding.yaml             # Stage 4
 │   └── session.yaml                 # Stage 5
@@ -179,7 +179,7 @@ artifacts/{scenario_id}/
     └── session.yaml                 # Stage 5a
 ```
 
-This structure allows both applications to share the same scenario and transcript while producing their own downstream artifacts without collision.
+This structure allows both applications to share the same episode and transcript while producing their own downstream artifacts without collision.
 
 ## Bootstrap and Initialization
 

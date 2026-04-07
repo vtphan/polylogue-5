@@ -1,0 +1,185 @@
+# Schema: Episode Writer Input
+# Describes the structure of
+# artifacts/{story_id}/episodes/episode_{NN}/intermediates/episode_writer_input.yaml
+#
+# Source: framework/docs/story-pipeline-revision.md Part 5.5
+#
+# This is the barrier-safe projection of the per-episode draft and the
+# parent story design doc that planning_agent produces for dialog_writer.
+# dialog_writer NEVER reads the per-episode draft, the story design doc,
+# or episode.yaml — /create_transcript Step 2 opens this file and embeds
+# its contents inline in the dialog_writer prompt. dialog_writer runs in a
+# fresh context with no Read tool.
+#
+# Two enforcement mechanisms protect the barrier:
+#   1. validate_schema.py runs a literal scan over this file for any
+#      reserved framework term (facet_id, lens name used as classification,
+#      cognitive_pattern_id, social_dynamic_id). If any term appears, the
+#      file is rejected.
+#   2. projection_reviewer (agent) reads BOTH the per-episode draft, the
+#      story design doc, and episode.yaml AND this projected file, and
+#      checks that each barrier-sensitive narrative field describes the
+#      BEHAVIOR or STAKES without paraphrasing the underlying framework
+#      label. The literal scan catches reserved terms; projection_reviewer
+#      catches paraphrased leakage like "kept citing the same source she
+#      liked" (= confirmation_bias in plain English).
+#
+# Both mechanisms run on every projection. Neither alone is sufficient.
+
+schema:
+  root:
+    type: object
+    fields:
+
+      story_premise:
+        type: string
+        required: true
+        description: >
+          1-2 sentences setting the world. No facet/pattern/dynamic
+          terminology. Barrier-sensitive — projection_reviewer checks
+          for paraphrased framework labels.
+
+      episode_premise:
+        type: string
+        required: true
+        description: >
+          One paragraph — what happens this episode. Narrative only.
+          Barrier-sensitive.
+
+      episode_number:
+        type: integer
+        required: true
+        description: So the writer knows where in the story this falls.
+
+      previously:
+        type: string
+        required: true
+        description: >
+          1-2 sentences summarizing what students saw in earlier episodes
+          that this episode references. Narrative recap, no framework terms.
+          Empty string for episode 1. Barrier-sensitive — must be derived
+          only from prior episode_writer_input.yaml files, prior per-episode
+          draft `previously` fields, and the design doc's prose, NOT from
+          prior analysis.yaml files (which contain framework labels).
+          projection_reviewer flags paraphrased leakage here especially
+          carefully because narrative recap is a natural place for
+          pattern-naming to creep in.
+
+      lead_characters:
+        type: list
+        required: true
+        description: 2-3 lead characters for this episode.
+        constraints:
+          min_length: 2
+          max_length: 3
+        items:
+          type: object
+          fields:
+
+            name:
+              type: string
+              required: true
+
+            voice:
+              type: string
+              required: true
+              description: >
+                Barrier-safe style notes (informal, tone, verbal habits).
+                Derived by planning_agent from the character's prose
+                description in the story design doc. Checked by
+                story_consistency_reviewer at design-doc time, and re-checked
+                here by projection_reviewer.
+
+            perspective:
+              type: string
+              required: true
+              description: >
+                What this character believes and wants in THIS episode.
+                Narrative only.
+
+            knowledge:
+              type: string
+              required: true
+              description: What they have researched or experienced.
+
+            weaknesses:
+              type: string
+              required: true
+              description: >
+                Barrier-safe character traits — what they get wrong, why,
+                phrased as personality not as fallacies. Translated by
+                planning_agent from the design doc's character prose and
+                the per-episode draft's per-target signals. No facet IDs,
+                no pattern names, no dynamic names. The highest-risk field
+                for paraphrased leakage; projection_reviewer checks
+                line-by-line.
+
+            strengths:
+              type: string
+              required: true
+              description: >
+                Barrier-safe character traits — what they get right, why.
+                Same translation rule as weaknesses.
+
+            prior_beats:
+              type: string
+              required: true
+              description: >
+                1-2 sentences naming what this character has done in prior
+                episodes that affects how they sound now. Narrative
+                continuity only. Empty string for episode 1.
+                Barrier-sensitive.
+
+      discussion_arc:
+        type: string
+        required: true
+        description: >
+          Narrative description of how tension rises and resolves in this
+          episode. No framework terms. Barrier-sensitive.
+
+      turn_outline:
+        type: list
+        required: true
+        description: >
+          Ordered sequence of turns. Length matches episode.yaml's
+          turn_outline (10-14). The move/response beats that carry the
+          social signal into the writer are encoded ONLY here, in
+          consecutive accomplishes entries — never named as a dynamic.
+        constraints:
+          min_length: 10
+          max_length: 14
+        items:
+          type: object
+          fields:
+            speaker:
+              type: string
+              required: true
+              description: Persona name from lead_characters.
+            accomplishes:
+              type: string
+              required: true
+              description: >
+                What this turn does for the story, in natural language.
+                No framework terms. When two consecutive entries describe
+                a move and a response, that pair is load-bearing — it is
+                the only carrier of the social signal into dialog_writer
+                and must not be merged, reordered, or softened by the
+                writer. Barrier-sensitive.
+
+# ─────────────────────────────────────────────────────────────────
+# EXPLICITLY EXCLUDED from this schema (do not add these fields):
+#
+#   - Any facet_id, lens name used as classification, cognitive_pattern,
+#     or social_dynamic name
+#   - Any signal_mechanism, cognitive_signal, or social_signal field
+#     (these stay in episode.yaml, read by reviewers only)
+#   - The story design doc or per-episode draft, in any form (path,
+#     contents, summary)
+#   - The design doc's character prose, growth arcs, lens dispositions
+#   - The coverage frontmatter (declared_facets, etc.)
+#   - target_facets and target_strengths from episode.yaml
+#
+# If a future revision wants to add a field here, it must justify why
+# the addition cannot leak framework labels and must extend the
+# projection_reviewer rubric to cover the new field.
+# ─────────────────────────────────────────────────────────────────

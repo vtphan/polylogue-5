@@ -2,7 +2,25 @@
 """Validate a YAML artifact against its descriptive YAML schema.
 
 Checks field presence (required/optional), types, enum constraints,
-list length constraints, and regex patterns.
+list length constraints, and regex patterns. Also runs four conditional
+content rules from framework/docs/story-pipeline-revision.md Part 4D
+and Part 5.5:
+
+  1. episode.yaml: if target_facets[i].designed_explanation.cognitive_pattern
+     is non-null, cognitive_signal is required and non-empty.
+  2. episode.yaml: if target_facets[i].designed_explanation.social_dynamic
+     is non-null, social_signal is required and non-empty.
+  3. analysis.yaml: every facet_annotations[i] has a non-empty evidence_basis.
+  4. episode_writer_input.yaml: literal scan for any reserved framework
+     term (facet_id, lens name as classification, cognitive_pattern_id,
+     social_dynamic_id). If any appears, fail the file. This is the
+     structural enforcement of the information barrier at the file level
+     (the runtime enforcement is fresh-context + tool-restriction on
+     dialog_writer).
+
+The conditional rules dispatch based on the schema filename. Adding a
+new rule means adding a new dispatch entry, not editing the generic
+type checker.
 
 Usage:
     python3 validate_schema.py <artifact_path> <schema_path> [--mode strict|warn]
@@ -13,14 +31,36 @@ Modes:
 
 Example:
     python3 validate_schema.py \
-        artifacts/ocean-vs-deforestation/transcript.yaml \
-        framework/schemas/transcript.yaml
+        artifacts/saving-the-maker-space/episodes/episode_01/episode.yaml \
+        framework/schemas/episode_plan.yaml
 """
 
+import os
 import re
 import sys
 import argparse
 import yaml
+
+
+def _load_reference_terms(reference_dir="framework/reference"):
+    """Return (facet_ids, cog_pattern_ids, social_dynamic_ids) sets for
+    use by the literal-scan rule. Returns empty sets if reference files
+    are unavailable — better to skip the scan than crash."""
+    facet_ids, cog_ids, soc_ids = set(), set(), set()
+    try:
+        with open(os.path.join(reference_dir, "facet_inventory.yaml")) as f:
+            data = yaml.safe_load(f) or {}
+            facet_ids = {f["id"] for f in (data.get("facets") or []) if f.get("id")}
+    except (FileNotFoundError, KeyError):
+        pass
+    try:
+        with open(os.path.join(reference_dir, "explanatory_variables.yaml")) as f:
+            data = yaml.safe_load(f) or {}
+            cog_ids = {p["id"] for p in (data.get("cognitive_patterns") or []) if p.get("id")}
+            soc_ids = {d["id"] for d in (data.get("social_dynamics") or []) if d.get("id")}
+    except (FileNotFoundError, KeyError):
+        pass
+    return facet_ids, cog_ids, soc_ids
 
 
 class SchemaValidator:
@@ -38,10 +78,100 @@ class SchemaValidator:
         root_def = schema_doc.get("schema", {}).get("root", {})
         self._validate_node(artifact, root_def, "root")
 
+        # Conditional content rules dispatched by schema filename.
+        schema_basename = os.path.basename(schema_path)
+        if schema_basename == "episode_plan.yaml":
+            self._check_episode_signal_rules(artifact)
+        elif schema_basename == "analysis.yaml":
+            self._check_analysis_evidence_basis(artifact)
+        elif schema_basename == "episode_writer_input.yaml":
+            self._check_projection_literal_scan(artifact_path)
+
         self._report(artifact_path, schema_path)
         if self.mode == "strict" and self.issues:
             return False
         return True
+
+    # ---- Conditional rules from Part 4D and Part 5.5 ----
+
+    def _check_episode_signal_rules(self, artifact):
+        """Rules 1 and 2: cognitive_signal / social_signal required iff
+        cognitive_pattern / social_dynamic is non-null."""
+        if not isinstance(artifact, dict):
+            return
+        for i, tf in enumerate(artifact.get("target_facets") or []):
+            de = (tf or {}).get("designed_explanation") or {}
+            cp = de.get("cognitive_pattern")
+            sd = de.get("social_dynamic")
+            cs = de.get("cognitive_signal")
+            ss = de.get("social_signal")
+            path = f"target_facets[{i}].designed_explanation"
+            if cp and not (isinstance(cs, str) and cs.strip()):
+                self.issues.append(
+                    f"{path}: cognitive_pattern '{cp}' set but cognitive_signal "
+                    f"is missing or empty (Part 4D rule 1)"
+                )
+            if sd and not (isinstance(ss, str) and ss.strip()):
+                self.issues.append(
+                    f"{path}: social_dynamic '{sd}' set but social_signal "
+                    f"is missing or empty (Part 4D rule 2)"
+                )
+
+    def _check_analysis_evidence_basis(self, artifact):
+        """Rule 3: every facet_annotations entry has non-empty evidence_basis."""
+        if not isinstance(artifact, dict):
+            return
+        for pi, passage in enumerate(artifact.get("passage_analyses") or []):
+            for ai, ann in enumerate((passage or {}).get("facet_annotations") or []):
+                eb = (ann or {}).get("evidence_basis")
+                if not (isinstance(eb, str) and eb.strip()):
+                    self.issues.append(
+                        f"passage_analyses[{pi}].facet_annotations[{ai}]: "
+                        f"evidence_basis is missing or empty (Part 4D rule 3)"
+                    )
+
+    def _check_projection_literal_scan(self, artifact_path):
+        """Rule 4: scan episode_writer_input.yaml for any reserved framework
+        term — facet_id, cognitive_pattern_id, social_dynamic_id, or a lens
+        name used as classification. Lens names ('logic', 'evidence',
+        'scope') appear in narrative English so freely that scanning for
+        them as bare words produces too many false positives; instead, we
+        scan only for the IDs (which use snake_case unique to framework
+        vocabulary, e.g. 'confirmation_bias', 'source_credibility') and
+        for the lens names appearing as YAML values (lens_disposition:
+        logic, primary_lens: scope, etc.) — those are the leakage shapes
+        that matter."""
+        facet_ids, cog_ids, soc_ids = _load_reference_terms()
+        reserved = facet_ids | cog_ids | soc_ids
+        if not reserved:
+            self.warnings.append(
+                "projection literal-scan skipped: no reference terms loaded"
+            )
+            return
+        try:
+            with open(artifact_path) as f:
+                raw = f.read()
+        except OSError as e:
+            self.issues.append(f"projection literal-scan: cannot read file: {e}")
+            return
+        # Word-boundary scan for each reserved ID.
+        for term in sorted(reserved):
+            if re.search(r"\b" + re.escape(term) + r"\b", raw):
+                self.issues.append(
+                    f"projection literal-scan: reserved framework term "
+                    f"'{term}' appears in episode_writer_input.yaml — the "
+                    f"information barrier requires this file to contain no "
+                    f"facet, cognitive_pattern, or social_dynamic IDs "
+                    f"(Part 5.5)"
+                )
+        # Lens names as YAML values (e.g. "lens_disposition: logic").
+        for lens in ("logic", "evidence", "scope"):
+            if re.search(rf":\s*{lens}\b", raw):
+                self.issues.append(
+                    f"projection literal-scan: lens name '{lens}' appears as "
+                    f"a YAML value (classification use) in "
+                    f"episode_writer_input.yaml (Part 5.5)"
+                )
 
     def _validate_node(self, data, definition, path):
         expected_type = definition.get("type")
@@ -56,6 +186,8 @@ class SchemaValidator:
             self._validate_integer(data, definition, path)
         elif expected_type == "boolean":
             self._validate_boolean(data, definition, path)
+        elif expected_type == "string_or_list":
+            self._validate_string_or_list(data, definition, path)
         elif expected_type == "datetime":
             pass  # Accept any value for datetime
         elif expected_type is None:
@@ -145,6 +277,28 @@ class SchemaValidator:
             self.issues.append(
                 f"{path}: expected integer, got {type(data).__name__}"
             )
+
+    def _validate_string_or_list(self, data, definition, path):
+        """Used by analysis.yaml's hedged-vs-confident explanatory variables.
+        A string is single-label (confident); a list of strings is hedged.
+        Both are valid; null is valid for optional fields."""
+        if data is None:
+            if definition.get("required", False):
+                self.issues.append(f"{path}: required string_or_list is null")
+            return
+        if isinstance(data, str):
+            return
+        if isinstance(data, list):
+            for i, item in enumerate(data):
+                if not isinstance(item, str):
+                    self.issues.append(
+                        f"{path}[{i}]: expected string in hedged list, "
+                        f"got {type(item).__name__}"
+                    )
+            return
+        self.issues.append(
+            f"{path}: expected string or list of strings, got {type(data).__name__}"
+        )
 
     def _validate_boolean(self, data, definition, path):
         if data is None:

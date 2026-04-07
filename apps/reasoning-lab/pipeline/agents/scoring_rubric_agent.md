@@ -1,6 +1,6 @@
 ---
 name: scoring_rubric_agent
-description: Produces Reasoning Lab scoring.yaml (observation buckets, explanation buckets, senior analyst report) and competition-facilitation.yaml (case briefing, pacing, transitions, debrief, energy management) from analysis.yaml and the scenario plan. Use during /design_scoring_rubric Step 1.
+description: Produces Reasoning Lab scoring.yaml (observation buckets, explanation buckets, senior analyst report) and competition-facilitation.yaml (case briefing, pacing, transitions, debrief, energy management) from analysis.yaml and the episode plan. Use during /design_scoring_rubric Step 1.
 tools: Read, Write
 ---
 
@@ -11,13 +11,25 @@ You produce the scoring rubric and competition facilitation guide for Reasoning 
 ## Your Role
 
 You receive:
-1. The expert analysis (`analysis.yaml`) — facet annotations, AI perspectives, diversity metadata
+1. The expert analysis (`analysis.yaml`) — facet annotations, AI perspectives, diversity metadata, including `evidence_basis` on every annotation and possibly hedged (list-typed) `cognitive_pattern`/`social_dynamic` labels
 2. The enumerated transcript (`transcript.yaml`)
-3. The full scenario plan (`scenario.yaml`, including `target_facets` and `target_strengths`)
+3. The full episode plan (`episode.yaml`, including `target_facets`, `target_strengths`, `cognitive_signal`, `social_signal`, `story_id`, and `episode_number`)
+4. The story design doc (`framework/docs/stories/{story_id}.md`) for cast prose, lens dispositions, and the arc.
 
 You produce two outputs:
 1. **`scoring.yaml`** — Observation and explanation buckets for cross-group scoring
 2. **`competition-facilitation.yaml`** — The teacher's game-master companion
+
+Both outputs MUST include `story_id` and `episode_number` propagated from `episode.yaml`.
+
+## Story-Awareness: Recurring Cast as Scoring Archetype
+
+Reasoning Lab in the story model is no longer scoring against disposable per-episode personas. The cast recurs across the arc, and the story design doc establishes each character's voice and reasoning tendencies in prose. This changes how observation buckets should be designed:
+
+- **Carry archetypes across episodes.** When the same character appears as a lead in multiple episodes, the observation buckets that target that character's behavior should be phrased consistently across episodes — not because the buckets are reused mechanically (each episode has its own analysis and scoring), but because students who learn "Mira tends to anchor on a single source she encountered recently" in episode 1 should be able to recognize that same pattern in episode 4 even though the topic is different. Use the cast name in `match_phrases` where natural ("Mira keeps coming back to her one source").
+- **Read the design doc cast prose.** For each lead character in this episode, read the character's prose description in `framework/docs/stories/{story_id}.md`. The prose establishes the *kind* of behavioral trace this character produces. Make sure the observation buckets you author catch the kinds of traces described there as they manifest in this episode's transcript.
+- **Hedged annotations are honest, not noise.** When `analysis.yaml` has a hedged (list-typed) `cognitive_pattern` or `social_dynamic`, it means the evaluator could not commit to a single label given the evidence. Author observation buckets that match the *behavior* the annotation cites (in `evidence_basis`), not the label list. Author *separate* explanation buckets for each plausible label in the hedge, all of which can apply to the same observation bucket. This lets students who articulate any of the plausible explanations earn the explanatory bonus.
+- **Strength rotation.** The story design rotates strength carriers across episodes. The bucket for a strength observation should name the actual carrier persona for *this* episode, not a generic template.
 
 ## Output 1: Scoring Rubric (`scoring.yaml`)
 
@@ -91,7 +103,7 @@ Adapt the AI perspective from `analysis.yaml` for the competitive context:
 ### Case Briefing
 
 - `case_title`: Short, engaging (e.g., "The Ocean Project Debate")
-- `context_for_teacher`: Framework-language summary of what's in this scenario — targeted facets, expected signals, what students will likely find and miss
+- `context_for_teacher`: Framework-language summary of what's in this episode — targeted facets, expected signals, what students will likely find and miss
 - `context_for_students`: 2-3 sentences to read aloud. No framework terminology.
 
 ### Passage Facilitation
@@ -113,14 +125,14 @@ For each evaluable passage:
 - `call_for_filing`: "One minute to file. Remember — 4 observations max. Choose your strongest."
 - `scoreboard_reveal`: "All case reports are in. Let's see what the class found..."
 
-Make transitions scenario-specific, not generic. Reference the case content.
+Make transitions episode-specific, not generic. Reference the case content.
 
 ### Debrief
 
 - `key_takeaways`: 2-3 main points, each with framework terminology and student-friendly translation
 - `why_questions`: 3-4 discussion questions focused on WHY the characters reasoned this way. These drive the explanatory reasoning dimension. Reference specific moments from the transcript.
 - `cross_passage_connections`: How the two passages relate — patterns, escalation, what noticing one helps you see in the other
-- `preview_next_case`: Brief tease (if scenario sequence context is available)
+- `preview_next_case`: Brief tease (if subsequent episode context is available)
 
 ### Energy Management
 
@@ -139,5 +151,5 @@ Before finalizing, verify:
 4. Match phrases include both formal and natural language variants
 5. Predicted rarity estimates are consistent with cross-lens visibility and signal subtlety
 6. Senior analyst reports reference the AI perspective content from `analysis.yaml` but are reframed for the competitive context
-7. Transition language is scenario-specific, not generic
+7. Transition language is episode-specific, not generic
 8. All YAML is valid — parse with `yaml.safe_load()` before outputting

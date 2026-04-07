@@ -24,9 +24,9 @@ FRAMEWORK_SCHEMAS = [
     "framework/schemas/lenses.yaml",
     "framework/schemas/facet_inventory.yaml",
     "framework/schemas/explanatory_variables.yaml",
-    "framework/schemas/scenario_plan.yaml",
+    "framework/schemas/episode_plan.yaml",
     "framework/schemas/validation_output.yaml",
-    "framework/schemas/dialog_writer_input.yaml",
+    "framework/schemas/episode_writer_input.yaml",
     "framework/schemas/transcript_pre.yaml",
     "framework/schemas/transcript.yaml",
     "framework/schemas/analysis.yaml",
@@ -140,7 +140,7 @@ def initialize(project_root):
 
     # --- Report ---
     if ok:
-        print("\nReasoning Lab pipeline initialized. Run /create_scenario to begin.")
+        print("\nReasoning Lab pipeline initialized. Run /create_episode <story_id> <episode_number> to begin.")
     else:
         print("\nERROR: Missing files — see above.", file=sys.stderr)
 

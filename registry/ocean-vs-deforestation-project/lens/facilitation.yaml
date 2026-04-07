@@ -1,0 +1,488 @@
+scenario_id: ocean-vs-deforestation-project
+
+overview:
+  topic: Whether to focus the group's environmental project on ocean pollution or deforestation
+  targeted_facets_summary: >
+    This discussion is designed around two facets. First, weak relevance (Evidence
+    lens): one persona uses dramatic evidence about a global-scale problem to argue
+    for a local school project, without noticing the mismatch in scale between the
+    evidence and the decision. Second, weak perspective engagement (Scope lens):
+    when the other persona raises practical feasibility concerns, they are dismissed
+    rather than addressed — the strongest counterargument fades out because one
+    persona is more forceful, not because the concern was wrong.
+  session_timing: >
+    Approximately 50 minutes. Allow 5 minutes for setup and passage orientation,
+    25-30 minutes for the per-passage cycle (diagnose, discuss, AI perspective)
+    across all passages, and 10-15 minutes for whole-class debrief. Passages 2 and
+    3 are the richest — allocate slightly more time there.
+  what_to_expect: >
+    Students tend to notice Maya's enthusiasm and dramatic facts first, and many
+    will initially side with her — the documentary evidence is genuinely compelling.
+    The relevance gap (Pacific-scale evidence for a school-scale decision) often
+    gets missed on first read because the facts feel so powerful. Students usually
+    notice Leo's discomfort at the end more readily than they notice the pattern of
+    dismissal that caused it. Expect Evidence-lens students to focus on the
+    documentary details and Scope-lens students to notice Leo's concerns being
+    brushed aside. The richest cross-lens conversations will happen around whether
+    Maya's evidence actually fits the group's decision.
+
+passage_guides:
+  - passage_id: passage_01
+    turns:
+      - turn_01
+      - turn_02
+      - turn_03
+    summary: >
+      Both students state their positions. Maya proposes ocean pollution,
+      citing a documentary about the Pacific Garbage Patch with specific facts.
+      Leo proposes deforestation, mentioning Amazon fires and the possibility
+      of planting trees at school.
+
+    whats_here:
+      - facet: Relevance
+        quality: weak
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Maya cites Pacific-scale facts (millions of tons of plastic, garbage
+          patch twice the size of Texas) to argue for a school project. The
+          evidence is real but about a different scale and context. Driven by
+          overgeneralization — the documentary was so dramatic that Maya does
+          not notice the mismatch.
+      - facet: Sufficiency
+        quality: weak (emergent)
+        visible_through:
+          - evidence
+          - scope
+          - logic
+        explanation: >
+          Emergent. Maya's entire case rests on one documentary. One source,
+          however dramatic, is a thin basis for choosing a semester project.
+
+    diagnose:
+      if_students_are_stuck: >
+        Try looking at what evidence each person brings. Where does it come
+        from? What is it actually about?
+
+    discuss:
+      likely_disagreements: >
+        Evidence-lens students will focus on whether the documentary facts are
+        good evidence. Logic-lens students may notice the gap between global
+        facts and a local decision. Some students will find Maya's facts
+        convincing and wonder what there is to critique.
+      productive_questions:
+        - What is Maya's documentary actually about, and what is the group trying to decide?
+        - Does Leo's argument work differently from Maya's? How?
+        - Can evidence be true and still not be the right evidence for a decision? When?
+        - Where does each person's information come from? Is one documentary enough to decide?
+      watch_for: >
+        If students are all focused on whether Maya's facts are true (they are),
+        redirect to whether the facts fit the decision the group needs to make.
+        Truth and relevance are different things.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will note that both students have clear reasons, then draw
+        attention to the source and scale of Maya's evidence — dramatic Pacific
+        facts being used for a school-project decision.
+      likely_student_reactions: >
+        Some students may push back — the facts are true, so what is the
+        problem? This is a good teaching moment for distinguishing between
+        evidence being true and evidence being relevant to the specific
+        decision.
+      follow_up: >
+        Ask students: if Maya's evidence is true, can it still be the wrong
+        evidence for this decision? When does strong evidence not help?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Both sides give reasons for their preference
+        might_miss:
+          - The gap between Pacific-scale evidence and school-scale decision
+      - lens: evidence
+        will_likely_see:
+          - Maya cites specific dramatic facts
+          - Leo mentions practical experience
+        might_miss:
+          - That all of Maya's evidence comes from one source
+          - That the evidence describes a different scale than the project
+      - lens: scope
+        will_likely_see:
+          - Two different options are being proposed
+        might_miss:
+          - The scale mismatch is more visible through Evidence and Logic here
+
+  - passage_id: passage_02
+    turns:
+      - turn_04
+      - turn_05
+    summary: >
+      Leo raises the first practical concern — they do not live near the
+      ocean. Maya brushes it off with "we can figure that part out later" and
+      redirects to how urgent the problem is.
+
+    whats_here:
+      - facet: Perspective Engagement
+        quality: weak
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Leo raises the discussion's strongest counterargument: feasibility.
+          Maya acknowledges it just enough to not seem like she is ignoring it,
+          then immediately redirects. The concern is heard but never addressed.
+          Driven by confirmation bias (Maya dismisses what threatens her
+          preference) and beginning conflict avoidance (Leo does not press
+          further in this passage).
+      - facet: Relevance
+        quality: weak
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          The relevance gap deepens. Maya treats the problem's importance as
+          evidence for the project's feasibility — these are different
+          questions.
+
+    diagnose:
+      if_students_are_stuck: >
+        Try reading Leo's line closely. What is he actually asking? Then look
+        at what Maya says back. Did she answer his question?
+
+    discuss:
+      likely_disagreements: >
+        Scope students will likely see the unanswered question clearly.
+        Evidence students may notice the shift from facts to urgency. Some
+        students may think Maya's response is reasonable — it is a common
+        conversational move to defer details.
+      productive_questions:
+        - What exactly is Leo asking, and what does he get in response?
+        - Is it fair to say "we'll figure it out later"? When is that okay and when is it a problem?
+        - If you were Leo, how would you feel after this exchange? Would you want to keep pushing?
+      watch_for: >
+        If students think Maya's response is fine, ask whether the conversation
+        ever comes back to Leo's question. The issue is not one response but a
+        pattern across the discussion.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will highlight that Leo asks a practical question and gets an
+        emotional urgency response instead. Through all three lenses it will
+        note the question-to-non-answer move.
+      likely_student_reactions: >
+        Students may split on whether this is a big deal. Some will recognize
+        the brush-off; others will think deferring is normal in group
+        conversations.
+      follow_up: >
+        Ask students to track whether Leo's question ever gets answered by
+        the end of the discussion.
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Leo asks a question that does not get a direct answer
+        might_miss:
+          - That this is a pattern rather than a one-time thing
+      - lens: evidence
+        will_likely_see:
+          - Maya shifts from citing facts to emotional urgency
+        might_miss:
+          - That no evidence about project feasibility is ever offered
+      - lens: scope
+        will_likely_see:
+          - A feasibility concern is raised and set aside
+        might_miss:
+          - That this is the strongest counterargument in the entire discussion
+
+  - passage_id: passage_03
+    turns:
+      - turn_06
+      - turn_07
+      - turn_08
+    summary: >
+      Leo pushes back with his most concrete argument — planting trees,
+      measuring growth, taking pictures. Maya acknowledges it briefly then
+      argues ocean pollution is bigger and more urgent. Leo starts to waver.
+
+    whats_here:
+      - facet: Perspective Engagement
+        quality: weak
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          Leo's strongest moment — specific, actionable, measurable. Maya
+          acknowledges trees are "cool" then overrides with emotional scale
+          ("millions of animals," "real emergency"). The practical alternative
+          is dismissed by escalation rather than counter-argument. Confirmation
+          bias drives Maya's response; the beginning of group pressure shapes
+          Leo's concession.
+      - facet: Relevance
+        quality: weak
+        visible_through:
+          - evidence
+          - logic
+        explanation: >
+          Maya continues applying global-scale reasoning to a school-project
+          decision. The size of the problem is treated as the deciding factor,
+          but the group is choosing a project, not ranking which problem is
+          bigger.
+
+    diagnose:
+      if_students_are_stuck: >
+        Look at what Leo proposes and what Maya says in response. Are they
+        comparing the same kind of thing?
+
+    discuss:
+      likely_disagreements: >
+        This is often the most productive passage for cross-lens discussion.
+        Logic students may see the comparison mismatch. Evidence students may
+        notice different types of support (concrete vs. emotional). Scope
+        students may notice the conversation narrowing.
+      productive_questions:
+        - Is Maya responding to what Leo actually said? What would a real response look like?
+        - What happens to Leo after this exchange? Why?
+        - Leo gives very specific details about his idea. Does Maya engage with those specifics, or does she talk about something else?
+        - Which is more important for a school project — how big the problem is, or whether the group can actually do something about it?
+      watch_for: >
+        Productive: students noticing that Leo's argument has strengths Maya
+        does not address. Stalled: students debating whether ocean pollution
+        or deforestation is actually worse (this misses the point — the issue
+        is how the group handles the disagreement, not who is right).
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will contrast Leo's concrete details with Maya's emotional
+        scale argument, noting they answer different questions. It will point
+        to Leo's wavering as a sign of social pressure.
+      likely_student_reactions: >
+        Students often recognize the feeling of backing down when someone is
+        more enthusiastic. This passage may generate the most personal
+        connections.
+      follow_up: >
+        Ask students whether they have ever backed down in a group
+        conversation even when they thought they were right. What made it
+        hard to keep going?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Leo gives specific reasons; Maya responds with a size comparison
+        might_miss:
+          - That comparing problem size does not counter a practical argument
+      - lens: evidence
+        will_likely_see:
+          - Leo offers concrete details; Maya offers emotional appeal
+        might_miss:
+          - That these answer different questions
+      - lens: scope
+        will_likely_see:
+          - The discussion is narrowing; Leo starts backing down
+        might_miss:
+          - That Leo's wavering signals the practical perspective is being lost
+
+  - passage_id: passage_04
+    turns:
+      - turn_09
+      - turn_10
+    summary: >
+      Maya presses the advantage with aspirational language about saving
+      ocean animals. Leo makes one last tentative attempt to ask how they
+      would actually help.
+
+    whats_here:
+      - facet: Perspective Engagement
+        quality: weak
+        visible_through:
+          - scope
+          - logic
+        explanation: >
+          Leo's final challenge, notably weaker than earlier attempts. His
+          language has softened from direct statements to hedged questions.
+          The conflict avoidance pattern is visible in the change of his tone
+          across the conversation.
+
+    diagnose:
+      if_students_are_stuck: >
+        Compare how Leo talks here to how he talked in earlier passages.
+        Notice anything different about his tone or confidence?
+
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether Leo is being convinced or giving
+        up. This is a productive distinction.
+      productive_questions:
+        - Is Leo starting to agree with Maya, or is something else happening?
+        - What is different about how Leo phrases things now versus earlier?
+        - When Maya says they could "make a real difference," is that a plan or a wish? What would it take to turn it into a plan?
+      watch_for: >
+        Productive: students distinguishing between agreement and capitulation.
+        Stalled: students who do not notice Leo's tone shift — redirect them
+        to compare his language across passages.
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will highlight Maya's aspirational promises and Leo's final
+        logical question, then note how Leo's language has softened over the
+        conversation.
+      likely_student_reactions: >
+        Students may not have noticed the tone shift until the AI points it
+        out. This often generates "oh, I see it now" reactions.
+      follow_up: >
+        Ask students to go back and trace Leo's language from his first
+        objection to his last. What changed, and why?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya makes claims about making a difference without explaining how
+        might_miss:
+          - That Leo's question is the same one from passage 2, still unanswered
+      - lens: evidence
+        will_likely_see:
+          - No new evidence is introduced
+        might_miss:
+          - The absence of evidence means the decision rests on enthusiasm
+      - lens: scope
+        will_likely_see:
+          - Leo is still raising feasibility but more tentatively
+        might_miss:
+          - The tone shift signals giving up rather than being convinced
+
+  - passage_id: passage_05
+    turns:
+      - turn_11
+      - turn_12
+    summary: >
+      Maya offers a vague plan — beach cleanup or posters — and expresses
+      excitement. Leo agrees to do ocean pollution with a reluctant "okay fine."
+
+    whats_here:
+      - facet: Perspective Engagement
+        quality: weak
+        visible_through:
+          - scope
+          - evidence
+          - logic
+        explanation: >
+          The pattern completes. Leo's feasibility question from passage 2 was
+          never answered — it was replaced by enthusiasm. Leo's "okay fine"
+          signals concession, not agreement. The decision was shaped by one
+          person's confidence and the other's discomfort with disagreement.
+      - facet: Reasoning Completeness
+        quality: weak (emergent)
+        visible_through:
+          - logic
+          - evidence
+        explanation: >
+          Emergent. Maya's plan — "beach cleanup trip or make posters or
+          something" — has missing steps. How does a beach cleanup connect to
+          the Great Pacific Garbage Patch? The reasoning jumps from global
+          problem to vague local action without filling in the gap.
+
+    diagnose:
+      if_students_are_stuck: >
+        Look at how Leo agrees. Does it sound the same as when someone is
+        excited about a decision? What might be different?
+
+    discuss:
+      likely_disagreements: >
+        Students may disagree about whether the group made a good decision.
+        Some will say ocean pollution is important so it is fine. Others will
+        notice Leo was not really convinced. Both readings are valid starting
+        points.
+      productive_questions:
+        - What is the difference between "okay fine" and "yeah, that sounds great"?
+        - Did the group's decision come from the best arguments or from something else?
+        - Think about Maya's plan — beach cleanup or posters. How does that connect to the documentary about the Pacific Ocean?
+        - If you were in this group, what could you have said or done to make sure Leo's concerns actually got discussed?
+      watch_for: >
+        Productive: students connecting the ending to the pattern across the
+        whole discussion. Stalled: students only evaluating whether the right
+        topic was chosen (the issue is process, not outcome).
+
+    ai_perspective:
+      what_the_ai_will_say: >
+        The AI will note the vague plan, the scale mismatch persisting to the
+        end, and Leo's reluctant agreement. It will offer a summary of how
+        confirmation bias and conflict avoidance interacted across the whole
+        conversation.
+      likely_student_reactions: >
+        Students often have strong reactions to the "okay fine" observation.
+        Many will recognize this dynamic from their own group experiences.
+      follow_up: >
+        Ask students: if you were Leo, what could you have done differently?
+        If you were Maya, how could you have responded to Leo's concerns in a
+        way that actually addressed them?
+
+    likely_observations:
+      - lens: logic
+        will_likely_see:
+          - Maya's plan is vague — beach cleanup or posters
+          - There are missing steps in the reasoning
+        might_miss:
+          - That the vagueness is connected to never having addressed Leo's concern
+      - lens: evidence
+        will_likely_see:
+          - The Pacific evidence and the beach cleanup plan are at very different scales
+        might_miss:
+          - That this scale mismatch has been present since passage 1
+      - lens: scope
+        will_likely_see:
+          - Leo sounds reluctant when he agrees
+          - One person's concerns were not resolved
+        might_miss:
+          - That Leo's concerns were never actually answered across the entire discussion
+
+debrief:
+  key_takeaways:
+    - >
+      Evidence can be true and still not fit the decision you are making.
+      Maya's documentary facts are real, but they describe a global problem in
+      the Pacific — not what a school group can do locally. Recognizing this
+      gap between evidence relevance and evidence truth is a core critical
+      thinking skill (relevance, Evidence lens).
+    - >
+      When a group member raises a concern and it gets brushed aside rather
+      than addressed, the group loses access to important thinking. Leo's
+      feasibility question was the strongest counterargument in this
+      discussion, and it was never answered — not because it was wrong, but
+      because Maya was more confident and Leo stopped pressing. Engaging with
+      opposing perspectives, even uncomfortable ones, produces better group
+      decisions (perspective engagement, Scope lens).
+    - >
+      Enthusiasm and confidence can shape a group's decision as much as the
+      strength of the arguments. This discussion's outcome was driven partly
+      by overgeneralization (applying global evidence to a local decision)
+      and partly by social dynamics (one person's enthusiasm making the other
+      person's valid concerns feel less important).
+
+  cross_group_prompts:
+    - >
+      For groups where members had different lenses: what did the Evidence-lens
+      person notice compared to the Scope-lens person? Did you see the same
+      things in the same passages, or different things?
+    - >
+      Did any group disagree about whether Maya's documentary facts were good
+      evidence? What was the disagreement really about — whether the facts
+      were true, or whether they fit the decision?
+    - >
+      Did anyone notice how Leo's way of talking changed over the course of
+      the discussion? What do you think caused that change?
+    - >
+      Think about a time your group made a decision. Was there anyone whose
+      concerns did not fully get heard? What could the group have done
+      differently?
+
+  connection_to_next: >
+    This session exercised two capacities: noticing when evidence does not fit
+    the specific claim (relevance), and noticing when a group moves past a
+    concern without addressing it (perspective engagement). Both are about
+    looking beneath the surface of what seems like a normal conversation.
+    Future sessions may build on this by introducing situations where the
+    reasoning gaps are harder to spot, or where the social dynamics are more
+    subtle.

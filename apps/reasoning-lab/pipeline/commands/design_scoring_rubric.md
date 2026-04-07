@@ -1,34 +1,45 @@
 ---
 description: Produce Reasoning Lab scoring rubric and competition facilitation guide
-argument-hint: <scenario_id>
+argument-hint: <story_id> <episode_number>
 ---
 
 # Design Scoring Rubric
 
-Produce the scoring rubric and competition facilitation guide for a Reasoning Lab session.
+Produce the scoring rubric and competition facilitation guide for one episode of a Reasoning Lab story.
+
+## Arguments
+
+```bash
+STORY_ID="$1"
+EP_NUM="$2"
+EP_NN=$(printf "%02d" "$EP_NUM")
+EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
+```
 
 ## Prerequisites
 
-The shared upstream pipeline must have completed for this scenario:
-- `artifacts/$1/scenario.yaml` — the scenario plan
-- `artifacts/$1/transcript.yaml` — the enumerated transcript
-- `artifacts/$1/analysis.yaml` — the expert analysis
+The shared upstream pipeline must have completed for this episode:
+- `${EPISODE_DIR}/episode.yaml` — the episode plan
+- `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
+- `${EPISODE_DIR}/analysis.yaml` — the expert analysis
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc (cast prose, arc, recurring tendencies)
 
-These are produced by the shared pipeline commands (`/create_scenario`, `/create_transcript`, `/analyze_transcript`).
+These are produced by Phase 6 authoring (story design doc + per-episode draft) plus `/create_episode`, `/create_transcript`, and `/analyze_transcript`.
 
 ## Input
 
-- `artifacts/$1/analysis.yaml` — the expert analysis (facet annotations, AI perspectives, diversity metadata)
-- `artifacts/$1/transcript.yaml` — the enumerated transcript
-- `artifacts/$1/scenario.yaml` — the full scenario plan
+- `${EPISODE_DIR}/analysis.yaml` — the expert analysis (facet annotations, AI perspectives, diversity metadata)
+- `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
+- `${EPISODE_DIR}/episode.yaml` — the full episode plan
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc. The scoring agent reads this so that recurring cast members carry consistent scoring archetypes across episodes (a student team that learns "Mira tends to anchor on a single source" should be able to apply that pattern in every episode where Mira is a lead).
 
 ## Telemetry
 
-Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+Throughout this command, log meaningful events to `${EPISODE_DIR}/pipeline_log.yaml`:
 
 ```bash
 python3 framework/pipeline/scripts/log_pipeline_event.py \
-  --scenario $1 --command design_scoring_rubric \
+  --story "$STORY_ID" --episode "$EP_NUM" --command design_scoring_rubric \
   --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] [--notes "<text>"]
 ```
 
@@ -43,11 +54,12 @@ Required log points are called out in each step.
 **Use the Task tool with `subagent_type: scoring_rubric_agent`.**
 
 Pass the agent the paths to:
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/transcript.yaml`
-- `artifacts/$1/scenario.yaml`
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/transcript.yaml`
+- `${EPISODE_DIR}/episode.yaml`
+- `framework/docs/stories/${STORY_ID}.md`
 
-Instruct it to write outputs to `artifacts/$1/reasoning-lab/scoring.yaml` and `artifacts/$1/reasoning-lab/competition-facilitation.yaml`.
+Instruct it to write outputs to `${EPISODE_DIR}/reasoning-lab/scoring.yaml` and `${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml`. Both outputs must propagate `story_id` and `episode_number` from `episode.yaml`.
 
 The agent produces two outputs:
 
@@ -72,11 +84,11 @@ Run schema validation explicitly — **halt on non-zero exit**:
 
 ```bash
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/reasoning-lab/scoring.yaml \
+  ${EPISODE_DIR}/reasoning-lab/scoring.yaml \
   apps/reasoning-lab/schemas/scoring.yaml
 
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/reasoning-lab/competition-facilitation.yaml \
+  ${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml \
   apps/reasoning-lab/schemas/competition_facilitation.yaml
 ```
 
@@ -102,10 +114,10 @@ Verify coherence between scoring.yaml and competition-facilitation.yaml:
 
 ### Step 4: Save Outputs
 
-Save both files to `artifacts/$1/reasoning-lab/`:
+Save both files to `${EPISODE_DIR}/reasoning-lab/`:
 ```
-artifacts/$1/reasoning-lab/scoring.yaml
-artifacts/$1/reasoning-lab/competition-facilitation.yaml
+${EPISODE_DIR}/reasoning-lab/scoring.yaml
+${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml
 ```
 
 Report the number of observation buckets and explanation buckets per passage, along with the rarity distribution (how many common/uncommon/rare per passage).

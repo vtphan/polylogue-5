@@ -1,5 +1,6 @@
 # Schema: Scoring Rubric
-# Describes the structure of artifacts/{scenario_id}/scoring.yaml
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/reasoning-lab/scoring.yaml
 # Observation and explanation buckets for cross-group comparison and scoring.
 # Produced by the scoring rubric agent from analysis.yaml.
 # Application: Reasoning Lab
@@ -12,12 +13,26 @@ schema:
         type: string
         required: true
 
+      story_id:
+        type: string
+        required: true
+        description: >
+          Story this episode belongs to. Propagated from episode.yaml for
+          traceability across the multi-episode arc.
+
+      episode_number:
+        type: integer
+        required: true
+        description: >
+          Episode number within the story (1-indexed). Propagated from
+          episode.yaml.
+
       scoring_parameters:
         type: object
         required: true
         description: >
           Point values for the scoring system. Stored here (not hardcoded in
-          the app) so they can be tuned per scenario if needed.
+          the app) so they can be tuned per episode if needed.
         fields:
           shared_finding:
             type: integer

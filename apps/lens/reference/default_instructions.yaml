@@ -2,7 +2,7 @@
 #
 # Standard student-facing strings for a Lens session. /configure_session
 # loads these and writes them into session.yaml so the operator only has
-# to author the genuinely scenario-specific bits (topic_summary,
+# to author the genuinely episode-specific bits (topic_summary,
 # reading_instruction). When a per-session deviation is needed, the
 # operator overrides individual fields and the override is logged.
 #

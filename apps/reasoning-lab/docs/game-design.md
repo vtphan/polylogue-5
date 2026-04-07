@@ -248,11 +248,11 @@ A teacher might use Reasoning Lab early in a unit to build engagement and lens f
 
 The following stages and artifacts are identical:
 
-- **Stage 1: Create Scenario** → `scenario.yaml`
+- **Stage 1: Create Episode** → `episode.yaml`
 - **Stage 2: Create Transcript** → `transcript.yaml`
 - **Stage 3: Analyze Transcript** → `analysis.yaml`
 
-The same scenario plan, transcript, and expert analysis serve both applications. The information barrier, dialog writer, and evaluator work identically.
+The same episode plan, transcript, and expert analysis serve both applications. The information barrier, dialog writer, and evaluator work identically.
 
 ### Application-Specific (Reasoning Lab downstream pipeline)
 

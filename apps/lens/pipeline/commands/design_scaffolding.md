@@ -1,26 +1,36 @@
 ---
 description: Produce Lens scaffolding materials (hints, rubrics) and enrich the facilitation guide
-argument-hint: <scenario_id>
+argument-hint: <story_id> <episode_number>
 ---
 
 # Design Scaffolding
 
-Produce the scaffolding materials and enrich the facilitation guide with passage-specific discussion starters.
+Produce the scaffolding materials and enrich the facilitation guide for one episode of a story.
+
+## Arguments
+
+```bash
+STORY_ID="$1"
+EP_NUM="$2"
+EP_NN=$(printf "%02d" "$EP_NUM")
+EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
+```
 
 ## Input
 
-- `artifacts/$1/analysis.yaml` — the expert analysis
-- `artifacts/$1/facilitation.yaml` — the facilitation guide (initial version from `/analyze_transcript`)
-- `artifacts/$1/transcript.yaml` — the enumerated transcript
-- `artifacts/$1/scenario.yaml` — the full scenario plan
+- `${EPISODE_DIR}/analysis.yaml` — the expert analysis
+- `${EPISODE_DIR}/facilitation.yaml` — the facilitation guide (initial version from `/analyze_transcript`)
+- `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
+- `${EPISODE_DIR}/episode.yaml` — the full episode plan
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc. The scaffolding ID reads this so that hint phrasing and deepening probes can reference the recurring cast consistently across episodes (a hint for episode 4 can assume students already know who Mira is).
 
 ## Telemetry
 
-Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+Throughout this command, log meaningful events to `${EPISODE_DIR}/pipeline_log.yaml`:
 
 ```bash
 python3 framework/pipeline/scripts/log_pipeline_event.py \
-  --scenario $1 --command design_scaffolding \
+  --story "$STORY_ID" --episode "$EP_NUM" --command design_scaffolding \
   --stage <stage> [--agent <agent>] [--attempt <n>] [--verdict <V>] \
   [--retries-remaining <n>] [--notes "<text>"]
 ```
@@ -35,8 +45,8 @@ Required log points are called out in each step.
 
 Before any modifications, copy the current facilitation guide:
 ```bash
-cp artifacts/$1/facilitation.yaml \
-   artifacts/$1/intermediates/facilitation_pre_enrichment.yaml
+cp ${EPISODE_DIR}/facilitation.yaml \
+   ${EPISODE_DIR}/intermediates/facilitation_pre_enrichment.yaml
 ```
 
 This preserves the evaluator's original output for debugging.
@@ -46,12 +56,13 @@ This preserves the evaluator's original output for debugging.
 **Use the Task tool with `subagent_type: scaffolding_id`.**
 
 Pass the agent the paths to:
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/facilitation.yaml`
-- `artifacts/$1/transcript.yaml`
-- `artifacts/$1/scenario.yaml`
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/facilitation.yaml`
+- `${EPISODE_DIR}/transcript.yaml`
+- `${EPISODE_DIR}/episode.yaml`
+- `framework/docs/stories/${STORY_ID}.md`
 
-Instruct it to write outputs to `artifacts/$1/lens/scaffolding.yaml` and the enriched `artifacts/$1/lens/facilitation.yaml`.
+Instruct it to propagate `story_id` and `episode_number` from `episode.yaml` into the output `scaffolding.yaml`, and to write outputs to `${EPISODE_DIR}/lens/scaffolding.yaml` and the enriched `${EPISODE_DIR}/lens/facilitation.yaml`.
 
 The agent produces two outputs:
 
@@ -78,11 +89,11 @@ Then validate both artifacts explicitly with the schema script — **halt on non
 
 ```bash
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/lens/scaffolding.yaml \
+  ${EPISODE_DIR}/lens/scaffolding.yaml \
   apps/lens/schemas/scaffolding.yaml
 
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/lens/facilitation.yaml \
+  ${EPISODE_DIR}/lens/facilitation.yaml \
   framework/schemas/facilitation.yaml
 ```
 
@@ -95,10 +106,10 @@ If either validator reports issues, do not proceed to the reviewer — surface t
 **Use the Task tool with `subagent_type: scaffolding_reviewer`.** Independent fresh-context review.
 
 Pass the agent the paths to:
-- `artifacts/$1/lens/scaffolding.yaml`
-- `artifacts/$1/lens/facilitation.yaml`
-- `artifacts/$1/analysis.yaml`
-- `artifacts/$1/transcript.yaml`
+- `${EPISODE_DIR}/lens/scaffolding.yaml`
+- `${EPISODE_DIR}/lens/facilitation.yaml`
+- `${EPISODE_DIR}/analysis.yaml`
+- `${EPISODE_DIR}/transcript.yaml`
 
 The reviewer checks:
 1. Scaffold sequence structure and hint calibration (min 2 entries, AI last, where to look not what to see)
@@ -127,22 +138,22 @@ The pipeline is autonomous through this loop.
 ### Step 5: Save
 
 ```
-artifacts/$1/lens/scaffolding.yaml
-artifacts/$1/lens/facilitation.yaml   (enriched version)
+${EPISODE_DIR}/lens/scaffolding.yaml
+${EPISODE_DIR}/lens/facilitation.yaml   (enriched version)
 ```
 
 **Log:** `--stage save --verdict SAVE`.
 
 Intermediates preserved:
 ```
-artifacts/$1/intermediates/facilitation_pre_enrichment.yaml
+${EPISODE_DIR}/intermediates/facilitation_pre_enrichment.yaml
 ```
 
 ## Output
 
-- `artifacts/$1/lens/scaffolding.yaml`
-- `artifacts/$1/lens/facilitation.yaml` (enriched)
+- `${EPISODE_DIR}/lens/scaffolding.yaml`
+- `${EPISODE_DIR}/lens/facilitation.yaml` (enriched)
 
 ## Next Step
 
-Run `/configure_session` with this scenario — it assembles the final session configuration from all preceding artifacts, including passage ordering, onboarding content, and app settings.
+Run `/configure_session $1 $2` for this episode — it assembles the final session configuration from all preceding artifacts, including passage ordering, onboarding content, and app settings.

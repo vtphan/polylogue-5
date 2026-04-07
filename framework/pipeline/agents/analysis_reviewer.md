@@ -14,7 +14,7 @@ You receive:
 1. The expert analysis (`analysis.yaml`)
 2. The facilitation guide (`facilitation.yaml`)
 3. The enumerated transcript (`transcript.yaml`)
-4. The full scenario plan (`scenario.yaml`, including `target_facets`)
+4. The full episode plan (`episode.yaml`, including `target_facets`)
 
 ## What You Check
 
@@ -25,10 +25,12 @@ For each facet annotation in the analysis:
 - Read the cited `evidence_sentences` in the transcript. Does the annotation accurately describe what's happening in those sentences?
 - Is the `quality_level` assessment justified by the text?
 - Are the `explanatory_variables` plausible for what's observed?
+- **`evidence_basis` integrity (required on every annotation).** Read the `evidence_basis` sentence and check three things: (a) it cites behavior that actually appears in `evidence_sentences` — not behavior elsewhere in the transcript and not invented behavior; (b) the cited behavior actually supports the named cognitive_pattern and social_dynamic — not a restatement of the facet weakness in different words ("the source was weak" is not evidence_basis for `confirmation_bias`; "Maya kept returning to the same documentary even after Theo named a contradicting study" is); (c) for emergent annotations, the cited behavior is genuinely the line that justifies surfacing this facet, not a post-hoc rationalization. If `evidence_basis` is missing, vague, or restates the facet weakness, flag as ISSUE.
+- **Hedged vs. confident label calibration.** `explanatory_variables.cognitive_pattern` and `social_dynamic` may be either a single label (confident) or a list of labels (hedged). Check that the choice matches what the evidence supports: if the evidence underdetermines the label, the annotation MUST be hedged (list-typed); if the evidence clearly picks out one pattern/dynamic, a list is overcautious. Quote the offending evidence and label choice. **Never recommend that the evaluator commit harder to satisfy story-level coverage** — hedging is a calibration tool, not a coverage workaround. Persistent hedging that breaks coverage is a cast/arc problem to be solved upstream, not an evaluator problem. Flag overconfident commitments as ISSUE; flag overcautious hedging as SUGGESTION.
 
 Check both directions:
-- Are targeted facets (from scenario plan's `target_facets`) correctly identified in the analysis?
-- **Are targeted strengths (from scenario plan's `target_strengths`) all accounted for?** Every entry in `target_strengths` must have a corresponding annotation with `quality_level: strong` and `was_targeted: true` somewhere in `passage_analyses`. If any strength is missing or quietly downgraded, this is an ISSUE — flag the specific `facet_id`. Also check that strength annotations have a non-empty `contrastive_explanation` field (required by the analysis schema for any annotation with `quality_level: strong`) that names what cognitive pattern or social dynamic the group avoided — the deficit vocabulary serves as the contrastive baseline. The annotation's own `explanatory_variables.cognitive_pattern` and `social_dynamic` must be null, since the framework has no positive explanatory variables. A strength annotation that is missing `contrastive_explanation`, or whose contrastive_explanation does not name a deficit pattern/dynamic, is an ISSUE.
+- Are targeted facets (from episode plan's `target_facets`) correctly identified in the analysis?
+- **Are targeted strengths (from episode plan's `target_strengths`) all accounted for?** Every entry in `target_strengths` must have a corresponding annotation with `quality_level: strong` and `was_targeted: true` somewhere in `passage_analyses`. If any strength is missing or quietly downgraded, this is an ISSUE — flag the specific `facet_id`. Also check that strength annotations have a non-empty `contrastive_explanation` field (required by the analysis schema for any annotation with `quality_level: strong`) that names what cognitive pattern or social dynamic the group avoided — the deficit vocabulary serves as the contrastive baseline. The annotation's own `explanatory_variables.cognitive_pattern` and `social_dynamic` must be null, since the framework has no positive explanatory variables. A strength annotation that is missing `contrastive_explanation`, or whose contrastive_explanation does not name a deficit pattern/dynamic, is an ISSUE.
 - Are there facet signals in the transcript that the evaluator missed? (Read the transcript fresh, then compare.)
 - Are emergent (non-targeted) facets genuinely present, or are they spurious?
 
@@ -62,7 +64,7 @@ For each passage's `ai_perspective.why_it_happened`:
 - Do `if_students_are_stuck` prompts redirect without giving answers?
 
 ### 7. Debrief Quality
-- Do `key_takeaways` surface the most important insights from this scenario?
+- Do `key_takeaways` surface the most important insights from this episode?
 - Do `cross_group_prompts` reference cross-lens and cross-group differences?
 - Does `connection_to_next` reference pedagogical position without assuming a fixed sequence?
 

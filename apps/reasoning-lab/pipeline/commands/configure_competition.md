@@ -1,26 +1,36 @@
 ---
 description: Assemble the final Reasoning Lab session configuration from all preceding artifacts
-argument-hint: <scenario_id>
+argument-hint: <story_id> <episode_number>
 ---
 
 # Configure Competition
 
-Assemble the Reasoning Lab session configuration from the scoring rubric, analysis, and transcript.
+Assemble the Reasoning Lab session configuration for one episode of a story.
+
+## Arguments
+
+```bash
+STORY_ID="$1"
+EP_NUM="$2"
+EP_NN=$(printf "%02d" "$EP_NUM")
+EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
+```
 
 ## Prerequisites
 
-- `artifacts/$1/transcript.yaml` — the enumerated transcript
-- `artifacts/$1/analysis.yaml` — the expert analysis
-- `artifacts/$1/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
-- `artifacts/$1/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
+- `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
+- `${EPISODE_DIR}/analysis.yaml` — the expert analysis
+- `${EPISODE_DIR}/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
+- `${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
+- `framework/docs/stories/${STORY_ID}.md` — the story design doc (read for cast metadata used in onboarding/case_briefing)
 
 ## Telemetry
 
-Throughout this command, log meaningful events to `artifacts/$1/pipeline_log.yaml`:
+Throughout this command, log meaningful events to `${EPISODE_DIR}/pipeline_log.yaml`:
 
 ```bash
 python3 framework/pipeline/scripts/log_pipeline_event.py \
-  --scenario $1 --command configure_competition \
+  --story "$STORY_ID" --episode "$EP_NUM" --command configure_competition \
   --stage <stage> [--verdict <V>] [--notes "<text>"]
 ```
 
@@ -30,7 +40,9 @@ This is the final command in the Reasoning Lab pipeline; the most useful entries
 
 ### Step 1: Assemble Session Configuration
 
-Build `session.yaml` for this scenario by assembling from the existing artifacts:
+Build `session.yaml` for this episode by assembling from the existing artifacts:
+
+**`story_id`** and **`episode_number`**: Copy from `${EPISODE_DIR}/episode.yaml`.
 
 **`application`**: Set to `reasoning_lab`.
 
@@ -48,8 +60,8 @@ Build `session.yaml` for this scenario by assembling from the existing artifacts
 - Logic Probe → "Does the reasoning hold?"
 - Scope Detector → "Is the analysis thorough?"
 
-**`scanner_assignment`**: Determine based on the scenario's targeted facets:
-- `team_of_2`: Pick the two scanners whose lenses have the highest cross-lens visibility for this scenario's targeted facets. Check `analysis.yaml` → `facet_annotations[].primary_lens` and `also_visible_through` to determine which two lenses are most productive.
+**`scanner_assignment`**: Determine based on the episode's targeted facets:
+- `team_of_2`: Pick the two scanners whose lenses have the highest cross-lens visibility for this episode's targeted facets. Check `analysis.yaml` → `facet_annotations[].primary_lens` and `also_visible_through` to determine which two lenses are most productive.
 - `team_of_3`: All three scanners, one per student.
 - `team_of_4`: Double the scanner whose lens has the highest cross-lens visibility for the targeted facets. Include `rationale` explaining why.
 
@@ -66,7 +78,7 @@ Build `session.yaml` for this scenario by assembling from the existing artifacts
 Write the assembled `session.yaml` to disk so the validator can read it:
 
 ```
-artifacts/$1/reasoning-lab/session.yaml
+${EPISODE_DIR}/reasoning-lab/session.yaml
 ```
 
 ### Step 3: Validate
@@ -75,7 +87,7 @@ Run schema validation explicitly — **halt on non-zero exit**:
 
 ```bash
 python3 framework/pipeline/scripts/validate_schema.py \
-  artifacts/$1/reasoning-lab/session.yaml \
+  ${EPISODE_DIR}/reasoning-lab/session.yaml \
   apps/reasoning-lab/schemas/session.yaml
 ```
 

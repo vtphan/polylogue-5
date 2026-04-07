@@ -12,16 +12,16 @@ Polylogue is a research project for teaching critical thinking to middle school 
    - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts
    - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime
 
-3. **Scenario sequence** (`framework/docs/scenario-sequence.md`) — Shared progression design: which facets, cognitive patterns, and social dynamics to introduce across scenarios.
+3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/docs/stories/{story_id}.md` plus per-episode drafts at `framework/docs/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
 
-For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (`/brainstorm`, `/create_scenario`, `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
+For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts; `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
 
 ### Applications
 
 | Application | Status | Description |
 |---|---|---|
-| **Lens** | Pipeline complete, app not yet built | Students read AI-generated discussions and evaluate passages through lenses. Reflective, writing-centered. |
-| **Reasoning Lab** | Pipeline complete, experimental | Forensic investigation metaphor with competitive scoring. Teams use scanner tools (lenses); rare findings score triple. |
+| **Lens** | Pipeline complete (story-based), app not yet built | Students read AI-generated discussions and evaluate passages through lenses. Reflective, writing-centered. |
+| **Reasoning Lab** | Pipeline complete (story-based), experimental | Forensic investigation metaphor with competitive scoring. Teams use scanner tools (lenses); rare findings score triple. |
 
 Lens is the priority. Reasoning Lab is experimental.
 
@@ -29,75 +29,92 @@ Lens is the priority. Reasoning Lab is experimental.
 
 ```
 framework/
-├── docs/                    # Conceptual framework, scenario sequence, system architecture
+├── docs/                    # Conceptual framework, story design guidance, system architecture,
+│                            # operator manual, plus stories/ for design docs and per-episode drafts
 ├── reference/               # Source-of-truth data (lenses, facets, explanatory variables)
-├── schemas/                 # Shared upstream schemas (10 files)
-└── pipeline/                # Shared upstream pipeline (stages 1–3)
-    ├── agents/              # 7 agents (planning, validation, dialog writer, etc.)
-    ├── commands/            # 4 commands (create_scenario, brainstorm, create_transcript, analyze_transcript)
-    └── scripts/             # 4 scripts (enumerate, review, strip, validate_schema)
+├── schemas/                 # Shared upstream schemas (incl. episode_plan.yaml, episode_writer_input.yaml)
+└── pipeline/                # Shared upstream pipeline (episode stages 1–3)
+    ├── agents/              # planning_agent, dialog_writer, evaluator, transcript_reviewer,
+    │                        # analysis_reviewer, validation_agent, transcript_id,
+    │                        # projection_reviewer, story_consistency_reviewer
+    ├── commands/            # create_episode, create_transcript, analyze_transcript,
+    │                        # brainstorm, check_coverage
+    └── scripts/             # validate_schema, validate_story, enumerate_transcript,
+                             # check_analysis_invariants, check_coverage,
+                             # review_transcript, log_pipeline_event
 
 apps/lens/
 ├── docs/                    # Instructional design, pipeline spec
-├── schemas/                 # Lens-specific schemas (3: scaffolding, session, student_annotations)
+├── schemas/                 # Lens-specific schemas (scaffolding, session, student_annotations)
 ├── pipeline/
-│   ├── agents/              # 2 agents (scaffolding_id, scaffolding_reviewer)
-│   ├── commands/            # 2 commands (design_scaffolding, configure_session)
+│   ├── agents/              # scaffolding_id, scaffolding_reviewer
+│   ├── commands/            # design_scaffolding, configure_session
 │   └── initialize_lens.py   # Bootstrap: clears .claude/, syncs shared + Lens pipeline
 └── RUNNING.md               # Step-by-step runbook
 
 apps/reasoning-lab/
 ├── docs/                    # Game design
-├── schemas/                 # Reasoning Lab schemas (3: scoring, competition_facilitation, session)
+├── schemas/                 # Reasoning Lab schemas (scoring, competition_facilitation, session)
 ├── pipeline/
-│   ├── agents/              # 1 agent (scoring_rubric_agent)
-│   ├── commands/            # 2 commands (design_scoring_rubric, configure_competition)
+│   ├── agents/              # scoring_rubric_agent
+│   ├── commands/            # design_scoring_rubric, configure_competition
 │   └── initialize_reasoning_lab.py
 └── RUNNING.md               # Step-by-step runbook
 
-artifacts/                   # Generated artifacts per scenario (NEW system output)
-registry/                    # Legacy artifacts (current system output, preserved)
-configs/                     # Legacy system pipeline (operational, preserved until migration verified)
-docs/                        # Legacy design documents
+artifacts/                   # Story + episode artifacts (the new system output)
+registry/                    # Frozen historical reference (legacy disposable-persona system)
+configs/                     # Frozen historical reference (legacy pipeline)
+docs/                        # Frozen historical reference (legacy design documents)
 ```
 
 ## Pipeline Flow
 
-Shared upstream (stages 1–3), then app-specific downstream:
+A story is authored as prose in Phase 6 (the story design doc plus per-episode drafts), then each episode runs through the shared upstream and one app-specific downstream in Phase 7. Every episode-stage command takes `<story_id> <episode_number>` as its arguments.
 
 ```
-SHARED:  /create_scenario → /create_transcript → /analyze_transcript
-                                                        |
-         ┌──────────────────────────────────────────────┤
-         ↓                                              ↓
-LENS:    /design_scaffolding → /configure_session    REASONING LAB:
+STORY (Phase 6, once per story, authored as prose by the operator):
+  framework/docs/stories/{story_id}.md          (story design doc + frontmatter)
+  framework/docs/stories/{story_id}/            (per-episode drafts)
+    episode_01.md, episode_02.md, ...
+  Validators: validate_story.py + story_consistency_reviewer
+
+EPISODE (Phase 7, per episode in the story):
+  SHARED:  /create_episode → /create_transcript → /analyze_transcript
+                                                          │
+             ┌────────────────────────────────────────────┤
+             ↓                                            ↓
+  LENS:    /design_scaffolding → /configure_session  REASONING LAB:
                                                      /design_scoring_rubric → /configure_competition
 ```
 
 ## Artifact Storage
 
-The project runs two systems in parallel during migration:
-
-- **New system** (`framework/` + `apps/`) writes to `artifacts/{scenario_id}/`.
-- **Legacy system** (`configs/`) writes to `registry/{scenario_id}/`.
-
-`registry/` is frozen — do not write to it from new pipeline files. New pipeline commands, schemas, and scripts must reference `artifacts/` exclusively. Layout (identical for both, only the root differs):
+The story-based pipeline writes to `artifacts/{story_id}/episodes/episode_{NN}/...`. The story design doc and per-episode drafts live under `framework/docs/stories/{story_id}/` (authored, committed as source). The legacy `registry/` directory is **not** a migration target — no artifact equivalence is required between the legacy and new systems for either Lens or Reasoning Lab.
 
 ```
-artifacts/{scenario_id}/
-├── scenario.yaml              # Shared (stage 1)
-├── transcript.yaml            # Shared (stage 2)
-├── analysis.yaml              # Shared (stage 3)
-├── facilitation.yaml          # Shared (stage 3)
-├── intermediates/             # Pipeline working files
-├── lens/                      # Lens-specific artifacts
-│   ├── scaffolding.yaml
-│   ├── facilitation.yaml      # Enriched version
-│   └── session.yaml
-└── reasoning-lab/             # Reasoning Lab-specific artifacts
-    ├── scoring.yaml
-    ├── competition-facilitation.yaml
-    └── session.yaml
+framework/docs/stories/{story_id}.md          # Story design doc (frontmatter + prose body)
+framework/docs/stories/{story_id}/            # Per-episode drafts directory
+    episode_01.md
+    episode_02.md
+    ...
+framework/docs/stories/{story_id}-validation-report.yaml   # Sidecar audit from validate_story.py
+
+artifacts/{story_id}/episodes/
+    └── episode_{NN}/
+        ├── episode.yaml         # Shared (stage 1 — produced by /create_episode)
+        ├── transcript.yaml      # Shared (stage 2)
+        ├── analysis.yaml        # Shared (stage 3)
+        ├── facilitation.yaml    # Shared (stage 3)
+        ├── intermediates/
+        │   └── episode_writer_input.yaml   # Barrier-safe projection consumed by dialog_writer
+        ├── lens/
+        │   ├── scaffolding.yaml
+        │   ├── facilitation.yaml            # Enriched version
+        │   └── session.yaml
+        └── reasoning-lab/
+            ├── scoring.yaml
+            ├── competition-facilitation.yaml
+            └── session.yaml
 ```
 
 ## Bootstrapping
@@ -114,17 +131,16 @@ Each script clears `.claude/commands/` and `.claude/agents/` (preventing cross-a
 
 ## Legacy System
 
-The original system (`configs/`, `docs/`, `registry/`) is preserved and operational. **Do not move, rename, or delete these directories until the new system produces identical Lens artifacts in `artifacts/`.**
+The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) remains frozen indefinitely as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required between legacy and new, and no legacy directory is removed by the new pipeline. See `framework/docs/story-pipeline-revision.md` Part 8 for the rationale.
 
-- `configs/initialize_polylogue.py` — Legacy bootstrap (sources from `configs/`, writes to `registry/`)
-- `registry/` — Legacy artifact output. Read-only from the perspective of the new system.
-- `docs/polylogue-v5-6.md` — Monolithic source document (now decomposed into `framework/docs/` + `apps/lens/docs/`)
-- `docs/pipeline-spec.md` — Full pipeline spec (copied to `apps/lens/docs/`)
+The only planned legacy deletion is `framework/reference/scenario_sequence.yaml` and `framework/docs/scenario-sequence.md`, scheduled for Phase 5 step 24 of the story-pipeline revision — after the first story has been authored, validated, and run end-to-end through the new pipeline.
 
 ## Critical Design Constraints
 
 ### Information Barrier
-The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. The `target_facets`, `target_strengths`, and `discussion_dynamic` fields are stripped from the scenario plan before passing to the dialog writer.
+The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. In the story pipeline this is enforced by a barrier-safe **projection**: `planning_agent` reads the per-episode draft (`framework/docs/stories/{story_id}/episode_{NN}.md`), the story design doc (`framework/docs/stories/{story_id}.md`), and writes both `episode.yaml` (with framework terminology, for reviewers) and `episode_writer_input.yaml` (a stripped narrative slice with no facet IDs, no lens names, no cognitive_pattern or social_dynamic IDs, and no signal fields). `dialog_writer` runs in a fresh context with no Read tool and consumes only that projection inline. Two enforcement mechanisms run on every projection: a literal scan in `validate_schema.py` (catches reserved IDs) and the `projection_reviewer` agent (catches paraphrased framework leakage). Neither alone is sufficient.
+
+The prose-first authoring loop (Phase 6) is operator + AI in conversation; there is no `/design_story` drafting command. Per-episode drafts are committed Markdown files. Character consistency across episodes is enforced by `story_consistency_reviewer` (prose-on-prose review), not by a structural validator.
 
 ### Discussion Constraints
 - 10-14 turns, 1-3 sentences per turn, <400 words total
@@ -144,7 +160,8 @@ Graduated hints → AI perspective as final entry. Hints cost lifelines; AI pers
 - **Canonical IDs use snake_case.** All IDs propagate from `framework/reference/` into every schema, prompt, and artifact.
 - **Reference data files are the source of truth** — not schema definitions.
 - **Python scripts** use pure Python + PyYAML. Scripts accept file paths as arguments, no hardcoded paths.
-- **No new pipeline file references `configs/` or `registry/`.** The new system uses `framework/`, `apps/{app-id}/`, and `artifacts/` exclusively. Legacy pipeline files under `configs/` continue to use `registry/`.
+- **No new pipeline file references `configs/` or `registry/`.** The new system uses `framework/`, `apps/{app-id}/`, and `artifacts/` exclusively. Legacy directories are frozen historical reference, not maintained code.
+- **The directory key is `{story_id}/episodes/episode_{NN}/`,** not `{scenario_id}/`. The episode plan filename is `episode.yaml`. `scenario_id` survives as a field inside `episode.yaml` for traceability and pipeline log lines, but the on-disk addressing is by story and episode number.
 
 ### Canonical IDs
 
