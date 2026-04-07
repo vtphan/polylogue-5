@@ -1,0 +1,436 @@
+story_id: saving-the-maker-space
+episode_number: 1
+scenario_id: saving-the-maker-space-ep-01
+
+passage_analyses:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    sentence_range: [turn_01.s01, turn_01.s02, turn_02.s01]
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences: [turn_01.s01, turn_01.s02, turn_02.s01]
+        evidence_basis: >
+          Mira opens by treating the decision as already made and points to a single
+          half-remembered NPR article plus an unsourced forty-thousand-dollar number
+          as if that combination is enough to ground a petition.
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: null
+          interaction: >
+            The cognitive pattern is doing the work alone in this passage; the social
+            ratification arrives later, in passage 04.
+        was_targeted: true
+        notes: >
+          This is the planting half of the targeted sufficiency weakness. The premature
+          consensus that completes the chain lands in passage 04.
+
+      - facet_id: source_diversity
+        quality_level: weak
+        evidence_sentences: [turn_01.s02]
+        evidence_basis: >
+          The only thing on the table at this point is one NPR piece Mira read the
+          night before; a student reading through Evidence will likely notice the
+          single-source footing even before Theo asks his question.
+        primary_lens: evidence
+        also_visible_through: []
+        explanatory_variables:
+          cognitive_pattern: tunnel_vision
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic here, I notice that Mira is moving from "the maker
+          space matters" straight to "we are writing a petition" as if those are the
+          same step. There is a real argument to be made, but in this passage the
+          steps between the feeling and the plan have not been laid down yet.
+        key_sentences: [turn_01.s01, turn_02.s01]
+      through_evidence:
+        observation: >
+          Through the Evidence lens, two things stand out. The whole case for
+          hands-on learning is resting on one article Mira read last night, and the
+          forty-thousand-dollar figure shows up without any indication of where it
+          came from. Both are doing a lot of work for the petition without much
+          behind them yet.
+        key_sentences: [turn_01.s02, turn_02.s01]
+      through_scope:
+        observation: null
+        key_sentences: []
+      why_it_happened: >
+        One way to think about this is that when a question feels settled to us, we
+        can mistake that feeling for actually having settled it. A cognitive scientist
+        might call that false certainty. Mira is not lying about the NPR piece or
+        making up the budget number on purpose; she just already knows what she
+        thinks, and once a person knows what they think, it is easy to treat the
+        evidence as a formality.
+      what_to_notice: >
+        Something to think about: how much do we actually know about the NPR article
+        and the forty-thousand-dollar number at this point in the conversation?
+      what_to_notice_sentences: [turn_01.s02, turn_02.s01]
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence readers will flag the single source and the unsourced number; Logic
+        readers will flag the jump from "this matters" to "petition." Scope readers
+        will probably have less to say here.
+      likely_student_observations:
+        - lens: evidence
+          observations:
+            - Mira is leaning on one article she read once.
+            - The forty thousand dollars comes from nowhere we can see.
+          might_miss:
+            - That the NPR piece being real does not mean it is enough by itself.
+        - lens: logic
+          observations:
+            - Mira is treating the petition as already decided.
+          might_miss:
+            - That "writing a petition" is a conclusion that needs the argument before it, not after.
+        - lens: scope
+          observations: []
+          might_miss:
+            - That nobody has asked yet what the principal's actual reason is.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04, turn_05]
+    sentence_range: [turn_03.s01, turn_04.s01, turn_04.s02, turn_05.s01]
+    facet_annotations:
+      - facet_id: source_credibility
+        quality_level: strong
+        evidence_sentences: [turn_03.s01]
+        evidence_basis: >
+          Theo, given a number he has not heard before, asks where it came from
+          before letting it into the group's reasoning. That is the audit-the-source
+          instinct in its cleanest form.
+        primary_lens: evidence
+        also_visible_through: [scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        contrastive_explanation: >
+          Where Mira in passage 01 takes the forty-thousand-dollar figure as input
+          the moment it appears — the uncritical-acceptance move — Theo treats the
+          same number as something that has to be sourced before it counts. This is
+          the first of the two surfacings the episode is built around; the strength
+          is real, even though the next two sentences will collapse it.
+        notes: >
+          First of two surfacings of Theo's audit instinct in this episode. The
+          collapse half (turn_05) is annotated separately below.
+
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences: [turn_04.s01, turn_04.s02, turn_05.s01]
+        evidence_basis: >
+          When asked to substantiate the budget number, Mira reframes substantiation
+          as the principal's job, and Theo accepts the reframing with a half-syllable
+          rather than press the question; the evidence base never gets tested.
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: conflict_avoidance
+          interaction: >
+            Mira's false certainty produces the wave-off; Theo's reluctance to be
+            the kid who slows the meeting down lets the wave-off stand. The
+            cognitive move and the social move arrive together, in two lines.
+        was_targeted: true
+        notes: >
+          This is the collapse half of Theo's first surfacing and also the second
+          beat of the targeted sufficiency weakness.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic, notice what happens in Mira's reply. The question
+          was "where does the number come from," and the answer is "it is not our
+          job to know." Those are not the same kind of statement. The first is
+          about evidence; the second is about whose responsibility it is. The
+          conversation has shifted topics without anyone naming that it shifted.
+        key_sentences: [turn_03.s01, turn_04.s01, turn_04.s02]
+      through_evidence:
+        observation: >
+          Through the Evidence lens, this is the moment the budget number could have
+          been checked and was not. Theo's question is exactly the kind of question
+          a careful reader of evidence asks. What happens to that question matters
+          as much as whether it gets asked.
+        key_sentences: [turn_03.s01, turn_05.s01]
+      through_scope:
+        observation: null
+        key_sentences: []
+      why_it_happened: >
+        One way to read this exchange: Theo has the instinct to check before
+        trusting, and he uses it. But asking a hard question in front of a group
+        that is already moving fast costs something socially, and in this moment
+        Theo is not willing to pay that cost twice. A cognitive scientist might
+        say the right move was in the room; a sociologist might say the room was
+        not built to receive it.
+      what_to_notice: >
+        Something to think about: Theo asks a real question and then says "yeah,
+        okay." What happens in the space between those two lines?
+      what_to_notice_sentences: [turn_03.s01, turn_05.s01]
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence readers will see Theo's question as the right move and Mira's
+        reply as a dodge. Logic readers will see the topic shift in Mira's reply.
+        Scope readers may notice that nobody has asked the principal anything yet.
+      likely_student_observations:
+        - lens: evidence
+          observations:
+            - Theo asked a good question.
+            - Mira did not actually answer it.
+          might_miss:
+            - That Theo dropping the question matters as much as Mira dodging it.
+        - lens: logic
+          observations:
+            - Mira changed the subject from "where does the number come from" to "whose job is it."
+          might_miss:
+            - That changing whose job a question is does not answer the question.
+        - lens: scope
+          observations:
+            - Nobody has talked to the principal.
+          might_miss: []
+
+  - passage_id: passage_03
+    turns: [turn_06, turn_07, turn_08, turn_09, turn_10]
+    sentence_range:
+      [turn_06.s01, turn_06.s02, turn_07.s01, turn_08.s01, turn_08.s02, turn_09.s01, turn_10.s01]
+    facet_annotations:
+      - facet_id: source_credibility
+        quality_level: weak
+        evidence_sentences: [turn_06.s02, turn_08.s01, turn_08.s02, turn_09.s01]
+        evidence_basis: >
+          Ren lines up a study, a parent blog, and a 3D-printer-company piece and
+          treats them as three confirmations of the same point; Mira immediately
+          welds them into "research, parents, and even the equipment people," and
+          Ren paraphrases the study headline as if it closes the matter. Two of the
+          three sources are interested parties and the group never marks the
+          difference.
+        primary_lens: evidence
+        also_visible_through: [scope]
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: null
+          interaction: >
+            Ren's gathering process selected by conclusion rather than provenance;
+            no social pressure was needed to make the move land, because nobody at
+            the table treats provenance as a criterion.
+        was_targeted: true
+
+      - facet_id: source_credibility
+        quality_level: strong
+        evidence_sentences: [turn_07.s01, turn_10.s01]
+        evidence_basis: >
+          Theo half-starts a question — "is that like a study, or is it more like —"
+          — that names the exact gap Ren is missing, and then in turn_10 closes his
+          mouth without finishing it. The instinct is visibly present in the room
+          and visibly suppressed.
+        primary_lens: evidence
+        also_visible_through: [scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction: null
+        was_targeted: true
+        contrastive_explanation: >
+          Where Ren in this same passage treats the three sources as equivalent —
+          the uncritical-acceptance move — Theo nearly asks which one is which,
+          which is the one question that would have separated them. This is the
+          second surfacing of the same instinct from passage 02. As in passage 02
+          the strength is real and does not land; the audience should leave able
+          to point at the half-spoken question.
+        notes: >
+          The strength is intentionally weaker than designed because it is meant to
+          collapse — see episode draft Authorial Notes on early-strength-collapse.
+
+      - facet_id: source_diversity
+        quality_level: weak
+        evidence_sentences: [turn_06.s02, turn_08.s01]
+        evidence_basis: >
+          Three sources is more than one, but the three all conclude in the same
+          direction and were selected for that reason; what looks like diversity is
+          actually three voices for the same side. A student looking through
+          Evidence is likely to surface this even if they do not have the words
+          "interested party" yet.
+        primary_lens: evidence
+        also_visible_through: []
+        explanatory_variables:
+          cognitive_pattern: confirmation_bias
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic, notice Mira's move in turn_08. She takes Ren's
+          three items and turns them into one phrase — "research, and parents, and
+          even the equipment people" — that makes them sound like three independent
+          witnesses. The form of the sentence does work the actual sources may not
+          do.
+        key_sentences: [turn_08.s01, turn_08.s02]
+      through_evidence:
+        observation: >
+          Through the Evidence lens, this passage has a lot to look at. Three
+          sources show up and Theo almost asks which one is which. The three
+          sources are not the same kind of thing — a study, a blog, and something
+          from a company that sells 3D printers all carry different weight, and
+          two of the three have a stake in what they are saying. The group does
+          not separate them.
+        key_sentences: [turn_06.s02, turn_07.s01, turn_08.s01]
+      through_scope:
+        observation: >
+          Through the Scope lens, notice that all three sources are about
+          hands-on learning in general. None of them are about this maker space,
+          this school, or this principal's actual reason for closing it.
+        key_sentences: [turn_06.s02, turn_09.s01]
+      why_it_happened: >
+        One way to think about this: Ren is doing something real — she actually
+        went looking for evidence, which is more than anyone else at the table did.
+        But she gathered by what each source concluded, not by who produced it,
+        and once you do that, three sources that all agree can feel like proof
+        even when they are pointing at the same thing for the same reason. A
+        cognitive scientist might call the gathering side of that confirmation
+        bias. Theo's near-question is the move that would have caught it; notice
+        what stops him from finishing it.
+      what_to_notice: >
+        Something to think about: Theo starts a question and does not finish it.
+        What was the question, and who in the group could have made room for him
+        to ask it?
+      what_to_notice_sentences: [turn_07.s01, turn_10.s01]
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence readers will see "three sources, but are they the same kind of
+        thing." Scope readers will see that none of the sources are about this
+        school. Logic readers will see Mira's reframing in turn_08 doing
+        rhetorical work the sources cannot back up.
+      likely_student_observations:
+        - lens: evidence
+          observations:
+            - Three sources sounds like a lot.
+            - The 3D-printer company has a reason to say this.
+            - Theo almost asked something and stopped.
+          might_miss:
+            - That the parent blog also has a stake.
+            - That Ren picked these by what they say, not by who said them.
+        - lens: logic
+          observations:
+            - Mira summarized Ren's three things into a single tidy phrase.
+          might_miss:
+            - That the tidy phrase makes interested parties sound like neutral witnesses.
+        - lens: scope
+          observations:
+            - None of the sources are about this school.
+          might_miss:
+            - That nobody has asked what the principal's actual reason was.
+
+  - passage_id: passage_04
+    turns: [turn_11, turn_12, turn_13, turn_14]
+    sentence_range:
+      [turn_11.s01, turn_12.s01, turn_13.s01, turn_14.s01, turn_14.s02]
+    facet_annotations:
+      - facet_id: sufficiency
+        quality_level: weak
+        evidence_sentences: [turn_11.s01, turn_12.s01, turn_13.s01]
+        evidence_basis: >
+          Mira states the consensus out loud — "we're all on the same page, right?
+          we're doing a petition" — a beat before the group has actually reached it,
+          and Theo and Ren ratify it with single-syllable nods. The evidence base
+          never gets tested before the decision is booked.
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: group_pressure
+          interaction: >
+            This is the chain the episode plan flagged: Mira's false certainty
+            produces a premature consensus statement, and the group's silent
+            ratification turns it into a decision. Neither move would have been
+            enough on its own; together they close the meeting.
+        was_targeted: true
+
+      - facet_id: perspective_engagement
+        quality_level: weak
+        evidence_sentences: [turn_11.s01, turn_14.s02]
+        evidence_basis: >
+          The meeting closes with no one having raised the question of what the
+          principal's reason for the closure actually is — the question Theo
+          arrived with. A student reading through Scope will likely notice that
+          the petition is being drafted against an argument the group has never
+          heard.
+        primary_lens: scope
+        also_visible_through: [evidence]
+        explanatory_variables:
+          cognitive_pattern: tunnel_vision
+          social_dynamic: null
+          interaction: null
+        was_targeted: false
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Looking at the logic, notice the shape of turn_11. "Okay so we're all on
+          the same page, right? We're doing a petition." That is a sentence that
+          announces an agreement and then asks for it, in that order. The
+          agreement is being stated before it has actually been reached.
+        key_sentences: [turn_11.s01]
+      through_evidence:
+        observation: >
+          Through the Evidence lens, the budget number from passage 01 and the
+          three sources from passage 03 are still sitting where they were left.
+          The petition is moving forward on the same evidence base the group had
+          ten turns ago, before any of it was checked.
+        key_sentences: [turn_11.s01, turn_14.s01]
+      through_scope:
+        observation: >
+          Through the Scope lens, notice what is missing from this closing beat.
+          Nobody in the group knows what the principal said her actual reason was.
+          The petition is being drafted against an argument they have not heard.
+        key_sentences: [turn_11.s01, turn_14.s02]
+      why_it_happened: >
+        One way to think about this is that consensus has two parts — somebody
+        states it, and somebody ratifies it — and both parts can happen before
+        anyone has actually agreed to anything. Mira states a decision a beat
+        early; Theo and Ren nod rather than break the moment. A cognitive
+        scientist might point at the false certainty driving the early
+        statement; a sociologist might point at the group pressure that makes a
+        single-syllable nod the path of least resistance. Notice how the two
+        forces work together: the cognitive move would not have closed the
+        meeting on its own, and the social move would not have happened without
+        the cognitive move to ratify.
+      what_to_notice: >
+        Something to think about: in the last few turns, did anyone in the group
+        actually agree to the petition out loud, or did the agreement just get
+        announced and not contradicted? Is there a difference?
+      what_to_notice_sentences: [turn_11.s01, turn_12.s01, turn_13.s01]
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic readers will see the shape of Mira's premature consensus sentence.
+        Evidence readers will notice the petition shipping on the same untested
+        material. Scope readers will notice the principal's reason was never
+        asked about.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - Mira said "we're all on the same page" before checking that they were.
+            - Theo and Ren each only said one syllable.
+          might_miss:
+            - That a nod and an agreement are not the same thing.
+        - lens: evidence
+          observations:
+            - The petition is going forward without anything new having been checked.
+          might_miss:
+            - That the budget number is still unsourced and the sources are still mixed.
+        - lens: scope
+          observations:
+            - Nobody asked what the principal's reason was.
+          might_miss:
+            - That this is the question Theo brought to the meeting and is leaving without.

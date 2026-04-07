@@ -6,9 +6,24 @@ schema:
   root:
     type: object
     fields:
-      scenario_id:
+      story_id:
         type: string
         required: true
+        description: >
+          Kebab-case identifier of the parent story. Primary addressing
+          field (with episode_number).
+
+      episode_number:
+        type: integer
+        required: true
+        description: 1-indexed position within the parent story's arc.
+
+      scenario_id:
+        type: string
+        required: false
+        description: >
+          Legacy traceability field. Optional; primary addressing is by
+          story_id + episode_number.
 
       verdict:
         type: string

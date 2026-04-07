@@ -6,14 +6,38 @@ schema:
   root:
     type: object
     fields:
-      scenario_id:
+      story_id:
         type: string
         required: true
+        description: >
+          Kebab-case identifier of the parent story. Primary addressing
+          field (with episode_number). Injected by enumerate_transcript.py
+          from the sibling episode.yaml; not written by dialog_writer
+          (the writer runs inside the information barrier).
+
+      episode_number:
+        type: integer
+        required: true
+        description: >
+          1-indexed episode position within the parent story. Injected by
+          enumerate_transcript.py from the sibling episode.yaml.
+
+      scenario_id:
+        type: string
+        required: false
+        description: >
+          Legacy traceability field — composite "{story_id}-ep-{NN}"
+          identifier. Optional in downstream artifacts; primary addressing
+          is by story_id + episode_number. Injected by
+          enumerate_transcript.py from episode.yaml when present.
 
       personas:
         type: list
         required: true
-        description: Persona metadata for app rendering.
+        description: >
+          Persona metadata for app rendering. Injected by
+          enumerate_transcript.py from the sibling episode.yaml's personas
+          block (name + perspective). Not written by dialog_writer.
         items:
           type: object
           fields:

@@ -9,9 +9,6 @@ Produce the expert analysis and facilitation guide from the enumerated transcrip
 
 ## Arguments
 
-- `$1` = `story_id`
-- `$2` = `episode_number` (1-indexed)
-
 ```bash
 STORY_ID="$1"
 EP_NUM="$2"

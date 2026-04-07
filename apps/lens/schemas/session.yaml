@@ -7,19 +7,24 @@ schema:
   root:
     type: object
     fields:
-      scenario_id:
-        type: string
-        required: true
-
       story_id:
         type: string
         required: true
-        description: Story this episode belongs to. Propagated from episode.yaml.
+        description: >
+          Story this episode belongs to. Propagated from episode.yaml.
+          Primary addressing field (with episode_number).
 
       episode_number:
         type: integer
         required: true
         description: Episode number within the story (1-indexed).
+
+      scenario_id:
+        type: string
+        required: false
+        description: >
+          Legacy traceability field. Optional in downstream artifacts;
+          primary addressing is by story_id + episode_number.
 
       transcript_file:
         type: string

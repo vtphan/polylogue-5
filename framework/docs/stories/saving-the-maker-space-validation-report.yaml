@@ -81,4 +81,4 @@ audit:
     Ren: 1
     Dev: 4
     Sam: 1
-  hedged_annotation_check_ran: false
+  hedged_annotation_check_ran: true

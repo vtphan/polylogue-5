@@ -1,0 +1,615 @@
+story_id: saving-the-maker-space
+episode_number: 2
+scenario_id: saving-the-maker-space-ep-02
+
+passage_scaffolding:
+
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Theo's question in turn_02 carefully. Then read Dev's answer
+          in turn_03. Does the answer seem to be about the same thing as
+          the question?
+      - type: hint
+        text: >
+          Look at the word "because" in Dev's line. Try saying the sentence
+          out loud and ask yourself what is actually in between the first
+          half and the second half.
+      - type: ai_perspective
+        text: >
+          The AI noticed that Dev's sentence sounds like a finished argument
+          because of its shape, not because the steps actually connect. Is
+          that close to what you were noticing, or were you looking at
+          something different?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed something about the way Dev's reasoning is put
+          together. Now think about why — what made Dev reach for that
+          sentence instead of a different one?
+      - lens: evidence
+        prompt: >
+          You noticed something about what Dev is using as proof. Now
+          think about why — why does this kind of proof feel strong to
+          him when he says it out loud?
+      - lens: scope
+        prompt: >
+          You noticed something about the question Theo is asking. Now
+          think about why — why does Dev answer a different question
+          without seeming to notice?
+    ai_reflection_prompt: >
+      The AI said Dev might be picking the line that feels strongest to
+      say out loud instead of the line that actually answers the
+      principal's question. Does that match what you were trying to say,
+      or do you see it differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Dev is wrong because the kids do not love the room
+            redirect: >
+              The kids really do love it — that part is true. Look again
+              at whether "love" is the kind of reason that answers the
+              principal's question.
+          - pattern: >
+              Dev has no argument
+            redirect: >
+              Dev's sentence does have the shape of an argument. Look
+              more closely at what is supposed to go between the two
+              halves of it.
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              There is no evidence at all
+            redirect: >
+              There is something Dev is offering as proof. Look at what
+              kind of thing it is — is it a fact, a feeling, or something
+              else?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Theo is trying to stop the petition
+            redirect: >
+              Read Theo's question again. Is he trying to stop it, or is
+              he asking what exactly it is trying to answer?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Dev's argument does not really work.
+              - The sentence does not make sense.
+          - level: developing
+            examples:
+              - Dev says "because the kids love it" but that does not
+                really explain why the room should stay open.
+          - level: differentiated
+            examples:
+              - Dev's sentence has a claim and a "because" so it sounds
+                like an argument, but nothing in it connects "kids love
+                it" to "the principal should keep it" — the missing
+                middle step is doing the work the sentence is pretending
+                to do.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Dev does not have evidence.
+          - level: developing
+            examples:
+              - >-
+                  "The kids love it" is a feeling, not a fact about
+                  whether the room helps kids learn.
+          - level: differentiated
+            examples:
+              - Dev is using how people feel as his proof, and there is
+                no way to ever show that feeling is wrong, so it cannot
+                really be weighed against a budget number.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Theo and Dev are not really talking about the same thing.
+          - level: developing
+            examples:
+              - Theo is asking about the principal's decision and Dev is
+                answering about whether the room is good.
+          - level: differentiated
+            examples:
+              - Theo's "essential how, though?" is asking what question
+                the petition is supposed to answer, and Dev answers a
+                different question without noticing he switched.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Dev is just being emotional.
+            - level: developing
+              examples:
+                - Dev is picking the sentence that sounds best to him
+                  when he says it out loud and treating that as proof
+                  that it is the right one.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Nobody in the group pushed back on Dev.
+            - level: developing
+              examples:
+                - Theo asked the right question and the group just let
+                  Dev's answer stand instead of pressing it.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - Dev reached for the most confident-sounding line and
+                  nobody in the room asked him to slow down.
+            - level: differentiated
+              examples:
+                - Dev grabbed the line that felt strongest to say, and
+                  because the group was already moving toward submitting,
+                  Theo's question landed like a speed bump instead of a
+                  real question — the room's momentum and Dev's instinct
+                  made each other look more right than they were.
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06, turn_07]
+    difficulty: accessible
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at Theo's question in turn_05 and then Mira's reply in
+          turn_06. Is the reply actually about the studies?
+      - type: hint
+        text: >
+          Now look at what Dev says in turn_07. What is his sentence an
+          argument about — the sources, or something else?
+      - type: ai_perspective
+        text: >
+          The AI pointed out that "we've been over this" is a sentence
+          about the meeting, not about the studies, and that Dev's pivot
+          quietly changes what counts as a good reason. Were you tracking
+          either of those, or were you looking at something else?
+    deepening_probes:
+      - lens: evidence
+        prompt: >
+          You noticed something about the sourcing. Now think about why —
+          what was going on in the group that made it feel okay to keep
+          going without answering Theo's question?
+      - lens: logic
+        prompt: >
+          You noticed that Mira's reply does not answer Theo. Now think
+          about why — what made that reply feel like an answer in the
+          moment?
+      - lens: scope
+        prompt: >
+          You noticed something about Dev's pivot. Now think about why —
+          why does moving the subject to "what the principal will read"
+          make the sourcing feel less important?
+    ai_reflection_prompt: >
+      The AI said Mira might be certain because the topic feels settled
+      in the room, not because anyone actually checked — and that Dev's
+      pivot makes asking about the sources feel like slowing everyone
+      down. Does that match what you were noticing?
+    common_misreadings:
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              They have three studies so the evidence is strong
+            redirect: >
+              The petition says there are three studies. Look again at
+              whether anyone in the room can actually say what each one
+              is about.
+          - pattern: >
+              Theo is being annoying
+            redirect: >
+              Set aside how Theo sounds for a second. Look at whether the
+              question he is asking got answered.
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Mira answered the question
+            redirect: >
+              Read Mira's exact words again. Is "we've been over this" a
+              sentence about the studies, or a sentence about the
+              meeting?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Dev has a good point about the principal
+            redirect: >
+              Dev's point might be true about the principal. Now ask
+              whether it has anything to do with whether the sources
+              themselves are good.
+    observation_rubric:
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - The evidence is weak.
+          - level: developing
+            examples:
+              - Nobody in the room can actually say which three studies
+                they are talking about.
+          - level: differentiated
+            examples:
+              - The petition is resting on three studies the group has
+                never told apart, and when someone asks which is which,
+                the answer is about the meeting instead of about the
+                studies — so the "evidence" is really just the group's
+                feeling that they already handled it.
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira did not really answer Theo.
+          - level: developing
+            examples:
+              - >-
+                  "We've been over this" is not an answer to "which study
+                  is which" — it is a different kind of sentence.
+          - level: differentiated
+            examples:
+              - Theo asked a specific question about the sources and
+                Mira's reply skipped the question entirely and went
+                back to reading, so the chain of reasoning has a hole
+                in it that nobody stops to fill.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Dev is changing the subject.
+          - level: developing
+            examples:
+              - Dev's point is about what the principal will read, not
+                about whether the sources are any good.
+          - level: differentiated
+            examples:
+              - Dev's pivot redefines what even counts as worth
+                checking — if the audience will not read it, the audit
+                stops feeling necessary, even though the audit would
+                still matter to whether the petition is true.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Mira is being stubborn.
+            - level: developing
+              examples:
+                - Mira is so sure the sourcing question is handled that
+                  hearing it again sounds to her like not trusting the
+                  group.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Nobody backed Theo up.
+            - level: developing
+              examples:
+                - When Dev said the principal would not read the
+                  sources anyway, asking about them started to feel
+                  like slowing the group down.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - Mira was sure and Dev made asking feel costly, so
+                  Theo's question could not land.
+            - level: differentiated
+              examples:
+                - Mira's certainty made it feel like there was nothing
+                  left to ask, and Dev's pivot made asking anyway feel
+                  like holding the group back — the two together made
+                  Theo's question quieter every time he tried it, even
+                  though the question itself was exactly the right one.
+
+  - passage_id: passage_03
+    turns: [turn_08, turn_09, turn_10]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Theo's question in turn_08. It is a yes/no question. Now
+          read what comes next — does it give a yes or a no?
+      - type: hint
+        text: >
+          Look at how Mira's question in turn_09 is bigger than Theo's.
+          What happens to Theo's question inside the bigger one?
+      - type: hint
+        text: >
+          Now read Theo's "I mean..." in turn_10. If you had to write it
+          down as a yes or a no, which one would it get written down as?
+          Is that the same as what Theo meant?
+      - type: ai_perspective
+        text: >
+          The AI said that in this room, not-disagreeing gets treated as
+          agreeing — and it also pointed out that there is a fourth
+          person at the table who has not spoken at all. Were you
+          noticing either of those?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed that Mira's question does not follow from Theo's.
+          Now think about why — what made it okay for the conversation
+          to jump like that?
+      - lens: scope
+        prompt: >
+          You noticed the conversation changed levels. Now think about
+          why — what does moving to "are we submitting today?" do to the
+          question Theo just asked?
+      - lens: evidence
+        prompt: >
+          You noticed that Theo's question never got answered. Now think
+          about why — what would it cost Theo to ask it a fourth time?
+    ai_reflection_prompt: >
+      The AI said Theo's "I mean..." is the smallest possible way of
+      not-agreeing, and that in a room where consensus has already been
+      named aloud, not-agreeing gets heard as agreeing. Does that match
+      what you were trying to say about that moment?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Theo agreed so it is fine
+            redirect: >
+              Look at Theo's exact words one more time. "I mean..." —
+              is that the same as saying yes?
+          - pattern: >
+              Mira was just trying to keep the meeting moving
+            redirect: >
+              Maybe — but look at what question she asks right after
+              Theo's question. Do the two connect, or does one of them
+              skip the other?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Mira ended the meeting
+            redirect: >
+              Look at whether Theo's question got finished before Mira's
+              new question started. Where did Theo's question go?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              The group does not have enough evidence
+            redirect: >
+              That might be true, but in this passage look at what
+              happens to the question about evidence — does it get
+              answered, or does it get replaced with a different
+              question?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira changed the subject.
+          - level: developing
+            examples:
+              - Theo asked yes/no and Mira asked something else, so his
+                question never got a yes or a no.
+          - level: differentiated
+            examples:
+              - Mira's question arrives a beat too early and replaces
+                Theo's question instead of answering it, and because
+                "I mean..." is not a no, the room treats the silence
+                as a yes — the logic gap is also a social move.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - The topic changed.
+          - level: developing
+            examples:
+              - The conversation jumped from the sources to whether
+                they are submitting today.
+          - level: differentiated
+            examples:
+              - When Mira's bigger question swallows Theo's smaller
+                one, the sourcing question does not get rejected — it
+                just gets left inside a question that is no longer
+                about it.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Theo's question did not get answered.
+          - level: developing
+            examples:
+              - Theo asked the whole room a direct yes/no about whether
+                anyone read the sources, and no one answered.
+          - level: differentiated
+            examples:
+              - Theo's question is louder and more direct than the one
+                he asked before, and it still gets overridden — the
+                evidence gap is still open and the room has just moved
+                past it a second time.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Mira really wanted to submit the petition.
+            - level: developing
+              examples:
+                - Mira is so sure the question is handled that asking
+                  again sounds, to her, like not trusting the group.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Theo did not want to be the one to stop the group.
+            - level: developing
+              examples:
+                - In a room where consensus has already been said out
+                  loud, pushing back would feel like breaking something,
+                  so Theo lets "I mean..." be the whole push.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - Mira's certainty and the group pressure to just ship
+                  it worked together to make Theo's question land
+                  softer than it was.
+            - level: differentiated
+              examples:
+                - Mira being certain makes the consensus statement feel
+                  like she is just naming what is already true, and the
+                  consensus statement makes her certainty even harder
+                  to question without looking like the kid who is
+                  breaking the group — so Theo's question stays the
+                  right question and still gets quieter each time he
+                  asks it.
+
+  - passage_id: passage_04
+    turns: [turn_11, turn_12, turn_13, turn_14]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Read Dev's "nice work, Theo" and then read Theo's "yeah." Do
+          those two lines feel like two people having the same
+          conversation?
+      - type: hint
+        text: >
+          Think about what Theo actually did in the last few turns.
+          Does Dev's compliment match what Theo was actually doing?
+      - type: ai_perspective
+        text: >
+          The AI said Dev and Theo are not in the same conversation in
+          this closing beat — Dev thinks the meeting ended in agreement,
+          and Theo thinks it ended in something else. Does that match
+          what you were noticing about "yeah"?
+    deepening_probes:
+      - lens: logic
+        prompt: >
+          You noticed that "nice work" does not match what Theo did.
+          Now think about why — what made Dev read the meeting that way?
+      - lens: scope
+        prompt: >
+          You noticed something off about how the meeting ended. Now
+          think about why — what does it mean for a group to "decide"
+          something without actually resolving it?
+      - lens: evidence
+        prompt: >
+          You noticed Theo's "yeah" is doing something strange. Now
+          think about why — what would it take for Theo to say something
+          more than that here?
+    ai_reflection_prompt: >
+      The AI said group decisions can ship intact and still leave the
+      disagreement they skipped sitting in the room. Does that match
+      what you felt about the way the meeting ended?
+    common_misreadings:
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Theo agreed because he said yeah
+            redirect: >
+              Read "yeah" out loud in your head, knowing what Theo just
+              tried to do twice in the last few minutes. Does it sound
+              like agreement?
+          - pattern: >
+              The petition succeeded because it got sent
+            redirect: >
+              The petition did get sent. Look at the people in the room
+              — did the group actually agree, or did the petition just
+              get sent?
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Dev is being nice
+            redirect: >
+              Dev is being nice. Now look at what his compliment is
+              saying Theo did, and compare it to what Theo actually
+              did in the meeting.
+    observation_rubric:
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Theo does not seem happy.
+          - level: developing
+            examples:
+              - Theo's "yeah" is not really agreeing, it is just not
+                blocking.
+          - level: differentiated
+            examples:
+              - Dev and Theo are reading two different meetings in this
+                last beat — Dev thinks it ended in a win and Theo
+                thinks it ended with his question still unanswered,
+                and neither of them says so.
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Dev said the wrong thing.
+          - level: developing
+            examples:
+              - >-
+                  "Nice work, Theo" does not match what Theo actually
+                  did — Theo was pushing back, not helping.
+          - level: differentiated
+            examples:
+              - Dev's compliment only works if Theo's questions were
+                part of the team effort, and they weren't — they were
+                the opposite, and reading them as agreement is how the
+                disagreement gets buried.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Theo did not say much at the end.
+          - level: developing
+            examples:
+              - Theo's "yeah" is the smallest thing he could say
+                without actually agreeing.
+          - level: differentiated
+            examples:
+              - Theo's last word is a "yeah" that is carrying the
+                unanswered audit question underneath it — the
+                disagreement did not go away, it just went quiet.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Dev is in a good mood.
+            - level: developing
+              examples:
+                - Dev really does think the meeting went well, because
+                  the petition got written and sent, which is what he
+                  was looking at the whole time.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Theo did not want to make a scene.
+            - level: developing
+              examples:
+                - Saying more than "yeah" would mean reopening a
+                  conversation the group just closed, and Theo is not
+                  willing to be that kid at this moment.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - Dev is reading the meeting as a win and Theo is
+                  holding something he cannot say, so both of them
+                  walk out of the same room with different meetings in
+                  their heads.
+            - level: differentiated
+              examples:
+                - Dev's read of the meeting only works because Theo
+                  let "I mean..." stand in for "no," and Theo's "yeah"
+                  only works because Dev is treating it as agreement —
+                  each of them is making the other one's version of
+                  the meeting possible, which is how a group can ship
+                  a decision and still be carrying the disagreement it
+                  never had.

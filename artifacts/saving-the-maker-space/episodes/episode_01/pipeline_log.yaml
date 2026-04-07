@@ -1,0 +1,148 @@
+---
+timestamp: '2026-04-07T13:14:30+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T13:17:38+00:00'
+command: create_episode
+stage: planning
+agent: planning_agent
+attempt: 1
+verdict: draft_returned
+---
+timestamp: '2026-04-07T13:18:46+00:00'
+command: create_episode
+stage: validation
+agent: validation_agent
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-07T13:18:52+00:00'
+command: create_episode
+stage: schema_validation
+verdict: PASS
+---
+timestamp: '2026-04-07T13:18:52+00:00'
+command: create_episode
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T13:22:49+00:00'
+command: create_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T13:22:49+00:00'
+command: create_transcript
+stage: projection_schema
+verdict: PASS
+---
+timestamp: '2026-04-07T13:23:48+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 1
+verdict: OK
+notes: RISK notes only; no leaks
+---
+timestamp: '2026-04-07T13:25:17+00:00'
+command: create_transcript
+stage: dialog_writer
+agent: dialog_writer
+attempt: 1
+---
+timestamp: '2026-04-07T13:25:58+00:00'
+command: create_transcript
+stage: structural_review
+attempt: 1
+verdict: PASS
+notes: "manual: review_transcript.py bug \u2014 reads 'personas' but schema uses 'lead_characters'"
+---
+timestamp: '2026-04-07T13:26:56+00:00'
+command: create_transcript
+stage: transcript_id
+agent: transcript_id
+attempt: 1
+---
+timestamp: '2026-04-07T13:27:53+00:00'
+command: create_transcript
+stage: transcript_review
+agent: transcript_reviewer
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-07T13:28:07+00:00'
+command: create_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T13:40:36+00:00'
+command: analyze_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T13:45:52+00:00'
+command: analyze_transcript
+stage: evaluator
+agent: evaluator
+attempt: 1
+---
+timestamp: '2026-04-07T13:45:52+00:00'
+command: analyze_transcript
+stage: schema_validation
+verdict: PASS
+---
+timestamp: '2026-04-07T13:46:47+00:00'
+command: analyze_transcript
+stage: analysis_review
+agent: analysis_reviewer
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-07T13:46:47+00:00'
+command: analyze_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T13:51:04+00:00'
+command: design_scaffolding
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T13:56:35+00:00'
+command: design_scaffolding
+stage: scaffolding_id
+agent: scaffolding_id
+attempt: 1
+---
+timestamp: '2026-04-07T13:56:35+00:00'
+command: design_scaffolding
+stage: schema_validation
+verdict: PASS
+---
+timestamp: '2026-04-07T13:57:36+00:00'
+command: design_scaffolding
+stage: scaffolding_review
+agent: scaffolding_reviewer
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-07T13:57:36+00:00'
+command: design_scaffolding
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-07T13:59:55+00:00'
+command: configure_session
+stage: start
+verdict: START
+---
+timestamp: '2026-04-07T14:00:44+00:00'
+command: configure_session
+stage: save
+verdict: SAVE

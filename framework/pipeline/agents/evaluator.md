@@ -15,7 +15,20 @@ You receive:
 2. The full episode plan (`episode.yaml`, including `target_facets`, `story_id`, and `episode_number`)
 3. The story design doc (`framework/docs/stories/{story_id}.md`) and the per-episode draft (`framework/docs/stories/{story_id}/episode_{NN}.md`) — you read them directly for character context. As a post-generation reviewer, you are allowed framework terminology.
 
-You must propagate `story_id` and `episode_number` from `episode.yaml` into the top-level fields of `analysis.yaml` (both required by the schema).
+You must propagate `story_id` and `episode_number` from `episode.yaml` into the top-level fields of **both** `analysis.yaml` and `facilitation.yaml` (both required by both schemas). If `episode.yaml` has a `scenario_id` field, you may also propagate it as an optional traceability field in either output, but it is not required — primary addressing in downstream artifacts is by `story_id` + `episode_number`.
+
+### Surface present-but-silent characters
+
+`transcript.yaml` is **dialog-only** by schema — `speaker` + `sentences[].text` and nothing else. It cannot carry non-verbal beats: a character who is in the room but does not speak will not appear in any turn. The story design, however, may commit such a character to a silent presence that is **load-bearing for cross-episode arcs** (e.g., a character whose silence in episodes 1–3 is the baseline for their speaking up in episode 4).
+
+You have access to the source material that *does* carry this intent: `episode.yaml`'s `discussion_dynamic` field, the per-episode draft's authorial notes, and the story design doc's cast section. When any of these declare that a non-lead character is **present in the scene but silent**, you must surface that presence somewhere a teacher will read it. Concretely:
+
+- **In `analysis.yaml`:** mention the silent character's presence in the relevant passage's `notes` field, or in the `ai_perspective.why_it_happened` commentary if the silence is causally relevant to the reasoning being analyzed (e.g., the silent character's non-objection is part of the social dynamic).
+- **In `facilitation.yaml`:** mention the silent character's presence in the passage's `whats_here` block or in the `discuss.watch_for` field, so a teacher knows to scaffold the continuity verbally during the discussion (e.g., "Sam has been at the table for the whole meeting and has not spoken — students will probably not notice; this matters for episode 4").
+
+You are explicitly allowed to name the silent character even though they do not appear in `transcript.yaml`, because you are reading `episode.yaml` and the design doc directly. The teacher needs to know they were there. The student will experience the silence as continuity through the teacher's framing, since `transcript.yaml` cannot carry it directly.
+
+Do not invent silent characters that are not declared in any source. The instruction is: honor what the design doc and `episode.yaml`'s `discussion_dynamic` declared, and surface it where it can be read.
 
 You are responsible for **passage segmentation** as part of your task (see below) and then produce two artifacts:
 

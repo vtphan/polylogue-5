@@ -1,0 +1,77 @@
+personas:
+  - name: Mira
+    perspective: >
+      Wants the petition sent today. The drafts are done and reopening
+      anything now would feel like starting over.
+  - name: Dev
+    perspective: >
+      Believes the punchy opening line and the signatures are what will
+      actually land with the principal.
+  - name: Theo
+    perspective: >
+      Wants someone to actually check the sources before the petition
+      goes out, so it can survive being read.
+
+turns:
+  - speaker: Dev
+    sentences:
+      - text: >
+          Okay, listen — "the maker space is essential to learning, and
+          the kids love it."
+      - text: That's the opener. Tell me that doesn't hit.
+  - speaker: Theo
+    sentences:
+      - text: Essential how, though?
+      - text: Like, essential for what the principal has to decide?
+  - speaker: Dev
+    sentences:
+      - text: It says it right there — the kids love it.
+      - text: Which they do. That's the whole reason.
+  - speaker: Mira
+    sentences:
+      - text: >
+          Okay so — "three separate studies show hands-on spaces help
+          kids learn better, and that's why this room matters."
+      - text: That's the whole middle paragraph, basically.
+  - speaker: Theo
+    sentences:
+      - text: Wait — which three, though?
+      - text: I asked last week which study is which and I still don't actually know.
+  - speaker: Mira
+    sentences:
+      - text: Theo, we've been over this.
+      - text: >
+          "...and that's why this room matters to every grade in the
+          building."
+  - speaker: Dev
+    sentences:
+      - text: >
+          Look, the principal isn't going to read the sources anyway.
+      - text: She's gonna read the first paragraph and count the signatures. That's it.
+  - speaker: Theo
+    sentences:
+      - text: >
+          Okay, but — has anyone in this room actually read all three of
+          Ren's things end to end?
+      - text: Anyone? Just so I know.
+  - speaker: Mira
+    sentences:
+      - text: Okay, so we're submitting today, right?
+  - speaker: Theo
+    sentences:
+      - text: I mean...
+  - speaker: Dev
+    sentences:
+      - text: Then I'll drop it off at lunch.
+      - text: Give it here.
+  - speaker: Mira
+    sentences:
+      - text: Here, this one's the final.
+      - text: I gotta grab my stuff before the bell.
+  - speaker: Dev
+    sentences:
+      - text: Done. In the mailbox.
+      - text: Nice work, Theo.
+  - speaker: Theo
+    sentences:
+      - text: Yeah.

@@ -125,6 +125,17 @@ A complete `episode_writer_input.yaml` conforming to `framework/schemas/episode_
 - `discussion_arc` — narrative description of how tension rises and resolves. No framework terms.
 - `turn_outline` — same length and ordering as the `episode.yaml` turn outline. Each entry has `speaker` and `accomplishes` only. The move/response beats encoded here are the only carrier of the social signal into `dialog_writer`.
 
+### Background characters (present-but-not-lead)
+
+If the per-episode draft's prose body — especially the authorial notes — declares that a non-lead character is **present in the scene** (e.g., "Sam is in the room but contributes nothing — she has to be visibly silent here, not absent"), or that a non-lead should be **referenced in the dialog** (e.g., "the episode mentions Dev once or twice without making him a beat"), you must thread that intent into the projection. The projection schema's `lead_characters` list is hard-capped at 2–3 names, so you cannot add background characters as a fourth lead. Instead:
+
+- **Mention the background character by name in `discussion_arc`** in a way that establishes their physical presence (e.g., "Mira, Theo, and Ren do most of the talking, while Sam sits at the table without speaking").
+- **And/or thread the name into one or two specific `accomplishes` lines** so `dialog_writer` has a natural place to put a glance, an aside, or a beat of silence (e.g., "Mira glances at Sam, who says nothing, and keeps going").
+
+This is the only way background-character continuity reaches the writer. Without it, the writer renders the scene with the lead set as if no one else were present, and the design doc's cross-episode arcs (silent baselines, planted-then-paid-off references) collapse. Background-character mentions are barrier-safe so long as they describe presence and behavior, not framework labels — `projection_reviewer` checks them on the same rubric as the rest of the prose.
+
+If the draft's authorial notes do not mention background characters as present, do not invent them. The instruction is: honor what the draft declared, do not embellish.
+
 **Explicitly excluded** (do not add these to `episode_writer_input.yaml`):
 
 - Any facet_id, lens name used as classification, cognitive_pattern, or social_dynamic name

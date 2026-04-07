@@ -1,0 +1,55 @@
+personas:
+  - name: Mira
+    perspective: Thinks the closure is wrong and the group needs to start a petition today.
+  - name: Theo
+    perspective: Agrees the closure is bad but wants to know the principal's actual reason first.
+  - name: Ren
+    perspective: Excited to share things she found online that show the maker space matters.
+turns:
+  - speaker: Mira
+    sentences:
+      - text: "Okay so we're writing a petition, that's what we're doing."
+      - text: "I read this whole NPR thing last night about how hands-on learning is literally the thing that works for middle schoolers, so like, that part's done."
+  - speaker: Mira
+    sentences:
+      - text: "And they're spending forty thousand dollars turning our room into another computer lab, which is insane when there's already one upstairs."
+  - speaker: Theo
+    sentences:
+      - text: "Wait — where'd you get the forty thousand from?"
+  - speaker: Mira
+    sentences:
+      - text: "I mean, that's Principal Alvarez's number, she has to know it."
+      - text: "That's her job to explain, not ours."
+  - speaker: Theo
+    sentences:
+      - text: "Yeah, okay."
+  - speaker: Ren
+    sentences:
+      - text: "Okay so I read this thing — actually three things, hold on."
+      - text: "There's a study, and a parent blog, and this thing from the 3D-printer company, and they all basically say the same thing."
+  - speaker: Theo
+    sentences:
+      - text: "Wait, the 3D-printer one, is that like — "
+  - speaker: Mira
+    sentences:
+      - text: "See, that's perfect — there's research, and parents are saying it, and even the equipment people are saying it."
+      - text: "That's everybody."
+  - speaker: Ren
+    sentences:
+      - text: "Yeah, and the study literally says hands-on learning boosts engagement, so like, done."
+  - speaker: Theo
+    sentences:
+      - text: "..."
+  - speaker: Mira
+    sentences:
+      - text: "Okay so we're all on the same page, right? We're doing a petition."
+  - speaker: Theo
+    sentences:
+      - text: "Yeah."
+  - speaker: Ren
+    sentences:
+      - text: "Yeah, let's do it."
+  - speaker: Mira
+    sentences:
+      - text: "Okay, opening line — 'We, the students of...' hold on, let me write this down."
+      - text: "There's the bell, I'll finish it in math."

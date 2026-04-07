@@ -11,11 +11,6 @@ Note: this command does not read the per-episode draft or the story design doc. 
 
 ## Arguments
 
-- `$1` = `story_id`
-- `$2` = `episode_number` (1-indexed)
-
-Derive the episode directory once at the top of the run:
-
 ```bash
 STORY_ID="$1"
 EP_NUM="$2"

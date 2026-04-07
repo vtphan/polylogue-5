@@ -1,0 +1,544 @@
+story_id: saving-the-maker-space
+episode_number: 2
+scenario_id: saving-the-maker-space-ep-02
+
+passages:
+  - passage_id: passage_01
+    turn_ids: [turn_01, turn_02, turn_03]
+    sentence_ids: [turn_01.s01, turn_01.s02, turn_02.s01, turn_02.s02, turn_03.s01, turn_03.s02]
+    notes: >
+      Dev rehearses the opening line and Theo makes his first attempt
+      to pressure-test the framing. Sam is in the room but silent
+      throughout — declared in the design doc as load-bearing for
+      episode 4.
+
+  - passage_id: passage_02
+    turn_ids: [turn_04, turn_05, turn_06, turn_07]
+    sentence_ids: [turn_04.s01, turn_04.s02, turn_05.s01, turn_05.s02, turn_06.s01, turn_06.s02, turn_07.s01, turn_07.s02]
+    notes: >
+      Mira reads the three-studies block; Theo asks where the third
+      source came from; Mira shuts the question down; Dev pivots to
+      "the principal isn't going to read the sources anyway." Sam
+      remains silent in the room.
+
+  - passage_id: passage_03
+    turn_ids: [turn_08, turn_09, turn_10]
+    sentence_ids: [turn_08.s01, turn_08.s02, turn_09.s01, turn_10.s01]
+    notes: >
+      Theo's second, more direct audit attempt; Mira's premature
+      consensus statement; Theo's "I mean..." — the visible non-block.
+      Sam looks up at this consensus moment and says nothing; the
+      design doc flags this beat as the one teachers should name aloud.
+
+  - passage_id: passage_04
+    turn_ids: [turn_11, turn_12, turn_13, turn_14]
+    sentence_ids: [turn_11.s01, turn_11.s02, turn_12.s01, turn_12.s02, turn_13.s01, turn_13.s02, turn_14.s01]
+    notes: >
+      The petition ships. Dev claps Theo on the shoulder; Theo's "yeah"
+      is the closing beat the audience carries into episode 3.
+
+passage_analyses:
+
+  - passage_id: passage_01
+    turns: [turn_01, turn_02, turn_03]
+    sentence_range: [turn_01.s01, turn_01.s02, turn_02.s01, turn_02.s02, turn_03.s01, turn_03.s02]
+    facet_annotations:
+      - facet_id: relevance
+        was_targeted: true
+        quality_level: weak
+        evidence_sentences: [turn_01.s01, turn_01.s02, turn_03.s01, turn_03.s02]
+        primary_lens: evidence
+        also_visible_through: [logic, scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction_note: >
+            Dev treats emotional availability as relevance. "The kids
+            love it" is true and unfalsifiable, and it does not engage
+            the budget question the principal actually has to weigh.
+        evidence_basis: >
+          When Theo asks "essential for what the principal has to
+          decide?" Dev answers by repeating "the kids love it" — he
+          treats the most emotionally available line as if it were
+          the answer to a question about decision criteria, which is
+          the behavioral signature of confusing persuasive with relevant.
+        notes: >
+          Theo's "essential how, though?" names the relevance gap
+          almost diagnostically; Dev does not hear it as a question
+          about criteria.
+
+      - facet_id: inferential_validity
+        was_targeted: true
+        quality_level: weak
+        evidence_sentences: [turn_01.s01, turn_03.s01, turn_03.s02]
+        primary_lens: logic
+        also_visible_through: [evidence]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+          interaction_note: >
+            Dev's sentence has the surface form of an argument — claim
+            plus "because" clause — but no premise actually links
+            "the kids love it" to "the principal should keep it." He
+            treats the well-formed sentence as if its well-formedness
+            were the inference.
+        evidence_basis: >
+          Dev's "which they do. That's the whole reason" treats the
+          truth of the love-claim as if it discharged the inferential
+          burden. The conclusion (the principal should keep the room)
+          does not follow from the premise (the kids love it) without
+          a missing bridge premise that nobody supplies.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Dev's opening line has the shape of an argument — there is a
+          claim and there is a "because" — but if you try to write out
+          the steps, something is missing in the middle. "The kids love
+          it" is offered as the reason the room is essential, but
+          nothing in the sentence explains why being loved is the same
+          thing as being essential to a decision the principal has to
+          make. The sentence sounds complete because it is well-formed,
+          not because the steps actually connect.
+        key_sentences: [turn_01.s01, turn_03.s01, turn_03.s02]
+      through_evidence:
+        observation: >
+          The "evidence" in this opening is feelings — true ones, but
+          feelings. Nobody is wrong that the kids love the room. The
+          question is whether that fact, by itself, is the kind of
+          thing the principal would weigh against a budget number.
+        key_sentences: [turn_01.s01, turn_03.s01]
+      through_scope:
+        observation: >
+          Theo's "essential for what the principal has to decide?" is
+          a scope move — he's asking what question the petition is
+          actually answering. Dev answers a different question (what
+          is true about the room) instead of the one Theo asked (what
+          does the principal need to weigh).
+        key_sentences: [turn_02.s01, turn_02.s02]
+      why_it_happened: >
+        One way to think about what is happening here: Dev is reaching
+        for the line that feels strongest when he says it out loud,
+        and an emotionally available sentence is not the same thing as
+        a relevant one. A cognitive scientist might say he is treating
+        fluency — how easily the sentence comes — as evidence that the
+        sentence is the right one. Theo's "essential how, though?" is
+        the right question to puncture this, and you can watch it not
+        land: Dev hears it, answers something else, and moves on. The
+        room is not yet a place where a question about criteria gets
+        treated as a question about criteria.
+      what_to_notice: >
+        Look at how Theo asks "essential how, though?" and what
+        answer comes back. Is the answer the same kind of thing as
+        the question?
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic, Evidence, and Scope each produce a distinct reading of
+        this opening: Logic sees the missing bridge premise, Evidence
+        sees feelings-as-data, Scope sees Dev answering a different
+        question than Theo asked.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - >
+              That Dev's "because the kids love it" doesn't actually
+              explain why the room should stay open.
+            - >
+              That the sentence sounds like an argument because of
+              its shape.
+          might_miss:
+            - >
+              That the missing piece is a bridge premise — students
+              may say "it's not enough" without locating what is
+              specifically absent.
+        - lens: evidence
+          observations:
+            - >
+              That "the kids love it" is a feeling, not a fact about
+              outcomes.
+          might_miss:
+            - >
+              That the line is unfalsifiable — there is no observation
+              that could disprove it.
+        - lens: scope
+          observations:
+            - >
+              That Theo is asking about the principal's question
+              specifically, not about whether the room is good.
+          might_miss:
+            - >
+              That Dev's answer changes the subject without seeming
+              to.
+
+  - passage_id: passage_02
+    turns: [turn_04, turn_05, turn_06, turn_07]
+    sentence_range: [turn_04.s01, turn_04.s02, turn_05.s01, turn_05.s02, turn_06.s01, turn_06.s02, turn_07.s01, turn_07.s02]
+    facet_annotations:
+      - facet_id: sufficiency
+        was_targeted: true
+        quality_level: weak
+        evidence_sentences: [turn_04.s01, turn_05.s01, turn_05.s02, turn_06.s01, turn_06.s02, turn_07.s01, turn_07.s02]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: group_pressure
+          interaction_note: >
+            Mira's certainty about the three studies comes from how
+            settled the topic feels in the room, not from having
+            distinguished the studies. When Theo asks for the third
+            time which is which, "we've been over this" closes the
+            question without producing the sourcing. Dev's pivot
+            ("the principal isn't going to read the sources anyway")
+            then reframes auditing as wasted effort, which is the
+            group-pressure half of the move.
+        evidence_basis: >
+          Mira cites "three separate studies" as the middle paragraph
+          and, when asked which three, replies "we've been over this"
+          and keeps reading rather than producing the sources. The
+          petition's evidence base is the same three sources from
+          episode 1, still undistinguished. Both the cognitive-pattern
+          label (false_certainty — confidence outrunning audit) and
+          the social-dynamic label (group_pressure — Dev's pivot
+          recruits the room against the audit) are picked out
+          specifically by these turns.
+
+      - facet_id: source_credibility
+        was_targeted: true
+        quality_level: strong
+        evidence_sentences: [turn_05.s01, turn_05.s02]
+        primary_lens: evidence
+        also_visible_through: [logic, scope]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        contrastive_explanation: >
+          In a less-settled room Theo's "which three, though? I asked
+          last week which study is which and I still don't actually
+          know" would have produced an audit; the room's habit of
+          treating settled-feeling as settled-on-the-merits
+          (false_certainty, group_pressure) is what overrides it.
+          The strength has not changed — Theo is doing the right
+          source-credibility move at full intensity — the room has
+          just gotten better at moving past it.
+        evidence_basis: >
+          Theo names a specific, falsifiable gap (which study is
+          which) and references his unanswered question from the
+          first meeting. This is the source_credibility move — auditing
+          provenance before treating a citation as input — performed
+          at full strength and explicitly.
+        notes: >
+          First of two attempts in this episode; the second is in
+          passage_03.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Watch what happens to Theo's question. He asks something
+          specific — which of the three studies is which — and the
+          response is not an answer to that question. "We've been
+          over this" is a statement about the meeting, not about the
+          studies. The chain of reasoning skips a step and nobody
+          notices the skip, because the room is moving forward.
+        key_sentences: [turn_05.s01, turn_06.s01]
+      through_evidence:
+        observation: >
+          Three studies are cited as one combined block. When the
+          group is asked to distinguish them, no one can — and the
+          response to not being able to is to keep reading the
+          paragraph that cites them. That is a gap between what the
+          petition claims to rest on and what the room actually has
+          in hand.
+        key_sentences: [turn_04.s01, turn_05.s01, turn_05.s02]
+      through_scope:
+        observation: >
+          Dev's pivot — "the principal isn't going to read the
+          sources anyway" — changes what counts as relevant. It says
+          the audience won't audit, so the audit doesn't matter.
+          Notice that this is an argument about *the principal*, not
+          about the sources themselves.
+        key_sentences: [turn_07.s01, turn_07.s02]
+      why_it_happened: >
+        One way a cognitive scientist might describe Mira's move:
+        false certainty — being sure of something because the room
+        feels settled, not because you have checked it. And one way a
+        group dynamics researcher might describe what Dev's pivot
+        does: it converts the audit question from a real question
+        into a kind of group disloyalty, which is how group pressure
+        often works in practice — not as anyone bullying anyone, but
+        as the cost of asking going up just slightly each time. The
+        two reinforce each other. Mira's certainty makes it feel
+        like there's nothing to ask; Dev's pivot makes asking feel
+        like it's slowing everyone down. Theo's question is doing
+        exactly the right work and the room has gotten better at
+        moving past it. Sam, by the way, is also in the room — and
+        also not speaking — through this whole exchange.
+      what_to_notice: >
+        Theo asks the same question twice across two meetings.
+        Track what happens to it the second time. Where does the
+        question go?
+
+    diversity_potential:
+      expected_lens_split: >
+        Evidence is the dominant lens here (the sourcing gap), but
+        Logic sees the non-answer to Theo's question and Scope sees
+        Dev's pivot as a reframe of what counts as relevant.
+      likely_student_observations:
+        - lens: evidence
+          observations:
+            - >
+              That nobody in the room can name the three studies.
+            - >
+              That Mira's response to Theo isn't actually about the
+              sources.
+          might_miss:
+            - >
+              That this is the *same* unanswered question from the
+              first meeting (continuity from episode 1).
+        - lens: logic
+          observations:
+            - >
+              That "we've been over this" doesn't answer Theo's
+              question.
+          might_miss:
+            - >
+              That Dev's pivot is technically a relevance argument
+              (about the audience), not a defense of the sources.
+        - lens: scope
+          observations:
+            - >
+              That the petition is about a principal who reads or
+              doesn't read.
+          might_miss:
+            - >
+              That Theo's question is scoped to "what the petition
+              rests on," which is independent of who reads it.
+
+  - passage_id: passage_03
+    turns: [turn_08, turn_09, turn_10]
+    sentence_range: [turn_08.s01, turn_08.s02, turn_09.s01, turn_10.s01]
+    facet_annotations:
+      - facet_id: source_credibility
+        was_targeted: true
+        quality_level: strong
+        evidence_sentences: [turn_08.s01, turn_08.s02]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: null
+          social_dynamic: null
+        contrastive_explanation: >
+          Theo's second attempt is louder than his first and louder
+          than anything he managed in episode 1 — "has anyone in this
+          room actually read all three of Ren's things end to end?"
+          is the same source_credibility instinct, now refusing to
+          be quiet. In a room without Mira's premature-consensus
+          habit and Dev's audience-pivot, this question would
+          stop the petition. Here it does not, but the strength is
+          visibly at full intensity — the override is the room's,
+          not Theo's.
+        evidence_basis: >
+          The question names a specific, falsifiable claim ("read
+          end to end") and asks the whole room directly. The
+          escalation from passage_02's "which three?" to "has anyone
+          actually read them?" is the strength getting louder, not
+          softer.
+        notes: >
+          This is the second of two strength attempts in the episode.
+          Pairs with passage_02's annotation; both belong to the same
+          target_strengths entry.
+
+      - facet_id: sufficiency
+        was_targeted: true
+        quality_level: weak
+        evidence_sentences: [turn_09.s01, turn_10.s01]
+        primary_lens: evidence
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: false_certainty
+          social_dynamic: group_pressure
+          interaction_note: >
+            Mira's "okay, so we're submitting today, right?" is the
+            same premature-consensus move from episode 1, performed
+            again. It arrives a beat before the group has finished
+            getting there, which is what makes Theo's "I mean..." into
+            tacit assent rather than active agreement. The cognitive
+            piece (false certainty about the sourcing) and the social
+            piece (consensus stated as already-reached) interact: the
+            certainty makes the consensus statement feel descriptive,
+            and the consensus statement makes the certainty harder
+            to question without breaking the group.
+        evidence_basis: >
+          Mira's consensus question follows immediately after Theo's
+          unanswered audit question, with no intervening answer. The
+          adjacency is the move — the question is treated as having
+          been disposed of by being asked.
+        notes: >
+          Sam looks up at this beat (per the design doc) and does not
+          speak. Surface this to teachers — students will not notice
+          the silent character without scaffolding, and the silence
+          is load-bearing for episode 4.
+
+    ai_perspective:
+      through_logic:
+        observation: >
+          Theo asks a yes/no question — has anyone read all three end
+          to end — and what comes next is not a yes or a no. It is a
+          different question, from Mira: "are we submitting today?"
+          The two questions are about different things, and the
+          second one ends the conversation about the first.
+        key_sentences: [turn_08.s01, turn_09.s01]
+      through_evidence:
+        observation: null
+        key_sentences: []
+      through_scope:
+        observation: >
+          Notice the move from "has anyone read these?" to "are we
+          submitting today?" — the question gets bigger and the
+          audit question gets quieter inside it. By the time Theo
+          says "I mean...", the conversation is no longer about the
+          sources at all.
+        key_sentences: [turn_08.s01, turn_09.s01, turn_10.s01]
+      why_it_happened: >
+        A cognitive scientist might call Mira's move false certainty
+        — she is so sure the question is settled that asking about
+        it again sounds, to her, like not trusting the group. A
+        researcher who studies group decisions might add that this
+        is one of the cleanest ways group pressure actually shows
+        up in real rooms: not as anyone telling Theo to be quiet,
+        but as the moment when the cost of speaking up gets just
+        slightly higher than the cost of letting it pass. Theo
+        decides not to pay it. He doesn't agree — he says "I mean..."
+        — but in a room where consensus has already been named
+        aloud, not-disagreeing is read as agreeing. There is one
+        more person at this table, by the way: Sam, who has been in
+        the room the whole meeting and looks up at the moment of
+        consensus and says nothing. The audience sees four people
+        in this passage, not three.
+      what_to_notice: >
+        What does Theo's "I mean..." count as in this room? If you
+        had to translate it into a yes or a no, which one would it
+        get translated into — and is that the same as what Theo
+        actually meant?
+
+    diversity_potential:
+      expected_lens_split: >
+        Logic sees the non-sequitur between Theo's question and
+        Mira's; Scope sees the level-jump from sources to meeting
+        logistics; Evidence sees the unanswered audit question
+        still hanging in the room.
+      likely_student_observations:
+        - lens: logic
+          observations:
+            - >
+              That Mira's "are we submitting today?" doesn't follow
+              from anything Theo just said.
+            - >
+              That "I mean..." is not a yes.
+          might_miss:
+            - >
+              That the structure of the move (consensus stated, then
+              silence treated as agreement) is the same one from
+              episode 1.
+        - lens: scope
+          observations:
+            - >
+              That the conversation jumps levels — from sources to
+              the meeting itself.
+          might_miss:
+            - >
+              That Sam is in the room. They almost certainly will
+              not notice this without a teacher mention.
+        - lens: evidence
+          observations:
+            - >
+              That Theo's question never got an answer.
+          might_miss:
+            - >
+              That this is the second time across two episodes.
+
+  - passage_id: passage_04
+    turns: [turn_11, turn_12, turn_13, turn_14]
+    sentence_range: [turn_11.s01, turn_11.s02, turn_12.s01, turn_12.s02, turn_13.s01, turn_13.s02, turn_14.s01]
+    facet_annotations:
+      - facet_id: perspective_engagement
+        was_targeted: false
+        quality_level: weak
+        evidence_sentences: [turn_13.s01, turn_13.s02, turn_14.s01]
+        primary_lens: scope
+        also_visible_through: [logic]
+        explanatory_variables:
+          cognitive_pattern: tunnel_vision
+          social_dynamic: conflict_avoidance
+          interaction_note: >
+            Dev's "Nice work, Theo" treats Theo as on-side. Theo's
+            "yeah" is the visible refusal to confirm without being
+            the visible refusal to break the moment. Neither
+            character engages with the perspective the other is
+            actually holding; the disagreement goes underground
+            rather than being closed.
+        evidence_basis: >
+          Dev's compliment is incompatible with the content of
+          Theo's two preceding turns — it reads Theo's silence as
+          agreement and his audit questions as having been part of
+          the team effort. Theo's monosyllable is the smallest
+          possible non-confirmation. Both moves avoid engaging the
+          actual disagreement, which is the perspective_engagement
+          weakness.
+        notes: >
+          Emergent — not in target_facets. Worth surfacing because
+          students will feel something off about the closing beat
+          and need vocabulary for it.
+
+    ai_perspective:
+      through_logic:
+        observation: null
+        key_sentences: []
+      through_evidence:
+        observation: null
+        key_sentences: []
+      through_scope:
+        observation: >
+          The petition is in the mailbox. Dev says "nice work, Theo"
+          and Theo says "yeah." Notice that Dev and Theo are not
+          actually in the same conversation here — Dev thinks the
+          meeting ended in agreement, and Theo thinks it ended in
+          something else. Neither of them says so out loud.
+        key_sentences: [turn_13.s01, turn_13.s02, turn_14.s01]
+      why_it_happened: >
+        The closing beat is what the dialog looks like when a group
+        decides without resolving. Nobody is lying. Dev genuinely
+        thinks the meeting went well; Theo genuinely thinks
+        something is off. The reason both can be true at once is
+        that the meeting never actually had the conversation Theo
+        was trying to start. Group decisions can ship intact and
+        leave the disagreement they avoided sitting in the room
+        afterward, which is roughly what is happening here.
+      what_to_notice: >
+        Read Theo's last word. What is it doing? Is it the same
+        kind of "yeah" you would say if you actually agreed?
+
+    diversity_potential:
+      expected_lens_split: >
+        Scope sees the mismatch between Dev's and Theo's readings of
+        the meeting; Logic sees Dev's compliment not matching the
+        content of Theo's preceding turns.
+      likely_student_observations:
+        - lens: scope
+          observations:
+            - >
+              That Theo's "yeah" is doing something other than
+              agreeing.
+          might_miss:
+            - >
+              That the disagreement is still in the room — it
+              didn't get resolved, it got skipped.
+        - lens: logic
+          observations:
+            - >
+              That Dev's "nice work" doesn't match what Theo
+              actually did in the meeting.
+          might_miss:
+            - >
+              That this closing beat is the cliffhanger for episode 3.

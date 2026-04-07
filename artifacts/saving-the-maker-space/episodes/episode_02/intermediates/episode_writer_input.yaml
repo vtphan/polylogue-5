@@ -1,0 +1,234 @@
+story_premise: >
+  The principal of a middle school has announced that the maker space — a
+  cluttered back room where a handful of 6th graders spend most of their
+  free time — is being converted into a second computer lab at the end of
+  the term. Five kids who practically live in that room are trying to
+  figure out how to save it.
+
+episode_premise: >
+  A week after the announcement. The petition has been through three
+  drafts and the group is meeting one last time before sending it. Dev,
+  who has been quietly collecting signatures all week, is the one who
+  will deliver it, and he wants the opening line to be punchy. Mira
+  wants to send it today. Theo still hasn't gotten his sourcing question
+  answered from the first meeting, and now he has a new one about
+  whether anyone has actually read Ren's three studies end to end. By
+  the end of the meeting the petition is in the principal's mailbox,
+  the question Theo asked twice is still unanswered, and the group that
+  is delivering it is no longer fully aligned.
+
+episode_number: 2
+
+previously: >
+  At the first meeting a week ago, Mira opened on the conclusion that
+  the group should write a petition, Ren brought three things on her
+  phone as evidence, and Theo asked where Mira's budget number came from
+  and where Ren's sources came from. Both questions got waved off and
+  Theo let them drop. The meeting ended with the petition in outline
+  and the questions still hanging in the air.
+
+lead_characters:
+  - name: Mira
+    voice: >
+      Fast, declarative, organizer-energy. Talks in short decisive
+      sentences. Uses "okay so" a lot as a way of moving the group
+      forward. Sounds certain even when she is working from one article
+      she half-remembers. When she wants to close a conversation, she
+      states the decision out loud as if it has already happened.
+    perspective: >
+      The petition has been through three drafts, the group has agreed,
+      and it is time to send it today. Reopening the sourcing question
+      a week before the deadline would feel like restarting the whole
+      conversation, and she is not going to be the person who does that.
+    knowledge: >
+      The three drafts of the petition. The same article on hands-on
+      learning she read the night of the announcement. A general sense
+      that Ren's three studies all support the case. She has not herself
+      sat down with the three sources and read them individually.
+    weaknesses: >
+      When the room goes quiet after she states a decision, she hears
+      the quiet as agreement and moves on. When Theo asks for the third
+      time where one of the sources came from, her honest reaction is
+      that they have already covered this and that going back over it
+      is the same as not trusting the group. She has a habit of stating
+      the decision out loud a beat before the group has finished
+      reaching it. This is the second meeting in a row where she has
+      done this.
+    strengths: >
+      She is the reason the meeting is happening at all and the reason
+      the petition exists in writing instead of as a good intention. The
+      momentum is real even when the rigor isn't.
+    prior_beats: >
+      In the first meeting she opened on the conclusion, waved off
+      Theo's question about her budget number, and stated the consensus
+      out loud a beat before the group had quite reached it. Theo
+      nodded rather than break the moment.
+
+  - name: Dev
+    voice: >
+      Charismatic, fast, gestures a lot. Talks in lines he could read
+      off a poster. The kind of confidence that makes other 6th graders
+      want to agree with him before they have figured out whether they
+      do. Tends to deliver a sentence and then nod at it, as if the
+      sentence proves itself.
+    perspective: >
+      The petition needs to land in the principal's office today, and
+      what will land is the punchy opening. The strongest argument is
+      whichever one sounds best when said out loud. Sourcing is a
+      detail the principal won't get to anyway.
+    knowledge: >
+      The current draft, which he has been rehearsing all morning. The
+      stack of signatures he has been collecting from the rest of the
+      school all week. The opening line, which he can deliver from
+      memory.
+    weaknesses: >
+      He genuinely believes "the kids love it" is the strongest argument
+      because it is the one he feels most when he says it out loud.
+      When he reaches for a reason, he reaches for the one that sounds
+      best out loud, not the one that would answer what the principal
+      is weighing against the budget. And when he says "it matters
+      because the kids love it," he treats the sentence as a complete
+      argument because it sounds well-formed, even though nothing in
+      it explains why love should outweigh budget.
+    strengths: >
+      He can actually deliver. When the group has figured out what to
+      say, Dev is the one who can stand up and say it, and the
+      signatures he has collected this week are real and were not going
+      to collect themselves.
+    prior_beats: >
+      Dev was at the first meeting but mostly in the background. This
+      is the first time the audience sees him as a real voice in the
+      room.
+
+  - name: Theo
+    voice: >
+      Quieter, slower, asks short careful questions. Starts sentences
+      and doesn't always finish them. Tends to say "wait" or "hold on"
+      softly rather than loudly. When he lets a question drop, the
+      audience should be able to see him deciding to drop it.
+    perspective: >
+      The petition cites three studies he is not sure anyone in the
+      room has actually read end to end, and the framing does not seem
+      to be answering the question the principal is asking. He wants
+      the audit done before the petition ships. He is not trying to
+      stop the petition; he is trying to make sure it can survive being
+      read.
+    knowledge: >
+      The three sources from the first meeting, which he has glanced at
+      and noticed are not the same kind of document. The principal's
+      stated reason for the closure (the budget number) from the
+      assembly. The fact that his question from the first meeting never
+      got an answer.
+    weaknesses: >
+      His caution is louder than it was a week ago — he asks the
+      question twice this time instead of almost-asking once — but
+      when he is shut down he still does not push past the shut-down.
+      He will voice the right concern and then let it be overridden
+      rather than be the kid who blocks the petition the day it ships.
+    strengths: >
+      When he is handed a source, his instinct is to flip to who wrote
+      it and when. That instinct is working at full strength here — he
+      raises the audit question twice and neither attempt is
+      half-hearted. The instinct is in the room and is doing real work;
+      the room is what is not letting it through.
+    prior_beats: >
+      In the first meeting Theo asked once where Mira's budget number
+      came from, accepted the wave-off, and then almost-asked a second
+      question about Ren's three sources before closing his mouth.
+      Both attempts collapsed without an answer.
+
+discussion_arc: >
+  Dev rehearses the opening line of the petition out loud. From the
+  couch nobody is supposed to sit on, Theo asks "essential how, though?"
+  Dev answers by repeating the line — "the kids love it. Which they do."
+  — and treats the sentence as if it were its own reason. Mira reads the
+  current draft aloud and it cites Ren's three studies as one combined
+  block. Theo asks where the third source came from. Mira says they've
+  been over this and keeps reading. Dev pivots: the principal won't
+  read the sources anyway, she'll read the first paragraph and the
+  signatures. Theo tries the audit question one more time, more
+  directly. Mira closes the meeting with "so we're submitting today" —
+  the same closing move from the first meeting — glancing at Sam, who
+  looks up from the table and says nothing. Theo doesn't say no. Dev
+  picks up the petition. The meeting ends, the petition goes into the
+  principal's mailbox, Dev claps Theo on the shoulder on the way out,
+  and Theo doesn't clap back. Ren is not in the meeting — she's outside
+  collecting more signatures — which means Theo has to defend the audit
+  question alone. Sam is in the room throughout and never speaks; her
+  silence at the consensus moment should be visible enough that the
+  audience notices her not speaking.
+
+turn_outline:
+  - speaker: Dev
+    accomplishes: >
+      Rehearses the opening line of the petition out loud — "the maker
+      space is essential to learning, and the kids love it" — like
+      he's practicing for delivery.
+  - speaker: Theo
+    accomplishes: >
+      From the couch, asks quietly: "essential how, though?" The first
+      of his two attempts to get the framing pressure-tested.
+  - speaker: Dev
+    accomplishes: >
+      Answers by repeating the line: "it says the kids love it." A
+      beat. "Which they do." Treats the sentence as if it were its own
+      reason and moves on.
+  - speaker: Mira
+    accomplishes: >
+      Reads the current draft of the petition aloud, citing Ren's
+      three studies as one combined block of support without
+      distinguishing them.
+  - speaker: Theo
+    accomplishes: >
+      Asks where the third source came from. The same question from
+      the first meeting plus a new one about which study is which.
+      This is Theo's move, the first half of his exchange with Mira.
+  - speaker: Mira
+    accomplishes: >
+      Says "we've been over this" without producing the sourcing, and
+      keeps reading. This is Mira's response — she shuts the question
+      down rather than answering it, and Theo's audit attempt collapses
+      on impact.
+  - speaker: Dev
+    accomplishes: >
+      Pivots: "look, the principal isn't going to read the sources
+      anyway. She's going to read the first paragraph and the
+      signatures." Re-centers the room on the punchy opening.
+  - speaker: Theo
+    accomplishes: >
+      Tries the audit question one more time, more directly — asks
+      whether anyone in the room has actually read all three of Ren's
+      sources end to end. This is Theo's second attempt, and it is
+      louder than the first.
+  - speaker: Mira
+    accomplishes: >
+      States the consensus out loud a beat before the group has
+      finished getting there — "okay, so we're submitting today,
+      right?" This is Mira's move, the same closing move from the
+      first meeting, and it has to arrive too early. She glances at
+      Sam, who looks up from the table but says nothing, and the
+      meeting moves on around Sam's silence.
+  - speaker: Theo
+    accomplishes: >
+      Doesn't say no. This is the response half of Mira's move and it
+      has to be visible — the audience should see Theo deciding not to
+      block, not just hear silence. The second time in two meetings
+      this exact pair has happened.
+  - speaker: Dev
+    accomplishes: >
+      Clinches it. "Then I'll drop it off at lunch." Picks up the
+      petition. Closes out the response side of Mira's consensus move.
+  - speaker: Mira
+    accomplishes: >
+      Hands Dev the final draft and starts gathering her notebook. The
+      decision is now past the point where reopening it would feel
+      like anything other than breaking the group.
+  - speaker: Dev
+    accomplishes: >
+      The petition is in the principal's mailbox. Dev claps Theo on
+      the shoulder on the way out.
+  - speaker: Theo
+    accomplishes: >
+      Doesn't clap back. Stands there with the audit question still
+      unanswered for the second time in two meetings. The closing
+      beat the audience carries into the next episode.

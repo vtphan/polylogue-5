@@ -1,5 +1,6 @@
 # Schema: Facilitation Guide
-# Describes the structure of artifacts/{scenario_id}/facilitation.yaml
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/facilitation.yaml
 # Teacher-facing document. Uses facet language openly.
 # Produced by evaluator (Stage 3), enriched by scaffolding ID (Stage 4).
 # Source: pipeline-spec.md Section 2.4
@@ -8,9 +9,24 @@ schema:
   root:
     type: object
     fields:
-      scenario_id:
+      story_id:
         type: string
         required: true
+        description: >
+          Kebab-case identifier of the parent story. Primary addressing
+          field (with episode_number). Propagated from episode.yaml.
+
+      episode_number:
+        type: integer
+        required: true
+        description: 1-indexed position within the parent story's arc.
+
+      scenario_id:
+        type: string
+        required: false
+        description: >
+          Legacy traceability field. Optional in downstream artifacts;
+          primary addressing is by story_id + episode_number.
 
       overview:
         type: object

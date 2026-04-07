@@ -1,0 +1,278 @@
+scenario_id: saving-the-maker-space-ep-01
+story_id: saving-the-maker-space
+episode_number: 1
+topic: >
+  Five 6th graders meet at lunch the day the principal announces the maker
+  space will close at the end of the term, and try to decide what to do about it.
+context: >
+  A public middle school in a midsize town. The maker space — a cluttered back
+  room full of soldering irons, sewing machines, a half-working 3D printer, and
+  a couch nobody is supposed to sit on — is being converted into a second
+  computer lab at the end of the term. The five 6th graders who spend most of
+  their lunches there have crowded around their usual table to figure out what
+  to do. This is the first meeting of what will become their ad-hoc club. By
+  the end of lunch they have the outline of a petition and a question nobody
+  answered.
+instructional_goals:
+  - Practice noticing when a claim is being supported by a single source the speaker only half-remembers.
+  - Practice noticing when several sources that look independent actually come from interested parties.
+  - Practice noticing when a group agrees to something before the quiet objection in the room has been spoken.
+  - Practice noticing a good instinct that surfaces in a discussion but never gets acted on.
+
+discussion_dynamic: >
+  Mira arrives already decided — they are writing a petition. Ren arrives
+  with three things pulled up on her phone she thinks count as evidence. Theo
+  arrives with the question of what the principal's actual reason is and wants
+  it answered before the group commits. The tension is between Mira's momentum
+  and Theo's caution, with Ren inadvertently fueling Mira's momentum by
+  presenting her three sources as if they all point the same direction. Twice
+  during the conversation Theo almost slows things down — once when he asks
+  Mira where her budget number came from, once when he glances at Ren's source
+  list and opens his mouth to ask which one is which. Both times he lets it
+  go. The meeting ends when Mira states the consensus a beat too early ("so
+  we're all on the same page, right? We're doing a petition") and Theo and Ren
+  nod rather than break the moment. The bell rings before Theo can loop back
+  to Ren's phone.
+
+personas:
+  - name: Mira
+    perspective: >
+      The closure is wrong, the group has to act now, and the petition is the
+      obvious move. She read an NPR article last night about hands-on learning
+      and it feels settled to her — settled enough that she's already treating
+      the question of what to argue as solved and the question of how to
+      argue it as the only thing left.
+    knowledge: >
+      One article she read the night of the announcement, on her phone, about
+      hands-on learning in middle schools. A budget number she heard somewhere
+      that she believes is the school's line for the computer lab conversion
+      but cannot actually source. Years of using the maker space herself.
+    weaknesses: >
+      Mira treats how settled a question feels to her as evidence that it is
+      settled. When she cannot produce the budget number Theo asks for, her
+      instinct is that it's the principal's job to defend that number, not
+      theirs to have it. She also has a habit, when the group is circling a
+      decision, of stating the decision out loud a beat before the group has
+      actually reached it — and once she has said it, changing course feels
+      like breaking the group rather than completing the conversation.
+    strengths: >
+      She brings real momentum. She is the reason there's a meeting at all,
+      the reason there's a notebook on the table, and the reason the petition
+      exists as an idea by the end of lunch.
+
+  - name: Theo
+    perspective: >
+      Before the group commits to anything he wants to know what the principal
+      actually said her reason was, and where Mira's budget number came from.
+      He agrees the closure is bad but isn't sure the group knows enough yet
+      to argue against it well.
+    knowledge: >
+      He was at the assembly. He noticed Mira quoting a number during her
+      opening and noticed he hadn't heard that number before. He knows enough
+      about how Ren gathers sources to be a little wary of taking three things
+      on her phone at face value without checking where they came from.
+    weaknesses: >
+      His caution lives in his head more than in his mouth. When the group is
+      moving fast he'd rather let a question drop than be the kid who slows
+      everything down, even when the question is the exact right one to ask.
+      He raises his concern once, accepts a wave-off, and doesn't loop back.
+    strengths: >
+      When he's given a source, his instinct is to figure out where it came
+      from and whether to trust it before treating it as input. That instinct
+      surfaces twice in this episode — once when he asks Mira about the
+      budget number, once when he glances at Ren's source list and is about
+      to ask which of her three things is which. In this episode both
+      surfacings get overridden (the mixed-valence shape for this opener is
+      that the right move is in the room and gets dismissed), but the
+      audience should see the instinct is real.
+
+  - name: Ren
+    perspective: >
+      She's excited she has things to contribute. She spent the morning
+      between classes pulling up three pieces of evidence that the maker
+      space matters, and she's ready to put them on the table.
+    knowledge: >
+      Three sources on her phone: a peer-reviewed study on hands-on learning,
+      a parent advocacy blog, and a press release from a 3D-printer
+      manufacturer. She has read at least the headlines of all three and
+      skimmed the first one.
+    weaknesses: >
+      Ren gathers energetically but she picks her sources by what they
+      conclude rather than by who produced them. To her the three items on
+      her phone are three independent confirmations of the same point; she
+      does not notice, and has never been taught to notice, that two of the
+      three come from parties with an obvious stake in the conclusion. She
+      presents them as equivalent input.
+    strengths: >
+      She is the only kid in the group who actually went looking for
+      evidence between the announcement and lunch. The gathering instinct is
+      real; the evaluating instinct is the thing she hasn't grown into yet.
+
+target_facets:
+  - facet_id: sufficiency
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: false_certainty
+      social_dynamic: group_pressure
+      interaction_note: >
+        The cognitive and social signals chain: false_certainty produces the
+        premature consensus, and group_pressure ratifies the consensus before
+        anyone can object. Theo's instinct surfaces (see strength below) but
+        never gets voiced into the record.
+      cognitive_signal: >
+        Mira cites a single half-remembered NPR article about hands-on
+        learning as the whole evidence base for the group's position, and
+        when Theo asks for the budget number she's quoting she waves it off
+        as the principal's problem to defend rather than theirs to
+        substantiate.
+      social_signal: >
+        Mira closes the meeting with a premature consensus statement ("so
+        we're all on the same page, right? We're doing a petition"), and
+        Theo and Ren nod rather than break the moment — Mira's move, the
+        group's silent ratification as the response.
+    carrier_persona: Mira
+    signal_mechanism: >
+      Mira treats a single article she read last night as the whole evidence
+      base for what the group is about to commit to, and when Theo asks where
+      her budget number came from she waves the question off as the
+      principal's problem rather than theirs. Later, as the meeting is about
+      to break up, she states the conclusion out loud — "we're all on the
+      same page, right? we're doing a petition" — a beat before the group
+      has actually reached it, and Theo and Ren nod rather than break the
+      moment. The evidence base never gets tested and the decision is booked.
+
+  - facet_id: source_credibility
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through: [scope]
+    designed_explanation:
+      cognitive_pattern: confirmation_bias
+      social_dynamic: null
+      interaction_note: >
+        Ren's confirmation_bias here is gathering, not interpreting — she did
+        not cherry-pick to support a view she already held; she selected her
+        three sources by what they concluded rather than by where they came
+        from. This is the setup for her smaller growth arc, which inflects
+        in episode 3.
+      cognitive_signal: >
+        Ren brings three sources to the table — a peer-reviewed paper on
+        hands-on learning, a parent advocacy blog, and a press release from
+        a 3D-printer manufacturer — and presents them as three independent
+        confirmations of the same point, without noticing that two of the
+        three are interested parties she would not have cited if she had
+        checked where they came from.
+    carrier_persona: Ren
+    signal_mechanism: >
+      Ren puts three things on the table — a study, a blog, and a press
+      release — and presents them to the group as three pieces of evidence
+      pointing in the same direction, without distinguishing between them.
+      To her they read as confirmation-by-count; she did not filter them by
+      who produced them. Theo glances at the list and nearly asks which of
+      the three is which, but doesn't.
+
+target_strengths:
+  - facet_id: source_credibility
+    primary_lens: evidence
+    also_visible_through: [scope]
+    carrier_persona: Theo
+    signal_mechanism: >
+      Theo's instinct to check a source before trusting it surfaces twice in
+      this episode. The first surfacing is when Mira quotes a budget number
+      she cannot source and Theo asks her where it came from — the question
+      is exactly right and he accepts Mira's wave-off. The second surfacing
+      is when Ren lays out her three sources and Theo visibly registers that
+      they are not the same kind of thing; he opens his mouth to ask which
+      one is which, glances at the group, and says nothing. The strength is
+      real and visible to a careful reader, but it does not land. The
+      audience should leave the episode slightly uneasy without being able
+      to point at exactly what went wrong.
+    contrastive_note: >
+      Theo's caution here would be explained, in the deficit vocabulary, as
+      the absence of uncritical_acceptance: he is the one kid at the table
+      who does not treat a source as input the moment it appears. In this
+      episode the instinct collapses; in episode 3 the same instinct is the
+      one that lands.
+
+discussion_arc: >
+  Mira opens the meeting already on the conclusion she wants. Ren enters
+  with three things on her phone she's excited about. Theo asks his first
+  real question — where did the budget number come from — and gets waved
+  off. Ren presents her sources as a set, Theo clocks that the set isn't
+  uniform but doesn't say so, and the momentum keeps building. Mira states
+  the consensus out loud before the group has finished reaching it. Theo
+  and Ren nod rather than break the moment. The bell rings before Theo can
+  loop back to Ren's phone, and the meeting ends with the petition in
+  outline and the question Theo asked still unanswered.
+
+turn_outline:
+  - speaker: Mira
+    accomplishes: >
+      Opens the meeting by declaring they're writing a petition, treating the
+      question of what to do as already settled and paraphrasing the NPR
+      article she read last night as if it makes the case on its own.
+  - speaker: Mira
+    accomplishes: >
+      Tacks on a budget number — she says it's what the school is spending on
+      the computer lab conversion — without flagging where she heard it.
+  - speaker: Theo
+    accomplishes: >
+      Asks, carefully, where that budget number came from. This is the first
+      of his two surfacings — the exact right question asked at the exact
+      right moment.
+  - speaker: Mira
+    accomplishes: >
+      Waves the question off — the principal has to know that number, so
+      it's her job to defend it, not theirs to produce it — and keeps moving.
+      This is the move half of the first small exchange with Theo.
+  - speaker: Theo
+    accomplishes: >
+      Lets the wave-off stand. He doesn't push back. This is the response
+      half: his caution gets eaten because he'd rather not be the kid who
+      slows the meeting down.
+  - speaker: Ren
+    accomplishes: >
+      Jumps in with her phone — she's got three things, a study, a blog
+      post, and what she calls "a thing from a 3D printer company" — and
+      lines them up as three confirmations of the same point.
+  - speaker: Theo
+    accomplishes: >
+      Glances at Ren's phone, visibly notices that the three items are not
+      the same kind of thing, and half-starts to ask which one is which.
+      This is his second surfacing — the audience should see him almost do
+      it.
+  - speaker: Mira
+    accomplishes: >
+      Talks over the half-started question by building on Ren's list — "see,
+      so there's research, and parents are saying it, and even the people
+      who make the equipment" — and cements Ren's three items as one unified
+      piece of support.
+  - speaker: Ren
+    accomplishes: >
+      Beams, agrees, and adds a quick paraphrase of the study's headline as
+      if it closes the matter.
+  - speaker: Theo
+    accomplishes: >
+      Closes his mouth. Doesn't finish the question. The second surfacing
+      collapses the same way the first did.
+  - speaker: Mira
+    accomplishes: >
+      States the consensus out loud — "okay so we're all on the same page,
+      right? we're doing a petition" — a beat before the group has actually
+      gotten there. This is the move half of the second, larger exchange:
+      her premature consensus statement.
+  - speaker: Theo
+    accomplishes: >
+      Nods rather than break the moment. This is the response half — his
+      silent ratification, the exact opposite of saying "wait." It has to
+      read as a nod the audience can see.
+  - speaker: Ren
+    accomplishes: >
+      Nods too, enthusiastically, and says something like "yeah, okay, let's
+      do it" — closing the silent-ratification response on the group side.
+  - speaker: Mira
+    accomplishes: >
+      Declares the meeting adjourned-in-spirit, starts sketching the
+      petition's opening line in the notebook. The bell rings. Theo glances
+      at Ren's phone one more time as they stand up; doesn't say anything.

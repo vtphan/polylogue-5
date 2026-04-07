@@ -1,0 +1,617 @@
+story_id: saving-the-maker-space
+episode_number: 1
+scenario_id: saving-the-maker-space-ep-01
+
+passage_scaffolding:
+  - passage_id: passage_01
+    turns: [turn_01, turn_02]
+    difficulty: accessible
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Try the Evidence lens. Look at what Mira is actually pointing at
+          when she says they should write a petition. How many different
+          things has she pointed at so far?
+      - type: hint
+        text: >
+          Look carefully at the two specific things Mira brings up in her
+          opening — the article and the number. What do we actually know
+          about each one from what she says?
+      - type: ai_perspective
+        text: >
+          The AI noticed something about what Mira is resting her whole
+          argument on. Did you see the same thing, or were you looking at
+          something different in this passage?
+    deepening_probes:
+      - lens: evidence
+        prompt: >
+          You noticed something about the evidence. Now think about why —
+          what was going on with Mira that made her feel ready to decide
+          already?
+      - lens: logic
+        prompt: >
+          You noticed something about the reasoning. Now think about why —
+          what step did Mira skip between feeling strongly and picking a plan?
+      - lens: scope
+        prompt: >
+          You noticed something about what was missing. Now think about why —
+          what question has nobody at the table asked yet?
+    ai_reflection_prompt: >
+      The AI pointed out that the whole case is resting on one article and
+      a number nobody has checked. Does that match what you were trying
+      to say, or were you seeing something different?
+    common_misreadings:
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              Mira has a good point because NPR is a trusted source
+            redirect: >
+              You noticed Mira brought a real source. Now look at how
+              many different things she has pointed at. Is one enough for
+              what she wants the group to do?
+          - pattern: >
+              the evidence is fine, they have an article and a number
+            redirect: >
+              You counted what Mira has. Now look more closely at the
+              number — what do we actually know about where it came from?
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Mira is right that the closure is bad
+            redirect: >
+              That might be true, but look at the shape of what she says.
+              Is "the closure is bad" the same claim as "we should write
+              a petition right now"?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              Mira did not mention other solutions
+            redirect: >
+              You noticed something is missing. Look again — is there a
+              question about the closure itself that nobody has asked?
+    observation_rubric:
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Mira only has one article.
+              - The number is not sourced.
+          - level: developing
+            examples:
+              - Mira is using one article and a number she cannot back up to argue for a whole petition.
+              - She has two pieces of evidence and neither one has been checked.
+          - level: differentiated
+            examples:
+              - >
+                Mira is treating one article she read once and a number
+                she cannot explain as if together they are enough to
+                start a petition — she has not tested either one.
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira is jumping ahead.
+          - level: developing
+            examples:
+              - Mira is treating the petition like it is already decided before she has made the argument.
+          - level: differentiated
+            examples:
+              - >
+                Mira is skipping from "the maker space matters" straight
+                to "we are writing a petition" as if those are the same
+                step, so the plan comes before the argument for it.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Nobody talked to the principal.
+          - level: developing
+            examples:
+              - Mira has not asked what the principal's actual reason is for closing the room.
+          - level: differentiated
+            examples:
+              - >
+                The group is getting ready to argue against a decision
+                without knowing what argument they are actually arguing
+                against.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - She was sure of herself.
+                - She made up her mind already.
+            - level: developing
+              examples:
+                - >
+                  Once Mira decided the closure was wrong, she treated
+                  that feeling as proof she had checked everything.
+                - >
+                  She confused being sure with having evidence.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Nobody stopped her.
+            - level: developing
+              examples:
+                - >
+                  Mira is the one who called the meeting, so nobody
+                  wants to be the kid who tells her to slow down.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Mira was already sure, and the group was not set up
+                  to push back, so her one article became the whole
+                  evidence base.
+            - level: differentiated
+              examples:
+                - >
+                  Mira felt so settled that she treated the argument as
+                  done, and because she is the momentum of the group,
+                  nobody wanted to be the first to ask a slowing-down
+                  question — the two things together made one article
+                  feel like enough.
+
+  - passage_id: passage_02
+    turns: [turn_03, turn_04, turn_05]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look at Theo's question in turn 3 and Mira's answer in turn 4.
+          Are they talking about the same thing?
+      - type: hint
+        text: >
+          Now read Theo's very next line after Mira's answer. What does
+          he do with his question — does he keep going, or does he let
+          it drop?
+      - type: ai_perspective
+        text: >
+          The AI noticed something about what happens to Theo's good
+          question. Did you see that too, or were you focused on
+          something else?
+    deepening_probes:
+      - lens: evidence
+        prompt: >
+          You noticed something about the evidence. Now think about why —
+          what happened in the group that made the good question fall away?
+      - lens: logic
+        prompt: >
+          You noticed something about the reasoning. Now think about why —
+          what did Mira's answer do to Theo's question?
+      - lens: scope
+        prompt: >
+          You noticed something about what was missing. Now think about why —
+          what would the group have had to do that they are not doing?
+    ai_reflection_prompt: >
+      The AI said the right move was in the room but the room was not
+      built to receive it. Does that match the way you were reading
+      this moment, or do you see it differently?
+    common_misreadings:
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              Theo did the right thing by asking
+            redirect: >
+              You noticed Theo asked a good question. Now look at what
+              happens to the question. Does it get answered?
+          - pattern: >
+              Mira answered Theo's question
+            redirect: >
+              Look again at exactly what Theo asked and exactly what
+              Mira said back. Are they about the same thing?
+          - pattern: >
+              Theo gave up
+            redirect: >
+              You noticed Theo stopped. Now think about what was going
+              on at the table that made stopping easier than continuing.
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Mira made a fair point about the principal
+            redirect: >
+              Look at what Theo asked. Then look at what Mira talked
+              about instead. Did the topic stay the same?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              They should ask the principal
+            redirect: >
+              Good noticing. Now look at Theo specifically — he already
+              almost did something like that. What stopped him?
+    observation_rubric:
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Theo asked a good question and Mira did not answer it.
+          - level: developing
+            examples:
+              - Theo asked where the number came from and Mira changed the subject instead of answering.
+          - level: differentiated
+            examples:
+              - >
+                Theo asked exactly the right question and then accepted
+                an answer that did not address it — the dropping matters
+                as much as the asking.
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira changed the subject.
+          - level: developing
+            examples:
+              - Mira turned a question about where the number came from into a question about whose job it is.
+          - level: differentiated
+            examples:
+              - >
+                Mira swapped a question about evidence for a question
+                about responsibility, and because nobody named the swap,
+                the original question just disappeared.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Nobody checked with the principal.
+          - level: developing
+            examples:
+              - The group is arguing about a budget number without anyone asking the person who actually knows it.
+          - level: differentiated
+            examples:
+              - >
+                Theo nearly pushed the conversation toward sourcing the
+                number and let it go, so the one opening to widen the
+                group's view closed before it opened.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Mira did not want to be wrong.
+            - level: developing
+              examples:
+                - >
+                  Mira was so sure she was right that she treated the
+                  question as an attack instead of a check.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Theo did not want to argue.
+            - level: developing
+              examples:
+                - >
+                  Theo did not want to be the kid who slowed the
+                  meeting down, so he took the easy out.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Mira waved him off and Theo did not want to push,
+                  so the question went away.
+            - level: differentiated
+              examples:
+                - >
+                  Mira's certainty made pushing back feel like an
+                  attack, and Theo's reluctance to be the slow-down
+                  kid made accepting the wave-off feel like the
+                  polite move — together, those two things made a
+                  real question vanish in two lines.
+
+  - passage_id: passage_03
+    turns: [turn_06, turn_07, turn_08, turn_09, turn_10]
+    difficulty: challenging
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Try the Evidence lens. Ren has three things on her phone.
+          Look closely at what each one actually is.
+      - type: hint
+        text: >
+          Think about who made each of Ren's three sources. Would any
+          of those people have a reason to say what they are saying?
+      - type: hint
+        text: >
+          Look at turn 7 and turn 10. Theo starts something and then
+          stops. What was he about to ask, and why does it matter that
+          he did not finish?
+      - type: ai_perspective
+        text: >
+          The AI noticed two things in this passage — something about
+          Ren's three sources and something about Theo's half-finished
+          question. Which of those two did your group see first?
+    deepening_probes:
+      - lens: evidence
+        prompt: >
+          You noticed something about the evidence. Now think about why —
+          how did Ren pick her three sources in the first place?
+      - lens: logic
+        prompt: >
+          You noticed something about the reasoning. Now think about why —
+          what does Mira's phrase in turn 8 do to Ren's three items?
+      - lens: scope
+        prompt: >
+          You noticed something about what was missing. Now think about why —
+          what are all three of Ren's sources about, and what are they
+          not about?
+    ai_reflection_prompt: >
+      The AI said Ren gathered her sources by what they concluded,
+      not by who produced them. Does that match what your group was
+      noticing, or were you looking at something different?
+    common_misreadings:
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              three sources is good evidence
+            redirect: >
+              You noticed there are three sources. Now look more
+              closely — are the three the same kind of thing?
+          - pattern: >
+              Ren did a good job finding evidence
+            redirect: >
+              Ren did find three things, and that is real. Now look at
+              who made each one. Would they all say the same thing for
+              the same reason?
+          - pattern: >
+              the study is peer-reviewed so it counts
+            redirect: >
+              Good noticing about the study. Now look at the other two
+              sources next to it. Are they being treated the same way?
+      - lens: logic
+        misreadings:
+          - pattern: >
+              Mira summed up Ren's sources well
+            redirect: >
+              Look carefully at the exact phrase Mira uses in turn 8.
+              Does her summary keep the three sources different, or
+              does it blur them together?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              the sources back up the study
+            redirect: >
+              Look at what each source is actually about. Are any of
+              them about this school, or this maker space specifically?
+    observation_rubric:
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Three sources is a lot.
+              - The 3D printer company wants to sell stuff.
+          - level: developing
+            examples:
+              - Two of Ren's three sources come from people who have a reason to say what they are saying.
+              - A study and a blog and a company ad are not the same kind of evidence.
+          - level: differentiated
+            examples:
+              - >
+                Ren picked her three sources because they all agreed
+                with her, not because of who made them, so what looks
+                like three independent confirmations is really three
+                voices for the same side.
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira made it sound like more than it is.
+          - level: developing
+            examples:
+              - Mira's phrase "research, parents, and the equipment people" makes the three sources sound equal when they are not.
+          - level: differentiated
+            examples:
+              - >
+                Mira's wording turns a study, a blog, and an ad into
+                three neutral witnesses, which is rhetorical work the
+                actual sources cannot back up.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - None of the sources are about this school.
+          - level: developing
+            examples:
+              - All three of Ren's sources are about hands-on learning in general, not about this maker space.
+          - level: differentiated
+            examples:
+              - >
+                The group is building a case about this specific room
+                and this specific principal using only sources about
+                hands-on learning everywhere, so none of the evidence
+                is actually aimed at the decision they are fighting.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Ren only looked for stuff she agreed with.
+            - level: developing
+              examples:
+                - >
+                  Ren picked sources by whether they said the right
+                  thing instead of by who made them.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Nobody questioned Ren.
+            - level: developing
+              examples:
+                - >
+                  The group treated Ren's three sources as a win
+                  because they were excited she brought anything at all.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Ren picked sources by conclusion and the group rewarded
+                  her for bringing them, so nobody checked who made them.
+            - level: differentiated
+              examples:
+                - >
+                  Ren gathered by what each source said instead of who
+                  said it, Mira welded the three into one tidy phrase,
+                  and Theo almost asked the question that would have
+                  caught it but stopped — the gathering mistake, the
+                  rhetorical polish, and the swallowed question all
+                  worked together to make weak sources feel like proof.
+
+  - passage_id: passage_04
+    turns: [turn_11, turn_12, turn_13, turn_14]
+    difficulty: moderate
+    scaffold_sequence:
+      - type: hint
+        text: >
+          Look carefully at Mira's sentence in turn 11. What is it doing —
+          asking the group something, or telling the group something?
+      - type: hint
+        text: >
+          Now look at turns 12 and 13 — Theo's and Ren's replies. How
+          many words do they each actually say? Is that the same as
+          agreeing?
+      - type: ai_perspective
+        text: >
+          The AI noticed two different things working together at the
+          end of this meeting. Did you see both of them, or just one?
+    deepening_probes:
+      - lens: evidence
+        prompt: >
+          You noticed something about the evidence. Now think about why —
+          what has actually been checked since the meeting started?
+      - lens: logic
+        prompt: >
+          You noticed something about the reasoning. Now think about why —
+          how does the shape of Mira's sentence make disagreeing harder?
+      - lens: scope
+        prompt: >
+          You noticed something about what was missing. Now think about why —
+          what question did Theo bring to this meeting that the group is
+          leaving without?
+    ai_reflection_prompt: >
+      The AI said there are two forces working together here — Mira
+      being sure, and the group not wanting to break the moment. Does
+      that match the way you were reading the ending, or do you see
+      it differently?
+    common_misreadings:
+      - lens: logic
+        misreadings:
+          - pattern: >
+              the group agreed to the petition
+            redirect: >
+              Look again at how the agreement actually happens. Who
+              says what, and does anyone say the word yes for a real
+              reason?
+          - pattern: >
+              Mira asked if they all agreed
+            redirect: >
+              Look at the exact shape of her sentence. Does she ask
+              first and then state, or state first and then ask?
+      - lens: evidence
+        misreadings:
+          - pattern: >
+              they decided to write the petition
+            redirect: >
+              The petition is moving forward, yes. Now ask: what new
+              evidence got checked between the start of the meeting
+              and this moment?
+      - lens: scope
+        misreadings:
+          - pattern: >
+              the bell rang so they had to stop
+            redirect: >
+              The bell is real. Now think about the question Theo
+              walked in with at the beginning. Is that question
+              answered by the time they stand up?
+    observation_rubric:
+      - lens: logic
+        levels:
+          - level: basic
+            examples:
+              - Mira said they all agreed before checking.
+          - level: developing
+            examples:
+              - Mira's sentence announces the agreement and then asks for it, in that order.
+          - level: differentiated
+            examples:
+              - >
+                Mira states the decision out loud a beat before the
+                group has actually reached it, so the only way to
+                disagree is to break the moment — and neither Theo
+                nor Ren is willing to do that.
+      - lens: evidence
+        levels:
+          - level: basic
+            examples:
+              - Nothing new got checked.
+          - level: developing
+            examples:
+              - The petition is going forward on the same untested evidence the group started with.
+          - level: differentiated
+            examples:
+              - >
+                The budget number is still unsourced, Ren's three
+                sources are still mixed, and the group is shipping a
+                petition on exactly the evidence base it had ten
+                turns ago.
+      - lens: scope
+        levels:
+          - level: basic
+            examples:
+              - Nobody asked the principal anything.
+          - level: developing
+            examples:
+              - The group is writing a petition against a reason for closing the room they have never actually heard.
+          - level: differentiated
+            examples:
+              - >
+                Theo arrived with the question of what the principal's
+                actual reason was, and the meeting ends with that same
+                question still unasked — the group is leaving without
+                the one thing it came in needing.
+    explanation_rubric:
+      categories:
+        - category: cognitive
+          levels:
+            - level: basic
+              examples:
+                - Mira was sure she was right.
+            - level: developing
+              examples:
+                - >
+                  Mira was so sure the decision was already made that
+                  she started announcing it before the group caught up.
+        - category: social
+          levels:
+            - level: basic
+              examples:
+                - Theo and Ren just went along.
+            - level: developing
+              examples:
+                - >
+                  Breaking Mira's moment would have cost Theo or Ren
+                  something socially, so nodding was easier than
+                  disagreeing.
+        - category: interaction
+          levels:
+            - level: developing
+              examples:
+                - >
+                  Mira announced the decision early and nobody wanted
+                  to break the moment, so the nods turned into a yes.
+            - level: differentiated
+              examples:
+                - >
+                  Mira's certainty made her state the decision a beat
+                  early, and the group's reluctance to break the
+                  moment made a one-syllable nod the path of least
+                  resistance — neither move alone would have closed
+                  the meeting, but together they turned almost-agreement
+                  into a decision.

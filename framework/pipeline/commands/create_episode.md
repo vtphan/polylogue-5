@@ -11,11 +11,6 @@ The interactive operator-prompt phase that the legacy `/create_scenario` had is 
 
 ## Arguments
 
-- `$1` = `story_id`
-- `$2` = `episode_number` (1-indexed; must satisfy `1 <= episode_number <= episode_count`)
-
-Derive paths once:
-
 ```bash
 STORY_ID="$1"
 EP_NUM="$2"

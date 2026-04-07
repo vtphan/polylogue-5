@@ -1,0 +1,126 @@
+story_id: saving-the-maker-space
+episode_number: 2
+scenario_id: saving-the-maker-space-ep-02
+personas:
+- name: Mira
+  perspective: 'The petition has been drafted three times, the group has agreed, it is time to send it.
+    Reopening the sourcing question now would mean restarting the conversation a week before the deadline.
+
+    '
+- name: Dev
+  perspective: 'The petition needs to land in the principal''s office today, and what will land is the
+    punchy opening line. The strongest argument is whichever one sounds best when read aloud. Sourcing
+    is a detail the principal will not get to.
+
+    '
+- name: Theo
+  perspective: 'The petition cites three studies he is not sure the group has actually distinguished from
+    each other, and the framing does not seem to be answering the question the principal is asking. He
+    wants to know where the third source came from before the petition ships. He is not trying to stop
+    the petition; he is trying to make sure it can survive being read.
+
+    '
+turns:
+- speaker: Dev
+  sentences:
+  - text: 'Okay, listen — "the maker space is essential to learning, and the kids love it."
+
+      '
+    sentence_id: turn_01.s01
+  - text: That's the opener. Tell me that doesn't hit.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Theo
+  sentences:
+  - text: Essential how, though?
+    sentence_id: turn_02.s01
+  - text: Like, essential for what the principal has to decide?
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Dev
+  sentences:
+  - text: It says it right there — the kids love it.
+    sentence_id: turn_03.s01
+  - text: Which they do. That's the whole reason.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Mira
+  sentences:
+  - text: 'Okay so — "three separate studies show hands-on spaces help kids learn better, and that''s
+      why this room matters."
+
+      '
+    sentence_id: turn_04.s01
+  - text: That's the whole middle paragraph, basically.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Theo
+  sentences:
+  - text: Wait — which three, though?
+    sentence_id: turn_05.s01
+  - text: I asked last week which study is which and I still don't actually know.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Mira
+  sentences:
+  - text: Theo, we've been over this.
+    sentence_id: turn_06.s01
+  - text: '"...and that''s why this room matters to every grade in the building."
+
+      '
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Dev
+  sentences:
+  - text: 'Look, the principal isn''t going to read the sources anyway.
+
+      '
+    sentence_id: turn_07.s01
+  - text: She's gonna read the first paragraph and count the signatures. That's it.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Theo
+  sentences:
+  - text: 'Okay, but — has anyone in this room actually read all three of Ren''s things end to end?
+
+      '
+    sentence_id: turn_08.s01
+  - text: Anyone? Just so I know.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Mira
+  sentences:
+  - text: Okay, so we're submitting today, right?
+    sentence_id: turn_09.s01
+  turn_id: turn_09
+- speaker: Theo
+  sentences:
+  - text: I mean...
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Dev
+  sentences:
+  - text: Then I'll drop it off at lunch.
+    sentence_id: turn_11.s01
+  - text: Give it here.
+    sentence_id: turn_11.s02
+  turn_id: turn_11
+- speaker: Mira
+  sentences:
+  - text: Here, this one's the final.
+    sentence_id: turn_12.s01
+  - text: I gotta grab my stuff before the bell.
+    sentence_id: turn_12.s02
+  turn_id: turn_12
+- speaker: Dev
+  sentences:
+  - text: Done. In the mailbox.
+    sentence_id: turn_13.s01
+  - text: Nice work, Theo.
+    sentence_id: turn_13.s02
+  turn_id: turn_13
+- speaker: Theo
+  sentences:
+  - text: Yeah.
+    sentence_id: turn_14.s01
+  turn_id: turn_14

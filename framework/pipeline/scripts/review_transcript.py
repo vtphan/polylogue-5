@@ -6,8 +6,11 @@ Checks: turn count, sentences per turn, word count, speaker names, turn order.
 Usage:
     python3 review_transcript.py <transcript_path> <plan_path>
 
-The plan_path can be either the full episode.yaml or the barrier-safe
-episode_writer_input.yaml — both have personas and turn_outline.
+The plan_path is the barrier-safe episode_writer_input.yaml. It must
+contain a `lead_characters` list (the projection schema's character
+field) and a `turn_outline` list. The full episode.yaml — which uses
+`personas` instead of `lead_characters` — is not the right input
+because the writer never sees it.
 
 Exit code 0 = all checks pass, 1 = issues found.
 """
@@ -53,7 +56,14 @@ def review_transcript(transcript_path, plan_path):
         warnings.append(f"Word count approaching limit: {total_words}/400")
 
     # Speaker names match plan
-    plan_names = {p["name"] for p in plan.get("personas", [])}
+    if "lead_characters" not in plan:
+        issues.append(
+            "plan file missing 'lead_characters' key — cannot validate "
+            "speaker set (expected episode_writer_input.yaml shape)"
+        )
+        plan_names = set()
+    else:
+        plan_names = {p["name"] for p in plan["lead_characters"]}
     transcript_names = {t["speaker"] for t in turns}
     if plan_names != transcript_names:
         missing = plan_names - transcript_names

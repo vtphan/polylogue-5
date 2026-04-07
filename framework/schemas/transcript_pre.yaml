@@ -1,31 +1,17 @@
 # Schema: Transcript (Pre-Enumeration)
 # The dialog writer's raw output before turn/sentence IDs are assigned.
-# Matches transcript.yaml but without turn_id and sentence_id fields.
+# Matches transcript.yaml but without turn_id and sentence_id fields,
+# and without identifier/persona metadata. Identifier fields
+# (story_id, episode_number, scenario_id) and the personas block are
+# injected post-barrier by enumerate_transcript.py from the sibling
+# episode.yaml — dialog_writer runs inside the information barrier and
+# cannot read those fields.
 # Source: pipeline-spec.md Section 2.2
 
 schema:
   root:
     type: object
     fields:
-      scenario_id:
-        type: string
-        required: true
-
-      personas:
-        type: list
-        required: true
-        description: Persona metadata for app rendering.
-        items:
-          type: object
-          fields:
-            name:
-              type: string
-              required: true
-            perspective:
-              type: string
-              required: true
-              description: Brief description (student-visible).
-
       turns:
         type: list
         required: true
