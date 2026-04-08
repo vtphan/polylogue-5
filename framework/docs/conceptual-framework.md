@@ -7,12 +7,12 @@ The prose in this document is the conceptual source of truth. The canonical mach
 ## Contents
 
 1. [What the Framework Enables](#1-what-the-framework-enables)
-2. [Lenses, Facets, and Forces](#2-lenses-facets-and-forces)
-    - 2.1 [Lenses](#21-lenses)
-    - 2.2 [Facets](#22-facets)
-    - 2.3 [Forces (Explanatory Variables)](#23-forces-explanatory-variables)
+2. [Lenses that Reveal, Facets of Reasoning, and Forces that Weaken](#2-lenses-that-reveal-facets-of-reasoning-and-forces-that-weaken)
+    - 2.1 [Lenses that Reveal Reasoning](#21-lenses-that-reveal-reasoning)
+    - 2.2 [Facets of Reasoning](#22-facets-of-reasoning)
+    - 2.3 [Forces that Weaken Reasoning (Explanatory Variables)](#23-forces-that-weaken-reasoning-explanatory-variables)
 3. [The Same Flaw Through Different Lenses](#3-the-same-flaw-through-different-lenses)
-4. [How Forces Weaken Facets](#4-how-forces-weaken-facets)
+4. [How Forces Weaken Facets of Reasoning](#4-how-forces-weaken-facets-of-reasoning)
 5. [Future Considerations](#5-future-considerations)
 
 ---
@@ -23,7 +23,7 @@ The framework gives you a vocabulary for doing three things with a piece of reas
 
 ---
 
-## 2. Lenses, Facets, and Forces
+## 2. Lenses that Reveal, Facets of Reasoning, and Forces that Weaken
 
 Start with a piece of reasoning:
 
@@ -47,7 +47,7 @@ That middle layer is what makes observation and explanation line up: a reader us
 
 > **Design note.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *force → facet* (§4). These are independent — each has to be established on its own grounds, and they do not compose. Two facets produced by the same bias are still two distinct facets, not one facet reached through two lenses. And a facet observable through two lenses is not thereby explained by any particular force.
 
-### 2.1 Lenses
+### 2.1 Lenses that Reveal Reasoning
 
 Each lens is one angle you can view reasoning from. Each asks a different question, and each reveals a set of facets.
 
@@ -61,7 +61,7 @@ The three lenses are tools for directing attention, not a partition of argument 
 
 > **Design note — why these three.** Logic and Evidence are core evaluative operations across the critical thinking literature (Facione's Delphi Report, Ennis, Toulmin, Halpern). Scope consolidates what other frameworks distribute across several concepts (Paul & Elder's *implications*, *point of view*, and *breadth*; Toulmin's *rebuttal*; Ennis's *problem identification*). All of these ask the same underlying "is the analysis thorough?" question and can be learned as a single lens. The three lenses do not exhaust critical thinking — capacities such as epistemic humility and metacognitive monitoring lie beyond this framework's scope.
 
-### 2.2 Facets
+### 2.2 Facets of Reasoning
 
 Facets are the sub-qualities of reasoning that a passage is strong or weak on. Each lens asks one question on the surface, but the reasoning it examines is internally complex — and that complexity is what the facets name.
 
@@ -90,7 +90,7 @@ Ten facets, grouped by the lens that reveals each one most directly:
 
 > **Design note.** A "flaw" and a "weak facet" are the same observation in different words: "thin evidence" and "weak on sufficiency" name one event. Causation lives one layer further out — forces (§2.3) cause facets to come out weak. The correct direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*. The inventory of ten facets is a design choice to be validated and revised through use, not a theoretical commitment. Formal definitions live in `framework/reference/facet_inventory.yaml`.
 
-### 2.3 Forces (Explanatory Variables)
+### 2.3 Forces that Weaken Reasoning (Explanatory Variables)
 
 Forces are what cause facets to come out weak. There are two kinds — genuinely different but coupled mechanisms: **cognitive biases** (individual thinking tendencies) and **social dynamics** (patterns of group interaction).
 
@@ -169,7 +169,7 @@ Inferential validity is the only facet with no cross-lens visibility — it is t
 
 ---
 
-## 4. How Forces Weaken Facets
+## 4. How Forces Weaken Facets of Reasoning
 
 A force *causes* a facet to come out weak. One force can weaken several facets, and one weak facet can be produced by several forces. That is the other structural source of the third affordance: because more than one force can account for the same observation, no observation has a unique correct explanation.
 
