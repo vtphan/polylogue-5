@@ -7,7 +7,7 @@ The prose in this document is the conceptual source of truth. The canonical mach
 ## Contents
 
 1. [What the Framework Enables](#1-what-the-framework-enables)
-2. [Lenses that Reveal, Facets of Reasoning, and Forces that Weaken](#2-lenses-that-reveal-facets-of-reasoning-and-forces-that-weaken)
+2. [The Anatomy of Reasoning Quality](#2-the-anatomy-of-reasoning-quality)
     - 2.1 [Lenses that Reveal Reasoning](#21-lenses-that-reveal-reasoning)
     - 2.2 [Forces that Weaken Reasoning (Explanatory Variables)](#22-forces-that-weaken-reasoning-explanatory-variables)
     - 2.3 [Facets of Reasoning](#23-facets-of-reasoning)
@@ -23,7 +23,7 @@ The framework gives you a vocabulary for doing three things with a piece of reas
 
 ---
 
-## 2. Lenses that Reveal, Facets of Reasoning, and Forces that Weaken
+## 2. The Anatomy of Reasoning Quality
 
 Start with a piece of reasoning:
 
