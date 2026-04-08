@@ -77,7 +77,7 @@ premise: >
   and nobody saying that the investigation is done because
   done is not exactly what this is.
 lead_characters: [Maya, Jules, Cam, Priya, Tye]
-primary_lens: synthesis
+primary_lens: logic
 mixed_valence_shape: strength_prevails
 previously: >
   Yesterday all five were at the picnic table for the first
@@ -243,6 +243,49 @@ strengths:
       appearance, and the only one where the strength
       is rendered through speech rather than through
       restraint or through quiet writing.
+
+  - facet: sufficiency
+    carrier: Maya
+    note: >
+      Co-traveling strength on Maya's integration move.
+      The behavioral trace is the same "okay so the
+      range is wider than what the zookeeper said, and
+      six fits — high side, but it fits" line described
+      in the inferential_validity entry below; this
+      entry scores it on a second facet dimension and
+      does NOT ask for an additional turn. Sufficiency
+      is the facet at stake because the move is
+      explicitly about whether the sample (six white
+      squirrels observed across eight afternoons in a
+      131-acre urban park) is enough evidence to
+      accept the genetics hypothesis under the range
+      of expected counts produced by the new base
+      rate. The design doc commits the season's thesis
+      to "thin reasoning is reasoning that hasn't
+      finished yet," and sufficiency is the facet most
+      central to whether the answer the group arrives
+      at is honest rather than triumphant. Ep1 planted
+      the purest sufficiency weakness in the season
+      (Jules's one-sighting-to-whole-hypothesis chain);
+      Ep2 planted the second (Cam's three-on-one-walk
+      overgeneralization); Ep8 closes the arc by
+      landing the finished move — a six-observation
+      sample weighed against an expected range, with
+      the honest acknowledgment that six sits on the
+      high side of the range. Maya's "high side, but
+      it fits" is the sufficiency move in the exact
+      framework sense: she names where in the expected
+      distribution the sample lands and refuses to
+      collapse "fits" into "confirms." Dialog writer
+      should preserve the "high side" qualifier —
+      without it the sufficiency dimension collapses
+      into a plain inferential_validity confirmation
+      and the season loses its thesis on this facet.
+      Rotation context: sufficiency has been on the
+      page in Ep1 (weakness), Ep2 (weakness), and now
+      Ep8 (strength). This is its only strength
+      appearance in the season and it closes the
+      weakness-to-strength arc for the facet.
 
   - facet: inferential_validity
     carrier: Maya

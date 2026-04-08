@@ -116,6 +116,35 @@ strengths:
       access-strength was a different beat. The next time she
       appears (Ep8) she carries the new strength as stable.
 
+  - facet: condition_sensitivity
+    carrier: Priya
+    note: >
+      Co-traveling strength on the same inflection move. Priya's
+      "we were drawing a map of the part of the park we walk" line
+      carries two facets at once: perspective_engagement (making
+      the implicit "we" of the data visible — whose walk, whose
+      paths) and condition_sensitivity (naming that the south-side
+      data's validity was contingent on a sampling condition the
+      group had not noticed). Perspective_engagement is the facet
+      Priya is growing on as the Scope-lens carrier; condition
+      _sensitivity is the facet the gap itself *belongs to* — the
+      data is only valid under the conditions that produced it,
+      and those conditions were "the four of us walked the south
+      side." The design doc commits condition_sensitivity as one
+      of Priya's two carried facets, and Ep6 is its only strength
+      episode in the season (Ep5 carried it as Maya's weakness).
+      This entry scores the same behavioral trace on a second
+      facet dimension; it does NOT ask the dialog writer for an
+      additional turn. The single line is doing both jobs. The
+      second half of Priya's inflection on the walk — "it was
+      always more than four. We just hadn't been here" — is the
+      clearest condition_sensitivity surface, because it names
+      the sampling condition ("we hadn't been here") as the thing
+      that made the earlier count unreliable. Dialog writer
+      should preserve both Priya lines (the picnic-table noticing
+      AND the walk-back consolidation); the co-traveling facet
+      lands across both lines together.
+
   - facet: source_diversity
     carrier: Cam
     note: >

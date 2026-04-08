@@ -81,6 +81,33 @@ targets:
       for Ep2, where Cam's first small growth beat is the follow-up
       to checking this specific TikTok.
 
+  - facet: source_diversity
+    lens: evidence
+    carrier: Cam
+    cognitive_pattern: uncritical_acceptance
+    social_dynamic: null
+    cognitive_signal: >
+      Cam brings exactly one source to the table — the TikTok — and
+      treats it as if it were independent corroboration of Jules's
+      sighting, without pausing to note that one clip is one clip.
+      The audit Cam fails to run is not only "who made this?" (the
+      source_credibility move); it is also "is this the only kind of
+      source I have on this?" — the diversity move. The pile is one,
+      and the pile-of-one is treated as a pile.
+    social_signal: null
+    interaction_note: >
+      source_diversity co-travels with source_credibility on the
+      same behavioral trace here and is not a separate turn — the
+      same phone-out, same clip, same "see, I'm not the only one"
+      register. Ep1 is where Cam's diversity weakness first surfaces;
+      the Ep6 growth beat (Cam stopping his scroll before engaging
+      with the article's content) is the payoff. The Ep1 move and
+      the Ep6 move are the two ends of the same arc on this facet.
+      Dialog writer does not need a separate turn for the diversity
+      weakness — it is the same behavioral trace as the credibility
+      weakness, scored on a second facet dimension because the
+      audit Cam fails is two audits, not one.
+
 strengths:
   - facet: reasoning_completeness
     carrier: Tye
