@@ -19,7 +19,7 @@ The prose in this document is the conceptual source of truth. The canonical mach
 
 ## 1. What the Framework Enables
 
-The framework gives you a vocabulary for doing three things with a piece of reasoning: **naming what is weak about it**, **explaining why the reasoner got there**, and **holding more than one valid reading** of either. These are the framework's three **affordances**. Everything in §2–§4 exists to make them precise. An application decides how to turn them into a student experience; the framework does not dictate that choice.
+The framework gives you a vocabulary for doing three things with a piece of reasoning: **naming what is weak about it**, **explaining why the reasoner got there**, and **holding more than one valid perspective** on either. These are the framework's three **affordances**. Everything in §2–§4 exists to make them precise. An application decides how to turn them into a student experience; the framework does not dictate that choice.
 
 ---
 
@@ -32,7 +32,7 @@ Start with a piece of reasoning:
 Something is off about this, but "it's bad reasoning" doesn't say enough. The framework gives you three words to say more.
 
 - **Facets** are the sub-qualities the reasoning is strong or weak *on*. This passage is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet. A "flaw" is just a low value.
-- **Lenses** are the angles you view the reasoning *from*. Looking through the **Evidence** lens, you notice the narrow support. Looking through **Logic**, you notice the leap from "healthy while taking X" to "X caused it." Looking through **Scope**, you notice the unexamined alternatives. The same passage yields different but compatible readings depending on which lens you pick up.
+- **Lenses** are the angles you view the reasoning *from*. Looking through the **Evidence** lens, you notice the narrow support. Looking through **Logic**, you notice the leap from "healthy while taking X" to "X caused it." Looking through **Scope**, you notice the unexamined alternatives. The same passage yields different but compatible perspectives depending on which lens you pick up.
 - **Forces** are what caused the reasoner to produce weak reasoning in the first place. Maybe *confirmation bias* — they only looked at cases that fit the belief. Maybe *overgeneralization* — one cousin treated as proof. Maybe *tunnel vision*. These are candidate explanations, not verdicts.
 
 Facets sit in the middle. Lenses reveal them; forces cause them to come out weak.
@@ -43,7 +43,7 @@ Facets sit in the middle. Lenses reveal them; forces cause them to come out weak
     examination)         of reasoning)       and social dynamics)
 ```
 
-That middle layer is what makes observation and explanation line up: a reader using a lens and an analyst proposing a cause are both talking about the *same* facet. §2.1, §2.2, and §2.3 cover each piece in turn. The formal name for the force layer in the research literature is **explanatory variables**; the rest of this document uses *forces* for readability.
+That middle layer is what makes observation and explanation line up: a reader using a lens and an analyst proposing a cause are both talking about the *same* facet. §2.1, §2.2, and §2.3 cover each piece in turn. Elsewhere in the Polylogue system — schemas, reference data, and earlier documents — the force layer is called **explanatory variables**. That name is retained for compatibility; the rest of this document uses *forces* for readability.
 
 > **Design note.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *force → facet* (§4). These are independent — each has to be established on its own grounds, and they do not compose. Two facets produced by the same bias are still two distinct facets, not one facet reached through two lenses. And a facet observable through two lenses is not thereby explained by any particular force.
 
@@ -133,9 +133,9 @@ Cognitive biases and social dynamics are not alternative explanations to choose 
 
 ## 3. The Same Flaw Through Different Lenses
 
-A facet can be observable through more than one lens. The relevance of evidence to a claim, for example, is visible through the Evidence lens ("is this the right kind of support?") *and* through the Logic lens ("does this premise connect to that conclusion?"). Two readers looking through different lenses can land on the same feature of the reasoning and describe it differently, and both readings are legitimate. The formal name for this property is **cross-lens visibility**.
+A facet can be observable through more than one lens. The relevance of evidence to a claim, for example, is visible through the Evidence lens ("is this the right kind of support?") *and* through the Logic lens ("does this premise connect to that conclusion?"). Two readers looking through different lenses can land on the same feature of the reasoning and describe it differently, and both perspectives are legitimate. The formal name for this property is **cross-lens visibility**.
 
-This is one of the two structural sources of the third affordance (multiple legitimate readings). It means diversity of observation is built into the framework itself, not left to the reader's idiosyncrasy.
+This is one of the two structural sources of the third affordance (multiple legitimate perspectives). It means diversity of observation is built into the framework itself, not left to the reader's idiosyncrasy.
 
 ### Map
 
