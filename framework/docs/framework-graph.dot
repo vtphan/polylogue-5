@@ -1,0 +1,219 @@
+// Polylogue conceptual framework — three-layer structure
+//
+// Color coding by lens:
+//   LOGIC    — purple
+//   EVIDENCE — blue
+//   SCOPE    — green
+//
+// A facet is filled with the color of its PRIMARY lens, so you can tell
+// at a glance which lens a facet belongs to.
+//
+// Edges:
+//   thick solid, lens-colored  — primary lens -> facet
+//   dashed, lens-colored       — cross-lens visibility. The edge color is
+//                                the SECONDARY lens (the one providing the
+//                                alternate view), so a blue dashed edge
+//                                arriving at a facet means "also visible
+//                                through Evidence."
+//   thin gray, solid           — facet -> cognitive pattern
+//   thin brown, solid          — facet -> social dynamic
+//
+// Explanatory edges are muted so the lens/facet/cross-lens structure
+// reads first. They are still present for reference.
+//
+// Render with:
+//   dot -Tpng framework-graph.dot -o framework-graph.png
+//   dot -Tsvg framework-graph.dot -o framework-graph.svg
+
+digraph PolylogueFramework {
+    rankdir=LR;
+    splines=true;
+    nodesep=0.22;
+    ranksep=1.4;
+    fontname="Helvetica";
+    node  [fontname="Helvetica", fontsize=11, style=filled];
+    edge  [fontname="Helvetica", fontsize=9];
+
+    // ---------- Lens colors (dark = node border / primary edge; light = fill) ----------
+    // LOGIC    — purple: dark #6a3d9a, light #e5d8f0
+    // EVIDENCE — blue:   dark #1f78b4, light #cfe3f3
+    // SCOPE    — green:  dark #33a02c, light #d4ecd0
+
+    // ---------- Layer 1: Lenses ----------
+    { rank=same;
+      node [shape=box, penwidth=2.5, fontsize=13, fontcolor=white];
+      logic    [label="LOGIC\n(does the reasoning hold?)",      fillcolor="#6a3d9a", color="#6a3d9a"];
+      evidence [label="EVIDENCE\n(is the claim supported?)",    fillcolor="#1f78b4", color="#1f78b4"];
+      scope    [label="SCOPE\n(is the analysis thorough?)",     fillcolor="#33a02c", color="#33a02c"];
+    }
+
+    // ---------- Layer 2: Facets (filled with their primary lens's light color) ----------
+    { rank=same;
+      node [shape=ellipse, penwidth=2];
+
+      // Evidence-primary (blue)
+      source_credibility [label="source\ncredibility", fillcolor="#cfe3f3", color="#1f78b4"];
+      source_diversity   [label="source\ndiversity",   fillcolor="#cfe3f3", color="#1f78b4"];
+      relevance          [label="relevance",           fillcolor="#cfe3f3", color="#1f78b4"];
+      sufficiency        [label="sufficiency",         fillcolor="#cfe3f3", color="#1f78b4"];
+
+      // Logic-primary (purple)
+      inferential_validity   [label="inferential\nvalidity",   fillcolor="#e5d8f0", color="#6a3d9a"];
+      internal_consistency   [label="internal\nconsistency",   fillcolor="#e5d8f0", color="#6a3d9a"];
+      reasoning_completeness [label="reasoning\ncompleteness", fillcolor="#e5d8f0", color="#6a3d9a"];
+
+      // Scope-primary (green)
+      perspective_engagement    [label="perspective\nengagement",    fillcolor="#d4ecd0", color="#33a02c"];
+      consequence_consideration [label="consequence\nconsideration", fillcolor="#d4ecd0", color="#33a02c"];
+      condition_sensitivity     [label="condition\nsensitivity",     fillcolor="#d4ecd0", color="#33a02c"];
+    }
+
+    // ---------- Layer 3: Explanatory variables ----------
+    { rank=same;
+      // Cognitive patterns — neutral gray
+      node [shape=box, style="filled,rounded", fillcolor="#eeeeee", color="#555555", fontcolor="#333333"];
+      confirmation_bias        [label="confirmation\nbias"];
+      tunnel_vision            [label="tunnel\nvision"];
+      overgeneralization       [label="over-\ngeneralization"];
+      false_cause              [label="false\ncause"];
+      uncritical_acceptance    [label="uncritical\nacceptance"];
+      black_and_white_thinking [label="black-and-white\nthinking"];
+      egocentric_thinking      [label="egocentric\nthinking"];
+      false_certainty          [label="false\ncertainty"];
+
+      // Social dynamics — warm neutral
+      node [shape=box, style="filled,rounded", fillcolor="#f5e6d8", color="#8a5a2a", fontcolor="#5a3a1a"];
+      group_pressure      [label="group\npressure"];
+      conflict_avoidance  [label="conflict\navoidance"];
+      authority_deference [label="authority\ndeference"];
+    }
+
+    // ================================================================
+    //  PRIMARY lens -> facet edges (thick, solid, lens-colored)
+    // ================================================================
+
+    edge [penwidth=3.0, style=solid, arrowhead=normal];
+
+    // Evidence (blue) primaries
+    edge [color="#1f78b4"];
+    evidence -> source_credibility;
+    evidence -> source_diversity;
+    evidence -> relevance;
+    evidence -> sufficiency;
+
+    // Logic (purple) primaries
+    edge [color="#6a3d9a"];
+    logic -> inferential_validity;
+    logic -> internal_consistency;
+    logic -> reasoning_completeness;
+
+    // Scope (green) primaries
+    edge [color="#33a02c"];
+    scope -> perspective_engagement;
+    scope -> consequence_consideration;
+    scope -> condition_sensitivity;
+
+    // ================================================================
+    //  CROSS-LENS visibility (dashed, colored by the SECONDARY lens)
+    //
+    //  Read these as: "this facet is ALSO visible through <edge color>."
+    //  A purple dashed edge means "also visible through Logic."
+    //  A blue dashed edge means "also visible through Evidence."
+    //  A green dashed edge means "also visible through Scope."
+    // ================================================================
+
+    edge [penwidth=1.5, style=dashed, arrowhead=empty];
+
+    // Also visible through LOGIC (purple dashed, ~35% alpha)
+    edge [color="#6a3d9a59"];
+    logic -> source_credibility;
+    logic -> relevance;
+    logic -> sufficiency;
+    logic -> perspective_engagement;
+    logic -> consequence_consideration;
+    logic -> condition_sensitivity;
+
+    // Also visible through EVIDENCE (blue dashed, ~35% alpha)
+    edge [color="#1f78b459"];
+    evidence -> internal_consistency;
+    evidence -> reasoning_completeness;
+    evidence -> perspective_engagement;
+    evidence -> condition_sensitivity;
+
+    // Also visible through SCOPE (green dashed, ~35% alpha)
+    edge [color="#33a02c59"];
+    scope -> source_diversity;
+    scope -> sufficiency;
+
+    // ================================================================
+    //  Facet -> cognitive pattern (muted, thin)
+    // ================================================================
+
+    edge [color="#9999aa", penwidth=0.8, style=solid, arrowhead=normal];
+
+    source_credibility     -> uncritical_acceptance;
+
+    source_diversity       -> confirmation_bias;
+    source_diversity       -> tunnel_vision;
+
+    relevance              -> confirmation_bias;
+    relevance              -> overgeneralization;
+
+    sufficiency            -> overgeneralization;
+    sufficiency            -> false_certainty;
+
+    inferential_validity   -> false_cause;
+    inferential_validity   -> black_and_white_thinking;
+
+    internal_consistency   -> tunnel_vision;
+
+    reasoning_completeness -> uncritical_acceptance;
+    reasoning_completeness -> false_certainty;
+
+    perspective_engagement   -> confirmation_bias;
+    perspective_engagement   -> egocentric_thinking;
+
+    consequence_consideration -> tunnel_vision;
+    consequence_consideration -> black_and_white_thinking;
+
+    condition_sensitivity    -> tunnel_vision;
+    condition_sensitivity    -> overgeneralization;
+    condition_sensitivity    -> egocentric_thinking;
+    condition_sensitivity    -> false_certainty;
+
+    // ================================================================
+    //  Facet -> social dynamic (muted, thin, warm)
+    // ================================================================
+
+    edge [color="#b48a5a", penwidth=0.8, style=solid, arrowhead=normal];
+
+    source_credibility     -> authority_deference;
+    source_diversity       -> group_pressure;
+    sufficiency            -> group_pressure;
+    sufficiency            -> authority_deference;
+    internal_consistency   -> group_pressure;
+    internal_consistency   -> conflict_avoidance;
+    reasoning_completeness -> authority_deference;
+    perspective_engagement -> group_pressure;
+    perspective_engagement -> conflict_avoidance;
+    perspective_engagement -> authority_deference;
+    consequence_consideration -> group_pressure;
+    condition_sensitivity    -> group_pressure;
+
+    // ================================================================
+    //  Vertical grouping (invisible edges force facets of the same
+    //  primary lens to appear contiguously in the facet column, and
+    //  the three lens nodes to appear in the matching order in the
+    //  lens column: Evidence, then Logic, then Scope).
+    // ================================================================
+
+    edge [style=invis, constraint=true, arrowhead=none, penwidth=0];
+
+    // Lens column order
+    evidence -> logic -> scope;
+
+    // Facet column order: Evidence group, then Logic group, then Scope group
+    source_credibility -> source_diversity -> relevance -> sufficiency
+      -> inferential_validity -> internal_consistency -> reasoning_completeness
+      -> perspective_engagement -> consequence_consideration -> condition_sensitivity;
+}

@@ -4,6 +4,22 @@ This document specifies the instructional design and artifact generation pipelin
 
 In Lens, students read AI-generated group discussions and evaluate highlighted passages through the framework's three lenses. The core activity is individual articulation followed by group discussion — a reflective, writing-centered experience designed for depth.
 
+The framework itself (lenses, facets, explanatory variables) is an ontology of reasoning quality; it does not prescribe how students should encounter it. This document records Lens's specific pedagogical choices for turning that ontology into a student experience.
+
+---
+
+# Pedagogical Stance
+
+Lens commits to four choices about *how* to realize the framework's affordances with middle-school students. These are Lens's design decisions, not framework requirements — a different application could make different choices and still be faithful to the framework.
+
+**Articulation over classification.** Students put what they see into their own words rather than selecting from a menu. Writing "there's a lot of evidence but the sources aren't reliable" is more cognitively productive than picking "mixed" from a dropdown, because the insight is generated rather than recognized (drawing on Chi's self-explanation research). The free-text response is the unit of learning; lens and strength/weakness tags are scaffolds that commit a student to a position for discussion.
+
+**Facets hidden from students.** Lens never shows students the facet inventory, never asks them to classify by facet, and never teaches facet names. Facets are a designer's and teacher's vocabulary only. The bet is that hiding the target preserves the cognitive work of discovery: a student who writes "they jumped to the conclusion without showing how" has perceived reasoning completeness without being told it exists. Making the target visible would let students hunt for labels instead of perceiving reasoning.
+
+**Four sequenced sources of perspective.** Every passage moves through four sources in a fixed order: **individual → peer → AI voice → teacher**. Individual before peer ensures every student commits to a reading before encountering others (preventing anchoring). Peer before AI creates genuine discussion because no participant has authority — students argue on merit. The AI voice is positioned as a fallible external reference, not an answer key: one more perspective to engage with. The teacher is the real expert in the room, synthesizing across groups in whole-class debrief. Authority lives with the human, not the algorithm. This preserves the benefits of cognitive conflict (motivation to revise, schema restructuring) without the classroom risks of top-down correction with middle-schoolers.
+
+**Learning measured by articulation quality, range, and explanatory depth — not flaw-identification accuracy.** Lens does not grade students on getting the "right" reading of a passage. Growth looks like: (1) increasing specificity in what students name, (2) willingness to look through more than one lens, and (3) reasoning about *why* using both cognitive and social forces and beginning to see their interaction. The rubrics in `scaffolding.yaml` are a matching vocabulary for approximate assessment, not an answer key.
+
 ---
 
 # Instructional Design
