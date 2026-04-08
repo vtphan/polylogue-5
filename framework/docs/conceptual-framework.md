@@ -31,7 +31,7 @@ Start with a piece of reasoning:
 
 Something is off about this, but "it's bad reasoning" doesn't say enough. The framework lets you say more by naming the specific **facets of reasoning** a passage is strong or weak on. This one is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet, and a "flaw" is just a low value.
 
-Everything else in the framework is about facets — how to notice weak ones, and what makes them weak:
+To do that, the framework introduces two more concepts: **lenses** for recognizing weak facets precisely, and **forces** — the mechanisms that cause facets to weaken.
 
 - **Lenses** are the angles you view the reasoning *from* — the tools for noticing a weak facet. Looking through the **Evidence** lens, you notice the narrow support. Looking through **Logic**, you notice the leap from "healthy while taking X" to "X caused it." Looking through **Scope**, you notice the unexamined alternatives. The same passage yields different but compatible perspectives depending on which lens you pick up.
 - **Forces** are what *caused* the reasoner to produce a weak facet in the first place. Maybe *confirmation bias* — they only looked at cases that fit the belief. Maybe *overgeneralization* — one cousin treated as proof. Maybe *tunnel vision*. These are candidate explanations, not verdicts.
