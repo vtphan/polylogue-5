@@ -24,7 +24,7 @@ The framework provides a vocabulary precise enough to examine reasoning along th
 
 1. **Recognizing reasoning quality with precision** — naming *which* aspect of a piece of reasoning is strong or weak, not just whether it is good or bad.
 2. **Proposing why reasoning came out the way it did** — accounting for observed quality through candidate cognitive and social forces.
-3. **Supporting multiple legitimate perspectives** — any single weakness can be revealed through more than one lens (§3) and explained by more than one force (§4). No observation has a single correct reading.
+3. **Supporting multiple legitimate perspectives** — any single weakness can be revealed through more than one lens (§3) and explained by more than one force (§4). Many observations can have more than one valid reading.
 
 These affordances fall directly out of the two aspects described in §2. An application chooses how to turn them into a student experience; the framework does not dictate that choice. Affordance 1 is what the lens aspect enables; affordance 2 is what the forces aspect enables; affordance 3 arises from the many-to-many mapping between them, at the facet pivot.
 
@@ -32,20 +32,20 @@ These affordances fall directly out of the two aspects described in §2. An appl
 
 ## 2. Two Aspects, One Pivot
 
-The framework examines reasoning through **two complementary aspects**:
+The framework is organized around **facets of reasoning** — specific sub-qualities of reasoning along which quality varies (§2.2). A piece of reasoning is strong or weak on each facet, and it is these facets that the framework lets us observe and account for.
 
-- **Lenses that reveal reasoning** — the angles from which reasoning quality can be examined.
-- **Forces that weaken reasoning** *(explanatory variables)* — the cognitive and social forces that cause reasoning to come out weak.
+The framework gives us two complementary ways to engage with facets:
 
-The two aspects are connected by a shared pivot: **facets**, the specific sub-qualities of reasoning along which quality varies. Lenses reveal facets; forces cause those same facets to weaken. The facet layer is where observation and explanation meet — which is what makes the framework's two aspects work together rather than side by side.
+- Through **lenses** (§2.1), we view facets from different angles and recognize where the reasoning is strong or weak. Lenses are descriptive: they are the angle from which a feature is perceived, not what causes the feature to be there.
+- Through **forces** — cognitive biases and social dynamics (§2.3) — we account for *why* a facet came out weak. Forces are causal: a cognitive bias or a social dynamic can cause a facet to weaken. "Forces that weaken reasoning" is the plain-language name; "explanatory variables" is the term used in the research literature.
+
+Lenses reveal facets; forces cause those same facets to weaken. The facet layer is the shared pivot where observation and explanation meet — which is what makes the framework's two aspects work together rather than side by side.
 
 ```
    Lenses  ──reveal──→  Facets  ←──cause──  Forces
-   (angles of           (sub-qualities      (cognitive and social
-    examination)         of reasoning)       variables; §2.3)
+   (angles of           (sub-qualities      (cognitive biases
+    examination)         of reasoning)       and social dynamics)
 ```
-
-Causation in the framework runs from the forces aspect into the facet pivot; the lens aspect is descriptive, not causal. A lens does not cause anything to happen in the reasoning — it is the angle from which a feature is perceived. A force does not perceive anything — it is a candidate account of why the feature came out as it did.
 
 **The three relations meeting at the facet pivot are orthogonal.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *force → facet* explanatory connection (§4). These relations are independent and do not compose. A shared cause does not imply cross-lens visibility — two facets produced by the same cognitive bias are still two distinct facets with distinct observable signatures, not one facet reached through two lenses. Cross-lens visibility does not imply a shared cause — a facet observable through two lenses is not thereby explained by any particular force. Each relation has to be established on its own structural or observational grounds.
 
@@ -94,9 +94,7 @@ Cross-lens visibility and the connections to explanatory variables are the subje
 
 ### 2.3 Forces That Weaken Reasoning (Explanatory Variables)
 
-Forces are the framework's causal aspect: they cause facets to come out weak. "Forces that weaken reasoning" is the plain-language label; "explanatory variables" is the term used in the research literature the framework cites. The two names refer to the same thing.
-
-There are two kinds of forces, representing genuinely different but coupled mechanisms: **cognitive biases** (individual thinking tendencies) and **social dynamics** (patterns of group interaction).
+Forces are the framework's causal aspect: they cause facets to come out weak. There are two kinds of forces, representing genuinely different but coupled mechanisms: **cognitive biases** (individual thinking tendencies) and **social dynamics** (patterns of group interaction).
 
 #### Cognitive Biases
 
