@@ -2,18 +2,18 @@
 
 This document defines the conceptual framework that underlies Polylogue. The framework is an **ontology of reasoning quality** — a structured vocabulary for describing what reasoning is made of, such that its quality can be examined. It is application-agnostic. It makes no claims about students, teaching, or learning; those belong to the instructional designs built on top of it (see `apps/{app-id}/docs/instructional-design.md`).
 
-The prose in this document is the conceptual source of truth. The canonical machine-readable inventories live in `framework/reference/`: `lenses.yaml`, `facet_inventory.yaml`, and `explanatory_variables.yaml`. A Graphviz diagram of the three-layer structure is at `framework/docs/framework-graph.dot`.
+The prose in this document is the conceptual source of truth. The canonical machine-readable inventories live in `framework/reference/`: `lenses.yaml`, `facet_inventory.yaml`, and `explanatory_variables.yaml`. A Graphviz diagram of the framework's structure is at `framework/docs/framework-graph.dot`.
 
 ## Contents
 
 1. [What the Framework Enables](#1-what-the-framework-enables)
-2. [Three Layers](#2-three-layers)
-    - 2.1 [Lenses](#21-lenses)
-    - 2.2 [Facets](#22-facets)
-    - 2.3 [Explanatory Variables](#23-explanatory-variables)
+2. [Two Aspects, One Pivot](#2-two-aspects-one-pivot)
+    - 2.1 [Lenses That Reveal Reasoning](#21-lenses-that-reveal-reasoning)
+    - 2.2 [Facets of Reasoning](#22-facets-of-reasoning)
+    - 2.3 [Forces That Weaken Reasoning (Explanatory Variables)](#23-forces-that-weaken-reasoning-explanatory-variables)
     - 2.4 [A Worked Example](#24-a-worked-example)
 3. [Cross-Lens Visibility](#3-cross-lens-visibility)
-4. [Explanatory Connections](#4-explanatory-connections)
+4. [How Forces Weaken Facets](#4-how-forces-weaken-facets)
 5. [Future Considerations](#5-future-considerations)
 
 ---
@@ -26,25 +26,32 @@ The framework provides a vocabulary precise enough to examine reasoning along th
 2. **Proposing why reasoning came out the way it did** — accounting for observed quality through candidate cognitive and social forces.
 3. **Supporting multiple legitimate accounts** — because the mapping from reasoning features to explanations is many-to-many, a given weakness admits several defensible explanations, and a given force can account for several weaknesses.
 
-These affordances fall directly out of the three layers below. An application chooses how to turn them into a student experience; the framework does not dictate that choice.
+These affordances fall directly out of the two aspects described in §2. An application chooses how to turn them into a student experience; the framework does not dictate that choice. Affordance 1 is what the lens aspect enables; affordance 2 is what the forces aspect enables; affordance 3 arises from the many-to-many mapping between them, at the facet pivot.
 
 ---
 
-## 2. Three Layers
+## 2. Two Aspects, One Pivot
 
-The framework has three layers: **lenses** (angles of examination), **facets** (the internal sub-qualities within each lens), and **explanatory variables** (the forces that produce weakness on a facet). Lenses *reveal* facets. Explanatory variables *cause* facets to come out weak. Causation in the framework runs from the explanatory layer into the facet layer; the lens layer is descriptive, not causal.
+The framework examines reasoning through **two complementary aspects**:
+
+- **Lenses that reveal reasoning** — the angles from which reasoning quality can be examined.
+- **Forces that weaken reasoning** *(explanatory variables)* — the cognitive and social forces that cause reasoning to come out weak.
+
+The two aspects are connected by a shared pivot: **facets**, the specific sub-qualities of reasoning along which quality varies. Lenses reveal facets; forces cause those same facets to weaken. The facet layer is where observation and explanation meet — which is what makes the framework's two aspects work together rather than side by side.
 
 ```
-   Lenses  ──reveal──→  Facets  ←──cause──  Explanatory Variables
-   (angles of           (what                (why the reasoning
-    examination)         specifically?)       came out weak there)
+   Lenses  ──reveal──→  Facets  ←──cause──  Forces
+   (angles of           (sub-qualities      (cognitive and social
+    examination)         of reasoning)       variables; §2.3)
 ```
 
-**The three relations are orthogonal.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *explanatory connection* (§4). These relations are independent and do not compose. A shared cause does not imply cross-lens visibility — two facets produced by the same cognitive pattern are still two distinct facets with distinct observable signatures, not one facet reached through two lenses. Cross-lens visibility does not imply a shared cause — a facet observable through two lenses is not thereby explained by any particular force. Each relation has to be established on its own structural or observational grounds.
+Causation in the framework runs from the forces aspect into the facet pivot; the lens aspect is descriptive, not causal. A lens does not cause anything to happen in the reasoning — it is the angle from which a feature is perceived. A force does not perceive anything — it is a candidate account of why the feature came out as it did.
 
-### 2.1 Lenses
+**The three relations meeting at the facet pivot are orthogonal.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *force → facet* explanatory connection (§4). These relations are independent and do not compose. A shared cause does not imply cross-lens visibility — two facets produced by the same cognitive bias are still two distinct facets with distinct observable signatures, not one facet reached through two lenses. Cross-lens visibility does not imply a shared cause — a facet observable through two lenses is not thereby explained by any particular force. Each relation has to be established on its own structural or observational grounds.
 
-Reasoning quality is examined from three distinct angles. Each lens asks a different question about a different aspect of argumentation.
+### 2.1 Lenses That Reveal Reasoning
+
+Reasoning quality is examined from three distinct angles. Each lens asks a different question about a different aspect of argumentation, and each lens reveals a set of facets (§2.2) — specific sub-qualities of reasoning along which quality varies.
 
 | Lens | What it evaluates | The question |
 |---|---|---|
@@ -56,11 +63,11 @@ Reasoning quality is examined from three distinct angles. Each lens asks a diffe
 
 **Not silos.** The three lenses sometimes overlap. When reasoning looks at only one side, that can be seen as an Evidence observation (insufficient evidence) or a Scope observation (missing perspectives) or both. The lenses are tools for directing attention, not a partition of argument space.
 
-### 2.2 Facets
+### 2.2 Facets of Reasoning
 
-Each lens is simple on its surface — one question — but the reasoning it examines is internally complex. That internal complexity is made of **facets**: the specific sub-qualities along which reasoning quality varies within each lens. A passage does not "have" a facet the way it might contain a flaw — it is *strong or weak* on each facet.
+Facets are the pivot between the two aspects. They are **specific sub-qualities of reasoning** along which quality varies. Lenses reveal them; forces cause them to weaken. Each lens is simple on its surface — one question — but the reasoning it examines is internally complex, and that internal complexity is made of facets. A passage does not "have" a facet the way it might contain a flaw — it is *strong or weak* on each facet.
 
-**A reasoning flaw, in this vocabulary, *is* a facet being weak.** The flaw and the weak facet are the same observation at different grains — "thin evidence" and "weak on sufficiency" name one event, one in plain language and one in the designer's vocabulary. A weak facet does not *lead to* or *cause* a flaw; it *is* the flaw. Causation in the framework lives one layer further out: explanatory variables (§2.3) cause facets to come out weak. So the correct causal direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*.
+**A reasoning flaw, in this vocabulary, *is* a facet being weak.** The flaw and the weak facet are the same observation at different grains — "thin evidence" and "weak on sufficiency" name one event, one in plain language and one in the designer's vocabulary. A weak facet does not *lead to* or *cause* a flaw; it *is* the flaw. Causation in the framework lives one layer further out: forces (§2.3) cause facets to come out weak. So the correct causal direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*.
 
 The framework does not commit to a specific facet inventory as a theoretical claim. The ten facets below are a design choice meant to be validated and revised through use. Each facet is given with a short formal name, a one-line definition, and an informal phrasing of what weakness on that facet looks like in practice.
 
@@ -85,11 +92,13 @@ Cross-lens visibility and the connections to explanatory variables are the subje
 - **Consequence consideration** — whether downstream effects, second-order implications, and unintended outcomes are examined. *Overlooking consequences: not thinking through what could happen next.*
 - **Condition sensitivity** — whether limitations, exceptions, and boundary conditions are acknowledged. *Missing limits: treating an idea as if it works in every situation.*
 
-### 2.3 Explanatory Variables
+### 2.3 Forces That Weaken Reasoning (Explanatory Variables)
 
-Explanatory variables account for *why* reasoning comes out the way it does. There are two kinds, representing genuinely different but coupled mechanisms: **cognitive patterns** (individual thinking tendencies) and **social dynamics** (group interaction patterns).
+Forces are the framework's causal aspect: they cause facets to come out weak. "Forces that weaken reasoning" is the plain-language label; "explanatory variables" is the term used in the research literature the framework cites. The two names refer to the same thing.
 
-#### Cognitive Patterns
+There are two kinds of forces, representing genuinely different but coupled mechanisms: **cognitive biases** (individual thinking tendencies) and **social dynamics** (patterns of group interaction).
+
+#### Cognitive Biases
 
 Individual thinking tendencies that shape how a person processes information and draws conclusions:
 
@@ -104,7 +113,7 @@ Individual thinking tendencies that shape how a person processes information and
 | Egocentric thinking | Only considering the perspectives of people like yourself |
 | False certainty | Feeling confident about something without checking whether the reasoning supports it |
 
-These patterns are drawn from the cognitive bias literature (Kahneman & Tversky, Gigerenzer, Stanovich) but translated into everyday language. The list is deliberately reduced from the full catalog to a set that is distinct, observable in discussion, and describable in a single sentence.
+These biases are drawn from the cognitive bias literature (Kahneman & Tversky, Gigerenzer, Stanovich) and translated into everyday language. The list is deliberately reduced from the full catalog to a set that is distinct, observable in discussion, and describable in a single sentence.
 
 #### Social Dynamics
 
@@ -120,11 +129,11 @@ These are drawn from social psychology research (Asch, Janis, Milgram) on how gr
 
 #### Deficit focus
 
-Both inventories are deficit-focused: all entries describe failure modes. This is an ontological choice, not a pedagogical one. Deficit patterns have genuine causal specificity ("he drew a broad conclusion from one example" identifies a mechanism), while positive thinking patterns tend to redescribe good reasoning rather than explain it causally. Sound reasoning is accounted for contrastively, in terms of the absence of the deficits.
+Both inventories are deficit-focused: all entries describe failure modes. This is an ontological choice, not a pedagogical one. Deficit forces have genuine causal specificity ("he drew a broad conclusion from one example" identifies a mechanism), while positive thinking patterns tend to redescribe good reasoning rather than explain it causally. Sound reasoning is accounted for contrastively, in terms of the absence of the deficits.
 
 #### Interaction
 
-Cognitive patterns and social dynamics are not alternative explanations to choose between. They interact. A social dynamic can amplify a cognitive pattern: confirmation bias persists because nobody in the group challenges it (conflict avoidance). A cognitive pattern can reshape the social environment: black-and-white thinking reframes disagreement as moral failure, making it socially difficult for others to maintain a nuanced position. Every moment in reasoned discussion has both a cognitive and a social dimension; understanding how they interact, in both directions, is the deepest level of explanatory reasoning the framework supports.
+Cognitive biases and social dynamics are not alternative explanations to choose between. They interact. A social dynamic can amplify a cognitive bias: confirmation bias persists because nobody in the group challenges it (conflict avoidance). A cognitive bias can reshape the social environment: black-and-white thinking reframes disagreement as moral failure, making it socially difficult for others to maintain a nuanced position. Every moment in reasoned discussion has both a cognitive and a social dimension; understanding how they interact, in both directions, is the deepest level of explanatory reasoning the framework supports.
 
 ### 2.4 A Worked Example
 
@@ -184,15 +193,15 @@ Inferential validity is the only facet with no cross-lens visibility. **Scope is
 
 ---
 
-## 4. Explanatory Connections
+## 4. How Forces Weaken Facets
 
-Explanatory variables are the framework's causal layer: a cognitive pattern or social dynamic *causes* a facet to come out weak. The mapping between explanatory variables and facets is **many-to-many** — a single cognitive or social force can produce weakness on several different facets, and a single weak facet can be produced by several different forces. This is the other structural source of the framework's third affordance: because more than one force can account for the same observation, no observation has a unique correct explanation.
+Forces are the framework's causal aspect: a cognitive bias or social dynamic *causes* a facet to come out weak. The mapping between forces and facets is **many-to-many** — a single cognitive or social force can produce weakness on several different facets, and a single weak facet can be produced by several different forces. This is the other structural source of the framework's third affordance: because more than one force can account for the same observation, no observation has a unique correct explanation.
 
 This section enumerates the common connections. They are illustrative, not exhaustive: a student or analyst may offer a valid explanation that is not listed here, and the framework does not treat the listed connections as privileged.
 
-### Cognitive pattern coverage
+### Cognitive bias coverage
 
-| Cognitive Pattern | Facets It Commonly Causes to Weaken |
+| Cognitive Bias | Facets It Commonly Causes to Weaken |
 |---|---|
 | Confirmation bias | Source diversity, relevance, perspective engagement |
 | Tunnel vision | Source diversity, internal consistency, consequence consideration, condition sensitivity |
@@ -213,7 +222,7 @@ This section enumerates the common connections. They are illustrative, not exhau
 
 ### Per-facet view
 
-| Facet | Cognitive Patterns | Social Dynamics |
+| Facet | Cognitive Biases | Social Dynamics |
 |---|---|---|
 | Source credibility | Uncritical acceptance | Authority deference |
 | Source diversity | Confirmation bias, tunnel vision | Group pressure |
@@ -232,6 +241,6 @@ Relevance and inferential validity have no social dynamic connection. This is ac
 
 ## 5. Future Considerations
 
-**False certainty vs. uncritical acceptance — monitor for merge.** These patterns are adjacent: both involve insufficient checking. The current distinction is directional — uncritical acceptance is about intake (accepting others' claims without questioning), false certainty is about output (asserting conclusions without supporting). If use reveals that the two cannot be reliably distinguished, they are a merge candidate.
+**False certainty vs. uncritical acceptance — monitor for merge.** These biases are adjacent: both involve insufficient checking. The current distinction is directional — uncritical acceptance is about intake (accepting others' claims without questioning), false certainty is about output (asserting conclusions without supporting). If use reveals that the two cannot be reliably distinguished, they are a merge candidate.
 
-**Emotional reasoning — candidate for future addition.** "Believing something because it feels right, not because the reasoning supports it." Distinct from the current eight cognitive patterns. Deferred because it may be hard to distinguish from uncritical acceptance or false certainty in practice, and adding a ninth pattern increases vocabulary load.
+**Emotional reasoning — candidate for future addition.** "Believing something because it feels right, not because the reasoning supports it." Distinct from the current eight cognitive biases. Deferred because it may be hard to distinguish from uncritical acceptance or false certainty in practice, and adding a ninth bias increases vocabulary load.
