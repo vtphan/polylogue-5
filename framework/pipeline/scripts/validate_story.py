@@ -26,8 +26,9 @@ Optionally, also checks artifacts/{story_id}/episodes/episode_NN/analysis.yaml
 present, the rule is checked; if absent, that rule is skipped with a note.
 
 Writes:
-  - framework/stories/{story_id}-validation-report.yaml — the audit
-    sidecar. Neither the design doc nor any episode draft is mutated.
+  - framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml —
+    the audit sidecar. A fresh timestamped file is written on each run
+    (gitignored). Neither the design doc nor any episode draft is mutated.
 
 Checks:
   1. Coverage_mode floor
@@ -79,6 +80,7 @@ import glob
 import os
 import re
 import sys
+from datetime import datetime
 
 import yaml
 
@@ -476,7 +478,10 @@ def main():
         "audit": audit,
     }
 
-    sidecar_path = os.path.join(args.stories_root, f"{story_id}-validation-report.yaml")
+    validation_dir = os.path.join(args.stories_root, "validation")
+    os.makedirs(validation_dir, exist_ok=True)
+    timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
+    sidecar_path = os.path.join(validation_dir, f"{story_id}-validation-report-{timestamp}.yaml")
     with open(sidecar_path, "w") as f:
         yaml.safe_dump(report, f, sort_keys=False)
 

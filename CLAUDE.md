@@ -59,7 +59,7 @@ framework/stories/{story_id}/            # Per-episode drafts directory
     episode_01.md
     episode_02.md
     ...
-framework/stories/{story_id}-validation-report.yaml   # Sidecar audit from validate_story.py
+framework/stories/validation/{story_id}-validation-report-{YYYYMMDD-HHMMSS}.yaml   # Sidecar audit from validate_story.py (gitignored)
 
 artifacts/{story_id}/episodes/
     └── episode_{NN}/

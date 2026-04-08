@@ -62,7 +62,7 @@ The coverage contract is what ties story-level design to the framework's existin
 
 For a focused story, the design doc frontmatter declares `declared_facets`, `declared_cognitive_patterns`, `declared_social_dynamics`. These are the only things the validator scores against. Everything outside the declared subset is unchecked.
 
-**What `validate_story.py` checks.** The validator walks the design doc frontmatter and every per-episode draft frontmatter. Its results land in `framework/stories/{story_id}-validation-report.yaml`. None of the operator-authored files are mutated.
+**What `validate_story.py` checks.** The validator walks the design doc frontmatter and every per-episode draft frontmatter. Its results land in `framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml` (gitignored; a fresh timestamped file is written on each run). None of the operator-authored files are mutated.
 
 - *Coverage closure.* The union of (facet, pattern, dynamic) targets across all episode draft frontmatter must cover the declared subset (focused mode) or the full inventory (full mode). Every declared facet must appear as both a weakness and a strength somewhere in the season.
 - *Lens distribution.* Each lens (`logic`, `evidence`, `scope`) must appear as a primary lens in at least one episode, and no single lens may be primary in more than half the episodes (rounded down). This prevents the legacy 5-scenario sequence's Scope-dominance regression while remaining feasible for short stories.

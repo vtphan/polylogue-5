@@ -317,7 +317,7 @@ The hedged-annotation rule still requires post-pipeline `analysis.yaml` files (b
     framework/stories/{story_id}.md                      # Story design doc (authored)
     framework/stories/{story_id}/episode_{NN}.md         # Per-episode drafts (authored)
     framework/stories/{story_id}-friction-log.md         # Friction log (authored during Phase 7)
-    framework/stories/{story_id}-validation-report.yaml  # validate_story.py sidecar audit
+    framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml  # validate_story.py sidecar audit (gitignored)
 
     artifacts/{story_id}/episodes/episode_{NN}/
       episode.yaml

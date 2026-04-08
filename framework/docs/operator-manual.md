@@ -121,7 +121,7 @@ This walks the design doc frontmatter and every per-episode draft frontmatter un
 
 The hedged-annotation rule is skipped during prose authoring because there are no `analysis.yaml` files yet.
 
-The audit lands at `framework/stories/{story_id}-validation-report.yaml`. If `validate_story.py` reports any FAIL, fix the offending file(s) and re-run. The validator exit code is 0 only when there are no failures.
+The audit lands at `framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml` (gitignored; a fresh timestamped file is written on each run). If `validate_story.py` reports any FAIL, fix the offending file(s) and re-run. The validator exit code is 0 only when there are no failures.
 
 ### 4. Run `story_consistency_reviewer` after substantive changes
 
@@ -218,7 +218,7 @@ After each command, read the artifacts it produced. Don't trust that the reviewe
 | `episode_writer_input.yaml` | No facet IDs, no lens names, no pattern/dynamic names. Voice and weaknesses read as character traits, not as label restatements. (The literal scan and `projection_reviewer` should already have caught these, but read it yourself.) |
 | `transcript.yaml` | The discussion sounds like a 6th grader actually wrote it. The targeted signals are visible to a careful reader without being announced. |
 | `analysis.yaml` | Every targeted facet (weakness AND strength) is annotated. `evidence_basis` cites specific behavior in the cited sentences. Hedged labels are honest, not lazy. |
-| `validation_report.yaml` (the story-level sidecar at `framework/stories/{story_id}-validation-report.yaml`) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After pipeline execution has produced analyses, the hedged-annotation rule passes. |
+| `validation_report.yaml` (the story-level sidecar at `framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml`, gitignored) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After pipeline execution has produced analyses, the hedged-annotation rule passes. |
 
 ### Reading reviewer reports
 
