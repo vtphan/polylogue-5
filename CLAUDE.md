@@ -27,45 +27,7 @@ Lens is the priority. Reasoning Lab is experimental.
 
 ## System Structure
 
-```
-framework/
-├── docs/                    # Conceptual framework, story design guidance, system architecture,
-│                            # operator manual, plus stories/ for design docs and per-episode drafts
-├── reference/               # Source-of-truth data (lenses, facets, explanatory variables)
-├── schemas/                 # Shared upstream schemas (incl. episode_plan.yaml, episode_writer_input.yaml)
-└── pipeline/                # Shared upstream pipeline (episode stages 1–3)
-    ├── agents/              # planning_agent, dialog_writer, evaluator, transcript_reviewer,
-    │                        # analysis_reviewer, validation_agent, transcript_id,
-    │                        # projection_reviewer, story_consistency_reviewer
-    ├── commands/            # create_episode, create_transcript, analyze_transcript,
-    │                        # brainstorm, check_coverage
-    └── scripts/             # validate_schema, validate_story, enumerate_transcript,
-                             # check_analysis_invariants, check_coverage,
-                             # review_transcript, log_pipeline_event
-
-apps/lens/
-├── docs/                    # Instructional design, pipeline spec
-├── schemas/                 # Lens-specific schemas (scaffolding, session, student_annotations)
-├── pipeline/
-│   ├── agents/              # scaffolding_id, scaffolding_reviewer
-│   ├── commands/            # design_scaffolding, configure_session
-│   └── initialize_lens.py   # Bootstrap: clears .claude/, syncs shared + Lens pipeline
-└── RUNNING.md               # Step-by-step runbook
-
-apps/reasoning-lab/
-├── docs/                    # Game design
-├── schemas/                 # Reasoning Lab schemas (scoring, competition_facilitation, session)
-├── pipeline/
-│   ├── agents/              # scoring_rubric_agent
-│   ├── commands/            # design_scoring_rubric, configure_competition
-│   └── initialize_reasoning_lab.py
-└── RUNNING.md               # Step-by-step runbook
-
-artifacts/                   # Story + episode artifacts (the new system output)
-registry/                    # Frozen historical reference (legacy disposable-persona system)
-configs/                     # Frozen historical reference (legacy pipeline)
-docs/                        # Frozen historical reference (legacy design documents)
-```
+Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts — the new system output). `registry/`, `configs/`, and `docs/` at the repo root are **frozen historical reference** from the legacy disposable-persona system — not maintained, not a migration target. See `framework/docs/system-architecture.md` for the full directory breakdown.
 
 ## Pipeline Flow
 
@@ -131,7 +93,7 @@ Each script clears `.claude/commands/` and `.claude/agents/` (preventing cross-a
 
 ## Legacy System
 
-The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) remains frozen indefinitely as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required between legacy and new, and no legacy directory is removed by the new pipeline. See `framework/docs/story-pipeline-revision.md` Part 8 for the rationale.
+The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) remains frozen indefinitely as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required between legacy and new, and no legacy directory is removed by the new pipeline. See `framework/docs/story-pipeline-revision.md` Part 1 for the rationale.
 
 The legacy scenario-sequence files (`framework/reference/scenario_sequence.yaml`, `framework/docs/scenario-sequence.md`) and the legacy `check_coverage` script and command were removed in Phase 8 closeout (2026-04-07) after the first story shipped. Story-based coverage is now checked by `validate_story.py`.
 

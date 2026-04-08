@@ -6,6 +6,22 @@ The framework has a visible layer and a hidden layer. Students see three evaluat
 
 This framework is realized through applications — each with its own instructional design, pipeline, and student-facing experience — that share this common foundation. The framework constrains what any application must preserve; the application determines how students encounter and interact with the framework's structures.
 
+## Contents
+
+1. [Core Premise](#1-core-premise)
+2. [Three Lenses](#2-three-lenses)
+3. [Facets: The Hidden Layer](#3-facets-the-hidden-layer)
+4. [Two Explanatory Variables](#4-two-explanatory-variables)
+5. [The Perspectival Learning Model](#5-the-perspectival-learning-model)
+6. [What the Framework Teaches](#6-what-the-framework-teaches)
+7. [Facet Inventory](#7-facet-inventory)
+8. [Cross-Lens Visibility Map](#8-cross-lens-visibility-map)
+9. [Explanatory Variable Coverage](#9-explanatory-variable-coverage)
+10. [Priority Tiers for Pilot](#10-priority-tiers-for-pilot)
+11. [Future Considerations](#11-future-considerations)
+
+The canonical machine-readable inventories live in `framework/reference/`: `facet_inventory.yaml` (the ten facets with their IDs), `explanatory_variables.yaml` (the eight cognitive patterns and three social dynamics), and `lenses.yaml` (the three lenses). The prose in this document is the conceptual source of truth; the YAML files are the IDs and structural specifications that the pipeline, validators, and agents consume.
+
 ### What Applications Must Preserve
 
 Any application built on this framework must:

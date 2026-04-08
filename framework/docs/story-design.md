@@ -168,4 +168,4 @@ For first stories, see Part 11 of `framework/docs/story-pipeline-revision.md`, w
 - **Episode plan schema:** `framework/schemas/episode_plan.yaml` — what `/create_episode` produces from a draft.
 - **Validator:** `framework/pipeline/scripts/validate_story.py` — the mechanical checks behind the coverage contract.
 - **Prose-on-prose reviewer:** `framework/pipeline/agents/story_consistency_reviewer.md`.
-- **Full architectural rationale:** `framework/docs/story-pipeline-revision.md` — Part 13 documents the episodes-first revision; Parts 1–8 are the original design (much of which still applies, though the cast/episode authoring layers were collapsed in Part 13).
+- **Full architectural rationale:** `framework/docs/story-pipeline-revision.md` — Parts 1–4 cover the rationale, coverage contract, and evidence grounding; Part 13 is the authoritative episodes-first authoring model.

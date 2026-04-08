@@ -1,17 +1,10 @@
 # Polylogue Operator Manual
 
-This manual is the end-to-end runbook for authoring and running a Polylogue story under the **episodes-first authoring model** (Part 13 of `framework/docs/story-pipeline-revision.md`). It is written for the operator — the person sitting at the keyboard with Claude Code, designing curriculum.
+This manual is the end-to-end runbook for authoring and running a Polylogue story. It is written for the operator — the person sitting at the keyboard with Claude Code, designing curriculum.
 
-It assumes you already understand the conceptual framework (lenses, facets, explanatory variables) at a working level. If not, read `framework/docs/conceptual-framework.md` first. It also assumes you have read `framework/docs/story-design.md` for the design rules around cast, coverage, and rotation.
+It assumes you understand the conceptual framework (lenses, facets, explanatory variables) at a working level — if not, read `framework/docs/conceptual-framework.md` first. The cast design rules, coverage contract, and rotation rules are spelled out in `framework/docs/story-design.md`; this manual points at the sections you need as you encounter them.
 
-The pipeline is split into four phases:
-
-- **Phase 5 (cleanup, done)** — schemas and pipeline files brought into line with the episodes-first model. You are starting from a clean codebase.
-- **Phase 6 (prose authoring)** — you author the story design doc and per-episode drafts, iterating with `validate_story.py` and `story_consistency_reviewer`. No pipeline runs.
-- **Phase 7 (pipeline execution)** — you run the slash commands for each episode in order, capturing friction.
-- **Phase 8 (closeout)** — lessons-learned, legacy file deletion, memory update. Completed 2026-04-07.
-
-This manual covers Phases 6 and 7. Phase 8 is a single-conversation cleanup at the end.
+The operator's work is in two phases: **prose authoring** (you author the story design doc and per-episode drafts, iterating with `validate_story.py` and `story_consistency_reviewer`, no pipeline runs) and **pipeline execution** (you run the slash commands for each episode in order, capturing friction). The earlier cleanup and post-pilot closeout phases have shipped.
 
 ---
 
@@ -35,17 +28,17 @@ Before authoring or running anything:
 
 ---
 
-## Phase 6: Prose-First Authoring
+## Prose-first authoring
 
-Phase 6 produces three things, all authored by you (with AI assistance) in conversation:
+This phase produces three things, all authored by you (with AI assistance) in conversation:
 
 1. The **story design doc** at `framework/docs/stories/{story_id}.md`.
 2. The **per-episode drafts** at `framework/docs/stories/{story_id}/episode_{NN}.md` (one per episode).
 3. The **friction log** at `framework/docs/stories/{story_id}-friction-log.md` (started in Phase 7 but you can begin it here if you find issues during authoring).
 
-No slash commands run in Phase 6. The pipeline does not execute. This phase is creative authoring, gated by `validate_story.py` and `story_consistency_reviewer`.
+No slash commands run during prose authoring. The pipeline does not execute. This phase is creative authoring, gated by `validate_story.py` and `story_consistency_reviewer`.
 
-### 6.1 Author the story design doc
+### 1. Author the story design doc
 
 **File:** `framework/docs/stories/{story_id}.md`
 
@@ -79,13 +72,13 @@ episode_count: 5
 
 The cast section is **load-bearing**. It is the source of truth for character identity that `story_consistency_reviewer` will check every per-episode draft against. Take the time to make it specific. "Maya is logic-leaning and prone to false certainty" is too thin. "Maya is the kid who remembers a single source she encountered last week and treats it as the whole record. When the group is moving toward a decision, she's the one who states the consensus a beat too early — making it harder for anyone who disagrees to speak up. From episode 4 onward, after the petition fails, she starts to catch herself doing this, but only sometimes." That is a description the reviewer can check episode behavior against.
 
-For the cast design rules (4–6 characters, no embodied fallacies, cast carries declared coverage, etc.), see `framework/docs/story-design.md`.
+Cast design rules in one line: 4–6 characters total, 2–3 per episode; no character is an embodied fallacy (each carries 2–3 cognitive tendencies + 1 social dynamic contribution that surface situationally); at most 2 characters have visible growth arcs; the cast collectively models all three lens dispositions without naming them; the cast collectively must carry the declared coverage. Full rationale and the strength/weakness rotation rules: `framework/docs/story-design.md`.
 
-### 6.2 Author per-episode drafts
+### 2. Author per-episode drafts
 
 **Files:** `framework/docs/stories/{story_id}/episode_{NN}.md`, one per episode (`NN` is zero-padded: `episode_01.md`, `episode_02.md`, ...).
 
-**Format:** Markdown with YAML frontmatter (the operator's authoring artifact for one episode) plus a prose body. **The full template is in Appendix B of `framework/docs/story-pipeline-revision.md`.** Read it before writing your first draft.
+**Format:** Markdown with YAML frontmatter (the operator's authoring artifact for one episode) plus a prose body. The full template is in Appendix B of `framework/docs/story-pipeline-revision.md` — read it once before writing your first draft. The fields are summarized below.
 
 The frontmatter fields the validator and `planning_agent` will consume:
 
@@ -105,13 +98,13 @@ The prose body should contain at least:
 
 **The hardest part.** The hardest part of authoring a draft is writing the per-target signals. They have to be three things at once:
 
-1. **Stage directions, not analysis.** "Maya cites a single article she half-remembers from last week and dismisses Jordan's pushback as overcautious" — not "Maya exhibits false_certainty driven by overgeneralization." See the worked example in `framework/docs/story-design.md` and the boundary cases in `framework/pipeline/agents/projection_reviewer.md`.
+1. **Stage directions, not analysis.** "Maya cites a single article she half-remembers from last week and dismisses Jordan's pushback as overcautious" — not "Maya exhibits false_certainty driven by overgeneralization." Boundary cases: `framework/pipeline/agents/projection_reviewer.md`.
 2. **Faithful to the design doc.** The signal must be a recognizable instance of how this character reasons per the cast prose. If it's a contradiction, `story_consistency_reviewer` will flag it as drift.
 3. **Concretely realizable in dialog.** A `cognitive_signal` that no dialog writer could plausibly stage in a 6th-grader's voice will fail downstream when `transcript_reviewer` checks whether the signal landed.
 
-**Iteration is normal.** Expect to revise both the design doc and the per-episode drafts multiple times during Phase 6. Drafting episode 3 often reveals something about the cast that wasn't pinned down well enough in the design doc. That's fine — go back and revise the design doc, then re-check earlier drafts against it.
+**Iteration is normal.** Expect to revise both the design doc and the per-episode drafts multiple times. Drafting episode 3 often reveals something about the cast that wasn't pinned down well enough in the design doc. That's fine — go back and revise the design doc, then re-check earlier drafts against it.
 
-### 6.3 Run `validate_story.py` after each draft
+### 3. Run `validate_story.py` after each draft
 
 ```bash
 python3 framework/pipeline/scripts/validate_story.py --story <story_id>
@@ -126,13 +119,13 @@ This walks the design doc frontmatter and every per-episode draft frontmatter un
 - Weakness rotation (no character carries more than half the weaknesses)
 - Per-draft schema sanity (lead count, valid lens, valid shape, episode_number in range, signals present where required)
 
-The hedged-annotation rule is skipped during Phase 6 because there are no `analysis.yaml` files yet.
+The hedged-annotation rule is skipped during prose authoring because there are no `analysis.yaml` files yet.
 
 The audit lands at `framework/docs/stories/{story_id}-validation-report.yaml`. If `validate_story.py` reports any FAIL, fix the offending file(s) and re-run. The validator exit code is 0 only when there are no failures.
 
-### 6.4 Run `story_consistency_reviewer` after substantive changes
+### 4. Run `story_consistency_reviewer` after substantive changes
 
-`story_consistency_reviewer` is a prose-on-prose review of the design doc plus all per-episode drafts written so far. It checks character consistency, voice consistency, earned growth beats, and rubric items 1–8 from Part 10 of `story-pipeline-revision.md`. Item 9 ("moment of surprise") stays human-only — you check that yourself.
+`story_consistency_reviewer` is a prose-on-prose review of the design doc plus all per-episode drafts written so far. It checks character consistency, voice consistency, earned growth beats, and story-design rubric items 1–8 (stakes concrete and personal; cast small and distinct; arc has momentum; coverage closes; mixed-valence varied; ending earned; no embodied fallacies; serial pull from episode to episode). Item 9 ("moment of surprise") stays human-only — you check that yourself.
 
 To invoke it from a Claude Code conversation:
 
@@ -145,9 +138,9 @@ Run it:
 
 The reviewer's verdict is `ACCEPT` or `REVISE`. There is no `REJECT` — drift is always recoverable by operator revision. The structured findings tell you which character drifted in which episode and what specifically to revise.
 
-### 6.5 Phase 6 closeout
+### 5. Authoring closeout
 
-You're ready to leave Phase 6 when all of these are true:
+You're ready to leave prose authoring when all of these are true:
 
 - The story design doc exists and has populated frontmatter.
 - All `episode_count` per-episode drafts exist.
@@ -156,15 +149,15 @@ You're ready to leave Phase 6 when all of these are true:
 - You have personally checked rubric item 9 (moment of surprise) and are satisfied.
 - You have committed all the authored files.
 
-Then move to Phase 7.
+Then move to pipeline execution.
 
 ---
 
-## Phase 7: Pipeline Execution
+## Pipeline execution
 
-Phase 7 is mechanical execution of what Phase 6 already decided. One conversation per command per episode.
+Mechanical execution of what prose authoring already decided. One conversation per command per episode.
 
-### 7.1 Per-conversation hygiene
+### Per-conversation hygiene
 
 Run each slash command in a fresh Claude Code conversation. Token cost is lower, failure isolation is cleaner, and the autonomous reviewer loops within each command don't need conversational context to do their job.
 
@@ -180,12 +173,12 @@ For each episode `<NN>` in order, you'll run five conversations:
 
 When you start each conversation, give Claude one line of context like *"Continue the pipeline for `saving-the-maker-space` episode 2."* — that's enough orientation. The slash command itself reads what it needs from `framework/docs/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
 
-### 7.2 What each command does
+### What each command does
 
 **`/create_episode <story_id> <NN>`**
 
 - Confirms the per-episode draft and the story design doc exist.
-- Re-runs `validate_story.py` over the story (catches anything you might have edited since Phase 6 closeout).
+- Re-runs `validate_story.py` over the story (catches anything you might have edited since authoring closeout).
 - Invokes `planning_agent` to read the per-episode draft frontmatter and the story design doc and produce two artifacts:
   - `artifacts/{story_id}/episodes/episode_{NN}/episode.yaml` — the full episode plan with framework terminology, consumed by reviewers and `transcript_id`.
   - `artifacts/{story_id}/episodes/episode_{NN}/intermediates/episode_writer_input.yaml` — the barrier-safe projection consumed by `dialog_writer`. This is the only artifact that crosses the information barrier.
@@ -215,7 +208,7 @@ When you start each conversation, give Claude one line of context like *"Continu
 
 **`/configure_competition <story_id> <NN>`** (Reasoning Lab) — assembles `reasoning-lab/session.yaml` from upstream artifacts.
 
-### 7.3 Reading the artifacts
+### Reading the artifacts
 
 After each command, read the artifacts it produced. Don't trust that the reviewer's ACCEPT means the artifact is what you wanted — it means the artifact is structurally and (in the reviewer's judgment) qualitatively acceptable. You're looking for whether it actually does what you intended.
 
@@ -225,9 +218,9 @@ After each command, read the artifacts it produced. Don't trust that the reviewe
 | `episode_writer_input.yaml` | No facet IDs, no lens names, no pattern/dynamic names. Voice and weaknesses read as character traits, not as label restatements. (The literal scan and `projection_reviewer` should already have caught these, but read it yourself.) |
 | `transcript.yaml` | The discussion sounds like a 6th grader actually wrote it. The targeted signals are visible to a careful reader without being announced. |
 | `analysis.yaml` | Every targeted facet (weakness AND strength) is annotated. `evidence_basis` cites specific behavior in the cited sentences. Hedged labels are honest, not lazy. |
-| `validation_report.yaml` (the story-level sidecar at `framework/docs/stories/{story_id}-validation-report.yaml`) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After Phase 7 has produced analyses, the hedged-annotation rule passes. |
+| `validation_report.yaml` (the story-level sidecar at `framework/docs/stories/{story_id}-validation-report.yaml`) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After pipeline execution has produced analyses, the hedged-annotation rule passes. |
 
-### 7.4 Reading reviewer reports
+### Reading reviewer reports
 
 The reviewer agents (`validation_agent`, `transcript_reviewer`, `analysis_reviewer`, `projection_reviewer`, `story_consistency_reviewer`, the Lens scaffolding reviewer) all return structured reports. The verdict is at the top; the per-criterion findings are below.
 
@@ -237,9 +230,9 @@ When a command halts:
 
 1. Read the artifact in its final state.
 2. Read the latest reviewer report.
-3. Decide: edit and resume (manually fix the artifact, re-invoke the next command), accept as-is (save as-is despite the reviewer's concerns — sometimes the reviewer is being conservative on an edge case you judge acceptable), or restart upstream (return to `/create_episode`, or in the worst case to Phase 6).
+3. Decide: edit and resume (manually fix the artifact, re-invoke the next command), accept as-is (save as-is despite the reviewer's concerns — sometimes the reviewer is being conservative on an edge case you judge acceptable), or restart upstream (return to `/create_episode`, or in the worst case back to prose authoring).
 
-### 7.5 The re-planning loop (Part 6 of `story-pipeline-revision.md`)
+### The re-planning loop
 
 When the same signal fails to land across two episodes — `transcript_reviewer` flags 5b (cognitive signal) or 5c (social signal move/response) repeatedly, or `analysis_reviewer` keeps hedging the same label — the failure is structural, not local. Don't keep retrying the pipeline. Use the three-step loop:
 
@@ -251,13 +244,13 @@ When the same signal fails to land across two episodes — `transcript_reviewer`
 
 The discipline: never pressure the evaluator to commit harder to satisfy coverage. Persistent hedging is information about the design, not noise to be tuned away.
 
-### 7.6 Capture friction as you go
+### Capture friction as you go
 
 Append to `framework/docs/stories/{story_id}-friction-log.md` after each episode. Capture every place the pipeline surprised you, every reviewer false positive, every place this manual was wrong or incomplete, every place a schema or agent should change in v2. The friction log is the only place qualitative pilot data lives — the artifacts and telemetry capture *what* the pipeline produced; the friction log captures *what it felt like to run*.
 
-### 7.7 Stopping and resuming across multiple authoring conversations
+### Stopping and resuming across multiple authoring conversations
 
-Phase 6 is "however many conversations are needed." You will likely:
+Prose authoring is "however many conversations are needed." You will likely:
 
 - Start the design doc in one conversation.
 - Refine the design doc and write episode 1 in another.
@@ -266,7 +259,7 @@ Phase 6 is "however many conversations are needed." You will likely:
 
 The protocol for resuming: the artifacts on disk are the source of truth. Open a new conversation, give Claude one line of context like *"I'm authoring `saving-the-maker-space`. The design doc and episodes 1–3 exist; I want to write episode 4 today. Read the design doc and episodes 1–3 first, then we'll talk about episode 4."* That's enough.
 
-For Phase 7, the same protocol works. Each slash command reads what it needs from disk. You can run conversations across days.
+For pipeline execution, the same protocol works. Each slash command reads what it needs from disk. You can run conversations across days.
 
 ---
 
@@ -298,8 +291,7 @@ For Phase 7, the same protocol works. Each slash command reads what it needs fro
 
 ## What this manual does not cover
 
-- **Designing a story from scratch.** That's `framework/docs/story-design.md`.
-- **The full per-episode draft template.** That's Appendix B of `framework/docs/story-pipeline-revision.md`.
-- **The architectural rationale.** That's `framework/docs/system-architecture.md` for the system shape and `framework/docs/story-pipeline-revision.md` (especially Part 13) for why the model is the way it is.
-- **The conceptual framework itself.** That's `framework/docs/conceptual-framework.md`.
-- **Phase 8 closeout.** Completed 2026-04-07 after the first story shipped: lessons-learned writeup appended to the story's friction log, legacy scenario-sequence files removed, memory updated.
+- **Designing a story from scratch** — the cast/coverage/rotation rules and worked examples: `framework/docs/story-design.md`.
+- **The full per-episode draft template** — Appendix B of `framework/docs/story-pipeline-revision.md`.
+- **Architectural rationale** — `framework/docs/system-architecture.md` for the system shape; `framework/docs/story-pipeline-revision.md` for the spec.
+- **The conceptual framework itself** — `framework/docs/conceptual-framework.md`.
