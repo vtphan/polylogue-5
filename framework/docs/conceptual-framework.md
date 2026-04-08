@@ -24,7 +24,7 @@ The framework provides a vocabulary precise enough to examine reasoning along th
 
 1. **Recognizing reasoning quality with precision** — naming *which* aspect of a piece of reasoning is strong or weak, not just whether it is good or bad.
 2. **Proposing why reasoning came out the way it did** — accounting for observed quality through candidate cognitive and social forces.
-3. **Supporting multiple legitimate accounts** — because the mapping from reasoning features to explanations is many-to-many, a given weakness admits several defensible explanations, and a given force can account for several weaknesses.
+3. **Supporting multiple legitimate perspectives** — any single weakness can be revealed through more than one lens (§3) and explained by more than one force (§4). No observation has a single correct reading.
 
 These affordances fall directly out of the two aspects described in §2. An application chooses how to turn them into a student experience; the framework does not dictate that choice. Affordance 1 is what the lens aspect enables; affordance 2 is what the forces aspect enables; affordance 3 arises from the many-to-many mapping between them, at the facet pivot.
 
