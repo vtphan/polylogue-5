@@ -15,8 +15,8 @@
 //                                alternate view), so a blue dashed edge
 //                                arriving at a facet means "also visible
 //                                through Evidence."
-//   thin gray, solid           — facet -> cognitive pattern
-//   thin brown, solid          — facet -> social dynamic
+//   thin gray, solid           — cognitive pattern -> facet (causes weakness)
+//   thin brown, solid          — social dynamic    -> facet (causes weakness)
 //
 // Explanatory edges are muted so the lens/facet/cross-lens structure
 // reads first. They are still present for reference.
@@ -146,74 +146,101 @@ digraph PolylogueFramework {
     scope -> sufficiency;
 
     // ================================================================
-    //  Facet -> cognitive pattern (muted, thin)
+    //  Cognitive pattern -> facet (causes weakness, muted, thin)
+    //
+    //  These edges run visually right-to-left (explanatory column is
+    //  placed to the right of the facet column). constraint=false so
+    //  they do not pull explanatory variables into the facet rank;
+    //  invisible layout edges below establish the three columns.
     // ================================================================
 
-    edge [color="#9999aa", penwidth=0.8, style=solid, arrowhead=normal];
+    edge [color="#9999aa", penwidth=0.8, style=solid, arrowhead=normal, constraint=false];
 
-    source_credibility     -> uncritical_acceptance;
+    uncritical_acceptance    -> source_credibility;
 
-    source_diversity       -> confirmation_bias;
-    source_diversity       -> tunnel_vision;
+    confirmation_bias        -> source_diversity;
+    tunnel_vision            -> source_diversity;
 
-    relevance              -> confirmation_bias;
-    relevance              -> overgeneralization;
+    confirmation_bias        -> relevance;
+    overgeneralization       -> relevance;
 
-    sufficiency            -> overgeneralization;
-    sufficiency            -> false_certainty;
+    overgeneralization       -> sufficiency;
+    false_certainty          -> sufficiency;
 
-    inferential_validity   -> false_cause;
-    inferential_validity   -> black_and_white_thinking;
+    false_cause              -> inferential_validity;
+    black_and_white_thinking -> inferential_validity;
 
-    internal_consistency   -> tunnel_vision;
+    tunnel_vision            -> internal_consistency;
 
-    reasoning_completeness -> uncritical_acceptance;
-    reasoning_completeness -> false_certainty;
+    uncritical_acceptance    -> reasoning_completeness;
+    false_certainty          -> reasoning_completeness;
 
-    perspective_engagement   -> confirmation_bias;
-    perspective_engagement   -> egocentric_thinking;
+    confirmation_bias        -> perspective_engagement;
+    egocentric_thinking      -> perspective_engagement;
 
-    consequence_consideration -> tunnel_vision;
-    consequence_consideration -> black_and_white_thinking;
+    tunnel_vision            -> consequence_consideration;
+    black_and_white_thinking -> consequence_consideration;
 
-    condition_sensitivity    -> tunnel_vision;
-    condition_sensitivity    -> overgeneralization;
-    condition_sensitivity    -> egocentric_thinking;
-    condition_sensitivity    -> false_certainty;
-
-    // ================================================================
-    //  Facet -> social dynamic (muted, thin, warm)
-    // ================================================================
-
-    edge [color="#b48a5a", penwidth=0.8, style=solid, arrowhead=normal];
-
-    source_credibility     -> authority_deference;
-    source_diversity       -> group_pressure;
-    sufficiency            -> group_pressure;
-    sufficiency            -> authority_deference;
-    internal_consistency   -> group_pressure;
-    internal_consistency   -> conflict_avoidance;
-    reasoning_completeness -> authority_deference;
-    perspective_engagement -> group_pressure;
-    perspective_engagement -> conflict_avoidance;
-    perspective_engagement -> authority_deference;
-    consequence_consideration -> group_pressure;
-    condition_sensitivity    -> group_pressure;
+    tunnel_vision            -> condition_sensitivity;
+    overgeneralization       -> condition_sensitivity;
+    egocentric_thinking      -> condition_sensitivity;
+    false_certainty          -> condition_sensitivity;
 
     // ================================================================
-    //  Vertical grouping (invisible edges force facets of the same
-    //  primary lens to appear contiguously in the facet column, and
-    //  the three lens nodes to appear in the matching order in the
-    //  lens column: Evidence, then Logic, then Scope).
+    //  Social dynamic -> facet (causes weakness, muted, thin, warm)
+    //  Same layout treatment as cognitive -> facet edges above.
+    // ================================================================
+
+    edge [color="#b48a5a", penwidth=0.8, style=solid, arrowhead=normal, constraint=false];
+
+    authority_deference -> source_credibility;
+    group_pressure      -> source_diversity;
+    group_pressure      -> sufficiency;
+    authority_deference -> sufficiency;
+    group_pressure      -> internal_consistency;
+    conflict_avoidance  -> internal_consistency;
+    authority_deference -> reasoning_completeness;
+    group_pressure      -> perspective_engagement;
+    conflict_avoidance  -> perspective_engagement;
+    authority_deference -> perspective_engagement;
+    group_pressure      -> consequence_consideration;
+    group_pressure      -> condition_sensitivity;
+
+    // ================================================================
+    //  Layout scaffolding (invisible edges that shape the three-column
+    //  layout and the vertical order within each column).
     // ================================================================
 
     edge [style=invis, constraint=true, arrowhead=none, penwidth=0];
 
-    // Lens column order
+    // Lens column vertical order
     evidence -> logic -> scope;
 
-    // Facet column order: Evidence group, then Logic group, then Scope group
+    // Facet column vertical order: Evidence group, then Logic group, then Scope group
     source_credibility -> source_diversity -> relevance -> sufficiency
       -> inferential_validity -> internal_consistency -> reasoning_completeness
       -> perspective_engagement -> consequence_consideration -> condition_sensitivity;
+
+    // Force the explanatory column to be to the RIGHT of the facet column.
+    // One invisible forward edge per explanatory variable is enough to
+    // establish the rank; the real causal edges run right-to-left with
+    // constraint=false so they do not interfere with the layout.
+    condition_sensitivity -> confirmation_bias;
+    condition_sensitivity -> tunnel_vision;
+    condition_sensitivity -> overgeneralization;
+    condition_sensitivity -> false_cause;
+    condition_sensitivity -> uncritical_acceptance;
+    condition_sensitivity -> black_and_white_thinking;
+    condition_sensitivity -> egocentric_thinking;
+    condition_sensitivity -> false_certainty;
+    condition_sensitivity -> group_pressure;
+    condition_sensitivity -> conflict_avoidance;
+    condition_sensitivity -> authority_deference;
+
+    // Explanatory column vertical order: cognitive patterns stacked,
+    // then social dynamics below them.
+    confirmation_bias -> tunnel_vision -> overgeneralization -> false_cause
+      -> uncritical_acceptance -> black_and_white_thinking
+      -> egocentric_thinking -> false_certainty
+      -> group_pressure -> conflict_avoidance -> authority_deference;
 }

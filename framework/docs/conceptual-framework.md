@@ -32,13 +32,15 @@ These affordances fall directly out of the three layers below. An application ch
 
 ## 2. Three Layers
 
-The framework has three layers: **lenses** (angles of examination), **facets** (the internal sub-qualities within each lens), and **explanatory variables** (the forces that account for observed quality). Lenses reveal facets; explanatory variables account for them.
+The framework has three layers: **lenses** (angles of examination), **facets** (the internal sub-qualities within each lens), and **explanatory variables** (the forces that produce weakness on a facet). Lenses *reveal* facets. Explanatory variables *cause* facets to come out weak. Causation in the framework runs from the explanatory layer into the facet layer; the lens layer is descriptive, not causal.
 
 ```
-   Lenses  ───→  Facets  ───→  Explanatory Variables
-   (angles of    (what          (what accounts
-    examination) specifically?)  for it?)
+   Lenses  ──reveal──→  Facets  ←──cause──  Explanatory Variables
+   (angles of           (what                (why the reasoning
+    examination)         specifically?)       came out weak there)
 ```
+
+**The three relations are orthogonal.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *explanatory connection* (§4). These relations are independent and do not compose. A shared cause does not imply cross-lens visibility — two facets produced by the same cognitive pattern are still two distinct facets with distinct observable signatures, not one facet reached through two lenses. Cross-lens visibility does not imply a shared cause — a facet observable through two lenses is not thereby explained by any particular force. Each relation has to be established on its own structural or observational grounds.
 
 ### 2.1 Lenses
 
@@ -57,6 +59,8 @@ Reasoning quality is examined from three distinct angles. Each lens asks a diffe
 ### 2.2 Facets
 
 Each lens is simple on its surface — one question — but the reasoning it examines is internally complex. That internal complexity is made of **facets**: the specific sub-qualities along which reasoning quality varies within each lens. A passage does not "have" a facet the way it might contain a flaw — it is *strong or weak* on each facet.
+
+**A reasoning flaw, in this vocabulary, *is* a facet being weak.** The flaw and the weak facet are the same observation at different grains — "thin evidence" and "weak on sufficiency" name one event, one in plain language and one in the designer's vocabulary. A weak facet does not *lead to* or *cause* a flaw; it *is* the flaw. Causation in the framework lives one layer further out: explanatory variables (§2.3) cause facets to come out weak. So the correct causal direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*.
 
 The framework does not commit to a specific facet inventory as a theoretical claim. The ten facets below are a design choice meant to be validated and revised through use. Each facet is given with a short formal name, a one-line definition, and an informal phrasing of what weakness on that facet looks like in practice.
 
@@ -182,13 +186,13 @@ Inferential validity is the only facet with no cross-lens visibility. **Scope is
 
 ## 4. Explanatory Connections
 
-The second structural property of the facet layer is that the mapping between facets and explanatory variables is **many-to-many**. The same facet can be accounted for by several different cognitive or social forces; the same force can account for several different facets. This is the other structural source of the framework's third affordance — no observation has a unique correct explanation.
+Explanatory variables are the framework's causal layer: a cognitive pattern or social dynamic *causes* a facet to come out weak. The mapping between explanatory variables and facets is **many-to-many** — a single cognitive or social force can produce weakness on several different facets, and a single weak facet can be produced by several different forces. This is the other structural source of the framework's third affordance: because more than one force can account for the same observation, no observation has a unique correct explanation.
 
 This section enumerates the common connections. They are illustrative, not exhaustive: a student or analyst may offer a valid explanation that is not listed here, and the framework does not treat the listed connections as privileged.
 
 ### Cognitive pattern coverage
 
-| Cognitive Pattern | Facets It Commonly Explains |
+| Cognitive Pattern | Facets It Commonly Causes to Weaken |
 |---|---|
 | Confirmation bias | Source diversity, relevance, perspective engagement |
 | Tunnel vision | Source diversity, internal consistency, consequence consideration, condition sensitivity |
@@ -201,7 +205,7 @@ This section enumerates the common connections. They are illustrative, not exhau
 
 ### Social dynamic coverage
 
-| Social Dynamic | Facets It Commonly Explains |
+| Social Dynamic | Facets It Commonly Causes to Weaken |
 |---|---|
 | Group pressure | Source diversity, sufficiency, internal consistency, perspective engagement, consequence consideration, condition sensitivity |
 | Conflict avoidance | Perspective engagement, internal consistency |
