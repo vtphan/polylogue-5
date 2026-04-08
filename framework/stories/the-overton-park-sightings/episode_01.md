@@ -170,3 +170,11 @@ The moment of surprise (rubric item 9) is not in this episode. It is not yet pin
 - Cast rotation: 3 of 5 leads (Jules, Cam, Tye). Maya and Priya do not appear. This is the lowest-density opening allowable under the story's rotation commitments and it is deliberate — the establishing episode keeps the voices distinct.
 - Lens distribution contribution: Evidence-primary (one of two Evidence-primary episodes in the season; Ep2 is the other).
 - Mixed-valence shape contribution: `early_strength_collapse` (only appearance in the season).
+
+## Next-episode preview (cosmetic)
+
+As Cam is pocketing his phone to leave, and before Tye's closing image of the notebook on the written question, Cam mutters something offhand — his mom saw him watching this TikTok at breakfast and asked him *something* he can't quite shake. He does not finish the sentence. Jules does not pick it up. One unfinished mutter embedded in the standing-up-to-leave turns.
+
+Anchor: Cam's mom's audit-question is what Cam arrives with in Ep2's cold open. Previewing it as an unfinished mutter here makes Ep2 the payoff to a thing the audience half-heard the day before. Dialog writer must NOT resolve the mutter — Cam has not yet said what his mom asked, because Ep2 is where that lands.
+
+Preservation: Tye's closing image (notebook on the open page, the question written with nothing underneath it yet) is still the final image of the episode. Cam's mutter lands beside the group standing up to leave, not after Tye's gesture. The early_strength_collapse shape and the unease-without-a-name closing register are untouched.

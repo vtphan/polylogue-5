@@ -145,3 +145,11 @@ Moment of surprise: still not in this episode. The candidate landing spots remai
 - Lens distribution cumulative: Evidence 2, Logic 0, Scope 0. Ep2 is the second and last Evidence-primary episode; Ep3 shifts the season to Logic.
 - Mixed-valence shape rotation cumulative: `early_strength_collapse` (Ep1), `self_correction` (Ep2). 2 of 5 shapes used; 3 remain (`unresolved_disagreement`, `strength_prevails`, `stalemate`) — all of which land in Ep3–Ep8 per the updated arc summary.
 - Moment of surprise: deferred from Ep2. The establishing-pair Ep1+Ep2 does not carry the moment of surprise; the audience still does not have enough baseline for any move to be surprising. Expected landing spot: Ep6 (Priya's inflection) or Ep7 (Cam pushing back on Jules's citation of the zookeeper). Reviewer should treat Ep2 as "baseline still being laid, surprise not yet possible."
+
+## Next-episode preview (cosmetic)
+
+Small forward gesture added inside the standing-up-to-leave turns, after Maya's glance between Cam's audit note and his "they're everywhere now" claim. Tye writes a second short line in the notebook under "how many is a lot": *"ask someone who knows squirrels."* Maya glances at it and says something like *"Priya's mom works at the U, right? Her mom knows people."* Nobody answers.
+
+Anchor: Ep3 opens with Jules, Maya, and Priya walking into the zoo's back gate to meet the zookeeper — a meeting Priya's mom's University of Memphis colleague set up. The Ep2 preview plants the concrete connection (Priya's mom → University → people who know squirrels) so the zoo meeting in Ep3 is not a narrative jump. One line of Tye's writing, one line of Maya's passing comment, no answer from anyone.
+
+Preservation: The closing image — Cam's two moves (the audit and the overgeneralization) on the notebook page, with nobody commenting on the tension between them — is untouched. The preview lands before that final beat, inside the group's standing-up turns. Dialog writer must NOT have anyone discuss what asking someone-who-knows-squirrels would actually mean; Maya's line is a passing association, not a plan.

@@ -248,3 +248,11 @@ Mixed-valence shape refinement flag. The updated arc summary commits Ep3 to `unr
 - Mixed-valence shape rotation cumulative: `early_strength_collapse` (Ep1), `self_correction` (Ep2), `unresolved_disagreement` (Ep3). 3 of 5 shapes used. Remaining: `strength_prevails` (Ep4, Ep7, Ep8), `stalemate` (Ep5), `self_correction` repeat (Ep6).
 - Moment of surprise: deferred from Ep3. The audience now has enough baseline on Jules, Cam, Maya, Priya, and Tye for some moves to start being surprising, but Ep3's moves are all expected given the design doc (Jules defers to authority, Maya can't formalize, Priya generalizes). The surprise is expected to land Ep6 or Ep7.
 - Declared-contract closure milestone: **after Ep3, the declared cognitive-pattern contract is fully surfaced (5 of 5) and the declared social-dynamic contract is fully surfaced (1 of 1)**. Remaining work is declared-facet closure (2 of 7 remaining: `condition_sensitivity` and `source_diversity`) and growth payoff on the planted patterns.
+
+## Next-episode preview (cosmetic)
+
+One short offer added to the walking-back-from-the-zoo closing beat, after Maya's unresolved *"how do you get from recessive to three white ones in one walk?"* line. Tye, quietly, still walking: *"you want the notebook tonight?"* Maya nods without speaking. That is the whole preview — one offer, one silent acceptance.
+
+Anchor: Ep4 opens on Maya asking Tye for the notebook at the picnic table to write the chain out for the first time. The Ep3 preview plants the notebook as the physical object Maya will take home tonight and return tomorrow with a chain on a fresh page. Concrete object, no resolution.
+
+Preservation: Maya's unresolved Logic question is still the closing beat's emotional center — the Logic problem is named, not solved, and that remains the Ep3 → Ep4 thread. Tye's offer is a one-line secondary gesture, embedded in the same walking-back beat. Dialog writer must NOT have Maya say anything in response beyond the nod; a verbal response would convert the silent load into resolved anticipation, and the unresolved-feeling close depends on Maya carrying the question home in silence.
