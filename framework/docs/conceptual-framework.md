@@ -9,8 +9,8 @@ The prose in this document is the conceptual source of truth. The canonical mach
 1. [What the Framework Enables](#1-what-the-framework-enables)
 2. [Lenses that Reveal, Facets of Reasoning, and Forces that Weaken](#2-lenses-that-reveal-facets-of-reasoning-and-forces-that-weaken)
     - 2.1 [Lenses that Reveal Reasoning](#21-lenses-that-reveal-reasoning)
-    - 2.2 [Facets of Reasoning](#22-facets-of-reasoning)
-    - 2.3 [Forces that Weaken Reasoning (Explanatory Variables)](#23-forces-that-weaken-reasoning-explanatory-variables)
+    - 2.2 [Forces that Weaken Reasoning (Explanatory Variables)](#22-forces-that-weaken-reasoning-explanatory-variables)
+    - 2.3 [Facets of Reasoning](#23-facets-of-reasoning)
 3. [The Same Flaw Through Different Lenses](#3-the-same-flaw-through-different-lenses)
 4. [How Forces Weaken Facets of Reasoning](#4-how-forces-weaken-facets-of-reasoning)
 5. [Future Considerations](#5-future-considerations)
@@ -29,13 +29,14 @@ Start with a piece of reasoning:
 
 > *"Everyone in my family has used this brand of vitamins for years and we're all healthy, so these vitamins obviously work. My cousin tried a different brand and got sick, which proves it."*
 
-Something is off about this, but "it's bad reasoning" doesn't say enough. The framework gives you three words to say more.
+Something is off about this, but "it's bad reasoning" doesn't say enough. The framework's answer to *what* is off is a layer called **facets of reasoning** — sub-qualities along which any piece of reasoning is strong or weak. This passage is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet. A "flaw" is just a low value.
 
-- **Facets** are the sub-qualities the reasoning is strong or weak *on*. This passage is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet. A "flaw" is just a low value.
-- **Lenses** are the angles you view the reasoning *from*. Looking through the **Evidence** lens, you notice the narrow support. Looking through **Logic**, you notice the leap from "healthy while taking X" to "X caused it." Looking through **Scope**, you notice the unexamined alternatives. The same passage yields different but compatible perspectives depending on which lens you pick up.
-- **Forces** are what caused the reasoner to produce weak reasoning in the first place. Maybe *confirmation bias* — they only looked at cases that fit the belief. Maybe *overgeneralization* — one cousin treated as proof. Maybe *tunnel vision*. These are candidate explanations, not verdicts.
+The rest of the framework hangs off that layer. Two other concepts do the work around facets, one on each side:
 
-Facets sit in the middle. Lenses reveal them; forces cause them to come out weak.
+- **Lenses** are the angles you view the reasoning *from* — the tools for noticing a weak facet. Looking through the **Evidence** lens, you notice the narrow support. Looking through **Logic**, you notice the leap from "healthy while taking X" to "X caused it." Looking through **Scope**, you notice the unexamined alternatives. The same passage yields different but compatible perspectives depending on which lens you pick up.
+- **Forces** are what *caused* the reasoner to produce a weak facet in the first place. Maybe *confirmation bias* — they only looked at cases that fit the belief. Maybe *overgeneralization* — one cousin treated as proof. Maybe *tunnel vision*. These are candidate explanations, not verdicts.
+
+Facets are the hinge where the two sides meet: a reader using a lens and an analyst proposing a cause are both talking about the *same* facet.
 
 ```
    Lenses  ──reveal──→  Facets  ←──cause──  Forces
@@ -43,9 +44,9 @@ Facets sit in the middle. Lenses reveal them; forces cause them to come out weak
     examination)         of reasoning)       and social dynamics)
 ```
 
-That middle layer is what makes observation and explanation line up: a reader using a lens and an analyst proposing a cause are both talking about the *same* facet. §2.1, §2.2, and §2.3 cover each piece in turn. Elsewhere in the Polylogue system — schemas, reference data, and earlier documents — the force layer is called **explanatory variables**. That name is retained for compatibility; the rest of this document uses *forces* for readability.
+§2.1 covers lenses in detail, §2.2 covers forces, and §2.3 returns to facets with the full inventory of ten — by which point the reader has seen both sides that hang on them. Elsewhere in the Polylogue system — schemas, reference data, and earlier documents — the force layer is called **explanatory variables**. That name is retained for compatibility; the rest of this document uses *forces* for readability.
 
-> **Design note.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.2), *cross-lens visibility* (§3), and *force → facet* (§4). These are independent — each has to be established on its own grounds, and they do not compose. Two facets produced by the same bias are still two distinct facets, not one facet reached through two lenses. And a facet observable through two lenses is not thereby explained by any particular force.
+> **Design note.** The framework commits to three relations that all pass through the facet layer: *primary lens → facet* (§2.1, §2.3), *cross-lens visibility* (§3), and *force → facet* (§4). These are independent — each has to be established on its own grounds, and they do not compose. Two facets produced by the same bias are still two distinct facets, not one facet reached through two lenses. And a facet observable through two lenses is not thereby explained by any particular force.
 
 ### 2.1 Lenses that Reveal Reasoning
 
@@ -61,36 +62,7 @@ The three lenses are tools for directing attention, not a partition of argument 
 
 > **Design note — why these three.** Logic and Evidence are core evaluative operations across the critical thinking literature (Facione's Delphi Report, Ennis, Toulmin, Halpern). Scope consolidates what other frameworks distribute across several concepts (Paul & Elder's *implications*, *point of view*, and *breadth*; Toulmin's *rebuttal*; Ennis's *problem identification*). All of these ask the same underlying "is the analysis thorough?" question and can be learned as a single lens. The three lenses do not exhaust critical thinking — capacities such as epistemic humility and metacognitive monitoring lie beyond this framework's scope.
 
-### 2.2 Facets of Reasoning
-
-Facets are the sub-qualities of reasoning that a passage is strong or weak on. Each lens asks one question on the surface, but the reasoning it examines is internally complex — and that complexity is what the facets name.
-
-Ten facets, grouped by the lens that reveals each one most directly:
-
-**Evidence lens**
-
-- **Source credibility** — *shaky sources: leaning on sources that aren't trustworthy.*
-- **Source diversity** — *narrow sources: hearing from only one side or one kind of voice.*
-- **Relevance** — *off-target evidence: citing facts that don't actually support the claim.*
-- **Sufficiency** — *thin evidence: too little to justify the conclusion being drawn.*
-
-**Logic lens**
-
-- **Inferential validity** — *leaps in reasoning: conclusions that don't follow from what was said.*
-- **Internal consistency** — *contradictions: claims that quietly clash with each other.*
-- **Reasoning completeness** — *missing steps: important parts of the argument left unsaid.*
-
-**Scope lens**
-
-- **Perspective engagement** — *ignoring other viewpoints: never engaging with people who would disagree.*
-- **Consequence consideration** — *overlooking consequences: not thinking through what could happen next.*
-- **Condition sensitivity** — *missing limits: treating an idea as if it works in every situation.*
-
-§3 covers which facets can be seen through more than one lens. §4 covers which forces tend to weaken each one.
-
-> **Design note.** A "flaw" and a "weak facet" are the same observation in different words: "thin evidence" and "weak on sufficiency" name one event. Causation lives one layer further out — forces (§2.3) cause facets to come out weak. The correct direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*. The inventory of ten facets is a design choice to be validated and revised through use, not a theoretical commitment. Formal definitions live in `framework/reference/facet_inventory.yaml`.
-
-### 2.3 Forces that Weaken Reasoning (Explanatory Variables)
+### 2.2 Forces that Weaken Reasoning (Explanatory Variables)
 
 Forces are what cause facets to come out weak. There are two kinds — genuinely different but coupled mechanisms: **cognitive biases** (individual thinking tendencies) and **social dynamics** (patterns of group interaction).
 
@@ -128,6 +100,35 @@ Group interaction patterns that shape how a discussion unfolds:
 Cognitive biases and social dynamics are not alternative explanations to choose between. A social dynamic can amplify a bias: confirmation bias persists because nobody in the group challenges it (conflict avoidance). A bias can reshape the social environment: black-and-white thinking reframes disagreement as moral failure, making it hard for others to maintain a nuanced position. Every moment in reasoned discussion has both a cognitive and a social dimension, and understanding how they interact — in both directions — is the deepest level of explanation the framework supports.
 
 > **Design note.** This force-to-force coupling is not captured in the force → facet tables of §4; those tables encode only the direct connection to facets. Both inventories are also deliberately deficit-focused: every entry describes a failure mode. This is because deficits have genuine causal specificity ("he drew a broad conclusion from one example" identifies a mechanism), while positive thinking patterns tend to redescribe good reasoning rather than explain it. Sound reasoning is accounted for contrastively, as the absence of the deficits.
+
+### 2.3 Facets of Reasoning
+
+Facets were introduced at the top of §2 as the hinge where lenses and forces meet. This section gives the full inventory. Each lens asks one question on the surface, but the reasoning it examines is internally complex — and that complexity is what the facets name.
+
+Ten facets, grouped by the lens that reveals each one most directly:
+
+**Evidence lens**
+
+- **Source credibility** — *shaky sources: leaning on sources that aren't trustworthy.*
+- **Source diversity** — *narrow sources: hearing from only one side or one kind of voice.*
+- **Relevance** — *off-target evidence: citing facts that don't actually support the claim.*
+- **Sufficiency** — *thin evidence: too little to justify the conclusion being drawn.*
+
+**Logic lens**
+
+- **Inferential validity** — *leaps in reasoning: conclusions that don't follow from what was said.*
+- **Internal consistency** — *contradictions: claims that quietly clash with each other.*
+- **Reasoning completeness** — *missing steps: important parts of the argument left unsaid.*
+
+**Scope lens**
+
+- **Perspective engagement** — *ignoring other viewpoints: never engaging with people who would disagree.*
+- **Consequence consideration** — *overlooking consequences: not thinking through what could happen next.*
+- **Condition sensitivity** — *missing limits: treating an idea as if it works in every situation.*
+
+§3 covers which facets can be seen through more than one lens. §4 covers which forces tend to weaken each one.
+
+> **Design note.** A "flaw" and a "weak facet" are the same observation in different words: "thin evidence" and "weak on sufficiency" name one event. Causation lives one layer further out — forces (§2.2) cause facets to come out weak. The correct direction is *confirmation bias* → *weak source diversity*, not *weak source diversity* → *a flaw*. The inventory of ten facets is a design choice to be validated and revised through use, not a theoretical commitment. Formal definitions live in `framework/reference/facet_inventory.yaml`.
 
 ---
 
