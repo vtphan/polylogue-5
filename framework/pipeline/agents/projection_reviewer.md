@@ -20,8 +20,8 @@ You run as a fresh subagent so your review is independent of planning_agent's dr
 
 ## Inputs
 
-- The story design doc at `framework/docs/stories/{story_id}.md` (inline or pointer).
-- The per-episode draft at `framework/docs/stories/{story_id}/episode_{NN}.md` (inline or pointer).
+- The story design doc at `framework/stories/{story_id}.md` (inline or pointer).
+- The per-episode draft at `framework/stories/{story_id}/episode_{NN}.md` (inline or pointer).
 - The full `episode.yaml` for this episode (inline or pointer).
 - The projected `episode_writer_input.yaml` (inline or pointer).
 - Pointers to `framework/reference/facet_inventory.yaml` and `framework/reference/explanatory_variables.yaml` for the canonical labels you are checking against.

@@ -22,7 +22,7 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 - `${EPISODE_DIR}/facilitation.yaml` — the facilitation guide (initial version from `/analyze_transcript`)
 - `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
 - `${EPISODE_DIR}/episode.yaml` — the full episode plan
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc. The scaffolding ID reads this so that hint phrasing and deepening probes can reference the recurring cast consistently across episodes (a hint for episode 4 can assume students already know who Mira is).
+- `framework/stories/${STORY_ID}.md` — the story design doc. The scaffolding ID reads this so that hint phrasing and deepening probes can reference the recurring cast consistently across episodes (a hint for episode 4 can assume students already know who Mira is).
 
 ## Telemetry
 
@@ -60,7 +60,7 @@ Pass the agent the paths to:
 - `${EPISODE_DIR}/facilitation.yaml`
 - `${EPISODE_DIR}/transcript.yaml`
 - `${EPISODE_DIR}/episode.yaml`
-- `framework/docs/stories/${STORY_ID}.md`
+- `framework/stories/${STORY_ID}.md`
 
 Instruct it to propagate `story_id` and `episode_number` from `episode.yaml` into the output `scaffolding.yaml`, and to write outputs to `${EPISODE_DIR}/lens/scaffolding.yaml` and the enriched `${EPISODE_DIR}/lens/facilitation.yaml`.
 

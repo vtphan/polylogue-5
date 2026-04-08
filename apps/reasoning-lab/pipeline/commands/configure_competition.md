@@ -22,7 +22,7 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 - `${EPISODE_DIR}/analysis.yaml` — the expert analysis
 - `${EPISODE_DIR}/reasoning-lab/scoring.yaml` — the scoring rubric (from `/design_scoring_rubric`)
 - `${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml` — the competition facilitation guide
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc (read for cast metadata used in onboarding/case_briefing)
+- `framework/stories/${STORY_ID}.md` — the story design doc (read for cast metadata used in onboarding/case_briefing)
 
 ## Telemetry
 

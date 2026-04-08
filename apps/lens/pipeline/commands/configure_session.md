@@ -22,7 +22,7 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 - `${EPISODE_DIR}/analysis.yaml`
 - `${EPISODE_DIR}/episode.yaml` — the episode plan (read for `story_id`, `episode_number`)
 - `${EPISODE_DIR}/lens/scaffolding.yaml`
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc (cast, arc; used to populate onboarding strings that reference recurring characters)
+- `framework/stories/${STORY_ID}.md` — the story design doc (cast, arc; used to populate onboarding strings that reference recurring characters)
 - `framework/reference/lenses.yaml`
 - `framework/reference/explanatory_variables.yaml`
 - `apps/lens/reference/default_instructions.yaml` — standard student-facing strings (diagnose / discuss / ai_perspective / submit_assessment)

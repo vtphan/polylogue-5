@@ -43,8 +43,8 @@ PART 2 — STRATEGIC FRAME: STORIES, EPISODES, CASTS
 
 Terminology
 
-- Story — a self-contained multi-episode narrative with a fixed cast, an arc, and a declared coverage contract. Authored as a prose design doc (`framework/docs/stories/{story_id}.md`) with YAML frontmatter.
-- Episode — one discussion within a story. Authored as a per-episode draft (`framework/docs/stories/{story_id}/episode_{NN}.md`) — see Appendix B. The planning pipeline writes `episode.yaml` from the draft.
+- Story — a self-contained multi-episode narrative with a fixed cast, an arc, and a declared coverage contract. Authored as a prose design doc (`framework/stories/{story_id}.md`) with YAML frontmatter.
+- Episode — one discussion within a story. Authored as a per-episode draft (`framework/stories/{story_id}/episode_{NN}.md`) — see Appendix B. The planning pipeline writes `episode.yaml` from the draft.
 - Cast — the recurring characters defined at the story level in prose. Each character has stable tendencies (cognitive patterns, social dynamic contributions, lens disposition) and an optional growth arc.
 - Session — one classroom sitting on one episode.
 
@@ -262,11 +262,11 @@ The episodes-first model collapses the two layers into one: episodes are authore
 
 Three artifacts the operator authors, in this order:
 
-1. **Story design doc** at `framework/docs/stories/{story_id}.md`. Prose. Contains: premise, setting, cast (one prose section per character — name, voice notes, tendencies described as personality, growth arcs as narrative beats, lens disposition as a description of how they reason), arc summary, stakes, pedagogical commitments. Plus YAML frontmatter at the top with the small amount of machine-readable story metadata: `story_id`, `title`, `coverage_mode`, `declared_facets`, `declared_cognitive_patterns`, `declared_social_dynamics`, `episode_count`.
+1. **Story design doc** at `framework/stories/{story_id}.md`. Prose. Contains: premise, setting, cast (one prose section per character — name, voice notes, tendencies described as personality, growth arcs as narrative beats, lens disposition as a description of how they reason), arc summary, stakes, pedagogical commitments. Plus YAML frontmatter at the top with the small amount of machine-readable story metadata: `story_id`, `title`, `coverage_mode`, `declared_facets`, `declared_cognitive_patterns`, `declared_social_dynamics`, `episode_count`.
 
-2. **Per-episode drafts** at `framework/docs/stories/{story_id}/episode_{NN}.md`, one per episode. Each draft has YAML frontmatter (the operator prompt for `/create_episode`: targets with carriers and signals, `lead_characters`, `primary_lens`, `mixed_valence_shape`, `premise`, `previously`) plus prose body (beats, authorial notes, why-these-targets). See Appendix B for the full template.
+2. **Per-episode drafts** at `framework/stories/{story_id}/episode_{NN}.md`, one per episode. Each draft has YAML frontmatter (the operator prompt for `/create_episode`: targets with carriers and signals, `lead_characters`, `primary_lens`, `mixed_valence_shape`, `premise`, `previously`) plus prose body (beats, authorial notes, why-these-targets). See Appendix B for the full template.
 
-3. **Friction log** at `framework/docs/stories/{story_id}-friction-log.md`. Captured during Phase 7 as the pipeline runs.
+3. **Friction log** at `framework/stories/{story_id}-friction-log.md`. Captured during Phase 7 as the pipeline runs.
 
 The story design doc is the load-bearing contract for character identity. The episode drafts are the load-bearing contract for what happens. `story_consistency_reviewer` reads both and checks they agree.
 
@@ -314,10 +314,10 @@ The hedged-annotation rule still requires post-pipeline `analysis.yaml` files (b
 
 13.5 — Artifact storage
 
-    framework/docs/stories/{story_id}.md                      # Story design doc (authored)
-    framework/docs/stories/{story_id}/episode_{NN}.md         # Per-episode drafts (authored)
-    framework/docs/stories/{story_id}-friction-log.md         # Friction log (authored during Phase 7)
-    framework/docs/stories/{story_id}-validation-report.yaml  # validate_story.py sidecar audit
+    framework/stories/{story_id}.md                      # Story design doc (authored)
+    framework/stories/{story_id}/episode_{NN}.md         # Per-episode drafts (authored)
+    framework/stories/{story_id}-friction-log.md         # Friction log (authored during Phase 7)
+    framework/stories/{story_id}-validation-report.yaml  # validate_story.py sidecar audit
 
     artifacts/{story_id}/episodes/episode_{NN}/
       episode.yaml
@@ -352,7 +352,7 @@ There is no separate v2 agent for cross-episode character consistency; that is e
 APPENDIX B — PER-EPISODE DRAFT TEMPLATE
 ================================================================
 
-The per-episode draft is the operator's authoring artifact for one episode of one story. It lives at `framework/docs/stories/{story_id}/episode_{NN}.md` and is what `/create_episode` reads when invoked.
+The per-episode draft is the operator's authoring artifact for one episode of one story. It lives at `framework/stories/{story_id}/episode_{NN}.md` and is what `/create_episode` reads when invoked.
 
 Each draft is a Markdown file with two parts: YAML frontmatter (the machine-readable operator prompt that `planning_agent` consumes) and a prose body (the human-readable beat sheet, authorial notes, and target rationale that `story_consistency_reviewer` reads).
 
@@ -452,8 +452,8 @@ B.4 — Relationship to /create_episode
 
 When the operator runs `/create_episode {story_id} {episode_number}`, the command:
 
-1. Locates `framework/docs/stories/{story_id}/episode_{NN}.md`.
-2. Locates `framework/docs/stories/{story_id}.md` (the story design doc).
+1. Locates `framework/stories/{story_id}/episode_{NN}.md`.
+2. Locates `framework/stories/{story_id}.md` (the story design doc).
 3. Parses the episode draft frontmatter and the story design doc frontmatter.
 4. Hands both to `planning_agent` inline.
 5. `planning_agent` reads the prose body of the story design doc (for character context), the targets and signals from the episode draft frontmatter (as the operator prompt), and the `previously` field (for the narrative recap that flows into `episode_writer_input.yaml`).

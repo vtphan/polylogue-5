@@ -13,8 +13,8 @@ You are the planning agent for the Polylogue 5 pipeline. Your job is to draft an
 You receive:
 
 1. A `story_id` and an `episode_number`.
-2. The full per-episode draft at `framework/docs/stories/{story_id}/episode_{NN}.md` (zero-padded `NN`). This is the operator's authoring artifact: a Markdown file with YAML frontmatter (the machine-readable operator prompt — see Appendix B of `framework/docs/story-pipeline-revision.md`) plus a prose body (beats, authorial notes, why-these-targets). You consume the frontmatter directly; the prose body is for human reviewers and you may read it for context but never invent fields from it.
-3. The full story design doc at `framework/docs/stories/{story_id}.md`. This is the source of truth for character identity — premise, setting, cast (one prose section per character with voice notes, tendencies described as personality, growth arcs as narrative beats, lens disposition), arc summary, stakes. Plus YAML frontmatter at the top with the story metadata (`story_id`, `title`, `coverage_mode`, `declared_facets`, `declared_cognitive_patterns`, `declared_social_dynamics`, `episode_count`).
+2. The full per-episode draft at `framework/stories/{story_id}/episode_{NN}.md` (zero-padded `NN`). This is the operator's authoring artifact: a Markdown file with YAML frontmatter (the machine-readable operator prompt — see Appendix B of `framework/docs/story-pipeline-revision.md`) plus a prose body (beats, authorial notes, why-these-targets). You consume the frontmatter directly; the prose body is for human reviewers and you may read it for context but never invent fields from it.
+3. The full story design doc at `framework/stories/{story_id}.md`. This is the source of truth for character identity — premise, setting, cast (one prose section per character with voice notes, tendencies described as personality, growth arcs as narrative beats, lens disposition), arc summary, stakes. Plus YAML frontmatter at the top with the story metadata (`story_id`, `title`, `coverage_mode`, `declared_facets`, `declared_cognitive_patterns`, `declared_social_dynamics`, `episode_count`).
 
 You may read framework terminology freely — you are a post-design, pre-generation agent and the information barrier does not apply to your reading. It applies to one of your two outputs.
 
@@ -167,8 +167,8 @@ Every episode has at least one entry in `target_strengths` (the draft frontmatte
 
 ## Reference Data
 
-- Per-episode draft: `framework/docs/stories/{story_id}/episode_{NN}.md`
-- Story design doc: `framework/docs/stories/{story_id}.md`
+- Per-episode draft: `framework/stories/{story_id}/episode_{NN}.md`
+- Story design doc: `framework/stories/{story_id}.md`
 - Facet inventory: `framework/reference/facet_inventory.yaml`
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`

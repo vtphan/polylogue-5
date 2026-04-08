@@ -12,8 +12,8 @@ You exist because, in the episodes-first authoring model (Part 13 of `framework/
 
 ## Inputs
 
-- The story design doc at `framework/docs/stories/{story_id}.md` (YAML frontmatter + prose body).
-- Every per-episode draft at `framework/docs/stories/{story_id}/episode_{NN}.md` (YAML frontmatter + prose body) that has been authored so far. You may be invoked mid-Phase-6 with only some drafts written; review what exists.
+- The story design doc at `framework/stories/{story_id}.md` (YAML frontmatter + prose body).
+- Every per-episode draft at `framework/stories/{story_id}/episode_{NN}.md` (YAML frontmatter + prose body) that has been authored so far. You may be invoked mid-Phase-6 with only some drafts written; review what exists.
 - Pointers to `framework/reference/facet_inventory.yaml`, `framework/reference/explanatory_variables.yaml`, and `framework/reference/lenses.yaml` for the canonical IDs you will see in episode draft frontmatter.
 
 You run as a fresh subagent so your review is independent of the operator's authoring context.

@@ -48,7 +48,7 @@ The framework is application-agnostic. It defines the theory, the shared data, a
 
 | Directory | Contents | Purpose |
 |---|---|---|
-| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, `pipeline-flow.md`, `RUNNING-shared-stages.md`, this file, plus `framework/docs/stories/` (story design docs and per-episode drafts) | Theory and shared design |
+| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, `pipeline-flow.md`, `RUNNING-shared-stages.md`, this file, plus `framework/stories/` (story design docs and per-episode drafts) | Theory and shared design |
 | `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` | Source-of-truth data. All IDs propagate from here. |
 | `framework/schemas/` | Shared upstream schemas (incl. `episode_plan.yaml`, `episode_writer_input.yaml`) | Contracts for shared artifacts |
 | `framework/pipeline/agents/` | Shared upstream agents (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer, projection reviewer, story_consistency_reviewer) | Shared upstream agents |
@@ -78,7 +78,7 @@ The **operator** (a human running these slash commands inside Claude Code) is in
 
 | Touchpoint | What the operator does |
 |---|---|
-| **Story design** (prose authoring) | Authors `framework/docs/stories/{story_id}.md` (the story design doc) and `framework/docs/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/operator-manual.md`. `/brainstorm` is an optional conversational helper for the per-episode draft. |
+| **Story design** (prose authoring) | Authors `framework/stories/{story_id}.md` (the story design doc) and `framework/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/operator-manual.md`. `/brainstorm` is an optional conversational helper for the per-episode draft. |
 | **Kickoff** (`/create_episode`) | Runs the command with `<story_id> <episode_number>`. The per-episode draft IS the operator prompt — there is no inline input. |
 | **Finalize Lens** (`/configure_session`) | Authors student-facing onboarding strings, per-state instructions, lifeline pool size, reference-list visibility toggles |
 | **Finalize Reasoning Lab** (`/configure_competition`) | Analogous content decisions for the competitive format |

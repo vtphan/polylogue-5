@@ -5,7 +5,7 @@ framework/docs/story-pipeline-revision.md Part 3, as updated by the
 Part 13 episodes-first revision.
 
 Inputs (the new model — see Part 13):
-  - framework/docs/stories/{story_id}.md — the story design doc.
+  - framework/stories/{story_id}.md — the story design doc.
     Markdown with YAML frontmatter at the top:
       ---
       story_id: ...
@@ -17,7 +17,7 @@ Inputs (the new model — see Part 13):
       episode_count: N
       ---
       (rest of the file is prose: premise, setting, cast, arc, stakes)
-  - framework/docs/stories/{story_id}/episode_{NN}.md — one per episode.
+  - framework/stories/{story_id}/episode_{NN}.md — one per episode.
     Markdown with YAML frontmatter (the operator's authoring artifact;
     Appendix B of the spec) plus a prose body.
 
@@ -26,7 +26,7 @@ Optionally, also checks artifacts/{story_id}/episodes/episode_NN/analysis.yaml
 present, the rule is checked; if absent, that rule is skipped with a note.
 
 Writes:
-  - framework/docs/stories/{story_id}-validation-report.yaml — the audit
+  - framework/stories/{story_id}-validation-report.yaml — the audit
     sidecar. Neither the design doc nor any episode draft is mutated.
 
 Checks:
@@ -69,7 +69,7 @@ Exit code: 0 if all checks pass, 1 otherwise. Sidecar is always written.
 Usage:
     python3 framework/pipeline/scripts/validate_story.py \\
         --story saving-the-maker-space \\
-        [--stories-root framework/docs/stories] \\
+        [--stories-root framework/stories] \\
         [--reference framework/reference] \\
         [--artifacts-root artifacts]
 """
@@ -173,7 +173,7 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--story", required=True,
                     help="story_id (kebab-case identifier matching the design doc filename)")
-    ap.add_argument("--stories-root", default="framework/docs/stories",
+    ap.add_argument("--stories-root", default="framework/stories",
                     help="Root directory of story design docs and per-episode drafts")
     ap.add_argument("--reference", default="framework/reference")
     ap.add_argument("--artifacts-root", default="artifacts",

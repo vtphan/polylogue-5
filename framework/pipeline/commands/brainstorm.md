@@ -4,7 +4,7 @@ description: Co-design a per-episode draft (Appendix B) through guided conversat
 
 # Brainstorm
 
-Help an operator author a per-episode draft for one episode of a story. The draft is a Markdown file with YAML frontmatter that lives at `framework/docs/stories/{story_id}/episode_{NN}.md`. See **Appendix B of `framework/docs/story-pipeline-revision.md`** for the full template, and `framework/docs/operator-manual.md` for the prose-first authoring loop.
+Help an operator author a per-episode draft for one episode of a story. The draft is a Markdown file with YAML frontmatter that lives at `framework/stories/{story_id}/episode_{NN}.md`. See **Appendix B of `framework/docs/story-pipeline-revision.md`** for the full template, and `framework/docs/operator-manual.md` for the prose-first authoring loop.
 
 > **No telemetry.** Brainstorm is conversational and produces no pipeline artifacts — its output is the per-episode draft Markdown file, committed by hand. The first telemetry events for an episode are emitted by `/create_episode` once the draft has been authored.
 
@@ -12,12 +12,12 @@ Help an operator author a per-episode draft for one episode of a story. The draf
 
 You are a co-designer, not a form filler. The operator may not know or remember technical terms like "sufficiency" or "overgeneralization." Your job is to listen to what they want students to notice, map that to the framework, suggest options when they're unsure, and assemble the result as a per-episode draft.
 
-You assume a story design doc already exists at `framework/docs/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to author it first (see `framework/docs/story-design.md` and `framework/docs/operator-manual.md`).
+You assume a story design doc already exists at `framework/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to author it first (see `framework/docs/story-design.md` and `framework/docs/operator-manual.md`).
 
 ## Reference Data (load at start)
 
-- Story design doc: `framework/docs/stories/{story_id}.md` (premise, cast, arc, declared coverage)
-- Other per-episode drafts in this story (for continuity and rotation context): `framework/docs/stories/{story_id}/episode_*.md`
+- Story design doc: `framework/stories/{story_id}.md` (premise, cast, arc, declared coverage)
+- Other per-episode drafts in this story (for continuity and rotation context): `framework/stories/{story_id}/episode_*.md`
 - Facet inventory: `framework/reference/facet_inventory.yaml`
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`
@@ -78,7 +78,7 @@ Write the complete per-episode draft following Appendix B's template (frontmatte
 
 > "Here's your draft. Read the frontmatter — does each `cognitive_signal` capture what you want the character to do? Does each `social_signal` describe a move/response shape clearly? Do the beats follow from the design doc's character voices? Anything you'd change?"
 
-After adjustments, save the file at `framework/docs/stories/{story_id}/episode_{NN}.md` and recommend the operator run `validate_story.py` and `story_consistency_reviewer` before moving on to `/create_episode` in Phase 7.
+After adjustments, save the file at `framework/stories/{story_id}/episode_{NN}.md` and recommend the operator run `validate_story.py` and `story_consistency_reviewer` before moving on to `/create_episode` in Phase 7.
 
 ## Principles
 

@@ -5,7 +5,7 @@ argument-hint: <story_id> <episode_number>
 
 # Create Episode
 
-Generate an episode plan — the blueprint for one episode's scripted group discussion — by reading the per-episode draft the operator authored at `framework/docs/stories/{story_id}/episode_{NN}.md`. Also produces `episode_writer_input.yaml`, the barrier-safe projection that `dialog_writer` will consume in `/create_transcript`.
+Generate an episode plan — the blueprint for one episode's scripted group discussion — by reading the per-episode draft the operator authored at `framework/stories/{story_id}/episode_{NN}.md`. Also produces `episode_writer_input.yaml`, the barrier-safe projection that `dialog_writer` will consume in `/create_transcript`.
 
 The interactive operator-prompt phase that the legacy `/create_scenario` had is gone. The episode draft IS the operator prompt, authored ahead of time as part of Phase 6 and committed to the repo as a versionable artifact.
 
@@ -15,8 +15,8 @@ The interactive operator-prompt phase that the legacy `/create_scenario` had is 
 STORY_ID="$1"
 EP_NUM="$2"
 EP_NN=$(printf "%02d" "$EP_NUM")
-DRAFT_FILE="framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md"
-DESIGN_DOC="framework/docs/stories/${STORY_ID}.md"
+DRAFT_FILE="framework/stories/${STORY_ID}/episode_${EP_NN}.md"
+DESIGN_DOC="framework/stories/${STORY_ID}.md"
 EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 ```
 

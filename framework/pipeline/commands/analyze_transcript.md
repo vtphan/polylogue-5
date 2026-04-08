@@ -20,8 +20,8 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 
 - `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
 - `${EPISODE_DIR}/episode.yaml` — the full episode plan (including `target_facets` and `target_strengths`)
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc (read by the evaluator for character context)
-- `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md` — the per-episode draft
+- `framework/stories/${STORY_ID}.md` — the story design doc (read by the evaluator for character context)
+- `framework/stories/${STORY_ID}/episode_${EP_NN}.md` — the per-episode draft
 
 ## Telemetry
 
@@ -49,8 +49,8 @@ The evaluator handles **passage segmentation as part of its task** — this is n
 Pass the agent:
 - Path to `${EPISODE_DIR}/transcript.yaml` (enumerated)
 - Path to `${EPISODE_DIR}/episode.yaml` (full plan, including `target_facets` and `target_strengths`)
-- Path to `framework/docs/stories/${STORY_ID}.md` (the story design doc)
-- Path to `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md` (the per-episode draft)
+- Path to `framework/stories/${STORY_ID}.md` (the story design doc)
+- Path to `framework/stories/${STORY_ID}/episode_${EP_NN}.md` (the per-episode draft)
 
 Instruct it to write outputs to `${EPISODE_DIR}/analysis.yaml` and `${EPISODE_DIR}/facilitation.yaml`.
 

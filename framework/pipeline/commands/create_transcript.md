@@ -22,7 +22,7 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 
 - `${EPISODE_DIR}/episode.yaml` — the approved episode plan (read by `transcript_id` and `transcript_reviewer`, never by `dialog_writer`).
 - `${EPISODE_DIR}/intermediates/episode_writer_input.yaml` — the barrier-safe projection produced by `planning_agent` during `/create_episode`. This is the only artifact that crosses the information barrier into `dialog_writer`.
-- `framework/docs/stories/${STORY_ID}.md` and `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md` — read by `projection_reviewer` (it needs the full story design and per-episode draft to detect paraphrased leakage); never by `dialog_writer`.
+- `framework/stories/${STORY_ID}.md` and `framework/stories/${STORY_ID}/episode_${EP_NN}.md` — read by `projection_reviewer` (it needs the full story design and per-episode draft to detect paraphrased leakage); never by `dialog_writer`.
 
 ## Telemetry
 
@@ -64,8 +64,8 @@ The schema validator runs the literal scan for reserved framework terms (facet I
 
 Pass the agent the paths to:
 
-- `framework/docs/stories/${STORY_ID}.md`
-- `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md`
+- `framework/stories/${STORY_ID}.md`
+- `framework/stories/${STORY_ID}/episode_${EP_NN}.md`
 - `${EPISODE_DIR}/episode.yaml`
 - `${EPISODE_DIR}/intermediates/episode_writer_input.yaml`
 
@@ -144,8 +144,8 @@ Pass the agent the paths to:
 
 - `${EPISODE_DIR}/intermediates/transcript_polished.yaml`
 - `${EPISODE_DIR}/episode.yaml`
-- `framework/docs/stories/${STORY_ID}.md`
-- `framework/docs/stories/${STORY_ID}/episode_${EP_NN}.md`
+- `framework/stories/${STORY_ID}.md`
+- `framework/stories/${STORY_ID}/episode_${EP_NN}.md`
 
 The reviewer checks the seven criteria in `transcript_reviewer.md`, including the split criterion 5a–5d (facet, cognitive, social, strength signal landing). Criterion 5c will quote both halves of every social signal move/response pair and ISSUE if either half is missing.
 

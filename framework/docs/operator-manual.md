@@ -32,15 +32,15 @@ Before authoring or running anything:
 
 This phase produces three things, all authored by you (with AI assistance) in conversation:
 
-1. The **story design doc** at `framework/docs/stories/{story_id}.md`.
-2. The **per-episode drafts** at `framework/docs/stories/{story_id}/episode_{NN}.md` (one per episode).
-3. The **friction log** at `framework/docs/stories/{story_id}-friction-log.md` (started in Phase 7 but you can begin it here if you find issues during authoring).
+1. The **story design doc** at `framework/stories/{story_id}.md`.
+2. The **per-episode drafts** at `framework/stories/{story_id}/episode_{NN}.md` (one per episode).
+3. The **friction log** at `framework/stories/{story_id}-friction-log.md` (started in Phase 7 but you can begin it here if you find issues during authoring).
 
 No slash commands run during prose authoring. The pipeline does not execute. This phase is creative authoring, gated by `validate_story.py` and `story_consistency_reviewer`.
 
 ### 1. Author the story design doc
 
-**File:** `framework/docs/stories/{story_id}.md`
+**File:** `framework/stories/{story_id}.md`
 
 **Format:** Markdown with YAML frontmatter at the top:
 
@@ -76,7 +76,7 @@ Cast design rules in one line: 4–6 characters total, 2–3 per episode; no cha
 
 ### 2. Author per-episode drafts
 
-**Files:** `framework/docs/stories/{story_id}/episode_{NN}.md`, one per episode (`NN` is zero-padded: `episode_01.md`, `episode_02.md`, ...).
+**Files:** `framework/stories/{story_id}/episode_{NN}.md`, one per episode (`NN` is zero-padded: `episode_01.md`, `episode_02.md`, ...).
 
 **Format:** Markdown with YAML frontmatter (the operator's authoring artifact for one episode) plus a prose body. The full template is in Appendix B of `framework/docs/story-pipeline-revision.md` — read it once before writing your first draft. The fields are summarized below.
 
@@ -110,7 +110,7 @@ The prose body should contain at least:
 python3 framework/pipeline/scripts/validate_story.py --story <story_id>
 ```
 
-This walks the design doc frontmatter and every per-episode draft frontmatter under `framework/docs/stories/{story_id}/`. It runs all the cross-episode rules:
+This walks the design doc frontmatter and every per-episode draft frontmatter under `framework/stories/{story_id}/`. It runs all the cross-episode rules:
 
 - Coverage closure (declared facets/patterns/dynamics actually appear in episode targets, with both weakness and strength episodes for facets)
 - Lens distribution (every lens appears as primary in ≥1 episode; no lens dominates more than half)
@@ -121,7 +121,7 @@ This walks the design doc frontmatter and every per-episode draft frontmatter un
 
 The hedged-annotation rule is skipped during prose authoring because there are no `analysis.yaml` files yet.
 
-The audit lands at `framework/docs/stories/{story_id}-validation-report.yaml`. If `validate_story.py` reports any FAIL, fix the offending file(s) and re-run. The validator exit code is 0 only when there are no failures.
+The audit lands at `framework/stories/{story_id}-validation-report.yaml`. If `validate_story.py` reports any FAIL, fix the offending file(s) and re-run. The validator exit code is 0 only when there are no failures.
 
 ### 4. Run `story_consistency_reviewer` after substantive changes
 
@@ -129,7 +129,7 @@ The audit lands at `framework/docs/stories/{story_id}-validation-report.yaml`. I
 
 To invoke it from a Claude Code conversation:
 
-> Use the Task tool with `subagent_type: story_consistency_reviewer`. Pass it pointers to `framework/docs/stories/{story_id}.md` and every existing `framework/docs/stories/{story_id}/episode_*.md`. Ask it to return the structured report described in the agent prompt.
+> Use the Task tool with `subagent_type: story_consistency_reviewer`. Pass it pointers to `framework/stories/{story_id}.md` and every existing `framework/stories/{story_id}/episode_*.md`. Ask it to return the structured report described in the agent prompt.
 
 Run it:
 - After each new episode draft is authored.
@@ -171,7 +171,7 @@ For each episode `<NN>` in order, you'll run five conversations:
 | 4 | `/design_scaffolding <story_id> <NN>` (Lens) or `/design_scoring_rubric <story_id> <NN>` (Reasoning Lab) |
 | 5 | `/configure_session <story_id> <NN>` (Lens) or `/configure_competition <story_id> <NN>` (Reasoning Lab) |
 
-When you start each conversation, give Claude one line of context like *"Continue the pipeline for `saving-the-maker-space` episode 2."* — that's enough orientation. The slash command itself reads what it needs from `framework/docs/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
+When you start each conversation, give Claude one line of context like *"Continue the pipeline for `saving-the-maker-space` episode 2."* — that's enough orientation. The slash command itself reads what it needs from `framework/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
 
 ### What each command does
 
@@ -218,7 +218,7 @@ After each command, read the artifacts it produced. Don't trust that the reviewe
 | `episode_writer_input.yaml` | No facet IDs, no lens names, no pattern/dynamic names. Voice and weaknesses read as character traits, not as label restatements. (The literal scan and `projection_reviewer` should already have caught these, but read it yourself.) |
 | `transcript.yaml` | The discussion sounds like a 6th grader actually wrote it. The targeted signals are visible to a careful reader without being announced. |
 | `analysis.yaml` | Every targeted facet (weakness AND strength) is annotated. `evidence_basis` cites specific behavior in the cited sentences. Hedged labels are honest, not lazy. |
-| `validation_report.yaml` (the story-level sidecar at `framework/docs/stories/{story_id}-validation-report.yaml`) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After pipeline execution has produced analyses, the hedged-annotation rule passes. |
+| `validation_report.yaml` (the story-level sidecar at `framework/stories/{story_id}-validation-report.yaml`) | Coverage closes. Lens distribution is balanced. Rotation rules pass. After pipeline execution has produced analyses, the hedged-annotation rule passes. |
 
 ### Reading reviewer reports
 
@@ -246,7 +246,7 @@ The discipline: never pressure the evaluator to commit harder to satisfy coverag
 
 ### Capture friction as you go
 
-Append to `framework/docs/stories/{story_id}-friction-log.md` after each episode. Capture every place the pipeline surprised you, every reviewer false positive, every place this manual was wrong or incomplete, every place a schema or agent should change in v2. The friction log is the only place qualitative pilot data lives — the artifacts and telemetry capture *what* the pipeline produced; the friction log captures *what it felt like to run*.
+Append to `framework/stories/{story_id}-friction-log.md` after each episode. Capture every place the pipeline surprised you, every reviewer false positive, every place this manual was wrong or incomplete, every place a schema or agent should change in v2. The friction log is the only place qualitative pilot data lives — the artifacts and telemetry capture *what* the pipeline produced; the friction log captures *what it felt like to run*.
 
 ### Stopping and resuming across multiple authoring conversations
 

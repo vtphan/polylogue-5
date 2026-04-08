@@ -22,7 +22,7 @@ The shared upstream pipeline must have completed for this episode:
 - `${EPISODE_DIR}/episode.yaml` — the episode plan
 - `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
 - `${EPISODE_DIR}/analysis.yaml` — the expert analysis
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc (cast prose, arc, recurring tendencies)
+- `framework/stories/${STORY_ID}.md` — the story design doc (cast prose, arc, recurring tendencies)
 
 These are produced by Phase 6 authoring (story design doc + per-episode draft) plus `/create_episode`, `/create_transcript`, and `/analyze_transcript`.
 
@@ -31,7 +31,7 @@ These are produced by Phase 6 authoring (story design doc + per-episode draft) p
 - `${EPISODE_DIR}/analysis.yaml` — the expert analysis (facet annotations, AI perspectives, diversity metadata)
 - `${EPISODE_DIR}/transcript.yaml` — the enumerated transcript
 - `${EPISODE_DIR}/episode.yaml` — the full episode plan
-- `framework/docs/stories/${STORY_ID}.md` — the story design doc. The scoring agent reads this so that recurring cast members carry consistent scoring archetypes across episodes (a student team that learns "Mira tends to anchor on a single source" should be able to apply that pattern in every episode where Mira is a lead).
+- `framework/stories/${STORY_ID}.md` — the story design doc. The scoring agent reads this so that recurring cast members carry consistent scoring archetypes across episodes (a student team that learns "Mira tends to anchor on a single source" should be able to apply that pattern in every episode where Mira is a lead).
 
 ## Telemetry
 
@@ -57,7 +57,7 @@ Pass the agent the paths to:
 - `${EPISODE_DIR}/analysis.yaml`
 - `${EPISODE_DIR}/transcript.yaml`
 - `${EPISODE_DIR}/episode.yaml`
-- `framework/docs/stories/${STORY_ID}.md`
+- `framework/stories/${STORY_ID}.md`
 
 Instruct it to write outputs to `${EPISODE_DIR}/reasoning-lab/scoring.yaml` and `${EPISODE_DIR}/reasoning-lab/competition-facilitation.yaml`. Both outputs must propagate `story_id` and `episode_number` from `episode.yaml`.
 

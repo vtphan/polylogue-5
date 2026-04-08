@@ -12,7 +12,7 @@ Polylogue is a research project for teaching critical thinking to middle school 
    - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts
    - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime
 
-3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/docs/stories/{story_id}.md` plus per-episode drafts at `framework/docs/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
+3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
 
 For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts; `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
 
@@ -35,8 +35,8 @@ A story is authored as prose in Phase 6 (the story design doc plus per-episode d
 
 ```
 STORY (Phase 6, once per story, authored as prose by the operator):
-  framework/docs/stories/{story_id}.md          (story design doc + frontmatter)
-  framework/docs/stories/{story_id}/            (per-episode drafts)
+  framework/stories/{story_id}.md          (story design doc + frontmatter)
+  framework/stories/{story_id}/            (per-episode drafts)
     episode_01.md, episode_02.md, ...
   Validators: validate_story.py + story_consistency_reviewer
 
@@ -51,15 +51,15 @@ EPISODE (Phase 7, per episode in the story):
 
 ## Artifact Storage
 
-The story-based pipeline writes to `artifacts/{story_id}/episodes/episode_{NN}/...`. The story design doc and per-episode drafts live under `framework/docs/stories/{story_id}/` (authored, committed as source). The legacy `registry/` directory is **not** a migration target — no artifact equivalence is required between the legacy and new systems for either Lens or Reasoning Lab.
+The story-based pipeline writes to `artifacts/{story_id}/episodes/episode_{NN}/...`. The story design doc and per-episode drafts live under `framework/stories/{story_id}/` (authored, committed as source). The legacy `registry/` directory is **not** a migration target — no artifact equivalence is required between the legacy and new systems for either Lens or Reasoning Lab.
 
 ```
-framework/docs/stories/{story_id}.md          # Story design doc (frontmatter + prose body)
-framework/docs/stories/{story_id}/            # Per-episode drafts directory
+framework/stories/{story_id}.md          # Story design doc (frontmatter + prose body)
+framework/stories/{story_id}/            # Per-episode drafts directory
     episode_01.md
     episode_02.md
     ...
-framework/docs/stories/{story_id}-validation-report.yaml   # Sidecar audit from validate_story.py
+framework/stories/{story_id}-validation-report.yaml   # Sidecar audit from validate_story.py
 
 artifacts/{story_id}/episodes/
     └── episode_{NN}/
@@ -100,7 +100,7 @@ The legacy scenario-sequence files (`framework/reference/scenario_sequence.yaml`
 ## Critical Design Constraints
 
 ### Information Barrier
-The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. In the story pipeline this is enforced by a barrier-safe **projection**: `planning_agent` reads the per-episode draft (`framework/docs/stories/{story_id}/episode_{NN}.md`), the story design doc (`framework/docs/stories/{story_id}.md`), and writes both `episode.yaml` (with framework terminology, for reviewers) and `episode_writer_input.yaml` (a stripped narrative slice with no facet IDs, no lens names, no cognitive_pattern or social_dynamic IDs, and no signal fields). `dialog_writer` runs in a fresh context with no Read tool and consumes only that projection inline. Two enforcement mechanisms run on every projection: a literal scan in `validate_schema.py` (catches reserved IDs) and the `projection_reviewer` agent (catches paraphrased framework leakage). Neither alone is sufficient.
+The dialog writer must never see facet IDs, lens names, cognitive patterns, or social dynamics. In the story pipeline this is enforced by a barrier-safe **projection**: `planning_agent` reads the per-episode draft (`framework/stories/{story_id}/episode_{NN}.md`), the story design doc (`framework/stories/{story_id}.md`), and writes both `episode.yaml` (with framework terminology, for reviewers) and `episode_writer_input.yaml` (a stripped narrative slice with no facet IDs, no lens names, no cognitive_pattern or social_dynamic IDs, and no signal fields). `dialog_writer` runs in a fresh context with no Read tool and consumes only that projection inline. Two enforcement mechanisms run on every projection: a literal scan in `validate_schema.py` (catches reserved IDs) and the `projection_reviewer` agent (catches paraphrased framework leakage). Neither alone is sufficient.
 
 The prose-first authoring loop (Phase 6) is operator + AI in conversation; there is no `/design_story` drafting command. Per-episode drafts are committed Markdown files. Character consistency across episodes is enforced by `story_consistency_reviewer` (prose-on-prose review), not by a structural validator.
 

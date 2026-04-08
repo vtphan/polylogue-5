@@ -18,7 +18,7 @@ schema:
         description: >
           Kebab-case identifier of the parent story. Required: every
           episode belongs to exactly one story. The story design doc
-          lives at framework/docs/stories/{story_id}.md.
+          lives at framework/stories/{story_id}.md.
 
       episode_number:
         type: integer
@@ -26,7 +26,7 @@ schema:
         description: >
           1-indexed position of this episode within its parent story's
           arc. Must match the episode_number in the per-episode draft at
-          framework/docs/stories/{story_id}/episode_{NN}.md.
+          framework/stories/{story_id}/episode_{NN}.md.
 
       topic:
         type: string

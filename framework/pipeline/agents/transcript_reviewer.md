@@ -13,7 +13,7 @@ You review the polished discussion transcript for quality before it proceeds to 
 You receive:
 1. The polished transcript (from the transcript instructional designer, pre-enumeration)
 2. The full episode plan (`episode.yaml`, including `target_facets`)
-3. The story design doc (`framework/docs/stories/{story_id}.md`) and the per-episode draft (`framework/docs/stories/{story_id}/episode_{NN}.md`) for cross-episode character consistency and signal-landing checks (5b/5c).
+3. The story design doc (`framework/stories/{story_id}.md`) and the per-episode draft (`framework/stories/{story_id}/episode_{NN}.md`) for cross-episode character consistency and signal-landing checks (5b/5c).
 4. The facet inventory (`framework/reference/facet_inventory.yaml`)
 
 You see the full plan including targets. This is appropriate — the dialog writer has already generated the transcript behind the information barrier. Your job is to assess whether the result meets quality criteria.
