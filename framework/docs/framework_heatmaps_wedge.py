@@ -275,9 +275,10 @@ def render_explanatory_wedge_heatmap() -> Path:
     lens_legend = ax.legend(
         handles=lens_handles, loc="upper left",
         bbox_to_anchor=(1.02, 1.0), frameon=False,
-        title="Lenses that reveal thinking", title_fontsize=12, fontsize=10,
+        title="Lenses that reveal reasoning", title_fontsize=12, fontsize=10,
         labelspacing=1.1, handletextpad=0.8,
     )
+    lens_legend._legend_box.align = "left"
     # Re-add the first legend so the second ax.legend() call does not
     # replace it.
     ax.add_artist(lens_legend)
@@ -288,14 +289,15 @@ def render_explanatory_wedge_heatmap() -> Path:
         Patch(facecolor=COGNITIVE_TINT,
               label="Cognitive biases\nhabits inside one person's head"),
         Patch(facecolor=SOCIAL_TINT,
-              label="Social dynamics\npressures from the group around us"),
+              label="Social dynamics\npatterns of group interaction"),
     ]
     group_legend = ax.legend(
         handles=group_handles, loc="upper left",
         bbox_to_anchor=(1.02, 0.52), frameon=False,
-        title="Forces that weaken thinking", title_fontsize=12, fontsize=10,
+        title="Forces that weaken reasoning", title_fontsize=12, fontsize=10,
         labelspacing=1.1, handletextpad=0.8,
     )
+    group_legend._legend_box.align = "left"
 
     # fig.suptitle(
     #     "Explanatory connections with cross-lens visibility",
