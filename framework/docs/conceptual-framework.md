@@ -38,11 +38,7 @@ The rest of the framework hangs off that layer. Two other concepts do the work a
 
 Facets are the hinge where the two sides meet: a reader using a lens and an analyst proposing a cause are both talking about the *same* facet.
 
-```
-   Lenses  ──reveal──→  Facets  ←──cause──  Forces
-   (angles of           (sub-qualities      (cognitive biases
-    examination)         of reasoning)       and social dynamics)
-```
+![The framework: lenses reveal facets; forces cause facets to weaken](conceptual-framework.png)
 
 §2.1 covers lenses in detail, §2.2 covers forces, and §2.3 returns to facets with the full inventory of ten — by which point the reader has seen both sides that hang on them. Elsewhere in the Polylogue system — schemas, reference data, and earlier documents — the force layer is called **explanatory variables**. That name is retained for compatibility; the rest of this document uses *forces* for readability.
 
