@@ -29,7 +29,7 @@ Start with a piece of reasoning:
 
 > *"Everyone in my family has used this brand of vitamins for years and we're all healthy, so these vitamins obviously work. My cousin tried a different brand and got sick, which proves it."*
 
-Something is off about this, but "it's bad reasoning" doesn't say enough. The framework's answer to *what* is off is a layer called **facets of reasoning** — sub-qualities along which any piece of reasoning is strong or weak. This passage is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet. A "flaw" is just a low value.
+Something is off about this, but "it's bad reasoning" doesn't say enough. The framework lets you say more by naming the specific **facets of reasoning** a passage is strong or weak on. This one is weak on *source diversity* (only one family), on *relevance* (being healthy while taking vitamins doesn't show the vitamins did anything), and on *perspective engagement* (no alternatives considered). Every passage has a value — strong or weak — on every facet, and a "flaw" is just a low value.
 
 The rest of the framework hangs off that layer. Two other concepts do the work around facets, one on each side:
 
