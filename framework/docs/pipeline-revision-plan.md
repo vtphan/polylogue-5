@@ -83,7 +83,13 @@ Per-passage content for everything that requires a student error model: the resp
   - `misreadings[]` — wrong-but-tempting readings. Each has `text`, `why_tempting`, `why_wrong`, and `next_move`.
   - `blindspots[]` — what most students won't notice. Each has `text`, `next_move`, and **`recommended_lens_switch`** — a precomputed "if stuck, try this lens instead" routing so the non-AI app can recommend lens changes without inference.
 
-  **Minimum per lens:** at least one entry in each of the four categories, unless the lens's `signal` in `ground_truth.lens_visibility` is `weak`, in which case `likely_readings` may be empty and `blindspots` must carry the content.
+  **Per-lens population rules (resolves the weak-signal lens open question).** The diagnostic agent populates each lens's four categories according to the lens's `signal` value from `ground_truth.lens_visibility`:
+
+  - **`signal: moderate` or `strong`** — all four categories required non-empty. Every `blindspots[]` entry carries `text`, `next_move`, and `recommended_lens_switch`.
+
+  - **`signal: weak`** — `likely_readings[]`, `partial_readings[]`, and `misreadings[]` must be **empty**. `blindspots[]` is **required, non-empty**, and every entry carries `text`, `next_move`, `recommended_lens_switch`, and additionally `description` and `why_predictable` fields that ground the prediction in specific features of the transcript. Rationale: a weak-signal lens is the analyst's observation that characters in the transcript barely used this lens; real students reading the transcript will tend to adopt the characters' framing and also not reach for this lens. The first three categories require a model of engaged (if imperfect) student reasoning with this lens, and weak signal means the transcript supplies no such model — so those categories are honestly empty. The blindspot category is the prediction that students will *miss* the lens, and weak signal is exactly what predicts the miss. Making blindspots required on weak-signal lenses is the schema reflecting what the framework already means by "weak signal": the unmodeled lens is the teaching moment, and skipping it drops the framework's distinctive lens-switching move.
+
+  - **Escape hatch — `lens_not_applicable: true`.** In the rare case where the passage contains no reasoning task the lens could illuminate (e.g., pure character backstory with no decision under discussion), the diagnostic emits `lens_not_applicable: true` with a one-sentence `not_applicable_reason` naming what reasoning task is absent. When set, all four categories must be empty. The threshold is high: "no reasoning task this lens would illuminate exists in this passage," not "students might not use this lens." The reviewer audits the declaration. The escape hatch is expected to be rare; on any honest reasoning passage, every lens has at least a blindspot.
 
 - `response_space.explanation_quality` — for the "why did they reason this way" articulation. Structured by three causal categories (`cognitive`, `social`, `interaction`), each with two quality levels (`surface`, `worked_through`), each with at least one example text and a rationale.
 
@@ -200,7 +206,7 @@ A mechanical concatenation of `ground_truth.yaml`, `diagnostic.yaml`, `prose.yam
 - Every turn reference in any block is a valid turn in the transcript.
 - Every `diagnostic.assumes_familiar_with[]` reference resolves to a facet/pattern/dynamic in `prior_exposure` for the same passage.
 - Every `counterfactuals[]` entry cites at least one `evidence_turn` inside the passage's `turn_range`.
-- **Response-space category completeness** per lens, subject to the weak-signal exception.
+- **Response-space category completeness** per lens, per the §2.3 per-lens population rules. Specifically: for every lens with `signal ∈ {moderate, strong}`, all four categories must be non-empty. For every lens with `signal: weak` and `lens_not_applicable != true`, `likely_readings[]`, `partial_readings[]`, and `misreadings[]` must be empty, and `blindspots[]` must be non-empty with every entry carrying `text`, `next_move`, `recommended_lens_switch`, `description`, and `why_predictable`. For every lens with `lens_not_applicable: true`, all four categories must be empty and `not_applicable_reason` must be non-empty. Exit nonzero on first failure; the error message names the lens, the signal, and the specific rule violated.
 - **`next_move` presence** on every response-space entry (string-length check).
 - **`episode_opening` presence** with no reserved framework terms (literal-scan).
 - **`contrast_prompt` presence** on every `connects_to.contrasts[]` entry.
@@ -379,7 +385,7 @@ After the universal pipeline lands and the first real episode is packaged, each 
 ### 7.3 Open questions
 
 - ~~**Granularity of turn annotations.**~~ **Resolved** — see §2.1 `turn_annotations` bullet and the pre-Stage-1 resolution note above. Policy: every turn gets an entry; content fields populated iff the turn is load-bearing in the framework-relative sense.
-- **Weak-signal lens policy.** When a lens has `signal: weak`, what should `response_space.by_lens` contain? Current plan allows `likely_readings` empty; may need refinement after stage 3.
+- ~~**Weak-signal lens policy.**~~ **Resolved** — see §2.3 Per-lens population rules and §2.6 response-space category completeness check. Policy: on a weak-signal lens, `likely_readings`, `partial_readings`, and `misreadings` are empty; `blindspots` is required non-empty and carries `description`, `why_predictable`, `recommended_lens_switch`, and `next_move`. Escape hatch `lens_not_applicable: true` handles the rare case where no reasoning task the lens could illuminate exists in the passage.
 - **Minimum-wrestling enforcement.** Is `struggle_calibration.minimum_wrestling` enumerated preconditions or free-form prose? Answer needed by stage 3.
 - **Counterfactual depth.** One-sentence per facet vs. multi-sentence worked-rewrites. Defer until an app use case requires expansion.
 - **Contrast-case story acquisition.** Use `saving-the-maker-space` as-is, modify it, or hand-author a minimal contrast story? Decision needed before stage 6.
