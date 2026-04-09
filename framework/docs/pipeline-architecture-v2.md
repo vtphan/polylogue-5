@@ -185,7 +185,7 @@ Field-level schemas for each agent's output live in `pipeline-revision-plan-v2.m
 
 **Cognitive job.** *Hold a student error model in mind and author the probes and per-turn intervention ladders that let the app deliver calibrated intervention via dictionary lookup, with no runtime NLP or affect detection.*
 
-The agent's primary output is the per-turn three-role intervention dictionary (`interventions.by_turn[T].by_facet[F]`). For each load-bearing turn, it derives the relevant facet set from three sources:
+The agent's primary output is the per-turn three-role intervention dictionary. Each turn entry carries both a `blank_page` escape cell and a `by_facet[F]` map of facet cells — i.e. `interventions.by_turn[T].{blank_page, by_facet[F]}` (full shape in `pipeline-revision-plan-v2.md` §2.3.2). For each load-bearing turn, the agent derives the relevant facet set from three sources:
 
 1. **Present facets** — facets the analyst signaled on T in `turn_annotations`.
 2. **Afforded-missing facets** — facets the `lens_visibility` engagement/affordance matrix says the passage affords but nobody engaged, distributed across the turns where those missing observations most naturally attach. The `(engagement: none, affordance: rich)` case is the highest-urgency pedagogical moment and must be covered.

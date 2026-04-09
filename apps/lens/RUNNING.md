@@ -2,7 +2,7 @@
 
 The Lens pipeline turns one per-episode draft into a complete student- and teacher-facing artifact set for one episode of one story. Five commands across five stages. Stages 1–3 are shared upstream between Lens and Reasoning Lab; stages 4–5 are Lens-specific.
 
-This guide covers initialization and the Lens-specific stages. For operating principles, pre-flight checks, and shared stages 1–3 (`/create_episode` → `/create_transcript` → `/analyze_transcript`), see **`framework/docs/RUNNING-shared-stages.md`**. For the prose-first authoring loop that produces the per-episode drafts these stages consume, see `framework/docs/operator-manual.md`.
+This guide covers initialization and the Lens-specific stages. For operating principles, pre-flight checks, and shared stages 1–3 (`/create_episode` → `/create_transcript` → `/analyze_transcript`), see **`framework/docs/archive/RUNNING-shared-stages.md`** (v1, pending v2 replacement). For the prose-first authoring loop that produces the per-episode drafts these stages consume, see `framework/docs/archive/operator-manual.md` (v1, pending v2 replacement).
 
 ---
 
@@ -25,7 +25,7 @@ Run initialize:
 
 ## Shared stages 1–3
 
-Run `/create_episode` → `/create_transcript` → `/analyze_transcript` per `framework/docs/RUNNING-shared-stages.md`. Those stages produce `episode.yaml`, `transcript.yaml`, `analysis.yaml`, and `facilitation.yaml` under `artifacts/{story_id}/episodes/episode_{NN}/`. When they pass, continue with the Lens-specific stages below.
+Run `/create_episode` → `/create_transcript` → `/analyze_transcript` per `framework/docs/archive/RUNNING-shared-stages.md` (v1, pending v2 replacement). Those stages produce `episode.yaml`, `transcript.yaml`, `analysis.yaml`, and `facilitation.yaml` under `artifacts/{story_id}/episodes/episode_{NN}/`. When they pass, continue with the Lens-specific stages below.
 
 ---
 

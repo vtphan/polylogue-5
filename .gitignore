@@ -4,3 +4,6 @@
 
 # validate_story.py sidecar audits — regenerated on each run
 framework/stories/validation/
+
+# macOS
+.DS_Store
