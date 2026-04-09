@@ -59,6 +59,14 @@ framework/stories/{story_id}/            # Per-episode drafts directory
     episode_01.md
     episode_02.md
     ...
+framework/stories/archive/v1/            # Frozen v1-pipeline stories (historical reference only)
+    saving-the-maker-space.md            #   — the v1 pilot
+    saving-the-maker-space/episode_*.md
+    the-overton-park-sightings.md
+    the-overton-park-sightings/episode_*.md
+    README.md                            # Archive policy
+framework/stories/v1-storylines/         # Creative briefs extracted from frozen v1 stories
+    {v1_story_id}.md                     #   — premise + arc only; no targets/signals. Live content.
 framework/stories/validation/{story_id}-validation-report-{YYYYMMDD-HHMMSS}.yaml   # Sidecar audit from validate_story.py (gitignored)
 
 artifacts/{story_id}/episodes/
@@ -77,7 +85,13 @@ artifacts/{story_id}/episodes/
             ├── scoring.yaml
             ├── competition-facilitation.yaml
             └── session.yaml
+
+artifacts/archive/v1/                    # Frozen v1-pipeline artifacts (historical reference only)
+    saving-the-maker-space/episodes/...  #   — the v1 pilot's generated artifacts
+    README.md                            # Archive policy
 ```
+
+**V1 archive policy.** `framework/stories/archive/v1/` and `artifacts/archive/v1/` hold frozen v1-pipeline content (two stories: `saving-the-maker-space` and `the-overton-park-sightings`). The v2 pipeline does not read from these paths. `validate_story.py` rejects `archive` and `validation` as story IDs. When evolving a v1 story's premise for v2 use, extract a creative brief into `framework/stories/v1-storylines/` and author a new v2 story with a new story ID — never overwrite the archive. See `framework/docs/runtime-package-restructure.md` and `framework/docs/pipeline-v1-to-v2-migration.md` for the rationale.
 
 ## Bootstrapping
 

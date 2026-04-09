@@ -18,7 +18,7 @@ This guide is for **operators running the pipeline**. For the prose-first author
 | 2 | `/create_transcript <story_id> <episode_number>` |
 | 3 | `/analyze_transcript <story_id> <episode_number>` |
 
-When you start each conversation, give Claude one line of context like *"Continue the pipeline for `saving-the-maker-space` episode 2."* — that's enough orientation. The slash command reads what it needs from `framework/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
+When you start each conversation, give Claude one line of context like *"Continue the pipeline for `{your-story-id}` episode 2."* — that's enough orientation. The slash command reads what it needs from `framework/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
 
 **The reviewer loops are autonomous.** Once you invoke a command, do not interrupt mid-flow. Each command has bounded retry budgets (typically 1 revise pass for the reviewer; 3 attempts for the dialog writer in `/create_transcript`). If the budget is exhausted, the command halts with a structured failure surface.
 

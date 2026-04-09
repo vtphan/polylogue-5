@@ -89,7 +89,7 @@ A complete `episode.yaml` conforming to `framework/schemas/episode_plan.yaml`, w
 
 1. `story_id` — copied from the draft frontmatter. **Required.**
 2. `episode_number` — copied from the draft frontmatter. **Required.**
-3. `scenario_id` — kebab-case, derived as `{story_id}-ep-{NN}` (e.g., `saving-the-maker-space-ep-03`). Reviewers and the evaluator use this for traceability and pipeline log lines; the on-disk directory key is the `{story_id}/episodes/episode_{NN}/` path.
+3. `scenario_id` — kebab-case, derived as `{story_id}-ep-{NN}` (e.g., if the story is `my-story` and the episode number is 3, `scenario_id: my-story-ep-03`). Reviewers and the evaluator use this for traceability and pipeline log lines; the on-disk directory key is the `{story_id}/episodes/episode_{NN}/` path.
 4. `topic` — the discussion topic in plain language, taken from the draft's `premise`.
 5. `context` — narrative context (story setting from the design doc + episode situation from the draft).
 6. `instructional_goals` — what students will practice. Derive from the draft's targets.

@@ -31,7 +31,7 @@ Modes:
 
 Example:
     python3 validate_schema.py \
-        artifacts/saving-the-maker-space/episodes/episode_01/episode.yaml \
+        artifacts/{story_id}/episodes/episode_01/episode.yaml \
         framework/schemas/episode_plan.yaml
 """
 

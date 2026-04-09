@@ -501,7 +501,7 @@ After the universal pipeline lands, each app that wants to consume the package d
 ### 7.3 Open questions
 
 - **Counterfactual depth.** One-sentence per facet vs. multi-sentence worked-rewrites. Defer until an app use case requires expansion.
-- **Contrast-case story acquisition.** Use `saving-the-maker-space` as-is, modify it, or hand-author a minimal contrast story? Decision needed before stage 6.
+- **Contrast-case story acquisition.** ~~Use `saving-the-maker-space` as-is, modify it, or hand-author a minimal contrast story?~~ **Resolved by the runtime-package restructure.** V1 stories are frozen into `framework/stories/archive/v1/` and not used as pipeline input. The v2 pilot is a fresh story authored against the restructured pipeline; contrast-case validation is folded into that authoring. See `framework/docs/runtime-package-restructure.md` and `framework/docs/pipeline-v1-to-v2-migration.md` §0.
 - **Wrestling-gate vocabulary.** Initial set: `selected_a_facet`, `viewed_turn_for_15s`, `attempted_one_sentence`, `viewed_second_lens`. Needs validation against the first real episode's ladder content.
 - **Teacher surface.** Deferred but not closed. When the teacher surface is designed, a teacher-facing block comes back as a future addition.
 

@@ -65,7 +65,7 @@ Stages A–B edit only this plan and the inventory appendix — rollback is free
 1. Extract work items from plan §2.1–2.8 (one per agent output type + merge-script checks + probe-record contract + capability flags).
 2. Extract work items from plan §5 (end-to-end sequence).
 3. Add reference-file prerequisites: `framework/reference/wrestling_gates.yaml` (new, enumerated in plan §2.3.3) and any other reference files the schemas depend on.
-4. Resolve the contrast-case story decision (plan §7 open question): use `saving-the-maker-space` as-is, modify it, or author a minimal new contrast story. Record the decision inline in this plan under F.1.
+4. ~~Resolve the contrast-case story decision (plan §7 open question): use `saving-the-maker-space` as-is, modify it, or author a minimal new contrast story.~~ **Resolved by the runtime-package restructure.** V1 stories are archived; the v2 pilot is a fresh story. Contrast-case validation is folded into the v2 pilot authoring. See `framework/docs/runtime-package-restructure.md` and `framework/docs/pipeline-v1-to-v2-migration.md` §0.
 5. Build the adjacency-list dependency graph. Validate acyclic by topological sort. The sort order determines the sequence Stages C–F follow.
 6. Write the inventory as an appendix to this file (see Appendix A stub).
 

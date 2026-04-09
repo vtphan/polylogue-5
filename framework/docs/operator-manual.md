@@ -46,8 +46,8 @@ No slash commands run during prose authoring. The pipeline does not execute. Thi
 
 ```markdown
 ---
-story_id: saving-the-maker-space
-title: Saving the Maker Space
+story_id: your-story-id
+title: Your Story Title
 coverage_mode: focused
 declared_facets: [sufficiency, source_credibility, relevance, perspective_engagement]
 declared_cognitive_patterns: [false_certainty, confirmation_bias]
@@ -55,7 +55,7 @@ declared_social_dynamics: [group_pressure]
 episode_count: 5
 ---
 
-# Saving the Maker Space
+# Your Story Title
 
 (prose body: premise, setting, cast, arc summary, stakes, pedagogical commitments)
 ```
@@ -171,7 +171,7 @@ For each episode `<NN>` in order, you'll run five conversations:
 | 4 | `/design_scaffolding <story_id> <NN>` (Lens) or `/design_scoring_rubric <story_id> <NN>` (Reasoning Lab) |
 | 5 | `/configure_session <story_id> <NN>` (Lens) or `/configure_competition <story_id> <NN>` (Reasoning Lab) |
 
-When you start each conversation, give Claude one line of context like *"Continue the pipeline for `saving-the-maker-space` episode 2."* — that's enough orientation. The slash command itself reads what it needs from `framework/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
+When you start each conversation, give Claude one line of context like *"Continue the pipeline for `{your-story-id}` episode 2."* — that's enough orientation. The slash command itself reads what it needs from `framework/stories/{story_id}/` and `artifacts/{story_id}/episodes/episode_{NN}/`.
 
 ### What each command does
 
@@ -257,7 +257,7 @@ Prose authoring is "however many conversations are needed." You will likely:
 - Write episodes 2–3 in a third, after running `validate_story.py` and `story_consistency_reviewer` and addressing whatever drift surfaces.
 - Etc.
 
-The protocol for resuming: the artifacts on disk are the source of truth. Open a new conversation, give Claude one line of context like *"I'm authoring `saving-the-maker-space`. The design doc and episodes 1–3 exist; I want to write episode 4 today. Read the design doc and episodes 1–3 first, then we'll talk about episode 4."* That's enough.
+The protocol for resuming: the artifacts on disk are the source of truth. Open a new conversation, give Claude one line of context like *"I'm authoring `{your-story-id}`. The design doc and episodes 1–3 exist; I want to write episode 4 today. Read the design doc and episodes 1–3 first, then we'll talk about episode 4."* That's enough.
 
 For pipeline execution, the same protocol works. Each slash command reads what it needs from disk. You can run conversations across days.
 

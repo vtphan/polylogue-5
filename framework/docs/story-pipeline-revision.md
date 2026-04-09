@@ -224,6 +224,8 @@ A story that fails any of 1, 4, or 7 is not ready. The others are improvement ta
 PART 11 — SUGGESTED FIRST STORIES
 ================================================================
 
+**Status note (v2 restructure).** Frame A was shipped as the v1 pilot (`saving-the-maker-space`, 5 episodes) and a second v1 story (`the-overton-park-sightings`) was authored as drafts but never run through Phase 7. Both have been frozen into `framework/stories/archive/v1/` and `artifacts/archive/v1/` as part of the runtime-package restructure (see `framework/docs/runtime-package-restructure.md`). The v2 pipeline does not read from archive paths. The v2 pilot story — frame TBD, new story ID — will be authored against the restructured pipeline once the runtime schema is frozen. This Part 11 will be updated after the v2 pilot ships to reflect what was chosen and what it validated.
+
 Three contrasting frames sketched here as starting points for the catalog.
 
 Frame A — Saving the Maker Space (civic, internal stakes)
@@ -234,7 +236,7 @@ Why it works: stakes concrete and local. Real disagreement about means (everyone
 
 Cast (sketch, 5 characters for a 5-episode pilot): Mira (passionate, cherry-picks evidence), Theo (cautious, sometimes strength carrier, sometimes paralyzed), Dev (charismatic editor, decisive but reasoning-shallow), Sam (quiet, finds her voice mid-arc — one of the two growth arcs), Ren (researcher with mixed source quality).
 
-Shipped as the first pilot story (`saving-the-maker-space`, 5 episodes).
+Shipped as the v1 pilot story. Frozen into `framework/stories/archive/v1/saving-the-maker-space/` as of the runtime-package restructure. Not a v2 pipeline input.
 
 Frame B — The Beat (journalism, evaluating others' reasoning)
 

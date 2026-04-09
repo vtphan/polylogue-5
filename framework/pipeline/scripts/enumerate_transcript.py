@@ -21,8 +21,8 @@ Usage:
 
 Example:
     python3 enumerate_transcript.py \\
-        artifacts/saving-the-maker-space/episodes/episode_01/intermediates/transcript_polished.yaml \\
-        artifacts/saving-the-maker-space/episodes/episode_01/transcript.yaml
+        artifacts/{story_id}/episodes/episode_01/intermediates/transcript_polished.yaml \\
+        artifacts/{story_id}/episodes/episode_01/transcript.yaml
 """
 
 import sys

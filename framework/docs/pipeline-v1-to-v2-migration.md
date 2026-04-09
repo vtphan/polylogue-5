@@ -11,6 +11,32 @@ Once v2 ships and v1 is no longer the live pipeline, archive this file.
 
 ---
 
+## 0. Story and artifact archival
+
+As the first step of the v2 restructure, all v1-pipeline story content is frozen into archive directories and removed from the live tree. This happens *before* any schema or code changes so that every subsequent step operates on a clean tree.
+
+**What moved:**
+
+| From | To |
+|---|---|
+| `framework/stories/saving-the-maker-space.md` | `framework/stories/archive/v1/saving-the-maker-space.md` |
+| `framework/stories/saving-the-maker-space/episode_*.md` | `framework/stories/archive/v1/saving-the-maker-space/episode_*.md` |
+| `framework/stories/the-overton-park-sightings.md` | `framework/stories/archive/v1/the-overton-park-sightings.md` |
+| `framework/stories/the-overton-park-sightings/episode_*.md` | `framework/stories/archive/v1/the-overton-park-sightings/episode_*.md` |
+| `artifacts/saving-the-maker-space/` | `artifacts/archive/v1/saving-the-maker-space/` |
+
+(No `artifacts/the-overton-park-sightings/` exists — that story was authored as drafts but never ran through Phase 7.)
+
+**What the policy is.** The v2 pipeline does not read from archive paths. `validate_story.py` rejects `archive` and `validation` as story IDs with a clear error message. Each archive root has a `README.md` explaining the policy. Live pipeline scripts either (a) are parametric in `story_id` and transparently ignore the archive, or (b) had incidental docstring examples referencing v1 paths, which are updated to generic `{story_id}` placeholders for consistency. No live pipeline file references the v1 story names after this step — verified by grep.
+
+**What did not move.** `framework/stories/validation/` is the gitignored sidecar for `validate_story.py`'s reports; it stays in place. `framework/docs/archive/saving-the-maker-space-friction-log.md` and `saving-the-maker-space-progress.md` were already in the docs archive from a prior pass; they stay there. The legacy `registry/`, `configs/`, and root `docs/` directories are a separate concern (the disposable-persona system) and are governed by the pre-existing legacy policy in `CLAUDE.md`; the v1 story archival does not touch them.
+
+**Why stories are archived rather than deleted.** V1 stories are a source of narrative material — premise, stakes, cast sketches, dramatic arcs — that can be extracted as creative briefs for v2 authoring. The extractions live at `framework/stories/v1-storylines/{v1_story_id}.md` as fresh prose files (no targets, no signals, no framework frontmatter). V2 stories authored from extracted storylines get *new* story IDs and never overwrite the archive.
+
+**Why v2 does not validate against v1 stories.** The original plan was to run `saving-the-maker-space` and `the-overton-park-sightings` through the restructured pipeline as validation. That was rejected in favor of authoring a fresh v2-native pilot story, because the v1 stories were authored against a different affordance surface and would under-exercise or misalign with the v2 runtime package. See `framework/docs/runtime-package-restructure.md` §9 for the reasoning.
+
+---
+
 ## 1. Pedagogical commitments and architecture
 
 The pedagogical commitments, the split into authoring agents, and the twelve governance rules are substantively unchanged. What changes is **how productive struggle is operationalized** and **how the package's blocks organize themselves across runtime triggers**.

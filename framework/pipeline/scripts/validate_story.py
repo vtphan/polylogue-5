@@ -183,6 +183,19 @@ def main():
     args = ap.parse_args()
 
     story_id = args.story
+
+    # Guard against reserved subdirectory names under stories_root.
+    # `archive/` holds frozen v1 content; `validation/` is the gitignored
+    # sidecar for this script's own reports. Neither is a story.
+    if story_id in ("archive", "validation") or story_id.startswith("archive/"):
+        print(
+            f"ERROR: '{story_id}' is a reserved directory under "
+            f"{args.stories_root}, not a story id. "
+            f"See framework/stories/archive/v1/README.md for the archive policy.",
+            file=sys.stderr,
+        )
+        return 2
+
     design_doc_path = os.path.join(args.stories_root, f"{story_id}.md")
     drafts_dir = os.path.join(args.stories_root, story_id)
 

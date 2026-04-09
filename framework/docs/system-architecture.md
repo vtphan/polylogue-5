@@ -48,12 +48,18 @@ The framework is application-agnostic. It defines the theory, the shared data, a
 
 | Directory | Contents | Purpose |
 |---|---|---|
-| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, `pipeline-flow.md`, `RUNNING-shared-stages.md`, this file, plus `framework/stories/` (story design docs and per-episode drafts) | Theory and shared design |
+| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, `pipeline-flow.md`, `RUNNING-shared-stages.md`, `runtime-package-restructure.md`, `pipeline-v1-to-v2-migration.md`, this file | Theory and shared design |
+| `framework/stories/{story_id}.md` + `framework/stories/{story_id}/episode_{NN}.md` | Live story design docs and per-episode drafts (v2 pipeline input) | Story-level authored content |
+| `framework/stories/archive/v1/` | Frozen v1-pipeline story content (`saving-the-maker-space`, `the-overton-park-sightings`) — historical reference; not read by the v2 pipeline | See `framework/stories/archive/v1/README.md` |
+| `framework/stories/v1-storylines/` | Creative briefs extracted from frozen v1 stories — premise + arc only, no targets/signals; live content for v2 authoring | Reuse v1 narrative bones under new story IDs |
+| `framework/stories/validation/` | Gitignored sidecar reports from `validate_story.py` | Audit trail |
 | `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` | Source-of-truth data. All IDs propagate from here. |
 | `framework/schemas/` | Shared upstream schemas (incl. `episode_plan.yaml`, `episode_writer_input.yaml`) | Contracts for shared artifacts |
 | `framework/pipeline/agents/` | Shared upstream agents (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer, projection reviewer, story_consistency_reviewer) | Shared upstream agents |
 | `framework/pipeline/commands/` | Shared upstream commands (`create_episode`, `brainstorm`, `create_transcript`, `analyze_transcript`) | Shared upstream commands |
 | `framework/pipeline/scripts/` | Shared upstream scripts (`validate_schema.py`, `validate_story.py`, `enumerate_transcript.py`, `review_transcript.py`, `check_analysis_invariants.py`, `log_pipeline_event.py`) | Shared upstream scripts |
+| `artifacts/{story_id}/` | Live v2-pipeline generated artifacts | Pipeline output |
+| `artifacts/archive/v1/` | Frozen v1-pipeline artifacts (`saving-the-maker-space` only — overton never ran) | See `artifacts/archive/v1/README.md` |
 
 ### Applications (`apps/{app-id}/`)
 
