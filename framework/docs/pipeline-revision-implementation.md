@@ -78,6 +78,12 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 
 ### Stage A — Archive and baseline
 
+**Executor brief.**
+- Read first: this stage's Tasks + Gates; memo §6 Rule 12; the live trees listed in Inputs.
+- Write: `archive/pre-revision-2026-04-09/{framework-reference,framework-pipeline,framework-schemas,apps-lens}/`, `archive/pre-revision-2026-04-09/README.md`, `archive/pre-revision-2026-04-09/classification.yaml`.
+- Must not read: nothing — Stage A is pure preservation, no barrier concerns.
+- Exit when: A.G1, A.G2, A.G3 all pass.
+
 **Goal.** Freeze the pre-revision surface on disk so every subsequent stage can proceed as additive work and every old-vs-new comparison is a cheap file diff.
 
 **Inputs.** Current state of `framework/reference/`, `framework/pipeline/`, `framework/schemas/`, relevant `framework/docs/`, and *all* of `apps/lens/` (pipeline, schemas, reference, docs, RUNNING.md). Reasoning Lab is out of scope for this revision (spec §7.1) and is neither archived nor touched by Stage A.
@@ -124,6 +130,12 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 
 ### Stage B — Inventory and dependency graph
 
+**Executor brief.**
+- Read first: this stage's Tasks + Gates; spec §2.1–§2.6, §4, §5, §7.3, Appendix B; memo §§3.1–3.5, §6 Rules 1–11; Stage A's `classification.yaml`.
+- Write: `framework/docs/pipeline-revision-inventory.md` (with §"Dependency graph" and §"Spike resolution — turn annotation granularity").
+- Must not read: nothing.
+- Exit when: B.G1, B.G2, B.G3 all pass.
+
 **Goal.** Produce a flat inventory of every discrete work item implied by spec §2, §4, §5 and memo §§3.1–3.5, §6 Rules 1–11; then a dependency graph over that inventory that justifies the ordering of Stages C–F. Resolve the pre-Stage-1 spike named in spec §5 opening.
 
 **Inputs.** Spec §2 (field-level definitions), §4 (capability flags), §5 (stage narrative), §7.3 (open questions), Appendix B (diff); memo §§3.1–3.5 (agent architecture), §6 (governance rules); Stage A's `classification.yaml`.
@@ -158,6 +170,12 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 ---
 
 ### Stage C — Schema freeze and gold hand-authoring
+
+**Executor brief.**
+- Read first: this stage's Tasks + Gates; spec §2.1–§2.6, §5 Stage 1, §7.2; memo §1.2 (3×3 matrix); Stage B inventory; Overton Park episode 3 transcript and current `analysis.yaml`/`facilitation.yaml`/`lens/scaffolding.yaml`/`lens/facilitation.yaml` as raw source content (not as structural templates).
+- Write: five schema files under `framework/schemas/` (`ground_truth`, `diagnostic`, `prose`, `discussion`, `assistive_package`); four gold YAML files under `artifacts/overton-park/episodes/episode_03/`; `framework/pipeline/initialize.py`; an extension to `framework/pipeline/scripts/validate_schema.py`.
+- Must not read: any draft Stage D agent prompt — the gold must be authored independently of how the agents will later be written (authorship discipline).
+- Exit when: C.G1, C.G2, C.G3, C.G4 all pass. Schemas freeze at exit; later edits require redoing C.G4.
 
 **Goal.** Execute spec §5 Stage 1. Write the five new schema files (four agent-output schemas plus `assistive_package`), hand-author a gold instance of each agent-output schema for Overton Park episode 3, and freeze the schemas before any agent prompt is written.
 
@@ -201,6 +219,12 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 ---
 
 ### Stage D — Agent authoring chain
+
+**Executor brief.**
+- Read first: this stage's Tasks + Gates and the substage being executed; spec §2.1–§2.5, §5 Stages 2–5; memo §§3.1–3.4, §6 Rule 8 (one cognitive job per agent), Rule 11; frozen Stage C schemas; Stage C gold files (only via the diff-against-gold gates, not as agent inputs); existing `framework/pipeline/agents/evaluator.md` (D.1 only).
+- Write: four agent prompts under `framework/pipeline/agents/` (`analyst_agent.md`, `diagnostic_agent.md`, `prose_agent.md`, `discussion_agent.md`); four generated artifacts under `artifacts/overton-park/episodes/episode_03/generated/`; per-substage diff reports appended to the inventory.
+- Must not read: gold files as agent inputs (they are the oracle, not the source); downstream agents must not read sibling-agent gold or generated output beyond what the file-path convention permits.
+- Exit when: every substage's gates pass. D.3 includes the architecture checkpoint D.3.G3 — failure there triggers the hard-stop rule, not in-place patching.
 
 **Goal.** Execute spec §5 Stages 2, 3, 4, 5 — write the four authoring agent prompts and run each on Overton Park episode 3, comparing against the gold files from Stage C. Land the architecture checkpoint spec §5 Stage 4 prescribes after the prose agent.
 
@@ -288,6 +312,12 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 
 ### Stage E — Reviewer + merge script + first full pass
 
+**Executor brief.**
+- Read first: this stage's Tasks + Gates and the substage being executed; spec §2.6 (enforcement checks), §2.8 (handoff contract), §5 Stage 6; memo §3.5 (package reviewer's thirteen criteria), §6 Rules 9, 11, 12; Stage D outputs and the four Stage C gold files.
+- Write: `framework/pipeline/scripts/build_assistive_package.py`; `framework/pipeline/agents/package_reviewer.md`; `framework/pipeline/commands/build_assistive_package.md`; four broken-package fixtures under `framework/pipeline/tests/broken_packages/`; full generated package at `artifacts/overton-park/episodes/episode_04/`.
+- Must not read: nothing beyond Inputs — Stage E is integration, not authoring of new agent cognition.
+- Exit when: E.1, E.2, E.3 substage gates all pass. E.3.G4 is an architecture checkpoint — failure may force a memo or spec edit and a sweep of this plan.
+
 **Goal.** Execute spec §5 Stage 6. Write the merge script (spec §2.6) and the package reviewer agent (spec §2 references, memo §3.5), then run the full pipeline end-to-end with no operator intervention on a second Overton Park episode.
 
 **Split from spec §5 Stage 6.** Spec §5 Stage 6 bundles "write the reviewer" with "run the full pipeline on a fresh episode." This plan splits them into E.1 (merge script), E.2 (reviewer agent with seeded broken cases), and E.3 (first unassisted end-to-end run on a fresh episode). The split lets E.1 and E.2 gate independently and gives E.3 a clean "is the system cohesive?" test rather than a compound "is the reviewer AND the chain correct?" test.
@@ -345,6 +375,12 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 ---
 
 ### Stage F — Contrast-case run and retirement of legacy surface
+
+**Executor brief.**
+- Read first: this stage's Tasks + Gates; spec §5 Stage 7, Appendix B (replaced files); Stage A's `classification.yaml` (catalog of what may be retired); Stage E outputs.
+- Write: `artifacts/{contrast_story}/episodes/episode_01/` (full generated package); deletions of all *retired* and *redesign-input* entries from the live tree; trimmed `apps/lens/docs/instructional-design.md`; updates to `CLAUDE.md`, `framework/docs/system-architecture.md`, `framework/docs/operator-manual.md`; finally, move this implementation plan to `archive/pre-revision-2026-04-09/pipeline-revision-implementation.md` with a `frozen YYYY-MM-DD` header.
+- Must not read: nothing — but classification.yaml is the *sole* authority on what may be deleted. Do not delete a file that is not classified *retired* or *redesign-input*.
+- Exit when: F.1.G1–G3 and F.2.G1–G4 all pass. F.2.G4 (semantic regression check) runs after retirement; F.2.G1 runs after task 7 (this file already moved to archive).
 
 **Goal.** Execute spec §5 Stage 7 (contrast-case run), then retire the legacy files the revision replaces.
 
