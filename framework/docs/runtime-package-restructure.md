@@ -164,6 +164,50 @@ episode_assets:
 
 No L1/L2/L3. No file count. No merge derivation knowledge. The integration doc fits on one page.
 
+### 3.1 Strength cells: closing the weakness/strength asymmetry
+
+The conceptual framework commits to recognizing both strong thinking and weak thinking. Part 4 of `story-pipeline-revision.md` enforces evidence grounding for both weakness and strength targets; `validate_story.py` requires strength rotation across the arc; `transcript_reviewer` criterion 5d checks that strength signals landed; ground truth captures strengths via `facets_present[].role == strength`.
+
+**At the runtime layer, this parity does not hold.** The three probe roles in §3's schema (`present`, `afforded_missing`, `tempting_absent`) are all implicitly weakness-oriented. Intervention ladders use fix-oriented rung types (`nudge`, `hint`, `redirect`, `worked_example` — the last lifted verbatim from `counterfactuals[]`, the "what would fix this" block). The explanation sub-ladder routes into cognitive/social *failures* but not cognitive/social *successes*. A student tapping "noticing what went well" has nowhere to land, and `ground_truth.facets_present` entries with `role == strength` are captured in the authoring trace but have no projection into the runtime tables.
+
+This asymmetry must be closed in v2. The fix does not add any new metadata — it uses data the pipeline already produces at the authoring and ground-truth layers.
+
+**Schema additions (folded into §3 at schema draft time):**
+
+1. **Fourth probe role.** `probes.facet.by_turn[T].options` may include options routing to `{facet: F, role: strength_present}`. Positively framed: *"Dev actually pushed back on where the source came from."*
+
+2. **Strength cells in `interventions.by_turn[T].by_facet[F]`.** When `role: strength_present`, the cell carries a different ladder shape:
+   ```yaml
+   interventions:
+     by_turn:
+       t8:
+         by_facet:
+           source_credibility:
+             role: strength_present
+             opening: "You're noticing that Dev did something important."
+             ladder:
+               - {type: observation, text: "What exactly did Dev ask?", reveals: 1, cost: 0}
+               - {type: naming,      text: "What would you call that move — why does it count as checking?", reveals: 2, cost: 0}
+               - {type: transfer,    text: "Where else in this discussion would that same move have helped?", reveals: 3, cost: 1}
+             has_explanation_depth: true
+             explanation:
+               by_explanatory_variable:
+                 cognitive_strength: {ladder: [...]}   # e.g., careful_attention, deliberate_pacing
+                 social_strength:    {ladder: [...]}   # e.g., willingness_to_disagree, giving_airtime
+   ```
+
+3. **Three new rung types:** `observation | naming | transfer`. Orthogonal to the weakness-oriented rungs (`nudge | question | hint | lens_switch | redirect | worked_example`). The ladder shape reflects a different pedagogical move: students learn recognition and generalization, not correction.
+
+4. **Explanation sub-ladder for strengths.** Mirrors the existing weakness-side routing with two strength variables (`cognitive_strength`, `social_strength`). The `interaction` variable remains available for cases where a cognitive strength is amplified by a social strength.
+
+5. **`discussion_cues` gain optional `valence: weakness | strength`.** Lets the app balance the cue mix per student across the group phase and lets authoring-side reviewers check "does this episode's cue set include strength observations."
+
+**Merge-script derivation.** `ground_truth.facets_present[].role == strength` entries mechanically generate strength-cell stubs in the intervention dictionary, the same way `counterfactuals[]` mechanically generate worked-example bottom rungs today. The diagnostic agent fills in the openings, ladder text, and explanation sub-ladders; the wiring is free.
+
+**Why this is not overengineering.** Unlike the growth-arc schema proposal (considered and rejected during the v2 design conversation — see §8), strength cells use data the pipeline already produces. The runtime package is simply the only layer that currently ignores it. Closing the gap is completing the runtime projection of ground truth, not adding a new feature.
+
+**Relevance to growth-arc stories.** A story where characters gradually strengthen their reasoning specifically needs the runtime package to scaffold "noticing what strong thinking looks like." Without strength cells, the pedagogical payoff of a growth arc never reaches the student-facing layer, because the runtime can only route taps into weakness cells. With strength cells, the arc is observable by students via the same `continuation_of` and `echoes` mechanisms that already exist — without any declared arc metadata.
+
 ## 4. Authoring trace schema
 
 `authoring_trace.yaml` is the current `assistive_package.yaml` minus everything in §3, plus a few blocks that today live in the runtime file but shouldn't.
@@ -266,6 +310,7 @@ Step 1 is cheap and reversible; doing it first means every later step operates o
 - **No behavioral changes to `validate_story.py` or `story_consistency_reviewer`.** Both gain archive-path exclusion (step 1) but their validation logic is unchanged.
 - **No Lens app code changes in this doc.** `apps/lens/docs/package-contract.md` is written in step 12 but the app's consumer implementation is a separate effort.
 - **No v1 migration, regeneration, or re-authoring in place.** `saving-the-maker-space` and `the-overton-park-sightings` — their story design docs, their per-episode drafts, and any Phase 7 artifacts — are frozen verbatim into `framework/stories/archive/v1/` and `artifacts/archive/v1/` (step 1). The v2 pipeline does not read from archive paths. V2 stories get new story IDs and may borrow from v1 only via the creative-brief extractions at `framework/stories/v1-storylines/` (step 2).
+- **No growth-arc schema or metadata.** Growth arcs, when a story has them, are described as *prose* in the character sections of the story design doc (the existing convention per Part 13.1 of `story-pipeline-revision.md` — each character's section includes "growth arcs as narrative beats"). The evaluator and `story_consistency_reviewer` read that prose and use it to inform cross-episode annotation and consistency checks. Student *discovery* of character change is left to the existing `continuation_of` cross-episode mechanism on `discussion_cues`, `connects_to.echoes` on ground truth, and the evaluator's cross-episode context awareness — all of which already support noticing how a character's reasoning shifts without any structural arc metadata. Declaring growth arcs as schema fields was considered during v2 design and rejected on two grounds: (1) the existing mechanisms are already sufficient, so adding metadata would be overengineering; (2) structurally declaring "now is when the character pivots" risks converting student-driven discovery into system-driven telling, which is pedagogically weaker. The strength-cell addition (§3.1) is what actually closes the gap between "characters can be seen as growing" and "the runtime package can scaffold noticing that growth" — and it requires no new metadata at all.
 
 ## 9. Open questions
 
@@ -273,13 +318,9 @@ Step 1 is cheap and reversible; doing it first means every later step operates o
 2. **Schema version negotiation.** If an app is built against `schema_version: 1` and the pipeline bumps to `2`, what's the compatibility contract? Proposal: additive-only changes within a major version, Lens pins to a major. Revisit when the first breaking change is proposed.
 3. **Friction log capture point.** The original open follow-up (a friction log for `saving-the-maker-space`) is now moot — maker-space is being frozen into the archive without further runs. The v2 pilot gets its own friction log at `framework/stories/{new_story_id}-friction-log.md`, started in step 14.
 4. **Should the authoring trace be gitignored or committed?** It's large and regenerable, but reviewers want it historical for audit. Proposal: committed for now; revisit if repo size becomes a problem.
-5. **Which Part 11 frame is the v2 pilot?** Three candidates:
-   - **Frame A descendant** — re-author from the `saving-the-maker-space` storyline extraction. Lowest creative risk (premise already proven to work), but the restructure deserves a fresh test, not a retread.
-   - **Frame B — The Beat (journalism).** Exercises lens distribution differently (evaluating others' reasoning rather than planning one's own project), and its "evaluate sources and decisions you didn't make" frame naturally produces the `afforded_missing` cells the restructure wants to stress. Strong candidate for the runtime schema's first real workout.
-   - **Frame C — The Capsule (mystery).** Highest format variety, strongest "evaluate someone else's reasoning" transfer. Most ambitious. Probably too big a creative lift for the same step that's validating a pipeline restructure.
-
-   Recommendation: **Frame B.** It stress-tests the affordance profile that v1 stories under-exercised (cross-lens visibility, `afforded_missing` probe density, `stance_inversion` cues against real disagreements about sources) without requiring the format variety Frame C demands. Decide during step 3.
-6. **Extraction scope from v1 storylines.** For each frozen v1 story, how much of the cast and arc is worth extracting? Proposal: extract premise and dramatic arc freely; extract cast sketches only if the v2 pilot is the same Frame A descendant. If the v2 pilot is Frame B or C, the cast is new and the extraction is premise-only.
+5. **Pilot story design is free-form within the hard pipeline constraints — not bound to any Part 11 frame.** The hard constraints are: coverage closure, lens/mixed-valence/strength/weakness rotation (all `validate_story.py`), evidence grounding (`validate_schema.py`), information barrier (`validate_schema.py` + `projection_reviewer`), cast size 4–6, no character is an embodied fallacy, character consistency across episodes (all `story_consistency_reviewer`). Everything else in Part 2 (cast tendencies, growth arc counts, stable-strength per character, lens-disposition modeling) and Part 10 (stakes, arc momentum, surprise, ending shape) is *quality guidance*, not structural enforcement. The v2 pilot's premise, cast, episode count, and dramatic arc are authored free-form with those hard constraints as a checklist verified at the end, not a menu picked from at the start. Part 11's three frames (A/B/C) are brainstorming suggestions, not a taxonomy the pipeline requires.
+6. **V1 storyline extraction is skipped.** The v2 pilot is authored fresh, not extracted from v1 content. Step 2 of the migration plan (`framework/stories/v1-storylines/` extractions) is effectively optional — if a premise or character name from a frozen v1 story happens to be useful, it can be borrowed ad hoc, but no structured extraction step is required and the critical path skips it. Rationale: the v1 stories were authored against a different affordance surface; forcing extraction to happen would anchor the v2 pilot on v1 design assumptions, which is what the whole restructure is trying to get away from.
+7. **Growth-arc handling.** Growth arcs, when present, are described in *prose* in the story design doc's character sections (existing convention, Part 13.1). No schema, no metadata, no declared pivot episodes. Student discovery of growth is scaffolded by the existing `continuation_of`, `echoes`, and cross-episode evaluator context — plus the new strength cells (§3.1), which give the runtime package a way to scaffold "noticing what strong thinking looks like" without ever naming the arc. See §8 for the full rationale.
 
 ## 10. Success criteria
 
@@ -289,6 +330,6 @@ The restructure is done when:
 - **`runtime_package.yaml` and `authoring_trace.yaml` are produced by the merge script** with full field coverage for every authoring-agent output, and `scripts/validate_schema.py` passes on both files.
 - **`apps/lens/docs/package-contract.md` exists, is one page, and references only `runtime_package.yaml`.** A new developer can read that one page and write a toy app that consumes one episode's runtime package without reading any other pipeline doc.
 - **The v2 pilot story exists** at `framework/stories/{new_story_id}.md` with per-episode drafts, runs cleanly through the restructured Phase 7, and produces valid runtime packages for every episode.
-- **The v2 pilot exercises every runtime affordance in at least one passage across its arc:** all three probe roles (`present`, `afforded_missing`, `tempting_absent`); `has_explanation_depth: true` on at least one cell per lens; all three creative axes (`lens_refraction`, `persona_projection`, `stance_inversion`); `continuation_of` matching from a non-trivial individual-phase probe record; and the empty-history `continuation_of: null` fallback. This is the "the pilot earned the schema" check.
+- **The v2 pilot exercises every runtime affordance in at least one passage across its arc:** all **four** probe roles (`present`, `afforded_missing`, `tempting_absent`, `strength_present`); `has_explanation_depth: true` on at least one cell per lens; all three creative axes (`lens_refraction`, `persona_projection`, `stance_inversion`); `continuation_of` matching from a non-trivial individual-phase probe record; the empty-history `continuation_of: null` fallback; at least one intervention cell with a full `observation → naming → transfer` strength ladder; and at least one strength-valenced discussion cue. This is the "the pilot earned the schema" check.
 - **The friction log** at `framework/stories/{new_story_id}-friction-log.md` captures at least one entry from the restructure itself and one from story authoring.
 - **Part 11's suggested-first-stories section is updated** to reflect which frame became the v2 pilot and how that choice validated (or stressed) the runtime schema.
