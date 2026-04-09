@@ -54,6 +54,7 @@ The strategies this plan treats as defaults are:
 - **Faded assistance** — scaffolding should be graduated and thinned as competence grows. (Collins, Brown, and Newman; Wood, Bruner, and Ross; Pea; cognitive load theory.)
 - **Elaborative interrogation / self-explanation** — students learn more when prompted to explain *why* something is the case. (Chi; Pressley.)
 - **Perspective-taking** — structural, since it is the framework's third affordance made manifest.
+- **Worked examples / worked counterfactuals** — short, concrete "what would fix this" examples grounded in the specific passage support transfer better than abstract corrections. (Sweller; Renkl on worked examples and self-explanation of completion problems.)
 
 And one that comes along for free given cross-episode threading:
 
@@ -105,9 +106,21 @@ Some stories commit to pedagogical stances that are creative choices, not framew
 
 The pipeline handles this via a story-level capability declaration (§4): the story design doc's frontmatter names the `pedagogical_register` it wants, and the pedagogue agent reads this and matches its prose accordingly. Stories that don't declare one get a generic neutral register. No schema block depends on the value; only the pedagogue's prose tone does.
 
+Note that the `surface/partial/completed` rubric introduced in §2.3 is the same kind of register choice as `pedagogical_register`, elevated from terminology — both exist to let stories vary their stance toward "incomplete reasoning" without changing the schema.
+
 ### 1.5 Summary of Part 1
 
 The pipeline's output is grounded in three framework affordances plus four well-validated instructional defaults. Every required schema field traces to one of those seven sources. Any field that cannot trace to a framework affordance or a well-validated instructional strategy is either moved to the opt-in story-level extension set (§4) or removed from the plan. Story-specific creative choices are honored through a small capability-declaration surface in the story design doc, not by baking them into the core schema.
+
+### 1.6 Universal core vs. app-coupled layer
+
+Not every block in the package is equally portable across apps. The plan distinguishes two layers:
+
+**Universal core (framework-shaped, app-agnostic).** `ground_truth.yaml` in full — facets present, absent-but-tempting, lens visibility, turn annotations, causal layer, perspective transitions, counterfactuals, connects_to. Any non-AI critical-thinking app built on the Polylogue framework would want this content unchanged. The `learner_response_space` and `process_guidance` blocks are also universal *as primitives*, but their precise interpretation is app-coupled.
+
+**App-coupled interpretation (Lens-shaped today, generalizable later).** The hint-cost economy in `attention_cues[].cost`, the "commit to a reading then get assessed" loop assumed by `learner_response_space.by_lens.{likely/partial/mis/blindspots}`, and any session-pacing or unlocking semantics are interpretation choices a specific app makes when it consumes the package. The pipeline produces neutral primitives; the app decides what they mean.
+
+The universal pipeline (§5 stages 1–6) produces only the universal core and the universal primitives. App-specific reshaping, renaming, semantic annotation, and pacing live in the **app projection layer** (§2.6, §3.6), which runs after the main pipeline and is opt-in per app.
 
 ---
 
@@ -205,8 +218,6 @@ Per-passage content grounded in the non-AI app's need for structured data to rep
     - `danger_signals[]` (concrete descriptions of bad-stuck)
     - `minimum_wrestling[]` (preconditions before hints unlock)
 
-- `prior_exposure` — per passage, deterministic list of facets/patterns/dynamics the student has already encountered in prior episodes, each with `first_seen: episode_NN`. Derived mechanically from the story's episode sequence and the per-episode ground truth, not LLM-authored. Empty for episode 1 of any story.
-
 - `assumes_familiar_with[]` and `introduces[]` — pedagogue-authored at passage level. `assumes_familiar_with` names vocabulary the passage builds on; `introduces` names vocabulary the passage newly teaches. These inform the app's faded-assistance filtering.
 
 **Conditionally required blocks** (populated only when the story's frontmatter declares the relevant capability — see §4):
@@ -226,6 +237,8 @@ Per-passage content grounded in the non-AI app's need for structured data to rep
 ### 2.4 `assistive_package.yaml` — the merged view the app reads
 
 A mechanical concatenation of `ground_truth.yaml` and `learner_package.yaml`, plus cross-reference integrity checks. Produced by a Python merge script, not an LLM. This is the single file the Lens app consumes.
+
+**The merge script also computes one deterministic block:** `prior_exposure` — per passage, the list of facets/patterns/dynamics the student has already encountered in prior episodes (each with `first_seen: episode_NN`). Derived mechanically from the story's episode sequence and the per-episode ground truth files. The pedagogue *reads* this as input via the story-position object (§3.2) but does not author it; producing it in the merge script removes any chance of LLM hallucination on a value that has a deterministic answer.
 
 **The merge script enforces:**
 
@@ -253,11 +266,33 @@ If any check fails, the merge script exits with an error and the episode is not 
 | `scaffolding.yaml` → `common_misreadings` | Becomes `learner_response_space.by_lens.misreadings` |
 | `scaffolding.yaml` → `observation_rubric` | Becomes `learner_response_space.by_lens.likely_readings` with `quality` tags |
 | `scaffolding.yaml` → `explanation_rubric` | Becomes `learner_response_space.explanation_quality` |
-| `facilitation.yaml` → `productive_questions` | Folds into `process_guidance.deepening_moves` |
+| `facilitation.yaml` → `productive_questions` | Stays distinct as `process_guidance.productive_questions` (teacher-facing); `deepening_moves` is student-facing. Different audiences must not collapse. |
 | `facilitation.yaml` → `watch_for`, `if_students_are_stuck` | Becomes `process_guidance.stall_signals` + `struggle_calibration` |
 | `facilitation.yaml` → `likely_disagreements` | Becomes `process_guidance.expected_divergence` |
 
 Six overlapping pairs from the earlier audit all collapse into one-source-of-truth blocks. No content is lost; content is reorganized and deduplicated.
+
+### 2.6 The app projection layer (optional, per app)
+
+`assistive_package.yaml` is the universal pipeline's terminal artifact. It is app-agnostic by construction (§1.6) and is intended to be readable directly by any non-AI app whose needs it already meets.
+
+For apps that need to *reshape*, *narrow*, *rename*, or *annotate with app-specific semantics* (hint cost economies, session pacing, unlocking rules, custom field shapes), the plan introduces an **app projection layer**: a per-episode, per-app derivative produced after the universal pipeline by an `app_projector` agent (§3.6) reading two inputs:
+
+- `artifacts/{story_id}/episodes/episode_{NN}/assistive_package.yaml`
+- `apps/{app_id}/docs/package-contract.md` — the app's contract document, committed to source
+
+and writing:
+
+- `artifacts/{story_id}/episodes/episode_{NN}/{app_id}/app_package.yaml`
+
+**Key properties:**
+
+- **Derived, not authored.** The projection is reproducible from package + contract. The projector may select blocks, reshape, rename, attach app-specific semantics (e.g., tag `attention_cues[].cost` with Lens lifeline values), and emit `contract_violations[]`. It may *not* invent content the package lacks.
+- **Optional.** An app that's content with the universal package consumes `assistive_package.yaml` directly. No contract, no projector, no blocking. The universal pipeline's success criteria never reference `app_package.yaml`.
+- **Per-episode, per-app.** Same granularity as everything else. A future per-story projection (e.g., for cross-episode pacing) is added only if a contract demonstrates the need.
+- **Failure mode is `contract_violations[]`, not fabrication.** If a contract requires a field the package doesn't have (e.g., `stance_positions[]` when the story didn't opt in), the projector emits a violation entry and exits non-zero. Recurring violations across episodes or apps are the upstream-communication signal that the schema or a capability flag should change.
+
+The contract document itself states, for the app: which package blocks the app consumes; which optional/conditional blocks the app requires; which capability flags the app needs the story to declare; the app-specific interpretation of each consumed field; and any known gaps.
 
 ---
 
@@ -270,6 +305,8 @@ The current `/analyze_transcript` command uses a single `evaluator` agent that p
 **Input.** `episode.yaml`, `transcript.yaml`, the canonical reference files from `framework/reference/`, and (for cross-episode threading) the episode index of the story.
 
 **Output.** `ground_truth.yaml` conforming to §2.1 and §2.2.
+
+**Information barrier note.** Merging `/analyze_transcript` and `/design_scaffolding` does not touch the dialog-writer information barrier, which sits upstream at `/create_transcript`. The analyst sees the episode plan, the transcript, and the framework reference files because the dialog has already been written; nothing the analyst does flows back to the dialog writer.
 
 **Job.** Close reading against a known framework. Identify what facets fire, with what severity, anchored to which turns. Identify what facets are absent-but-tempting. Annotate every turn in every passage with its move and facet signals. Write the causal layer including required interaction. Generate perspective transitions. Produce counterfactuals. Identify cross-passage connections.
 
@@ -313,18 +350,16 @@ The current `/analyze_transcript` command uses a single `evaluator` agent that p
 
 **Output.** `ACCEPT` or `REVISE` with structured findings.
 
-**Review criteria.**
+**Review criteria (judgment-only).** Mechanical checks (turn-citation existence, enumerated `interaction` values, cross-file `maps_to_facet` resolution, capability-declaration honoring, prior-exposure reference validity) are enforced by the merge script in §2.4 and removed from the reviewer's load. The reviewer is left with criteria that require judgment:
 
 1. **Block orthogonality** — no content appears in two blocks that should be one block.
 2. **Response space completeness** — every lens has at least one entry in every category, subject to the weak-signal exception.
 3. **Near-miss discriminability** — every `facets_absent_but_tempting` entry has a non-hand-wavy `why_wrong` that actually distinguishes the case.
-4. **Turn citations present** — every annotation that requires a citation has one.
-5. **Interaction field validity** — every `causal_layer.interaction` is enumerated; `cognitive_only` appears only for the two facets the framework permits.
-6. **Multiple forces listed** — when the framework's §4 tables show multiple candidates for a facet, the causal layer lists them all.
-7. **Register matching** — sampled pedagogue prose matches the story's declared `pedagogical_register`.
-8. **Hint calibration** — sampled hint rungs direct attention without giving the observation.
-9. **Cross-file integrity** — every `maps_to_facet` exists in the ground truth; every prior-exposure reference is valid.
-10. **Capability declarations honored** — conditional blocks are populated iff the frontmatter declared the capability.
+4. **Multiple forces listed** — when the framework's §4 tables show multiple candidates for a facet, the causal layer lists them all (judgment about plausibility, not enumeration).
+5. **Register matching** — sampled pedagogue prose matches the story's declared `pedagogical_register`.
+6. **Hint calibration** — sampled hint rungs direct attention without giving the observation.
+
+**Cross-episode consistency.** The reviewer additionally has a cross-episode mode that runs after every episode in a story has been packaged. It verifies that `connects_to.echoes`, `connects_to.contrasts`, and `prior_exposure` references resolve coherently across the full set of episode packages, and that `pedagogical_register` does not drift across episodes. This is the standing mechanism behind the "register drift across episodes" concern in stage 5.
 
 The reviewer is a separate agent with fresh context. It reads both files but does not rewrite them. When it returns `REVISE`, the operator re-runs the relevant agent (usually the pedagogue) with the specific findings attached to the prompt. No agent-to-agent dialogue.
 
@@ -336,17 +371,39 @@ The reviewer is a separate agent with fresh context. It reads both files but doe
 
 **Not a separate perspective-transitions agent.** Transitions are analytical content (what does Logic see that Evidence misses), not pedagogical content. They belong in the analyst's output. The pedagogue wraps them in prompts inside `attention_cues` or `deepening_moves` if and when the story wants that use.
 
-Two agents plus one reviewer is the minimum that cleanly separates cognitive jobs. More is over-engineering by the lights of §6.
+Two agents plus one reviewer is the minimum that cleanly separates cognitive jobs in the universal pipeline. The app projector (§3.6) is a third pure role but lives *outside* the universal pipeline and runs only when an app opts in, so it does not count against this minimum. More is over-engineering by the lights of §6.
 
 ### 3.5 Coordination rules
 
 1. **Ground truth is passed as a file, not inline.** The analyst writes `ground_truth.yaml` and exits. The pedagogue reads it via the Read tool. This keeps both context windows clean and gives a durable intermediate artifact for inspection.
 
-2. **The pedagogue sees the full transcript too.** Not just ground truth. Pedagogical prose must be grounded in specific turns and specific language, and that requires access to the original.
+2. **The pedagogue sees the full transcript, not just ground truth.** This is load-bearing and easy to miss. Pedagogical prose must be grounded in specific turns and specific language, and that requires access to the original transcript even though ground truth is the structured input. The pedagogue's prompt must make this explicit.
 
 3. **No back-and-forth between analyst and pedagogue.** If the reviewer flags a contradiction, the fix is to re-run the affected agent with the specific finding. Agent-to-agent dialogue is prohibited.
 
 4. **The merge script runs only after the reviewer returns ACCEPT.** No merged package is produced from un-reviewed inputs.
+
+### 3.6 The app projector agent
+
+The third pure role, parallel to analyst and pedagogue. Runs *only when invoked* by an app-specific command — never as part of the universal pipeline's per-episode autorun.
+
+**Input.** `assistive_package.yaml` (read from file), `apps/{app_id}/docs/package-contract.md`, optionally the story design doc frontmatter for capability-flag awareness.
+
+**Output.** `artifacts/{story_id}/episodes/episode_{NN}/{app_id}/app_package.yaml`.
+
+**Job.** Apply the contract to the package: select consumed blocks, reshape and rename per the contract's mapping rules, attach app-specific semantic annotations (e.g., tag `attention_cues[].cost` with the app's lifeline values), and emit `contract_violations[]` for anything the contract requires that the package lacks.
+
+**Constraints.**
+
+- The projector is **forbidden from generating any content not present in `assistive_package.yaml`.** Missing required content becomes a violation entry, never a fabrication. This is the projector's version of role purity.
+- The projection must be **reproducible**: the same package + same contract must yield the same `app_package.yaml`. No creative choices, no LLM speculation about what the app probably wants.
+- Whether the projector is an LLM agent or a Python script that calls an LLM only for specific reshaping ops is a Stage 7 decision. Much of the work is templating; the agent designation is provisional.
+
+**Failure modes this role is defending against.**
+
+- Inventing fields the contract asks for but the package doesn't carry.
+- Silently consuming blocks the contract didn't list.
+- Drifting away from reproducibility by making creative reshaping choices not specified in the contract.
 
 ---
 
@@ -377,15 +434,21 @@ The story design doc's frontmatter is extended with a small set of capability fl
 
 **The governance rule** (see §6): a new flag is added only when at least two distinct stories would use it differently, and the content it gates cannot reasonably live in the default schema. Each flag must be named in this section of the plan with a one-sentence justification meeting both criteria.
 
+**The same rule applies to enum values, not just flags.** A new value added to `pedagogical_register` (or any other enumerated flag) must clear the same two-instance bar: at least two distinct stories must want it differently. Otherwise enums quietly accumulate values (`socratic`, `dialogic`, ...) that no review ever gates.
+
 ---
 
 ## 5. End-to-end revision sequence
 
-Six implementation stages with explicit exit criteria. Each stage has a gate review; stages 3 and 5 have architecture reviews in addition.
+The universal pipeline is six stages (1–6); it ends at `assistive_package.yaml` and is fully app-agnostic. App-specific work — contracts, projectors, migrations — lives in a separate per-app track (App-Stage 1, App-Stage 2) that runs *after* the universal pipeline lands and never blocks it. Each universal stage has a gate review; stages 3 and 5 have architecture reviews in addition.
+
+**Resolved before Stage 1 begins:** the granularity of `turn_annotations` (Open Question 7.3). The answer determines analyst context budget and whether the two-agent split holds, so it cannot wait for Stage 2 to surface it.
 
 ### Stage 1 — Schema-first hand authoring
 
 **Action.** Write `ground_truth.schema.yaml` and `learner_package.schema.yaml` as formal YAML schemas. Then hand-author both files for **one existing episode** — specifically, whichever episode in the current corpus most densely exercises the schema's hardest fields (cross-lens signals, required interaction, multiple forces, perspective transitions, conditional blocks). At the time of writing, that is Overton Park episode 3 — which is explicitly flagged by its author as the highest-load scaffolding episode in the story. If a future story has a denser test case, the stage-1 target moves; the criterion is density of schema stress, not episode-1-of-a-specific-story.
+
+**Forcing function during hand-authoring.** For every field, ask: "could a non-AI app render or use this without further inference?" If the answer is no, the field is under-specified — fix the schema, don't push the gap downstream. This is the cheapest place to discover schema gaps and is deliberately app-agnostic (no specific app contract is consulted).
 
 **Exit criterion.** A human can fill every required field without hand-waving. If any required field cannot be filled cleanly from the transcript and episode plan, the field is either wrong (cut it) or the schema is under-specified (fix it). No agent work begins until hand-authoring is clean.
 
@@ -395,7 +458,7 @@ Six implementation stages with explicit exit criteria. Each stage has a gate rev
 
 **Action.** Port the existing `evaluator` prompt into the new analyst role, stripping all pedagogical speculation. Run it on the same episode as stage 1. Diff its output against the hand-authored ground truth.
 
-**Exit criterion.** Analyst output covers at least 90% of the hand-authored content. No hallucinated facets. All turn citations valid. Interaction field populated correctly on every causal entry.
+**Exit criterion.** Operationalized: ≥90% of hand-authored `facets_present` entries are also produced by the analyst with matching `facet_ref` and at least one overlapping `evidence_turn`; zero hallucinated facets (no analyst-produced `facet_ref` absent from the hand-authored set); 100% of analyst turn citations resolve to real turns; every `causal_layer` entry has a populated and enumerated `interaction` field.
 
 **Gate review — analyst fidelity.** Where does the agent over- or under-reach? Is each gap a prompt problem or a schema problem? Record prompt revisions needed for the second-episode run later.
 
@@ -439,17 +502,25 @@ Findings may revise §1, §2, or §4 before stage 4 proceeds.
 
 **Gate review — capability-declaration respect.** Verify that every conditional block is populated iff its flag is true, and that no schema rule forced content into a block whose flag is false.
 
-### Stage 7 — Lens app contract draft
+Stage 6 is the end of the universal pipeline. After Stage 6, every episode in the corpus has a valid `assistive_package.yaml` produced by the new agents. App-specific work begins in the per-app track below.
 
-**Action.** Using the real generated packages from stages 1 through 6, write a short spec for what the non-AI Lens app must do with each block. This is where you discover whether the package is actually app-usable or whether there is a gap.
+---
 
-**Exit criterion.** You can describe a full student session end-to-end using only package fields, without any "and then the app somehow figures out X." Any gap surfaces as either a new schema field or an explicit app-side responsibility.
+### App-specific track (per app, runs after the universal pipeline)
 
-### Stage 8 — Migration and cleanup
+These stages exist *per app* and do not block the universal pipeline or other apps. An app that consumes `assistive_package.yaml` directly without reshaping skips this track entirely.
 
-**Action.** Migrate remaining episodes in the current corpus to the new package. Delete the old fields from `analysis.yaml`, `facilitation.yaml`, `lens/scaffolding.yaml`, `lens/facilitation.yaml` that have been replaced. Keep `lens/session.yaml` for its distinct purpose (session configuration) but re-point any app-consumed content at the new merged package.
+#### App-Stage 1 — Contract + projector (Lens first)
 
-**Exit criterion.** Every episode in the corpus has a valid `assistive_package.yaml`. The old overlapping fields are deleted. No pipeline command references the old fields. Documentation is updated.
+**Action.** Write `apps/lens/docs/package-contract.md` stating which blocks Lens consumes, which optional blocks it requires, which capability flags the story must declare, and Lens's interpretation of each consumed field (lifeline-cost semantics, session pacing, etc.). Build the `app_projector` agent (or script) per §3.6. Run it end-to-end on a real episode against the real `assistive_package.yaml`.
+
+**Exit criterion.** A full Lens session can be described using only `lens/app_package.yaml`, with no "and then the app somehow figures out X." The projector produces `lens/app_package.yaml` *deterministically* from `assistive_package.yaml` + the contract. Any gap surfaces as either a `contract_violations[]` entry (if the package should provide it) or an explicit Lens-side responsibility (if it's truly app-private).
+
+#### App-Stage 2 — Migration and cleanup (per app)
+
+**Action.** Migrate the app's existing artifacts and runtime code to the new package + projection. Retire the old fields from `analysis.yaml`, `facilitation.yaml`, `lens/scaffolding.yaml`, `lens/facilitation.yaml` for *this app's* consumption path. Update the app's documentation. `lens/session.yaml` is preserved for its session-configuration purpose, but any app-consumed content moves to `lens/app_package.yaml`.
+
+**Exit criterion.** No app code references the retired fields. The app reads only `assistive_package.yaml` and (if the app has a contract) `lens/app_package.yaml`. Documentation is updated.
 
 ---
 
@@ -474,7 +545,7 @@ A new capability flag is added only when at least two distinct stories would use
 
 ### Rule 3 — Light usage is valid
 
-A story that lightly populates instructional metadata (one-level hint ladder, `cognitive_only` interactions where permitted, empty `blindspots` when the lens is weak-signal) is not flagged by the reviewer as under-specified. The reviewer checks that what is there is well-formed, not that the full machinery is exercised.
+A story that lightly populates instructional metadata (one-level hint ladder, `cognitive_only` interactions where permitted, empty `blindspots` when the lens is weak-signal) is not flagged by the reviewer as under-specified. The reviewer checks that what is there is well-formed, not that the full machinery is exercised. (Rule 2 governs *creative choices*; Rule 3 governs *intensity of use of universal primitives*. They look similar but answer different questions.)
 
 ### Rule 4 — The pipeline supports, does not compel
 
@@ -494,7 +565,15 @@ Every student-facing field uses labels from `apps/lens/docs/teacher-overview.md`
 
 ### Rule 8 — Agent roles are pure
 
-The analyst does not speculate about students. The pedagogue does not invent ground truth. The reviewer does not rewrite. Role-purity is enforced by the reviewer's criteria and by the agents' input restrictions.
+The analyst does not speculate about students. The pedagogue does not invent ground truth. The reviewer does not rewrite. The app projector does not invent content the package lacks. Role-purity is enforced by the reviewer's criteria and by the agents' input restrictions.
+
+### Rule 9 — App contracts are read-only consumers
+
+App contracts may *narrow* what an app uses from the package; they may *not constrain* what the pipeline produces. If an app needs the pipeline to change, that goes through a plan revision, not through an edit to the contract. The `contract_violations[]` log is the upstream-communication channel: when the same violation recurs across episodes or apps, that's the §4 two-instance rule firing automatically and signals that the schema or a capability flag should change.
+
+### Rule 10 — The app projection layer is optional
+
+An app may consume `assistive_package.yaml` directly without a contract or a projector run. Contracts and projectors exist only for apps that need to reshape, narrow, or annotate the package with app-specific semantics. The absence of `apps/{app_id}/docs/package-contract.md` is not an error and does not block any pipeline stage. The universal pipeline's success criteria never reference `app_package.yaml`.
 
 ---
 
@@ -504,7 +583,7 @@ The analyst does not speculate about students. The pedagogue does not invent gro
 
 The following are explicitly out of scope for this revision. Naming them prevents scope creep and makes clear what a future revision might address.
 
-- **Reasoning Lab migration.** Reasoning Lab currently consumes the same `analysis.yaml` + `facilitation.yaml` as Lens. During this revision, Reasoning Lab continues to consume those old files unchanged. After Lens ships on the new assistive package, a separate revision will decide whether Reasoning Lab adopts the same package, a variant, or its own shape. Trying to serve both now would either over-generalize and serve neither well, or under-serve Reasoning Lab.
+- **Reasoning Lab migration is deferred but no longer evasive.** Reasoning Lab currently consumes the same `analysis.yaml` + `facilitation.yaml` as Lens and continues to do so during this revision. Under the projection-layer architecture, Reasoning Lab's path forward is principled: when the team is ready, it gets `apps/reasoning-lab/docs/package-contract.md` and its own projector run. Any gaps surface as `contract_violations[]` rather than as ad-hoc guesses, and the same governance rules (§4 two-instance, Rule 9 read-only) apply. The deferral is about sequencing, not about uncertainty.
 
 - **Runtime LLM calls from the app.** The Lens app is non-AI by design. Every intelligent operation is precomputed. If a field seems to require runtime inference, that is a pipeline gap, not an app-side justification for adding an LLM.
 
@@ -583,7 +662,7 @@ This is the pipeline the app deserves, and the app the framework's affordances h
 | `causal_layer.interaction` | Affordance 2 + framework §2.2 explicit commitment |
 | `causal_layer` multiple forces rule | Affordance 3b; framework §4 |
 | `perspective_transitions[]` | Affordance 3a made explicit; framework §3 |
-| `counterfactuals[]` | Non-AI app "what would fix this" need; LLM-only authorship |
+| `counterfactuals[]` | Worked-examples instructional default (§1.1); Sweller, Renkl |
 | `connects_to` | Spaced-practice strategy (default); within-story continuity |
 | `learner_response_space.by_lens.*` | Non-AI app rubric replacement |
 | `learner_response_space.explanation_quality` | Affordance 2 articulation support |
@@ -601,11 +680,11 @@ Every field is accounted for by an affordance or an instructional default. No fi
 
 **Files produced today (per episode):** `analysis.yaml`, `facilitation.yaml`, `lens/scaffolding.yaml`, `lens/facilitation.yaml`, `lens/session.yaml`.
 
-**Files produced after this revision:** `ground_truth.yaml`, `learner_package.yaml`, `assistive_package.yaml`, `lens/session.yaml`. Four files instead of five, and three of them are produced by a mechanical merge or single-agent pass.
+**Files produced after this revision:** Universal — `ground_truth.yaml`, `learner_package.yaml`, `assistive_package.yaml`. Per-app (optional) — `{app_id}/app_package.yaml`, plus `lens/session.yaml` preserved for its session-configuration role (its file shape is unchanged, but any app-consumed content is now read from `lens/app_package.yaml` rather than directly from `session.yaml`).
 
-**Agents changed.** The `evaluator` agent is retired and replaced by `analyst_agent` and `pedagogue_agent`. The `analysis_reviewer` and `scaffolding_reviewer` agents are merged into `package_reviewer` with the criteria in §3.3.
+**Agents changed.** The `evaluator` agent is retired and replaced by `analyst_agent` and `pedagogue_agent`. The `analysis_reviewer` and `scaffolding_reviewer` agents are merged into `package_reviewer` with the criteria in §3.3. A new `app_projector` agent (§3.6) lives in the per-app track and runs only when an app opts in.
 
-**Commands changed.** `/analyze_transcript` and `/design_scaffolding` are merged into a single `/build_assistive_package` command that runs analyst → pedagogue → reviewer → merge. Operators see one command where today they see two.
+**Commands changed.** `/analyze_transcript` and `/design_scaffolding` are merged into a single `/build_assistive_package` command that runs analyst → pedagogue → reviewer → merge. A new per-app command (e.g., `/project_for_app lens`) invokes the projector against an existing `assistive_package.yaml`. Operators running an app-agnostic story see one command where today they see two; operators running an app with a contract see one additional optional command.
 
 **Schemas changed.** `analysis.schema.yaml` and `facilitation.schema.yaml` are retired. `lens/scaffolding.schema.yaml` is retired. New schemas are `ground_truth.schema.yaml`, `learner_package.schema.yaml`, `assistive_package.schema.yaml`.
 
