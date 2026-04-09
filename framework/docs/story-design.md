@@ -1,6 +1,6 @@
 # Story Design
 
-This document is operator guidance for designing a Polylogue story under the **episodes-first authoring model** (Part 13 of `framework/docs/story-pipeline-revision.md`). It is written for the person sitting at the keyboard authoring a story design doc and per-episode drafts, and the curriculum coordinator reading over their shoulder. It is not a schema reference and not a pipeline runbook — for those, see Appendix B of `story-pipeline-revision.md` and `framework/docs/archive/operator-manual.md` (v1, pending v2 replacement).
+This document is operator guidance for designing a Polylogue story under the **episodes-first authoring model** (Part 13 of `framework/docs/story-pipeline-revision.md`). It is written for the person sitting at the keyboard authoring a story design doc and per-episode drafts, and the curriculum coordinator reading over their shoulder. It is not a schema reference and not a pipeline runbook — for those, see Appendix B of `story-pipeline-revision.md` and `framework/docs/operator-manual.md`.
 
 A story is the unit of curriculum the pipeline produces. The system enforces structural requirements (cast bounds via prose review, coverage contract via the validator, mixed-valence rotation via the validator). The creative design has narrative requirements that no validator can capture. Both matter. A story that satisfies the validator but bores 6th graders has failed; a story that excites them but leaves the framework's inventory uncovered has also failed. This document is about getting both right.
 
@@ -164,7 +164,7 @@ For first stories, see Part 11 of `framework/docs/story-pipeline-revision.md`, w
 ## Where to look next
 
 - **Per-episode draft template:** Appendix B of `framework/docs/story-pipeline-revision.md`.
-- **End-to-end runbook:** `framework/docs/archive/operator-manual.md` (v1, pending v2 replacement).
+- **End-to-end runbook:** `framework/docs/operator-manual.md`.
 - **Episode plan schema:** `framework/schemas/episode_plan.yaml` — what `/create_episode` produces from a draft.
 - **Validator:** `framework/pipeline/scripts/validate_story.py` — the mechanical checks behind the coverage contract.
 - **Prose-on-prose reviewer:** `framework/pipeline/agents/story_consistency_reviewer.md`.

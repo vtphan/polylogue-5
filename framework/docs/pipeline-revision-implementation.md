@@ -1,8 +1,8 @@
-# Pipeline Revision Implementation Plan (v2)
+# Pipeline Revision Implementation Plan
 
-**Status:** Draft. Execution runbook for the v2 pipeline revision.
-**Implements:** `pipeline-revision-plan-v2.md` (spec) and `pipeline-architecture-v2.md` (rationale).
-**Supersedes:** `archive/pipeline-revision-implementation-v1.md` (frozen historical reference).
+**Status:** Draft. Execution runbook for reaching the target pipeline design.
+**Implements:** `pipeline-revision-plan.md` (spec) and `pipeline-architecture.md` (rationale).
+**Context.** The diff between the currently-running pipeline and the target design is documented in `pipeline-v1-to-v2-migration.md`.
 
 This plan is a disposable runbook. Once Stage F completes, it is archived. The live design reference is the plan + architecture pair, not this file.
 
@@ -12,8 +12,8 @@ This plan is a disposable runbook. Once Stage F completes, it is archived. The l
 
 ### I.1 Relationship to the design docs
 
-- `pipeline-architecture-v2.md` carries the **why** (four-agent cognitive-job boundaries, L1/L2/L3 layer model, capability-flag rationale).
-- `pipeline-revision-plan-v2.md` carries the **what** (field schemas at §2.3, merge-script checks at §2.6, capability flags at §4, end-to-end sequence at §5).
+- `pipeline-architecture.md` carries the **why** (four-agent cognitive-job boundaries, L1/L2/L3 layer model, capability-flag rationale).
+- `pipeline-revision-plan.md` carries the **what** (field schemas at §2.3, merge-script checks at §2.6, capability flags at §4, end-to-end sequence at §5).
 - This doc carries the **how** (stage sequence, gates, rollback, commit discipline). It cites the other two freely and never duplicates their schemas.
 
 If the spec changes mid-execution, consult III.4 (spec-cascade rules) before continuing.
@@ -24,16 +24,15 @@ Every gate is one of three types. The type dictates the judgment burden and the 
 
 - **Mechanical** — binary pass/fail via script, grep, or schema validator. No judgment. Operator fixes the code and re-runs.
 - **Agent review** — a subagent reads a bounded criterion set and returns ACCEPT / REVISE / REJECT. Reproducible but requires language judgment.
-- **Architecture checkpoint** — operator reads artifacts against a named section of architecture-v2 or plan-v2 and answers a small set of structural questions. Requires an audit-trail comment citing the section.
+- **Architecture checkpoint** — operator reads artifacts against a named section of `pipeline-architecture.md` or `pipeline-revision-plan.md` and answers a small set of structural questions. Requires an audit-trail comment citing the section.
 
 There are **three** architecture checkpoints in this plan (C.G3, D.2.G2, E.3.G3). Use them sparingly; they are the plan's insurance policy and should not multiply.
 
 ### I.3 Non-goals
 
-- No legacy retirement. The v1 pipeline docs are already archived (2026-04-09). Stage A is a confirmation pass, not a cleanup.
-- No turn-annotation spike. Granularity was resolved in commit `3bc39b8`.
-- No scenario_sequence references. That concept is gone.
-- No new story authored for this revision. The baseline is an existing episode.
+- No turn-annotation spike. Granularity is already resolved.
+- No scenario_sequence references. That concept is not part of the target design.
+- No new story authored for this revision. The baseline is an existing episode from the currently-running pipeline.
 
 ### I.4 Rollback posture
 
@@ -48,32 +47,31 @@ Stages A–B edit only this plan and the inventory appendix — rollback is free
 **Goal.** Verify the starting state is what this plan assumes.
 
 **Tasks.**
-1. Confirm `framework/docs/archive/` contains the v1 plan, v1 architecture, v1 implementation, operator-manual, RUNNING-shared-stages, pipeline-flow.
-2. Confirm `framework/docs/pipeline-architecture-v2.md` and `pipeline-revision-plan-v2.md` are the only live design docs.
-3. Confirm no live file under `framework/`, `apps/`, or `CLAUDE.md` references the archived paths without an "archive/" prefix. (Grep for `framework/docs/operator-manual.md` etc.)
-4. Confirm `artifacts/` contains at least one complete v1-pipeline episode that can serve as the baseline for hand-authored gold files in Stage C. Record the chosen `{story_id}/episodes/episode_{NN}` here: **TBD (operator to fill before Stage B)**.
+1. Confirm the live design docs (`pipeline-architecture.md`, `pipeline-revision-plan.md`, `pipeline-v1-to-v2-migration.md`) exist and are internally consistent.
+2. Confirm the currently-running pipeline docs (`operator-manual.md`, `RUNNING-shared-stages.md`, `pipeline-flow.md`, `system-architecture.md`) are live and describe the current system — these are the baseline this plan works against.
+3. Confirm `artifacts/` contains at least one complete episode produced by the currently-running pipeline that can serve as the baseline for hand-authored gold files in Stage C. Record the chosen `{story_id}/episodes/episode_{NN}` here: **TBD (operator to fill before Stage B)**.
 
-**Gate A.G1 (mechanical).** Tasks 1–3 pass with zero stale references.
+**Gate A.G1 (mechanical).** Tasks 1–2 pass; baseline episode is named.
 
-**Exit criterion.** Baseline episode is named; archive is clean; stale-reference grep returns empty.
+**Exit criterion.** Baseline episode is named; both doc sets (current + target) are in place.
 
 ---
 
 ### Stage B — Inventory and dependency graph
 
-**Goal.** Produce a flat work-item list covering everything plan-v2 §5 and §2 require, with an acyclic dependency graph.
+**Goal.** Produce a flat work-item list covering everything plan §5 and §2 require, with an acyclic dependency graph.
 
 **Tasks.**
-1. Extract work items from plan-v2 §2.1–2.8 (one per agent output type + merge-script checks + probe-record contract + capability flags).
-2. Extract work items from plan-v2 §5 (end-to-end sequence).
-3. Add reference-file prerequisites: `framework/reference/wrestling_gates.yaml` (new, enumerated in plan-v2 §2.3.3) and any other reference files the schemas depend on.
-4. Resolve the contrast-case story decision (plan-v2 §7 open question): use `saving-the-maker-space` as-is, modify it, or author a minimal new contrast story. Record the decision inline in this plan under F.1.
+1. Extract work items from plan §2.1–2.8 (one per agent output type + merge-script checks + probe-record contract + capability flags).
+2. Extract work items from plan §5 (end-to-end sequence).
+3. Add reference-file prerequisites: `framework/reference/wrestling_gates.yaml` (new, enumerated in plan §2.3.3) and any other reference files the schemas depend on.
+4. Resolve the contrast-case story decision (plan §7 open question): use `saving-the-maker-space` as-is, modify it, or author a minimal new contrast story. Record the decision inline in this plan under F.1.
 5. Build the adjacency-list dependency graph. Validate acyclic by topological sort. The sort order determines the sequence Stages C–F follow.
 6. Write the inventory as an appendix to this file (see Appendix A stub).
 
-**Gate B.G1 (mechanical).** Topological sort succeeds; every work item cites a plan-v2 or architecture-v2 section.
+**Gate B.G1 (mechanical).** Topological sort succeeds; every work item cites a plan or architecture section.
 
-**Gate B.G2 (agent review).** One agent reads the inventory against plan-v2 §5 and reports any missing items. ACCEPT required.
+**Gate B.G2 (agent review).** One agent reads the inventory against plan §5 and reports any missing items. ACCEPT required.
 
 **Exit criterion.** Inventory is committed; contrast-case decision is recorded; `wrestling_gates.yaml` is named as a Stage C prerequisite.
 
@@ -84,9 +82,9 @@ Stages A–B edit only this plan and the inventory appendix — rollback is free
 **Goal.** Freeze the five YAML schemas and hand-author one gold instance of each for the baseline episode, **before** any agent prompt is written.
 
 **Tasks.**
-1. Author `framework/reference/wrestling_gates.yaml` with the closed vocabulary from plan-v2 §2.3.3:228 (`selected_a_facet`, `viewed_turn_for_15s`, `attempted_one_sentence`, `viewed_second_lens`, plus any additions ratified here).
-2. Write the five schema files (descriptive YAML, per project convention): `ground_truth.schema.yaml`, `diagnostic.schema.yaml`, `prose.schema.yaml`, `discussion.schema.yaml`, `assistive_package.schema.yaml`. Each schema cites its plan-v2 §2.x section.
-3. Hand-author the four gold files (`ground_truth.yaml`, `diagnostic.yaml`, `prose.yaml`, `discussion.yaml`) for the baseline episode. **Author these in a single sitting, without reference to any agent prompt.** This is the authorship-discipline constraint (plan-v2 §C.G1, unchanged from v1).
+1. Author `framework/reference/wrestling_gates.yaml` with the closed vocabulary from plan §2.3.3:228 (`selected_a_facet`, `viewed_turn_for_15s`, `attempted_one_sentence`, `viewed_second_lens`, plus any additions ratified here).
+2. Write the five schema files (descriptive YAML, per project convention): `ground_truth.schema.yaml`, `diagnostic.schema.yaml`, `prose.schema.yaml`, `discussion.schema.yaml`, `assistive_package.schema.yaml`. Each schema cites its plan §2.x section.
+3. Hand-author the four gold files (`ground_truth.yaml`, `diagnostic.yaml`, `prose.yaml`, `discussion.yaml`) for the baseline episode. **Author these in a single sitting, without reference to any agent prompt.** This is the authorship-discipline constraint.
 4. Run `validate_schema.py` on each gold file against its schema.
 5. Forcing function: confirm that every field in the gold files could be rendered by a non-AI app at runtime via dictionary lookup. If a field requires runtime NLP or inference, the schema is wrong — fix it.
 
@@ -94,9 +92,9 @@ Stages A–B edit only this plan and the inventory appendix — rollback is free
 
 **Gate C.G2 (mechanical).** Grep the gold files for any field not present in the corresponding schema. Must return empty.
 
-**Gate C.G3 (architecture checkpoint).** Operator reads the four gold files against architecture-v2 §1 (three-layer model) and §3 (four-agent boundaries) and answers:
+**Gate C.G3 (architecture checkpoint).** Operator reads the four gold files against architecture §1 (three-layer model) and §3 (four-agent boundaries) and answers:
 - Does each file contain only what its agent's cognitive job produces?
-- Do the intervention cells in `diagnostic.yaml` show the `blank_page` + `by_facet[F]` shape from plan-v2 §2.3.2, and do present/afforded_missing/tempting_absent roles all appear at least once?
+- Do the intervention cells in `diagnostic.yaml` show the `blank_page` + `by_facet[F]` shape from plan §2.3.2, and do present/afforded_missing/tempting_absent roles all appear at least once?
 - Does `struggle_calibration` stay to the three lean fields and not attempt to be a detection schedule?
 
 Operator records answers and the sections consulted as a commit-message audit trail.
@@ -123,7 +121,7 @@ Operator records answers and the sections consulted as a commit-message audit tr
 - **Inputs.** `episode.yaml`, `transcript.yaml`, **generated** `ground_truth.yaml` from D.1 (not the gold version), reference files, story position object.
 - **Outputs.** `diagnostic.yaml`.
 - **Gate D.2.G1 (mechanical).** Schema validates. Every load-bearing turn has `blank_page` + `by_facet[F]` cells. `minimum_wrestling[]` entries are all in `wrestling_gates.yaml`.
-- **Gate D.2.G2 (architecture checkpoint).** Operator reads the generated `diagnostic.yaml` against architecture-v2 §3.2 and plan-v2 §2.3.2 and answers:
+- **Gate D.2.G2 (architecture checkpoint).** Operator reads the generated `diagnostic.yaml` against architecture §3.2 and plan §2.3.2 and answers:
   - Are all three roles (present / afforded_missing / tempting_absent) represented somewhere in the dictionary?
   - Do `(engagement: none, affordance: rich)` cells from the analyst's matrix become afforded_missing cells at maximum urgency?
   - Is `struggle_calibration` lean (three fields only) and not attempting to be a detection schedule?
@@ -152,12 +150,12 @@ Operator records answers and the sections consulted as a commit-message audit tr
 **Goal.** Wire the four agent outputs into the deterministic merge script and the package reviewer, then run the full `/build_assistive_package` pipeline end-to-end on the baseline episode.
 
 **Substage E.1 — merge script.**
-- Implement all thirteen integrity checks and three derivations from plan-v2 §2.6 as a Python script.
+- Implement all thirteen integrity checks and three derivations from plan §2.6 as a Python script.
 - Seed broken-input fixtures (missing fields, mismatched wrestling gates, non-monotonic ladders, ladder rungs citing absent facets) and confirm the script exits nonzero on each.
 - **Gate E.1.G1 (mechanical).** Script passes on the four gold files; fails on each seeded broken fixture.
 
 **Substage E.2 — package_reviewer agent.**
-- Author the reviewer against plan-v2 §2.6 criteria.
+- Author the reviewer against plan §2.6 criteria.
 - Seed a broken `assistive_package.yaml` fixture and confirm the reviewer returns REVISE with a specific finding.
 - **Gate E.2.G1 (agent review).** Reviewer ACCEPTs the gold-derived package and REVISEs the broken fixture.
 
@@ -165,7 +163,7 @@ Operator records answers and the sections consulted as a commit-message audit tr
 - Run `/build_assistive_package` end-to-end on the baseline episode. Sequence: analyst → diagnostic → prose → discussion → reviewer → merge.
 - **Gate E.3.G1 (mechanical).** End-to-end succeeds; `assistive_package.yaml` validates.
 - **Gate E.3.G2 (agent review).** Reviewer ACCEPTs the package without REVISE.
-- **Gate E.3.G3 (architecture checkpoint).** Operator reads the final `assistive_package.yaml` against architecture-v2 §1.5 ("detection app-owned, content pipeline-owned, routing student-owned") and plan-v2 §2.8 (probe-record handoff contract) and answers:
+- **Gate E.3.G3 (architecture checkpoint).** Operator reads the final `assistive_package.yaml` against architecture §1.5 ("detection app-owned, content pipeline-owned, routing student-owned") and plan §2.7 (probe-record handoff contract) and answers:
   - Could a non-AI app render every field in the package via dictionary lookup at runtime?
   - Does the probe-record handoff contract have enough structure for the app to durably track student state?
   - Does the package contain any field that requires runtime NLP, affect detection, or inference?
@@ -184,7 +182,7 @@ Operator records answers and the sections consulted as a commit-message audit tr
 
 **Substage F.1 — contrast-case run.**
 - Use the contrast story chosen in Stage B, task 4.
-- The contrast story must differ from the baseline on at least two of the five capability flags in plan-v2 §4 (`pedagogical_register`, `uses_character_growth`, `declares_calibration_warnings`, `uses_stance_positions`, `supports_jigsaw`).
+- The contrast story must differ from the baseline on at least two of the five capability flags in plan §4 (`pedagogical_register`, `uses_character_growth`, `declares_calibration_warnings`, `uses_stance_positions`, `supports_jigsaw`).
 - Run `/build_assistive_package` on one episode of the contrast story.
 - **Gate F.1.G1 (mechanical).** End-to-end succeeds; reviewer ACCEPTs.
 - **Gate F.1.G2 (agent review).** Reviewer confirms that capability-flag-gated fields are populated when the flag is true and absent when the flag is false.
@@ -196,10 +194,10 @@ Operator records answers and the sections consulted as a commit-message audit tr
 - **Gate F.2.G1 (mechanical).** E.3 still passes after retirement; grep for retired command names returns only archive/ hits.
 
 **Substage F.3 — archive this plan.**
-- Move this file to `framework/docs/archive/pipeline-revision-implementation-v2.md` with a "frozen YYYY-MM-DD" header.
+- Move this file to `framework/docs/archive/pipeline-revision-implementation.md` with a "frozen YYYY-MM-DD" header.
 - If collapsing architecture + plan into one design doc (per prior discussion), do it now as a separate landing commit.
 
-**Exit criterion.** `/build_assistive_package` is the only package-building command; v1 commands are gone; this file is archived.
+**Exit criterion.** `/build_assistive_package` is the only package-building command; the retired commands are gone; this file is archived.
 
 ---
 
@@ -209,7 +207,7 @@ Operator records answers and the sections consulted as a commit-message audit tr
 
 - One stage = one landing commit (or one landing commit per substage for D and E).
 - Commit message cites the stage/substage ID and the gates that passed.
-- Architecture-checkpoint commits additionally cite the architecture-v2 or plan-v2 sections consulted.
+- Architecture-checkpoint commits additionally cite the architecture or plan sections consulted.
 - Do not split a stage across commits without updating this plan first.
 
 ### III.2 Reviewer reuse
@@ -221,13 +219,13 @@ The reviewer subagent authored in E.2 is also used by D.1.G2, D.3.G2, and D.4.G2
 Stop and escalate (ask the operator for a structural decision) if any of the following occur:
 
 - Two successive prompt revisions on a single agent improve the target metric by <5%. The problem is structural, not prompt-level.
-- An architecture checkpoint fails for a reason not anticipated in plan-v2 or architecture-v2. The spec needs an amendment before execution continues.
+- An architecture checkpoint fails for a reason not anticipated in plan or architecture. The spec needs an amendment before execution continues.
 - A gate requires more than three iterations to pass.
 - The gold files turn out to be wrong. See the D.3 hard-stop rule.
 
 ### III.4 Spec-cascade rules
 
-If `pipeline-revision-plan-v2.md` or `pipeline-architecture-v2.md` changes during execution:
+If `pipeline-revision-plan.md` or `pipeline-architecture.md` changes during execution:
 
 - **Schema change** → re-run Stage C (affected gold files and schemas) and all downstream stages.
 - **Agent boundary change** → re-run Stage D (affected substage) and all downstream.

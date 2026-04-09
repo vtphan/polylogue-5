@@ -1,26 +1,12 @@
-# Pipeline Architecture v2: An Assistive Package for Non-AI Applications
+# Pipeline Architecture: An Assistive Package for Non-AI Applications
 
-**Status.** Draft for review. Supersedes `pipeline-architecture.md` (v1).
+**Status.** Draft for review.
 **Audience.** Pipeline maintainers, app builders, instructional-design reviewers.
-**Scope.** Lens application. Reasoning Lab is deferred (see `pipeline-revision-plan-v2.md` §7).
+**Scope.** Lens application. Reasoning Lab is deferred (see `pipeline-revision-plan.md` §7).
 
 > **What this document is.** The architectural argument: why the pipeline is shaped the way it is, which pedagogical commitments it rests on, why the downstream half is split into four authoring agents, and which governance rules any future extension is accountable to. It is read once and returned to only when an architectural decision is being challenged.
 >
-> **Where to find the rest.** Field-level schemas, enforcement rules, the end-to-end revision sequence, risks, and the diff against the current pipeline live in `pipeline-revision-plan-v2.md`. This memo contains no field definitions or procedural sequencing. Section numbering is preserved across both documents.
-
----
-
-## What changed between v1 and v2
-
-The pedagogical commitments, four-agent split, and twelve governance rules are unchanged. What changed is **how productive struggle is operationalized** and **how the package's blocks organize themselves across runtime triggers**. The short list:
-
-1. **Three-layer model added.** Every block now lives in exactly one of three layers distinguished by runtime trigger: **L1 source** (analyst, not user-visible), **L2 pre-authored navigation** (prose, discussion; shown on navigation events), **L3 reactive intervention** (diagnostic; fired on student-state events). This replaces the v1 "analytical / individual / group" scale labeling in the affordance matrix. §1.2 is rewritten around the three layers.
-2. **Productive struggle reframed.** §1.3 no longer treats `struggle_calibration` as the mechanism of productive struggle. The mechanism is the shape of the per-turn intervention ladders the diagnostic agent authors; `struggle_calibration` is a coarse pricing knob that modulates ladders already authored. This matters because v1 oversold a field that cannot, on its own, do the work.
-3. **Diagnostic agent's cognitive job rewritten.** §3.2 replaces "imagine what 6th-grade students will get wrong" with "author the probes and per-turn ladders that let the app deliver calibrated intervention via dictionary lookup." The probe layer is new; the per-turn three-role intervention dictionary is new.
-4. **Prose and discussion agents' cognitive jobs narrowed.** §3.3 drops `group_stall_signals` and `causal_discussion_prompts` from the prose agent's responsibilities. §3.4 drops `role_cards[]` and adds the `continuation_of` / `explanatory_ref` cross-phase indexing.
-5. **Reviewer criteria updated.** §3.5 drops criteria tied to removed blocks (`role_cards`, `expected_divergence`, `group_stall_signals`) and adds criteria for the per-turn intervention dictionary and probe option quality.
-6. **Traceability matrix updated.** Appendix A is rewritten against the v2 block list.
-7. **Governance rules unchanged.** §6 is kept verbatim from v1. No rules were added, removed, or edited — the v2 changes are applications of the existing rules, not additions to them. A new *operational corollary* is noted in the plan's Appendix C: **detection is app-owned; content is pipeline-owned; routing is student-owned via probe taps.**
+> **Where to find the rest.** Field-level schemas, enforcement rules, the end-to-end revision sequence, and risks live in `pipeline-revision-plan.md`. The diff between this target design and the currently-running pipeline lives in `pipeline-v1-to-v2-migration.md`. This memo contains no field definitions, no procedural sequencing, and no comparisons to the current system. Section numbering is preserved across both design documents.
 
 ---
 
@@ -40,7 +26,7 @@ This plan proposes a reorganization and extension of the pipeline's per-passage 
 4. Extends only where the extension is cheap to produce and load-bearing for the app.
 5. Organizes the LLM-bearing work along failure-mode boundaries so that future capabilities can be added or removed without disturbing the rest of the pipeline.
 
-This memo covers the architectural arguments (§1 pedagogical commitments, §3 agent architecture, §6 governance rules) and the traceability evidence (Appendix A). The assistive-package field definitions (§2), capability-flag declarations (§4), end-to-end revision sequence (§5), risks and open questions (§7), and the diff against the current pipeline (Appendix B) live in `pipeline-revision-plan-v2.md`.
+This memo covers the architectural arguments (§1 pedagogical commitments, §3 agent architecture, §6 governance rules) and the traceability evidence (Appendix A). The assistive-package field definitions (§2), capability-flag declarations (§4), end-to-end revision sequence (§5), and risks and open questions (§7) live in `pipeline-revision-plan.md`.
 
 ---
 
@@ -85,9 +71,9 @@ Each framework affordance is operationalized at **three layers** in the assistiv
 | **2. Explain why** | `causal_layer` with required `interaction` | *(subsumed into discussion cues with `explanatory_ref`)* | Opt-in explanation probe + explanation sub-ladders |
 | **3. Hold more than one valid perspective** | `lens_visibility`, `perspective_transitions` | `discussion_cues` (three axes + `continuation_of`) | Afforded-missing intervention cells, lens-switch ladder rungs |
 
-Nine cells, nine distinct operationalizations, no redundancy. The v1 matrix's row for Affordance 3 individual-phase was weakest — v1 had only "recommended_lens_switch on blindspots." v2 anchors it with afforded-missing intervention cells, which are the pedagogically most-valuable case (`engagement: none, affordance: rich`) made first-class.
+Nine cells, nine distinct operationalizations, no redundancy. The Affordance 3 individual-phase row is anchored by afforded-missing intervention cells, which make the pedagogically most-valuable case (`engagement: none, affordance: rich`) first-class.
 
-**Why the three-layer axis replaces v1's scale axis.** V1 labeled the columns "analytical / individual-phase / group-phase." That labeling was about *when in the student arc* content fires. It turned out to hide an important distinction: individual-phase and group-phase content can be either pre-authored (dealt on phase entry) or reactive (fired on student state), and those two kinds fail in different ways and should be owned by different agents. The three-layer axis makes that split explicit. Field-level definitions for each cell live in `pipeline-revision-plan-v2.md` §2.
+**Why three layers.** Individual-phase and group-phase content can each be either pre-authored (dealt on phase entry) or reactive (fired on student state), and those two kinds fail in different ways and should be owned by different agents. A "when in the student arc" axis collapses that split; the three-layer runtime-trigger axis preserves it. Field-level definitions for each cell live in `pipeline-revision-plan.md` §2.
 
 #### Affordance 1 — name what is weak
 
@@ -99,7 +85,7 @@ Operationalized analytically by `causal_layer` at passage scope. The framework's
 
 Reactive operationalization lives in opt-in explanation probes and their sub-ladders, authored only for cells where the diagnostic agent judges "why" is pedagogically load-bearing (typically the passage's most urgent cells and the non-trivial interaction cells). The opt-in gate prevents over-authoring.
 
-Group-phase operationalization lives inside `discussion_cues` via the `explanatory_ref` field, which lets any cue carry a bias or dynamic reference. This absorbs what v1 had as a separate `causal_discussion_prompts[]` block.
+Group-phase operationalization lives inside `discussion_cues` via the `explanatory_ref` field, which lets any cue carry a bias or dynamic reference.
 
 #### Affordance 3 — hold more than one valid perspective
 
@@ -115,9 +101,9 @@ Reactive group-phase operationalization uses the same `discussion_cues` content,
 
 The instructional defaults in §1.1 do not require their own schema blocks. They are **default uses of the affordance primitives**, enabled by small metadata additions:
 
-- **Productive struggle.** The mechanism is the *shape* of the per-turn intervention ladders: cheap nudges precede paid hints, questions dominate early rungs, hints and worked examples dominate late rungs, the ladder is monotonic in `reveals`. This shape is content the diagnostic agent authors per cell. `struggle_calibration` is a coarse thermostat on top (`pace`, `minimum_wrestling[]` as enumerated action gates, `productive_duration`) — it modulates the ladders the agent already authored, but is not itself the mechanism. Earlier versions of this plan oversold `struggle_calibration` as the productive-struggle field; v2 corrects that. *If the ladder shapes are weak, no pricing policy will save them.* Detection of student struggle is app-owned via inactivity; the pipeline authors no detection heuristics.
+- **Productive struggle.** The mechanism is the *shape* of the per-turn intervention ladders: cheap nudges precede paid hints, questions dominate early rungs, hints and worked examples dominate late rungs, the ladder is monotonic in `reveals`. This shape is content the diagnostic agent authors per cell. `struggle_calibration` is a coarse thermostat on top (`pace`, `minimum_wrestling[]` as enumerated action gates, `productive_duration`) — it modulates the ladders the agent already authored, but is not itself the mechanism. *If the ladder shapes are weak, no pricing policy will save them.* Detection of student struggle is app-owned via inactivity; the pipeline authors no detection heuristics.
 
-- **Faded assistance.** Enabled by `prior_exposure` (merge-script-derived from story sequence), `assumes_familiar_with` / `introduces` at passage level, and `minimum_wrestling[]` gates that the app consults to filter which rungs unlock cheaply. The app fades by filtering rungs based on per-student cumulative facet exposure tracked in the probe record (§2.8 of the plan).
+- **Faded assistance.** Enabled by `prior_exposure` (merge-script-derived from story sequence), `assumes_familiar_with` / `introduces` at passage level, and `minimum_wrestling[]` gates that the app consults to filter which rungs unlock cheaply. The app fades by filtering rungs based on per-student cumulative facet exposure tracked in the probe record (§2.7 of the plan).
 
 - **Elaborative interrogation.** Enabled by the question-type rungs in the per-turn intervention ladders, which push from *what* the student said to *why* it is what it is. Reinforced by the optional explanation sub-ladders.
 
@@ -125,7 +111,7 @@ The instructional defaults in §1.1 do not require their own schema blocks. They
 
 - **Worked examples.** Enabled by `counterfactuals[]` per facet, surfaced by the merge script as the bottom `worked_example` rung of present-role intervention ladders.
 
-- **Structured peer discussion.** Enabled by the enriched `discussion_cues` (with `continuation_of`, `explanatory_ref`, null-turn support), `talk_moves`, and `jigsaw_fragments`. V1's `role_cards[]` are dropped in v2 — they are a specific classroom ritual that `discussion_cues` with `continuation_of: null` subsume (empty-history students get generic opening cues; students with probe history get matching-continuation cues).
+- **Structured peer discussion.** Enabled by `discussion_cues` (with `continuation_of`, `explanatory_ref`, null-turn support), `talk_moves`, and `jigsaw_fragments`. Empty-history students get generic opening cues via `continuation_of: null`; students with probe history get matching-continuation cues.
 
 - **Spaced practice.** Enabled for free by `connects_to.echoes` cross-passage threading.
 
@@ -135,11 +121,11 @@ No new blocks for any of these. Metadata on existing blocks, plus the primitives
 
 Some stories commit to pedagogical stances that are creative choices, not framework commitments. *The Overton Park Sightings* commits to "thin reasoning is not wrong reasoning — it is reasoning that hasn't finished yet." This is a register choice that shapes how the prose and discussion agents write rationales, hints, and redirect language.
 
-The pipeline handles this via a story-level capability declaration (defined in `pipeline-revision-plan-v2.md` §4): the story design doc's frontmatter names the `pedagogical_register` it wants, and the prose and discussion agents read this and match their prose accordingly. Stories that don't declare one get a generic neutral register.
+The pipeline handles this via a story-level capability declaration (defined in `pipeline-revision-plan.md` §4): the story design doc's frontmatter names the `pedagogical_register` it wants, and the prose and discussion agents read this and match their prose accordingly. Stories that don't declare one get a generic neutral register.
 
 ### 1.5 Summary of Part 1
 
-The pipeline's output is grounded in three framework affordances plus seven well-validated instructional defaults. Every required schema field traces to one of those sources and to exactly one of the three layers (L1 source / L2 pre-authored navigation / L3 reactive intervention). Any field that cannot trace to a framework affordance or a well-validated instructional strategy is either moved to the opt-in extension set or removed from the plan. **Productive struggle's mechanism is the shape of the per-turn intervention ladders, not the `struggle_calibration` block.** **Detection is app-owned; content is pipeline-owned; routing is student-owned via probe taps.** These two corrections over v1 are what make the non-AI contract honest.
+The pipeline's output is grounded in three framework affordances plus seven well-validated instructional defaults. Every required schema field traces to one of those sources and to exactly one of the three layers (L1 source / L2 pre-authored navigation / L3 reactive intervention). Any field that cannot trace to a framework affordance or a well-validated instructional strategy is either moved to the opt-in extension set or removed from the plan. **Productive struggle's mechanism is the shape of the per-turn intervention ladders, not the `struggle_calibration` block.** **Detection is app-owned; content is pipeline-owned; routing is student-owned via probe taps.** These two commitments are what make the non-AI contract honest.
 
 ### 1.6 Universal core vs. app-coupled layer
 
@@ -157,13 +143,13 @@ The universal pipeline produces only the universal core and ends at `assistive_p
 
 The current `/analyze_transcript` command uses a single `evaluator` agent that produces both analytical and pedagogical content in one pass. This revision splits that into **four authoring agents** — analyst, diagnostic, prose, and discussion — plus one reviewer. The split follows the cognitive-job boundary described in §3.6, not the phase boundary.
 
-Field-level schemas for each agent's output live in `pipeline-revision-plan-v2.md` §2.
+Field-level schemas for each agent's output live in `pipeline-revision-plan.md` §2.
 
 ### 3.1 The analyst agent
 
 **Input.** `episode.yaml`, `transcript.yaml`, the canonical reference files from `framework/reference/`, and (for cross-episode threading) the episode index of the story.
 
-**Output.** `ground_truth.yaml` (schema in `pipeline-revision-plan-v2.md` §2.1 and §2.2).
+**Output.** `ground_truth.yaml` (schema in `pipeline-revision-plan.md` §2.1 and §2.2).
 
 **Cognitive job.** Close reading against a known framework. Identify what facets fire, with what severity, anchored to which turns. Identify facets-absent-but-tempting. For every lens per passage, write the two orthogonal `lens_visibility` judgments: `engagement` (how much the characters actually used the lens) and `affordance` (how much the topic gives the lens to work with). Annotate every turn with `speaker` and `turn_id`; populate content fields iff the turn is load-bearing. Write the causal layer with required interaction. Generate perspective transitions. Produce counterfactuals. Identify cross-passage `echoes` and `contrasts` (bare — no more `sets_up[]`, no more `contrast_prompt`).
 
@@ -181,11 +167,11 @@ Field-level schemas for each agent's output live in `pipeline-revision-plan-v2.m
 
 **Input.** `episode.yaml`, `transcript.yaml`, `ground_truth.yaml` (read from file), the canonical reference files, and a **story position** object (episode number, prior facet/pattern exposure list, story design doc frontmatter with capability declarations).
 
-**Output.** `diagnostic.yaml` (schema in `pipeline-revision-plan-v2.md` §2.3).
+**Output.** `diagnostic.yaml` (schema in `pipeline-revision-plan.md` §2.3).
 
 **Cognitive job.** *Hold a student error model in mind and author the probes and per-turn intervention ladders that let the app deliver calibrated intervention via dictionary lookup, with no runtime NLP or affect detection.*
 
-The agent's primary output is the per-turn three-role intervention dictionary. Each turn entry carries both a `blank_page` escape cell and a `by_facet[F]` map of facet cells — i.e. `interventions.by_turn[T].{blank_page, by_facet[F]}` (full shape in `pipeline-revision-plan-v2.md` §2.3.2). For each load-bearing turn, the agent derives the relevant facet set from three sources:
+The agent's primary output is the per-turn three-role intervention dictionary. Each turn entry carries both a `blank_page` escape cell and a `by_facet[F]` map of facet cells — i.e. `interventions.by_turn[T].{blank_page, by_facet[F]}` (full shape in `pipeline-revision-plan.md` §2.3.2). For each load-bearing turn, the agent derives the relevant facet set from three sources:
 
 1. **Present facets** — facets the analyst signaled on T in `turn_annotations`.
 2. **Afforded-missing facets** — facets the `lens_visibility` engagement/affordance matrix says the passage affords but nobody engaged, distributed across the turns where those missing observations most naturally attach. The `(engagement: none, affordance: rich)` case is the highest-urgency pedagogical moment and must be covered.
@@ -202,7 +188,7 @@ The agent also authors the orientation probes (`probes.facet.by_turn[T]`) that r
 
 The agent authors the lean `struggle_calibration` (`pace`, `minimum_wrestling[]`, `productive_duration`) per passage. **The agent understands that struggle_calibration is not the productive-struggle mechanism** — the mechanism is the shape of the ladders it has just authored. `struggle_calibration` is a coarse knob that modulates those ladders. The agent's prompt is explicit about this, so it does not over-invest in calibration at the expense of ladder shape.
 
-**Internal scratch.** The agent reasons about `response_space.by_lens` (the old v1 likely/partial/misreading/blindspot categories) as working notes, and emits those notes as an audit trace in the output file. The merge script does not consume them at runtime — the intervention dictionary is the runtime source.
+**Internal scratch.** The agent reasons about `response_space.by_lens` (likely / partial / misreading / blindspot categories) as working notes, and emits those notes as an audit trace in the output file. The merge script does not consume them at runtime — the intervention dictionary is the runtime source.
 
 **Blindspot calibration by matrix cell.** The `(engagement: none, affordance: rich)` blindspots become afforded-missing intervention cells at maximum urgency; `(engagement: none, affordance: moderate)` become afforded-missing cells at high urgency; `(engagement: none, affordance: thin)` become cells at habit-building urgency; `(engagement: partial, *)` become cells whose opening names what the partial engagement stopped short of; `(engagement: high, affordance: rich/moderate)` become cells naming subtler edges. The `(engagement: high, affordance: thin)` cell has no cells by design.
 
@@ -220,16 +206,11 @@ The agent authors the lean `struggle_calibration` (`pace`, `minimum_wrestling[]`
 
 **Input.** `episode.yaml`, `transcript.yaml`, `ground_truth.yaml`, `diagnostic.yaml` (for register consistency with ladder text), the **story design doc** at `framework/stories/{story_id}.md` (read-only), the story position object, and reference files.
 
-**Output.** `prose.yaml` (schema in `pipeline-revision-plan-v2.md` §2.4).
+**Output.** `prose.yaml` (schema in `pipeline-revision-plan.md` §2.4).
 
 **Cognitive job.** *Write short, voiced, register-matched prose at the entry and closure moments of the student arc.* Produce the student-facing `episode_opening` in the story's voice. Write `entry_prompts` that unblock the blank page without revealing the observation. Write `consensus_check` questions that drive group closure.
 
 **Why these three cluster together.** All three share a register, a voice, a grade level, and a failure mode (adult-sounding, off-register, generic). None requires holding a student error model; all require holding the story's voice. This is homogeneous work by §3.6's test.
-
-**Dropped in v2 from the v1 prose agent:**
-
-- `group_stall_signals` and related voiced unstall prompts. Group-stall detection is not reliably doable by the app without NLP or affect sensing; group recovery is instead handled by the cue-refetch loop on UI-state silence, using content from `discussion_cues`.
-- `causal_discussion_prompts[]`. Absorbed into `discussion_cues` via the `explanatory_ref` field; no separate block.
 
 **Constraints.**
 
@@ -243,7 +224,7 @@ The agent authors the lean `struggle_calibration` (`pace`, `minimum_wrestling[]`
 
 **Input.** `episode.yaml`, `transcript.yaml`, `ground_truth.yaml`, `diagnostic.yaml`, `prose.yaml` (for register and voice consistency), the story design doc (for character voices and persona-projection grounding), and reference files.
 
-**Output.** `discussion.yaml` (schema in `pipeline-revision-plan-v2.md` §2.5).
+**Output.** `discussion.yaml` (schema in `pipeline-revision-plan.md` §2.5).
 
 **Cognitive job.** *Generate voiced, distributable, creatively varied group-phase primitives across three creative axes, indexed so the app can match them to each student's individual-phase work.*
 
@@ -252,18 +233,12 @@ Primary output is `discussion_cues[]`, indexed along seven axes:
 - `angle` — the facet the cue concerns.
 - `lens` — the lens the cue routes through.
 - `axis` — one of three creative axes: lens refraction, persona projection, stance inversion.
-- `continuation_of: (turn, facet) | null` — for the individual→group handoff. Cues with `continuation_of` match students whose individual-phase probe record ends on that `(turn, facet)`; cues with `continuation_of: null` are generic openings for empty-history students (subsuming the v1 role cards).
-- `explanatory_ref: cognitive_pattern_id | social_dynamic_id | null` — for cues carrying "why" content, absorbing what v1 had as a separate `causal_discussion_prompts[]` block.
+- `continuation_of: (turn, facet) | null` — for the individual→group handoff. Cues with `continuation_of` match students whose individual-phase probe record ends on that `(turn, facet)`; cues with `continuation_of: null` are generic openings for empty-history students.
+- `explanatory_ref: cognitive_pattern_id | social_dynamic_id | null` — for cues carrying "why" content routed by the student's explanation-probe tap.
 - `persona` — for persona-projection cues, names the character the cue invokes.
 - `independent_of` — for non-overlap partition contract.
 
-The agent also supports a null `turn` key, absorbing the v1 `episode_cues[]` block for cues that aren't anchored to a specific turn. The agent also produces `talk_moves[]` (grade-calibrated sentence stems, episode scope) and `jigsaw_fragments[]` (capability-flagged).
-
-**Dropped in v2 from the v1 discussion agent:**
-
-- `role_cards[]`. Pedagogically specific classroom ritual. Cues with `continuation_of: null` carry the same opening-cue function without prescribing the ritual.
-- `role_reinforcements[]`. Consequence of dropping role cards.
-- `episode_cues[]`. Absorbed into `discussion_cues` with `turn: null`.
+The agent also supports a null `turn` key for cues that aren't anchored to a specific turn. The agent also produces `talk_moves[]` (grade-calibrated sentence stems, episode scope) and `jigsaw_fragments[]` (capability-flagged).
 
 **Why this is its own agent.** Cue generation has two properties no other downstream work has. First, it produces a *plural, distinguishable-by-angle set from a single underlying observation* — no other block produces multiple variants that must be kept substantively independent. Second, it is the most open-ended creative surface in the pipeline: new axes, new persona strategies, new activity formats keep arriving. Both properties diverge its failure modes from every other agent. Rule 11's iteration-frequency tiebreaker applies — this is the agent expected to iterate most frequently as new pedagogical capabilities arrive, while the diagnostic agent is expected to stabilize.
 
@@ -283,7 +258,7 @@ The agent also supports a null `turn` key, absorbing the v1 `episode_cues[]` blo
 
 **Output.** `ACCEPT` or `REVISE` with structured findings.
 
-**Review criteria (judgment-only).** Mechanical checks are enforced by the merge script (`pipeline-revision-plan-v2.md` §2.6) and are not the reviewer's job.
+**Review criteria (judgment-only).** Mechanical checks are enforced by the merge script (`pipeline-revision-plan.md` §2.6) and are not the reviewer's job.
 
 *Analyst criteria:*
 1. **Near-miss discriminability** — every `facets_absent_but_tempting` entry has a non-hand-wavy `why_wrong` that actually distinguishes the case.
@@ -311,13 +286,6 @@ The agent also supports a null `turn` key, absorbing the v1 `episode_cues[]` blo
 
 *Cross-agent criterion:*
 17. **Block orthogonality** — no content appears in two files that should be one. Any accidental drift between the four agents is caught here.
-
-**Dropped in v2 from the v1 reviewer criteria:**
-
-- Criteria tied to `role_cards[]` (dropped block).
-- Criteria tied to `expected_divergence[]` (dropped block).
-- Criteria tied to `stall_signals` detection prose (dropped approach).
-- V1 blindspot-specificity criterion, replaced by the afforded-missing-cell criterion which covers the same content at finer grain.
 
 **Cross-episode consistency.** After every episode in a story has been packaged, the reviewer runs a cross-episode pass verifying that `connects_to.echoes` references resolve coherently, that `pedagogical_register` does not drift, and that criterion 15 holds.
 
@@ -377,7 +345,7 @@ Three rows, three framework-owned commands.
 
 ## 6. Governance rules
 
-These are the rules the plan is accountable to, and which apply to any future extension. Unchanged from v1. A scannable operational reference — one row per rule — lives as Appendix C of `pipeline-revision-plan-v2.md`.
+These are the rules the plan is accountable to, and which apply to any future extension. A scannable operational reference — one row per rule — lives as Appendix B of `pipeline-revision-plan.md`.
 
 ### Rule 1 — Every required field traces to a justified source
 
@@ -393,15 +361,15 @@ A story that lightly populates instructional metadata is not flagged as under-sp
 
 ### Rule 4 — The pipeline supports, does not compel
 
-The pipeline produces primitives aligned with proven instructional strategies, but no app is forced to use them in those ways. **V2 corollary:** the pipeline authors no block whose correct operation requires the app to do runtime NLP, runtime affect detection, or runtime pattern matching of student prose. Detection is app-owned; content is pipeline-owned; routing is student-owned via probe taps. This corollary is the reason v1's `stall_signals` prose, `danger_signals[]`, and pattern-matching assumptions were removed in v2.
+The pipeline produces primitives aligned with proven instructional strategies, but no app is forced to use them in those ways. **Operational corollary:** the pipeline authors no block whose correct operation requires the app to do runtime NLP, runtime affect detection, or runtime pattern matching of student prose. Detection is app-owned; content is pipeline-owned; routing is student-owned via probe taps.
 
 ### Rule 5 — Redundancy is an error, not a feature
 
-When two blocks contain the same content in different wrappings, one of them is wrong. V2 eliminated six more overlaps on top of v1's six: `causal_discussion_prompts[]` into `discussion_cues.explanatory_ref`, `episode_cues[]` into `discussion_cues` with null turn, `role_cards[]` into `discussion_cues.continuation_of: null`, `attention_cues[]` + `silence_breakers[]` + `recommended_lens_switch` into the per-turn intervention ladders, `causal_layer_episode` into `connects_to.echoes`, and `lens_stance_stem` as an orphaned leftover.
+When two blocks contain the same content in different wrappings, one of them is wrong. The design enforces this by routing all group-phase "why" content through `discussion_cues.explanatory_ref`, all cross-passage threading through `connects_to.echoes`, and all individual-phase reactive content through the per-turn intervention dictionary.
 
 ### Rule 6 — Turn anchors are mandatory
 
-Because every Polylogue story is turn-based dialog, every annotation can be and must be anchored to turn IDs. **V2 strengthens this** by moving the primary intervention key from `(passage, lens)` to `(turn, facet)`, which makes Rule 6 load-bearing for the runtime app loop, not just for traceability.
+Because every Polylogue story is turn-based dialog, every annotation can be and must be anchored to turn IDs. The primary intervention key is `(turn, facet)`, which makes Rule 6 load-bearing for the runtime app loop, not just for traceability.
 
 ### Rule 7 — IDs are hidden; labels are student-facing
 
@@ -439,7 +407,7 @@ The universal pipeline produces framework-shaped, app-agnostic artifacts. Its te
 
 **The handoff contract.** Anything an app does with `assistive_package.yaml` happens in the app's own layer: app-specific code under `apps/{app_id}/pipeline/`, an optional contract document at `apps/{app_id}/docs/package-contract.md`, and per-episode app outputs strictly under `artifacts/{story_id}/episodes/episode_{NN}/{app_id}/`.
 
-**V2 strengthening.** The **probe record** documented in `pipeline-revision-plan-v2.md` §2.8 is named as app-owned state: the app maintains the record, the pipeline never reads or writes it, and the package's indexing is designed so every reactive block consumes `(turn, facet, explanatory_variable)` tuples from that record. This gives app designers a clear contract for what state to carry without constraining how they carry it.
+**The probe record** documented in `pipeline-revision-plan.md` §2.7 is named as app-owned state: the app maintains the record, the pipeline never reads or writes it, and the package's indexing is designed so every reactive block consumes `(turn, facet, explanatory_variable)` tuples from that record. This gives app designers a clear contract for what state to carry without constraining how they carry it.
 
 **What apps are free to decide.** Whether to run any Claude Code commands at the app layer, what to name them, whether to use LLMs at build-time (runtime is non-AI by design), what file shapes to use inside `{app_id}/`.
 
@@ -449,7 +417,7 @@ The universal pipeline produces framework-shaped, app-agnostic artifacts. Its te
 
 ---
 
-## Appendix A — Traceability matrix (v2)
+## Appendix A — Traceability matrix
 
 | Required field | Source of justification | Agent | Layer |
 |---|---|---|---|
@@ -481,12 +449,8 @@ The universal pipeline produces framework-shaped, app-agnostic artifacts. Its te
 | `talk_moves[]` | Structured-peer-discussion default | discussion | L2 |
 | `jigsaw_fragments[]` (flag-gated) | Structured-peer-discussion default | discussion | L2 |
 
-**Dropped from v1 traceability (no longer in package):**
-
-- `causal_layer_episode`, `connects_to.contrasts[].contrast_prompt`, `connects_to.sets_up[]`, `stall_signals.*`, `attention_cues[]` (as separate block), `silence_breakers[]` (as separate block), `recommended_lens_switch` (as separate field), `expected_divergence[]`, `role_cards[]`, `role_reinforcements[]`, `lens_stance_stem`, `episode_cues[]`, `causal_discussion_prompts[]`, `group_stall_signals` / `group_stall_prompts[]`.
-
-Every surviving field is accounted for by an affordance or an instructional default and lives in exactly one agent's output at exactly one layer.
+Every field in the package is accounted for by an affordance or an instructional default and lives in exactly one agent's output at exactly one layer.
 
 ---
 
-*End of architecture memo v2. For the assistive-package field definitions, capability-flag declarations, revision sequence, risks, the diff against the current pipeline, and the one-page governance rules reference, see `pipeline-revision-plan-v2.md`.*
+*End of architecture memo. For the assistive-package field definitions, capability-flag declarations, revision sequence, risks, and the one-page governance rules reference, see `pipeline-revision-plan.md`. For the diff between this target design and the currently-running pipeline, see `pipeline-v1-to-v2-migration.md`.*

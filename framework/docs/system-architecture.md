@@ -68,7 +68,7 @@ Each application defines how students experience the framework. An application h
 
 ## Pipeline Flow
 
-The stage-by-stage reference — shared upstream stages 1–3 plus app-specific stages 4–5 / 4a–5a, with commands, agents, and outputs — lives in `framework/docs/archive/pipeline-flow.md` (v1, pending v2 replacement). Operator runbooks are in `framework/docs/archive/RUNNING-shared-stages.md` (v1 shared, pending v2 replacement) and each app's `RUNNING.md` (app-specific).
+The stage-by-stage reference — shared upstream stages 1–3 plus app-specific stages 4–5 / 4a–5a, with commands, agents, and outputs — lives in `framework/docs/pipeline-flow.md`. Operator runbooks are in `framework/docs/RUNNING-shared-stages.md` (shared) and each app's `RUNNING.md` (app-specific).
 
 ## Operator Role
 
@@ -78,7 +78,7 @@ The **operator** (a human running these slash commands inside Claude Code) is in
 
 | Touchpoint | What the operator does |
 |---|---|
-| **Story design** (prose authoring) | Authors `framework/stories/{story_id}.md` (the story design doc) and `framework/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/archive/operator-manual.md` (v1, pending v2 replacement). `/brainstorm` is an optional conversational helper for the per-episode draft. |
+| **Story design** (prose authoring) | Authors `framework/stories/{story_id}.md` (the story design doc) and `framework/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/operator-manual.md`. `/brainstorm` is an optional conversational helper for the per-episode draft. |
 | **Kickoff** (`/create_episode`) | Runs the command with `<story_id> <episode_number>`. The per-episode draft IS the operator prompt — there is no inline input. |
 | **Finalize Lens** (`/configure_session`) | Authors student-facing onboarding strings, per-state instructions, lifeline pool size, reference-list visibility toggles |
 | **Finalize Reasoning Lab** (`/configure_competition`) | Analogous content decisions for the competitive format |

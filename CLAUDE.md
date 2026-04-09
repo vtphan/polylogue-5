@@ -12,7 +12,7 @@ Polylogue is a research project for teaching critical thinking to middle school 
    - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts
    - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime
 
-3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/archive/operator-manual.md` (v1, pending v2 replacement).
+3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
 
 For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts; `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
 
