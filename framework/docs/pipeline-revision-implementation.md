@@ -55,6 +55,8 @@ Every §5 stage is covered. Stages marked `(new)` have no §5 counterpart becaus
 
 Every §5 stage 1–7 has a row. No row invents work that is not sourced from the spec or the memo.
 
+Two rows disaggregate a §5 stage for reviewable-artifact sizing: Stage D spreads §5 Stages 2–5 across four gated substages (the §5 stages are already one-per-agent, so the split is natural), and Stage E splits §5 Stage 6 into E.1 (merge script), E.2 (package reviewer), E.3 (first unassisted end-to-end run) so each artifact gates independently. The justification for the E-split is given in Stage E's preamble.
+
 ### I.4 Rollback posture
 
 The revision is executed as additive work against a frozen archive (Stage A). For Stages C–E, rollback means `git revert` of the landing commit; the archive guarantees that the old behavior is recoverable without git archaeology. For Stage F, rollback means restoring the retired legacy files from the archive if a regression surfaces in the contrast-case run.
@@ -67,7 +69,8 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 - **No rule rewriting.** Governance rules live in memo §6. This plan only cites them.
 - **No Reasoning Lab work.** Per spec §7.1, RL migration is deferred. Any RL file touched by the archive step is a preservation action, not a rewrite.
 - **No new governance rules.** If a rule gap is discovered during execution, stop and update memo §6 first.
-- **No changes to Phase 6 story authoring.** `/create_episode`, `/create_transcript`, `/configure_session`, story design docs, and per-episode drafts are untouched by this revision (spec Appendix B). This plan explicitly confirms non-disturbance of those surfaces in Stage A's gate.
+- **No changes to Phase 6 story authoring.** `/create_episode`, `/create_transcript`, `/brainstorm`, story design docs, and per-episode drafts are untouched by this revision (spec Appendix B). This plan explicitly confirms non-disturbance of those surfaces in Stage A's gate. Note: `/configure_session` is *not* a Phase 6 command — it is a retired Lens-app downstream command and is removed by Stage F.2.
+- **No Lens redesign.** Post-revision, `apps/lens/` shrinks to just two pedagogy docs (`teacher-overview.md` and the trimmed `instructional-design.md`). The Lens app is redesigned from scratch in a separate, later initiative against those docs plus the archived runtime-input files (`student_annotations.yaml`, `default_instructions.yaml`). Designing that replacement is out of scope for this plan; this plan only retires the legacy Lens authoring surface and preserves the inputs the redesign will need.
 
 ---
 
@@ -77,16 +80,14 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 
 **Goal.** Freeze the pre-revision surface on disk so every subsequent stage can proceed as additive work and every old-vs-new comparison is a cheap file diff.
 
-**Inputs.** Current state of `framework/reference/`, `framework/pipeline/`, `framework/schemas/`, relevant `framework/docs/`, `apps/lens/pipeline/`, `apps/lens/schemas/`, `apps/lens/docs/pipeline-spec.md`.
+**Inputs.** Current state of `framework/reference/`, `framework/pipeline/`, `framework/schemas/`, relevant `framework/docs/`, and *all* of `apps/lens/` (pipeline, schemas, reference, docs, RUNNING.md). Reasoning Lab is out of scope for this revision (spec §7.1) and is neither archived nor touched by Stage A.
 
 **Outputs.**
 
 - `archive/pre-revision-2026-04-08/framework-reference/` — snapshot of `framework/reference/`.
 - `archive/pre-revision-2026-04-08/framework-pipeline/` — snapshot of `framework/pipeline/` (agents, commands, scripts).
 - `archive/pre-revision-2026-04-08/framework-schemas/` — snapshot of `framework/schemas/`.
-- `archive/pre-revision-2026-04-08/apps-lens-pipeline/` — snapshot of `apps/lens/pipeline/`.
-- `archive/pre-revision-2026-04-08/apps-lens-schemas/` — snapshot of `apps/lens/schemas/`.
-- `archive/pre-revision-2026-04-08/apps-lens-docs-pipeline-spec.md` — the one app-level doc describing the old pipeline shape.
+- `archive/pre-revision-2026-04-08/apps-lens/` — snapshot of *all* of `apps/lens/`: `pipeline/`, `schemas/`, `reference/`, `docs/`, and `RUNNING.md`. The entire app tree is preserved because Lens is being redesigned from scratch post-revision against the pedagogical docs; the pre-revision state must be recoverable as a baseline.
 - `archive/pre-revision-2026-04-08/README.md` — the discipline note (see below).
 
 **Tasks.**
@@ -94,14 +95,26 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 1. Create `archive/pre-revision-2026-04-08/` at repo root. Matches the precedent set by the legacy `configs/`, `docs/`, `registry/` frozen directories.
 2. Copy (not move) each source tree listed in Outputs into its archive subdirectory. Preserve file mtimes where possible so git blame on the archive remains interpretable.
 3. Write `archive/pre-revision-2026-04-08/README.md` stating: (a) this is a point-in-time snapshot frozen on 2026-04-08 before the pipeline revision described in `framework/docs/pipeline-revision-plan.md` began execution; (b) it is read-only historical reference, not a fallback module path; (c) nothing in the live tree may `import`, `reference`, or `$ref` into this archive; (d) retention is indefinite, mirroring the legacy frozen directories.
-4. Classify each archived file against memo §6 Rule 12: *universal* (belongs in `framework/` after the revision), *app-coupled Lens* (belongs in `apps/lens/` after the revision), or *retired* (no counterpart in the revision). Record the classification in a new `archive/pre-revision-2026-04-08/classification.yaml` with one entry per archived file. This is the first concrete application of the universal/app-coupled split and will seed the inventory in Stage B.
+4. Classify each archived file against memo §6 Rule 12: *universal* (belongs in `framework/` after the revision), *app-coupled Lens* (belongs in `apps/lens/` after the revision — reserved for pedagogy-surviving docs only, see below), *retired* (no counterpart in the revision and deleted from the live tree in Stage F.2), or *redesign-input* (deleted from the live tree in Stage F.2 but preserved as source material the Lens redesign will re-derive from scratch). Record the classification in a new `archive/pre-revision-2026-04-08/classification.yaml` with one entry per archived file. This is the first concrete application of the universal/app-coupled split and will seed the inventory in Stage B.
+
+   The expected post-revision shape of `apps/lens/` is minimal: only the pedagogical documents survive in place. Concretely:
+   - `apps/lens/docs/teacher-overview.md` — *app-coupled Lens*. Pure pedagogy, survives untouched.
+   - `apps/lens/docs/instructional-design.md` — *app-coupled Lens* for its pedagogical half (lines 1–100: Pedagogical Stance, Instructional Design, state machine, chat-style interaction, scaffolding philosophy, assessment dimensions) and the revision history (lines 194–218, to be marked `frozen — architecture superseded by 2026-04 revision`); *retired* for the technical middle (lines 104–190: "Artifact Generation," "Information Barrier" as mechanism, "Pipeline Stages"). The file is split by Stage F.2 task — the technical middle is deleted, the pedagogical halves remain.
+   - `apps/lens/docs/pipeline-spec.md` — *retired*. 784-line spec of the legacy Lens pipeline; entirely obsolete.
+   - `apps/lens/pipeline/` (commands + agents) — *retired*. Replaced by the universal `/build_assistive_package` chain.
+   - `apps/lens/schemas/scaffolding.yaml`, `apps/lens/schemas/session.yaml` — *retired*. Replaced by `assistive_package.yaml`.
+   - `apps/lens/schemas/student_annotations.yaml` — *redesign-input*. Runtime storage spec; preserved as the baseline data model for the Lens redesign but not carried forward automatically (the redesign may revise the state-machine enum and message types).
+   - `apps/lens/reference/default_instructions.yaml` — *redesign-input*. Student-facing UI copy; preserved as the baseline voice reference for the Lens redesign.
+   - `apps/lens/RUNNING.md` — *retired*. Describes the pre-revision operator workflow; the Lens redesign will author a new one if needed.
+
+   Post-revision, the live `apps/lens/` tree contains only `docs/teacher-overview.md` and the trimmed `docs/instructional-design.md`. Everything else under `apps/lens/` is removed from the live tree and preserved only in the archive.
 5. Confirm non-disturbance of Phase 6 surfaces: `framework/pipeline/commands/create_episode.md`, `create_transcript.md`, `brainstorm.md`, and the `planning_agent`, `dialog_writer`, `validation_agent`, `projection_reviewer`, `story_consistency_reviewer`, `transcript_reviewer`, `transcript_id` agents are archived for reference but will not be rewritten by any subsequent stage. Record this confirmation in `classification.yaml`.
 
 **Gates.**
 
-- **A.G1 (mechanical).** `ls archive/pre-revision-2026-04-08/` lists the six expected subdirectories + README + classification.yaml. Every file under the archived source trees has a counterpart in the archive (size and path match).
+- **A.G1 (mechanical).** `ls archive/pre-revision-2026-04-08/` lists the four expected subdirectories (`framework-reference/`, `framework-pipeline/`, `framework-schemas/`, `apps-lens/`) + README + classification.yaml. Every file under the archived source trees has a counterpart in the archive (size and path match). For `apps/lens/`, every file under the live tree has an entry in `classification.yaml` — no omissions.
 - **A.G2 (mechanical).** `grep -r "archive/pre-revision-2026-04-08" framework/ apps/` returns zero live references. The archive is not load-bearing.
-- **A.G3 (architecture checkpoint).** Operator reads `classification.yaml` against memo §6 Rule 12. Every *app-coupled Lens* entry has a justification naming the Lens-specific dependency; every *retired* entry has a justification naming what replaces it (citing spec §2.7 Appendix B). No entry is classified without a stated reason. This is the stage's most important gate — the classification seeds Stage B's inventory, and a misclassification here silently miscategorizes downstream work.
+- **A.G3 (architecture checkpoint).** Operator reads `classification.yaml` against memo §6 Rule 12. Every *app-coupled Lens* entry has a justification naming the Lens-specific dependency (or, for pedagogy docs, names the pedagogical content that survives pipeline redesign). Every *retired* entry has a justification naming what replaces it (citing spec §2.7 Appendix B). Every *redesign-input* entry has a justification naming (a) why it is not carried forward as-is and (b) what aspect of it the Lens redesign will re-derive. No entry is classified without a stated reason. Additionally, the operator samples at least 20% of entries (stratified across all four categories) and verifies the *stated reason* is correct — i.e., that the replacement named for a retired file actually replaces it, that the Lens-specific dependency named for an app-coupled file is real, and that the redesign-input rationale corresponds to real content in the file. A correct classification with a wrong reason is flagged as REVISE. This is the stage's most important gate — the classification seeds Stage B's inventory and Stage F.2's retirement list, and a silent misclassification (or a correct class with an incorrect rationale) miscategorizes downstream work.
 
 **Rollback.** If A.G3 surfaces a structural mistake in the classification, fix `classification.yaml` in place (it has no downstream dependents yet). If the archive itself is corrupted or incomplete, delete `archive/pre-revision-2026-04-08/` and redo. No live-tree changes have been made at this point, so rollback is free.
 
@@ -126,6 +139,8 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 1. Extract every discrete work item from spec §2.1–§2.6 (each required block, each enforcement rule, each conditional block is a separate item). Cite the spec § and the subsection. Items that are purely field definitions get classified `schema-item`; items that require prompt-level work (e.g., "analyst must strip pedagogical speculation") get classified `prompt-item`; items that require script work (e.g., merge-script enforcement checks) get classified `script-item`.
 2. Extract every capability flag from spec §4 as its own item. Each flag has a dependency on the schema item that owns its gated content (e.g., `uses_character_growth` depends on `diagnostic.growth_beats`).
 3. Extract every enforcement check from spec §2.6 as a `script-item` owned by the merge script. Each check gets its own acceptance test.
+
+   Additionally, extract the **bootstrap script** as a standalone `script-item` (`I-bootstrap`) even though it is not a spec §2.6 enforcement check. Acceptance rule: "clears `.claude/commands/` and `.claude/agents/`, then syncs only from `framework/pipeline/commands/` and `framework/pipeline/agents/` — no app-specific branching." The bootstrap item lands in Stage C (so Stage D can sync new agents as they are written) and is re-verified at F.2.G3 after the legacy Lens bootstrap is retired.
 4. Extract every memo §6 rule that requires implementation work as an item. Most rules are acceptance constraints not work items; but Rule 6 ("turn anchors mandatory"), Rule 7 ("IDs hidden, labels student-facing"), and Rule 11 ("one cognitive job per agent") generate mechanical-gate items that land in Stage E.
 5. Build the dependency graph. The expected shape: schema items precede prompt items for the same agent; the analyst prompt item precedes the diagnostic, prose, and discussion prompt items (diagnostic/prose/discussion all read analyst output from file); the merge script precedes the package reviewer (the reviewer needs a merged package to review). Validate that the graph is acyclic.
 6. Execute the turn-annotation granularity spike. Hand-annotate the densest passage of Overton Park episode 3 under both policies (every turn vs. load-bearing turns only). Record token counts and the UI-affordance comparison. Write the decision and its justification in the spike-resolution section.
@@ -155,6 +170,7 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 - `framework/schemas/prose.schema.yaml`
 - `framework/schemas/discussion.schema.yaml`
 - `framework/schemas/assistive_package.schema.yaml`
+- `framework/pipeline/initialize.py` — the new universal bootstrap script (replaces `apps/lens/pipeline/initialize_lens.py`, which is retired in Stage F.2).
 - `artifacts/overton-park/episodes/episode_03/ground_truth.yaml` (hand-authored gold)
 - `artifacts/overton-park/episodes/episode_03/diagnostic.yaml` (hand-authored gold)
 - `artifacts/overton-park/episodes/episode_03/prose.yaml` (hand-authored gold)
@@ -167,6 +183,7 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 3. Hand-author the four gold files for Overton Park episode 3 against the schemas. Author ground_truth first, then diagnostic, then prose, then discussion — matching the dependency order the agents will later follow.
 4. For every required field, apply the forcing function named in spec §5 Stage 1: "could a non-AI app render or use this without further inference?" If not, revise the schema and re-author the affected field. Record the revision as an inventory delta in `pipeline-revision-inventory.md`.
 5. Commit the schemas and the gold files in the same commit. The commit message names Overton Park episode 3 as the gold baseline.
+6. Write `framework/pipeline/initialize.py` as pure Python + pathlib. Behavior: (a) clear `.claude/commands/` and `.claude/agents/`; (b) copy every file under `framework/pipeline/commands/` into `.claude/commands/`; (c) copy every file under `framework/pipeline/agents/` into `.claude/agents/`. No app argument, no per-app branching — post-revision, all authoring commands and agents live under `framework/pipeline/`. Invocation: `python3 framework/pipeline/initialize.py` from the repo root. The existing `apps/lens/pipeline/initialize_lens.py` and `apps/reasoning-lab/pipeline/initialize_reasoning_lab.py` remain in place through Stage C–E; Stage F.2 retires the Lens one. The RL one is out of scope and untouched. Run the new bootstrap at the end of Stage C to sync the existing Phase 6 framework surface into `.claude/`, preparing for Stage D agent authoring.
 
 **Authorship discipline.** Per spec §5 Stage 1: hand-authored gold files must be committed before any Stage D agent prompt is written. If possible, the gold files are authored by a different operator than the one who will later write the agent prompts, to prevent self-grading.
 
@@ -174,11 +191,12 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 
 - **C.G1 (mechanical).** `validate_schema.py` passes on all four gold files. Exit code 0. No warnings.
 - **C.G2 (mechanical).** `grep` the gold files for reserved framework IDs in student-facing fields (memo §6 Rule 7) — zero matches in `episode_opening`, `entry_prompts`, `discussion_cues[].text`, `role_cards[].stance`. Zero matches for non-canonical IDs in machine-readable fields.
-- **C.G3 (architecture checkpoint — schema reality check, from spec §5 Stage 1 gate review).** Operator reads the gold files against memo §1.2. Every cell of the 3×3 affordance-at-three-scales matrix is exercised by at least one field in the gold files. Every field in the gold files traces to one cell. Fields that cannot be placed in the matrix are flagged as candidates for removal or as evidence the matrix is incomplete (the latter is a memo-edit, not a plan-edit). Findings are written as a short report appended to the inventory; schema and spec are revised if necessary.
+- **C.G3 (mechanical — bootstrap).** `python3 framework/pipeline/initialize.py` succeeds on the post-task-6 tree. `.claude/commands/` contains every file from `framework/pipeline/commands/` (the existing Phase 6 surface: `/brainstorm`, `/create_episode`, `/create_transcript`, and the legacy `/analyze_transcript` which is retired later in F.2). `.claude/agents/` contains every file from `framework/pipeline/agents/`. No files are synced from anywhere under `apps/`. Exit code 0. No errors.
+- **C.G4 (architecture checkpoint — schema reality check, from spec §5 Stage 1 gate review).** Operator reads the gold files against memo §1.2. Every cell of the 3×3 affordance-at-three-scales matrix is exercised by at least one field in the gold files. Every field in the gold files traces to one cell. Fields that cannot be placed in the matrix are flagged as candidates for removal or as evidence the matrix is incomplete (the latter is a memo-edit, not a plan-edit). Findings are written as a short report appended to the inventory; schema and spec are revised if necessary.
 
-**Rollback.** If C.G3 surfaces a structural problem with a schema, revert the schema commit and redo. If the problem is in spec §2, escalate: update spec §2 first, sweep this plan in the same commit, then resume.
+**Rollback.** If C.G4 surfaces a structural problem with a schema, revert the schema commit and redo. If the problem is in spec §2, escalate: update spec §2 first, sweep this plan in the same commit, then resume. If C.G3 (bootstrap) fails, the new `initialize.py` has a bug or the `.claude/` target directory is in an unexpected state — fix in place.
 
-**Exit criterion.** All three gates pass. The schemas are frozen (no edits without re-running C.G3). Stage D is unblocked.
+**Exit criterion.** All four gates pass. The schemas are frozen (no edits without re-running C.G4). Stage D is unblocked.
 
 ---
 
@@ -186,7 +204,14 @@ Each stage declares its specific rollback trigger ("if gate G fails, do X") so r
 
 **Goal.** Execute spec §5 Stages 2, 3, 4, 5 — write the four authoring agent prompts and run each on Overton Park episode 3, comparing against the gold files from Stage C. Land the architecture checkpoint spec §5 Stage 4 prescribes after the prose agent.
 
-**Inputs.** Frozen schemas from Stage C; gold files from Stage C; memo §§3.1–3.4 (per-agent cognitive jobs); spec §2.1–§2.5 enforcement rules; the existing `framework/pipeline/agents/evaluator.md` (as source material for the analyst, per spec §5 Stage 2 "Port the existing evaluator prompt"); inventory items classified as `prompt-item`.
+**Inputs.** Frozen schemas from Stage C; gold files from Stage C; Stage B inventory (items classified as `prompt-item`); memo §§3.1–3.4 (per-agent cognitive jobs); spec §2.1–§2.5 enforcement rules; the existing `framework/pipeline/agents/evaluator.md` (as source material for the analyst, per spec §5 Stage 2 "Port the existing evaluator prompt").
+
+**File-path convention.** All Stage D substages follow the same path convention, stated once here so substages can reference it without restating:
+
+- **Gold files (hand-authored Stage C outputs, read-only during Stage D):** `artifacts/overton-park/episodes/episode_03/{ground_truth,diagnostic,prose,discussion}.yaml`.
+- **Generated agent outputs (Stage D writes these):** `artifacts/overton-park/episodes/episode_03/generated/{ground_truth,diagnostic,prose,discussion}.yaml`. The `generated/` subdirectory isolates machine output from hand-authored gold.
+- **Downstream agents read upstream *generated* output, not gold.** Per memo §6 Rule 8, the diagnostic agent reads the D.1-generated `ground_truth.yaml`, not the hand-authored gold. The prose agent reads the D.1 and D.2 generated outputs. The discussion agent reads D.1, D.2, and D.3 generated outputs. Gold files are referenced only by the diff-against-gold gates, never as agent inputs.
+- **Schemas, transcript, story design doc:** read from their canonical locations (`framework/schemas/`, `artifacts/overton-park/episodes/episode_03/transcript.yaml`, `framework/stories/overton-park/episode_03.md` and `framework/stories/overton-park.md`).
 
 **Outputs.**
 
@@ -214,7 +239,7 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 - **D.1.G2 (mechanical; from spec §5 Stage 2 exit criterion).** ≥90% of hand-authored `facets_present` entries are produced by the analyst with matching `facet_ref` and at least one overlapping `evidence_turn`. Zero hallucinated facets (every generated entry has a real match in gold). 100% of analyst turn citations resolve to real turns. Every `causal_layer` entry has a populated enumerated `interaction` field. `causal_layer_episode` present. `discussion_cue_seeds[]` populated on every load-bearing turn (per the Stage B spike decision).
 - **D.1.G3 (agent review — analyst fidelity).** An ad-hoc review pass (operator or a dedicated reviewer subagent if cheap) reads the generated file against the gold and reports where the analyst over- or under-reached. Findings feed the diff report.
 
-**Rollback.** If D.1.G2 fails, revise the analyst prompt and rerun. If the gap is structural (the prompt cannot bridge the gap without violating Rule 8 role purity), stop and reconsider whether the analyst's cognitive job is correctly scoped — this is a memo §3.1 question, not a prompt-tuning question.
+**Rollback.** If D.1.G2 fails, revise the analyst prompt and rerun. Escalation rule: if two successive prompt-tuning rounds produce less than 5% improvement on the failing metric (match rate, hallucination count, or citation resolution), stop tuning and escalate — the problem is structural, not prompt-level. Escalation means: re-examine whether the analyst's cognitive job is correctly scoped (a memo §3.1 question) or whether `ground_truth.schema.yaml`'s fields are correctly defined (a spec §2.1 question). If memo §3.1 or spec §2.1 must change, follow the spec-edit cascade rules in §III.3.
 
 #### D.2 — Diagnostic agent (spec §5 Stage 3)
 
@@ -228,7 +253,7 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 - **D.2.G1 (mechanical).** `validate_schema.py` passes. `next_move` is a non-empty string on every `response_space` entry. `recommended_lens_switch` populated on every `blindspots[]` entry.
 - **D.2.G2 (agent review — diagnostic specificity, from spec §5 Stage 3 gate review).** Sample five entries per category (likely_readings, partial_readings, misreadings, blindspots) across the three lenses. Mark each as "passage-specific" (names something in the actual transcript) or "generic" (could apply to any passage). ≥80% passage-specific to pass.
 
-**Rollback.** If D.2.G2 fails, the diagnostic prompt is under-constrained; add counterexamples from Overton Park ep 3 and re-run. If ≥80% still fails, the problem is upstream (analyst output is too thin to support diagnostic specificity), and D.1 needs revisiting.
+**Rollback.** If D.2.G2 fails, the diagnostic prompt is under-constrained; add counterexamples from Overton Park ep 3 and re-run. Same escalation rule as D.1: two tuning rounds with <5% improvement triggers escalation. The problem may be upstream (analyst output too thin to support diagnostic specificity — D.1 needs revisiting), or it may be structural (diagnostic.schema.yaml under-specifies what "passage-specific" means — a spec §2.2 question). Follow §III.3 spec-edit cascade rules if spec or memo must change.
 
 #### D.3 — Prose agent (spec §5 Stage 4)
 
@@ -242,7 +267,7 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 - **D.3.G2 (agent review — pedagogical register, from spec §5 Stage 4 gate review).** Sample five entries per block. Mark each as "student-sounding" or "adult-sounding." ≥80% student-sounding to pass. Confirm register matches the story's declared `pedagogical_register`.
 - **D.3.G3 (architecture checkpoint — first end-to-end architecture review, from spec §5 Stage 4).** After D.3 is the first point at which analyst + diagnostic + prose have run end-to-end on a real episode. Operator answers the three spec §5 Stage 4 questions: (a) Does the three-affordance-at-three-scales spine in memo §1.2 still hold? (b) Does the block structure feel orthogonal in practice, or are fields accidentally drifting between files? (c) Are the governance rules in memo §6 being respected? Findings may revise memo §1 or spec §2/§4 before D.4 proceeds. If spec or memo change, sweep this plan in the same commit.
 
-**Rollback.** Spec §5 explicitly permits memo/spec edits as an outcome of this checkpoint. If they happen, D.1 and D.2 may need partial re-authoring against the revised schemas; the gold files are re-authored first, then the agents are re-run. This is the most expensive rollback in the plan and is why C.G3 exists — to catch as many of these before any agent is written.
+**Rollback — hard stop, not patch.** D.3.G3 is *validation* that Stage C's architecture survived contact with real agents. It is not a second design checkpoint. If D.3.G3 surfaces a spec §2 or memo §1 problem that C.G4 should have caught, stop execution and do the following in order: (1) update spec/memo and sweep this plan in the same commit; (2) treat Stage C as failed and redo it from scratch — do *not* patch the existing gold files, because re-authoring gold post-agent-run violates the Stage 1 authorship discipline (authors would self-grade against known agent attempts); (3) ideally, a different operator re-authors the gold to preserve authorship independence; (4) re-run Stage D from D.1. The consequence — throwing away D.1 and D.2 agent work and redoing Stage C — is intentional. It is the price of discovering a C.G4 miss, and the reason C.G4 is itself an architecture checkpoint with a 20%-sample fidelity check. Small drift (a field renamed, a rule clarified) may be patched in place without redoing Stage C, but any change that touches schema structure or agent cognitive-job definitions triggers the hard stop.
 
 #### D.4 — Discussion agent (spec §5 Stage 5)
 
@@ -255,7 +280,7 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 - **D.4.G1 (mechanical).** `validate_schema.py` passes. Every load-bearing turn meets the mechanical cue-count floor (`len(cues_for_turn) ≥ distinct_angle_count`). Every role card's lens has `signal ≥ moderate` in `lens_visibility`. Literal-scan for reserved framework IDs in cue text and role cards returns zero matches.
 - **D.4.G2 (agent review — creative generativity, from spec §5 Stage 5 gate review).** Sample ten cues. Mark each as "generative" (introduces a new angle or framing) or "paraphrase" (rewords ground truth). ≥70% generative to pass. Confirm at least two of the three axes are exercised across the episode. Confirm persona-projected cues honor established character voices.
 
-**Rollback.** If D.4.G2 fails, the discussion prompt's three-axis structure is under-specified; add worked examples of each axis from the gold discussion.yaml and re-run. If the gold itself does not exercise two of three axes, the gold is under-authored — this is a Stage C regression and C.G3 should have caught it. Stop and escalate.
+**Rollback.** If D.4.G2 fails, the discussion prompt's three-axis structure is under-specified; add worked examples of each axis from the gold discussion.yaml and re-run. If the gold itself does not exercise two of three axes, the gold is under-authored — this is a Stage C regression and C.G4 should have caught it. Stop and escalate.
 
 **Exit criterion for Stage D.** All four substages exit. The four new agent prompts exist, each has been run on Overton Park episode 3 with gate-passing results, and the spec §5 Stage 4 architecture checkpoint has landed.
 
@@ -347,18 +372,23 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 #### F.2 — Retirement of legacy surface
 
 **Tasks.**
-1. For every "retired" entry in `classification.yaml`, delete the file from the live tree. Expected deletions (per spec Appendix B): `framework/pipeline/agents/evaluator.md`, `framework/pipeline/agents/analysis_reviewer.md`, `apps/lens/pipeline/agents/scaffolding_reviewer.md` (if present), `framework/pipeline/commands/analyze_transcript.md`, `apps/lens/pipeline/commands/design_scaffolding.md` (if present), `framework/schemas/analysis.yaml`, `framework/schemas/facilitation.yaml`, `apps/lens/schemas/scaffolding.yaml`.
-2. Update `CLAUDE.md`, `framework/docs/system-architecture.md`, and `framework/docs/operator-manual.md` to reflect the new command surface (`/build_assistive_package`) and the retired commands. These edits are the one place where the revision touches the memo/spec ecosystem *outside* of the pipeline revision documents themselves, so they get their own commit and their own review pass.
-3. Move this file to the archive with a `frozen YYYY-MM-DD` header.
+1. For every *retired* entry in `classification.yaml`, delete the file from the live tree. Expected framework-side deletions (per spec Appendix B): `framework/pipeline/agents/evaluator.md`, `framework/pipeline/agents/analysis_reviewer.md`, `framework/pipeline/commands/analyze_transcript.md`, `framework/schemas/analysis.yaml`, `framework/schemas/facilitation.yaml`.
+2. For the Lens app, retire the entire legacy app-authoring surface. Delete from the live tree: all of `apps/lens/pipeline/` (commands + agents + scripts + `initialize_lens.py`), `apps/lens/schemas/scaffolding.yaml`, `apps/lens/schemas/session.yaml`, `apps/lens/docs/pipeline-spec.md`, and `apps/lens/RUNNING.md`. Post-revision, `apps/lens/pipeline/` and `apps/lens/reference/` cease to exist as live directories; `apps/lens/schemas/` is also deleted (its one non-retired file is handled in task 3). `initialize_lens.py` is explicitly retired — its universal replacement, `framework/pipeline/initialize.py`, landed in Stage C and is the sole bootstrap for Lens going forward.
+3. For *redesign-input* entries, delete from the live tree but confirm archive retention. `apps/lens/schemas/student_annotations.yaml` and `apps/lens/reference/default_instructions.yaml` are removed from the live tree; they remain in `archive/pre-revision-2026-04-08/apps-lens/` as source material for the Lens redesign. The redesign is a separate initiative, out of scope for this revision.
+4. Split `apps/lens/docs/instructional-design.md`: retain the pedagogical content (the Pedagogical Stance, Instructional Design, per-passage state machine, chat-style interaction, scaffolding philosophy, progressive loop, teacher debrief, and assessment dimensions sections) and the revision history appendix; delete the "Artifact Generation" and "Pipeline Stages" sections (approximately lines 104–190 in the pre-revision file) as they describe the retired legacy pipeline. Prepend a note to the revision history appendix marking the v5-6 architecture as superseded by the 2026-04 pipeline revision. `apps/lens/docs/teacher-overview.md` is untouched.
+5. Confirm the post-revision `apps/lens/` tree contains exactly two files: `docs/teacher-overview.md` and the trimmed `docs/instructional-design.md`. Any other file under `apps/lens/` is a regression.
+6. Update `CLAUDE.md`, `framework/docs/system-architecture.md`, and `framework/docs/operator-manual.md` to reflect the new command surface (`/build_assistive_package`), the retired commands, and the new minimal `apps/lens/` shape. Specific `CLAUDE.md` edits: (a) replace the `python3 apps/lens/pipeline/initialize_lens.py` invocation line in the Bootstrapping section with `python3 framework/pipeline/initialize.py`; (b) update the Bootstrapping paragraph to state that the universal bootstrap syncs only from `framework/pipeline/`, with no app-specific branching, because the Lens authoring surface is retired; (c) leave the Reasoning Lab bootstrap line (`python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py`) unchanged — RL is out of scope for this revision; (d) update the Pipeline Flow diagram to replace the `/analyze_transcript → /design_scaffolding → /configure_session` tail with a single `/build_assistive_package` step. These edits are the one place where the revision touches the memo/spec ecosystem *outside* of the pipeline revision documents themselves, so they get their own commit and their own review pass.
+7. Move this file to the archive with a `frozen YYYY-MM-DD` header.
 
 **Gates.**
-- **F.2.G1 (mechanical).** `grep -r "evaluator\|analysis_reviewer\|scaffolding_reviewer\|analyze_transcript\|design_scaffolding" framework/ apps/` returns zero matches (excluding the archive and the pipeline revision documents that discuss history).
-- **F.2.G2 (mechanical).** A fresh clone + `python3 apps/lens/pipeline/initialize_lens.py` succeeds. The resulting `.claude/commands/` and `.claude/agents/` contain the four new agents and the new command. No legacy agents or commands are synced.
-- **F.2.G3 (mechanical).** Re-running the full pipeline on Overton Park episode 3 and the contrast story episode 1 after retirement produces byte-identical packages to the pre-retirement runs. No regression.
+- **F.2.G1 (mechanical).** `grep -r "evaluator\|analysis_reviewer\|scaffolding_reviewer\|analyze_transcript\|design_scaffolding\|configure_session" framework/ apps/` returns zero matches (excluding the archive and the pipeline revision documents that discuss history). `grep -r "scaffolding.yaml\|session.yaml\|pipeline-spec.md" framework/ apps/` similarly returns zero matches outside the archive and this revision's own documents.
+- **F.2.G2 (mechanical — `apps/lens/` shape).** `find apps/lens -type f` returns exactly two paths: `apps/lens/docs/teacher-overview.md` and `apps/lens/docs/instructional-design.md`. Any other file under `apps/lens/` fails the gate. The trimmed `instructional-design.md` is verified by `grep`: "Pipeline Stages" and "Artifact Generation" headings return zero matches; "Pedagogical Stance" and "Per-Passage State Machine" headings each return one match.
+- **F.2.G3 (mechanical — bootstrap).** `apps/lens/pipeline/initialize_lens.py` no longer exists (it was under the retired `apps/lens/pipeline/`). `python3 framework/pipeline/initialize.py` succeeds on a fresh clone after retirement. `.claude/commands/` contains exactly: `brainstorm.md`, `create_episode.md`, `create_transcript.md`, `build_assistive_package.md`. `.claude/agents/` contains exactly the Phase 6 authoring agents (`planning_agent`, `dialog_writer`, `validation_agent`, `projection_reviewer`, `story_consistency_reviewer`, `transcript_reviewer`, `transcript_id`) plus the four new authoring agents (`analyst_agent`, `diagnostic_agent`, `prose_agent`, `discussion_agent`) plus `package_reviewer`. No legacy Lens agents or commands are synced; no retired framework agents (`evaluator`, `analysis_reviewer`) or commands (`analyze_transcript`) are synced. `CLAUDE.md`'s bootstrap invocation line reads `python3 framework/pipeline/initialize.py` for Lens; the RL bootstrap line (`python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py`) is unchanged.
+- **F.2.G4 (mechanical — regression).** Re-running the full pipeline on Overton Park episode 3 and the contrast story episode 1 after retirement produces byte-identical packages to the pre-retirement runs. No regression.
 
-**Rollback.** If F.2.G3 regresses, a retired file was load-bearing in a way `classification.yaml` did not catch. Restore the file from the archive, revisit the classification, and re-run the gate.
+**Rollback.** If F.2.G4 regresses, a retired file was load-bearing in a way `classification.yaml` did not catch. Restore the file from the archive, revisit the classification (this is a Stage A A.G3 miss — escalate accordingly), and re-run the gate. If F.2.G2 fails because a file still exists under `apps/lens/` that should have been retired, delete it and re-run; if it fails because a file was deleted that should have survived (e.g., teacher-overview.md), restore from the archive.
 
-**Exit criterion for Stage F.** All three F.1 gates and three F.2 gates pass. The revision is complete. This document is archived.
+**Exit criterion for Stage F.** All three F.1 gates and four F.2 gates pass. The revision is complete. This document is archived. The Lens redesign is a separate initiative that picks up from the archived `apps-lens/schemas/student_annotations.yaml` and `apps-lens/reference/default_instructions.yaml` as baseline source material, plus the surviving pedagogy docs in the live tree.
 
 ---
 
@@ -370,6 +400,8 @@ This stage has four substages. Each substage is a full spec §5 stage. Substages
 - **Spec and plan edits in the same commit.** If a stage's gate triggers a spec or memo edit, the spec/memo edit and the plan's sweep land together.
 - **Gold files and schemas in the same commit.** Stage C's gold files and schemas are authored together and land together. A gold file without a schema (or vice versa) is a broken state.
 
+**Terminology.** *Sweep* = update every citation and cross-reference in this plan that points at the edited spec/memo section, in the same commit as the spec/memo edit, so no stage in this plan ever cites a section that no longer exists in the form cited. *Load-bearing* = necessary to achieve a stated goal; a split or check is load-bearing if removing it breaks an exit criterion. *Forcing function* = a question applied per field to force the three-affordance-at-three-scales test (see spec §5 Stage 1).
+
 ### III.2 Reviewer subagent reuse
 
 Where an existing reviewer subagent can be repurposed for a plan gate, reuse it. The existing `projection_reviewer` is a template for building a "paraphrased framework-label leakage" check that the package reviewer should inherit; `story_consistency_reviewer` is a template for prose-on-prose review that the prose agent's register check (D.3.G2) can reuse.
@@ -380,10 +412,23 @@ Stop execution and escalate (rather than tuning in place) when:
 
 1. A gate fails in a way that implies a memo §6 rule violation. Rules are architectural commitments; tuning around them is the failure mode the twelve rules exist to prevent.
 2. A gate failure traces to a dependency that Stage B's graph did not identify. The inventory is wrong; update it before proceeding.
-3. An architecture checkpoint (A.G3, B.G1, B.G2, C.G3, D.3.G3, E.3.G4) surfaces a structural problem. These checkpoints exist precisely to catch problems that are cheaper to fix at the checkpoint than later.
+3. An architecture checkpoint (A.G3, B.G1, B.G2, C.G4, D.3.G3, E.3.G4) surfaces a structural problem. These checkpoints exist precisely to catch problems that are cheaper to fix at the checkpoint than later.
 4. Two successive substages require the same prompt revision. Repeat revision signals the prompt is under-scoped at a structural level, not a tuning level.
 
 Escalation means: stop execution, document the issue in the inventory, update spec or memo as needed, sweep this plan, and resume from the earliest affected substage.
+
+**Spec-edit cascade rules.** Four gates in this plan explicitly allow spec/memo edits as outcomes: C.G4, D.3.G3, E.3.G4, and the D.1.G2 / D.2.G2 / D.4.G2 escalation paths. When a spec/memo edit lands mid-execution, the blast radius depends on *where* the edit hits:
+
+| Edit site | Re-run scope | Notes |
+|---|---|---|
+| Memo §1.2 (3×3 matrix) | Stages C, D, E redo. | Matrix is the correctness oracle for every downstream artifact. Largest blast radius. |
+| Spec §2.N (field definition in schema N) | Stage C schema N + gold N re-authored; any Stage D substage whose agent writes schema N re-runs; Stage E re-runs. | Gold is re-authored before agents re-run (authorship discipline). If Stage D has progressed past the affected substage, apply the D.3 hard-stop rule. |
+| Spec §4 (capability flags) | Stage C schemas touching conditional blocks; Stage F contrast-case re-run. | If the flag's gated content is already in a frozen schema, treat as a §2.N edit. |
+| Memo §3.N (agent cognitive job N) | Stage D substage N re-authored from scratch; downstream D substages re-run. | Rule 11 violation risk — re-verify with D.3.G3 after re-authoring. |
+| Memo §6 (governance rule) | Depends on rule. Rule 5/8/11 edits usually force a D-stage redo; Rule 12 edits force Stage A re-classification. | Most expensive case: any edit that changes what "one cognitive job per agent" means forces a D redo. |
+| Spec §5 (stage narrative) | Sweep this plan's coverage matrix (§I.3). Re-verify that every execution stage still traces to a §5 stage. No artifact re-run unless the narrative change implies a §2 or §4 change. | Narrative-only edits are cheap; structural edits piggyback on one of the rows above. |
+
+In every case: the spec/memo edit and this plan's sweep land in the same commit, per §III.1. Any re-run it implies is a separate commit, one stage per commit as normal. If a sweep is non-trivial, stop and reconcile before landing the spec edit.
 
 ### III.4 Sign-off authority
 
