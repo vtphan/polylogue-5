@@ -15,7 +15,7 @@ premise: >
   between the blocs. This is the episode where she asks the condition-
   sensitivity question nobody follows up on: "Under what conditions
   would the amusement park actually teach us something?"
-lead_characters: [Kai, Maya, Priya]
+lead_characters: [Kai, Maya, Priya, Sam]
 primary_lens: scope
 mixed_valence_shape: unresolved_disagreement
 

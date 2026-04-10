@@ -16,7 +16,7 @@ premise: >
   her feedback ("You started from your answers and worked backward to
   your questions. One of you started from the question. I could tell")
   is a post-discussion beat referenced through framing.
-lead_characters: [Maya, Priya, Jordan]
+lead_characters: [Maya, Priya, Jordan, Sam, Kai]
 primary_lens: logic
 mixed_valence_shape: strength_prevails
 
@@ -104,6 +104,35 @@ targets:
       he simply does not have a mental model for what "independent
       sources" would even look like in this context.
 
+  - facet: consequence_consideration
+    lens: scope
+    carrier: Kai
+    cognitive_pattern: tunnel_vision
+    social_dynamic: null
+    cognitive_signal: >
+      Kai opens the meeting with "We have forty-five minutes. Let's just
+      pick one and write it up." He pushes the committee to submit quickly
+      without considering the consequence Ms. Tsai laid out in episode 1:
+      if the reasoning is weak, she picks the destination herself. Kai
+      treats finishing as the goal — his pragmatic frame cannot hold the
+      difference between submitting a recommendation and submitting a
+      *good* recommendation. When Priya pushes back ("shouldn't we make
+      sure the reasoning actually holds up?"), Kai's response is "it's
+      fine, we just need to get something on paper" — collapsing the
+      quality question into a logistics question, the same tunnel_vision
+      pattern from episodes 3 and 4 now applied to the submission itself.
+    social_signal: null
+    interaction_note: >
+      This is the consequence_consideration version of Kai's tunnel_vision:
+      his pragmatic frame has always narrowed the question (episode 3:
+      logistics replaced the educational question; episode 4: cost replaced
+      equity), and here it narrows the submission to a deadline problem
+      rather than a quality problem. The irony is that Kai's stable
+      strength — asking "what actually happens if we pick this?" — is the
+      faculty he fails to apply to the recommendation itself. He does not
+      ask "what actually happens if we submit weak reasoning?" even though
+      the answer was stated in episode 1.
+
 strengths:
   - facet: perspective_engagement
     carrier: Priya
@@ -153,13 +182,47 @@ strengths:
       season. The dual nature persists to the end: Maya's analytical
       skill is real, and her inability to turn it inward is also real.
 
+  - facet: source_credibility
+    carrier: Jordan
+    note: >
+      When Sam pushes the committee to cite sources beyond the
+      destinations' own marketing materials, Jordan is initially
+      confused (his source_diversity weakness). But then he does what
+      the design doc says he does when he actually does the work: he
+      looks something up. He finds a teacher's blog post reviewing
+      field trip outcomes at different types of destinations — an
+      independent source with a credible perspective. The source is
+      relevant and trustworthy. Jordan's source_credibility strength
+      is the flip side of his episode 2 weakness: when he accepts
+      sources uncritically, he cites brochures; when he actually
+      evaluates and searches, he finds good ones. The design doc's
+      distinction — "when Jordan does the work, he's good at it" —
+      pays off here.
+
+  - facet: sufficiency
+    carrier: Priya
+    note: >
+      Post-growth. When the committee drafts the recommendation, Priya
+      pushes back on thin arguments. She insists the reasoning section
+      address not just which destination but why — the educational fit,
+      the cost implications, whose access is affected, and whether the
+      subject answers the class's cross-disciplinary mandate. The result
+      is a recommendation with more supporting arguments than any single
+      committee member would have produced alone. Priya's sufficiency
+      strength is a product of her growth: pre-growth, she would have
+      been satisfied with a polished argument for the museum. Post-
+      growth, she recognizes that polish is not the same as substance,
+      and she holds the committee to a higher standard of evidential
+      depth.
+
 beats:
   - "Opening: the committee sits down with the shared document open. The whiteboard shows all five proposals — Sam's is no longer crossed out. Kai says: 'We have forty-five minutes. Let's just pick one and write it up.'"
   - "Maya makes her final push for the amusement park, picking up the physics framing she dropped in episode 3. Jordan points out the inconsistency. Maya brushes it off."
   - "Maya's consensus appeal: 'Come on, we all know the amusement park would be the most fun.' Kai shrugs. Jordan hesitates. Priya does not nod. The silence where Priya's ratification used to be is audible."
   - "Priya speaks for the first time since withdrawing the museum proposal. She says something like: 'Are we writing this for us or for the whole class? Because I've been writing it for me this whole time.' The committee is uncomfortable."
   - "Sam restates her proposal plainly. She does not argue for it — she describes the questions and notes the destination is free. The committee listens differently than they did in episode 1."
-  - "Jordan tries to write the evidence section using the zoo brochure material. Sam suggests they need sources that aren't the destinations' own marketing. Jordan is genuinely confused about what else they would cite."
+  - "Jordan tries to write the evidence section using the zoo brochure material. Sam suggests they need sources that aren't the destinations' own marketing. Jordan is genuinely confused about what else they would cite. After a beat, he pulls out his phone and actually searches — he finds a teacher's blog reviewing field trip outcomes, an independent source. When he does the work, he finds good sources."
+  - "Priya pushes back on the draft: 'We can't just say one reason per destination. If we're asking Ms. Tsai to trust our reasoning, the reasoning has to actually be there.' She holds the committee to a higher standard of evidential depth than any of them were applying individually."
   - "Maya catches a gap in the draft's reasoning section ('we say cross-disciplinary but only list science reasons'). The observation is sharp. She does not see it applies to her own arguments."
   - "The committee writes the recommendation. It is a compromise — better reasoning than episode 1 but still shaped by the preferences that built it. Not fully Sam's proposal, not fully anyone's. The fingerprints of the process are visible."
   - "Closing beat: the committee submits the recommendation. The last line of the episode is a framing note, not dialog — Ms. Tsai will read it tonight. The consensus_check for this episode can ask: 'Ms. Tsai read your recommendation. What do you think she noticed?'"

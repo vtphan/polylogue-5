@@ -17,7 +17,7 @@ premise: >
   lunch-program proposal resurfaces — not because Sam pushes it, but
   because the cost conversation forces the committee to reconsider what
   "a good field trip" means.
-lead_characters: [Priya, Kai, Sam]
+lead_characters: [Priya, Kai, Sam, Jordan]
 primary_lens: scope
 mixed_valence_shape: self_correction
 
@@ -91,6 +91,34 @@ targets:
       target: relevance was "logistics aren't the question"; reasoning_
       completeness is "cost is part of the question but not all of it."
 
+  - facet: condition_sensitivity
+    lens: evidence
+    carrier: Jordan
+    cognitive_pattern: uncritical_acceptance
+    social_dynamic: null
+    cognitive_signal: >
+      When Kai names the museum's per-student cost, Jordan offers that the
+      zoo has a "group rate" as if that settles the affordability question.
+      He does not ask what the group rate actually is, whether it includes
+      transport, or whether families on free lunch can afford even a
+      discounted price. He treats "group rate" as unconditionally meaning
+      "affordable" without testing any of the conditions under which a
+      discount would actually solve the access problem Kai's number just
+      surfaced.
+    social_signal: null
+    interaction_note: >
+      This is the condition_sensitivity version of Jordan's established
+      uncritical_acceptance pattern. In episode 2, he accepted a credential
+      at face value (source_credibility); here he accepts a pricing
+      category at face value. The mechanism is the same — Jordan trusts
+      that an official-sounding label ("group rate") means what he needs it
+      to mean — but the facet is different because the failure is not about
+      source quality but about treating a claim as unconditional. He does
+      not ask: under what conditions would a group rate actually make the
+      trip affordable for everyone? The question would require knowing the
+      rate, the transport cost, and the financial situation of specific
+      families — none of which Jordan has checked.
+
 strengths:
   - facet: perspective_engagement
     carrier: Sam
@@ -138,6 +166,7 @@ beats:
   - "Opening: the committee reconvenes. The whiteboard still shows the blocs from episode 3. Kai is at the board doing math before the meeting officially starts."
   - "Kai states the museum's total cost aloud: '$18 per student, $12 for the bus, that's $30 times 28 kids — $840.' The number hangs in the air."
   - "Sam, quietly: 'Six kids in our class are on free lunch. Do we know if their families can do thirty dollars?'"
+  - "Jordan, trying to help: 'The zoo has a group rate, so it wouldn't be that bad.' He does not name the rate or check whether it covers transport. Nobody asks him to."
   - "Priya, quickly: 'The museum has scholarship programs for exactly this kind of thing.' She says it like a fact."
   - "Sam: 'Have you checked if they cover field trips?' Priya opens her mouth. Closes it. Does not answer."
   - "A beat of silence. Kai fills it: 'So we go with the cheaper option.' The committee is visibly uncomfortable — the question has shifted from 'which destination is best' to something harder."
