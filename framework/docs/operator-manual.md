@@ -1,5 +1,7 @@
 # Polylogue Operator Manual
 
+**Status.** Describes **v1 (currently live)**. v2 redesign in flight — see `pipeline-v1-to-v2-migration.md`.
+
 This manual is the end-to-end runbook for authoring and running a Polylogue story. It is written for the operator — the person sitting at the keyboard with Claude Code, designing curriculum.
 
 It assumes you understand the conceptual framework (lenses, facets, explanatory variables) at a working level — if not, read `framework/docs/conceptual-framework.md` first. The cast design rules, coverage contract, and rotation rules are spelled out in `framework/docs/story-design.md`; this manual points at the sections you need as you encounter them.

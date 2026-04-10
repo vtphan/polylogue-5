@@ -1,5 +1,7 @@
 # Pipeline Flow
 
+**Status.** Describes **v1 (currently live)**. v2 redesign in flight — see `pipeline-v1-to-v2-migration.md`.
+
 The Polylogue pipeline runs in two phases: **shared upstream** (stages 1–3) and **application-specific downstream** (stages 4–5). This document is the canonical stage-by-stage reference. For architectural rationale and directory structure, see `system-architecture.md`. For operator runbooks, see `RUNNING-shared-stages.md` and each app's `RUNNING.md`.
 
 Every command takes `<story_id> <episode_number>` as its arguments.

@@ -1,5 +1,7 @@
 # Running the Reasoning Lab Pipeline
 
+**Status.** Describes **v1 (currently live)**. v2 redesign in flight — see `framework/docs/pipeline-v1-to-v2-migration.md`.
+
 The Reasoning Lab pipeline turns one per-episode draft into scoring and competition artifacts. Stages 1–3 are shared upstream with Lens; stages 4a–5a are Reasoning Lab-specific. Every command takes `<story_id> <episode_number>` as its arguments.
 
 This guide covers initialization and the Reasoning Lab-specific stages. For operating principles, pre-flight checks, and shared stages 1–3, see **`framework/docs/RUNNING-shared-stages.md`**. For the prose-first authoring loop that produces the per-episode drafts, see `framework/docs/operator-manual.md`.

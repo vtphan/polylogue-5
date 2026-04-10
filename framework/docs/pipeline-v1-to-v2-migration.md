@@ -118,9 +118,12 @@ v1's likely/partial/misreading/blindspot categories survive in v2 as `diagnostic
 | v1 | v2 |
 |---|---|
 | `/analyze_transcript` + `/design_scaffolding` | `/build_assistive_package` |
-| `/create_episode`, `/create_transcript`, `/configure_session` | unchanged |
+| `/create_episode`, `/create_transcript` | unchanged |
+| `/configure_session`, `/configure_competition` | **removed from the pipeline** — see note below |
 
 `/build_assistive_package` runs analyst → diagnostic → prose → discussion → reviewer → merge sequentially.
+
+**Pipeline scope ends at `assistive_package.yaml`.** The v2 pipeline produces a single universal, lookup-ready artifact per episode; anything app-specific (Lens UI layout, Reasoning Lab scoring rubric and team assignment, per-deployment toggles) is an **app-layer** concern, not a pipeline stage. Apps read `artifacts/{story_id}/episodes/episode_{NN}/assistive_package.yaml` directly. This is a change from v1, where `/configure_session` existed partly to stitch together multiple overlapping files — a job the v2 merge step inside `/build_assistive_package` already does. Keeping `/configure_session` as a pipeline stage in v2 would make it either a thin pass-through or a second place where runtime behavior gets decided, cutting against Rule 11 (one capability = one agent + one file).
 
 ### 3.2 Files produced per episode
 
@@ -130,7 +133,7 @@ v1's likely/partial/misreading/blindspot categories survive in v2 as `diagnostic
 | `facilitation.yaml` | (retired) |
 | `lens/scaffolding.yaml` | (retired) |
 | `lens/facilitation.yaml` | (retired; enriched version was app-specific) |
-| `lens/session.yaml` | unchanged (app-layer artifact) |
+| `lens/session.yaml` | **removed from pipeline output** (app-layer, not a pipeline artifact) |
 | — | `ground_truth.yaml` |
 | — | `diagnostic.yaml` |
 | — | `prose.yaml` |

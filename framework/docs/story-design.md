@@ -1,5 +1,7 @@
 # Story Design
 
+**Status.** Describes story authoring for the **v1 pipeline (currently live)**. For stories targeted at the **v2 pipeline** (`/build_assistive_package`), see `story-design-v2.md` instead — v2 reshapes what counts as a well-designed story (five new affordances, register as a first-class choice). The structural rules described here (cast bounds, coverage contract, rotation, prose-first, reviewer role) carry forward into v2 intact; `story-design-v2.md` carries them forward and adds the v2 design lens. Use this document if you're authoring against v1; use `story-design-v2.md` if you're authoring for v2.
+
 This document is operator guidance for designing a Polylogue story under the **episodes-first authoring model** (Part 13 of `framework/docs/story-pipeline-revision.md`). It is written for the person sitting at the keyboard authoring a story design doc and per-episode drafts, and the curriculum coordinator reading over their shoulder. It is not a schema reference and not a pipeline runbook — for those, see Appendix B of `story-pipeline-revision.md` and `framework/docs/operator-manual.md`.
 
 A story is the unit of curriculum the pipeline produces. The system enforces structural requirements (cast bounds via prose review, coverage contract via the validator, mixed-valence rotation via the validator). The creative design has narrative requirements that no validator can capture. Both matter. A story that satisfies the validator but bores 6th graders has failed; a story that excites them but leaves the framework's inventory uncovered has also failed. This document is about getting both right.
@@ -169,3 +171,4 @@ For first stories, see Part 11 of `framework/docs/story-pipeline-revision.md`, w
 - **Validator:** `framework/pipeline/scripts/validate_story.py` — the mechanical checks behind the coverage contract.
 - **Prose-on-prose reviewer:** `framework/pipeline/agents/story_consistency_reviewer.md`.
 - **Full architectural rationale:** `framework/docs/story-pipeline-revision.md` — Parts 1–4 cover the rationale, coverage contract, and evidence grounding; Part 13 is the authoritative episodes-first authoring model.
+- **v2 story authoring:** `framework/docs/story-design-v2.md` — for stories targeted at the v2 pipeline.

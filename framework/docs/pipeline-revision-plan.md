@@ -1,6 +1,6 @@
 # Pipeline Revision Plan: An Assistive Package for Non-AI Applications
 
-**Status.** Draft for review.
+**Status.** Draft — describes **v2 (migration target)**, not the currently-live pipeline. See `pipeline-v1-to-v2-migration.md` for the diff against v1.
 **Audience.** Pipeline maintainers, app builders, instructional-design reviewers.
 **Scope.** Lens application. Reasoning Lab is deferred (see §7).
 

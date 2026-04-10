@@ -1,5 +1,7 @@
 # Running the Shared Pipeline Stages
 
+**Status.** Describes **v1 (currently live)**. v2 redesign in flight — see `pipeline-v1-to-v2-migration.md`.
+
 Stages 1–3 (`/create_episode` → `/create_transcript` → `/analyze_transcript`) are shared upstream between Lens and Reasoning Lab. This document is the single source of truth for what those stages do, how they fail, and how to recover. The Lens and Reasoning Lab `RUNNING.md` files reference this document for stages 1–3 and then layer their own app-specific stages (4–5 for Lens; 4a–5a for Reasoning Lab) on top.
 
 This guide is for **operators running the pipeline**. For the prose-first authoring loop that produces the per-episode drafts these stages consume, see `framework/docs/operator-manual.md`. The per-episode draft template is Appendix B of `framework/docs/story-pipeline-revision.md`.

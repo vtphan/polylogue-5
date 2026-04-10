@@ -1,6 +1,6 @@
 # Runtime Package Restructure — Design Note
 
-**Status.** Draft. Not yet implemented. Supersedes nothing; extends `pipeline-revision-plan.md` §2 at the output boundary only.
+**Status.** Draft — describes **v2 (migration target)**, not yet implemented. Extends `pipeline-revision-plan.md` §2 at the output boundary only. See `pipeline-v1-to-v2-migration.md` for the v1→v2 diff.
 
 **Audience.** Pipeline maintainers, Lens app builders, reviewers.
 

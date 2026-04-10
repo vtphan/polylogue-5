@@ -1,5 +1,7 @@
 # Running the Lens Pipeline
 
+**Status.** Describes **v1 (currently live)**. v2 redesign in flight — see `framework/docs/pipeline-v1-to-v2-migration.md`.
+
 The Lens pipeline turns one per-episode draft into a complete student- and teacher-facing artifact set for one episode of one story. Five commands across five stages. Stages 1–3 are shared upstream between Lens and Reasoning Lab; stages 4–5 are Lens-specific.
 
 This guide covers initialization and the Lens-specific stages. For operating principles, pre-flight checks, and shared stages 1–3 (`/create_episode` → `/create_transcript` → `/analyze_transcript`), see **`framework/docs/RUNNING-shared-stages.md`**. For the prose-first authoring loop that produces the per-episode drafts these stages consume, see `framework/docs/operator-manual.md`.

@@ -1,5 +1,7 @@
 # System Architecture
 
+**Status.** Describes **v1 (currently live)**. A v2 pipeline redesign is in flight — see `pipeline-v1-to-v2-migration.md` for the diff and `pipeline-architecture.md` / `pipeline-revision-plan.md` for the target design.
+
 This document describes how the Polylogue system is organized — the relationship between the conceptual framework, the shared pipeline, and the applications that realize the framework for students. For the stage-by-stage pipeline reference, see `pipeline-flow.md`.
 
 ## Three-Layer Structure

@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> **Pipeline status (2026-04-09).** The system described in this file is **v1 (currently live)**. A v2 pipeline redesign is in flight — the downstream half (`/analyze_transcript` + `/design_scaffolding`) will be replaced by a single `/build_assistive_package` command with four authoring agents, and `/configure_session` / `/configure_competition` will move out of the pipeline and into the app layer. See `framework/docs/pipeline-v1-to-v2-migration.md` for the authoritative v1→v2 diff, and `framework/docs/pipeline-architecture.md` / `pipeline-revision-plan.md` / `pipeline-revision-implementation.md` for the target design. Until v2 ships, this file and the per-app `RUNNING.md` files describe the live v1 system.
+
 ## Project Overview
 
 Polylogue is a research project for teaching critical thinking to middle school students (grades 6-8). The system has three layers:
