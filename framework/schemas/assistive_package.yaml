@@ -1,0 +1,117 @@
+# Schema: Assistive Package (merge script output)
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/assistive_package.yaml
+# Mechanical concatenation of ground_truth + diagnostic + prose + discussion,
+# plus deterministic derivations and integrity checks.
+# Source: pipeline-revision-plan.md §2.6
+#
+# This schema defines the merged view the Lens app reads. The merge script
+# concatenates the four agent outputs and adds derived fields. Fields
+# marked (derived) are computed by the merge script, not authored.
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+
+      episode_number:
+        type: integer
+        required: true
+
+      scenario_id:
+        type: string
+        required: false
+
+      schema_version:
+        type: string
+        required: true
+        description: >
+          Semver string tracking the assistive package schema version.
+          Agent prompts declare the version they target; the merge script
+          rejects version mismatches.
+
+      # ---- L1: Ground Truth (from analyst) ----
+      ground_truth:
+        type: object
+        required: true
+        description: >
+          Complete ground_truth content. See ground_truth.schema.yaml
+          for field definitions. Embedded verbatim.
+
+      # ---- L3: Diagnostic (from diagnostic agent) ----
+      diagnostic:
+        type: object
+        required: true
+        description: >
+          Complete diagnostic content. See diagnostic.schema.yaml
+          for field definitions. Embedded verbatim.
+
+      # ---- L2: Prose (from prose agent) ----
+      prose:
+        type: object
+        required: true
+        description: >
+          Complete prose content. See prose.schema.yaml for field
+          definitions. Embedded verbatim.
+
+      # ---- L2: Discussion (from discussion agent) ----
+      discussion:
+        type: object
+        required: true
+        description: >
+          Complete discussion content. See discussion.schema.yaml
+          for field definitions. Embedded verbatim.
+
+      # ---- Deterministic derivations (merge script) ----
+      derived:
+        type: object
+        required: true
+        description: >
+          Fields computed by the merge script. No LLM involvement. §2.6.
+        fields:
+          prior_exposure:
+            type: list
+            required: true
+            description: >
+              Per passage, facets/patterns/dynamics the student has
+              encountered in prior episodes, each with first_seen.
+              (derived from story episode sequence + ground truth files)
+            items:
+              type: object
+              fields:
+                ref:
+                  type: string
+                  required: true
+                first_seen:
+                  type: string
+                  required: true
+                  description: "episode_{NN} format."
+
+          calibration_warnings:
+            type: list
+            required: false
+            description: >
+              Conditional. When declares_calibration_warnings: true,
+              lifted verbatim from story design doc. §2.6.
+            items:
+              type: string
+
+      # ---- Integrity check results ----
+      integrity:
+        type: object
+        required: true
+        description: >
+          Record of merge-script integrity checks. §2.6.
+        fields:
+          checks_passed:
+            type: integer
+            required: true
+          checks_total:
+            type: integer
+            required: true
+          timestamp:
+            type: string
+            required: true

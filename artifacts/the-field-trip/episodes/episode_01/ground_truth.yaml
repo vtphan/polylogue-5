@@ -1,0 +1,430 @@
+story_id: the-field-trip
+episode_number: 1
+scenario_id: the-field-trip-ep-01
+
+passages:
+  - passage_id: p1
+    turn_range: [t01, t02, t03, t04, t05, t06, t07, t08, t09, t10, t11]
+
+    facets_present:
+      - facet_ref: inferential_validity
+        label: Leaps in reasoning
+        lens: logic
+        role: primary
+        severity: strong
+        evidence_turns: [t01, t05]
+        one_line: >
+          Maya chains "roller coasters are physics" to "the park is the best
+          field trip" without checking whether the class studies physics or
+          the park offers structured learning.
+
+      - facet_ref: perspective_engagement
+        label: Ignoring other viewpoints
+        lens: scope
+        role: primary
+        severity: strong
+        evidence_turns: [t02, t03, t07, t10]
+        one_line: >
+          Priya proposes the museum from a lifetime of free insider access
+          and cannot see that her experience is not representative of what
+          the trip would be for classmates who have never been.
+
+      - facet_ref: relevance
+        label: Off-target evidence
+        lens: evidence
+        role: strength
+        severity: strong
+        evidence_turns: [t04, t06]
+        one_line: >
+          Sam is the only committee member who starts from the assignment's
+          actual criteria — cross-disciplinary questions — and proposes a
+          subject that directly addresses what Integrated Studies is for.
+
+      - facet_ref: source_credibility
+        label: Shaky sources
+        lens: evidence
+        role: cross_lens
+        severity: moderate
+        evidence_turns: [t02, t03]
+        one_line: >
+          Priya's casual mention of her mother's role at the museum is
+          treated by Maya as evidence for the proposal's quality rather
+          than a potential source of bias.
+
+      - facet_ref: sufficiency
+        label: Thin evidence
+        lens: evidence
+        role: cross_lens
+        severity: moderate
+        evidence_turns: [t01, t08]
+        one_line: >
+          Maya's entire case for the amusement park rests on one claim
+          ("roller coasters are physics") with no supporting evidence
+          about structured learning, teacher involvement, or curriculum fit.
+
+    facets_absent_but_tempting:
+      - facet_ref: internal_consistency
+        label: Contradictions
+        why_tempting: >
+          Maya says "it's not even a question" then later says "I honestly
+          love all of these," which sounds contradictory.
+        why_wrong: >
+          Maya is not making contradictory claims about the same thing —
+          her first statement is about which option is best; her second is
+          social enthusiasm. This is social flexibility, not a logical
+          contradiction between premises.
+
+      - facet_ref: reasoning_completeness
+        label: Missing steps
+        why_tempting: >
+          Maya's argument has gaps, which looks like missing reasoning steps.
+        why_wrong: >
+          The issue is not that Maya omitted steps she could have included —
+          it's that the steps she included don't connect logically. The
+          conclusion doesn't follow from the premises. This is an
+          inferential_validity problem (the chain leaps), not a
+          reasoning_completeness problem (the chain is truncated).
+
+    lens_visibility:
+      logic:
+        engagement: partial
+        affordance: rich
+        what_shows: >
+          Maya builds an explicit inferential chain (roller coasters → physics
+          → educational → best trip) that invites structural analysis. The
+          chain's leaps are visible to anyone checking whether the conclusion
+          follows. Sam's reframe ("shouldn't we start with the question?") is
+          a logic move the committee ignores.
+      evidence:
+        engagement: partial
+        affordance: moderate
+        what_shows: >
+          Priya's insider connection is offered as logistical advantage and
+          received as evidence. Maya's case rests on a single unsupported
+          claim. Sam's proposal cites specific cross-disciplinary questions.
+          The passage is more about argument structure than source quality,
+          but evidence issues are visible.
+      scope:
+        engagement: none
+        affordance: rich
+        what_shows: >
+          Nobody asks whose perspective is missing, who can afford $18, or
+          what the trip looks like for students who don't share the proposers'
+          experiences. Priya — the character who should notice this — is the
+          one most blind to it. The affordance is rich because the committee's
+          composition and the proposals' cost differences create obvious
+          scope questions that go entirely unasked.
+
+    turn_annotations:
+      - turn_id: t01
+        speaker: Maya
+        moves: [proposal, assertion]
+        facet_signals:
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+          - facet_ref: sufficiency
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Maya's opening pitch establishes the inferential chain that defines
+          the episode's primary logic weakness. The confident delivery and
+          "it's not even a question" framing set the social tone.
+        discussion_cue_seeds:
+          - inferential_validity
+          - confirmation_bias
+          - group_pressure
+
+      - turn_id: t02
+        speaker: Priya
+        moves: [proposal, appeal_to_authority]
+        facet_signals:
+          - facet_ref: perspective_engagement
+            polarity: weak
+            strength: strong
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Priya introduces her insider connection as a logistical perk,
+          not realizing it reveals her positional blindness. The committee
+          will treat this connection as evidence.
+        discussion_cue_seeds:
+          - perspective_engagement
+          - authority_deference
+          - egocentric_thinking
+          - source_credibility
+
+      - turn_id: t03
+        speaker: Maya
+        moves: [endorsement, social_amplification]
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Maya converts Priya's insider access into a quality signal
+          ("so legit"), amplifying the authority_deference dynamic.
+        discussion_cue_seeds:
+          - source_credibility
+          - authority_deference
+
+      - turn_id: t04
+        speaker: Sam
+        moves: [reframe, proposal]
+        facet_signals:
+          - facet_ref: relevance
+            polarity: strong
+            strength: strong
+        why_it_matters: >
+          Sam's reframe is the episode's epistemic anchor — the only
+          proposal that starts from the assignment's criteria. Its
+          dismissal is the design's central move.
+        discussion_cue_seeds:
+          - relevance
+          - counterfactual_what_if
+
+      - turn_id: t05
+        speaker: Maya
+        moves: [dismissal, social_pressure]
+        facet_signals:
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+        why_it_matters: >
+          Maya dismisses Sam's proposal by redefining "field trip" to
+          exclude unglamorous destinations — a move that substitutes
+          social expectation for logical evaluation.
+        discussion_cue_seeds:
+          - inferential_validity
+          - group_pressure
+
+      - turn_id: t06
+        speaker: Sam
+        moves: [defense, clarification]
+        facet_signals:
+          - facet_ref: relevance
+            polarity: strong
+            strength: strong
+        why_it_matters: >
+          Sam's second attempt to name what "cross-disciplinary" means
+          goes unengaged. The strength is visible but socially invisible.
+        discussion_cue_seeds:
+          - relevance
+          - conflict_avoidance
+
+      - turn_id: t07
+        speaker: Priya
+        moves: [redirect, procedural]
+        facet_signals:
+          - facet_ref: perspective_engagement
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Priya's procedural move ("should we hear from Jordan and Kai?")
+          sounds organizing but functionally bypasses Sam's argument.
+          The scope failure compounds: the person best at noticing
+          excluded perspectives is the one excluding Sam's.
+        discussion_cue_seeds:
+          - perspective_engagement
+          - conflict_avoidance
+
+      - turn_id: t08
+        speaker: Maya
+        moves: [summary, social_endorsement]
+        facet_signals:
+          - facet_ref: sufficiency
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Maya collapses Jordan's and Kai's proposals into one-line
+          summaries and endorses everything indiscriminately, treating
+          enthusiasm as evaluation.
+        discussion_cue_seeds:
+          - sufficiency
+          - group_pressure
+
+      - turn_id: t09
+        speaker: Sam
+        moves: [assertion]
+        facet_signals: []
+        why_it_matters: null
+        discussion_cue_seeds: []
+
+      - turn_id: t10
+        speaker: Priya
+        moves: [summary, closure]
+        facet_signals:
+          - facet_ref: perspective_engagement
+            polarity: weak
+            strength: strong
+        why_it_matters: >
+          Priya's summary lists "four strong options" and omits Sam's
+          proposal entirely. The exclusion is the episode's sharpest
+          scope failure — ratified as consensus by the group.
+        discussion_cue_seeds:
+          - perspective_engagement
+          - group_pressure
+
+      - turn_id: t11
+        speaker: Maya
+        moves: [social_closure]
+        facet_signals: []
+        why_it_matters: null
+        discussion_cue_seeds: []
+
+    causal_layer:
+      facets_explained:
+        - facet_ref: inferential_validity
+          cognitive:
+            - pattern_ref: confirmation_bias
+              label: Confirmation bias
+              one_line: >
+                Maya filtered her reasoning to reach the amusement park,
+                selecting only evidence that supports her preferred
+                conclusion.
+              evidence_turns: [t01, t05]
+          social:
+            - dynamic_ref: group_pressure
+              label: Group pressure
+              one_line: >
+                Maya's confident delivery and infectious energy make the
+                room treat her argument as stronger than it is, and Sam's
+                quieter follow-up has to push against that momentum.
+              evidence_turns: [t01, t03, t05]
+          interaction: cognitive_amplified_by_social
+          interaction_note: >
+            The confirmation bias alone would produce a weak argument;
+            the group pressure is what prevents the weak argument from
+            being examined. Maya's confidence carries the room, so the
+            inferential leaps go unchallenged.
+
+        - facet_ref: perspective_engagement
+          cognitive:
+            - pattern_ref: egocentric_thinking
+              label: Egocentric thinking
+              one_line: >
+                Priya sees the museum through a lifetime of free access
+                and cannot distinguish her experience from what the trip
+                would be for students who have never been.
+              evidence_turns: [t02, t07, t10]
+          social:
+            - dynamic_ref: authority_deference
+              label: Authority deference
+              one_line: >
+                The committee defers to the implied credibility of someone
+                whose parent runs an educational institution, treating
+                insider access as evidence for the proposal's quality.
+              evidence_turns: [t02, t03]
+          interaction: cognitive_amplified_by_social
+          interaction_note: >
+            Priya's egocentric thinking would be visible but correctable
+            if the committee questioned it. The authority deference prevents
+            that correction — the committee treats Priya's insider
+            connection as a reason to trust her judgment rather than a
+            reason to question it.
+
+        - facet_ref: relevance
+          cognitive:
+            - pattern_ref: confirmation_bias
+              label: Confirmation bias
+              one_line: >
+                The committee has already decided that "field trip" means a
+                glamorous destination, so Sam's question-first proposal is
+                filtered out as not fitting the expected shape.
+              evidence_turns: [t05, t07, t10]
+          interaction: cognitive_only
+          interaction_note: null
+
+    perspective_transitions:
+      - from: logic
+        to: evidence
+        trigger: >
+          After noticing Maya's inferential chain leaps from "roller coasters
+          are physics" to "best field trip," a student might ask: what
+          evidence does she actually offer for this?
+        what_they_gain: >
+          They see that the argument is not just structurally weak — it also
+          rests on a single unsupported assertion.
+        what_they_realize: >
+          A confident chain of reasoning can sound complete even when the
+          evidence behind each link is missing.
+        prompt: >
+          Maya sounds sure. But what actual evidence did she give you?
+
+      - from: evidence
+        to: scope
+        trigger: >
+          After noticing that Priya's insider access is treated as evidence,
+          a student might ask: whose experience of the museum is Priya
+          actually describing?
+        what_they_gain: >
+          They see that the evidence question is also a perspective question
+          — Priya's evidence comes from a position most classmates don't share.
+        what_they_realize: >
+          Sometimes the problem with evidence is not that it's wrong but that
+          it comes from a perspective that isn't representative.
+        prompt: >
+          Priya knows the museum really well. Is that a good thing or a
+          problem?
+
+      - from: logic
+        to: scope
+        trigger: >
+          After noticing the inferential leaps, a student might ask: why did
+          Sam's better argument fail to land?
+        what_they_gain: >
+          They see that the committee's failure is not just logical but social
+          — Sam's argument was dismissed because the group had already decided
+          what counts as a serious proposal.
+        what_they_realize: >
+          A logically strong argument can fail socially when the group's
+          expectations exclude it before it's evaluated.
+        prompt: >
+          Sam's argument actually addressed the assignment. So why did the
+          committee ignore it?
+
+    counterfactuals:
+      - facet_ref: inferential_validity
+        evidence_turn: t01
+        what_would_fix_it: >
+          If Maya had said "roller coasters involve physics, but I should
+          check whether our class is actually studying physics and whether
+          the park offers any structured learning," the chain would connect
+          to the assignment's criteria instead of leaping past them.
+
+      - facet_ref: perspective_engagement
+        evidence_turn: t02
+        what_would_fix_it: >
+          If Priya had said "I know the museum really well because my mom
+          works there, so I should ask whether my experience is typical of
+          what the trip would be like for everyone else," she would have
+          applied her scope strength to her own proposal.
+
+      - facet_ref: source_credibility
+        evidence_turn: t03
+        what_would_fix_it: >
+          If Maya had said "Wait, Priya knows the museum because her mom
+          works there — does that make her recommendation more trustworthy
+          or does it mean she might be biased?" the committee would have
+          evaluated the connection instead of endorsing it.
+
+      - facet_ref: sufficiency
+        evidence_turn: t01
+        what_would_fix_it: >
+          If Maya had offered specific evidence — a physics teacher who
+          confirmed the park's educational value, a curriculum unit that
+          aligned with roller coaster physics, a structured worksheet the
+          park provides — the argument would rest on more than one claim.
+
+      - facet_ref: relevance
+        evidence_turn: t04
+        what_would_fix_it: >
+          This facet is a strength (Sam's). The counterfactual is inverted:
+          if the committee had engaged with Sam's reframe — "she's right,
+          we should start with the question" — the rest of the proposals
+          would have been evaluated against the assignment's actual criteria.
+
+    connects_to:
+      echoes: []
+      contrastive: []

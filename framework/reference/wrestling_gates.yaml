@@ -1,0 +1,33 @@
+# Wrestling Gates — closed vocabulary for struggle_calibration.minimum_wrestling
+#
+# Each gate is a student-observable action flag that the app can verify
+# without NLP or affect detection. The struggle_calibration block in
+# diagnostic.yaml references these IDs; the merge script rejects any
+# minimum_wrestling entry not in this enumeration.
+#
+# Source: pipeline-revision-plan.md §2.3.3
+
+wrestling_gates:
+  - id: selected_a_facet
+    label: Selected a facet
+    description: >
+      Student has tapped at least one orientation probe option
+      (any option other than the blank-page escape).
+
+  - id: viewed_turn_for_15s
+    label: Viewed a turn for 15 seconds
+    description: >
+      Student has held focus on a single turn for at least 15 seconds,
+      indicating sustained attention rather than skimming.
+
+  - id: attempted_one_sentence
+    label: Attempted one sentence
+    description: >
+      Student has written at least one sentence (any length) in
+      the response area, even if not yet submitted.
+
+  - id: viewed_second_lens
+    label: Viewed a second lens
+    description: >
+      Student has switched to a second lens tab after engaging
+      with the first, indicating multi-lens exploration.

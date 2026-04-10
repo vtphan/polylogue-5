@@ -258,6 +258,180 @@ If `pipeline-revision-plan.md` or `pipeline-architecture.md` changes during exec
 
 ## Appendix A — Inventory and dependency graph
 
-*Stub. Filled in during Stage B.*
+*Filled during Stage B (2026-04-10).*
 
-Work items, dependencies, acceptance artifacts, and topological sort order go here.
+### A.1 Baseline
+
+- **Pilot story:** `the-field-trip` (5 episodes)
+- **Baseline episode:** `the-field-trip/episodes/episode_01`
+- **Baseline artifacts:** `episode.yaml`, `transcript.yaml` (produced by upstream `/create_episode` + `/create_transcript`)
+
+### A.2 Contrast-case decision
+
+Capability flags are story-level. The pilot's flag matrix:
+
+| Flag | Value |
+|---|---|
+| `pedagogical_register` | `neutral` |
+| `uses_character_growth` | `true` |
+| `declares_calibration_warnings` | `false` |
+| `uses_stance_positions` | `false` |
+| `supports_jigsaw` | `false` |
+
+All 5 episodes share identical flags. A second episode of the same story cannot differ on ≥2 flags. **A second short pilot story is required for Stage F**, authored to differ on ≥2 flags (e.g., `pedagogical_register: unfinished_not_wrong`, `uses_character_growth: false`, and at least one of `supports_jigsaw: true` or `uses_stance_positions: true`). This story is authored during Stage F.1, not before — it needs the schemas and agents to be stable first.
+
+### A.3 Work items
+
+Each item has a unique ID, a description, the plan/architecture section it traces to, the implementation stage it belongs to, and its dependencies.
+
+#### Reference files
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| R1 | Author `framework/reference/wrestling_gates.yaml` — closed vocabulary: `selected_a_facet`, `viewed_turn_for_15s`, `attempted_one_sentence`, `viewed_second_lens` (plus any additions ratified at authoring time) | plan §2.3.3 | C.1 | — |
+
+Existing reference files (no work needed): `facet_inventory.yaml`, `lenses.yaml`, `explanatory_variables.yaml`.
+
+#### Schemas
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| S1 | Write `ground_truth.schema.yaml` — facets_present, facets_absent_but_tempting, lens_visibility, turn_annotations, causal_layer, perspective_transitions, counterfactuals, connects_to | plan §2.1, §2.2 | C.2 | R1 |
+| S2 | Write `diagnostic.schema.yaml` — probes (§2.3.1), interventions (§2.3.2), struggle_calibration (§2.3.3), conditional blocks (§2.3.4), response_space | plan §2.3 | C.2 | R1 |
+| S3 | Write `prose.schema.yaml` — episode_opening, entry_prompts, consensus_check | plan §2.4 | C.2 | — |
+| S4 | Write `discussion.schema.yaml` — discussion_cues (7-axis indexing), talk_moves, jigsaw_fragments (capability-flagged) | plan §2.5 | C.2 | — |
+| S5 | Write `assistive_package.schema.yaml` — merged view, integrity check specs, derivation specs | plan §2.6 | C.2 | S1, S2, S3, S4 |
+
+#### Gold files (hand-authored for baseline episode)
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| G1 | Hand-author gold `ground_truth.yaml` for episode_01 | plan §2.1, §2.2 | C.3 | S1 |
+| G2 | Hand-author gold `diagnostic.yaml` for episode_01 | plan §2.3 | C.3 | S2, G1 |
+| G3 | Hand-author gold `prose.yaml` for episode_01 | plan §2.4 | C.3 | S3, G1, G2 |
+| G4 | Hand-author gold `discussion.yaml` for episode_01 | plan §2.5 | C.3 | S4, G1, G2, G3 |
+
+#### Validation and forcing function
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| V1 | Run `validate_schema.py` on each gold file against its schema | plan §5 Stage 1 | C.4 | G1, G2, G3, G4 |
+| V2 | Forcing function: confirm every gold-file field is renderable by non-AI app via dictionary lookup | plan §5 Stage 1 | C.5 | V1 |
+
+#### Agent prompts
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| A1 | Write `analyst_agent` prompt; run on baseline; diff against gold G1 | plan §5 Stage 2, arch §3.1 | D.1 | V2 |
+| A2 | Write `diagnostic_agent` prompt; run on baseline reading A1 output; diff against gold G2 | plan §5 Stage 3, arch §3.2 | D.2 | A1 |
+| A3 | Write `prose_agent` prompt; run on baseline reading A1+A2 outputs; diff against gold G3 | plan §5 Stage 4, arch §3.3 | D.3 | A2 |
+| A4 | Write `discussion_agent` prompt; run on baseline reading A1+A2+A3 outputs; diff against gold G4 | plan §5 Stage 5, arch §3.4 | D.4 | A3 |
+
+#### Merge script and reviewer
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| M1 | Implement merge script — 13 integrity checks + 3 deterministic derivations (prior_exposure, turn causal_signals, ladder endpoint lifts) + calibration_warnings derivation | plan §2.6 | E.1 | S5, A4 |
+| M2 | Write `package_reviewer` agent; seed 4 broken fixtures (hallucinated facet, missing interaction, generic intervention cell, collapsing cues); verify catches | plan §5 Stage 6 | E.2 | M1 |
+
+#### Integration
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| I1 | Wire `/build_assistive_package` command — full end-to-end: analyst → diagnostic → prose → discussion → reviewer → merge | plan §5 Stage 6 | E.3 | M1, M2 |
+| I2 | Probe-record smoke test — hand-simulate one student session (3 probe taps); confirm dictionary-lookup routing | plan §2.7 | E.4 | I1 |
+| I3 | Second-episode unassisted run — run full pipeline on episode_02 of the-field-trip with no manual intervention; cross-episode validation (connects_to.echoes, register non-drift, creative non-convergence) | plan §5 Stage 6 | E.5 | I2 |
+
+#### Contrast case and cleanup
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| F1 | Author contrast-case pilot story (differs on ≥2 capability flags from the-field-trip); run upstream + `/build_assistive_package` on one episode | plan §5 Stage 7, plan §4 | F.1 | I3 |
+| F2 | Delete `/analyze_transcript`, `/design_scaffolding` commands and retired agents (`evaluator`, `scaffolding_id`, `scaffolding_reviewer`, `analysis_reviewer`); update CLAUDE.md | impl §F.2 | F.2 | F1 |
+| F3 | Archive this implementation plan; optionally collapse architecture + plan docs | impl §F.3 | F.3 | F2 |
+
+#### Handoff contract (documentation, no code)
+
+| ID | Item | Section | Stage | Depends on |
+|---|---|---|---|---|
+| H1 | Document probe-record handoff contract — naming convention, app-owned state shape, schema versioning | plan §2.7 | E.3 | S5 |
+| H2 | Document capability-flag schema in story frontmatter (coverage + creative flags) | plan §4 | C.2 | — |
+
+### A.4 Dependency graph (adjacency list)
+
+```
+R1  → [S1, S2]
+S1  → [S5, G1]
+S2  → [S5, G2]
+S3  → [S5, G3]
+S4  → [S5, G4]
+S5  → [M1, H1]
+G1  → [G2, V1]
+G2  → [G3, V1]
+G3  → [G4, V1]
+G4  → [V1]
+V1  → [V2]
+V2  → [A1]
+A1  → [A2]
+A2  → [A3]
+A3  → [A4]
+A4  → [M1]
+M1  → [M2, I1]
+M2  → [I1]
+I1  → [I2]
+I2  → [I3]
+I3  → [F1]
+F1  → [F2]
+F2  → [F3]
+H1  → []
+H2  → []
+```
+
+### A.5 Topological sort order
+
+```
+Layer 0:  R1, S3, S4, H2
+Layer 1:  S1, S2
+Layer 2:  S5, G1
+Layer 3:  G2, H1
+Layer 4:  G3
+Layer 5:  G4
+Layer 6:  V1
+Layer 7:  V2
+Layer 8:  A1
+Layer 9:  A2
+Layer 10: A3
+Layer 11: A4
+Layer 12: M1
+Layer 13: M2
+Layer 14: I1
+Layer 15: I2
+Layer 16: I3
+Layer 17: F1
+Layer 18: F2
+Layer 19: F3
+```
+
+Total: 26 work items. No cycles. The critical path runs R1 → S2 → G2 → ... → F3 (length 20). Parallelism opportunities exist at Layers 0–1 (schemas and reference files can be worked concurrently) and at Layer 12–13 (merge script and reviewer can be developed in parallel once all agents land).
+
+### A.6 Acceptance artifacts per stage
+
+| Impl stage | Work items | Acceptance artifact |
+|---|---|---|
+| C.1 | R1 | `wrestling_gates.yaml` committed |
+| C.2 | S1–S5, H2 | Five `.schema.yaml` files committed; capability-flag documentation committed |
+| C.3 | G1–G4 | Four gold YAML files committed |
+| C.4 | V1 | `validate_schema.py` passes on all gold files |
+| C.5 | V2 | Operator sign-off: every field is dictionary-lookup renderable |
+| D.1 | A1 | `analyst_agent` prompt committed; generated output validates and passes agent review against G1 |
+| D.2 | A2 | `diagnostic_agent` prompt committed; generated output validates and passes architecture checkpoint |
+| D.3 | A3 | `prose_agent` prompt committed; generated output validates and passes agent review against G3 |
+| D.4 | A4 | `discussion_agent` prompt committed; generated output validates and passes agent review against G4 |
+| E.1 | M1 | Merge script committed; passes on gold files; fails on seeded broken fixtures |
+| E.2 | M2 | `package_reviewer` committed; ACCEPTs gold package; REVISEs broken fixture |
+| E.3 | I1, H1 | `/build_assistive_package` end-to-end succeeds; architecture checkpoint passes; handoff contract documented |
+| E.4 | I2 | Three probe taps resolve to dictionary entries |
+| E.5 | I3 | Episode_02 passes end-to-end unassisted; cross-episode checks pass |
+| F.1 | F1 | Contrast story passes end-to-end; capability-flag gating verified |
+| F.2 | F2 | Retired commands deleted; grep returns only archive/ hits; E.3 re-run passes |
+| F.3 | F3 | Implementation plan archived |

@@ -1,0 +1,70 @@
+# Schema: Prose (prose agent output, L2)
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/prose.yaml
+# Short, voiced, register-matched student-facing prose.
+# Source: pipeline-revision-plan.md §2.4
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+
+      episode_number:
+        type: integer
+        required: true
+
+      scenario_id:
+        type: string
+        required: false
+
+      episode_opening:
+        type: string
+        required: true
+        description: >
+          One paragraph, student-facing, in the story's declared
+          pedagogical_register. Sets the narrative scene and ends with
+          a non-leading "what to watch for" sentence. Barrier-safe:
+          no framework terminology. §2.4.
+
+      entry_prompts:
+        type: list
+        required: true
+        description: >
+          Per passage, per lens. One-sentence starter stems a student
+          can adopt verbatim. §2.4.
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+"
+            lens:
+              type: string
+              required: true
+              constraints:
+                enum: [logic, evidence, scope]
+            stem:
+              type: string
+              required: true
+              description: >
+                One-sentence starter. Scaffolds writing production
+                without revealing the observation.
+
+      consensus_check:
+        type: list
+        required: true
+        description: >
+          1-2 short questions fired on group-phase closure.
+          Not reactive to student state. §2.4.
+        constraints:
+          min_length: 1
+          max_length: 2
+        items:
+          type: string

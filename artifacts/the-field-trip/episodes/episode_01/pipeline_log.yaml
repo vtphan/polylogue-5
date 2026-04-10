@@ -1,0 +1,105 @@
+---
+timestamp: '2026-04-10T12:58:55+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-10T13:02:46+00:00'
+command: create_episode
+stage: planning
+agent: planning_agent
+attempt: 1
+verdict: draft_returned
+---
+timestamp: '2026-04-10T13:04:44+00:00'
+command: create_episode
+stage: validation
+agent: validation_agent
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-10T13:05:24+00:00'
+command: create_episode
+stage: schema_validation
+verdict: PASS
+---
+timestamp: '2026-04-10T13:05:24+00:00'
+command: create_episode
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-10T13:06:42+00:00'
+command: create_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-10T13:06:47+00:00'
+command: create_transcript
+stage: projection_schema
+verdict: PASS
+---
+timestamp: '2026-04-10T13:08:45+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 1
+verdict: LEAK
+notes: 'Maya weaknesses: ''only notices information that fits'' = confirmation_bias
+  paraphrase'
+---
+timestamp: '2026-04-10T13:09:11+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 2
+verdict: OK
+notes: Fixed Maya weaknesses LEAK; addressed RISK items in Priya strengths and discussion_arc
+---
+timestamp: '2026-04-10T13:10:27+00:00'
+command: create_transcript
+stage: dialog_writer
+agent: dialog_writer
+attempt: 1
+---
+timestamp: '2026-04-10T13:10:50+00:00'
+command: create_transcript
+stage: structural_review
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-10T13:12:17+00:00'
+command: create_transcript
+stage: transcript_id
+agent: transcript_id
+attempt: 1
+---
+timestamp: '2026-04-10T13:14:47+00:00'
+command: create_transcript
+stage: transcript_review
+agent: transcript_reviewer
+attempt: 1
+verdict: REVISE
+retries_remaining: 1
+notes: "5c: group_pressure response half missing \u2014 room deferring to Maya's energy\
+  \ not visible"
+---
+timestamp: '2026-04-10T13:16:06+00:00'
+command: create_transcript
+stage: transcript_id
+agent: transcript_id
+attempt: 2
+notes: Revised Priya turn 2 to show group_pressure response
+---
+timestamp: '2026-04-10T13:16:59+00:00'
+command: create_transcript
+stage: transcript_review
+agent: transcript_reviewer
+attempt: 2
+verdict: ACCEPT
+retries_remaining: 0
+---
+timestamp: '2026-04-10T13:17:17+00:00'
+command: create_transcript
+stage: save
+verdict: SAVE

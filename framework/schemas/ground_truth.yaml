@@ -1,0 +1,399 @@
+# Schema: Ground Truth (analyst agent output, L1)
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/ground_truth.yaml
+# Analytical ground truth about the passage. Not user-visible.
+# Source: pipeline-revision-plan.md §2.1, §2.2
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+        description: Kebab-case story identifier.
+
+      episode_number:
+        type: integer
+        required: true
+        description: 1-indexed position within the story arc.
+
+      scenario_id:
+        type: string
+        required: false
+        description: Legacy traceability field.
+
+      passages:
+        type: list
+        required: true
+        description: One entry per evaluable passage.
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              description: Sequential passage ID.
+              constraints:
+                pattern: "p\\d+"
+
+            turn_range:
+              type: list
+              required: true
+              description: Turn IDs in this passage.
+              items:
+                type: string
+                constraints:
+                  pattern: "t\\d+"
+
+            facets_present:
+              type: list
+              required: true
+              description: >
+                Every facet exhibited in the passage. §2.1.
+              items:
+                type: object
+                fields:
+                  facet_ref:
+                    type: string
+                    required: true
+                    description: Canonical facet ID from facet_inventory.yaml.
+                  label:
+                    type: string
+                    required: true
+                    description: Student-facing language from teacher-overview.md.
+                  lens:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  role:
+                    type: string_or_list
+                    required: true
+                    description: >
+                      "primary", "cross_lens", or "strength". A list when
+                      the same move is simultaneously a growth beat and a
+                      facet instance.
+                  severity:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [strong, moderate, subtle]
+                  evidence_turns:
+                    type: list
+                    required: true
+                    description: Turn IDs where this facet is observable.
+                    constraints:
+                      min_length: 1
+                    items:
+                      type: string
+                      constraints:
+                        pattern: "t\\d+"
+                  one_line:
+                    type: string
+                    required: true
+                    description: One-sentence description of the facet instance.
+
+            facets_absent_but_tempting:
+              type: list
+              required: true
+              description: >
+                Discrimination surface. Facets that look applicable but
+                aren't. At least one per passage where discrimination
+                is possible. §2.1.
+              items:
+                type: object
+                fields:
+                  facet_ref:
+                    type: string
+                    required: true
+                  label:
+                    type: string
+                    required: true
+                  why_tempting:
+                    type: string
+                    required: true
+                  why_wrong:
+                    type: string
+                    required: true
+
+            lens_visibility:
+              type: object
+              required: true
+              description: >
+                Per-lens engagement and affordance assessment. §2.1.
+              fields:
+                logic:
+                  type: object
+                  required: true
+                  fields:
+                    engagement:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, partial, high]
+                    affordance:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, thin, moderate, rich]
+                    what_shows:
+                      type: string
+                      required: true
+                evidence:
+                  type: object
+                  required: true
+                  fields:
+                    engagement:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, partial, high]
+                    affordance:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, thin, moderate, rich]
+                    what_shows:
+                      type: string
+                      required: true
+                scope:
+                  type: object
+                  required: true
+                  fields:
+                    engagement:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, partial, high]
+                    affordance:
+                      type: string
+                      required: true
+                      constraints:
+                        enum: [none, thin, moderate, rich]
+                    what_shows:
+                      type: string
+                      required: true
+
+            turn_annotations:
+              type: list
+              required: true
+              description: >
+                Per-turn inverse index. One entry per turn in turn_range.
+                Content fields populated iff the turn is load-bearing. §2.1.
+              items:
+                type: object
+                fields:
+                  turn_id:
+                    type: string
+                    required: true
+                    constraints:
+                      pattern: "t\\d+"
+                  speaker:
+                    type: string
+                    required: true
+                  moves:
+                    type: list
+                    required: false
+                    description: Discourse moves on this turn.
+                    items:
+                      type: string
+                  facet_signals:
+                    type: list
+                    required: false
+                    description: Facet signals with polarity and strength.
+                    items:
+                      type: object
+                      fields:
+                        facet_ref:
+                          type: string
+                          required: true
+                        polarity:
+                          type: string
+                          required: true
+                          constraints:
+                            enum: [weak, strong]
+                        strength:
+                          type: string
+                          required: true
+                          constraints:
+                            enum: [strong, moderate, subtle]
+                  why_it_matters:
+                    type: string
+                    required: false
+                  discussion_cue_seeds:
+                    type: list
+                    required: false
+                    description: >
+                      Shallow enumeration of creative directions for the
+                      discussion agent. Raw material, not student-facing.
+                    items:
+                      type: string
+
+            causal_layer:
+              type: object
+              required: true
+              description: >
+                Per-passage causal explanation. §2.2.
+              fields:
+                facets_explained:
+                  type: list
+                  required: true
+                  items:
+                    type: object
+                    fields:
+                      facet_ref:
+                        type: string
+                        required: true
+                      cognitive:
+                        type: list
+                        required: false
+                        items:
+                          type: object
+                          fields:
+                            pattern_ref:
+                              type: string
+                              required: true
+                            label:
+                              type: string
+                              required: true
+                            one_line:
+                              type: string
+                              required: true
+                            evidence_turns:
+                              type: list
+                              required: true
+                              items:
+                                type: string
+                      social:
+                        type: list
+                        required: false
+                        items:
+                          type: object
+                          fields:
+                            dynamic_ref:
+                              type: string
+                              required: true
+                            label:
+                              type: string
+                              required: true
+                            one_line:
+                              type: string
+                              required: true
+                            evidence_turns:
+                              type: list
+                              required: true
+                              items:
+                                type: string
+                      interaction:
+                        type: string
+                        required: true
+                        description: >
+                          How cognitive and social forces interact.
+                          cognitive_only legal only for relevance and
+                          inferential_validity.
+                        constraints:
+                          enum:
+                            - cognitive_only
+                            - social_only
+                            - cognitive_amplified_by_social
+                            - social_amplified_by_cognitive
+                            - mutual
+                      interaction_note:
+                        type: string
+                        required: false
+                        description: >
+                          Required when interaction is not cognitive_only
+                          or social_only.
+
+            perspective_transitions:
+              type: list
+              required: true
+              description: >
+                Directional lens pairs. Required on every passage. §2.1.
+              constraints:
+                min_length: 1
+              items:
+                type: object
+                fields:
+                  from:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  to:
+                    type: string
+                    required: true
+                    constraints:
+                      enum: [logic, evidence, scope]
+                  trigger:
+                    type: string
+                    required: true
+                  what_they_gain:
+                    type: string
+                    required: true
+                  what_they_realize:
+                    type: string
+                    required: true
+                  prompt:
+                    type: string
+                    required: true
+
+            counterfactuals:
+              type: list
+              required: true
+              description: >
+                Per facet present, a turn-specific fix. Must cite at
+                least one evidence_turn and name a specific change. §2.1.
+              items:
+                type: object
+                fields:
+                  facet_ref:
+                    type: string
+                    required: true
+                  evidence_turn:
+                    type: string
+                    required: true
+                    constraints:
+                      pattern: "t\\d+"
+                  what_would_fix_it:
+                    type: string
+                    required: true
+
+            connects_to:
+              type: object
+              required: true
+              description: Cross-passage threading. §2.1.
+              fields:
+                echoes:
+                  type: list
+                  required: true
+                  description: >
+                    Backward pointers for prior_exposure derivation.
+                  items:
+                    type: object
+                    fields:
+                      facet_ref:
+                        type: string
+                        required: true
+                      source_episode:
+                        type: integer
+                        required: true
+                      source_passage:
+                        type: string
+                        required: true
+                contrastive:
+                  type: list
+                  required: true
+                  description: Bare cross-passage comparisons.
+                  items:
+                    type: object
+                    fields:
+                      target_passage:
+                        type: string
+                        required: true
+                      description:
+                        type: string
+                        required: true

@@ -1,0 +1,132 @@
+# Schema: Discussion (discussion agent output, L2)
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/discussion.yaml
+# Student-facing group-phase distributable primitives.
+# Source: pipeline-revision-plan.md §2.5
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+
+      episode_number:
+        type: integer
+        required: true
+
+      scenario_id:
+        type: string
+        required: false
+
+      discussion_cues:
+        type: object
+        required: true
+        description: >
+          Main group-phase content. Per turn and episode-scoped.
+          Indexed along 7 axes. §2.5.
+        fields:
+          by_turn:
+            type: object
+            required: true
+            description: >
+              Keys are turn IDs. Each value is a list of cue objects
+              with the same fields as episode_scope cue objects:
+              id, text, angle, lens, axis, continuation_of,
+              explanatory_ref, persona, independent_of.
+
+          episode_scope:
+            type: list
+            required: false
+            description: >
+              Cues not anchored to a specific turn.
+            items:
+              type: object
+              fields:
+                id:
+                  type: string
+                  required: true
+                turn:
+                  type: string
+                  required: false
+                  description: Always null for episode-scope cues.
+                text:
+                  type: string
+                  required: true
+                angle:
+                  type: string
+                  required: true
+                  description: Facet ID this cue addresses.
+                lens:
+                  type: string
+                  required: true
+                  constraints:
+                    enum: [logic, evidence, scope]
+                axis:
+                  type: string
+                  required: true
+                  constraints:
+                    enum: [lens_refraction, persona_projection, stance_inversion]
+                continuation_of:
+                  type: object
+                  required: false
+                  description: >
+                    Null for generic cues. When present, contains
+                    turn and facet fields for individual-to-group handoff.
+                  fields:
+                    turn:
+                      type: string
+                      required: true
+                      description: Turn ID from the individual phase.
+                    facet:
+                      type: string
+                      required: true
+                      description: Facet ID from the individual phase.
+                explanatory_ref:
+                  type: string
+                  required: false
+                  description: >
+                    Cognitive pattern or social dynamic ID. Lets cues
+                    carry "why" content from the explanation probe.
+                persona:
+                  type: string
+                  required: false
+                  description: Character name for persona_projection cues.
+                independent_of:
+                  type: list
+                  required: true
+                  description: >
+                    Cue IDs this cue is independent of, for
+                    cross-student distribution.
+                  items:
+                    type: string
+
+      talk_moves:
+        type: list
+        required: true
+        description: >
+          4-6 grade-calibrated sentence stems. Episode-level. §2.5.
+        constraints:
+          min_length: 4
+          max_length: 6
+        items:
+          type: string
+
+      jigsaw_fragments:
+        type: list
+        required: false
+        description: >
+          Capability-flagged. Only when supports_jigsaw: true.
+          Per-lens micro-briefs for jigsaw-pattern activities. §2.5.
+        items:
+          type: object
+          fields:
+            lens:
+              type: string
+              required: true
+              constraints:
+                enum: [logic, evidence, scope]
+            brief:
+              type: string
+              required: true

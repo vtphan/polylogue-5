@@ -1,0 +1,155 @@
+# Schema: Diagnostic (diagnostic agent output, L3)
+# Describes the structure of
+#   artifacts/{story_id}/episodes/episode_{NN}/diagnostic.yaml
+# Per-turn reactive intervention content.
+# Source: pipeline-revision-plan.md §2.3
+#
+# Dynamic-key maps (by_turn, by_turn_facet, by_passage) use turn IDs,
+# facet composites, or passage IDs as keys. The generic validator treats
+# these as opaque objects; the value shapes are documented inline below
+# and enforced by the merge script's integrity checks.
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+
+      episode_number:
+        type: integer
+        required: true
+
+      scenario_id:
+        type: string
+        required: false
+
+      probes:
+        type: object
+        required: true
+        description: The routing layer. §2.3.1.
+        fields:
+          facet:
+            type: object
+            required: true
+            description: Orientation probes, one per load-bearing turn.
+            fields:
+              by_turn:
+                type: object
+                required: true
+                description: >
+                  Keys are turn IDs (e.g. t01). Each value is a probe object
+                  with fields: trigger (string), question (string),
+                  options (list of {text, routes_to}).
+                  routes_to is one of:
+                    {facet: string, role: present|afforded_missing|tempting_absent}
+                    {blank_page: true}
+
+          explanation:
+            type: object
+            required: false
+            description: >
+              Depth probes. Present only when at least one intervention
+              cell has has_explanation_depth: true.
+            fields:
+              by_turn_facet:
+                type: object
+                required: true
+                description: >
+                  Keys are "t{N}.{facet_ref}" composites. Each value is a
+                  probe object with fields: question (string),
+                  options (list of {text, routes_to}).
+                  routes_to is:
+                    {explanatory_variable: cognitive|social|interaction|tempting_absent,
+                     pattern_ref: string (when cognitive),
+                     dynamic_ref: string (when social)}
+
+      interventions:
+        type: object
+        required: true
+        description: Per-turn three-role dictionary. §2.3.2.
+        fields:
+          by_turn:
+            type: object
+            required: true
+            description: >
+              Keys are turn IDs. Each value contains:
+                blank_page: {opening: string, ladder: list of rungs}
+                by_facet: map keyed by facet_ref, each value is an
+                  intervention cell with fields:
+                    role: present|afforded_missing|tempting_absent
+                    opening: string
+                    ladder: list of {type, text, reveals, cost} rungs
+                      (rung types: nudge|question|hint|lens_switch|redirect|worked_example)
+                      (redirect rungs also have routes_to: {facet: string})
+                    has_explanation_depth: boolean
+                    explanation: (present iff has_explanation_depth is true)
+                      by_explanatory_variable: map keyed by
+                        cognitive|social|interaction|tempting_absent,
+                        each value has ladder: list of rungs
+
+      struggle_calibration:
+        type: object
+        required: true
+        description: Coarse pricing policy. §2.3.3.
+        fields:
+          by_passage:
+            type: object
+            required: true
+            description: >
+              Keys are passage IDs. Each value has:
+                pace: generous|standard|strict
+                minimum_wrestling: list of wrestling_gate IDs
+                productive_duration: short|moderate|long
+
+      assumes_familiar_with:
+        type: list
+        required: false
+        description: >
+          Facets/patterns/dynamics the student has already encountered
+          in prior episodes. Fed to merge script for faded assistance. §2.3.4.
+        items:
+          type: string
+
+      introduces:
+        type: list
+        required: false
+        description: >
+          Facets/patterns/dynamics first introduced in this episode. §2.3.4.
+        items:
+          type: string
+
+      growth_beats:
+        type: object
+        required: false
+        description: >
+          Conditional. Populated only when uses_character_growth: true. §2.3.4.
+          Keys are persona names. Each value has:
+            position: string (e.g. setup, inflection, post_growth)
+            note: string
+
+      character_arc_position:
+        type: string
+        required: false
+        description: >
+          Conditional. Populated only when uses_character_growth: true. §2.3.4.
+
+      stance_positions:
+        type: list
+        required: false
+        description: >
+          Conditional. Populated only when uses_stance_positions: true. §2.3.4.
+        items:
+          type: object
+
+      response_space:
+        type: object
+        required: false
+        description: >
+          Internal agent scratch. Audit trace only, not runtime-consumed. §2.3.
+          Keys are "by_lens", then per lens: likely, partial, misreading, blindspot.
+        fields:
+          by_lens:
+            type: object
+            required: false

@@ -1,0 +1,113 @@
+story_id: the-field-trip
+episode_number: 1
+scenario_id: the-field-trip-ep-01
+personas:
+- name: Maya
+  perspective: 'Believes the amusement park is the most educational option because roller coasters are
+    applied physics and seeing it in person beats reading about it. She came in wanting the amusement
+    park and built her justification around it.
+
+    '
+- name: Priya
+  perspective: 'Believes the science museum is the best destination because it offers a case study in
+    how science gets communicated to the public. She is confident in the proposal''s rigor and sees insider
+    access as a practical advantage.
+
+    '
+- name: Sam
+  perspective: 'Believes the committee should start with a question that cuts across subjects — which
+    is what Integrated Studies is for — and then find a destination that answers it, rather than picking
+    a destination and inventing a question to justify it.
+
+    '
+turns:
+- speaker: Maya
+  sentences:
+  - text: Okay so I've been thinking about this and it's honestly kind of obvious — we should go to Wonderland
+      Park.
+    sentence_id: turn_01.s01
+  - text: Roller coasters are literally applied physics, like velocity and gravity and all that, and actually
+      being there is way better than just reading a textbook, so it's not even a question.
+    sentence_id: turn_01.s02
+  - text: It's basically the perfect field trip.
+    sentence_id: turn_01.s03
+  turn_id: turn_01
+- speaker: Priya
+  sentences:
+  - text: Yeah, totally, you're right that being there in person beats just reading about it — but I think
+      the science museum might be an even stronger fit, because we could study how science gets communicated
+      to the public, like how exhibits are designed to teach people.
+    sentence_id: turn_02.s01
+  - text: Plus my mom runs the education department there, so she could set up a behind-the-scenes tour
+      where we see how they build the exhibits and everything.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Maya
+  sentences:
+  - text: Wait, that's actually really cool — like we'd get to go places regular visitors don't even see?
+    sentence_id: turn_03.s01
+  - text: That would make our proposal look so legit.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Sam
+  sentences:
+  - text: Can I back up for a second?
+    sentence_id: turn_04.s01
+  - text: We're supposed to ask questions that cut across subjects, right — so shouldn't we start with
+      the question, not the destination?
+    sentence_id: turn_04.s02
+  - text: Like, what if we looked at the school lunch program — where the food comes from, who picks the
+      menu, what happens when families can't pay — and visited the central kitchen that supplies us?
+    sentence_id: turn_04.s03
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: That's not really a field trip though, that's just like... the cafeteria.
+    sentence_id: turn_05.s01
+  - text: No offense, Sam, but Ms. Tsai's not gonna pick that.
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Sam
+  sentences:
+  - text: It touches science and civics and economics and fairness — that's what cross-disciplinary actually
+      means.
+    sentence_id: turn_06.s01
+  - text: I just think we should figure out what we're asking before we pick where to go.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Priya
+  sentences:
+  - text: Okay so we have Maya's park, my museum — should we hear from Jordan and Kai before we run out
+      of time?
+    sentence_id: turn_07.s01
+  turn_id: turn_07
+- speaker: Maya
+  sentences:
+  - text: Yeah, good call — Jordan, Kai, what've you guys got?
+    sentence_id: turn_08.s01
+  - text: Ooh, the zoo is cool, Jordan volunteers there and they have all those certifications and stuff,
+      and Kai's walking tour is literally free and we'd be back before lunch.
+    sentence_id: turn_08.s02
+  - text: I honestly love all of these.
+    sentence_id: turn_08.s03
+  turn_id: turn_08
+- speaker: Sam
+  sentences:
+  - text: My idea's still on the table, just so we're clear.
+    sentence_id: turn_09.s01
+  turn_id: turn_09
+- speaker: Priya
+  sentences:
+  - text: So we've got four strong options — the park, the museum, the zoo, and the walking tour.
+    sentence_id: turn_10.s01
+  - text: I think we should each research our proposal and come back next meeting with something more
+      detailed.
+    sentence_id: turn_10.s02
+  turn_id: turn_10
+- speaker: Maya
+  sentences:
+  - text: This is gonna be awesome, we have so many good options.
+    sentence_id: turn_11.s01
+  - text: Next meeting's gonna be great.
+    sentence_id: turn_11.s02
+  turn_id: turn_11

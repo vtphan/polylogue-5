@@ -1,0 +1,351 @@
+story_id: the-field-trip
+episode_number: 1
+scenario_id: the-field-trip-ep-01
+
+probes:
+  facet:
+    by_turn:
+      t01:
+        trigger: inactivity_or_manual
+        question: "What are you noticing about Maya's pitch?"
+        options:
+          - text: "She's jumping from 'roller coasters are physics' to 'this is the best trip' without checking if that's true"
+            routes_to: {facet: inferential_validity, role: present}
+          - text: "She only gave one reason and treated it like it was enough"
+            routes_to: {facet: sufficiency, role: present}
+          - text: "She's not thinking about whether everyone can afford the park"
+            routes_to: {facet: consequence_consideration, role: afforded_missing}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+      t02:
+        trigger: inactivity_or_manual
+        question: "What stands out about Priya's proposal?"
+        options:
+          - text: "Her mom works at the museum, so she might see it differently than everyone else"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "The group is treating her family connection like it makes the proposal better"
+            routes_to: {facet: source_credibility, role: present}
+          - text: "Nobody asked how much it costs or whether everyone can go"
+            routes_to: {facet: consequence_consideration, role: afforded_missing}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+      t04:
+        trigger: inactivity_or_manual
+        question: "What do you think about Sam's approach?"
+        options:
+          - text: "She's the only one who started with the assignment's actual question"
+            routes_to: {facet: relevance, role: present}
+          - text: "Her idea sounds less exciting but it actually fits what they were asked to do"
+            routes_to: {facet: relevance, role: present}
+          - text: "The committee already decided what a real field trip is, and her idea doesn't fit that"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+      t05:
+        trigger: inactivity_or_manual
+        question: "What's happening when Maya responds to Sam?"
+        options:
+          - text: "Maya's saying Sam's idea isn't a real field trip, but she's not actually explaining why"
+            routes_to: {facet: inferential_validity, role: present}
+          - text: "Maya's dismissal carries the room — everyone nods along without thinking"
+            routes_to: {facet: inferential_validity, role: present}
+          - text: "Sam might be oversimplifying what cross-disciplinary means"
+            routes_to: {facet: relevance, role: tempting_absent}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+      t07:
+        trigger: inactivity_or_manual
+        question: "What happens when Priya moves the conversation along?"
+        options:
+          - text: "She's skipping past Sam's point without really addressing it"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "She's being organized, but the effect is that Sam's idea gets left behind"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "The group is avoiding an argument they should be having"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+      t10:
+        trigger: inactivity_or_manual
+        question: "What do you notice about how Priya wraps up?"
+        options:
+          - text: "She listed four options and left Sam's out completely"
+            routes_to: {facet: perspective_engagement, role: present}
+          - text: "The group agreed they have 'four strong options' without examining any of them"
+            routes_to: {facet: sufficiency, role: present}
+          - text: "Nobody checked whether these proposals actually answer the assignment"
+            routes_to: {facet: relevance, role: afforded_missing}
+          - text: "I'm not sure what I'm noticing"
+            routes_to: {blank_page: true}
+
+  explanation:
+    by_turn_facet:
+      t01.inferential_validity:
+        question: "Why do you think Maya's argument has this problem?"
+        options:
+          - text: "Because she already wanted the amusement park and built the argument to match"
+            routes_to: {explanatory_variable: cognitive, pattern_ref: confirmation_bias}
+          - text: "Because she was so confident that nobody felt like questioning her"
+            routes_to: {explanatory_variable: social, dynamic_ref: group_pressure}
+          - text: "Both — she filtered her reasoning AND her confidence carried the room"
+            routes_to: {explanatory_variable: interaction}
+          - text: "Maybe she just doesn't know how to build a careful argument"
+            routes_to: {explanatory_variable: tempting_absent}
+
+      t02.perspective_engagement:
+        question: "Why doesn't Priya see the problem with her proposal?"
+        options:
+          - text: "Because she grew up going to the museum for free, so she thinks everyone sees it that way"
+            routes_to: {explanatory_variable: cognitive, pattern_ref: egocentric_thinking}
+          - text: "Because the group treated her family connection as a good thing instead of questioning it"
+            routes_to: {explanatory_variable: social, dynamic_ref: authority_deference}
+          - text: "Both — her experience blinded her AND the group reinforced it"
+            routes_to: {explanatory_variable: interaction}
+          - text: "Maybe she just doesn't care about other people's experiences"
+            routes_to: {explanatory_variable: tempting_absent}
+
+interventions:
+  by_turn:
+    t01:
+      blank_page:
+        opening: "Take another look at what Maya said about the amusement park."
+        ladder:
+          - {type: nudge, text: "Read Maya's argument one more time. What is she claiming, step by step?", reveals: 1, cost: 0}
+          - {type: question, text: "She says roller coasters are physics and that makes it the best trip. Does that second part actually follow?", reveals: 2, cost: 0}
+          - {type: hint, text: "Try tracing the argument: roller coasters involve physics → ??? → best field trip. What's in the gap?", reveals: 3, cost: 1}
+      by_facet:
+        inferential_validity:
+          role: present
+          opening: "You're noticing something about how Maya's argument is built."
+          ladder:
+            - {type: question, text: "Maya connects roller coasters to physics. What else would need to be true for the amusement park to be the best educational trip?", reveals: 1, cost: 0}
+            - {type: question, text: "Is the class actually studying physics? Does the park offer structured learning?", reveals: 2, cost: 0}
+            - {type: hint, text: "The chain goes 'roller coasters are physics, physics is educational, therefore best trip.' Each link sounds right on its own, but the conclusion skips questions the links don't answer.", reveals: 3, cost: 1}
+            - {type: worked_example, text: "If Maya had said 'roller coasters involve physics, but I should check whether our class is actually studying physics and whether the park offers any structured learning,' the chain would connect to the assignment's criteria instead of leaping past them.", reveals: 4, cost: 2}
+          has_explanation_depth: true
+          explanation:
+            by_explanatory_variable:
+              cognitive:
+                ladder:
+                  - {type: question, text: "Maya wanted the amusement park before she built the argument. How might that have shaped what she noticed and what she skipped?", reveals: 1, cost: 0}
+                  - {type: hint, text: "When you start with the answer you want, you tend to notice only the evidence that supports it. That's what happened here.", reveals: 2, cost: 1}
+              social:
+                ladder:
+                  - {type: question, text: "After Maya finished, did anyone push back? What happened to the room's energy?", reveals: 1, cost: 0}
+                  - {type: hint, text: "Maya's confidence made the argument feel stronger than it was. The room nodded along before anyone examined it.", reveals: 2, cost: 1}
+              interaction:
+                ladder:
+                  - {type: question, text: "If Maya had been less confident, would someone have noticed the gaps? If the gaps weren't there, would her confidence matter?", reveals: 1, cost: 0}
+                  - {type: hint, text: "The bias built the weak argument; the social energy prevented it from being examined. Both are needed to explain what happened.", reveals: 2, cost: 1}
+              tempting_absent:
+                ladder:
+                  - {type: redirect, text: "It might look like Maya just doesn't know how to argue, but she actually builds a structured chain — the problem is where she points it, not that she can't do it. Look at the argument's structure again.", routes_to: {facet: inferential_validity}, reveals: 1, cost: 0}
+
+        sufficiency:
+          role: present
+          opening: "You're noticing how thin Maya's evidence is."
+          ladder:
+            - {type: question, text: "Maya's whole case for the park rests on one claim. What other evidence would she need?", reveals: 1, cost: 0}
+            - {type: hint, text: "A physics teacher who confirmed the park's value, a curriculum unit that fits, a structured worksheet — any of these would add substance.", reveals: 2, cost: 1}
+            - {type: worked_example, text: "If Maya had offered specific evidence — a physics teacher who confirmed the park's educational value, a curriculum unit that aligned, a structured worksheet the park provides — the argument would rest on more than one claim.", reveals: 3, cost: 2}
+          has_explanation_depth: false
+
+        consequence_consideration:
+          role: afforded_missing
+          opening: "Nobody in the discussion mentioned what happens next if they pick this option."
+          ladder:
+            - {type: nudge, text: "Think about what choosing the amusement park would actually mean. What practical questions hasn't anyone asked?", reveals: 1, cost: 0}
+            - {type: question, text: "How much does the park cost? Can every student in the class afford it? Does it actually teach anything without a plan?", reveals: 2, cost: 0}
+            - {type: hint, text: "The committee is comparing destinations without asking what happens after they choose one. Nobody has thought through the actual consequences.", reveals: 3, cost: 1}
+          has_explanation_depth: false
+
+    t02:
+      blank_page:
+        opening: "Take a closer look at what Priya said about the museum."
+        ladder:
+          - {type: nudge, text: "Priya mentioned her mom works at the museum. Read that part again.", reveals: 1, cost: 0}
+          - {type: question, text: "How does the committee react when Priya mentions her family connection?", reveals: 2, cost: 0}
+      by_facet:
+        perspective_engagement:
+          role: present
+          opening: "You're noticing something about where Priya's confidence comes from."
+          ladder:
+            - {type: question, text: "Priya grew up visiting the museum for free. How might that shape what she thinks the trip would be like for everyone?", reveals: 1, cost: 0}
+            - {type: question, text: "Is Priya's experience of the museum the same experience her classmates would have?", reveals: 2, cost: 0}
+            - {type: hint, text: "Priya sees the museum from the inside — she knows the staff, she's been behind the scenes. She genuinely thinks it's the best option, but the belief is built on access most students don't have.", reveals: 3, cost: 1}
+            - {type: worked_example, text: "If Priya had said 'I know the museum really well because my mom works there, so I should ask whether my experience is typical of what the trip would be like for everyone else,' she would have applied her scope strength to her own proposal.", reveals: 4, cost: 2}
+          has_explanation_depth: true
+          explanation:
+            by_explanatory_variable:
+              cognitive:
+                ladder:
+                  - {type: question, text: "Priya is usually great at asking whose perspective is missing. Why can't she see it here?", reveals: 1, cost: 0}
+                  - {type: hint, text: "It's hard to notice your own position as a perspective when you've never had to think about it. Priya's experience feels like 'the way the museum is,' not 'the way the museum is for me.'", reveals: 2, cost: 1}
+              social:
+                ladder:
+                  - {type: question, text: "When Priya mentions her mom, how does the group respond? Do they question it or accept it?", reveals: 1, cost: 0}
+                  - {type: hint, text: "The committee treats Priya's insider connection as a point in the proposal's favor. Nobody asks whether having a parent on staff might shape her view.", reveals: 2, cost: 1}
+              interaction:
+                ladder:
+                  - {type: question, text: "If the committee had questioned Priya's connection, would she have noticed her blind spot? If she didn't have the connection, would the committee have accepted the proposal as easily?", reveals: 1, cost: 0}
+                  - {type: hint, text: "Her positional blindness makes her confident; the committee's deference to her connection prevents anyone from checking. Both are needed.", reveals: 2, cost: 1}
+              tempting_absent:
+                ladder:
+                  - {type: redirect, text: "It might look like Priya just doesn't care about others, but that's not it — she's usually the first to notice missing perspectives. The problem is specifically that she can't see her own position as a perspective.", routes_to: {facet: perspective_engagement}, reveals: 1, cost: 0}
+
+        source_credibility:
+          role: present
+          opening: "You're noticing something about how the group treats Priya's family connection."
+          ladder:
+            - {type: question, text: "Priya mentioned her mom runs the museum's education department. Is that evidence that the museum is the best destination, or something else?", reveals: 1, cost: 0}
+            - {type: hint, text: "Having inside access tells you about Priya's experience, not about the museum's fit for the class. The committee is treating a personal connection as evidence for the proposal.", reveals: 2, cost: 1}
+            - {type: worked_example, text: "If Maya had said 'Wait, Priya knows the museum because her mom works there — does that make her recommendation more trustworthy or does it mean she might be biased?' the committee would have evaluated the connection instead of endorsing it.", reveals: 3, cost: 2}
+          has_explanation_depth: false
+
+        consequence_consideration:
+          role: afforded_missing
+          opening: "The museum costs $18 per student plus transport, and nobody has mentioned that."
+          ladder:
+            - {type: nudge, text: "Think about what it would actually take to go to the museum. What hasn't anyone asked about?", reveals: 1, cost: 0}
+            - {type: question, text: "Can every student afford $18 plus bus fare? What happens to students who can't?", reveals: 2, cost: 0}
+            - {type: hint, text: "The cost question is a consequence nobody has examined. It becomes important later in the story.", reveals: 3, cost: 1}
+          has_explanation_depth: false
+
+    t04:
+      blank_page:
+        opening: "Look at what Sam is trying to do here."
+        ladder:
+          - {type: nudge, text: "Sam is asking the committee to think about something different from what everyone else is talking about. What is it?", reveals: 1, cost: 0}
+          - {type: question, text: "How is Sam's approach different from Maya's and Priya's?", reveals: 2, cost: 0}
+      by_facet:
+        relevance:
+          role: present
+          opening: "You're noticing something about how Sam's approach connects to the assignment."
+          ladder:
+            - {type: question, text: "The committee was asked to propose a cross-disciplinary question and a destination. Who actually started with the question?", reveals: 1, cost: 0}
+            - {type: question, text: "Maya started with the park, Priya started with the museum. Sam started with... what?", reveals: 2, cost: 0}
+            - {type: hint, text: "Sam is the only one who started from what Integrated Studies is for — cross-disciplinary questions — and found a subject that fits. Everyone else picked a destination first and invented a justification.", reveals: 3, cost: 1}
+          has_explanation_depth: false
+
+    t05:
+      blank_page:
+        opening: "Pay attention to how Maya responds to Sam's idea."
+        ladder:
+          - {type: nudge, text: "Maya says Sam's idea isn't a real field trip. What is she basing that on?", reveals: 1, cost: 0}
+          - {type: question, text: "Is 'that's not a real field trip' a reason or just a reaction?", reveals: 2, cost: 0}
+      by_facet:
+        inferential_validity:
+          role: present
+          opening: "You're noticing that Maya's dismissal doesn't actually address Sam's argument."
+          ladder:
+            - {type: question, text: "Maya says 'that's not really a field trip' — but what makes something a real field trip? Has the committee defined that?", reveals: 1, cost: 0}
+            - {type: hint, text: "Maya is substituting a social expectation (field trips are exciting) for a logical evaluation (does this proposal answer the assignment?). The dismissal feels like a reason but it's actually just a redefinition.", reveals: 2, cost: 1}
+          has_explanation_depth: false
+
+        relevance:
+          role: tempting_absent
+          opening: "It might look like Sam's proposal is off-topic, but look again."
+          ladder:
+            - {type: redirect, text: "Maya makes it sound like Sam's idea isn't relevant. But check the assignment criteria — is Sam's proposal actually off-target, or is Maya's definition of 'field trip' the thing that's off?", routes_to: {facet: inferential_validity}, reveals: 1, cost: 0}
+          has_explanation_depth: false
+
+    t07:
+      blank_page:
+        opening: "Notice what happens to the conversation when Priya steps in."
+        ladder:
+          - {type: nudge, text: "What was being discussed right before Priya spoke? What happens after?", reveals: 1, cost: 0}
+          - {type: question, text: "Sam just made her case. Did anyone respond to it before moving on?", reveals: 2, cost: 0}
+      by_facet:
+        perspective_engagement:
+          role: present
+          opening: "You're noticing that Sam's argument got skipped over."
+          ladder:
+            - {type: question, text: "Priya sounds like she's being efficient. But what does her move actually do to Sam's proposal?", reveals: 1, cost: 0}
+            - {type: hint, text: "Priya's redirect is organizing on the surface but excluding underneath. Sam's proposal is treated as already handled without ever being evaluated.", reveals: 2, cost: 1}
+          has_explanation_depth: false
+
+    t10:
+      blank_page:
+        opening: "Look at how Priya summarizes the committee's options."
+        ladder:
+          - {type: nudge, text: "Count the options Priya lists. Is anything missing?", reveals: 1, cost: 0}
+          - {type: question, text: "How many proposals were made? How many did Priya include?", reveals: 2, cost: 0}
+      by_facet:
+        perspective_engagement:
+          role: present
+          opening: "You noticed that Sam's proposal was left out of the summary."
+          ladder:
+            - {type: question, text: "Priya says 'four strong options.' Five people proposed ideas. Whose was excluded?", reveals: 1, cost: 0}
+            - {type: hint, text: "Sam's proposal was the only one that started from the assignment's question. It was also the only one the committee dropped without evaluating.", reveals: 2, cost: 1}
+          has_explanation_depth: false
+
+        sufficiency:
+          role: present
+          opening: "You're noticing the committee is moving forward without examining anything."
+          ladder:
+            - {type: question, text: "The committee called these 'four strong options.' What evidence has anyone given that any of them are strong?", reveals: 1, cost: 0}
+            - {type: hint, text: "Agreeing that options are 'strong' without examining them is treating enthusiasm as evaluation.", reveals: 2, cost: 1}
+          has_explanation_depth: false
+
+        relevance:
+          role: afforded_missing
+          opening: "The committee is about to go research their options. But nobody has checked something important."
+          ladder:
+            - {type: nudge, text: "What was the committee actually asked to do? Are the four proposals on the whiteboard answering that question?", reveals: 1, cost: 0}
+            - {type: question, text: "The assignment asks for a cross-disciplinary question and a destination. How many of these proposals started with a question?", reveals: 2, cost: 0}
+            - {type: hint, text: "Only Sam started with the question. The other four started with destinations and invented justifications afterward. The committee is about to research the wrong thing.", reveals: 3, cost: 1}
+          has_explanation_depth: false
+
+struggle_calibration:
+  by_passage:
+    p1:
+      pace: generous
+      minimum_wrestling:
+        - selected_a_facet
+        - viewed_turn_for_15s
+      productive_duration: moderate
+
+introduces:
+  - inferential_validity
+  - perspective_engagement
+  - relevance
+  - source_credibility
+  - sufficiency
+  - confirmation_bias
+  - egocentric_thinking
+  - group_pressure
+  - authority_deference
+
+assumes_familiar_with: []
+
+character_arc_position: pre_growth
+
+growth_beats:
+  priya:
+    position: setup
+    note: >
+      Priya's perspective_engagement failure is introduced. Her insider
+      connection to the museum is established. No growth has occurred yet.
+
+response_space:
+  by_lens:
+    logic:
+      likely: inferential_validity (Maya's chain)
+      partial: sufficiency (thin evidence)
+      misreading: internal_consistency (Maya's "not a question" vs "love all of these")
+      blindspot: null
+    evidence:
+      likely: source_credibility (Priya's connection)
+      partial: sufficiency (Maya's single claim)
+      misreading: null
+      blindspot: relevance as strength (Sam's approach)
+    scope:
+      likely: perspective_engagement (Sam excluded)
+      partial: perspective_engagement (Priya's positional blindness)
+      misreading: null
+      blindspot: consequence_consideration (cost, logistics)

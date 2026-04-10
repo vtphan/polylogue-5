@@ -1,0 +1,201 @@
+story_id: the-field-trip
+episode_number: 1
+scenario_id: the-field-trip-ep-01
+
+discussion_cues:
+  by_turn:
+    t01:
+      - id: t01_c1
+        text: "Maya says roller coasters are 'literally applied physics.' Bring this to your group: does that make the amusement park the best field trip, or is she skipping something?"
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t01, facet: inferential_validity}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+      - id: t01_c2
+        text: "If Sam were responding to Maya right now, what question would she ask about the amusement park argument?"
+        angle: inferential_validity
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Sam
+        independent_of: [t01_c1]
+
+      - id: t01_c3
+        text: "Defend Maya's argument: make the strongest case you can that the amusement park really is the most educational option. What would you need to believe?"
+        angle: inferential_validity
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t01_c1, t01_c2]
+
+      - id: t01_c4
+        text: "Maya gave one reason for the park. Is that enough to choose a field trip, or would you need more? What's missing?"
+        angle: sufficiency
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t01, facet: sufficiency}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+    t02:
+      - id: t02_c1
+        text: "Priya's mom works at the museum. Does that make her proposal stronger or does it mean she might not see it the way everyone else would?"
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t02, facet: perspective_engagement}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+      - id: t02_c2
+        text: "Priya mentioned a behind-the-scenes tour. Ask your group: is insider access evidence that the museum is the best choice, or is it something else?"
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t02, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1]
+
+      - id: t02_c3
+        text: "If a student who's never been to the museum were on this committee, what would they want to know about Priya's proposal?"
+        angle: perspective_engagement
+        lens: scope
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1]
+
+      - id: t02_c4
+        text: "Defend Priya: argue that knowing the museum from the inside actually makes her the best person to recommend it. What's the strongest version of that case?"
+        angle: perspective_engagement
+        lens: scope
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1, t02_c3]
+
+    t04:
+      - id: t04_c1
+        text: "Sam says the committee should start with the question, not the destination. Bring this to your group: is she right? Did everyone else do it backward?"
+        angle: relevance
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t04, facet: relevance}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+      - id: t04_c2
+        text: "Sam's proposal touches science, civics, economics, and fairness. Ask your group: is that more or less cross-disciplinary than the other proposals?"
+        angle: relevance
+        lens: logic
+        axis: lens_refraction
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t04_c1]
+
+    t05:
+      - id: t05_c1
+        text: "Maya said Sam's idea 'isn't really a field trip.' Ask your group: who decides what counts as a real field trip? Is that a reason or just a feeling?"
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t05, facet: inferential_validity}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+      - id: t05_c2
+        text: "After Maya dismissed Sam's idea, the whole room seemed to agree. Discuss: did anyone actually think about it, or did they just go along?"
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: null
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t05_c1]
+
+    t07:
+      - id: t07_c1
+        text: "Priya moved the conversation past Sam's argument to hear from Jordan and Kai. Was that fair? What got lost?"
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t07, facet: perspective_engagement}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+    t10:
+      - id: t10_c1
+        text: "Priya listed 'four strong options.' Count the proposals. Is anything missing? Ask your group why."
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t10, facet: perspective_engagement}
+        explanatory_ref: null
+        persona: null
+        independent_of: []
+
+      - id: t10_c2
+        text: "The committee called these 'strong options.' Argue the opposite: pick one proposal and explain why it might not be as strong as it sounds."
+        angle: sufficiency
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t10_c1]
+
+      - id: t10_c3
+        text: "If Ms. Tsai were listening, what do you think she noticed about how the committee chose which ideas to keep?"
+        angle: relevance
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t10_c1, t10_c2]
+
+  episode_scope:
+    - id: e_c1
+      turn: null
+      text: "Across the whole meeting, who actually talked about what the committee was asked to do — propose a cross-disciplinary question? And who just talked about where they wanted to go?"
+      angle: relevance
+      lens: evidence
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: []
+
+    - id: e_c2
+      turn: null
+      text: "Think about this: every committee member came in already wanting a specific destination. How did that shape the whole meeting?"
+      angle: inferential_validity
+      lens: logic
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: confirmation_bias
+      persona: null
+      independent_of: [e_c1]
+
+talk_moves:
+  - "I disagree with ___ because..."
+  - "Building on what ___ said..."
+  - "I noticed something different — I saw..."
+  - "Can someone explain why they think..."
+  - "I changed my mind about ___ because..."

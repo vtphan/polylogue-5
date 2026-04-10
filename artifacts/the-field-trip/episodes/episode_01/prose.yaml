@@ -1,0 +1,31 @@
+story_id: the-field-trip
+episode_number: 1
+scenario_id: the-field-trip-ep-01
+
+episode_opening: >
+  Ms. Tsai's class gets one field trip this year, and a five-person
+  student committee has been asked to propose both the subject and
+  the destination. Ms. Tsai told them she'll evaluate their
+  recommendation on the quality of the reasoning, not the conclusion
+  — if the reasoning is sound, they pick the destination. This is
+  the committee's first meeting: each member shows up with a
+  proposal they've already decided on. Pay attention to how each
+  person makes their case, and whether anyone is actually answering
+  the question the committee was asked.
+
+entry_prompts:
+  - passage_id: p1
+    lens: logic
+    stem: "I noticed that in turn ___, ___ makes an argument that sounds convincing but..."
+
+  - passage_id: p1
+    lens: evidence
+    stem: "I noticed that in turn ___, ___ uses ___ as support for their proposal, but..."
+
+  - passage_id: p1
+    lens: scope
+    stem: "I noticed that when ___ was talking, nobody asked about..."
+
+consensus_check:
+  - "Did the committee actually evaluate any of the proposals, or did they just collect them? If they didn't evaluate, what stopped them?"
+  - "One committee member's approach was different from everyone else's. Did the group notice? Why or why not?"
