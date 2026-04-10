@@ -1,0 +1,57 @@
+turns:
+  - speaker: Jordan
+    sentences:
+      - text: "Okay so I brought the actual brochure from the zoo, and it says right here — state-certified educational programs aligned with Next Generation Science Standards, and they have a coordinator just for school groups."
+      - text: "It's literally certified, so I think that pretty much answers whether it's educational."
+
+  - speaker: Sam
+    sentences:
+      - text: "Certified for what, though?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "It says — hold on, let me find it again — 'state-certified educational programs meeting Next Generation Science Standards for grades K through 8.'"
+      - text: "See, it says it right there."
+
+  - speaker: Maya
+    sentences:
+      - text: "Okay yeah, the zoo's legit — but you guys have to see this video I found, this teacher took her class to a roller coaster park and they measured velocity and stuff, like with actual stopwatches and math."
+      - text: "It got like two million views and all the kids in the comments were saying it was the best day of school ever."
+
+  - speaker: Sam
+    sentences:
+      - text: "So I didn't really pick a place — I wrote down questions instead."
+      - text: "Like, who decides what's on the lunch menu, where does the food actually come from, how much does it cost per kid, and what happens if someone's family can't pay?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "Okay cool — so did anyone else bring something?"
+      - text: "Priya, you had the museum stuff, right?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Wait, Jordan, go back to your brochure for a sec."
+      - text: "It says science standards, but we're not in science class — this is Integrated Studies, that's literally not the same thing."
+
+  - speaker: Jordan
+    sentences:
+      - text: "Hold on — let me look."
+      - text: "Okay it doesn't say Integrated Studies anywhere, but it's still a real educational program with actual lesson plans and everything."
+
+  - speaker: Maya
+    sentences:
+      - text: "Yeah but the whole point of our class is looking at stuff from a bunch of different angles, not just science."
+      - text: "Meeting science standards doesn't really help us here."
+
+  - speaker: Sam
+    sentences:
+      - text: "Has anyone here actually looked at a destination that isn't their own?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "Okay so we all have our stuff — should we just vote next time?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Yeah, I think we're ready."
+      - text: "We all did our research, so let's just pick next meeting."

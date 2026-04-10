@@ -42,15 +42,14 @@ lead_characters:
       or whether they apply to a class that studies questions across subjects,
       not just biology.
     weaknesses: >
-      Takes official-looking information at face value. If something has a
-      credential or a professional appearance, Jordan trusts it without asking
-      what the credential actually means or whether it fits the situation. He
-      brought a brochure that the zoo wrote to attract school groups and treats
-      it as if it were a neutral assessment. When someone questions what he's
-      read, he responds by re-reading it more carefully rather than stepping
-      back to ask whether the document is the right one to answer the question.
-      His sincere, well-meaning delivery makes the room take the official
-      language more seriously than they otherwise would.
+      When Jordan finds a document that looks professional, he reads it aloud
+      and moves on to his next point without pausing to ask whether it answers
+      the question he actually needs answered. He reads from the brochure the
+      same way he'd read from a textbook, without seeming to notice who wrote
+      it or why. When someone questions what he's read, he responds by
+      re-reading it more carefully rather than stepping back to ask whether the
+      document is the right one to answer the question. He presents with
+      genuine pride, which makes it feel rude to push back.
     strengths: >
       He actually does the work — he brought a real document with real details,
       not a half-remembered impression. His instinct to look things up and
@@ -58,8 +57,7 @@ lead_characters:
     prior_beats: >
       In the first meeting, Jordan pitched the zoo briefly, citing his volunteer
       experience and the zoo's certifications. He was one of the committee
-      members who nodded along with Maya's energy and went along with the room's
-      momentum.
+      members who nodded when Maya's proposal got the most energy.
 
   - name: Maya
     voice: >
@@ -67,9 +65,8 @@ lead_characters:
       one idea tumbling into the next — and sounds like she's figured everything
       out even when she hasn't. Friendly and high-energy, not aggressive.
     perspective: >
-      Believes the amusement park is the most educational option and has found
-      a video that proves it. She sees the video as confirming what she already
-      knew.
+      She is certain the amusement park is the most educational option and sees
+      the video she found as proof.
     knowledge: >
       Found a YouTube video of a high school physics teacher who took students
       to an amusement park to measure velocity on roller coasters. Has not
@@ -77,11 +74,10 @@ lead_characters:
       a teacher-designed activity the committee has not proposed, and a
       different park.
     weaknesses: >
-      Searched for something that would support what she already wanted and
-      stopped as soon as she found one result that felt like enough. She is
-      presenting a single video as if it settles the question, without noticing
-      all the ways the video's situation differs from the committee's. She did
-      not look for anything that might complicate her position.
+      She found one video, got excited, and built her whole case around it.
+      She did not keep searching after that. She is presenting a single video
+      as if it settles the question, without noticing all the ways the video's
+      situation differs from the committee's.
     strengths: >
       Sharp at spotting gaps in other people's arguments. When Jordan reads his
       credentials, Maya is the one who catches that they don't match what the
@@ -89,9 +85,8 @@ lead_characters:
       even though she doesn't see it applies to her own pitch too.
     prior_beats: >
       In the first meeting, Maya opened with a high-energy pitch for the
-      amusement park that set the room's expectations. Her enthusiasm defined
-      what a serious proposal sounded like and made Sam's quieter approach
-      feel out of place.
+      amusement park that set the tone for the meeting. Sam's quieter pitch
+      landed differently.
 
   - name: Sam
     voice: >
@@ -205,9 +200,9 @@ turn_outline:
 
   - speaker: Sam
     accomplishes: >
-      Quietly observes that everyone brought evidence about their own option
-      and nobody looked at anyone else's. She says it plainly, once, without
-      emphasis. The committee does not respond.
+      Quietly notes that she hasn't heard anyone talk about a destination
+      that isn't their own. She says it plainly, once, without emphasis.
+      The committee does not respond.
 
   - speaker: Jordan
     accomplishes: >

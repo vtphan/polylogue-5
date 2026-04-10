@@ -1,0 +1,111 @@
+story_id: the-field-trip
+episode_number: 2
+scenario_id: the-field-trip-ep-02
+personas:
+- name: Jordan
+  perspective: 'Believes the zoo is the strongest option because it has official educational credentials
+    — state certification, alignment with science standards, a dedicated school group coordinator. He
+    sees these as settling the question of educational value.
+
+    '
+- name: Maya
+  perspective: 'Believes the amusement park is the most educational option and has found a video that
+    proves it. She sees the video as confirming what she already knew — real-world physics learning is
+    exciting and effective.
+
+    '
+- name: Sam
+  perspective: 'Still believes the committee should start from a question rather than a destination. She
+    has used her research time to develop the questions she thinks the committee should be asking, not
+    to build a case for a specific place.
+
+    '
+turns:
+- speaker: Jordan
+  sentences:
+  - text: Okay so I brought the actual brochure from the zoo, and it says right here — state-certified
+      educational programs aligned with Next Generation Science Standards, and they have a coordinator
+      just for school groups.
+    sentence_id: turn_01.s01
+  - text: It's literally certified, so I think that pretty much answers whether it's educational.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Sam
+  sentences:
+  - text: Certified for what, though?
+    sentence_id: turn_02.s01
+  turn_id: turn_02
+- speaker: Jordan
+  sentences:
+  - text: It says — hold on, let me find it again — 'state-certified educational programs meeting Next
+      Generation Science Standards for grades K through 8.'
+    sentence_id: turn_03.s01
+  - text: See, it says it right there.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Maya
+  sentences:
+  - text: Okay yeah, the zoo's legit — but you guys have to see this video I found, this teacher took
+      her class to a roller coaster park and they measured velocity and stuff, like with actual stopwatches
+      and math.
+    sentence_id: turn_04.s01
+  - text: It got like two million views and all the kids in the comments were saying it was the best day
+      of school ever.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Sam
+  sentences:
+  - text: So I didn't really pick a place — I wrote down questions instead.
+    sentence_id: turn_05.s01
+  - text: Like, who decides what's on the lunch menu, where does the food actually come from, how much
+      does it cost per kid, and what happens if someone's family can't pay?
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Jordan
+  sentences:
+  - text: Okay cool — so did anyone else bring something?
+    sentence_id: turn_06.s01
+  - text: Priya, you had the museum stuff, right?
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: Wait, Jordan, go back to your brochure for a sec.
+    sentence_id: turn_07.s01
+  - text: It says science standards, but we're not in science class — this is Integrated Studies, that's
+      literally not the same thing.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Jordan
+  sentences:
+  - text: Hold on — let me look.
+    sentence_id: turn_08.s01
+  - text: Okay it doesn't say Integrated Studies anywhere, but it's still a real educational program with
+      actual lesson plans and everything.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Maya
+  sentences:
+  - text: Yeah but the whole point of our class is looking at stuff from a bunch of different angles,
+      not just science.
+    sentence_id: turn_09.s01
+  - text: Meeting science standards doesn't really help us here.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Sam
+  sentences:
+  - text: Has anyone here actually looked at a destination that isn't their own?
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Jordan
+  sentences:
+  - text: Okay so we all have our stuff — should we just vote next time?
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Maya
+  sentences:
+  - text: Yeah, I think we're ready.
+    sentence_id: turn_12.s01
+  - text: We all did our research, so let's just pick next meeting.
+    sentence_id: turn_12.s02
+  turn_id: turn_12

@@ -1,0 +1,57 @@
+turns:
+  - speaker: Jordan
+    sentences:
+      - text: "Okay so I brought the actual brochure from the zoo, and it says right here — certified educational programs, aligned with national standards, and they have a coordinator just for school groups."
+      - text: "Like, it's certified, so I feel like that kind of answers the question."
+
+  - speaker: Sam
+    sentences:
+      - text: "Certified for what, though?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "It says — hold on — 'certified educational programs meeting national science standards for K through 8.'"
+      - text: "See, it's right there."
+
+  - speaker: Maya
+    sentences:
+      - text: "Okay but you guys have to see this video I found — this teacher literally took her class to a roller coaster and they measured velocity and everything, like with stopwatches and math and stuff."
+      - text: "It got like two million views, and the kids in the comments were all saying it was the best day of school ever."
+
+  - speaker: Sam
+    sentences:
+      - text: "So I wrote down some questions instead of picking a place."
+      - text: "Like, who decides the school lunch menu, where does the food actually come from, how much does it cost per kid per day, and what happens if a family can't pay?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "Cool, um — did anyone else bring something?"
+      - text: "Priya, you had the museum stuff, right?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Wait, Jordan, go back to your brochure for a sec."
+      - text: "It says science standards, but we're not in science class — we're in Integrated Studies, and that's not the same thing."
+
+  - speaker: Jordan
+    sentences:
+      - text: "I mean — hold on, let me check."
+      - text: "Okay it doesn't say Integrated Studies specifically, but it's still a real educational program, like with actual lesson plans and everything."
+
+  - speaker: Maya
+    sentences:
+      - text: "Yeah but the whole point is our class looks at stuff from a bunch of different angles, not just science."
+      - text: "So meeting science standards doesn't really help us."
+
+  - speaker: Sam
+    sentences:
+      - text: "Has anyone here looked at a destination that isn't their own?"
+
+  - speaker: Jordan
+    sentences:
+      - text: "Okay so we all have our stuff — should we just vote next time?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Yeah, I think we're ready."
+      - text: "We all did our research, so let's just pick next meeting."
