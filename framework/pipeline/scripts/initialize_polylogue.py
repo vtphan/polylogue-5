@@ -57,12 +57,19 @@ FRAMEWORK_SCHEMAS = [
     "framework/schemas/transcript.yaml",
     "framework/schemas/analysis.yaml",
     "framework/schemas/facilitation.yaml",
+    # v2 assistive package schemas
+    "framework/schemas/ground_truth.yaml",
+    "framework/schemas/diagnostic.yaml",
+    "framework/schemas/prose.yaml",
+    "framework/schemas/discussion.yaml",
+    "framework/schemas/assistive_package.yaml",
 ]
 
 FRAMEWORK_REFERENCE = [
     "lenses.yaml",
     "facet_inventory.yaml",
     "explanatory_variables.yaml",
+    "wrestling_gates.yaml",
 ]
 
 
