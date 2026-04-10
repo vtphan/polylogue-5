@@ -1,6 +1,10 @@
 # Story Design
 
-**Status.** Describes story authoring for the **v1 pipeline (currently live)**. For stories targeted at the **v2 pipeline** (`/build_assistive_package`), see `story-design-v2.md` instead — v2 reshapes what counts as a well-designed story (five new affordances, register as a first-class choice). The structural rules described here (cast bounds, coverage contract, rotation, prose-first, reviewer role) carry forward into v2 intact; `story-design-v2.md` carries them forward and adds the v2 design lens. Use this document if you're authoring against v1; use `story-design-v2.md` if you're authoring for v2.
+**Status.** Governs story authoring **in service of the shared upstream** commands `/create_episode` and `/create_transcript`, which are unchanged between the v1 and v2 pipelines. Cast bounds, coverage contract, rotation rules, prose-first authoring, the information barrier, the per-episode draft frontmatter template, and `story_consistency_reviewer` all live here and apply to both v1 and v2 stories. This document is the foundation.
+
+**For v2 stories, read this first, then read `story-design-v2.md`.** That document is the downstream addendum — it covers the additional authoring constraints that come from what the v2 assistive package needs (what the analyst, diagnostic, prose, and discussion agents need from your story to produce non-vacuous output). It does not replace this document; it adds to it.
+
+**For v1 stories, this document is all you need** — nothing in it is v1-specific except the worked example at "A worked example: from cast prose to episode signal," which uses v1-era signal framing. The structural rules are all shared.
 
 This document is operator guidance for designing a Polylogue story under the **episodes-first authoring model** (Part 13 of `framework/docs/story-pipeline-revision.md`). It is written for the person sitting at the keyboard authoring a story design doc and per-episode drafts, and the curriculum coordinator reading over their shoulder. It is not a schema reference and not a pipeline runbook — for those, see Appendix B of `story-pipeline-revision.md` and `framework/docs/operator-manual.md`.
 
