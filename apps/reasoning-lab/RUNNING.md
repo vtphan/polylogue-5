@@ -11,7 +11,7 @@ This guide covers initialization and the Reasoning Lab-specific stages. For oper
 ## Initialize
 
 ```bash
-python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py
+python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
 This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and Reasoning Lab commands/agents from `apps/reasoning-lab/pipeline/`.

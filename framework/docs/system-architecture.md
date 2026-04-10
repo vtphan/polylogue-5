@@ -153,14 +153,17 @@ The initialization script:
 5. **Verifies** schemas in `framework/schemas/` and `apps/{app-id}/schemas/`
 6. **Verifies** the artifacts directory exists
 
-To initialize for a specific application:
+To initialize:
 ```bash
-python3 apps/lens/pipeline/initialize_lens.py
-# or
-python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py
+# Phase 6 authoring only (shared commands, no app downstream)
+python3 framework/pipeline/scripts/initialize_polylogue.py
+
+# Full pipeline with an app downstream
+python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
+python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-Each script sources from its own application plus the shared framework. Running one clears and replaces the previous application's commands.
+The script sources from the shared framework plus (when `--app` is given) the target application. Running it clears and replaces the previous application's commands. Omitting `--app` syncs only shared upstream commands and agents, sufficient for Phase 6 authoring and `/validate_story`.
 
 ## Path Conventions
 

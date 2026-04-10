@@ -97,15 +97,18 @@ artifacts/archive/v1/                    # Frozen v1-pipeline artifacts (histori
 
 ## Bootstrapping
 
-Before running slash commands, initialize for the target application:
+Before running slash commands, initialize the pipeline:
 
 ```bash
-python3 apps/lens/pipeline/initialize_lens.py
-# or
-python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py
+# Phase 6 authoring only (shared commands, no app downstream)
+python3 framework/pipeline/scripts/initialize_polylogue.py
+
+# Full pipeline with an app downstream
+python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
+python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-Each script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs shared commands/agents from `framework/pipeline/` plus app-specific commands/agents. `.claude/commands/` and `.claude/agents/` are gitignored.
+The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs shared commands/agents from `framework/pipeline/` plus app-specific commands/agents when `--app` is provided. Omitting `--app` syncs only shared upstream commands and agents, which is sufficient for Phase 6 authoring and `/validate_story`. `.claude/commands/` and `.claude/agents/` are gitignored.
 
 ## Legacy System
 

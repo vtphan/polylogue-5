@@ -14,13 +14,16 @@ The operator's work is in two phases: **prose authoring** (you author the story 
 
 Before authoring or running anything:
 
-1. **Bootstrap the application.** Each application has its own initialization script. Run the one for the application you're targeting (Lens is the priority):
+1. **Bootstrap the pipeline.** Run the unified initialization script for your target application (Lens is the priority):
    ```bash
-   python3 apps/lens/pipeline/initialize_lens.py
-   # or
-   python3 apps/reasoning-lab/pipeline/initialize_reasoning_lab.py
+   # Phase 6 authoring only (shared commands, no app downstream)
+   python3 framework/pipeline/scripts/initialize_polylogue.py
+
+   # Full pipeline with an app downstream
+   python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
+   python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
    ```
-   This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and the application's own commands/agents from `apps/{app-id}/pipeline/`. It also verifies that all required reference data and schema files exist.
+   This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and (when `--app` is given) the application's own commands/agents from `apps/{app-id}/pipeline/`. It also verifies that all required reference data and schema files exist. Omitting `--app` syncs only shared upstream commands, sufficient for Phase 6 authoring and `/validate_story`.
 
    Re-run the init script after editing any file in the pipeline directories, or when switching applications.
 

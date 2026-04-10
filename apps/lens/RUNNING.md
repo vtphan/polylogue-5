@@ -13,7 +13,7 @@ This guide covers initialization and the Lens-specific stages. For operating pri
 Before running any slash commands, bootstrap the environment. This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and Lens-specific commands/agents from `apps/lens/pipeline/`.
 
 ```bash
-python3 apps/lens/pipeline/initialize_lens.py
+python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 ```
 
 The init script also verifies that all required reference data and schema files exist (`framework/reference/`, `framework/schemas/`, `apps/lens/reference/`, `apps/lens/schemas/`) and that the `artifacts/` directory exists. It will report any missing files.
