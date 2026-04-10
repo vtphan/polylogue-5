@@ -1,0 +1,199 @@
+# Episode Writer Input — the-field-trip episode 1
+# Barrier-safe projection for dialog_writer. No framework terminology.
+
+story_premise: >
+  Ms. Tsai's 6th grade Integrated Studies class gets one field trip this year.
+  A five-person student committee must propose a subject and a destination, and
+  Ms. Tsai will evaluate their written recommendation on the quality of its
+  reasoning, not on which place they pick.
+
+episode_premise: >
+  The committee meets for the first time after school. Each of the five members
+  walks in with a proposal they already want — an amusement park, a science
+  museum, a zoo, a downtown walking tour, and a school lunch program
+  investigation. Each person presents their idea with a justification that
+  sounds educational but was really built backward from the destination they
+  had in mind. One member's proposal — the only one that starts from a genuine
+  question rather than a destination — is dismissed as "not a real field trip."
+  By the end of the meeting, four proposals are on the whiteboard and hers is
+  crossed out.
+
+episode_number: 1
+
+previously: ""
+
+lead_characters:
+  - name: Maya
+    voice: >
+      Fast-talking, enthusiastic, a little breathless. She talks in chains —
+      one idea tumbling into the next — and sounds like she's figured everything
+      out even when she hasn't. Friendly and high-energy, not aggressive.
+    perspective: >
+      Believes the amusement park is the obvious best choice because roller
+      coasters involve real physics. She came in already wanting this and built
+      her pitch around it.
+    knowledge: >
+      Knows that roller coasters involve physics concepts. Has not looked into
+      whether the class is studying physics or whether the park offers any
+      structured learning experience.
+    weaknesses: >
+      She'll leap from "roller coasters involve physics" to "the park is the
+      best field trip" without checking whether those two ideas actually connect,
+      because she's so confident in the flow that she doesn't slow down to look
+      for gaps. She built her pitch around the amusement park before the meeting
+      and hasn't looked into anything that might complicate it. Her energy is
+      infectious, which means people tend to get swept up in her pitch before
+      they've thought about what she actually said.
+    strengths: >
+      Genuinely skilled at organizing ideas into a structured pitch. She
+      presents clearly and with real enthusiasm, which makes the room pay
+      attention.
+    prior_beats: ""
+
+  - name: Priya
+    voice: >
+      Articulate, measured, precise. She organizes her sentences carefully and
+      sounds like she's already thought three steps ahead. Not cold — warm
+      enough — but always composed.
+    perspective: >
+      Believes the science museum is the strongest option because it offers a
+      rich case study. She sees her family's connection to the museum as a
+      practical advantage, not a bias.
+    knowledge: >
+      Grew up visiting the science museum — her mother is the education director
+      there. Knows the staff, has been behind the scenes, and has a detailed
+      sense of what the museum can offer. Has not thought about what the museum
+      experience looks like for someone who has never been or who would need to
+      pay the admission fee.
+    weaknesses: >
+      Her lifelong familiarity with the museum makes her treat it as obviously
+      the best destination without realizing that her experience is not
+      universal. She genuinely believes this is the right choice for the whole
+      class, but the belief is built on access and connections most of her
+      classmates don't have. When she mentions her mother's role, it's natural
+      and honest — but the room takes it as proof that the proposal is strong,
+      and nobody thinks to ask whether that connection might be shaping her
+      view.
+    strengths: >
+      Careful, well-organized, and good at reading the room and pulling in
+      people who haven't spoken yet. She structures her arguments with
+      precision and presents them clearly.
+    prior_beats: ""
+
+  - name: Sam
+    voice: >
+      Quiet, plain-spoken, a little dry. She asks questions more than she makes
+      declarations. Not timid — just economical. She says what she means once
+      and doesn't repeat herself.
+    perspective: >
+      Believes the committee should start with a question that genuinely cuts
+      across subjects and then find a destination that helps answer it, instead
+      of picking a destination and inventing a justification.
+    knowledge: >
+      Thought carefully about what their class is actually supposed to do and
+      came up with questions about the school lunch program: where the food
+      comes from, who decides the menu, what happens when families can't pay.
+      Proposes visiting the central kitchen that supplies the school.
+    weaknesses: >
+      Quiet and methodical in a room that rewards energy and polish. She makes
+      her case once, clearly, and when it's dismissed she stays in the
+      conversation but does not fight for her idea. She doesn't match the room's
+      energy, so her argument feels smaller than it is.
+    strengths: >
+      She is the only person who started from the assignment's actual question
+      rather than from a destination she already wanted. Her proposal directly
+      addresses what the committee was asked to do. She asks the kind of
+      reframing questions that cut to the heart of what the group is actually
+      supposed to be deciding.
+    prior_beats: ""
+
+discussion_arc: >
+  Maya opens with a high-energy pitch that sets the room's expectations —
+  a field trip should be exciting, and a good proposal should sound confident.
+  Priya follows with a polished, structured case that benefits from a casually
+  mentioned family connection. Jordan and Kai add their ideas briefly. By the
+  time Sam speaks, the committee has already decided what a serious proposal
+  looks like, and her question-first approach does not fit the mold. She asks
+  "shouldn't we start with the question, not the destination?" and the room
+  is polite but uninterested. Sam tries once more, plainly, and is moved past.
+  The meeting ends with four proposals on the whiteboard, Sam's crossed out,
+  and an agreement to research options before the next meeting — which everyone
+  understands means looking for reasons their own proposal should win.
+  Jordan and Kai are present throughout, pitching their own proposals (the zoo
+  and a downtown walking tour, respectively), but the episode's tension runs
+  through Maya, Priya, and Sam.
+
+turn_outline:
+  - speaker: Maya
+    accomplishes: >
+      Opens by pitching the amusement park with energy and a fast chain of
+      reasoning: roller coasters involve real physics, real experience beats
+      textbooks, so the park is the best option. She delivers it like the
+      answer is obvious.
+
+  - speaker: Priya
+    accomplishes: >
+      Nods appreciatively at Maya's energy, then presents the science museum
+      with careful structure — framing it as studying how science gets
+      communicated to the public. Casually mentions her mother works in the
+      museum's education department and they could probably get a
+      behind-the-scenes tour.
+
+  - speaker: Maya
+    accomplishes: >
+      Responds enthusiastically to Priya's mention of the behind-the-scenes
+      tour, treating the insider access as a reason the museum proposal is
+      strong — "wait, that's actually really cool" — rather than questioning
+      whether it shapes Priya's recommendation.
+
+  - speaker: Sam
+    accomplishes: >
+      Asks the committee to step back: "We're supposed to ask questions that
+      cut across subjects, right? So shouldn't we start with the question,
+      not the destination?" Proposes studying the school lunch program as a
+      genuinely cross-disciplinary question.
+
+  - speaker: Maya
+    accomplishes: >
+      Jumps in before anyone engages with Sam's point, redirecting the energy:
+      "That's not really a field trip though, that's just the cafeteria." Her
+      dismissal is friendly but immediate, and Jordan and Kai smile or nod.
+
+  - speaker: Sam
+    accomplishes: >
+      Pushes back once, plainly: the lunch program touches science, civics,
+      economics, and fairness, which is what a cross-disciplinary question
+      looks like. She is clear but not loud, and the room has already moved
+      on emotionally.
+
+  - speaker: Priya
+    accomplishes: >
+      Moves past Sam's point without engaging it, pivoting to logistics:
+      "So we have Maya's park, my museum — should we hear the others?" Her
+      tone is organizing, not dismissive, but the effect is the same.
+
+  - speaker: Maya
+    accomplishes: >
+      Agrees with Priya's move to keep things going. Jordan briefly pitches
+      the zoo, citing his volunteer experience and its certifications. Kai
+      pitches the downtown walking tour — free, close, back before lunch.
+      Maya reacts positively to both.
+
+  - speaker: Sam
+    accomplishes: >
+      Watches the four proposals go up on the whiteboard. When someone glances
+      at her, she says her idea is still on the table but does not fight for
+      it. She stays in the conversation.
+
+  - speaker: Priya
+    accomplishes: >
+      Summarizes: they have four strong proposals and should each research
+      their option before the next meeting. She does not list Sam's among
+      the four. Her summary sounds fair but has quietly ratified the exclusion.
+
+  - speaker: Maya
+    accomplishes: >
+      Caps the meeting with enthusiasm — "This is going to be awesome, we
+      have so many good options" — reinforcing the feeling that the committee
+      made progress, even though nobody examined whether the proposals
+      actually answer the assignment's question.

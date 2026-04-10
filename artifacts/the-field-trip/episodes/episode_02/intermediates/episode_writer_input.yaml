@@ -1,0 +1,224 @@
+# Episode Writer Input — the-field-trip episode 2
+# Barrier-safe projection for dialog_writer. No framework terminology.
+
+story_premise: >
+  Ms. Tsai's 6th grade Integrated Studies class gets one field trip this year.
+  A five-person student committee must propose a subject and a destination, and
+  Ms. Tsai will evaluate their written recommendation on the quality of its
+  reasoning, not on which place they pick.
+
+episode_premise: >
+  The committee reconvenes with evidence. Each member was supposed to research
+  the options, but each member researched only their own. Jordan has the zoo's
+  promotional brochure. Maya found a YouTube video of a teacher at an amusement
+  park. Sam brings not evidence but questions — who decides the school lunch
+  menu, where does the food come from, what happens if a family can't pay —
+  and nobody engages with them because they are not arguments for a destination.
+  Everyone has done their homework, but nobody has examined anyone else's case,
+  and nobody has changed their mind.
+
+episode_number: 2
+
+previously: >
+  The committee's first meeting ended with four proposals on the whiteboard and
+  Sam's crossed out. They agreed to research their options, which each member
+  interpreted as researching their own proposal.
+
+lead_characters:
+  - name: Jordan
+    voice: >
+      Earnest, straightforward, a little formal when he's presenting something
+      he's proud of. He reads things aloud as if the words themselves are the
+      argument. Not pushy — genuinely believes that showing you the document
+      should be enough.
+    perspective: >
+      Believes the zoo is the strongest option because it has official
+      credentials — certification, alignment with national standards, a
+      dedicated coordinator. He sees these as settling the question.
+    knowledge: >
+      Brought the zoo's promotional brochure, which lists educational programs,
+      certifications, and a school group coordinator. Volunteered at the zoo
+      last summer. Has not looked into what the certifications actually cover
+      or whether they apply to a class that studies questions across subjects,
+      not just biology.
+    weaknesses: >
+      Takes official-looking information at face value. If something has a
+      credential or a professional appearance, Jordan trusts it without asking
+      what the credential actually means or whether it fits the situation. He
+      brought a brochure that the zoo wrote to attract school groups and treats
+      it as if it were a neutral assessment. When someone questions what he's
+      read, he responds by re-reading it more carefully rather than stepping
+      back to ask whether the document is the right one to answer the question.
+      His sincere, well-meaning delivery makes the room take the official
+      language more seriously than they otherwise would.
+    strengths: >
+      He actually does the work — he brought a real document with real details,
+      not a half-remembered impression. His instinct to look things up and
+      bring something concrete is genuine and useful.
+    prior_beats: >
+      In the first meeting, Jordan pitched the zoo briefly, citing his volunteer
+      experience and the zoo's certifications. He was one of the committee
+      members who nodded along with Maya's energy and went along with the room's
+      momentum.
+
+  - name: Maya
+    voice: >
+      Fast-talking, enthusiastic, a little breathless. She talks in chains —
+      one idea tumbling into the next — and sounds like she's figured everything
+      out even when she hasn't. Friendly and high-energy, not aggressive.
+    perspective: >
+      Believes the amusement park is the most educational option and has found
+      a video that proves it. She sees the video as confirming what she already
+      knew.
+    knowledge: >
+      Found a YouTube video of a high school physics teacher who took students
+      to an amusement park to measure velocity on roller coasters. Has not
+      noticed that the video shows a different kind of class, older students,
+      a teacher-designed activity the committee has not proposed, and a
+      different park.
+    weaknesses: >
+      Searched for something that would support what she already wanted and
+      stopped as soon as she found one result that felt like enough. She is
+      presenting a single video as if it settles the question, without noticing
+      all the ways the video's situation differs from the committee's. She did
+      not look for anything that might complicate her position.
+    strengths: >
+      Sharp at spotting gaps in other people's arguments. When Jordan reads his
+      credentials, Maya is the one who catches that they don't match what the
+      class is actually studying — an observation that is correct and important,
+      even though she doesn't see it applies to her own pitch too.
+    prior_beats: >
+      In the first meeting, Maya opened with a high-energy pitch for the
+      amusement park that set the room's expectations. Her enthusiasm defined
+      what a serious proposal sounded like and made Sam's quieter approach
+      feel out of place.
+
+  - name: Sam
+    voice: >
+      Quiet, plain-spoken, a little dry. She asks questions more than she makes
+      declarations. Not timid — just economical. She says what she means once
+      and doesn't repeat herself.
+    perspective: >
+      Still believes the committee should start from a question rather than a
+      destination. She has used her research time to develop questions, not to
+      build a case for a place.
+    knowledge: >
+      Wrote down questions about the school lunch program: who decides the
+      menu, where does the food come from, how much does it cost per student
+      per day, what happens if a family can't pay. These questions cut across
+      multiple subjects.
+    weaknesses: >
+      Her questions are not formatted as arguments for a destination, which
+      means the committee does not know how to engage with them. She reads
+      her list aloud, the committee listens politely, and they move on as if
+      she said nothing. She does not reframe her questions as a competing case
+      or push back when ignored.
+    strengths: >
+      She is the only committee member whose research started from a question
+      rather than from a destination she already wanted. Her questions directly
+      address what the class is supposed to be learning. She is doing the
+      thing the assignment asked for, but the committee is playing a different
+      game.
+    prior_beats: >
+      In the first meeting, Sam proposed studying the lunch program and was
+      dismissed — "that's not a real field trip." Her proposal was crossed off
+      the whiteboard. She stayed in the conversation without withdrawing but
+      did not fight for her idea.
+
+discussion_arc: >
+  The committee reconvenes with evidence in hand. Jordan goes first, presenting
+  the zoo brochure with pride and reading its credentials as if they settle the
+  question. Sam asks what the certification actually means; Jordan re-reads the
+  same line more slowly instead of answering. Maya follows with her YouTube
+  video, describing it with enthusiasm but glossing over all the ways it
+  differs from their situation. Sam reads her list of questions; the committee
+  listens politely and moves on because the questions are not arguments for a
+  destination. Then Maya catches a real gap in Jordan's case — the credentials
+  he cited don't match what their class is studying — and Jordan gets
+  defensive. But Maya doesn't notice the same gap applies to her own pitch.
+  Priya and Kai are present, distributing their own materials (a museum
+  printout and an annotated walking map), but the episode's tension runs
+  through Jordan, Maya, and Sam. The meeting ends in stalemate: everyone has
+  done their homework, nobody has changed their mind, and the comfortable
+  feeling of progress masks the fact that nobody evaluated anyone else's
+  evidence.
+
+turn_outline:
+  - speaker: Jordan
+    accomplishes: >
+      Opens by presenting the zoo brochure with pride. He reads the
+      credentials aloud with a tone that implies the question is answered:
+      the zoo has certified programs, it meets national standards, it has a
+      coordinator for school groups. "It's certified, so..."
+
+  - speaker: Sam
+    accomplishes: >
+      Asks a follow-up: "Certified for what, though?" She is genuinely
+      curious, not combative — she wants to know what the credential means.
+
+  - speaker: Jordan
+    accomplishes: >
+      Responds to Sam's question by re-reading the same line from the
+      brochure more slowly and carefully, as if Sam didn't hear him the
+      first time. The committee accepts his re-reading as a sufficient
+      answer and moves on.
+
+  - speaker: Maya
+    accomplishes: >
+      Presents her YouTube video with enthusiasm: "This teacher literally
+      took her students to a roller coaster and they measured velocity!"
+      She describes the video as if it proves amusement parks are
+      educational, without mentioning the differences between the video's
+      situation and theirs.
+
+  - speaker: Sam
+    accomplishes: >
+      Reads her list of questions aloud — who decides the menu, where does
+      the food come from, what happens if a family can't pay. The committee
+      listens politely and then moves on as if she said nothing, because
+      her questions are not arguments for a destination.
+
+  - speaker: Jordan
+    accomplishes: >
+      Pivots the conversation back to evidence presentations, asking if
+      anyone else brought something. His redirect means Sam's questions
+      are treated as a pause rather than a contribution.
+
+  - speaker: Maya
+    accomplishes: >
+      Catches a genuine gap in Jordan's case: "Wait, it says 'science
+      standards,' but we're not doing science class, we're doing Integrated
+      Studies. That's not the same thing." The observation is sharp and
+      correct.
+
+  - speaker: Jordan
+    accomplishes: >
+      Gets defensive about Maya's challenge. He flips through the brochure
+      looking for something that addresses her point, then falls back on
+      "but it's still an educational program." He does not concede.
+
+  - speaker: Maya
+    accomplishes: >
+      Presses Jordan's gap for another beat — the standards he cited and
+      what their class actually does are different things — but does not
+      notice that her own video has exactly the same mismatch.
+
+  - speaker: Sam
+    accomplishes: >
+      Quietly observes that everyone brought evidence about their own option
+      and nobody looked at anyone else's. She says it plainly, once, without
+      emphasis. The committee does not respond.
+
+  - speaker: Jordan
+    accomplishes: >
+      Steers toward closing: "Okay, so we all have our stuff — should we
+      just vote next time?" His move to logistics signals that the
+      evidence-sharing phase is over, even though nobody actually looked at
+      anyone else's case.
+
+  - speaker: Maya
+    accomplishes: >
+      Agrees with moving toward a vote, adding that they all did their
+      research so they're ready to decide. Her tone reinforces the
+      comfortable feeling that progress was made, even though nobody changed
+      their mind.

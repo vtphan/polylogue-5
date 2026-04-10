@@ -1,0 +1,56 @@
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Okay so I've been thinking about this and it's honestly kind of obvious — we should go to Wonderland Park."
+      - text: "Roller coasters are literally real physics, like velocity and gravity and stuff, so it's not just fun, it's actual learning but you're actually there experiencing it instead of reading about it in a textbook."
+      - text: "It's basically the perfect field trip."
+
+  - speaker: Priya
+    sentences:
+      - text: "I like your energy, Maya, but I think the science museum might be a stronger fit — we could study how science gets communicated to the public, like how exhibits are designed to teach people."
+      - text: "My mom actually runs the education department there, so she could probably set up a behind-the-scenes tour where we see how they build the exhibits and everything."
+
+  - speaker: Maya
+    sentences:
+      - text: "Wait, that's actually really cool — like we'd get to go places regular visitors don't even see?"
+      - text: "That would make our proposal look so legit."
+
+  - speaker: Sam
+    sentences:
+      - text: "Can I back up for a second?"
+      - text: "We're supposed to ask questions that cut across subjects, right, so shouldn't we start with the question and not the destination?"
+      - text: "Like, what if we looked at the school lunch program — where the food comes from, who picks the menu, what happens when families can't pay — and visited the central kitchen that supplies us?"
+
+  - speaker: Maya
+    sentences:
+      - text: "That's not really a field trip though, that's just like... the cafeteria."
+      - text: "No offense, Sam, but Ms. Tsai's not gonna pick that."
+
+  - speaker: Sam
+    sentences:
+      - text: "It touches science and civics and economics and fairness — that's what cross-disciplinary actually means."
+      - text: "I just think we should figure out what we're asking before we pick where to go."
+
+  - speaker: Priya
+    sentences:
+      - text: "Okay so we have Maya's park, my museum — should we hear from Jordan and Kai before we run out of time?"
+
+  - speaker: Maya
+    sentences:
+      - text: "Yeah, good call — Jordan, Kai, what've you guys got?"
+      - text: "Ooh, the zoo is cool, Jordan volunteers there and they have all those certifications and stuff, and Kai's walking tour is literally free and we'd be back before lunch."
+      - text: "I honestly love all of these."
+
+  - speaker: Sam
+    sentences:
+      - text: "My idea's still on the table, just so everyone knows."
+
+  - speaker: Priya
+    sentences:
+      - text: "So we've got four strong options — the park, the museum, the zoo, and the walking tour."
+      - text: "I think we should each research our proposal and come back next meeting with something more detailed."
+
+  - speaker: Maya
+    sentences:
+      - text: "This is gonna be awesome, we have so many good options."
+      - text: "Next meeting's gonna be great."
