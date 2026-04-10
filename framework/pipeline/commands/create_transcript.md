@@ -209,4 +209,4 @@ ${EPISODE_DIR}/intermediates/transcript_polished.yaml
 
 ## Next Step
 
-Run `/analyze_transcript $1 $2` for this episode — it segments the transcript into passages and produces the expert analysis (facet annotations with `evidence_basis`, unified AI perspectives) and the facilitation guide for the teacher.
+Run `/build_assistive_package $1 $2` for this episode — it runs the four v2 authoring agents (analyst → diagnostic → prose → discussion), the package reviewer, and the deterministic merge script to produce `assistive_package.yaml`.
