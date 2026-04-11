@@ -3,8 +3,8 @@
 
 Checks field presence (required/optional), types, enum constraints,
 list length constraints, and regex patterns. Also runs four conditional
-content rules from framework/docs/story-pipeline-revision.md Part 4D
-and Part 5.5:
+content rules from the story design and information barrier specs
+(see framework/docs/story-design.md):
 
   1. episode.yaml: if target_facets[i].designed_explanation.cognitive_pattern
      is non-null, cognitive_signal is required and non-empty.

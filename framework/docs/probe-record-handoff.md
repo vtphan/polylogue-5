@@ -2,7 +2,7 @@
 
 **Purpose.** Documents the convention between the pipeline's `assistive_package.yaml` and any consuming app's per-student state. The pipeline produces the package; the app owns everything after.
 
-**Source.** `pipeline-revision-plan.md` §2.7.
+**Source.** `pipeline-architecture.md` §2.7.
 
 ---
 

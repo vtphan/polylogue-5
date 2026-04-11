@@ -22,7 +22,7 @@ EPISODE_DIR="artifacts/${STORY_ID}/episodes/episode_${EP_NN}"
 
 ## Inputs
 
-- `${DRAFT_FILE}` — the per-episode draft authored in Phase 6 (Markdown with YAML frontmatter; see Appendix B of `framework/docs/story-pipeline-revision.md`).
+- `${DRAFT_FILE}` — the per-episode draft authored in Phase 6 (Markdown with YAML frontmatter; see `framework/docs/story-design.md` §10 (Per-episode draft template)).
 - `${DESIGN_DOC}` — the parent story design doc (Markdown with YAML frontmatter for story metadata, prose body for premise/setting/cast/arc/stakes).
 
 The operator does NOT provide any additional inline prompt. Everything `planning_agent` needs is in the two files above.

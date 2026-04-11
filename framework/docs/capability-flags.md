@@ -2,7 +2,7 @@
 
 **Purpose.** Documents the capability flags declared in a story's design doc frontmatter. The pipeline reads these flags and conditionally populates or omits fields in the assistive package.
 
-**Source.** `pipeline-revision-plan.md` §4. Governance Rule 2 requires that every flag earn its place against a creative choice multiple stories actually make.
+**Source.** `pipeline-architecture.md` §4. Governance Rule 2 requires that every flag earn its place against a creative choice multiple stories actually make.
 
 ---
 

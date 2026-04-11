@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """Validate a Polylogue story (a design doc plus a directory of per-episode
 drafts) against the cross-episode coverage rules from
-framework/docs/story-pipeline-revision.md Part 3, as updated by the
-Part 13 episodes-first revision.
+framework/docs/story-design.md (coverage contract section).
 
 Inputs (the new model — see Part 13):
   - framework/stories/{story_id}.md — the story design doc.

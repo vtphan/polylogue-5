@@ -17,7 +17,7 @@ The script reads:
 And writes:
     <episode_dir>/assistive_package.yaml
 
-Source: pipeline-revision-plan.md §2.6
+Source: pipeline-architecture.md §2.6
 """
 
 import os

@@ -1,8 +1,6 @@
 # System Architecture
 
-**Status.** Describes **v1 (currently live)**. A v2 pipeline redesign is in flight — see `pipeline-v1-to-v2-migration.md` for the diff and `pipeline-architecture.md` / `pipeline-revision-plan.md` for the target design.
-
-This document describes how the Polylogue system is organized — the relationship between the conceptual framework, the shared pipeline, and the applications that realize the framework for students. For the stage-by-stage pipeline reference, see `pipeline-flow.md`.
+How the Polylogue system is organized — the relationship between the conceptual framework, the shared pipeline, and the applications that realize the framework for students.
 
 ## Three-Layer Structure
 
@@ -14,15 +12,15 @@ This document describes how the Polylogue system is organized — the relationsh
 │                                                             │
 │  framework/                                                 │
 │  ├── docs/           Conceptual framework, story design,    │
-│  │                   operator manual, stories/              │
+│  │                   pipeline architecture, operator manual │
 │  ├── reference/      Source-of-truth data (YAML)            │
-│  ├── schemas/        Shared upstream schemas                │
-│  └── pipeline/       Shared upstream agents, commands,      │
-│                      scripts (stages 1–3)                   │
+│  ├── schemas/        Shared schemas                         │
+│  ├── stories/        Story design docs + per-episode drafts │
+│  └── pipeline/       Shared agents, commands, scripts       │
 └────────────────────────┬────────────────────────────────────┘
                          │ Shared artifacts:
                          │   episode.yaml, transcript.yaml,
-                         │   analysis.yaml, facilitation.yaml
+                         │   assistive_package.yaml
                          ▼
 ┌──────────────────────────────┐  ┌───────────────────────────┐
 │  APPLICATION: Lens           │  │  APPLICATION: Reasoning Lab│
@@ -32,13 +30,9 @@ This document describes how the Polylogue system is organized — the relationsh
 │  ├── schemas/                │  │  ├── schemas/             │
 │  └── pipeline/               │  │  └── pipeline/            │
 │      agents, commands        │  │      agents, commands     │
-│      (stages 4–5)            │  │      (stages 4a–5a)       │
 │                              │  │                           │
-│  App-specific artifacts:     │  │  App-specific artifacts:  │
-│    scaffolding.yaml          │  │    scoring.yaml           │
-│    session.yaml              │  │    competition-           │
-│                              │  │      facilitation.yaml    │
-│                              │  │    session.yaml           │
+│  (app-layer consumption of   │  │  (app-layer consumption   │
+│   assistive_package.yaml)    │  │   of assistive_package)   │
 └──────────────────────────────┘  └───────────────────────────┘
 ```
 
@@ -46,128 +40,91 @@ This document describes how the Polylogue system is organized — the relationsh
 
 ### Framework (`framework/`)
 
-The framework is application-agnostic. It defines the theory, the shared data, and the upstream pipeline that all applications depend on.
+The framework is application-agnostic. It defines the theory, the shared data, and the pipeline that all applications depend on.
 
-| Directory | Contents | Purpose |
-|---|---|---|
-| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `operator-manual.md`, `story-pipeline-revision.md`, `pipeline-flow.md`, `RUNNING-shared-stages.md`, `runtime-package-restructure.md`, `pipeline-v1-to-v2-migration.md`, this file | Theory and shared design |
-| `framework/stories/{story_id}.md` + `framework/stories/{story_id}/episode_{NN}.md` | Live story design docs and per-episode drafts (v2 pipeline input) | Story-level authored content |
-| `framework/stories/archive/v1/` | Frozen v1-pipeline story content (`saving-the-maker-space`, `the-overton-park-sightings`) — historical reference; not read by the v2 pipeline | See `framework/stories/archive/v1/README.md` |
-| `framework/stories/v1-storylines/` | Creative briefs extracted from frozen v1 stories — premise + arc only, no targets/signals; live content for v2 authoring | Reuse v1 narrative bones under new story IDs |
-| `framework/stories/validation/` | Gitignored sidecar reports from `validate_story.py` | Audit trail |
-| `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` | Source-of-truth data. All IDs propagate from here. |
-| `framework/schemas/` | Shared upstream schemas (incl. `episode_plan.yaml`, `episode_writer_input.yaml`) | Contracts for shared artifacts |
-| `framework/pipeline/agents/` | Shared upstream agents (planning, validation, dialog writer, transcript ID, transcript reviewer, evaluator, analysis reviewer, projection reviewer, story_consistency_reviewer) | Shared upstream agents |
-| `framework/pipeline/commands/` | Shared upstream commands (`create_episode`, `brainstorm`, `create_transcript`, `analyze_transcript`) | Shared upstream commands |
-| `framework/pipeline/scripts/` | Shared upstream scripts (`validate_schema.py`, `validate_story.py`, `enumerate_transcript.py`, `review_transcript.py`, `check_analysis_invariants.py`, `log_pipeline_event.py`) | Shared upstream scripts |
-| `artifacts/{story_id}/` | Live v2-pipeline generated artifacts | Pipeline output |
-| `artifacts/archive/v1/` | Frozen v1-pipeline artifacts (`saving-the-maker-space` only — overton never ran) | See `artifacts/archive/v1/README.md` |
+| Directory | Contents |
+|---|---|
+| `framework/docs/` | `conceptual-framework.md`, `story-design.md`, `pipeline-architecture.md`, `operator-manual.md`, `system-architecture.md`, `capability-flags.md`, `probe-record-handoff.md` |
+| `framework/stories/{story_id}.md` | Story design docs (authored prose with YAML frontmatter) |
+| `framework/stories/{story_id}/episode_{NN}.md` | Per-episode drafts (authored prose with YAML frontmatter) |
+| `framework/stories/archive/v1/` | Frozen v1-pipeline stories — historical reference, not read by the pipeline |
+| `framework/stories/v1-storylines/` | Creative briefs extracted from v1 stories — premise + arc only, live content |
+| `framework/stories/validation/` | Gitignored sidecar reports from `validate_story.py` |
+| `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` — source-of-truth data; all IDs propagate from here |
+| `framework/schemas/` | Shared schemas (`episode_plan.yaml`, `episode_writer_input.yaml`, `transcript.yaml`, etc.) |
+| `framework/pipeline/agents/` | Shared agents: planning, validation, dialog writer, transcript ID/reviewer, projection reviewer, story consistency reviewer, analyst, diagnostic, prose, discussion, package reviewer |
+| `framework/pipeline/commands/` | Shared commands: `create_episode`, `create_transcript`, `build_assistive_package`, `brainstorm`, `validate_story` |
+| `framework/pipeline/scripts/` | `validate_schema.py`, `validate_story.py`, `enumerate_transcript.py`, `review_transcript.py`, `merge_assistive_package.py`, `log_pipeline_event.py`, `initialize_polylogue.py` |
 
 ### Applications (`apps/{app-id}/`)
 
-Each application defines how students experience the framework. An application has two parts: a pipeline that generates app-specific artifacts, and an app that consumes all artifacts at runtime.
+Each application defines how students experience the framework. The universal pipeline ends at `assistive_package.yaml`; anything an app does with it happens in the app layer.
 
-| Directory | Contents | Purpose |
-|---|---|---|
-| `apps/{app-id}/docs/` | Instructional design, pipeline spec, app design, game design | Application-specific documentation |
-| `apps/{app-id}/schemas/` | Application-specific artifact schemas | Contracts for app-specific artifacts |
-| `apps/{app-id}/pipeline/agents/` | Application-specific agent prompts | Agents for downstream stages |
-| `apps/{app-id}/pipeline/commands/` | Application-specific commands | Commands for downstream stages |
+| Directory | Contents |
+|---|---|
+| `apps/{app-id}/docs/` | Instructional design, game design, pipeline spec |
+| `apps/{app-id}/schemas/` | Application-specific artifact schemas |
+| `apps/{app-id}/pipeline/` | Application-specific agents and commands |
 
 ## Pipeline Flow
 
-The stage-by-stage reference — shared upstream stages 1–3 plus app-specific stages 4–5 / 4a–5a, with commands, agents, and outputs — lives in `framework/docs/pipeline-flow.md`. Operator runbooks are in `framework/docs/RUNNING-shared-stages.md` (shared) and each app's `RUNNING.md` (app-specific).
+Three shared stages, run per episode in order:
+
+```
+/create_episode  →  /create_transcript  →  /build_assistive_package
+```
+
+See `pipeline-architecture.md` §3.8 for the command table (agents, scripts, outputs per stage) and `operator-manual.md` for the full runbook.
 
 ## Operator Role
 
-The **operator** (a human running these slash commands inside Claude Code) is involved at the *boundaries* of the pipeline, not in the middle of it. The pipeline is autonomous between operator touchpoints — agents produce artifacts, reviewer subagents gate them, and the operator's attention is conserved for decisions only a human can make.
+The **operator** is involved at the *boundaries* of the pipeline, not in the middle. The pipeline is autonomous between operator touchpoints.
 
 ### Authorship touchpoints (operator MUST be involved)
 
 | Touchpoint | What the operator does |
 |---|---|
-| **Story design** (prose authoring) | Authors `framework/stories/{story_id}.md` (the story design doc) and `framework/stories/{story_id}/episode_{NN}.md` (per-episode drafts). See `framework/docs/operator-manual.md`. `/brainstorm` is an optional conversational helper for the per-episode draft. |
-| **Kickoff** (`/create_episode`) | Runs the command with `<story_id> <episode_number>`. The per-episode draft IS the operator prompt — there is no inline input. |
-| **Finalize Lens** (`/configure_session`) | Authors student-facing onboarding strings, per-state instructions, lifeline pool size, reference-list visibility toggles |
-| **Finalize Reasoning Lab** (`/configure_competition`) | Analogous content decisions for the competitive format |
+| **Story design** (Phase 6) | Authors story design doc and per-episode drafts |
+| **Kickoff** (`/create_episode`) | Runs the command — the per-episode draft IS the operator prompt |
+| **App finalization** | App-specific session configuration (app-layer, per Rule 12) |
 
-These encode pedagogical intent that no agent can infer.
+### Autonomous touchpoints (no operator intervention)
 
-### Autonomous touchpoints (operator does NOT intervene mid-flow)
+The middle commands — `/create_transcript` and `/build_assistive_package` — run end-to-end with autonomous reviewer gates. Each has bounded retry budgets. If exhausted, the command halts and the operator decides: edit and resume, accept as-is, or restart upstream.
 
-The middle commands — `/create_transcript`, `/analyze_transcript`, `/design_scaffolding`, `/design_scoring_rubric` — run end-to-end without operator gates. Each command's reviewer subagent (`validation_agent`, `transcript_reviewer`, `analysis_reviewer`, `scaffolding_reviewer`) is the structural quality gate. The operator does not second-guess reviewers in flow.
+### Failure-mode escape hatch
 
-Each producer/reviewer pair has a bounded retry budget (typically 1 revise pass, plus a small regeneration limit on `/create_transcript`). If the budget is exhausted, the command halts — see the escape hatch below.
-
-### Failure-mode escape hatch (reactive, not routine)
-
-If a reviewer's retry budget is exhausted, the command halts with:
-- The latest version of the artifact(s) it was producing
-- The latest reviewer report
-- A pointer to `artifacts/{story_id}/episodes/episode_{NN}/intermediates/` for stage-by-stage debugging
-
-The operator then decides:
-- **Edit and resume** — manually adjust the failing artifact and re-run downstream commands
-- **Accept as-is** — save the latest version and proceed despite reviewer concerns
-- **Restart upstream** — return to an earlier stage (e.g., `/create_episode`) if the failure indicates a structural problem with the input. If the failure is structural at the story level (the same signal fails to land across two episodes), return to prose authoring and revise the per-episode draft, or the story design doc if the drift is character-level.
-
-### Inspection (optional, anytime)
-
-Everything in `artifacts/{story_id}/episodes/episode_{NN}/` is YAML on disk. The operator can inspect any artifact at any time, before or after completion. Intermediate working files are preserved in `artifacts/{story_id}/episodes/episode_{NN}/intermediates/` for stage-by-stage review.
-
-### Why this design
-
-An earlier version of the pipeline interleaved operator gates between each producer and the next stage. Those gates were redundant with the reviewer subagents and put the operator in a continuous-attention role. The autonomous design separates concerns cleanly: **operator owns authorship; agents own production and QA**. The operator's attention is conserved for the touchpoints where their judgment is irreplaceable.
+When a command halts, it provides: the latest artifact version, the latest reviewer report, and the intermediates directory. The operator decides the recovery path. See `operator-manual.md` for the re-planning loop.
 
 ## Artifact Storage
 
-Generated artifacts live in `artifacts/{story_id}/episodes/episode_{NN}/`. Shared and app-specific artifacts are separated by subdirectory:
-
 ```
 artifacts/{story_id}/episodes/episode_{NN}/
-├── episode.yaml                     # Shared (stage 1)
-├── transcript.yaml                  # Shared (stage 2)
-├── analysis.yaml                    # Shared (stage 3)
-├── facilitation.yaml                # Shared (stage 3, enriched by Lens stage 4)
-├── intermediates/                   # Pipeline working files (incl. episode_writer_input.yaml)
-├── lens/                            # Lens-specific artifacts
-│   ├── scaffolding.yaml             # Stage 4
-│   └── session.yaml                 # Stage 5
-└── reasoning-lab/                   # Reasoning Lab-specific artifacts
-    ├── scoring.yaml                 # Stage 4a
-    ├── competition-facilitation.yaml # Stage 4a
-    └── session.yaml                 # Stage 5a
+├── episode.yaml                        # Stage 1 (/create_episode)
+├── transcript.yaml                     # Stage 2 (/create_transcript)
+├── ground_truth_generated.yaml         # Stage 3 (/build_assistive_package)
+├── diagnostic_generated.yaml           # Stage 3
+├── prose_generated.yaml                # Stage 3
+├── discussion_generated.yaml           # Stage 3
+├── assistive_package.yaml              # Stage 3 (merged — the runtime artifact)
+├── pipeline_log.yaml                   # Audit trail
+└── intermediates/
+    └── episode_writer_input.yaml       # Barrier-safe projection
 ```
 
-This structure allows both applications to share the same episode and transcript while producing their own downstream artifacts without collision.
+## Bootstrap
 
-## Bootstrap and Initialization
-
-Each application has an initialization script that syncs pipeline commands and agents to `.claude/` so Claude Code can execute them as slash commands.
-
-The initialization script:
-1. **Clears** `.claude/commands/` and `.claude/agents/` (prevents leakage between applications)
-2. **Copies** shared upstream commands and agents from `framework/pipeline/`
-3. **Copies** application-specific commands and agents from `apps/{app-id}/pipeline/`
-4. **Verifies** reference data in `framework/reference/`
-5. **Verifies** schemas in `framework/schemas/` and `apps/{app-id}/schemas/`
-6. **Verifies** the artifacts directory exists
-
-To initialize:
 ```bash
-# Phase 6 authoring only (shared commands, no app downstream)
+# Phase 6 authoring only
 python3 framework/pipeline/scripts/initialize_polylogue.py
 
 # Full pipeline with an app downstream
 python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
-python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-The script sources from the shared framework plus (when `--app` is given) the target application. Running it clears and replaces the previous application's commands. Omitting `--app` syncs only shared upstream commands and agents, sufficient for Phase 6 authoring and `/validate_story`.
+The script clears `.claude/commands/` and `.claude/agents/`, then syncs shared pipeline files plus (when `--app` is given) app-specific files. Re-run after editing pipeline files or switching applications.
 
 ## Path Conventions
-
-All pipeline commands and agent prompts use paths relative to the project root:
 
 | Reference | Path Pattern |
 |---|---|
@@ -175,9 +132,7 @@ All pipeline commands and agent prompts use paths relative to the project root:
 | Framework schemas | `framework/schemas/{schema}.yaml` |
 | Shared agent prompts | `framework/pipeline/agents/{agent}.md` |
 | Shared scripts | `framework/pipeline/scripts/{script}.py` |
-| App-specific schemas | `apps/{app-id}/schemas/{schema}.yaml` |
-| App-specific agent prompts | `apps/{app-id}/pipeline/agents/{agent}.md` |
-| Generated artifacts (shared) | `artifacts/{story_id}/episodes/episode_{NN}/{artifact}.yaml` |
-| Generated artifacts (app) | `artifacts/{story_id}/episodes/episode_{NN}/{app-id}/{artifact}.yaml` |
+| App-specific artifacts | `apps/{app-id}/pipeline/` |
+| Generated artifacts | `artifacts/{story_id}/episodes/episode_{NN}/` |
 
-No new pipeline file references `configs/` or `registry/` — those are frozen historical reference from the legacy system and are not maintained.
+No pipeline file references `configs/` or `registry/` — those are frozen historical reference from the legacy system.
