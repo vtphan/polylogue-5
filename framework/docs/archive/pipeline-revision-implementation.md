@@ -1,6 +1,6 @@
 # Pipeline Revision Implementation Plan
 
-**Status:** Draft — execution runbook for reaching the **v2 (migration target)** pipeline design. The currently-live pipeline is v1; see `pipeline-v1-to-v2-migration.md` for the diff.
+**Status:** Frozen 2026-04-10 — v2 pipeline is live. This runbook is archived for reference.
 **Implements:** `pipeline-revision-plan.md` (spec) and `pipeline-architecture.md` (rationale).
 **Context.** The diff between the currently-running pipeline and the target design is documented in `pipeline-v1-to-v2-migration.md`.
 

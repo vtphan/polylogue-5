@@ -2,7 +2,7 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> **Pipeline status (2026-04-09).** The system described in this file is **v1 (currently live)**. A v2 pipeline redesign is in flight — the downstream half (`/analyze_transcript` + `/design_scaffolding`) will be replaced by a single `/build_assistive_package` command with four authoring agents, and `/configure_session` / `/configure_competition` will move out of the pipeline and into the app layer. See `framework/docs/pipeline-v1-to-v2-migration.md` for the authoritative v1→v2 diff, and `framework/docs/pipeline-architecture.md` / `pipeline-revision-plan.md` / `pipeline-revision-implementation.md` for the target design. Until v2 ships, this file and the per-app `RUNNING.md` files describe the live v1 system.
+> **Pipeline status (2026-04-10).** The v2 pipeline is **live**. The shared upstream (`/create_episode` → `/create_transcript` → `/build_assistive_package`) produces a single `assistive_package.yaml` per episode. The v1 downstream commands (`/analyze_transcript`, `/design_scaffolding`) and their agents are retired. App-specific downstream (`/configure_session`, `/configure_competition`) has moved out of the pipeline and into the app layer. See `framework/docs/pipeline-v1-to-v2-migration.md` for the v1→v2 diff, and `framework/docs/pipeline-architecture.md` / `pipeline-revision-plan.md` for the design.
 
 ## Project Overview
 
@@ -16,7 +16,7 @@ Polylogue is a research project for teaching critical thinking to middle school 
 
 3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract). Each authored story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The full rationale for the story-based pipeline lives in `framework/docs/story-pipeline-revision.md`; the end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
 
-For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts; `/configure_session`, `/configure_competition`); the middle commands run autonomously, with reviewer subagents as the quality gates.
+For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts); the pipeline commands run autonomously, with reviewer subagents as the quality gates.
 
 ### Applications
 
@@ -43,12 +43,10 @@ STORY (Phase 6, once per story, authored as prose by the operator):
   Validators: validate_story.py + story_consistency_reviewer
 
 EPISODE (Phase 7, per episode in the story):
-  SHARED:  /create_episode → /create_transcript → /analyze_transcript
-                                                          │
-             ┌────────────────────────────────────────────┤
-             ↓                                            ↓
-  LENS:    /design_scaffolding → /configure_session  REASONING LAB:
-                                                     /design_scoring_rubric → /configure_competition
+  SHARED:  /create_episode → /create_transcript → /build_assistive_package
+           (episode plan)    (discussion script)   (analyst → diagnostic →
+                                                    prose → discussion →
+                                                    reviewer → merge)
 ```
 
 ## Artifact Storage
@@ -73,20 +71,16 @@ framework/stories/validation/{story_id}-validation-report-{YYYYMMDD-HHMMSS}.yaml
 
 artifacts/{story_id}/episodes/
     └── episode_{NN}/
-        ├── episode.yaml         # Shared (stage 1 — produced by /create_episode)
-        ├── transcript.yaml      # Shared (stage 2)
-        ├── analysis.yaml        # Shared (stage 3)
-        ├── facilitation.yaml    # Shared (stage 3)
-        ├── intermediates/
-        │   └── episode_writer_input.yaml   # Barrier-safe projection consumed by dialog_writer
-        ├── lens/
-        │   ├── scaffolding.yaml
-        │   ├── facilitation.yaml            # Enriched version
-        │   └── session.yaml
-        └── reasoning-lab/
-            ├── scoring.yaml
-            ├── competition-facilitation.yaml
-            └── session.yaml
+        ├── episode.yaml                    # Stage 1 (/create_episode)
+        ├── transcript.yaml                 # Stage 2 (/create_transcript)
+        ├── ground_truth_generated.yaml     # Stage 3 (/build_assistive_package — analyst)
+        ├── diagnostic_generated.yaml       # Stage 3 (diagnostic)
+        ├── prose_generated.yaml            # Stage 3 (prose)
+        ├── discussion_generated.yaml       # Stage 3 (discussion)
+        ├── assistive_package.yaml          # Stage 3 (merged — the runtime artifact)
+        ├── pipeline_log.yaml               # Audit trail
+        └── intermediates/
+            └── episode_writer_input.yaml   # Barrier-safe projection consumed by dialog_writer
 
 artifacts/archive/v1/                    # Frozen v1-pipeline artifacts (historical reference only)
     saving-the-maker-space/episodes/...  #   — the v1 pilot's generated artifacts
