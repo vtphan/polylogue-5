@@ -1,0 +1,153 @@
+---
+timestamp: '2026-04-11T03:44:42+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-11T03:50:11+00:00'
+command: create_episode
+stage: planning
+agent: planning_agent
+attempt: 1
+verdict: draft_returned
+---
+timestamp: '2026-04-11T03:52:09+00:00'
+command: create_episode
+stage: validation
+agent: validation_agent
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-11T03:52:10+00:00'
+command: create_episode
+stage: schema_validation
+verdict: PASS
+notes: episode.yaml
+---
+timestamp: '2026-04-11T03:52:14+00:00'
+command: create_episode
+stage: schema_validation
+verdict: PASS
+notes: episode_writer_input.yaml
+---
+timestamp: '2026-04-11T03:52:14+00:00'
+command: create_episode
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-11T03:58:08+00:00'
+command: create_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-11T03:58:08+00:00'
+command: create_transcript
+stage: projection_schema
+verdict: PASS
+---
+timestamp: '2026-04-11T04:02:58+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 1
+verdict: LEAK
+retries_remaining: 1
+notes: 'multiple paraphrase leaks: Priya/Kai weaknesses, discussion_arc, turn_outline
+  disambiguation clauses'
+---
+timestamp: '2026-04-11T04:08:32+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 2
+verdict: OK
+retries_remaining: 0
+notes: "rewrite fixed all LEAKs; 2 RISK notes (Maya.prior_beats confirmation-bias\
+  \ rhyme; Kai.strengths consequence_consideration rhyme) \u2014 advisory only"
+---
+timestamp: '2026-04-11T04:10:35+00:00'
+command: create_transcript
+stage: dialog_writer
+agent: dialog_writer
+attempt: 1
+---
+timestamp: '2026-04-11T04:13:07+00:00'
+command: create_transcript
+stage: structural_review
+attempt: 2
+verdict: PASS
+notes: first attempt used wrong schema shape; retry PASS
+---
+timestamp: '2026-04-11T04:14:03+00:00'
+command: create_transcript
+stage: transcript_id
+agent: transcript_id
+attempt: 1
+---
+timestamp: '2026-04-11T04:15:43+00:00'
+command: create_transcript
+stage: transcript_review
+agent: transcript_reviewer
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-11T04:15:44+00:00'
+command: create_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-11T04:32:07+00:00'
+command: build_assistive_package
+stage: start
+verdict: START
+---
+timestamp: '2026-04-11T04:35:42+00:00'
+command: build_assistive_package
+stage: analyst
+agent: analyst_agent
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-11T04:50:06+00:00'
+command: build_assistive_package
+stage: diagnostic
+agent: diagnostic_agent
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-11T04:50:55+00:00'
+command: build_assistive_package
+stage: prose
+agent: prose_agent
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-11T04:53:28+00:00'
+command: build_assistive_package
+stage: discussion
+agent: discussion_agent
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-11T04:54:06+00:00'
+command: build_assistive_package
+stage: merge
+verdict: PASS
+notes: 14/14 integrity checks; diagnostic probe key fixed from t09.sufficiency to
+  t09.inferential_validity
+---
+timestamp: '2026-04-11T05:02:20+00:00'
+command: build_assistive_package
+stage: package_review
+agent: package_reviewer
+attempt: 3
+verdict: ACCEPT
+notes: '3 passes: first REVISE (3 leaks t06/t09/t11), second REVISE (1 leak t07),
+  third ACCEPT'
+---
+timestamp: '2026-04-11T05:02:20+00:00'
+command: build_assistive_package
+stage: save
+verdict: SAVE

@@ -1,0 +1,50 @@
+turns:
+  - speaker: Maya
+    sentences:
+      - text: "Wait — what if we combine my amusement park with your walking tour?"
+      - text: "We could do the walk in the morning and the park in the afternoon."
+  - speaker: Kai
+    sentences:
+      - text: "Okay but that actually works."
+      - text: "The walk downtown is free, and if we split the bus it's way cheaper — we'd be back by 3:30 easy."
+  - speaker: Maya
+    sentences:
+      - text: "Right?? Like, something educational in the morning, fun in the afternoon, everyone literally wins."
+      - text: "That's the whole day right there."
+  - speaker: Sam
+    sentences:
+      - text: "Under what conditions would the amusement park actually teach us something?"
+      - text: "Like, a worksheet, a teacher who knows physics, time to actually measure stuff, and a class that's studying physics."
+  - speaker: Maya
+    sentences:
+      - text: "I mean, we'd figure that out — that's like a planning detail."
+      - text: "Kai, what were you saying about the bus?"
+  - speaker: Kai
+    sentences:
+      - text: "We can figure out the question part later, we need to lock in the logistics first."
+      - text: "So if we leave at 9, walk til 11:30, eat, then bus over…"
+  - speaker: Priya
+    sentences:
+      - text: "Okay, let's be real — at least the museum and the zoo are actual educational institutions."
+      - text: "We're comparing serious options to an amusement park with a walk attached."
+  - speaker: Maya
+    sentences:
+      - text: "Excuse me, the walking tour IS serious, and the park has literal physics in it."
+      - text: "You can't just call it not-educational because you don't like it."
+  - speaker: Kai
+    sentences:
+      - text: "We've already agreed on one thing — that's more than anyone else has done."
+  - speaker: Priya
+    sentences:
+      - text: "Two people liking a trip isn't the same as two people being right about it."
+  - speaker: Sam
+    sentences:
+      - text: "None of this is answering what the class is actually supposed to learn."
+  - speaker: Kai
+    sentences:
+      - text: "Okay but the museum is eighteen dollars a person, plus the bus is another twelve, times twenty-eight kids — that's more than eight hundred bucks."
+      - text: "I'm writing it up here."
+  - speaker: Maya
+    sentences:
+      - text: "See?"
+      - text: "That's why the compromise makes sense — the walking tour is free."

@@ -1,0 +1,120 @@
+story_id: the-field-trip
+episode_number: 3
+scenario_id: the-field-trip-ep-03
+personas:
+- name: Kai
+  perspective: 'He believes his walking-tour proposal and Maya''s amusement-park proposal can be combined
+    into a single day that is both fun and cheap, and he sees the compromise as progress because the logistics
+    actually work. Logistics are what he cares about, and the compromise is a logistics win.
+
+    '
+- name: Maya
+  perspective: 'She believes her amusement-park proposal survives as long as it''s wrapped in Kai''s walking
+    tour, because now the day is both fun and has something that sounds educational in the morning. She
+    is energized by the alliance with Kai and treats the coalition as proof the argument is working.
+
+    '
+- name: Priya
+  perspective: 'She believes the museum is still the right destination, but in this meeting her more immediate
+    goal is to stop the Maya-Kai coalition from becoming the committee''s center of gravity. She reframes
+    the choice as "serious institutions versus an amusement park with a walk attached" to pull Jordan
+    into an implicit bloc with her.
+
+    '
+- name: Sam
+  perspective: 'She believes the committee has drifted further from the question they were asked — not
+    closer to it — and that the compromise Kai and Maya are building satisfies nobody''s actual learning
+    goal. She wants to pull the conversation back to what anyone would actually learn from any of these
+    trips.
+
+    '
+turns:
+- speaker: Maya
+  sentences:
+  - text: Wait — what if we combine my amusement park with your walking tour?
+    sentence_id: turn_01.s01
+  - text: Walk in the morning, park in the afternoon.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Kai
+  sentences:
+  - text: Oh — that actually works.
+    sentence_id: turn_02.s01
+  - text: The walk downtown is free, and if we split the bus with the afternoon it's way cheaper, and
+      we'd be back by 3:30 easy.
+    sentence_id: turn_02.s02
+  turn_id: turn_02
+- speaker: Maya
+  sentences:
+  - text: Right?? Like, something educational in the morning, fun in the afternoon, everyone wins.
+    sentence_id: turn_03.s01
+  - text: That's the whole day right there.
+    sentence_id: turn_03.s02
+  turn_id: turn_03
+- speaker: Sam
+  sentences:
+  - text: Under what conditions would the amusement park actually teach us anything?
+    sentence_id: turn_04.s01
+  - text: Like — a worksheet, a teacher who knows physics, time to actually measure stuff, and a class
+      that's studying physics in the first place.
+    sentence_id: turn_04.s02
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: I mean, we'd figure that out, that's just a planning detail.
+    sentence_id: turn_05.s01
+  - text: Kai, what were you saying about the bus?
+    sentence_id: turn_05.s02
+  turn_id: turn_05
+- speaker: Kai
+  sentences:
+  - text: Yeah, we can figure out the question part later — we need to lock in the logistics first.
+    sentence_id: turn_06.s01
+  - text: So if we leave at 9, walk til 11:30, eat, then bus over…
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Priya
+  sentences:
+  - text: Okay, let's be real — at least the museum and the zoo are actual educational institutions.
+    sentence_id: turn_07.s01
+  - text: We're comparing serious options to an amusement park with a walk attached to it.
+    sentence_id: turn_07.s02
+  turn_id: turn_07
+- speaker: Maya
+  sentences:
+  - text: Excuse me, the walking tour IS serious, and the park has literal physics in it.
+    sentence_id: turn_08.s01
+  - text: You don't get to call it not-educational just because you don't like it.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Kai
+  sentences:
+  - text: I mean, two of us have already agreed on something — that's more than anyone else in this room
+      has done.
+    sentence_id: turn_09.s01
+  turn_id: turn_09
+- speaker: Priya
+  sentences:
+  - text: Two people liking a trip isn't the same thing as two people being right about it.
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Sam
+  sentences:
+  - text: None of this is answering what the class is actually supposed to learn.
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Kai
+  sentences:
+  - text: Okay but hold on — the museum is eighteen dollars a person, plus twelve for the bus, times twenty-eight
+      kids, that's over eight hundred bucks.
+    sentence_id: turn_12.s01
+  - text: I'm writing it up here.
+    sentence_id: turn_12.s02
+  turn_id: turn_12
+- speaker: Maya
+  sentences:
+  - text: See?
+    sentence_id: turn_13.s01
+  - text: That's why the compromise makes sense — the walking tour is free.
+    sentence_id: turn_13.s02
+  turn_id: turn_13

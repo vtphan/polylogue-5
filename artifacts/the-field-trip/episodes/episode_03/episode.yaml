@@ -1,0 +1,548 @@
+# Episode Plan — the-field-trip episode 3: The Alliances
+# Authored by planning_agent from the per-episode draft frontmatter and the
+# story design doc. Reviewers read this file; dialog_writer does NOT.
+
+scenario_id: the-field-trip-ep-03
+story_id: the-field-trip
+episode_number: 3
+
+topic: >
+  The field trip committee's third meeting. Blocs form: Maya and Kai negotiate
+  a compromise that combines the amusement park with a downtown walking tour,
+  while Priya and Jordan close ranks around a "serious institution" framing
+  that pits museum and zoo against the Maya-Kai coalition. Sam is isolated
+  between the two alliances and asks the conditional question nobody follows
+  up on.
+
+context: >
+  Ms. Tsai's 6th grade Integrated Studies class gets one field trip this year.
+  A five-person student committee has been asked to propose both the subject
+  and the destination, and Ms. Tsai has told them she will evaluate their
+  written recommendation on the quality of its reasoning, not on which place
+  they pick. Each committee member walked in with a preference they hadn't
+  examined, and two earlier meetings have hardened the positions without
+  moving anyone's mind. Episode 3 is where the stalemate stops feeling like
+  progress and starts looking like blocs — two alliances that each make the
+  other's arguments look reasonable by comparison, and one member stuck
+  between them.
+
+instructional_goals:
+  - >
+    Notice when a practical reframe ("let's lock in the logistics first")
+    quietly removes the question the group was actually asked.
+  - >
+    Track how the size of an agreement is treated as if it strengthened the
+    argument — two people agreeing is not extra evidence, it is just two
+    people agreeing.
+  - >
+    Distinguish "this institution is prestigious" from "this institution fits
+    the question we are investigating" — two different claims that are easy
+    to collapse.
+  - >
+    Recognize the value of a conditional question ("under what conditions
+    would X actually be true?") even when the room moves past it.
+  - >
+    Notice when a concrete number is introduced but never responded to, and
+    ask what the silence means.
+
+discussion_dynamic: >
+  The committee reconvenes with the stalemate from episode 2 still on the
+  whiteboard. Maya breaks the awkward silence by proposing a compromise to
+  Kai — combine her amusement park with his walking tour — and Kai's
+  enthusiasm surges when he realizes the logistics and cost work out. They
+  build the compromise together in a rush, talking past the question of
+  what anyone would learn from either half of the day. Sam tries to pull
+  the conversation back to the educational question by asking under what
+  conditions the amusement park would actually teach the class something,
+  but Maya deflects and Kai cuts the exchange short with "we can figure out
+  the question part later, we need to lock in the logistics first." The
+  committee lets his deflection stand because moving on feels easier than
+  reopening the argument. Priya, watching the Maya-Kai coalition form,
+  pivots toward Jordan (who is present at the meeting but does not speak
+  in the discussion itself) and reframes the choice as "serious institutions
+  versus an amusement park with a walk attached." Her framing treats
+  institutional prestige as if it were the same thing as educational fit.
+  Maya's case for the compromise has thinned from her episode 1 pitch —
+  she has dropped the physics framing entirely and is arguing from two
+  premises only: the amusement park is fun, and the walking tour means the
+  morning is also educational. She does not notice the argument has less
+  substance than it started with because the alliance with Kai feels like
+  progress. Two people agreeing in the front of the room changes the
+  committee's sense of momentum — the coalition's size is doing the work
+  the argument no longer does, and Priya responds by forming her own bloc
+  not because the museum-zoo comparison is strong but because being
+  outnumbered feels like losing. Late in the meeting Kai, doing cost math
+  on the whiteboard, names the museum's price — eighteen dollars a person
+  plus the bus — and the number sits there. Nobody responds to it. The
+  meeting ends with two blocs, one isolated Sam, and a number on the
+  whiteboard that nobody has addressed. The interaction quality is tense
+  and unresolved, but unlike episode 2's stalemate it feels like visible
+  failure rather than illusory progress.
+
+personas:
+  - name: Kai
+    perspective: >
+      He believes his walking-tour proposal and Maya's amusement-park
+      proposal can be combined into a single day that is both fun and cheap,
+      and he sees the compromise as progress because the logistics actually
+      work. Logistics are what he cares about, and the compromise is a
+      logistics win.
+    knowledge: >
+      Has a downtown walking map with buildings labeled from episode 2,
+      knows bus rental costs from researching his own proposal, and is
+      doing cost math on the whiteboard during the meeting — museum at
+      eighteen dollars per student, bus at another twelve, times twenty-
+      eight students. The numbers are accurate.
+    weaknesses: >
+      Treats logistical constraints as if they were the question the
+      committee was asked, and his pragmatic frame crowds out the
+      educational question so completely that he stops noticing it is
+      missing. When Sam tries to pull the conversation back to what anyone
+      would actually learn, Kai cuts the exchange short with an
+      impatient "we can figure that out later, we need to lock in the
+      logistics first" — not out of fear of conflict, but out of a
+      pragmatist's impatience with arguments that feel unresolvable. The
+      committee accepts the redirect because moving on feels easier than
+      reopening the question.
+    strengths: >
+      When the committee is lost in abstract arguments, Kai is the one
+      who asks what actually happens if they pick a specific option, and
+      he is the first person in the meeting to name a concrete cost —
+      eighteen dollars per student plus the bus — on the whiteboard. The
+      observation is practical, not empathetic, but it is the first time
+      anyone has surfaced a specific consequence of a specific proposal.
+
+  - name: Maya
+    perspective: >
+      She believes her amusement-park proposal survives as long as it's
+      wrapped in Kai's walking tour, because now the day is both fun and
+      has something that sounds educational in the morning. She is
+      energized by the alliance with Kai and treats the coalition as proof
+      the argument is working.
+    knowledge: >
+      Still remembers the physics framing from episode 1 and the YouTube
+      video from episode 2 but has dropped both from her current pitch.
+      She knows the walking tour is free, the bus to the park is cheap if
+      they split it with the morning, and they can be back by 3:30.
+    weaknesses: >
+      Her argument for the compromise has thinned from her original
+      pitch: she has dropped even the physics framing and is arguing
+      from two premises only — the amusement park is fun, and Kai's
+      walking tour means they also do something educational in the
+      morning. The walking tour has become a fig leaf for the amusement
+      park, and she does not notice the argument has less substance than
+      it started with because the alliance with Kai feels like progress.
+      She filters toward her preferred conclusion without noticing she
+      is doing it. When Sam asks under what conditions the amusement park
+      would actually teach them something, Maya deflects with "we'd figure
+      that out" rather than engaging the question, because engaging it
+      would force her to name conditions her current argument does not
+      meet.
+    strengths: >
+      She is energetic and fast at building a case that sounds coherent
+      on first hearing, and her enthusiasm is genuinely infectious — the
+      room wakes up when she starts talking.
+
+  - name: Priya
+    perspective: >
+      She believes the museum is still the right destination, but in
+      this meeting her more immediate goal is to stop the Maya-Kai
+      coalition from becoming the committee's center of gravity. She
+      reframes the choice as "serious institutions versus an amusement
+      park with a walk attached" to pull Jordan into an implicit bloc
+      with her.
+    knowledge: >
+      Has the museum's education-page printout from episode 2, knows
+      Jordan brought the zoo brochure, and has been quietly tracking the
+      room since Maya and Kai started talking over each other.
+    weaknesses: >
+      She treats institutional prestige — "real educational institution" —
+      as if it were evidence of educational fit, when it is actually a
+      category distinction that does not answer the committee's question.
+      The museum-versus-zoo framing she builds is not a strong argument
+      for either destination; it is a positioning move that elevates both
+      her and Jordan's proposals relative to the coalition. She forms her
+      own bloc not because the museum-zoo comparison is strong but
+      because being outnumbered feels like losing. She leans on Jordan's
+      tacit presence to make her framing feel supported — she lets the
+      fact that Jordan agrees with her do work that her actual reasoning
+      does not do.
+    strengths: >
+      She is articulate and reads the room quickly — she notices when
+      the room's momentum shifts and adjusts her approach in real time.
+
+  - name: Sam
+    perspective: >
+      She believes the committee has drifted further from the question
+      they were asked — not closer to it — and that the compromise Kai
+      and Maya are building satisfies nobody's actual learning goal. She
+      wants to pull the conversation back to what anyone would actually
+      learn from any of these trips.
+    knowledge: >
+      Still has the lunch-program questions from episode 2, knows the
+      committee has not engaged with them, and has been listening closely
+      enough to the Maya-Kai compromise to see exactly where its
+      educational reasoning breaks.
+    weaknesses: >
+      She asks her question once, clearly, and when it is deflected she
+      does not push it a second time. She says what she means and does
+      not repeat herself, which means an unreceptive room can let her
+      points slide past without consequence.
+    strengths: >
+      She asks the conditional question nobody else thinks to ask —
+      under what conditions would the amusement park actually teach the
+      class something — and her question is specific enough to name the
+      exact requirements Maya's argument never supplied: a structured
+      worksheet, a teacher who knows physics, time to actually measure
+      something, and a class that is studying physics. Her reframe turns
+      Maya's flat claim into a testable proposition, which is exactly
+      the move the committee needed and did not accept.
+
+target_facets:
+  - facet_id: relevance
+    target_quality: weak
+    primary_lens: scope
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: tunnel_vision
+      social_dynamic: conflict_avoidance
+      interaction_note: >
+        tunnel_vision and conflict_avoidance interact structurally: Kai's
+        narrow pragmatic frame is what makes "let's move on" feel reasonable
+        to the group. If the educational question were on the table, moving
+        on would feel premature. But Kai has already removed it from the
+        table by treating logistics as the whole problem, so his "let's
+        move on" lands as practical rather than evasive. The committee's
+        acquiescence is the response half of the social dynamic.
+      cognitive_signal: >
+        Kai proposes merging his walking tour with Maya's amusement park
+        into a single trip — walk downtown in the morning, bus to the park
+        in the afternoon. He frames the compromise entirely in logistics:
+        the walk is free, the bus is cheap if they split it with the
+        afternoon, they're back by 3:30. At no point does Kai address what
+        the class would learn from either half of the day. His pragmatic
+        frame has crowded out the educational question so completely that he
+        does not notice it is missing.
+      social_signal: >
+        When Sam tries to push back on the compromise ("but what's the
+        question we're investigating?"), Kai cuts the exchange short with
+        "we can figure out the question part later, we need to lock in the
+        logistics first" — and the committee lets the deflection stand
+        because moving on feels easier than reopening the argument. Kai's
+        impatience with abstraction functions as conflict avoidance: he
+        suppresses productive disagreement not out of fear but out of
+        efficiency.
+    carrier_persona: Kai
+    signal_mechanism: >
+      Kai builds the compromise by treating logistics as the whole problem.
+      He talks about cost splits and bus timing and being back by 3:30
+      without ever addressing what the class would learn from either half
+      of the combined trip. When Sam pushes back on the missing educational
+      question, Kai cuts the exchange short with an impatient redirect —
+      "we can figure that out later, we need to lock in the logistics
+      first" — and the committee lets the deflection stand. The pragmatic
+      frame is not wrong about logistics; it is narrow, and the narrowness
+      removes the one question that might have surfaced the real weakness
+      in the compromise.
+
+  - facet_id: source_credibility
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: authority_deference
+      interaction_note: >
+        No cognitive_pattern target on this entry because the failure is
+        primarily social, not cognitive. Priya is not reasoning poorly
+        about the museum in this moment — she is positioning the museum
+        relative to the coalition. The source_credibility weakness is in
+        the framing, not the argument: "real educational institution" is
+        treated as a quality distinction when it is actually a category
+        distinction that does not answer the committee's question. This is
+        the institutional-prestige version of authority_deference, distinct
+        from Priya's personal version (her mother) in episode 1 and
+        Jordan's credential version (state-certified) in episode 2.
+      social_signal: >
+        The Priya-Jordan "serious institution" bloc relies on a shared
+        premise neither of them examines: that institutional prestige is
+        evidence of educational fit. Priya frames the museum-vs-zoo
+        comparison as "at least we're talking about real educational
+        institutions" — positioning both their proposals as serious
+        alternatives to the Maya-Kai coalition — and Jordan nods along,
+        grateful that his zoo credentials are being treated as equivalent
+        to Priya's museum. The authority_deference is mutual: Priya defers
+        to the concept of institutional credibility (which flatters her
+        proposal), and Jordan defers to Priya's framing (which elevates
+        his).
+    carrier_persona: Priya
+    signal_mechanism: >
+      Priya reframes the meeting as "serious institutions versus an
+      amusement park with a walk attached" — treating institutional
+      prestige as if it were evidence of educational fit. The framing
+      positions her museum and Jordan's zoo as equivalent serious options
+      without asking whether either institution actually addresses the
+      committee's question. She looks toward Jordan as she says it, and
+      Jordan (who is present but does not speak during the discussion)
+      visibly relaxes into the framing — his tacit agreement becomes the
+      only support Priya's claim needs. The move is socially effective
+      and epistemically empty: neither of them examines the premise that
+      "real educational institution" is a quality distinction, when it is
+      actually a category distinction the committee's question does not
+      ask about.
+
+  - facet_id: sufficiency
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through: [evidence, scope]
+    designed_explanation:
+      cognitive_pattern: confirmation_bias
+      social_dynamic: group_pressure
+      interaction_note: >
+        The sufficiency weakness here is distinct from episode 2's
+        sufficiency target. Episode 2 was about insufficient evidence (one
+        YouTube video). Episode 3 is about insufficient premises — the
+        argument's logical structure has fewer load-bearing claims than
+        episode 1's version did. confirmation_bias manifests as coalition-
+        building: Maya has filtered her reasoning to the subset that
+        overlaps with Kai's, which means she has dropped the parts of her
+        argument that were strongest (the physics connection, however
+        flawed) and kept the parts that are weakest (fun, logistically
+        easy). The group_pressure is the bloc effect: agreement-between-
+        two-people treated as evidence for the quality of the argument.
+      cognitive_signal: >
+        Maya's argument for the compromise has thinned further from her
+        original pitch. In episode 1 she had a chain (roller coasters →
+        physics → education); now she has dropped even the physics framing
+        and is arguing from two premises only: "the amusement park is fun"
+        and "Kai's walking tour means we also do something educational in
+        the morning." The walking tour has become a fig leaf for the
+        amusement park, and Maya does not notice the argument has less
+        substance than it started with because the alliance with Kai feels
+        like progress.
+      social_signal: >
+        Maya and Kai presenting the compromise as a united front shifts
+        the room's dynamics: two people agreeing feels like momentum,
+        and the committee treats the coalition's size as if it strengthened
+        the argument. Priya responds by forming her own bloc with Jordan,
+        not because the museum-zoo comparison is strong but because being
+        outnumbered feels like losing.
+    carrier_persona: Maya
+    signal_mechanism: >
+      Maya's case for the compromise has lost its load-bearing claims.
+      She has dropped the physics framing entirely and is arguing from
+      only two premises — the amusement park is fun, and the walking
+      tour means the morning is also educational. She does not notice
+      the argument has less substance than it started with, because the
+      alliance with Kai is functioning as the proof the argument no
+      longer supplies. When Maya and Kai present the compromise as a
+      united front, the room treats the size of the agreement as if it
+      were extra evidence, and Priya responds by closing ranks with
+      Jordan — not because her framing is strong but because being
+      outnumbered feels like losing. The bloc effect is the group
+      pressure; the thinning of Maya's premises is the confirmation
+      bias expressed as coalition-building.
+
+target_strengths:
+  - facet_id: condition_sensitivity
+    primary_lens: scope
+    also_visible_through: [logic, evidence]
+    carrier_persona: Sam
+    signal_mechanism: >
+      Sam asks the conditional question nobody else thinks to ask: "under
+      what conditions would the amusement park actually teach us
+      something?" The question names the exact requirements Maya's
+      argument needs but has never specified — a structured worksheet, a
+      teacher who knows physics, time to actually measure something, and
+      a class that is studying physics. The reframe turns Maya's flat
+      claim into a testable proposition. Maya deflects with "we'd figure
+      that out" and nobody follows up, but the question does its work in
+      the transcript: the conditions are on the table, even if the
+      committee refuses to pick them up. Sam says it once, clearly, and
+      does not repeat herself.
+    contrastive_note: >
+      Here Sam reframes an unconditional claim into a conditional one,
+      where in other scenarios the character defending the claim would
+      be allowed to treat it as settled.
+
+  - facet_id: consequence_consideration
+    primary_lens: scope
+    also_visible_through: [logic]
+    carrier_persona: Kai
+    signal_mechanism: >
+      Late in the meeting, during the logistics back-and-forth, Kai is
+      the one who asks "okay but what actually happens if we pick the
+      museum?" and surfaces the cost on the whiteboard — eighteen
+      dollars per student plus the bus, times twenty-eight kids. The
+      number sits there. Nobody responds to it directly. The
+      observation is practical and not empathetic — Kai is tracking
+      the budget, not asking who can't afford it — but it is the first
+      time anyone in the committee has named a concrete consequence of
+      a specific proposal. The strength is genuine even though the
+      motivation is narrow; the number he surfaces is the seed that
+      will return in the next meeting.
+    contrastive_note: >
+      Here Kai names a specific, concrete consequence of a specific
+      option, where in earlier meetings the committee argued about
+      destinations in the abstract without anyone asking what would
+      actually happen.
+
+discussion_arc: >
+  The committee reconvenes into an awkward silence — the stalemate from
+  the previous meeting is still on the whiteboard and nobody wants to go
+  first. Maya breaks the silence by floating a compromise to Kai: combine
+  his walking tour with her amusement park. Kai's enthusiasm surges
+  immediately when he realizes the logistics work, and the two of them
+  build the compromise together in a rush, talking over each other with
+  growing excitement and trading cost numbers and schedule details. The
+  conversation is all logistics; the educational question is absent. Sam
+  waits for a gap and then asks under what conditions the amusement park
+  would actually teach them something. Maya deflects, and Kai cuts the
+  exchange short with an impatient "we can figure that out later, we need
+  to lock in the logistics first." The committee lets the deflection
+  stand because moving on feels easier than reopening the argument. Priya
+  has been watching the coalition form, and she pivots — looking toward
+  Jordan, who is present at the table but says nothing — and reframes
+  the choice as "serious institutions versus an amusement park with a
+  walk attached." Jordan's silent presence becomes tacit support for her
+  framing, and the Priya-Jordan bloc solidifies without Jordan needing
+  to speak. The room now has two alliances and Sam sitting between them.
+  Kai, still in logistics mode, does cost math on the whiteboard and
+  names the museum's price — eighteen dollars a person plus twelve for
+  the bus, times twenty-eight kids. The number lands heavily and then
+  just sits there. Nobody responds. The meeting ends with the two blocs
+  still in place, Sam's conditional question still unanswered, and Kai's
+  cost number written on the whiteboard next to Sam's crossed-out
+  proposal from the first meeting. The disagreement is unresolved but
+  the battle lines are drawn, and the committee can feel the failure
+  even if they cannot name it.
+
+turn_outline:
+  - speaker: Maya
+    accomplishes: >
+      Breaks the opening silence by floating an idea directly to Kai:
+      "Wait — what if we combine my amusement park with your walking
+      tour? We could do the walk in the morning and the park in the
+      afternoon." She pitches it as a brainstorm, not a formal proposal.
+
+  - speaker: Kai
+    accomplishes: >
+      Moves on Maya's idea — this is the first half of the move/response
+      pair for Kai's practical redirect. He grabs the compromise and
+      starts building it in logistics terms: the walk downtown is free,
+      the bus to the park gets cheaper if they split it with the
+      afternoon, they can be back by 3:30. His voice picks up speed. He
+      is solving a scheduling puzzle, not a teaching question.
+
+  - speaker: Maya
+    accomplishes: >
+      Rides Kai's energy and adds her own rush of enthusiasm, framing
+      the compromise as the obvious answer: fun in the afternoon,
+      something educational in the morning, everyone wins. She has
+      dropped the physics reasoning from her earlier pitch without
+      noticing. Priya glances at Jordan, who does not speak.
+
+  - speaker: Sam
+    accomplishes: >
+      Waits for a gap and then asks the conditional question, plainly
+      and without emphasis: "Under what conditions would the amusement
+      park actually teach us something?" She lists the things that
+      would have to be true — a structured worksheet, a teacher who
+      knows physics, time to measure something, a class that studies
+      physics. She says it once and does not push.
+
+  - speaker: Maya
+    accomplishes: >
+      Deflects Sam's question rather than engaging it. "We'd figure
+      that out — that's like a planning detail." She does not examine
+      whether her current argument actually meets any of the conditions
+      Sam just named, because engaging the question would force her to
+      notice that it does not.
+
+  - speaker: Kai
+    accomplishes: >
+      Completes the response half of the move/response pair for his
+      practical redirect. He cuts the exchange short with impatience,
+      not anger: "We can figure out the question part later, we need
+      to lock in the logistics first." He turns back to the cost math
+      on the whiteboard. The committee lets the deflection stand
+      because moving on feels easier than reopening the argument — Sam
+      does not press a second time, and nobody else picks up her
+      question.
+
+  - speaker: Priya
+    accomplishes: >
+      Moves on the Maya-Kai coalition — this is the first half of the
+      move/response pair for the "serious institution" framing. Priya
+      has been watching the coalition form and now pivots. She looks
+      toward Jordan, who is sitting across from her, and reframes the
+      whole choice: "Okay but let's be real — at least the museum and
+      the zoo are actual educational institutions. We're comparing
+      serious options to an amusement park with a walk attached." The
+      framing treats prestige as if it were the same thing as
+      educational fit.
+
+  - speaker: Maya
+    accomplishes: >
+      Responds to Priya's reframe — this is the second half of the
+      move/response pair for the "serious institution" framing. Maya
+      pushes back on the framing but does so in the same coalition
+      register that Priya used: "Excuse me, the walking tour IS
+      serious, and the park has literal physics in it." She treats
+      Priya's bloc as a rival team to beat, not a claim to examine.
+      Jordan's silent presence on Priya's side of the table becomes
+      the visible support Priya's framing needed — nobody says his
+      name, but the committee can feel him lined up with her.
+
+  - speaker: Kai
+    accomplishes: >
+      Moves on Priya's framing — this is the first half of the
+      move/response pair for the bloc-as-evidence dynamic. Kai doubles
+      down on the coalition's numerical advantage without saying so
+      explicitly: "We've already agreed on one thing — that's more than
+      anyone else has done." He treats two people agreeing as if it
+      were progress toward the committee's goal, rather than the
+      formation of a bloc.
+
+  - speaker: Priya
+    accomplishes: >
+      Completes the response half of the move/response pair for the
+      bloc-as-evidence dynamic. She closes ranks with Jordan tighter
+      rather than engaging Kai's claim: "Two people liking a trip isn't
+      the same as two people being right about it." She says it crisply,
+      then glances at Jordan again — without naming him — to line up
+      their implicit bloc as a counter-balance. She is not making the
+      museum argument stronger; she is making the coalition against
+      Maya and Kai more visible.
+
+  - speaker: Sam
+    accomplishes: >
+      Tries once more to pull the conversation back to the educational
+      question, plainly: "None of this is answering what the class is
+      supposed to learn." Her voice is quiet and the room's energy is
+      elsewhere. She does not repeat herself. The committee does not
+      respond directly.
+
+  - speaker: Kai
+    accomplishes: >
+      Surfaces the concrete cost number on the whiteboard. Still in
+      logistics mode, he runs the math out loud: "Okay but the museum
+      is eighteen dollars a person, plus the bus is another twelve,
+      times twenty-eight kids — that's more than eight hundred bucks."
+      He writes it on the board. The number lands heavily. The strength
+      is genuine — this is the first time anyone has named a specific
+      consequence of a specific proposal — even though Kai's motive is
+      budget-tracking, not equity.
+
+  - speaker: Maya
+    accomplishes: >
+      Reacts to Kai's number only as a scoring point against Priya's
+      bloc, not as a problem to solve: "See? That's why the compromise
+      makes sense — the walking tour is free." She does not ask who
+      can't afford the eight hundred dollars; she uses the number as
+      ammunition. The committee does not follow up on the number, does
+      not follow up on Sam's conditions, and does not follow up on
+      Priya's framing. The meeting ends with two blocs, one isolated
+      Sam, a conditional question hanging, and the cost number sitting
+      on the whiteboard next to Sam's crossed-out proposal from the
+      first meeting.

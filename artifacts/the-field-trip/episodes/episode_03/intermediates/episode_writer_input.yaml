@@ -1,0 +1,326 @@
+# Episode Writer Input — the-field-trip episode 3
+# Barrier-safe projection for dialog_writer. No framework terminology.
+
+story_premise: >
+  Ms. Tsai's 6th grade Integrated Studies class gets one field trip this year.
+  A five-person student committee must propose a subject and a destination,
+  and Ms. Tsai will evaluate their written recommendation on the quality of
+  its reasoning, not on which place they pick.
+
+episode_premise: >
+  The committee's third meeting. The stalemate from the previous meeting has
+  hardened into alliances. Maya and Kai discover they can strike a tactical
+  deal — Maya's amusement park is fun and Kai's walking tour is cheap, so
+  they negotiate a combined day that satisfies both their preferences but
+  quietly drops the question of what anyone would actually learn. Priya,
+  watching the coalition form, closes ranks with Jordan and reframes the
+  choice as "serious institutions versus an amusement park with a walk
+  attached." Sam is stuck between the two sides and asks the conditional
+  question nobody follows up on. Late in the meeting Kai writes a cost
+  number on the whiteboard and nobody responds to it. The committee ends
+  the meeting more visibly stuck than they were when they started.
+
+episode_number: 3
+
+previously: >
+  In the last meeting, Jordan brought the zoo's brochure, Maya brought a
+  YouTube clip of a teacher at an amusement park, Priya brought a printout
+  from the museum's education page, and Kai brought a downtown walking map.
+  Sam brought a list of questions about the school lunch program — who
+  decides the menu, where the food comes from, what happens when a family
+  can't pay — and the committee heard her politely and moved on. The
+  whiteboard still has four proposals, and Sam's is still crossed out.
+
+lead_characters:
+  - name: Kai
+    voice: >
+      Pragmatic, impatient, and fast when he sees a puzzle he can solve.
+      Talks in short clipped sentences. Not unfriendly, just efficient —
+      he gets visibly frustrated when conversations loop back to
+      abstractions he thinks are settled. Writes on the whiteboard in
+      all caps. Says "okay but" a lot.
+    perspective: >
+      He thinks the combined walking-tour-plus-amusement-park day is
+      progress because the logistics actually work — it's cheap, it's
+      on schedule, and he's already done the math. He treats landing a
+      workable plan as the committee's job and is eager to move past
+      arguments that feel unresolvable.
+    knowledge: >
+      Has his downtown walking map with buildings labeled from the
+      earlier meeting. Knows bus rental costs and can do the money math
+      in his head — the museum at eighteen dollars per student, twelve
+      more for the bus, times twenty-eight kids. The numbers are
+      accurate.
+    weaknesses: >
+      He gets visibly restless when the conversation turns to what the
+      class would actually learn on the trip, and he pulls it back to
+      schedule and bus and money every time. When Sam asks her question
+      about the amusement park, Kai waits a beat and then says "we can
+      figure that out later, we need to lock in the logistics first,"
+      and the room lets him say it. He is not rude about it. He just
+      sounds like somebody who has a real task in front of him and
+      wants the committee to do the task.
+    strengths: >
+      When the rest of the committee is lost in abstract arguments, he
+      is the one who asks what would actually happen if they picked a
+      specific option. He is the first person in this meeting to name
+      a specific dollar amount out loud. He runs the math on the museum
+      — eighteen per student, plus the bus, times twenty-eight kids —
+      writes it on the whiteboard in block capitals, and lets it sit.
+    prior_beats: >
+      In the earlier meetings, Kai brought an annotated downtown map and
+      stayed quiet during the evidence-sharing phase. He has been
+      watching the others talk past each other and has been waiting for
+      something he could actually solve.
+
+  - name: Maya
+    voice: >
+      Fast-talking, enthusiastic, a little breathless. She talks in
+      chains — one idea tumbling into the next. High-energy and
+      friendly, not aggressive. Uses "literally" a lot.
+    perspective: >
+      She believes her amusement-park idea survives as long as it's
+      wrapped inside Kai's walking tour — now the day is fun AND has
+      something that sounds educational in the morning. She feels like
+      the alliance with Kai is proof the argument is working.
+    knowledge: >
+      She remembers her physics pitch from the first meeting and the
+      teacher-with-roller-coaster video from the second, but she's
+      dropped both from her current pitch. She knows the walking tour is
+      free, the bus to the park is cheap if they split the cost with
+      the morning, and the day is back before 3:30.
+    weaknesses: >
+      Her pitch has changed and she hasn't said so out loud. In the
+      first meeting she was arguing that roller coasters are applied
+      physics and physics is education and therefore the amusement
+      park is the smart choice. In this meeting she is arguing that
+      the amusement park is fun and the walking tour is the
+      educational part of the day. When Sam asks her to name the
+      conditions under which the amusement park would actually teach
+      the class anything — a worksheet, a physics teacher, time to
+      measure something, a class that studies physics — Maya waves it
+      off. "We'd figure that out. That's like a planning detail." She
+      says it cheerfully and keeps going.
+    strengths: >
+      She is quick at building a case that sounds coherent on first
+      hearing, and her energy is genuinely infectious — the room wakes
+      up when she starts talking.
+    prior_beats: >
+      In earlier meetings, Maya opened with the high-energy amusement
+      park pitch, then brought a YouTube video as her evidence. She
+      caught a real flaw in Jordan's zoo case last meeting — that his
+      credentials didn't match what the class actually studies — but
+      didn't notice the same problem applied to her own pitch.
+
+  - name: Priya
+    voice: >
+      Articulate, confident, and careful with words. She speaks in
+      complete sentences and chooses them like a debater — she is
+      almost always the most composed person in the room. Her tone
+      cools when the conversation gets competitive; it warms when she
+      is asking a question for its own sake. Uses "let's be real" when
+      she is about to reframe the conversation.
+    perspective: >
+      She still believes the museum is the right destination, and in
+      this meeting she is nervous watching Maya and Kai build a
+      compromise that is taking up all the air in the room. She wants
+      Jordan's voice back in the conversation. She is watching for an
+      opening and she cares about what the room looks like.
+    knowledge: >
+      She has the museum's education-page printout from the previous
+      meeting and she knows Jordan brought the zoo brochure. She has
+      been watching the room closely since Maya and Kai started
+      building their compromise.
+    weaknesses: >
+      When her opening comes, she uses the phrase "real educational
+      institution" and she uses it more than once. It is the phrase
+      that groups the museum and the zoo together on one side of the
+      table, and she glances toward Jordan each time she says it. She
+      likes how the sentence makes the room feel — it sounds like the
+      grown-up version of the argument — and she keeps coming back to
+      it. When Maya pushes back she doesn't re-examine the phrase. She
+      says it again, more crisply.
+    strengths: >
+      She reads the room faster than anyone else and adjusts her
+      approach in real time. She is composed under pressure and can
+      hold a line of argument together even when the room is noisy.
+    prior_beats: >
+      In earlier meetings, Priya pitched the science museum with her
+      usual composure and brought an education-page printout. She has
+      been quietly watching the committee drift.
+
+  - name: Sam
+    voice: >
+      Quiet, plain-spoken, a little dry. She asks questions more than
+      she makes declarations. Not timid — just economical. She says
+      what she means once and doesn't repeat herself.
+    perspective: >
+      She thinks the committee has drifted further from the question
+      they were asked, not closer to it, and that the combined trip
+      Kai and Maya are building satisfies nobody's actual learning
+      goal. She wants to pull the conversation back to what anyone
+      would actually learn from any of these trips.
+    knowledge: >
+      Still has the lunch-program questions from the earlier meeting.
+      She has been listening closely to the Maya-Kai compromise, and
+      she has a specific question about it. She is waiting for a gap
+      to ask it.
+    weaknesses: >
+      She asks her question once, clearly, and when it gets deflected
+      she does not push it a second time. She says what she means and
+      does not repeat herself, which means an unreceptive room can let
+      her points slide past without consequence.
+    strengths: >
+      She asks the question plainly, with the exact wording she has
+      been holding: "Under what conditions would the amusement park
+      actually teach us something?" Then she names the four things —
+      a structured worksheet, a teacher who knows physics, time to
+      actually measure something, a class that is studying physics —
+      one after the other, without emphasis, and stops.
+    prior_beats: >
+      In the first meeting, Sam proposed studying the school lunch
+      program and was dismissed. In the second meeting she brought a
+      list of questions about the lunch program that the committee
+      heard politely and ignored. Her proposal is still crossed out on
+      the whiteboard.
+
+discussion_arc: >
+  The committee reconvenes into an awkward silence. Nobody wants to go
+  first. Maya finally breaks it by floating a brainstorm directly at
+  Kai — combine his walking tour with her amusement park. Kai's energy
+  surges the moment he hears it, and the two of them start building
+  the combined day together in a rush, trading cost numbers and
+  schedule details and talking over each other. The conversation runs
+  entirely on logistics. Priya is watching from across the table.
+  Jordan is sitting next to Priya and does not speak for the whole
+  meeting. Sam is between them and listening. Sam waits for a gap and
+  asks her question about the amusement park, naming her four
+  conditions plainly. Maya waves it off. Kai turns back to the
+  whiteboard and says "we can figure out the question part later, we
+  need to lock in the logistics first," and the moment closes.
+  Priya takes the opening. She looks toward Jordan and says "Okay but
+  let's be real — at least the museum and the zoo are actual
+  educational institutions." She lets the sentence hang. Jordan does
+  not say anything, but he is visibly lined up next to her at the
+  table and Priya uses his silence like a second voice. Maya pushes
+  back in the same register — "excuse me, the walking tour IS serious,
+  and the park has literal physics in it" — and Kai adds "we've
+  already agreed on one thing, that's more than anyone else has
+  done." Priya's response is crisper: "Two people liking a trip isn't
+  the same as two people being right about it." She glances at
+  Jordan again. The table has sorted into two sides. Sam tries once
+  more to pull the conversation back to what the class is supposed
+  to learn; the room's energy is elsewhere and she does not repeat
+  herself. Late in the meeting Kai, still in logistics mode, runs the
+  money math out loud — eighteen dollars a student, twelve for the
+  bus, times twenty-eight kids, over eight hundred bucks — and he
+  writes the number on the whiteboard. Nobody says anything. He sits
+  back. Then Maya picks the number up and uses it against Priya's
+  side of the table — "see? that's why the compromise makes sense,
+  the walking tour is free." The meeting ends with two blocs at the
+  table, Sam between them, Kai's cost number sitting on the
+  whiteboard next to Sam's crossed-out proposal from the first
+  meeting.
+
+turn_outline:
+  - speaker: Maya
+    accomplishes: >
+      Breaks the opening silence by floating an idea directly to Kai:
+      "Wait — what if we combine my amusement park with your walking
+      tour? We could do the walk in the morning and the park in the
+      afternoon." She pitches it as a brainstorm, not a formal proposal.
+
+  - speaker: Kai
+    accomplishes: >
+      Grabs Maya's idea and starts building it out in logistics terms.
+      He talks fast: the walk downtown is free, the bus to the park
+      gets cheaper if they split it with the afternoon, they can be
+      back by 3:30. His voice picks up speed. He sounds like someone
+      who has just been handed a puzzle he can actually solve, and
+      he is solving it.
+
+  - speaker: Maya
+    accomplishes: >
+      Rides Kai's energy and adds her own rush of enthusiasm, framing
+      the combined trip as obviously the right answer: fun in the
+      afternoon, something educational in the morning, everyone wins.
+      She does not mention the physics framing from her earlier
+      pitch. The whole sell is fun-in-the-afternoon,
+      something-educational-in-the-morning, everyone-wins. Priya is
+      watching from across the table; Jordan is sitting next to Priya
+      and does not say anything.
+
+  - speaker: Sam
+    accomplishes: >
+      Waits for a gap and asks plainly: "Under what conditions would
+      the amusement park actually teach us something?" She then names
+      the things that would have to be true — a worksheet, a teacher
+      who knows physics, time to actually measure something, and a
+      class that is studying physics. She says it once, without
+      emphasis, and does not push.
+
+  - speaker: Maya
+    accomplishes: >
+      Waves Sam's question off. "We'd figure that out — that's like a
+      planning detail." She says it cheerfully and turns back toward
+      Kai and the whiteboard.
+
+  - speaker: Kai
+    accomplishes: >
+      Turns back to the whiteboard and says, without heat, "We can
+      figure out the question part later, we need to lock in the
+      logistics first." He starts sketching the schedule. The exchange
+      closes. Nobody picks Sam's question back up.
+
+  - speaker: Priya
+    accomplishes: >
+      Has been watching the coalition form and now takes her opening.
+      She looks toward Jordan, who is sitting across from her, and
+      says: "Okay, let's be real — at least the museum and the zoo
+      are actual educational institutions. We're comparing serious
+      options to an amusement park with a walk attached." She lets
+      the sentence hang.
+
+  - speaker: Maya
+    accomplishes: >
+      Pushes back on Priya's framing in the same register Priya just
+      used. "Excuse me, the walking tour IS serious, and the park
+      has literal physics in it." Jordan is still sitting next to
+      Priya and has still not said anything, and everyone at the
+      table can see him lined up next to her.
+
+  - speaker: Kai
+    accomplishes: >
+      Adds, flat and a little proud: "We've already agreed on one
+      thing — that's more than anyone else has done."
+
+  - speaker: Priya
+    accomplishes: >
+      Answers crisply without looking at Kai: "Two people liking a
+      trip isn't the same as two people being right about it." She
+      glances at Jordan as she says it. The table is now visibly
+      sorted into two sides.
+
+  - speaker: Sam
+    accomplishes: >
+      Tries once more, quietly: "None of this is answering what the
+      class is actually supposed to learn." The room's energy is
+      elsewhere. She does not repeat herself, and nobody responds
+      directly.
+
+  - speaker: Kai
+    accomplishes: >
+      Runs the money math out loud, still in logistics mode: "Okay
+      but the museum is eighteen dollars a person, plus the bus is
+      another twelve, times twenty-eight kids — that's more than
+      eight hundred bucks." He writes the number on the board.
+      Nobody says anything. He sits back.
+
+  - speaker: Maya
+    accomplishes: >
+      Picks up Kai's number and uses it against Priya's side of the
+      table: "See? That's why the compromise makes sense — the
+      walking tour is free." The meeting ends with two blocs at the
+      table, Sam between them, and Kai's cost number sitting on the
+      whiteboard next to Sam's crossed-out proposal from the first
+      meeting.
