@@ -4,15 +4,16 @@
 Clears .claude/commands/ and .claude/agents/ (preventing cross-app leakage),
 then syncs shared upstream commands/agents from framework/pipeline/ plus
 app-specific commands/agents from apps/<app>/pipeline/. Verifies reference
-data, schemas, and the artifacts directory.
+data, schemas, and the shared artifact/report directories.
 
 Usage:
     python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
     python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
-    python3 framework/pipeline/scripts/initialize_polylogue.py  # shared only
+    python3 framework/pipeline/scripts/initialize_polylogue.py  # story-authoring commands only
 
 If --app is omitted, only shared upstream commands and agents are synced
-(sufficient for Phase 6 authoring and iterative /validate_story passes).
+(sufficient for story authoring, `brainstorm_story`, `brainstorm_episode`,
+and iterative `/validate_story` passes).
 """
 
 import argparse
@@ -97,7 +98,8 @@ def verify_files(project_root, paths, parse_yaml=False):
 def initialize(project_root, app_id):
     ok = True
     app = APPS.get(app_id) if app_id else None
-    label = app["label"] if app else "shared-only"
+    label = app["label"] if app else "story-authoring"
+    count_label = app["label"] if app else "app-specific"
 
     # --- Clean .claude/ to prevent leakage between applications ---
     claude_dir = os.path.join(project_root, ".claude")
@@ -120,7 +122,7 @@ def initialize(project_root, app_id):
             commands_dest,
         )
     print(f"Commands: synced {n_fw_cmd + n_app_cmd} files to .claude/commands/ "
-          f"({n_fw_cmd} shared + {n_app_cmd} {label})")
+          f"({n_fw_cmd} shared + {n_app_cmd} {count_label})")
 
     # --- Sync agents ---
     n_fw_agt = sync_glob(
@@ -134,7 +136,7 @@ def initialize(project_root, app_id):
             agents_dest,
         )
     print(f"Agents:   synced {n_fw_agt + n_app_agt} files to .claude/agents/ "
-          f"({n_fw_agt} shared + {n_app_agt} {label})")
+          f"({n_fw_agt} shared + {n_app_agt} {count_label})")
 
     # --- Verify framework reference data ---
     ref_dir = os.path.join(project_root, "framework", "reference")
@@ -172,7 +174,7 @@ def initialize(project_root, app_id):
     else:
         n_app_schema = len(app["schemas"]) if app else 0
         print(f"Schemas:  {len(schema_list)} files verified "
-              f"({len(FRAMEWORK_SCHEMAS)} shared + {n_app_schema} {label})")
+              f"({len(FRAMEWORK_SCHEMAS)} shared + {n_app_schema} {count_label})")
 
     # --- Ensure authored sidecar directories ---
     artifacts = os.path.join(project_root, "artifacts")
@@ -195,8 +197,10 @@ def initialize(project_root, app_id):
             print(f"\n{label} pipeline initialized. "
                   f"Run /create_episode <story_id> <episode_number> to begin.")
         else:
-            print("\nShared pipeline initialized (no app downstream). "
-                  "Sufficient for Phase 6 authoring and iterative /validate_story.")
+            print("\nStory-authoring command set initialized. "
+                  "Use `brainstorm_story`, `brainstorm_episode`, and "
+                  "`/validate_story` to prepare a story before running the "
+                  "episode artifact pipeline.")
     else:
         print("\nERROR: Missing files — see above.", file=sys.stderr)
 
