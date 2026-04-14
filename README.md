@@ -7,16 +7,18 @@ A research project for teaching critical thinking to middle school students (gra
 - **`framework/`** — The application-agnostic theory (three evaluative lenses, ten hidden facets, cognitive patterns, social dynamics) and the shared pipeline that generates per-episode artifacts.
 - **`apps/`** — Application-specific implementations (Lens, Reasoning Lab) that consume the pipeline's output.
 - **`artifacts/`** — Generated story and episode artifacts (YAML files).
+- **`docs/`, `configs/`, `registry/`** — Legacy roots from the previous Polylogue architecture. Kept only as historical reference.
 
 ## Documentation
 
 | Document | Purpose |
 |---|---|
 | `framework/docs/conceptual-framework.md` | The reasoning quality ontology — lenses, facets, explanatory variables |
-| `framework/docs/story-design.md` | Operator guidance for designing stories — cast rules, coverage, drafts, pipeline design guidance |
-| `framework/docs/pipeline-architecture.md` | Pipeline specification — assistive package schemas, agent architecture, governance rules |
-| `framework/docs/operator-manual.md` | End-to-end runbook — prose authoring (Phase 6) and pipeline execution (Phase 7) |
-| `framework/docs/system-architecture.md` | System structure — three-layer model, directory layout, conventions |
+| `framework/docs/story-authoring.md` | Story-level workflow — design doc, episode drafts, and `/validate_story` |
+| `framework/docs/artifacts-generation.md` | Episode-level pipeline — `/create_episode` → `/create_transcript` → `/build_assistive_package` |
+| `framework/docs/operator-guide.md` | Short practical runbook |
+| `framework/docs/architecture.md` | Repository and system structure |
+| `framework/docs/README.md` | Entry point to the live docs set |
 
 ## Pipeline
 
@@ -26,13 +28,19 @@ Stories are authored as prose (a design doc + per-episode drafts), then each epi
 /create_episode  →  /create_transcript  →  /build_assistive_package
 ```
 
-The pipeline is operated through Claude Code. Initialize with:
+The pipeline is operated through Claude Code. For the story-level command set, initialize with:
+
+```bash
+python3 framework/pipeline/scripts/initialize_polylogue.py
+```
+
+For the full app-facing pipeline:
 
 ```bash
 python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 ```
 
-See `framework/docs/operator-manual.md` for the full runbook.
+See `framework/docs/README.md` for the current documentation set.
 
 ## Applications
 

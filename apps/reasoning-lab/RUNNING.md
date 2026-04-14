@@ -2,7 +2,7 @@
 
 The Reasoning Lab pipeline turns one per-episode draft into scoring and competition artifacts. The shared upstream stages produce `assistive_package.yaml`; the Reasoning Lab stages consume it.
 
-For operating principles and shared stage details, see `framework/docs/operator-manual.md`. For the prose-first authoring loop, see `framework/docs/story-design.md`.
+For the short runbook, see `framework/docs/operator-guide.md`. For story-level authoring and validation, see `framework/docs/story-authoring.md`. For the shared episode pipeline, see `framework/docs/artifacts-generation.md`.
 
 ---
 
@@ -18,7 +18,7 @@ Clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream com
 
 ## Shared stages
 
-Run `/create_episode` → `/create_transcript` → `/build_assistive_package` per `framework/docs/operator-manual.md`. If shared stages have already been run for this episode (e.g., for Lens), they are reusable — skip to the Reasoning Lab stages below.
+Run `/create_episode` → `/create_transcript` → `/build_assistive_package` per `framework/docs/artifacts-generation.md`. If shared stages have already been run for this episode (e.g., for Lens), they are reusable — skip to the Reasoning Lab stages below.
 
 ---
 

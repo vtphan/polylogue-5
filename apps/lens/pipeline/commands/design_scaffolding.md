@@ -129,7 +129,7 @@ The reviewer reports PASS/ISSUE/SUGGESTION per criterion and an overall verdict:
 ### Step 4: Reviewer-Driven Flow
 
 - **ACCEPT** → proceed to save (Step 5).
-- **REVISE** → re-invoke scaffolding_id (Step 2) with the reviewer's specific issues as feedback, then re-run the reviewer. **Retry budget: 1 revise pass.** If a second review still returns REVISE, halt and surface the latest scaffolding artifacts and the reviewer report to the operator. (See *Failure-mode escape hatch* in `framework/docs/system-architecture.md`.)
+- **REVISE** → re-invoke scaffolding_id (Step 2) with the reviewer's specific issues as feedback, then re-run the reviewer. **Retry budget: 1 revise pass.** If a second review still returns REVISE, halt and surface the latest scaffolding artifacts and the reviewer report to the operator. (See `framework/docs/architecture.md` and `framework/docs/operator-guide.md`.)
 
 The pipeline is autonomous through this loop.
 

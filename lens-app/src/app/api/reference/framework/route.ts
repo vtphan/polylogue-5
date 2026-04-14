@@ -8,7 +8,7 @@ export async function GET() {
   const auth = await requireAuth("researcher");
   if (auth instanceof NextResponse) return auth;
 
-  const refDir = path.resolve(process.cwd(), "../configs/reference");
+  const refDir = path.resolve(process.cwd(), "../framework/reference");
 
   const [lensesRaw, facetsRaw, evRaw] = await Promise.all([
     fs.readFile(path.join(refDir, "lenses.yaml"), "utf-8"),

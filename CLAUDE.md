@@ -14,9 +14,9 @@ Polylogue is a research project for teaching critical thinking to middle school 
    - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts
    - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime
 
-3. **Story design** (`framework/docs/story-design.md`) — Operator guidance for authoring a Polylogue story (cast, arc, coverage contract, pipeline design guidance). Each authored story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The end-to-end authoring runbook is at `framework/docs/operator-manual.md`.
+3. **Story authoring** (`framework/docs/story-authoring.md`) — Operator guidance for authoring a Polylogue story. Each story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The short runbook is at `framework/docs/operator-guide.md`.
 
-For the full architecture, see `framework/docs/system-architecture.md`. The **Operator Role** section of that file documents who does what during a pipeline run — the operator owns authorship at the boundaries (Phase 6 prose authoring of the story design doc and per-episode drafts); the pipeline commands run autonomously, with reviewer subagents as the quality gates.
+For the full architecture, see `framework/docs/architecture.md`. The operator owns story authoring and validation at the boundaries; the pipeline commands run autonomously, with reviewer subagents as the quality gates.
 
 ### Applications
 
@@ -29,32 +29,31 @@ Lens is the priority. Reasoning Lab is experimental.
 
 ## System Structure
 
-Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts). `registry/`, `configs/`, and `docs/` at the repo root are **frozen historical reference** from the legacy disposable-persona system — not maintained. See `framework/docs/system-architecture.md` for the full directory breakdown.
+Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts). `registry/`, `configs/`, and `docs/` at the repo root are legacy roots from the previous disposable-persona system and should be treated as historical reference only. See `framework/docs/architecture.md` for the current directory breakdown.
 
 ## Documentation
 
 | Document | Purpose |
 |---|---|
 | `framework/docs/conceptual-framework.md` | The reasoning quality ontology |
-| `framework/docs/story-design.md` | Story authoring guidance — cast, coverage, drafts, pipeline design guidance, per-episode template |
-| `framework/docs/pipeline-architecture.md` | Pipeline spec — assistive package schemas, agent architecture, governance rules |
-| `framework/docs/operator-manual.md` | End-to-end runbook — Phase 6 authoring + Phase 7 execution |
-| `framework/docs/system-architecture.md` | System structure — three-layer model, directory layout, conventions |
-| `framework/docs/capability-flags.md` | Story-level capability flag reference |
-| `framework/docs/probe-record-handoff.md` | Pipeline-to-app handoff contract |
+| `framework/docs/story-authoring.md` | Story-level workflow — design doc, episode drafts, and `/validate_story` |
+| `framework/docs/artifacts-generation.md` | Episode-level artifact pipeline |
+| `framework/docs/operator-guide.md` | Short runbook |
+| `framework/docs/architecture.md` | System structure and directory layout |
+| `framework/docs/README.md` | Entry point to the live docs set |
 
 ## Pipeline Flow
 
-A story is authored as prose in Phase 6 (the story design doc plus per-episode drafts), then each episode runs through the shared pipeline in Phase 7. Every command takes `<story_id> <episode_number>` as its arguments.
+A story is authored and iterated through `/validate_story`, then each episode runs through the shared artifact pipeline. Every episode command takes `<story_id> <episode_number>` as its arguments.
 
 ```
-STORY (Phase 6, once per story, authored as prose by the operator):
+STORY (once per story, authored by the operator):
   framework/stories/{story_id}.md          (story design doc + frontmatter)
   framework/stories/{story_id}/            (per-episode drafts)
     episode_01.md, episode_02.md, ...
-  Validators: validate_story.py + story_consistency_reviewer
+  Review gate: /validate_story
 
-EPISODE (Phase 7, per episode in the story):
+EPISODE (per episode in the story):
   /create_episode → /create_transcript → /build_assistive_package
   (episode plan)    (discussion script)   (analyst → diagnostic →
                                            prose → discussion →
@@ -98,7 +97,7 @@ artifacts/archive/v1/                    # Frozen v1-pipeline artifacts (histori
 Before running slash commands, initialize the pipeline:
 
 ```bash
-# Phase 6 authoring only (shared commands, no app downstream)
+# Story authoring only
 python3 framework/pipeline/scripts/initialize_polylogue.py
 
 # Full pipeline with an app downstream
@@ -106,11 +105,11 @@ python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs shared commands/agents from `framework/pipeline/` plus app-specific commands/agents when `--app` is provided. Omitting `--app` syncs only shared upstream commands and agents, which is sufficient for Phase 6 authoring and `/validate_story`. `.claude/commands/` and `.claude/agents/` are gitignored.
+The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs shared commands/agents from `framework/pipeline/` plus app-specific commands/agents when `--app` is provided. Omitting `--app` syncs the story-authoring command set, which is sufficient for `brainstorm_story`, `brainstorm_episode`, and `/validate_story`. `.claude/commands/` and `.claude/agents/` are gitignored.
 
 ## Legacy System
 
-The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) remains frozen indefinitely as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required.
+The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) is retained only as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required.
 
 ## Critical Design Constraints
 
