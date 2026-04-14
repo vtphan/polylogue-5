@@ -90,6 +90,7 @@ VALID_SHAPES = {
     "strength_prevails",
     "stalemate",
     "self_correction",
+    "distributed_self_correction",
     "unresolved_disagreement",
 }
 

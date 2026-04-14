@@ -78,7 +78,7 @@ Mixed-valence is doctrinal — the episode must include at least one designed st
 
 ### 7. Pick primary_lens and mixed_valence_shape
 
-`primary_lens` is one of `logic`, `evidence`, `scope`. `mixed_valence_shape` is one of `early_strength_collapse`, `strength_prevails`, `stalemate`, `self_correction`, `unresolved_disagreement`. Both contribute to the cross-episode rotation rules.
+`primary_lens` is one of `logic`, `evidence`, `scope`. `mixed_valence_shape` is one of `early_strength_collapse`, `strength_prevails`, `stalemate`, `self_correction`, `distributed_self_correction`, `unresolved_disagreement`. Both contribute to the cross-episode rotation rules.
 
 ### 8. Sketch the beats
 
