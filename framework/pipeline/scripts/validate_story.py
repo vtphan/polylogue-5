@@ -82,6 +82,7 @@ import sys
 from datetime import datetime
 
 import yaml
+from validate_schema import SchemaValidator
 
 LENSES = ["logic", "evidence", "scope"]
 VALID_SHAPES = {
@@ -119,6 +120,12 @@ def parse_frontmatter(path):
     if not isinstance(fm, dict):
         return None, body
     return fm, body
+
+
+def validate_frontmatter_against_schema(frontmatter, schema_path, artifact_label):
+    validator = SchemaValidator(mode="strict")
+    ok = validator.validate_object(frontmatter, schema_path, artifact_label=artifact_label)
+    return ok, list(validator.issues)
 
 
 def load_reference(reference_dir):
@@ -215,6 +222,15 @@ def main():
         fail("design_doc_frontmatter",
              f"{design_doc_path}: missing or unparseable YAML frontmatter")
         story_fm = {}
+    else:
+        ok, schema_issues = validate_frontmatter_against_schema(
+            story_fm,
+            os.path.join("framework", "schemas", "story_design_doc.yaml"),
+            f"{design_doc_path} frontmatter",
+        )
+        if not ok:
+            for issue in schema_issues:
+                fail("design_doc_schema", issue)
 
     coverage_mode = story_fm.get("coverage_mode")
     declared_facets = set(story_fm.get("declared_facets") or [])
@@ -266,6 +282,14 @@ def main():
                 fail("draft_frontmatter",
                      f"{path}: missing or unparseable YAML frontmatter")
                 continue
+            ok, schema_issues = validate_frontmatter_against_schema(
+                fm,
+                os.path.join("framework", "schemas", "episode_draft.yaml"),
+                f"{path} frontmatter",
+            )
+            if not ok:
+                for issue in schema_issues:
+                    fail("draft_schema", issue)
             ep = fm.get("episode_number")
             if not isinstance(ep, int):
                 fail("draft_episode_number",

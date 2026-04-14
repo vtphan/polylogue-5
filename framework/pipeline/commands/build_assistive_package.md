@@ -84,6 +84,16 @@ python3 framework/pipeline/scripts/merge_assistive_package.py "${EPISODE_DIR}"
 
 **Gate:** Must exit 0 (all integrity checks pass).
 
+Then validate the merged package explicitly:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  "${EPISODE_DIR}/assistive_package.yaml" \
+  framework/schemas/assistive_package.yaml
+```
+
+**Final gate:** merged package schema validation must PASS.
+
 ## Success Criteria
 
 All gates pass:

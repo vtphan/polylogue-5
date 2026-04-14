@@ -10,9 +10,7 @@ Polylogue is a research project for teaching critical thinking to middle school 
 
 1. **Conceptual framework** (`framework/`) — The application-agnostic theory: three evaluative lenses (Logic, Evidence, Scope), a hidden structural layer of ten facets, two explanatory variables (cognitive patterns, social dynamics), and a perspectival learning model.
 
-2. **Applications** (`apps/{app-id}/`) — Each application realizes the framework through a specific student experience. Each has:
-   - **(a) A Claude Code pipeline** that generates artifacts (YAML files) from operator prompts
-   - **(b) A student-facing / teacher-facing app** that consumes the generated artifacts at runtime
+2. **Applications** (`apps/{app-id}/`, plus the current Lens runtime app in `lens-app/`) — Each application realizes the framework through a specific student experience. The shared framework pipeline produces app-agnostic artifacts first; applications may then define app-specific post-pipeline commands under `apps/{app-id}/pipeline/` and/or consume the generated artifacts in a runtime app.
 
 3. **Story authoring** (`framework/docs/story-authoring.md`) — Operator guidance for authoring a Polylogue story. Each story is captured as a prose design document at `framework/stories/{story_id}.md` plus per-episode drafts at `framework/stories/{story_id}/episode_{NN}.md`. The short runbook is at `framework/docs/operator-guide.md`.
 
@@ -29,7 +27,7 @@ Lens is the priority. Reasoning Lab is experimental.
 
 ## System Structure
 
-Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts), and `legacy/` (archived material from the previous disposable-persona system). See `framework/docs/architecture.md` for the current directory breakdown.
+Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, optional post-pipeline commands, `RUNNING.md`), `lens-app/` (current Lens runtime Next.js app), `artifacts/` (story + episode artifacts), and `legacy/` (archived material from the previous disposable-persona system). See `framework/docs/architecture.md` for the current directory breakdown.
 
 ## Documentation
 
@@ -97,15 +95,15 @@ artifacts/archive/v1/                    # Frozen v1-pipeline artifacts (histori
 Before running slash commands, initialize the pipeline:
 
 ```bash
-# Story authoring only
+# Shared framework pipeline only
 python3 framework/pipeline/scripts/initialize_polylogue.py
 
-# Full pipeline with an app downstream
+# Shared framework pipeline + app-specific commands
 python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs shared commands/agents from `framework/pipeline/` plus app-specific commands/agents when `--app` is provided. Omitting `--app` syncs the story-authoring command set, which is sufficient for `brainstorm_story`, `brainstorm_episode`, and `/validate_story`. `.claude/commands/` and `.claude/agents/` are gitignored.
+The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-app leakage), then syncs the full shared framework pipeline from `framework/pipeline/`. When `--app` is provided, it layers app-specific commands/agents on top of the shared pipeline. Omitting `--app` keeps the command surface app-agnostic, which is the correct mode for story authoring and for generating shared `assistive_package.yaml` outputs before choosing any app-specific downstream steps. `.claude/commands/` and `.claude/agents/` are gitignored.
 
 ## Legacy System
 

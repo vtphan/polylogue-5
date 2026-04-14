@@ -1,6 +1,6 @@
-# Running the Lens Pipeline
+# Running The Lens App-Specific Pipeline
 
-The Lens pipeline turns one per-episode draft into a complete artifact set for one episode. The shared upstream stages produce `assistive_package.yaml`; the Lens-specific stages consume it.
+This document covers Lens-specific steps that run **after** the shared framework pipeline. The shared upstream stages produce `assistive_package.yaml`; the Lens-specific stages consume it.
 
 For the short runbook, see `framework/docs/operator-guide.md`. For story-level authoring and validation, see `framework/docs/story-authoring.md`. For the shared episode pipeline, see `framework/docs/artifacts-generation.md`.
 
@@ -12,17 +12,17 @@ For the short runbook, see `framework/docs/operator-guide.md`. For story-level a
 python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 ```
 
-Clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and Lens-specific commands/agents from `apps/lens/pipeline/`. Re-run after editing pipeline files or when switching from another application.
+Clears `.claude/commands/` and `.claude/agents/`, then syncs the full shared framework pipeline from `framework/pipeline/` and layers Lens-specific commands/agents from `apps/lens/pipeline/` on top. Re-run after editing pipeline files or when switching from another application.
 
 ---
 
-## Shared stages
+## Shared Stages
 
 Run `/create_episode` → `/create_transcript` → `/build_assistive_package` per `framework/docs/artifacts-generation.md`. These produce `episode.yaml`, `transcript.yaml`, and `assistive_package.yaml` (plus the four individual agent outputs) under `artifacts/{story_id}/episodes/episode_{NN}/`. When they pass, continue with Lens-specific stages below.
 
 ---
 
-## Lens-specific stages
+## Lens-Specific Stages
 
 ### Design Scaffolding
 

@@ -1,0 +1,82 @@
+# Schema: Story Design Doc Frontmatter
+# Describes the YAML frontmatter at
+#   framework/stories/{story_id}.md
+# The prose body remains Markdown and is intentionally not schema-validated.
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+        description: Kebab-case story identifier.
+
+      title:
+        type: string
+        required: true
+        description: Story title.
+
+      coverage_mode:
+        type: string
+        required: true
+        constraints:
+          enum: [full, focused]
+
+      declared_facets:
+        type: list
+        required: true
+        constraints:
+          min_length: 1
+        items:
+          type: string
+
+      declared_cognitive_patterns:
+        type: list
+        required: true
+        constraints:
+          min_length: 1
+        items:
+          type: string
+
+      declared_social_dynamics:
+        type: list
+        required: true
+        constraints:
+          min_length: 1
+        items:
+          type: string
+
+      episode_count:
+        type: integer
+        required: true
+
+      pedagogical_register:
+        type: string
+        required: false
+
+      uses_character_growth:
+        type: boolean
+        required: false
+
+      declares_calibration_warnings:
+        type: boolean
+        required: false
+
+      uses_stance_positions:
+        type: boolean
+        required: false
+
+      supports_jigsaw:
+        type: boolean
+        required: false
+
+      turn_budget:
+        type: string
+        required: false
+        constraints:
+          pattern: "^\\d+-\\d+$"
+
+      word_budget:
+        type: integer
+        required: false

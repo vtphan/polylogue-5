@@ -28,12 +28,15 @@ Stories are authored as prose (a design doc + per-episode drafts), then each epi
 /create_episode  →  /create_transcript  →  /build_assistive_package
 ```
 
-The pipeline is operated through Claude Code. For the story-level command set, initialize with:
+The pipeline is operated through Claude Code. For the story-level command set,
+initialize with:
 
 ```bash
 python3 framework/pipeline/scripts/initialize_polylogue.py
 ```
 
+This syncs the full shared framework pipeline without any app-specific
+commands.
 For the full app-facing pipeline:
 
 ```bash

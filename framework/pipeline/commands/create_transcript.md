@@ -95,6 +95,16 @@ The dialog writer produces a pre-enumeration transcript following `framework/sch
 
 **Log:** `--stage dialog_writer --agent dialog_writer --attempt <n>`.
 
+Validate the raw transcript explicitly before structural review:
+
+```bash
+python3 framework/pipeline/scripts/validate_schema.py \
+  "${EPISODE_DIR}/intermediates/transcript_raw.yaml" \
+  framework/schemas/transcript_pre.yaml
+```
+
+If the validator reports issues, discard the raw transcript and return to Step 2.
+
 ### Step 3: Structural Review
 
 Run `framework/pipeline/scripts/review_transcript.py`:

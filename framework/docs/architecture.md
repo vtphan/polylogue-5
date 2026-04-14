@@ -72,4 +72,5 @@ Use:
 python3 framework/pipeline/scripts/initialize_polylogue.py
 ```
 
-to sync the shared commands and agents. Add `--app <app_id>` when you want the full app-specific command surface.
+to sync the full shared framework pipeline. Add `--app <app_id>` when you want
+app-specific commands and agents layered on top of the shared pipeline.

@@ -8,14 +8,18 @@ The story pipeline has three authored artifacts:
 
 - `framework/stories/{story_id}.md` — the story design doc
 - `framework/stories/{story_id}/episode_{NN}.md` — one draft per episode
-- `framework/stories/calibration/{story_id}-validation-report.md` — the latest validation report written by `/validate_story`
+- `framework/stories/calibration/{story_id}-validation-report.md` — the latest operator-facing Markdown report written by `/validate_story`
+
+In addition, `validate_story.py` writes timestamped mechanical YAML sidecars to
+`framework/stories/validation/`. Those sidecars are machine-readable audit
+artifacts; the Markdown file in `calibration/` is the human-facing summary.
 
 `/validate_story` is part of the pipeline. It is the story-level gate before any episode enters `/create_episode`.
 
 ## Authoring Loop
 
 1. Write the story design doc.
-2. Draft one or more episodes.
+2. Draft one or more episodes as actual files under `framework/stories/{story_id}/episode_{NN}.md`.
 3. Run `/validate_story <story_id>`.
 4. Revise the design doc and episode drafts using the report.
 5. Repeat until `/validate_story` returns `READY`.
@@ -33,7 +37,15 @@ Two optional conversational commands can help before formal validation:
 - `brainstorm_story` — iterative, thread-aware co-design for the story as a whole
 - `brainstorm_episode` — iterative co-design for one episode draft once the story design doc exists
 
-These commands help shape ideas into the right format, but they do not replace `/validate_story`.
+These commands help shape ideas into the right format, but they do not replace
+authored files on disk and they do not replace `/validate_story`.
+
+## Command Boundaries
+
+- `brainstorm_story` — optional ideation and co-design for the story as a whole
+- `brainstorm_episode` — optional ideation and co-design for one episode draft
+- `/validate_story` — story-level gate over the design doc plus authored episode drafts
+- `/create_episode` — the first artifact-generation command; do not run it until `/validate_story` says the story is ready
 
 ## Story Design Doc
 

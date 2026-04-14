@@ -1,0 +1,121 @@
+# Schema: Episode Draft Frontmatter
+# Describes the YAML frontmatter at
+#   framework/stories/{story_id}/episode_{NN}.md
+# The prose body remains Markdown and is intentionally not schema-validated.
+
+schema:
+  root:
+    type: object
+    fields:
+      story_id:
+        type: string
+        required: true
+        description: Parent story identifier.
+
+      episode_number:
+        type: integer
+        required: true
+        description: 1-indexed episode position within the story.
+
+      title:
+        type: string
+        required: true
+        description: Episode title.
+
+      premise:
+        type: string
+        required: true
+        description: Narrative setup for the episode.
+
+      lead_characters:
+        type: list
+        required: true
+        constraints:
+          min_length: 2
+          max_length: 5
+        items:
+          type: string
+
+      primary_lens:
+        type: string
+        required: true
+        constraints:
+          enum: [logic, evidence, scope]
+
+      mixed_valence_shape:
+        type: string
+        required: true
+        constraints:
+          enum:
+            - early_strength_collapse
+            - strength_prevails
+            - stalemate
+            - self_correction
+            - unresolved_disagreement
+
+      previously:
+        type: string
+        required: true
+        description: Prior-episode recap. Empty string allowed for episode 1.
+
+      targets:
+        type: list
+        required: true
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            facet:
+              type: string
+              required: true
+            lens:
+              type: string
+              required: true
+              constraints:
+                enum: [logic, evidence, scope]
+            carrier:
+              type: string
+              required: true
+            cognitive_pattern:
+              type: string
+              required: false
+            social_dynamic:
+              type: string
+              required: false
+            cognitive_signal:
+              type: string
+              required: false
+            social_signal:
+              type: string
+              required: false
+            interaction_note:
+              type: string
+              required: false
+
+      strengths:
+        type: list
+        required: true
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            facet:
+              type: string
+              required: true
+            carrier:
+              type: string
+              required: true
+            note:
+              type: string
+              required: false
+
+      beats:
+        type: list
+        required: true
+        constraints:
+          min_length: 5
+          max_length: 12
+        items:
+          type: string

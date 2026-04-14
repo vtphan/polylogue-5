@@ -99,6 +99,7 @@ Pass the agent:
 - The drafted `episode.yaml` from Step 1 (inline as YAML text)
 - The path to `${DRAFT_FILE}` and `${DESIGN_DOC}` (so the validator can re-check that the plan faithfully realizes the draft)
 - A pointer to `framework/reference/facet_inventory.yaml` and `framework/reference/explanatory_variables.yaml`
+- The schema at `framework/schemas/validation_output.yaml` for the validator's own report shape
 
 Expect back a PASS/ISSUE/SUGGESTION report against the validation criteria, including (in addition to the existing checks):
 
@@ -106,6 +107,9 @@ Expect back a PASS/ISSUE/SUGGESTION report against the validation criteria, incl
 - **Social signal fidelity** — for each non-null `social_signal`, (a) the `episode.yaml` value matches the draft frontmatter verbatim, and (b) the `turn_outline` encodes the move/response pair as two adjacent (or near-adjacent) `accomplishes` entries that realize the described turn-pair shape without naming the dynamic.
 
 Verdicts: **ACCEPT**, **REVISE**, **REJECT**.
+
+The validation agent's structured output must conform to
+`framework/schemas/validation_output.yaml`.
 
 - **ACCEPT** → proceed to the quality checklist (Step 3).
 - **REVISE** → re-invoke `planning_agent` (Step 1) with the validation report as feedback. **Retry budget: 1 revise pass.** If the second validation also returns REVISE, treat as REJECT.

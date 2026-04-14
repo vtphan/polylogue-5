@@ -4,7 +4,8 @@ This document covers the artifact-generation half of the Polylogue pipeline. It 
 
 ## Episode-Level Pipeline
 
-Once `/validate_story` returns `READY`, each episode runs through three commands in order:
+Once `/validate_story` returns `READY`, each episode runs through three commands
+in order:
 
 1. `/create_episode <story_id> <NN>`
 2. `/create_transcript <story_id> <NN>`
@@ -33,10 +34,10 @@ The transcript stage is barrier-sensitive. The dialog writer only sees the proje
 
 `/build_assistive_package` consumes `episode.yaml` and `transcript.yaml`, then produces:
 
-- `ground_truth.yaml`
-- `diagnostic.yaml`
-- `prose.yaml`
-- `discussion.yaml`
+- `ground_truth_generated.yaml`
+- `diagnostic_generated.yaml`
+- `prose_generated.yaml`
+- `discussion_generated.yaml`
 - `assistive_package.yaml`
 
 The merged `assistive_package.yaml` is the terminal framework artifact. Applications consume it in the app layer.
@@ -46,10 +47,10 @@ The merged `assistive_package.yaml` is the terminal framework artifact. Applicat
 - `episode.yaml` — full episode plan with framework terminology
 - `episode_writer_input.yaml` — barrier-safe projection for transcript generation
 - `transcript.yaml` — enumerated dialog transcript
-- `ground_truth.yaml` — analytical source material
-- `diagnostic.yaml` — reactive intervention content
-- `prose.yaml` — student-facing opening and closure prose
-- `discussion.yaml` — group-phase cues and talk moves
+- `ground_truth_generated.yaml` — analytical source material
+- `diagnostic_generated.yaml` — reactive intervention content
+- `prose_generated.yaml` — student-facing opening and closure prose
+- `discussion_generated.yaml` — group-phase cues and talk moves
 - `assistive_package.yaml` — merged runtime package
 
 ## Validation Layers

@@ -11,9 +11,11 @@ Usage:
     python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
     python3 framework/pipeline/scripts/initialize_polylogue.py  # story-authoring commands only
 
-If --app is omitted, only shared upstream commands and agents are synced
-(sufficient for story authoring, `brainstorm_story`, `brainstorm_episode`,
-and iterative `/validate_story` passes).
+If --app is omitted, the full shared framework pipeline is synced
+(`brainstorm_story`, `brainstorm_episode`, `/validate_story`,
+`/create_episode`, `/create_transcript`, `/build_assistive_package`, and
+their shared agents). Add --app to layer app-specific commands and agents
+on top of the shared pipeline.
 """
 
 import argparse
@@ -51,6 +53,8 @@ FRAMEWORK_SCHEMAS = [
     "framework/schemas/lenses.yaml",
     "framework/schemas/facet_inventory.yaml",
     "framework/schemas/explanatory_variables.yaml",
+    "framework/schemas/story_design_doc.yaml",
+    "framework/schemas/episode_draft.yaml",
     "framework/schemas/episode_plan.yaml",
     "framework/schemas/validation_output.yaml",
     "framework/schemas/episode_writer_input.yaml",
@@ -72,7 +76,6 @@ FRAMEWORK_REFERENCE = [
     "explanatory_variables.yaml",
     "wrestling_gates.yaml",
 ]
-
 
 def sync_glob(pattern, dest_dir):
     """Copy all files matching pattern into dest_dir. Return count."""
@@ -197,10 +200,10 @@ def initialize(project_root, app_id):
             print(f"\n{label} pipeline initialized. "
                   f"Run /create_episode <story_id> <episode_number> to begin.")
         else:
-            print("\nStory-authoring command set initialized. "
-                  "Use `brainstorm_story`, `brainstorm_episode`, and "
-                  "`/validate_story` to prepare a story before running the "
-                  "episode artifact pipeline.")
+            print("\nShared framework pipeline initialized. "
+                  "Use the story-authoring commands to prepare a story, then "
+                  "run the shared episode pipeline. Add `--app` when you want "
+                  "app-specific commands layered on top.")
     else:
         print("\nERROR: Missing files — see above.", file=sys.stderr)
 

@@ -22,11 +22,21 @@ REPORT_PATH="${CALIBRATION_DIR}/${STORY_ID}-validation-report.md"
 - `${DESIGN_DOC}` — the story design doc (Markdown with YAML frontmatter).
 - `${DRAFTS_DIR}/episode_*.md` — all per-episode drafts authored so far.
 
+Frontmatter contracts:
+
+- `framework/schemas/story_design_doc.yaml`
+- `framework/schemas/episode_draft.yaml`
+
 ## Preconditions
 
 - The story design doc must exist at `${DESIGN_DOC}`.
-- At least one per-episode draft must exist in `${DRAFTS_DIR}`.
+- At least one authored per-episode draft must exist at `${DRAFTS_DIR}/episode_*.md`.
 - `${CALIBRATION_DIR}` should exist; create it if missing before writing the report.
+
+`brainstorm_episode` is optional help for designing an episode. It does **not**
+satisfy this command's inputs by itself. `/validate_story` reviews files on
+disk, so at least one actual `episode_{NN}.md` draft must exist before
+proceeding.
 
 Check both before proceeding. If either is missing, report clearly and stop.
 
@@ -34,13 +44,19 @@ Check both before proceeding. If either is missing, report clearly and stop.
 
 ### Step 1 — Mechanical validation
 
-Run the validator script:
+Run the validator script. It validates the story design doc frontmatter
+against `framework/schemas/story_design_doc.yaml`, each episode draft
+frontmatter against `framework/schemas/episode_draft.yaml`, and then runs the
+cross-episode story checks:
 
 ```bash
-python3 framework/pipeline/scripts/validate_story.py "$STORY_ID"
+python3 framework/pipeline/scripts/validate_story.py --story "$STORY_ID"
 ```
 
-Read the generated validation report from `framework/stories/validation/` (the most recent file matching `${STORY_ID}-validation-report-*.yaml`). Summarize all FAIL results for the operator. If there are no FAILs, note that the mechanical checks passed.
+Read the generated mechanical sidecar from `framework/stories/validation/` (the
+most recent file matching `${STORY_ID}-validation-report-*.yaml`). Summarize all
+FAIL results for the operator. If there are no FAILs, note that the mechanical
+checks passed.
 
 ### Step 2 — Prose-on-prose consistency review
 
@@ -67,7 +83,10 @@ Using the design doc, episode drafts, mechanical results, and the `story_consist
 
 ### Step 4 — Persistent validation report
 
-Write `${REPORT_PATH}` in Markdown. Overwrite the previous report for this story.
+Write `${REPORT_PATH}` in Markdown. Overwrite the previous report for this
+story. This file is the operator-facing summary produced by `/validate_story`;
+it is distinct from the timestamped mechanical YAML sidecars under
+`framework/stories/validation/`.
 
 Use this structure:
 

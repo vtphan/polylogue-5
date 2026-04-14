@@ -15,7 +15,8 @@ python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-Omit `--app` for story authoring and `/validate_story`; include it when running the full app-facing pipeline.
+Omit `--app` when you want the shared framework pipeline only. Include it when
+you want app-specific commands layered on top after the shared pipeline.
 
 ## Workflow
 
@@ -24,6 +25,7 @@ Omit `--app` for story authoring and `/validate_story`; include it when running 
 3. Run `/validate_story <story_id>` until it returns `READY`.
 4. For each episode, run:
    - optionally `/brainstorm_episode <story_id> <NN>`
+   - author or revise `framework/stories/{story_id}/episode_{NN}.md`
    - `/create_episode <story_id> <NN>`
    - `/create_transcript <story_id> <NN>`
    - `/build_assistive_package <story_id> <NN>`

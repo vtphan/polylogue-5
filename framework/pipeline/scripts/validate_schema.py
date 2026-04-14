@@ -105,6 +105,8 @@ class SchemaValidator:
         self.warnings = []
 
     def validate(self, artifact_path, schema_path):
+        self.issues = []
+        self.warnings = []
         with open(artifact_path) as f:
             text = f.read()
         try:
@@ -166,6 +168,24 @@ class SchemaValidator:
             return False
         return True
 
+    def validate_object(self, artifact, schema_path, artifact_label="<object>"):
+        self.issues = []
+        self.warnings = []
+        with open(schema_path) as f:
+            schema_doc = yaml.safe_load(f)
+
+        root_def = schema_doc.get("schema", {}).get("root", {})
+        self._validate_node(artifact, root_def, "root")
+
+        schema_basename = os.path.basename(schema_path)
+        if schema_basename == "episode_draft.yaml":
+            self._check_episode_draft_signal_rules(artifact)
+
+        self._report(artifact_label, schema_path)
+        if self.mode == "strict" and self.issues:
+            return False
+        return True
+
     # ---- Conditional rules from Part 4D and Part 5.5 ----
 
     def _check_episode_signal_rules(self, artifact):
@@ -203,6 +223,29 @@ class SchemaValidator:
                         f"passage_analyses[{pi}].facet_annotations[{ai}]: "
                         f"evidence_basis is missing or empty (Part 4D rule 3)"
                     )
+
+    def _check_episode_draft_signal_rules(self, artifact):
+        """Episode-draft frontmatter mirrors the signal-conditional rules:
+        if a target declares a cognitive/social explanatory variable, the
+        corresponding signal text must be present."""
+        if not isinstance(artifact, dict):
+            return
+        for i, target in enumerate(artifact.get("targets") or []):
+            cp = (target or {}).get("cognitive_pattern")
+            sd = (target or {}).get("social_dynamic")
+            cs = (target or {}).get("cognitive_signal")
+            ss = (target or {}).get("social_signal")
+            path = f"targets[{i}]"
+            if cp and not (isinstance(cs, str) and cs.strip()):
+                self.issues.append(
+                    f"{path}: cognitive_pattern '{cp}' set but cognitive_signal "
+                    f"is missing or empty"
+                )
+            if sd and not (isinstance(ss, str) and ss.strip()):
+                self.issues.append(
+                    f"{path}: social_dynamic '{sd}' set but social_signal "
+                    f"is missing or empty"
+                )
 
     def _check_projection_literal_scan(self, artifact_path):
         """Rule 4: scan episode_writer_input.yaml for any reserved framework

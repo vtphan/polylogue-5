@@ -29,6 +29,8 @@ Load as needed:
 - `framework/docs/story-authoring.md`
 - `framework/docs/operator-guide.md`
 - `framework/docs/conceptual-framework.md`
+- `framework/schemas/story_design_doc.yaml`
+- `framework/templates/story_design_doc.md`
 - `framework/reference/facet_inventory.yaml`
 - `framework/reference/explanatory_variables.yaml`
 - `framework/reference/lenses.yaml`
@@ -101,7 +103,11 @@ When appropriate, offer one of these artifacts:
 - a rough episode arc
 - a draft outline for `framework/stories/{story_id}.md`
 
-If the operator asks to turn the conversation into a real story design doc draft, produce content in the format expected by `story-authoring.md`.
+If the operator asks to turn the conversation into a real story design doc
+draft, produce content in the format expected by `story-authoring.md` and the
+frontmatter contract in `framework/schemas/story_design_doc.yaml`. Use
+`framework/templates/story_design_doc.md` as the default Markdown scaffold
+unless the operator already has an established house style they want to keep.
 
 ## Relationship To Other Commands
 

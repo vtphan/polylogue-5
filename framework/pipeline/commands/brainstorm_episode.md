@@ -28,6 +28,8 @@ This command should not restart from scratch unless the operator explicitly asks
 
 - Story design doc: `framework/stories/{story_id}.md` (premise, cast, arc, declared coverage)
 - Other per-episode drafts in this story (for continuity and rotation context): `framework/stories/{story_id}/episode_*.md`
+- Episode draft frontmatter schema: `framework/schemas/episode_draft.yaml`
+- Episode draft template: `framework/templates/episode_draft.md`
 - Facet inventory: `framework/reference/facet_inventory.yaml`
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`
@@ -84,7 +86,11 @@ Mixed-valence is doctrinal — the episode must include at least one designed st
 
 ### 9. Assemble and present when useful
 
-When the conversation is mature enough, write or revise the per-episode draft with frontmatter plus prose body. Present it to the operator and ask:
+When the conversation is mature enough, write or revise the per-episode draft
+with frontmatter plus prose body. The frontmatter must match
+`framework/schemas/episode_draft.yaml`. Use
+`framework/templates/episode_draft.md` as the default Markdown scaffold unless
+the operator is intentionally deviating. Present it to the operator and ask:
 
 > "Here's your draft. Read the frontmatter — does each `cognitive_signal` capture what you want the character to do? Does each `social_signal` describe a move/response shape clearly? Do the beats follow from the design doc's character voices? Anything you'd change?"
 
