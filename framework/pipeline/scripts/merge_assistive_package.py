@@ -17,7 +17,7 @@ The script reads:
 And writes:
     <episode_dir>/assistive_package.yaml
 
-Source: pipeline-architecture.md §2.6
+Source: framework/docs/artifacts-generation.md
 """
 
 import os

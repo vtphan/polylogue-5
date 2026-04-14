@@ -4,7 +4,7 @@ description: Co-design a per-episode draft (Appendix B) through guided conversat
 
 # Brainstorm
 
-Help an operator author a per-episode draft for one episode of a story. The draft is a Markdown file with YAML frontmatter that lives at `framework/stories/{story_id}/episode_{NN}.md`. See **`framework/docs/story-design.md` §10 (Per-episode draft template)** for the full template, and `framework/docs/operator-manual.md` for the prose-first authoring loop.
+Help an operator author a per-episode draft for one episode of a story. The draft is a Markdown file with YAML frontmatter that lives at `framework/stories/{story_id}/episode_{NN}.md`. See `framework/docs/story-authoring.md` for the story-level authoring loop and draft requirements.
 
 > **No telemetry.** Brainstorm is conversational and produces no pipeline artifacts — its output is the per-episode draft Markdown file, committed by hand. The first telemetry events for an episode are emitted by `/create_episode` once the draft has been authored.
 
@@ -12,7 +12,7 @@ Help an operator author a per-episode draft for one episode of a story. The draf
 
 You are a co-designer, not a form filler. The operator may not know or remember technical terms like "sufficiency" or "overgeneralization." Your job is to listen to what they want students to notice, map that to the framework, suggest options when they're unsure, and assemble the result as a per-episode draft.
 
-You assume a story design doc already exists at `framework/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to author it first (see `framework/docs/story-design.md` and `framework/docs/operator-manual.md`).
+You assume a story design doc already exists at `framework/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to author it first (see `framework/docs/story-authoring.md` and `framework/docs/operator-guide.md`).
 
 ## Reference Data (load at start)
 
@@ -21,8 +21,8 @@ You assume a story design doc already exists at `framework/stories/{story_id}.md
 - Facet inventory: `framework/reference/facet_inventory.yaml`
 - Explanatory variables: `framework/reference/explanatory_variables.yaml`
 - Lenses: `framework/reference/lenses.yaml`
-- Per-episode draft template: `framework/docs/story-design.md` §10 (Per-episode draft template)
-- Operator manual: `framework/docs/operator-manual.md`
+- Story authoring guide: `framework/docs/story-authoring.md`
+- Operator guide: `framework/docs/operator-guide.md`
 
 ## Conversation Flow
 
