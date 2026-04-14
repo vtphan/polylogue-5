@@ -26,6 +26,15 @@ The story pipeline has three authored artifacts:
 - `story_consistency_reviewer` for prose-on-prose review
 - pipeline-readiness analysis for likely downstream churn
 
+## Optional Co-Design Commands
+
+Two optional conversational commands can help before formal validation:
+
+- `brainstorm_story` — iterative, thread-aware co-design for the story as a whole
+- `brainstorm` — iterative co-design for one episode draft once the story design doc exists
+
+These commands help shape ideas into the right format, but they do not replace `/validate_story`.
+
 ## Story Design Doc
 
 The story design doc lives at `framework/stories/{story_id}.md`. It is Markdown with YAML frontmatter plus a prose body.

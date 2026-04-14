@@ -19,9 +19,10 @@ Omit `--app` for story authoring and `/validate_story`; include it when running 
 
 ## Workflow
 
-1. Author the story in `framework/stories/`.
-2. Run `/validate_story <story_id>` until it returns `READY`.
-3. For each episode, run:
+1. Optionally use `brainstorm_story` to co-design the story.
+2. Author the story in `framework/stories/`.
+3. Run `/validate_story <story_id>` until it returns `READY`.
+4. For each episode, run:
    - `/create_episode <story_id> <NN>`
    - `/create_transcript <story_id> <NN>`
    - `/build_assistive_package <story_id> <NN>`
