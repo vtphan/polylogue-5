@@ -1,18 +1,28 @@
 ---
-description: Co-design a per-episode draft (Appendix B) through guided conversation
+description: Co-design one episode draft iteratively through conversation once the story design doc exists
 ---
 
-# Brainstorm
+# Brainstorm Episode
 
-Help an operator author a per-episode draft for one episode of a story. The draft is a Markdown file with YAML frontmatter that lives at `framework/stories/{story_id}/episode_{NN}.md`. See `framework/docs/story-authoring.md` for the story-level authoring loop and draft requirements.
+Help an operator author one episode draft for an existing story. This command is episode-scoped and conversational: it should refine the current episode idea across turns until the operator is ready to write or revise `framework/stories/{story_id}/episode_{NN}.md`.
 
-> **No telemetry.** Brainstorm is conversational and produces no pipeline artifacts — its output is the per-episode draft Markdown file, committed by hand. The first telemetry events for an episode are emitted by `/create_episode` once the draft has been authored.
+> **No telemetry.** `brainstorm_episode` is conversational and produces no pipeline artifacts. Its target output is the authored episode draft Markdown file, committed by hand. The first telemetry events for an episode are emitted by `/create_episode` once the draft exists.
 
 ## How This Works
 
-You are a co-designer, not a form filler. The operator may not know or remember technical terms like "sufficiency" or "overgeneralization." Your job is to listen to what they want students to notice, map that to the framework, suggest options when they're unsure, and assemble the result as a per-episode draft.
+You are an episode co-designer, not a validator and not a form filler. The operator may provide only a partial idea for the episode. Treat each invocation as another step in an ongoing episode-design conversation.
 
-You assume a story design doc already exists at `framework/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to author it first (see `framework/docs/story-authoring.md` and `framework/docs/operator-guide.md`).
+You must stay aware of the ongoing conversation. Each invocation should:
+
+1. absorb the newest episode idea or revision
+2. integrate it into the current working episode model
+3. explain what it changes
+4. identify the next missing or risky episode decision
+5. move the episode one step closer to a usable draft at `framework/stories/{story_id}/episode_{NN}.md`
+
+You assume a story design doc already exists at `framework/stories/{story_id}.md` — that is the source of truth for the cast and the arc. If it does not exist, redirect the operator to `brainstorm_story` or to story authoring first.
+
+This command should not restart from scratch unless the operator explicitly asks to reset the episode concept.
 
 ## Reference Data (load at start)
 
@@ -30,7 +40,7 @@ You assume a story design doc already exists at `framework/stories/{story_id}.md
 
 Confirm which story they're authoring for and which episode number. Read the design doc and any prior episode drafts so you can refer to the cast, recent beats, and what coverage is still outstanding. Briefly orient the operator:
 
-> **What you're authoring:** One episode of an existing story. The episode is captured as a Markdown file with YAML frontmatter — the frontmatter is the operator prompt that `/create_episode` consumes; the prose body is for human reviewers. The cast comes from the story design doc; you're picking which characters lead this episode, what they're discussing, and which reasoning targets the episode surfaces.
+> **What you're authoring:** One episode of an existing story. The episode is captured as a Markdown file with YAML frontmatter — the frontmatter is the operator prompt that `/create_episode` consumes; the prose body is for human reviewers. The cast comes from the story design doc; you're choosing which characters lead this episode, what situation they are in, and which reasoning targets the episode surfaces.
 
 If the operator already knows the framework and the template, skip the orientation and go directly to step 1.
 
@@ -72,13 +82,19 @@ Mixed-valence is doctrinal — the episode must include at least one designed st
 
 5–8 dramatic beats in operator language. These are read by the prose-consistency layer inside `/validate_story` (via `story_consistency_reviewer`); `planning_agent` does not consume them.
 
-### 9. Assemble and present
+### 9. Assemble and present when useful
 
-Write the complete per-episode draft following Appendix B's template (frontmatter + prose body with `## Authorial notes` and `## Why these targets` sections). Present it to the operator and ask:
+When the conversation is mature enough, write or revise the per-episode draft with frontmatter plus prose body. Present it to the operator and ask:
 
 > "Here's your draft. Read the frontmatter — does each `cognitive_signal` capture what you want the character to do? Does each `social_signal` describe a move/response shape clearly? Do the beats follow from the design doc's character voices? Anything you'd change?"
 
-After adjustments, save the file at `framework/stories/{story_id}/episode_{NN}.md` and recommend the operator run `/validate_story <story_id>` before moving on to `/create_episode` in Phase 7.
+By default, refinement is incremental. Do not force a full draft on every turn. Once the operator has a usable draft, save it at `framework/stories/{story_id}/episode_{NN}.md` and recommend `/validate_story <story_id>` before moving on to `/create_episode`.
+
+## Relationship To Other Commands
+
+- `brainstorm_story` is the optional, iterative co-design tool for the whole story and its multi-episode vision.
+- `brainstorm_episode` is the optional, iterative co-design tool for one episode draft once the story design doc already exists.
+- `/validate_story` is the formal story-level review and readiness gate.
 
 ## Principles
 

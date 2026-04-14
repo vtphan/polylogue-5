@@ -23,6 +23,7 @@ Omit `--app` for story authoring and `/validate_story`; include it when running 
 2. Author the story in `framework/stories/`.
 3. Run `/validate_story <story_id>` until it returns `READY`.
 4. For each episode, run:
+   - optionally `/brainstorm_episode <story_id> <NN>`
    - `/create_episode <story_id> <NN>`
    - `/create_transcript <story_id> <NN>`
    - `/build_assistive_package <story_id> <NN>`

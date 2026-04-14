@@ -31,7 +31,7 @@ The story pipeline has three authored artifacts:
 Two optional conversational commands can help before formal validation:
 
 - `brainstorm_story` — iterative, thread-aware co-design for the story as a whole
-- `brainstorm` — iterative co-design for one episode draft once the story design doc exists
+- `brainstorm_episode` — iterative co-design for one episode draft once the story design doc exists
 
 These commands help shape ideas into the right format, but they do not replace `/validate_story`.
 
