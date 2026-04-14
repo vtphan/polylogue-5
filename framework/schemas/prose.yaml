@@ -68,3 +68,66 @@ schema:
           max_length: 2
         items:
           type: string
+
+      explicit_scaffolds:
+        type: list
+        required: true
+        description: >
+          Short explicit-support cards Lens can show when students do not
+          yet have enough traction to begin. Each card either models a flaw
+          from the episode directly or gives a parallel example, then asks
+          students to transfer the noticing back into the episode. These are
+          stronger than entry prompts but still designed to hand students
+          back to the episode, not replace the episode. §2.4.
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+"
+            lens:
+              type: string
+              required: true
+              constraints:
+                enum: [logic, evidence, scope]
+            type:
+              type: string
+              required: true
+              constraints:
+                enum: [modeled_episode_example, transfer_example]
+            use_when:
+              type: string
+              required: true
+              constraints:
+                enum: [cannot_start, vague_guess, after_misread]
+            source_turns:
+              type: list
+              required: false
+              description: >
+                Turn IDs the scaffold points to when it models an episode
+                moment directly. May be omitted for transfer examples.
+              items:
+                type: string
+            model_text:
+              type: string
+              required: true
+              description: >
+                Student-facing modeled noticing. For episode-modeled cards,
+                this names the flaw in plain language. For transfer cards,
+                this is a parallel example in plain language.
+            why_this_counts:
+              type: string
+              required: true
+              description: >
+                Short explanation of why the move is weak or incomplete,
+                still in student-friendly language.
+            transfer_prompt:
+              type: string
+              required: true
+              description: >
+                The handoff back to the episode: asks students to find the
+                same or a similar move in the current passage.

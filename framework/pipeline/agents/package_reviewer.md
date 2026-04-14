@@ -43,7 +43,7 @@ Sample 5 orientation probes. For each, check:
 
 ### 3. Register Consistency
 
-Sample the episode_opening, 3 entry_prompts, 3 intervention openings, and 3 discussion cues. Mark each as:
+Sample the episode_opening, 3 entry_prompts, 2 explicit scaffolds, 3 intervention openings, and 3 discussion cues. Mark each as:
 - **student-sounding** — natural 6th-grade voice
 - **adult-sounding** — textbook, academic, or condescending
 
@@ -61,6 +61,8 @@ Check that no file contains content belonging to a different agent's cognitive j
 - ground_truth contains no student-facing prose, no probes, no intervention ladders
 - diagnostic contains no analytical ground truth it should have read from ground_truth
 - prose contains no intervention content or analytical claims
+- prose explicit scaffolds may model a flaw plainly, but they still must not
+  contain probe routing, ladder structure, or analyst-style hidden terminology
 - discussion contains no ladder rungs or probes
 
 **Threshold:** Zero cross-boundary fields.
@@ -76,7 +78,7 @@ For each facet in `facets_explained`, verify:
 
 ### 7. Information Barrier Integrity
 
-Scan all student-facing text (probe questions, probe options, intervention openings, intervention ladder text, discussion cue text, episode opening, entry prompts, consensus check, talk moves) for:
+Scan all student-facing text (probe questions, probe options, intervention openings, intervention ladder text, discussion cue text, episode opening, entry prompts, explicit scaffolds, consensus check, talk moves) for:
 - Canonical facet IDs (source_credibility, inferential_validity, etc.)
 - Cognitive pattern IDs (confirmation_bias, etc.)
 - Social dynamic IDs (group_pressure, etc.)

@@ -596,6 +596,7 @@ def main():
             "episode_opening": prose.get("episode_opening"),
             "entry_prompts": prose.get("entry_prompts", []),
             "consensus_check": prose.get("consensus_check", []),
+            "explicit_scaffolds": prose.get("explicit_scaffolds", []),
         },
         "discussion": {
             "discussion_cues": disc.get("discussion_cues"),

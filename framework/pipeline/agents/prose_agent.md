@@ -62,11 +62,33 @@ Requirements:
 - References the episode's specific content (not generic "did your group agree?")
 - Student-facing language
 
+### `explicit_scaffolds[]`
+
+Per passage, author short explicit-support cards Lens can use before or
+alongside the reactive ladders when students cannot get started.
+
+Requirements:
+- At least one card per episode; prefer 1-2 for each passage that is subtle,
+  background-knowledge-heavy, or likely to overload novice readers
+- Each card has: `passage_id`, `lens`, `type`, `use_when`, `model_text`,
+  `why_this_counts`, `transfer_prompt`, and optional `source_turns`
+- `type: modeled_episode_example` means you point to a real episode moment and
+  explicitly model the flaw in plain language
+- `type: transfer_example` means you give a parallel example in plain language,
+  then send students back to find a similar move in the episode
+- `use_when` tells the app when to offer the card:
+  `cannot_start | vague_guess | after_misread`
+- These cards are stronger than entry prompts, but they must still hand the
+  student back to the episode; do not write answer-key prose that closes the task
+- Natural 6th-grade language only
+
 ## Critical Rules
 
 1. **No framework terminology in any field.** No facet IDs, no lens names used as classification labels, no cognitive pattern or social dynamic names.
 2. **Register-matched.** Check the story's `pedagogical_register` flag. `neutral` = straightforward, conversational. `unfinished_not_wrong` = frames weaknesses as unfinished thinking rather than errors.
 3. **Short.** Episode opening: one paragraph. Entry prompts: one sentence each. Consensus check: 1-2 questions.
+   Explicit scaffolds: 2-4 short sentences total across `model_text`,
+   `why_this_counts`, and `transfer_prompt`.
 4. **Voiced.** Should sound like a person, not a worksheet.
 
 ## What You Do NOT Produce

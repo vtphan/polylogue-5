@@ -64,6 +64,17 @@ A passage thread captures the full progression: individual diagnoses, group disc
 
 ## Scaffolding
 
+### Front-Door Explicit Scaffolds
+
+The assistive package should not rely only on gradual hints after students have already found a foothold. Some students will not yet know what a reasoning flaw looks like in practice, and some episodes will carry enough novelty or factual uncertainty that "notice something interesting" is too much to ask at the start.
+
+Lens therefore needs a stronger front-door scaffold in the package: short explicit-support cards the app can surface when students cannot begin, are only guessing, or are locked into a misread. These cards do one of two jobs:
+
+- **Model an episode flaw directly.** Point to a turn, say what is weak about it in plain language, and explain why.
+- **Bridge with a transfer example.** Give a simple example of the same kind of flawed move, then ask students to find a similar move in the current episode.
+
+These are not replacements for productive struggle. They are on-ramps into it. The card should end by handing students back to the episode so the next move is still noticing, explaining, discussing, and revising.
+
 ### Unified Scaffold Sequence
 
 For each passage, the pipeline produces a graduated scaffold sequence: one or more hints followed by the AI perspective as the final entry. Minimum two entries per passage (one hint + AI perspective). Each hint is progressively more revealing and supportive, but even the last hint does not give away the answer.
@@ -152,7 +163,7 @@ The episode plan is consumed only by the pipeline itself — it governs generati
 
 **Facilitation guide.** The teacher's companion, organized by passage and by state (Diagnose, Discuss, AI perspective). For each passage: what's structurally present (using facet language), what to do if students are stuck, likely disagreements and productive questions for discussion, what the AI will say and likely student reactions. Includes a whole-class debrief section: key takeaways, cross-group discussion prompts, and connection to future sessions. Self-contained — the teacher should not need to cross-reference other files during a live session.
 
-**Scaffolding materials.** Everything the app needs to scaffold student engagement at runtime: (1) a unified scaffold sequence per passage — graduated hints followed by the AI perspective as the final entry; (2) difficulty signals (accessible / moderate / challenging) for passage ordering; (3) deepening probes — lens-specific prompts shown after diagnosis submission; (4) common misreadings with redirects — predictable misinterpretations matched by pattern, not LLM; (5) AI reflection prompt — shown after AI perspective is revealed; (6) observation rubric — what a student might say at basic, developing, and differentiated levels per lens per passage; (7) explanation rubric — what a student might say when explaining, organized by type (cognitive, social, interaction) and level. All text in student-friendly language.
+**Scaffolding materials.** Everything the app needs to scaffold student engagement at runtime: (1) explicit scaffold cards that model a flaw directly or provide a transfer example, then send students back into the episode; (2) a unified scaffold sequence per passage — graduated hints followed by the AI perspective as the final entry; (3) difficulty signals (accessible / moderate / challenging) for passage ordering; (4) deepening probes — lens-specific prompts shown after diagnosis submission; (5) common misreadings with redirects — predictable misinterpretations matched by pattern, not LLM; (6) AI reflection prompt — shown after AI perspective is revealed; (7) observation rubric — what a student might say at basic, developing, and differentiated levels per lens per passage; (8) explanation rubric — what a student might say when explaining, organized by type (cognitive, social, interaction) and level. All text in student-friendly language.
 
 **Session configuration.** Tells the app how to set up the session: which passages are evaluable, their suggested order (based on difficulty from scaffolding), lens definitions as shown to students, onboarding content (topic summary, reading instruction), and file references to transcript, analysis, and scaffolding.
 
