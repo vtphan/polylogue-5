@@ -215,4 +215,4 @@ The pipeline uses six agents across five stages. Detailed agent specifications, 
 | Facet merge | `perspective_breadth` + `counter_argument_engagement` (11 facets) | `perspective_engagement` (10 facets) | Both capture whether other viewpoints are considered; operationally inseparable |
 | Social dynamic merge | `conformity` + `groupthink` (4 dynamics) | `group_pressure` (3 dynamics) | Both describe the group suppressing dissent; nearly identical observable behavior |
 
-**v5-4:** Initial framework with 11 facets and 4 social dynamics. Archived at `docs/archived/polylogue-v5-4.md`.
+**v5-4:** Initial framework with 11 facets and 4 social dynamics. Archived at `legacy/docs/archived/polylogue-v5-4.md`.

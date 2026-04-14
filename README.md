@@ -7,7 +7,7 @@ A research project for teaching critical thinking to middle school students (gra
 - **`framework/`** — The application-agnostic theory (three evaluative lenses, ten hidden facets, cognitive patterns, social dynamics) and the shared pipeline that generates per-episode artifacts.
 - **`apps/`** — Application-specific implementations (Lens, Reasoning Lab) that consume the pipeline's output.
 - **`artifacts/`** — Generated story and episode artifacts (YAML files).
-- **`docs/`, `configs/`, `registry/`** — Legacy roots from the previous Polylogue architecture. Kept only as historical reference.
+- **`legacy/`** — Archived roots from the previous Polylogue architecture (`legacy/docs/`, `legacy/configs/`, `legacy/registry/`). Kept only as historical reference.
 
 ## Documentation
 

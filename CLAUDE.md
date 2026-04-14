@@ -29,7 +29,7 @@ Lens is the priority. Reasoning Lab is experimental.
 
 ## System Structure
 
-Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts). `registry/`, `configs/`, and `docs/` at the repo root are legacy roots from the previous disposable-persona system and should be treated as historical reference only. See `framework/docs/architecture.md` for the current directory breakdown.
+Top-level layout: `framework/` (docs, reference data, shared schemas, shared pipeline), `apps/{lens,reasoning-lab}/` (app-specific docs, schemas, pipeline, `RUNNING.md`), `artifacts/` (story + episode artifacts), and `legacy/` (archived material from the previous disposable-persona system). See `framework/docs/architecture.md` for the current directory breakdown.
 
 ## Documentation
 
@@ -109,7 +109,7 @@ The script clears `.claude/commands/` and `.claude/agents/` (preventing cross-ap
 
 ## Legacy System
 
-The legacy disposable-persona system (`configs/`, `docs/`, `registry/`) is retained only as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required.
+The legacy disposable-persona system (`legacy/configs/`, `legacy/docs/`, `legacy/registry/`) is retained only as historical reference. The story-based pipeline is a clean break — no migration is performed, no artifact equivalence is required.
 
 ## Critical Design Constraints
 
@@ -134,7 +134,7 @@ Graduated hints → AI perspective as final entry. Hints cost lifelines; AI pers
 - **Canonical IDs use snake_case.** All IDs propagate from `framework/reference/` into every schema, prompt, and artifact.
 - **Reference data files are the source of truth** — not schema definitions.
 - **Python scripts** use pure Python + PyYAML. Scripts accept file paths as arguments, no hardcoded paths.
-- **No new pipeline file references `configs/` or `registry/`.** The system uses `framework/`, `apps/{app-id}/`, and `artifacts/` exclusively.
+- **No new pipeline file references `legacy/configs/` or `legacy/registry/`.** The active system uses `framework/`, `apps/{app-id}/`, and `artifacts/`; `legacy/` is archival only.
 - **The directory key is `{story_id}/episodes/episode_{NN}/`.** The episode plan filename is `episode.yaml`.
 
 ### Canonical IDs
