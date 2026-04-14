@@ -70,7 +70,7 @@ Mixed-valence is doctrinal — the episode must include at least one designed st
 
 ### 8. Sketch the beats
 
-5–8 dramatic beats in operator language. These are read by `story_consistency_reviewer` for character-consistency checking; planning_agent does not consume them.
+5–8 dramatic beats in operator language. These are read by the prose-consistency layer inside `/validate_story` (via `story_consistency_reviewer`); `planning_agent` does not consume them.
 
 ### 9. Assemble and present
 
@@ -78,7 +78,7 @@ Write the complete per-episode draft following Appendix B's template (frontmatte
 
 > "Here's your draft. Read the frontmatter — does each `cognitive_signal` capture what you want the character to do? Does each `social_signal` describe a move/response shape clearly? Do the beats follow from the design doc's character voices? Anything you'd change?"
 
-After adjustments, save the file at `framework/stories/{story_id}/episode_{NN}.md` and recommend the operator run `validate_story.py` and `story_consistency_reviewer` before moving on to `/create_episode` in Phase 7.
+After adjustments, save the file at `framework/stories/{story_id}/episode_{NN}.md` and recommend the operator run `/validate_story <story_id>` before moving on to `/create_episode` in Phase 7.
 
 ## Principles
 

@@ -68,11 +68,11 @@ Spawn the **discussion_agent**.
 
 Spawn the **package_reviewer** agent.
 
-**Inputs:** All four generated files, assistive_package.yaml (not yet built — run the merge script first to get the merged view), episode.yaml, transcript.yaml.
+**Inputs:** All four generated files, episode.yaml, transcript.yaml, and story frontmatter.
 
-Actually: run the merge script first (Step 6) to verify integrity, then run the reviewer on the merged output.
+**Gate:** Must return ACCEPT.
 
-**Reorder:** Run Step 6 before Step 5 if the merge script catches mechanical issues. The reviewer is the quality gate; the merge script is the structural gate.
+If REVISE: read the findings, fix the identified agent output, and re-run from the affected step.
 
 ### Step 6: Merge Script → `assistive_package.yaml`
 
@@ -84,20 +84,12 @@ python3 framework/pipeline/scripts/merge_assistive_package.py "${EPISODE_DIR}"
 
 **Gate:** Must exit 0 (all integrity checks pass).
 
-### Step 5 (after Step 6): Package Reviewer
-
-Now run the reviewer on the merged output. The reviewer reads all files and returns ACCEPT or REVISE.
-
-**Gate:** Must return ACCEPT.
-
-If REVISE: read the findings, fix the identified agent output, and re-run from the affected step.
-
 ## Success Criteria
 
 All gates pass:
 1. Four schema validations PASS
-2. Merge script exits 0 (14/14 integrity checks)
-3. Package reviewer returns ACCEPT
+2. Package reviewer returns ACCEPT
+3. Merge script exits 0 (14/14 integrity checks)
 
 The final `assistive_package.yaml` is the episode's terminal pipeline artifact.
 

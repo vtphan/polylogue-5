@@ -79,6 +79,7 @@ class IntegrityChecker:
         self.story_fm = story_fm
         self.errors = []
         self.warnings = []
+        self.facet_to_lens = self._build_facet_to_lens()
 
     def run_all(self):
         self.check_01_role_matching()
@@ -118,16 +119,75 @@ class IntegrityChecker:
                 facets[fat["facet_ref"]] = "tempting_absent"
         return facets
 
+    def _build_facet_to_lens(self):
+        """Map facet ids to their primary lens from reference data."""
+        facet_inventory = self.refs.get("facet_inventory", {})
+        return {
+            facet["id"]: facet.get("primary_lens")
+            for facet in facet_inventory.get("facets", [])
+            if facet.get("id")
+        }
+
+    def _get_passage_for_turn(self, turn_id):
+        """Return the ground-truth passage containing turn_id, else None."""
+        for passage in self.gt.get("passages", []):
+            if turn_id in set(passage.get("turn_range", [])):
+                return passage
+        return None
+
+    def _iter_all_cues(self):
+        """Yield discussion cues with their anchoring context."""
+        discussion_cues = self.disc.get("discussion_cues", {})
+        for tid, cues in discussion_cues.get("by_turn", {}).items():
+            for cue in cues:
+                yield {
+                    "anchor_turn": tid,
+                    "cue": cue,
+                }
+        for cue in discussion_cues.get("episode_scope", []):
+            cont = cue.get("continuation_of") or {}
+            yield {
+                "anchor_turn": cont.get("turn"),
+                "cue": cue,
+            }
+
     def check_01_role_matching(self):
         """Every intervention cell's role matches one of the three source lists."""
         by_turn = self.diag.get("interventions", {}).get("by_turn", {})
         for tid, turn_data in by_turn.items():
+            passage = self._get_passage_for_turn(tid)
+            analyst_facets = self._get_analyst_facets_for_turn(tid)
+            affordable_lenses = set()
+            if passage:
+                for lens_name, lens_data in (passage.get("lens_visibility") or {}).items():
+                    if lens_data.get("affordance") in ("moderate", "rich"):
+                        affordable_lenses.add(lens_name)
             for fref, cell in turn_data.get("by_facet", {}).items():
                 role = cell.get("role")
                 if role not in ("present", "afforded_missing", "tempting_absent"):
                     self.errors.append(
                         f"Check 1: {tid}/{fref} has invalid role '{role}'"
                     )
+                    continue
+                expected_role = analyst_facets.get(fref)
+                if role in ("present", "tempting_absent"):
+                    if expected_role != role:
+                        self.errors.append(
+                            f"Check 1: {tid}/{fref} labeled '{role}' but source lists resolve "
+                            f"to {expected_role or 'no matching source role'}"
+                        )
+                elif role == "afforded_missing":
+                    facet_lens = self.facet_to_lens.get(fref)
+                    if facet_lens not in affordable_lenses:
+                        self.errors.append(
+                            f"Check 1: {tid}/{fref} labeled 'afforded_missing' but its lens "
+                            f"'{facet_lens}' is not affordance-moderate/rich for that passage"
+                        )
+                    elif expected_role in ("present", "tempting_absent"):
+                        self.errors.append(
+                            f"Check 1: {tid}/{fref} labeled 'afforded_missing' but source lists "
+                            f"already classify it as '{expected_role}'"
+                        )
 
     def check_02_probe_routing(self):
         """Every probe option routes_to resolves to an existing intervention cell."""
@@ -294,6 +354,7 @@ class IntegrityChecker:
         """Per-passage: for every lens with affordance >= moderate, at least one
         discussion_cues entry with continuation_of: null whose lens matches."""
         for p in self.gt.get("passages", []):
+            turn_range = set(p.get("turn_range", []))
             lv = p.get("lens_visibility", {})
             for lens_name, lens_data in lv.items():
                 aff = lens_data.get("affordance", "none")
@@ -302,6 +363,8 @@ class IntegrityChecker:
                     found = False
                     by_turn = self.disc.get("discussion_cues", {}).get("by_turn", {})
                     for tid, cues in by_turn.items():
+                        if tid not in turn_range:
+                            continue
                         for cue in cues:
                             if cue.get("continuation_of") is None and cue.get("lens") == lens_name:
                                 found = True
@@ -309,38 +372,37 @@ class IntegrityChecker:
                         if found:
                             break
                     if not found:
-                        # Check episode_scope
-                        for cue in self.disc.get("discussion_cues", {}).get("episode_scope", []):
-                            if cue.get("continuation_of") is None and cue.get("lens") == lens_name:
-                                found = True
-                                break
-                    if not found:
                         self.errors.append(
-                            f"Check 10: lens '{lens_name}' has affordance '{aff}' but no "
-                            f"continuation_of: null cue with that lens (empty-history guarantee)"
+                            f"Check 10: passage {p.get('passage_id')} lens '{lens_name}' has "
+                            f"affordance '{aff}' but no in-passage continuation_of: null cue "
+                            f"with that lens (empty-history guarantee)"
                         )
 
     def check_11_intervention_cue_rule(self):
         """For every (turn, facet) intervention cell with role present or afforded_missing,
         there is at least one discussion cue whose angle equals that facet."""
         by_turn_interv = self.diag.get("interventions", {}).get("by_turn", {})
-        # Collect all cue angles
-        cue_angles = set()
-        by_turn_cues = self.disc.get("discussion_cues", {}).get("by_turn", {})
-        for tid, cues in by_turn_cues.items():
-            for cue in cues:
-                cue_angles.add(cue.get("angle"))
-        for cue in self.disc.get("discussion_cues", {}).get("episode_scope", []):
-            cue_angles.add(cue.get("angle"))
-
         for tid, turn_data in by_turn_interv.items():
             for fref, cell in turn_data.get("by_facet", {}).items():
                 role = cell.get("role")
                 if role in ("present", "afforded_missing"):
-                    if fref not in cue_angles:
+                    found = False
+                    for entry in self._iter_all_cues():
+                        cue = entry["cue"]
+                        cont = cue.get("continuation_of") or {}
+                        anchor_turn = entry["anchor_turn"]
+                        if cue.get("angle") != fref:
+                            continue
+                        if anchor_turn == tid:
+                            found = True
+                            break
+                        if cont.get("turn") == tid and cont.get("facet") == fref:
+                            found = True
+                            break
+                    if not found:
                         self.errors.append(
                             f"Check 11: intervention {tid}/{fref} (role={role}) has no matching "
-                            f"discussion cue with angle={fref}"
+                            f"discussion cue anchored to that turn/facet"
                         )
 
     def check_12_discussion_cue_minimum(self):

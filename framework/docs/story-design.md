@@ -27,7 +27,7 @@ For the pipeline architecture and field schemas, see `pipeline-architecture.md`.
 
 ## The cast: six design rules
 
-These rules are load-bearing — `story_consistency_reviewer` checks them. They also encode design wisdom you should believe in, not merely satisfy.
+These rules are load-bearing — the prose-consistency layer inside `/validate_story` checks them via `story_consistency_reviewer`. They also encode design wisdom you should believe in, not merely satisfy.
 
 **1. The cast collectively carries the declared coverage.** Not in every episode — somewhere in the season. What is forbidden is declaring coverage of something the cast cannot plausibly carry.
 
@@ -99,9 +99,9 @@ Two enforcement mechanisms catch leakage: a literal scan in `validate_schema.py`
 
 ---
 
-## What `story_consistency_reviewer` checks
+## What The Prose-Consistency Layer Checks
 
-Prose-on-prose review of the story design doc and every per-episode draft. Invoked routinely: after each new draft, as a final Phase 6 pass, and after any Phase 7 draft revision.
+Prose-on-prose review of the story design doc and every per-episode draft. It is invoked inside `/validate_story`, which you should run routinely: after each new draft, as a final Phase 6 pass, and after any Phase 7 draft revision that changes the story.
 
 **Rubric items scored:**
 

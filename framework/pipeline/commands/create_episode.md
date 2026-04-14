@@ -109,7 +109,7 @@ Verdicts: **ACCEPT**, **REVISE**, **REJECT**.
 
 - **ACCEPT** → proceed to the quality checklist (Step 3).
 - **REVISE** → re-invoke `planning_agent` (Step 1) with the validation report as feedback. **Retry budget: 1 revise pass.** If the second validation also returns REVISE, treat as REJECT.
-- **REJECT** → halt. Surface the latest plan and the validation report to the operator. The operator decides whether to revise the per-episode draft and re-run `/create_episode`, or to revise the story design doc (which will require re-running `validate_story.py` and `story_consistency_reviewer` across the affected episode drafts in Phase 6 before re-running `/create_episode`).
+- **REJECT** → halt. Surface the latest plan and the validation report to the operator. The operator decides whether to revise the per-episode draft and re-run `/create_episode`, or to revise the story design doc (which will require re-running `/validate_story` across the story in Phase 6 before re-running `/create_episode`).
 
 **Log on each verdict:** `--stage validation --agent validation_agent --attempt <n> --verdict <ACCEPT|REVISE|REJECT> --retries-remaining <n>`. On REJECT after exhaustion, also log `--stage halt --verdict HALT --notes "validation rejected after retries"`.
 

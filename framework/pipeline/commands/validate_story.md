@@ -1,11 +1,10 @@
----
-description: Run mechanical validation and prose-on-prose consistency review on a story's design doc and per-episode drafts
+description: Run the full iterative story review pass: mechanical validation, prose consistency review, and pipeline-readiness calibration
 argument-hint: <story_id>
 ---
 
 # Validate Story
 
-Run both validation layers — the mechanical `validate_story.py` script and the `story_consistency_reviewer` agent — on a story's design doc and all its per-episode drafts. Presents a unified report. This is the recommended final pass after Phase 6 authoring and before Phase 7 (`/create_episode`).
+Run the full story-level review pass on a story's design doc and all its per-episode drafts. This command is iterative: run it, revise the story, then run it again until the story is ready for Phase 7. It combines three layers in one place: mechanical validation, prose-on-prose consistency review, and pipeline-readiness calibration.
 
 ## Arguments
 
@@ -13,6 +12,8 @@ Run both validation layers — the mechanical `validate_story.py` script and the
 STORY_ID="$1"
 DESIGN_DOC="framework/stories/${STORY_ID}.md"
 DRAFTS_DIR="framework/stories/${STORY_ID}"
+CALIBRATION_DIR="framework/stories/calibration"
+REPORT_PATH="${CALIBRATION_DIR}/${STORY_ID}-validation-report.md"
 ```
 
 ## Inputs
@@ -24,6 +25,7 @@ DRAFTS_DIR="framework/stories/${STORY_ID}"
 
 - The story design doc must exist at `${DESIGN_DOC}`.
 - At least one per-episode draft must exist in `${DRAFTS_DIR}`.
+- `${CALIBRATION_DIR}` should exist; create it if missing before writing the report.
 
 Check both before proceeding. If either is missing, report clearly and stop.
 
@@ -50,13 +52,59 @@ Agent(
 )
 ```
 
-### Step 3 — Unified report
+Treat this agent as the authoritative prose-consistency layer. Do not duplicate its role with a second independent consistency review.
 
-Present the operator with a single summary that combines both layers:
+### Step 3 — Pipeline-readiness calibration
+
+Using the design doc, episode drafts, mechanical results, and the `story_consistency_reviewer` report, assess:
+
+1. **Story-level pedagogical coherence** — whether the declared facets, patterns, and dynamics form a real arc rather than paper coverage.
+2. **Episode load realism** — whether each episode is asking a 10–14 turn transcript to carry too many targets, carriers, or moves.
+3. **Signal stageability** — whether `cognitive_signal` and `social_signal` are concrete enough to survive `/create_episode` and `/create_transcript`.
+4. **Likely downstream failure modes** — where `/create_episode`, `/create_transcript`, or `/build_assistive_package` are most likely to churn.
+5. **Revision priority** — which changes are blockers before Phase 7 versus optional improvements.
+
+### Step 4 — Persistent validation report
+
+Write `${REPORT_PATH}` in Markdown. Overwrite the previous report for this story.
+
+Use this structure:
+
+```md
+# Story Validation Report: <story_id>
+
+- Verdict: READY | REVISE
+- Generated: <ISO timestamp>
+
+## Mechanical Validation
+...
+
+## Consistency Review
+...
+
+## Pipeline Readiness
+...
+
+## Priority Revisions
+1. ...
+
+## Likely Downstream Failure Modes
+- `/create_episode`: ...
+- `/create_transcript`: ...
+- `/build_assistive_package`: ...
+
+## Item 9 Reminder
+Item 9 ("moment of surprise") is human-only. Verify before shipping to classrooms.
+```
+
+### Step 5 — Unified terminal summary
+
+Present the operator with a single summary that combines all three layers:
 
 1. **Mechanical validation** — List any FAILs from `validate_story.py` (coverage closure, lens distribution, shape rotation, strength/weakness rotation). If all passed, say so in one line.
 2. **Consistency review** — Report the `story_consistency_reviewer` verdict (ACCEPT or REVISE). If REVISE, list each ISSUE with the specific quotes and revision guidance from the agent's report. List SUGGESTIONs separately.
-3. **Overall verdict** — READY if both layers pass (mechanical: no FAILs; consistency: ACCEPT). NOT READY if either layer has failures, with a short summary of what needs revision.
-4. **Item 9 reminder** — Always end with: "Item 9 (moment of surprise) is human-only. Verify before shipping to classrooms."
+3. **Pipeline readiness** — Summarize episode-load risks, stageability problems, and likely downstream churn.
+4. **Overall verdict** — READY if there are no mechanical FAILs, the consistency review returns ACCEPT, and no blocking pipeline-readiness risks remain. REVISE otherwise, with a short summary of what needs revision.
+5. **Item 9 reminder** — Always end with: "Item 9 (moment of surprise) is human-only. Verify before shipping to classrooms."
 
-Do not modify any file. This command is read-only.
+Do not modify the design doc or episode drafts. Writing `${REPORT_PATH}` is required.

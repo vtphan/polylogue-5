@@ -49,7 +49,8 @@ The framework is application-agnostic. It defines the theory, the shared data, a
 | `framework/stories/{story_id}/episode_{NN}.md` | Per-episode drafts (authored prose with YAML frontmatter) |
 | `framework/stories/archive/v1/` | Frozen v1-pipeline stories — historical reference, not read by the pipeline |
 | `framework/stories/v1-storylines/` | Creative briefs extracted from v1 stories — premise + arc only, live content |
-| `framework/stories/validation/` | Gitignored sidecar reports from `validate_story.py` |
+| `framework/stories/validation/` | Gitignored mechanical sidecar reports from `validate_story.py` |
+| `framework/stories/calibration/` | Persistent Markdown reports from iterative `/validate_story` runs |
 | `framework/reference/` | `lenses.yaml`, `facet_inventory.yaml`, `explanatory_variables.yaml` — source-of-truth data; all IDs propagate from here |
 | `framework/schemas/` | Shared schemas (`episode_plan.yaml`, `episode_writer_input.yaml`, `transcript.yaml`, etc.) |
 | `framework/pipeline/agents/` | Shared agents: planning, validation, dialog writer, transcript ID/reviewer, projection reviewer, story consistency reviewer, analyst, diagnostic, prose, discussion, package reviewer |

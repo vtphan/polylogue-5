@@ -12,7 +12,7 @@ Usage:
     python3 framework/pipeline/scripts/initialize_polylogue.py  # shared only
 
 If --app is omitted, only shared upstream commands and agents are synced
-(sufficient for Phase 6 authoring and /validate_story).
+(sufficient for Phase 6 authoring and iterative /validate_story passes).
 """
 
 import argparse
@@ -174,13 +174,20 @@ def initialize(project_root, app_id):
         print(f"Schemas:  {len(schema_list)} files verified "
               f"({len(FRAMEWORK_SCHEMAS)} shared + {n_app_schema} {label})")
 
-    # --- Ensure artifacts directory ---
+    # --- Ensure authored sidecar directories ---
     artifacts = os.path.join(project_root, "artifacts")
     if os.path.isdir(artifacts):
         print("Artifacts: exists")
     else:
         os.makedirs(artifacts)
         print("Artifacts: created")
+
+    calibration_dir = os.path.join(project_root, "framework", "stories", "calibration")
+    if os.path.isdir(calibration_dir):
+        print("Story calibration reports: exists")
+    else:
+        os.makedirs(calibration_dir, exist_ok=True)
+        print("Story calibration reports: created")
 
     # --- Report ---
     if ok:
@@ -189,7 +196,7 @@ def initialize(project_root, app_id):
                   f"Run /create_episode <story_id> <episode_number> to begin.")
         else:
             print("\nShared pipeline initialized (no app downstream). "
-                  "Sufficient for Phase 6 authoring and /validate_story.")
+                  "Sufficient for Phase 6 authoring and iterative /validate_story.")
     else:
         print("\nERROR: Missing files — see above.", file=sys.stderr)
 

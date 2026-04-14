@@ -19,13 +19,13 @@ python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
 python3 framework/pipeline/scripts/initialize_polylogue.py --app reasoning-lab
 ```
 
-This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and (when `--app` is given) app-specific commands/agents. Omitting `--app` is sufficient for Phase 6 authoring and `/validate_story`. Re-run after editing pipeline files or switching applications.
+This clears `.claude/commands/` and `.claude/agents/`, then syncs shared upstream commands/agents from `framework/pipeline/` and (when `--app` is given) app-specific commands/agents. Omitting `--app` is sufficient for Phase 6 authoring and iterative `/validate_story` passes. Re-run after editing pipeline files or switching applications.
 
 ---
 
 ## Phase 6: Prose authoring
 
-This phase produces the story design doc and per-episode drafts. No pipeline commands run. This is creative authoring, gated by `validate_story.py` and `story_consistency_reviewer`.
+This phase produces the story design doc and per-episode drafts. It is creative authoring, iterated through `/validate_story`, which combines mechanical validation, prose consistency review, and pipeline-readiness calibration.
 
 ### 1. Author the story design doc
 
@@ -59,25 +59,20 @@ YAML frontmatter plus prose body. The full template is in `story-design.md` §10
 
 **Iteration is normal.** Drafting episode 3 often reveals something about the cast that wasn't pinned down in the design doc. Revise both as needed.
 
-### 3. Validate after each draft
+### 3. Run `/validate_story` after each substantive draft change
 
 ```bash
-python3 framework/pipeline/scripts/validate_story.py --story <story_id>
+/validate_story <story_id>
 ```
 
-Checks coverage closure, lens distribution, mixed-valence rotation, strength/weakness rotation. Output: `framework/stories/validation/{story_id}-validation-report-{timestamp}.yaml` (gitignored).
-
-### 4. Run `story_consistency_reviewer` after substantive changes
-
-Prose-on-prose review checking character consistency, voice consistency, earned growth beats, and rubric items 1–8. Run it after each new draft, after design-doc revisions, and as a final pass before Phase 7.
+This command runs `validate_story.py`, invokes `story_consistency_reviewer`, assesses downstream pipeline readiness, and writes a persistent Markdown report at `framework/stories/calibration/{story_id}-validation-report.md`. Revise the story, then run it again.
 
 ### 5. Authoring closeout
 
 Ready for Phase 7 when:
 - Story design doc exists with populated frontmatter.
 - All `episode_count` per-episode drafts exist.
-- `validate_story.py` returns PASS.
-- `story_consistency_reviewer` returns ACCEPT.
+- `/validate_story` returns READY.
 - You have checked rubric item 9 (moment of surprise) yourself.
 - All authored files are committed.
 
@@ -151,7 +146,7 @@ Each command has bounded retry budgets. When exhausted:
 When the same signal fails to land across two episodes:
 
 1. **Local fix.** Revise the per-episode draft's signal to be more concrete and stageable. Re-run `/create_transcript`.
-2. **Structural mark.** If the local fix doesn't take, re-run `validate_story.py` and `story_consistency_reviewer` over the whole story.
+2. **Structural mark.** If the local fix doesn't take, re-run `/validate_story` over the whole story.
 3. **Story-level repair.** Revise the draft to use a different carrier, or revise the design doc. Re-check all existing drafts for drift.
 
 Never pressure the evaluator to commit harder to satisfy coverage.
@@ -179,7 +174,8 @@ Never pressure the evaluator to commit harder to satisfy coverage.
 
 | Script | Purpose |
 |---|---|
-| `validate_story.py --story <id>` | Cross-episode rules (coverage, rotation, distribution) |
+| `/validate_story <id>` | Story-level review: mechanical checks, prose consistency review, and pipeline-readiness calibration |
+| `validate_story.py --story <id>` | Mechanical cross-episode rules (coverage, rotation, distribution) |
 | `validate_schema.py <artifact> <schema>` | Artifact against descriptive YAML schema |
 | `merge_assistive_package.py` | Merge four authored files into `assistive_package.yaml` |
 | `log_pipeline_event.py` | Append telemetry event (used internally) |
