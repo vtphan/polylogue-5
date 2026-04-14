@@ -1,3 +1,4 @@
+---
 description: Run the full iterative story review pass: mechanical validation, prose consistency review, and pipeline-readiness calibration
 argument-hint: <story_id>
 ---
