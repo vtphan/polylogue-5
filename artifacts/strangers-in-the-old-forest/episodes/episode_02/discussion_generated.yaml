@@ -1,0 +1,608 @@
+story_id: strangers-in-the-old-forest
+episode_number: 2
+scenario_id: strangers-in-the-old-forest-ep-02
+
+# ---------------------------------------------------------------------------
+# DISCUSSION CUES — voiced, distributable group-phase prompts
+# Indexed across 7 axes: id, text, angle (facet), lens, axis (creative type),
+# continuation_of (handoff to individual phase), explanatory_ref, persona,
+# independent_of.
+# ---------------------------------------------------------------------------
+
+discussion_cues:
+  by_turn:
+
+    # -----------------------------------------------------------------
+    # t02 — Cam's TikTok provenance report (the strength beat)
+    # -----------------------------------------------------------------
+    t02:
+      - id: t02_c1
+        text: >
+          Cam went and looked up that TikTok kid before Jules even started
+          talking. What made him willing to do that — and would he have done
+          it on his own, without his mom pushing him?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t02, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c2, t02_c3]
+
+      - id: t02_c2
+        text: >
+          What if Ms. Reyes were sitting at the picnic table when Cam reported
+          back about the 7th grader in Cordova? What's one question you think
+          she'd ask him about how he checked?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Ms. Reyes
+        independent_of: [t02_c1, t02_c3]
+
+      - id: t02_c3
+        text: >
+          Try the opposite: defend the version where Cam shouldn't have
+          bothered checking. The TikTok was just a kid being funny. Why might
+          someone argue that the check wasn't worth the time?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1, t02_c2]
+
+    # -----------------------------------------------------------------
+    # t03 — Jules retells Anya in Anya's register, caveats stripped
+    # -----------------------------------------------------------------
+    t03:
+      - id: t03_c1
+        text: >
+          Jules uses big phrases — "candidate biosignatures," "color morphs in
+          isolated urban populations." Sounds smart. But what would you need
+          to know about Anya before those phrases actually helped you decide
+          anything?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t03, facet: source_credibility}
+        explanatory_ref: authority_deference
+        persona: null
+        independent_of: [t03_c2, t03_c3, t03_c4]
+
+      - id: t03_c2
+        text: >
+          What if Anya were on speakerphone right now, listening to Jules
+          repeat what she said? What might she want to add or correct that
+          Jules left out?
+        angle: condition_sensitivity
+        lens: scope
+        axis: persona_projection
+        continuation_of: {turn: t03, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: Anya
+        independent_of: [t03_c1, t03_c3, t03_c4]
+
+      - id: t03_c3
+        text: >
+          Jules is moving fast from "Anya said X" to "so the squirrel is X."
+          List the steps that are missing in between. How many can you find?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t03, facet: inferential_validity}
+        explanatory_ref: confirmation_bias
+        persona: null
+        independent_of: [t03_c1, t03_c2, t03_c4]
+
+      - id: t03_c4
+        text: >
+          Try defending Jules. Maybe repeating Anya's exact words is the
+          honest thing to do — she's not making stuff up. What's the strongest
+          version of her side?
+        angle: inferential_validity
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t03_c1, t03_c2, t03_c3]
+
+    # -----------------------------------------------------------------
+    # t04 — Cam: "that's two now, what else could it be?"
+    # -----------------------------------------------------------------
+    t04:
+      - id: t04_c1
+        text: >
+          Two minutes ago Cam disqualified the TikTok. Now he says "that's
+          two now, that's a pattern" — counting the same TikTok again. Walk
+          through what just happened in his head.
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t04, facet: source_credibility}
+        explanatory_ref: uncritical_acceptance
+        persona: null
+        independent_of: [t04_c2, t04_c3, t04_c4, t04_c5]
+
+      - id: t04_c2
+        text: >
+          When Cam says "what else could it even be?" — what answers never
+          got a chance to be said out loud? Try to name three.
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t04, facet: perspective_engagement}
+        explanatory_ref: black_and_white_thinking
+        persona: null
+        independent_of: [t04_c1, t04_c3, t04_c4, t04_c5]
+
+      - id: t04_c3
+        text: >
+          What would Priya's mom — a biology professor at U of M — say if she
+          heard Cam call this "a pattern"? What's the question she'd ask first?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Priya's mom
+        independent_of: [t04_c1, t04_c2, t04_c4, t04_c5]
+
+      - id: t04_c4
+        text: >
+          Defend the opposite. Maybe Cam is right that "two now" matters —
+          the TikTok was at least pointing at something real. What's the
+          strongest case for counting the TikTok at all?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t04_c1, t04_c2, t04_c3, t04_c5]
+
+      - id: t04_c5
+        text: >
+          Cam jumps from "someone at U of M said it" straight to "that's a
+          pattern." A pattern of what, exactly? What kind of thing would have
+          to repeat, and under what conditions, before "pattern" actually fits?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t04, facet: inferential_validity}
+        explanatory_ref: uncritical_acceptance
+        persona: null
+        independent_of: [t04_c1, t04_c2, t04_c3, t04_c4]
+
+    # -----------------------------------------------------------------
+    # t05 — Maya begins the right question
+    # -----------------------------------------------------------------
+    t05:
+      - id: t05_c1
+        text: >
+          Maya was about to ask "how did your brother know she was the right
+          person to —." Finish the sentence. What was she going to ask?
+        angle: reasoning_completeness
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t05, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t05_c2, t05_c3]
+
+      - id: t05_c2
+        text: >
+          If Marcus were sitting next to Jules at the table, what would Maya
+          have asked him directly? How would the conversation be different?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Marcus
+        independent_of: [t05_c1, t05_c3]
+
+      - id: t05_c3
+        text: >
+          Argue that Maya should NOT have asked the question. What's the
+          strongest reason for letting it go?
+        angle: reasoning_completeness
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t05_c1, t05_c2]
+
+    # -----------------------------------------------------------------
+    # t06 — Jules answers credentials with credibility
+    # -----------------------------------------------------------------
+    t06:
+      - id: t06_c1
+        text: >
+          Jules says "she's a researcher at U of M, Marcus knows her from
+          colloquia." That's a job title and a vouch. What did Maya actually
+          ask for, and what's missing from Jules's answer?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t06, facet: source_credibility}
+        explanatory_ref: authority_deference
+        persona: null
+        independent_of: [t06_c2, t06_c3, t06_c4]
+
+      - id: t06_c2
+        text: >
+          The trust travels: Anya to Marcus, Marcus to Jules, Jules to the
+          group. At each step, one piece of information falls off. What are
+          the friends actually working from by the time it gets to them?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t06, facet: source_credibility}
+        explanatory_ref: authority_deference
+        persona: null
+        independent_of: [t06_c1, t06_c3, t06_c4]
+
+      - id: t06_c3
+        text: >
+          Defend Jules's answer. Marcus is a college student in a related
+          field — isn't his vouch good enough for a 6th grader's purposes?
+          What's the strongest case?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t06_c1, t06_c2, t06_c4]
+
+      - id: t06_c4
+        text: >
+          Jules's answer assumes "Marcus said she does this stuff" lines up
+          with the squirrel question. Try writing out that step clearly. What
+          would have to be true about Anya's actual work for Marcus's vouch
+          to carry the weight Jules is putting on it?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t06, facet: inferential_validity}
+        explanatory_ref: authority_deference
+        persona: null
+        independent_of: [t06_c1, t06_c2, t06_c3]
+
+    # -----------------------------------------------------------------
+    # t07 — the hinge: Maya softens
+    # -----------------------------------------------------------------
+    t07:
+      - id: t07_c1
+        text: >
+          Maya saw Jules's face and softened her question. Was that being a
+          good friend, being a bad thinker, or both? Talk through what she
+          gave up and what she gave to Jules.
+        angle: reasoning_completeness
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t07, facet: reasoning_completeness}
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t07_c2, t07_c3, t07_c4]
+
+      - id: t07_c2
+        text: >
+          What if Priya — quiet today, but she sees things — had jumped in
+          right after Maya softened? What could she have said that would
+          have honored Jules's fear AND finished Maya's question?
+        angle: reasoning_completeness
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Priya
+        independent_of: [t07_c1, t07_c3, t07_c4]
+
+      - id: t07_c3
+        text: >
+          Two turns ago Maya was asking "what does Anya actually work on?" Now
+          she's saying "Marcus is smart, it's fine." Did anything new happen
+          in those two turns that should have changed her mind?
+        angle: internal_consistency
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t07, facet: internal_consistency}
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t07_c1, t07_c2, t07_c4]
+
+      - id: t07_c4
+        text: >
+          Argue the opposite of what most people will say. Defend the
+          position that softening the question was the WORSE choice — that
+          finishing it would have been better for Jules in the long run.
+        angle: reasoning_completeness
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t07_c1, t07_c2, t07_c3]
+
+    # -----------------------------------------------------------------
+    # t08 — Cam aims Anya's general phrase at one specific squirrel
+    # -----------------------------------------------------------------
+    t08:
+      - id: t08_c1
+        text: >
+          Anya's phrase was about "isolated urban populations" — many animals
+          over time. Cam points it at one squirrel they saw on Saturday. What
+          step is Cam skipping?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t08, facet: inferential_validity}
+        explanatory_ref: confirmation_bias
+        persona: null
+        independent_of: [t08_c2, t08_c3]
+
+      - id: t08_c2
+        text: >
+          Six turns ago, Cam asked "who actually made this?" about the TikTok.
+          What would that exact same question sound like if he aimed it at
+          Anya right now?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t08, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c1, t08_c3]
+
+      - id: t08_c3
+        text: >
+          Defend Cam's leap. Maybe "that's us, right?" is just enthusiasm,
+          not a claim. Make the strongest case that Cam is being fine here.
+        angle: inferential_validity
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c1, t08_c2]
+
+    # -----------------------------------------------------------------
+    # t09 — "nothing else really fits"
+    # -----------------------------------------------------------------
+    t09:
+      - id: t09_c1
+        text: >
+          Jules answers "nothing else really fits" almost instantly. What
+          would have to be true for that answer to actually be right?
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t09, facet: perspective_engagement}
+        explanatory_ref: black_and_white_thinking
+        persona: null
+        independent_of: [t09_c2, t09_c3]
+
+      - id: t09_c2
+        text: >
+          What if a vet at the Memphis Zoo — right next door to the park —
+          walked over and asked, "have you considered leucism?" What might
+          Jules say back? Would she even know how to take the question
+          seriously?
+        angle: perspective_engagement
+        lens: scope
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: a Memphis Zoo vet
+        independent_of: [t09_c1, t09_c3]
+
+      - id: t09_c3
+        text: >
+          Try the inversion: defend "nothing else really fits." If you had to
+          argue Jules's side hard, what would you say? And what does that
+          tell you about why she said it so fast?
+        angle: inferential_validity
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: black_and_white_thinking
+        persona: null
+        independent_of: [t09_c1, t09_c2]
+
+    # -----------------------------------------------------------------
+    # t10 — Maya's drift: "if the grad student thinks it…"
+    # -----------------------------------------------------------------
+    t10:
+      - id: t10_c1
+        text: >
+          Read Maya's turn 5 sentence and her turn 10 sentence back-to-back.
+          They're from the same person, five minutes apart. Which Maya is
+          more like the Maya you'd want in your group, and why?
+        angle: internal_consistency
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t10, facet: internal_consistency}
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t10_c2, t10_c3, t10_c4]
+
+      - id: t10_c2
+        text: >
+          What would Maya's dad — a pastor who tells her "show your work in
+          a sermon or nobody trusts you" — say if he heard her line at turn
+          10? Would he buy it?
+        angle: internal_consistency
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Maya's dad
+        independent_of: [t10_c1, t10_c3, t10_c4]
+
+      - id: t10_c3
+        text: >
+          Defend the drift. Argue that Maya is right to update — Anya IS a
+          grad student, and that does count for something. What's the
+          strongest version of her turn 10 line?
+        angle: internal_consistency
+        lens: logic
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t10_c1, t10_c2, t10_c4]
+
+      - id: t10_c4
+        text: >
+          Maya's question at turn 5 — "how did your brother know she was the
+          right person?" — never actually got answered. By turn 10 she's
+          talking like it did. What sentence could Maya say right now that
+          would pick the unfinished question back up where she left it?
+        angle: reasoning_completeness
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t10, facet: reasoning_completeness}
+        explanatory_ref: group_pressure
+        persona: null
+        independent_of: [t10_c1, t10_c2, t10_c3]
+
+    # -----------------------------------------------------------------
+    # t13 — Cam consolidates Anya as the anchor
+    # -----------------------------------------------------------------
+    t13:
+      - id: t13_c1
+        text: >
+          By turn 13, Anya is "something to hold onto." She started the
+          conversation as a name on a phone call. How did she become an
+          anchor without anyone checking who she is?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t13, facet: source_credibility}
+        explanatory_ref: authority_deference
+        persona: null
+        independent_of: [t13_c2, t13_c3]
+
+      - id: t13_c2
+        text: >
+          If Jules's mom — a science writer who reads research papers — heard
+          Cam say "that grad student thing is real," what would she ask
+          before agreeing?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Jules's mom
+        independent_of: [t13_c1, t13_c3]
+
+      - id: t13_c3
+        text: >
+          Argue that Cam is right to want something to hold onto. Sometimes
+          you need an anchor, even an unaudited one, to keep an
+          investigation going. What's the strongest case?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t13_c1, t13_c2]
+
+  # -------------------------------------------------------------------
+  # Episode-scoped cues — span the whole conversation, not anchored
+  # to one turn. Includes empty-history-guarantee cues for scope (the
+  # only lens with no individual-phase engagement but moderate
+  # affordance).
+  # -------------------------------------------------------------------
+  episode_scope:
+
+    - id: e_c1
+      turn: null
+      text: >
+        Cam did the "who made this?" check on the TikTok in turn 2. He did
+        not do it on Anya. Same conversation, same kid, same kind of source
+        question. What changed between minute one and minute three?
+      angle: source_credibility
+      lens: evidence
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: uncritical_acceptance
+      persona: null
+      independent_of: [e_c2, e_c3, e_c4, e_c5]
+
+    - id: e_c2
+      turn: null
+      text: >
+        If you could drop one new question into this conversation — at any
+        turn, asked by any of the four — what would you ask, and how would
+        the rest of the scene change?
+      angle: reasoning_completeness
+      lens: logic
+      axis: stance_inversion
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c3, e_c4, e_c5]
+
+    - id: e_c3
+      turn: null
+      text: >
+        List every possible explanation for a red-eyed white squirrel that
+        the four friends never even mentioned. Don't argue for any of them
+        yet — just see how long the list gets.
+      angle: perspective_engagement
+      lens: scope
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c2, e_c4, e_c5]
+
+    - id: e_c4
+      turn: null
+      text: >
+        What if Priya's mom — a U of M biology professor — had been at the
+        table the whole time? The story tells us Priya didn't reach for what
+        her mom might know. What would have been different if she had?
+      angle: perspective_engagement
+      lens: scope
+      axis: persona_projection
+      continuation_of: null
+      explanatory_ref: null
+      persona: Priya's mom
+      independent_of: [e_c1, e_c2, e_c3, e_c5]
+
+    - id: e_c5
+      turn: null
+      text: >
+        Anya almost certainly said careful things on the phone — "you'd need
+        genetics work to actually tell," that kind of caveat. None of those
+        made it into the room. What conditions, limits, or "we'd need to
+        check" pieces are missing from the story Jules told?
+      angle: condition_sensitivity
+      lens: scope
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c2, e_c3, e_c4]
+
+# ---------------------------------------------------------------------------
+# TALK MOVES — sentence stems for group discussion
+# ---------------------------------------------------------------------------
+
+talk_moves:
+  - "I noticed something different — when ___ happened, I saw ___."
+  - "Building on what ___ said, I want to add ___."
+  - "I disagree with ___ because ___."
+  - "Wait, can we go back to turn ___? Something is bugging me."
+  - "If I had to argue the opposite, I'd say ___."
+  - "What would ___ ask if they were here?"

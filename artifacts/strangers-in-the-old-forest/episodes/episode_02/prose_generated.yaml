@@ -1,0 +1,282 @@
+story_id: strangers-in-the-old-forest
+episode_number: 2
+scenario_id: strangers-in-the-old-forest-ep-02
+
+episode_opening: >
+  It's Tuesday after school and the four friends are back at their picnic
+  table in Overton Park. Since Saturday, Jules has been holding on to a
+  phone call with a grad student named Anya — her brother Marcus put them
+  in touch — and today she's finally ready to tell the others what Anya
+  said about the red-eyed squirrel. Before Jules even starts, Cam has
+  something he has to get off his chest about yesterday's TikTok. Then
+  Jules begins repeating Anya's big, confident-sounding phrases, and the
+  group starts building on top of them. As you read, pay attention to
+  which parts of what Jules repeats the group checks, and which parts
+  just get accepted because they sound like they should be right.
+
+attention_targets:
+  - passage_id: p1
+    support_id: p1_at_1
+    use_when: cannot_start
+    source_turns: [t02, t03]
+    text: >
+      Look at what Cam does with the TikTok in turn 2 and then at what
+      Jules does with Anya a few turns later in turn 3. They are both
+      telling the group about a source. Try to notice what Cam asks about
+      his source that nobody asks about Jules's.
+
+  - passage_id: p1
+    support_id: p1_at_2
+    use_when: wrong_focus
+    source_turns: [t05, t06, t07]
+    text: >
+      Zoom in on turns 5, 6, and 7. Maya is in the middle of asking a
+      question, Jules answers, and then Maya's next line is really short.
+      Read those three turns in order and watch what happens to Maya's
+      question.
+
+  - passage_id: p1
+    support_id: p1_at_3
+    use_when: wrong_focus
+    source_turns: [t03, t06]
+    text: >
+      Jules uses the word "researcher" and the name "Marcus" to tell the
+      group who Anya is. Notice what she does not say — like what Anya
+      studies, or what department she's in. What got skipped?
+
+  - passage_id: p1
+    support_id: p1_at_4
+    use_when: cannot_start
+    source_turns: [t04, t09]
+    text: >
+      Look at Cam's question "what else could it even be?" in turn 4 and
+      Jules's answer "nothing else really fits" in turn 9. What other
+      kinds of answers never show up in their conversation at all?
+
+sentence_frame_seeds:
+  - passage_id: p1
+    support_id: p1_sf_1
+    use_when: cannot_start
+    lens: evidence
+    source_turns: [t03, t06]
+    frame: "When Jules says ___, I notice she hasn't said ___."
+    seed: >
+      When Jules says Anya is "a researcher at U of M," I notice she
+      hasn't said what Anya actually works on.
+
+  - passage_id: p1
+    support_id: p1_sf_2
+    use_when: low_articulation
+    lens: logic
+    source_turns: [t03, t08, t09]
+    frame: "Anya's phrase was about ___, but the squirrel they saw is ___, and the step from one to the other is ___."
+    seed: >
+      Anya's phrase was about "unusual color morphs in isolated urban
+      populations" in general, but the squirrel they saw is one specific
+      animal, and the step from one to the other is missing.
+
+  - passage_id: p1
+    support_id: p1_sf_3
+    use_when: wrong_focus
+    lens: logic
+    source_turns: [t05, t07]
+    frame: "Maya started to ask ___, but then she ___, so the question ___."
+    seed: >
+      Maya started to ask how Marcus knew Anya was the right person, but
+      then she softened it to "Marcus is smart, it's fine," so the
+      question never got answered.
+
+  - passage_id: p1
+    support_id: p1_sf_4
+    use_when: after_check_fail
+    lens: evidence
+    source_turns: [t02, t04]
+    frame: "Cam checked ___ for the TikTok but did not check ___ for Anya."
+    seed: >
+      Cam checked who actually made the TikTok, but he did not check
+      what kind of research Anya actually does.
+
+  - passage_id: p1
+    support_id: p1_sf_5
+    use_when: low_articulation
+    lens: scope
+    source_turns: [t04, t09]
+    frame: "One answer they never talk about is ___."
+    seed: >
+      One answer they never talk about is that some squirrels are just
+      born with unusual coloring without anything weird causing it.
+
+modeled_episode_examples:
+  - passage_id: p1
+    support_id: p1_me_1
+    use_when: cannot_start
+    lens: evidence
+    source_turns: [t02, t03, t06]
+    model_text: >
+      Here's one thing I notice. In turn 2, Cam tells the group exactly
+      who made the TikTok — a 7th grader in Cordova running a comedy
+      account. He named the person, the place, and what they do. Then
+      in turn 3 and turn 6, Jules tells the group about Anya, and what
+      she says is "researcher at U of M" and "Marcus said she does this
+      stuff." That's a title and a vouch, not a description of what Anya
+      actually works on.
+    why_this_counts: >
+      Both are moments where someone is telling the group about a
+      source. The Cam one has details you could check. The Jules one
+      doesn't — and nobody asks for them. The gap between those two
+      ways of introducing a source is what's worth noticing.
+    handoff_prompt: >
+      Read turn 2 and turn 6 back-to-back. What's one thing Cam said
+      about his source that Jules didn't say about hers?
+
+  - passage_id: p1
+    support_id: p1_me_2
+    use_when: low_articulation
+    lens: logic
+    source_turns: [t05, t07]
+    model_text: >
+      Look at turns 5 and 7. In turn 5, Maya starts a real question:
+      "how did your brother know she was the right person to —." That
+      sentence wants to go somewhere — she's about to ask what Anya
+      actually works on. Then in turn 7 she just says "Marcus is smart,
+      it's fine." The question she started didn't get finished. The
+      group moves on like it did.
+    why_this_counts: >
+      The question Maya almost asked is the one that would have told
+      everyone whether Anya's phrases were the right fit for this
+      squirrel. Because it got softened, the chain keeps going on top
+      of something that never got checked.
+    handoff_prompt: >
+      If Maya had finished her question in turn 5, what do you think
+      she would have wanted Jules to say back?
+
+  - passage_id: p1
+    support_id: p1_me_3
+    use_when: wrong_focus
+    lens: scope
+    source_turns: [t04, t09]
+    model_text: >
+      In turn 4, Cam says "like what else could it even be?" and in
+      turn 9, Jules answers "nothing else really fits." But look at
+      what never gets mentioned in the whole conversation: regular
+      animal coloring differences, genetics, an escaped pet. None of
+      those even get brought up and then argued with. They just never
+      enter the conversation.
+    why_this_counts: >
+      When you ask "what else could it be?" and then answer "nothing,"
+      that only works if you actually considered other answers. Here,
+      the other answers were never put on the table in the first place.
+    handoff_prompt: >
+      Reread turns 4 and 9. Can you name one explanation nobody in the
+      group said out loud?
+
+  - passage_id: p1
+    support_id: p1_me_4
+    use_when: after_check_fail
+    lens: evidence
+    source_turns: [t02, t04, t13]
+    model_text: >
+      Watch the same move happen twice. In turn 2, Cam goes and checks
+      who made the TikTok and reports back what he found. That's good.
+      Then two minutes later in turn 4, Jules brings up Anya, and Cam
+      says "that's two now, that's a pattern" without asking anything
+      about Anya. By turn 13, he's calling Anya "something to hold
+      onto." He did the check once and not the second time.
+    why_this_counts: >
+      The same kind of question — "who is this really?" — would work
+      just as well on Anya as it did on the TikTok kid. Cam shows the
+      group the move is possible, and then the group doesn't do it on
+      the next source that comes up.
+    handoff_prompt: >
+      Using the same question Cam used on the TikTok, what would that
+      question sound like if you aimed it at Anya instead?
+
+transfer_examples:
+  - passage_id: p1
+    support_id: p1_te_1
+    use_when: cannot_start
+    lens: evidence
+    example_text: >
+      Imagine a friend tells you, "My cousin says this new drink is
+      actually really healthy, and my cousin works at a hospital."
+      Before you decide, you might want to know: what does the cousin
+      actually do at the hospital? Is she a doctor, a nutritionist, or
+      does she work at the front desk? "Works at a hospital" sounds
+      like it settles the question, but it doesn't — the specific job
+      is what matters.
+    why_this_counts: >
+      A title ("works at a hospital") is not the same thing as a
+      description of what someone actually does. Decisions that rest
+      on the title alone can slip past the real question.
+    handoff_prompt: >
+      Now go back to how Jules describes Anya in turn 3 and turn 6.
+      What's the "what does she actually do" question there?
+
+  - passage_id: p1
+    support_id: p1_te_2
+    use_when: low_articulation
+    lens: logic
+    example_text: >
+      Say your uncle tells you, "Scientists say exercise is good for
+      you, so you should run ten miles tomorrow." The first part might
+      be true in general. But the step from "exercise is good for you"
+      to "you, specifically, should run ten miles tomorrow" skips over
+      a lot — like whether you've ever run before. A general statement
+      doesn't automatically tell you what to do in one specific case.
+    why_this_counts: >
+      That's the same shape as going from Anya's general phrase about
+      color morphs to "our squirrel is one of those." The general
+      thing might be fine; the jump to the specific case is where the
+      missing step lives.
+    handoff_prompt: >
+      Look at turn 8 where Cam says "that's us, right?" — what step
+      between Anya's general phrase and that one specific squirrel
+      didn't get filled in?
+
+  - passage_id: p1
+    support_id: p1_te_3
+    use_when: wrong_focus
+    lens: scope
+    example_text: >
+      Imagine someone loses their phone and says, "I've looked
+      everywhere and I can't find it." Then you ask, "Did you check
+      your backpack?" and they realize they never did. "Everywhere"
+      felt complete, but it only meant the places they had already
+      thought of. The backpack was never in the list of places they
+      searched.
+    why_this_counts: >
+      That's the same move as "nothing else really fits." It sounds
+      like all the options were checked, but really only the options
+      that came to mind got checked. The others never got a chance.
+    handoff_prompt: >
+      Back in turns 4 and 9, what's the "backpack" — the explanation
+      nobody ever even mentioned?
+
+  - passage_id: p1
+    support_id: p1_te_4
+    use_when: after_check_fail
+    lens: evidence
+    example_text: >
+      Think about how you might check one video online before you
+      share it — who made it, where the info came from, whether it's
+      a joke account. Then imagine an adult sends you an article the
+      next day and you don't check any of those things because an
+      adult sent it. The checking move is the same move; it just
+      feels weird to do it when a grown-up is the source.
+    why_this_counts: >
+      Checking a source is the same skill whether the source is a
+      TikTok or a grad student. The move Cam did on the video in
+      turn 2 would also work on Anya in turns 3, 4, and 13.
+    handoff_prompt: >
+      Pick one of those turns (3, 4, or 13) and try writing the
+      question Cam could have asked there.
+
+consensus_check:
+  - >
+    Your group just talked through this scene. In your own words, what
+    did the friends check about Cam's TikTok source that they did not
+    check about Anya?
+  - >
+    If you could add one question to the conversation — asked to any
+    of the four friends at any turn — what would you ask, and why
+    would it change what the group ends up believing?

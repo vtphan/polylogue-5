@@ -1,0 +1,70 @@
+personas:
+  - name: Jules
+    perspective: >
+      Can't stop thinking about Saturday — the squirrel looked wrong,
+      and wrong-looking has to mean something.
+  - name: Maya
+    perspective: >
+      Wants the four of them to be clear about what question they are
+      actually trying to answer.
+  - name: Cam
+    perspective: >
+      Saw a TikTok over the weekend and thinks it's the first piece
+      of whatever is going on.
+  - name: Priya
+    perspective: >
+      Comparing Saturday's squirrel to every park she's walked in
+      and can't place a red-eyed squirrel anywhere.
+
+turns:
+  - speaker: Jules
+    sentences:
+      - text: "Okay, so — Cam saw it first, right, he pointed, and then I looked and its eyes were red, like actually red, not brown-red, red-red."
+      - text: "I just froze. I didn't even move, I just stood there on the path."
+  - speaker: Jules
+    sentences:
+      - text: "Its eyes looked wrong, so something's wrong with it, so something changed it, which means something had to cause that — like, you don't just get a red-eyed white squirrel for no reason."
+  - speaker: Cam
+    sentences:
+      - text: "Okay so this is wild — I saw a TikTok this weekend and it literally said the squirrels in Overton have been acting weird for months."
+      - text: "Months, dude."
+  - speaker: Maya
+    sentences:
+      - text: "Hang on, let me just — I'm writing it down."
+      - text: "What, if anything, is going on with the red-eyed squirrel in Overton. I'm circling it so we come back to it, okay?"
+  - speaker: Priya
+    sentences:
+      - text: "I mean, squirrels don't have red eyes anywhere I've been."
+      - text: "Audubon, the greenway by my house, none of them. I've never seen that."
+  - speaker: Jules
+    sentences:
+      - text: "Right, see — that's what I'm saying."
+      - text: "The eyes were really red, Priya, like glowing-red in the light, and if it's not normal anywhere else then something's doing it here, something in the park, something changed it."
+  - speaker: Cam
+    sentences:
+      - text: "Yeah and the video had this whole part about how people keep seeing stuff that's off — the comments were all like, I saw one too, I saw one too."
+  - speaker: Maya
+    sentences:
+      - text: "Wait — when we say something's going on, what do we actually mean?"
+      - text: "Like, what are we trying to figure out?"
+  - speaker: Priya
+    sentences:
+      - text: "I think it has to be an Overton thing, though."
+      - text: "Because I really haven't seen it at any other park, so it's something specific to here."
+  - speaker: Jules
+    sentences:
+      - text: "Exactly, it's this park, it's something in this park changing them."
+      - text: "That's the whole point."
+  - speaker: Cam
+    sentences:
+      - text: "I'll pull the video up, hold on — we should watch it together."
+  - speaker: Maya
+    sentences:
+      - text: "Okay."
+  - speaker: Jules
+    sentences:
+      - text: "Guys — something might be happening out here and nobody's noticing."
+  - speaker: Cam
+    sentences:
+      - text: "Okay — so let's keep meeting about it."
+      - text: "Wednesday, here, after school like usual?"

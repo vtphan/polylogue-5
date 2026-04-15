@@ -1,0 +1,650 @@
+story_id: strangers-in-the-old-forest
+episode_number: 2
+scenario_id: strangers-in-the-old-forest-ep-02
+
+passages:
+  - passage_id: p1
+    turn_range: [t01, t02, t03, t04, t05, t06, t07, t08, t09, t10, t11, t12, t13, t14]
+
+    facets_present:
+      - facet_ref: inferential_validity
+        label: Leaps in reasoning
+        lens: logic
+        role: primary
+        severity: strong
+        evidence_turns: [t03, t04, t08, t09]
+        one_line: >
+          Jules's chain — Anya said "candidate biosignatures" and "unusual color morphs,"
+          therefore the squirrel we saw is one of those things — has unsupported gaps at
+          every link, and Cam absorbs the leap as "that's two now, that's a pattern"
+          without anything having been added that connects Anya's general framing to
+          this specific squirrel.
+
+      - facet_ref: source_credibility
+        label: Are the sources trustworthy?
+        lens: evidence
+        role: primary
+        severity: strong
+        evidence_turns: [t03, t04, t06, t13]
+        one_line: >
+          The credential word "researcher at U of M" is doing all the work of
+          establishing Anya as a source; nobody asks what department, what her
+          dissertation is on, or how Marcus actually knows her, and the credential
+          is laundered through Marcus through Jules's retelling.
+
+      - facet_ref: source_credibility
+        label: Are the sources trustworthy?
+        lens: evidence
+        role: strength
+        severity: moderate
+        evidence_turns: [t02]
+        one_line: >
+          Cam reports back, grudgingly, that yesterday's TikTok creator turned out to
+          be a 7th grader running a comedy account about Memphis parks — he actually
+          did the provenance check and said it out loud even though it undercut what
+          he claimed yesterday.
+
+      - facet_ref: reasoning_completeness
+        label: Are steps in the reasoning missing?
+        lens: logic
+        role: primary
+        severity: strong
+        evidence_turns: [t05, t07]
+        one_line: >
+          Maya begins the question that would close the chain — "how did your brother
+          know she was the right person to" — sees Jules's face, and lets the sentence
+          drop into "Marcus is smart, it's fine," leaving the steps that would
+          connect Anya's framing to the sighting unspoken.
+
+      - facet_ref: internal_consistency
+        label: Do the claims hold together?
+        lens: logic
+        role: primary
+        severity: moderate
+        evidence_turns: [t05, t07, t10]
+        one_line: >
+          Maya articulates a standard out loud at t05 ("how did your brother know she
+          was the right person") and within minutes speaks as if that standard has
+          been met (t07 "Marcus is smart, it's fine"; t10 "if the grad student thinks
+          it, that's worth knowing") without anything having been added that would
+          meet it.
+
+      - facet_ref: perspective_engagement
+        label: Are other viewpoints considered?
+        lens: scope
+        role: cross_lens
+        severity: moderate
+        evidence_turns: [t04, t09]
+        one_line: >
+          When Cam asks "what else could it even be?" and Jules answers "nothing else
+          really fits," the mundane alternatives (pigmentation genetics, founder
+          effect, environmental stressors, ordinary leucism) never enter the frame
+          to be considered or rejected.
+
+      - facet_ref: condition_sensitivity
+        label: Are limits and exceptions named?
+        lens: scope
+        role: cross_lens
+        severity: subtle
+        evidence_turns: [t03, t09]
+        one_line: >
+          Anya's phrases — "candidate biosignatures," "exactly the kind of thing they
+          look for" — are reported by Jules without the qualifications a Ph.D.
+          candidate would almost certainly have attached, and the group treats the
+          stripped version as the whole claim.
+
+    facets_absent_but_tempting:
+      - facet_ref: source_diversity
+        label: Are there enough independent sources?
+        why_tempting: >
+          Cam says "that's two now" (the TikTok plus Anya), so it looks like the issue
+          is that two sources isn't enough independent confirmation, or that the group
+          has too few sources.
+        why_wrong: >
+          The problem isn't quantity. The TikTok was just shown (turn 02) to be a
+          7th grader's comedy account, and Anya's credibility hasn't been established
+          at all — so neither item on Cam's "two" actually counts as a source yet.
+          The facet at issue is whether the one source they're treating as real is
+          trustworthy (source_credibility), not whether they need more of them.
+
+      - facet_ref: confirmation_bias_as_facet
+        label: Are they only looking for support?
+        why_tempting: >
+          Jules clearly hears Anya's call as confirming what she already believed, and
+          Cam absorbs Anya as confirming his TikTok feed — so it feels like the
+          discussion is one big confirmation bias scene.
+        why_wrong: >
+          Confirmation bias is a cognitive pattern (an explanatory variable), not a
+          facet. The facet-level issue it produces here is inferential_validity (the
+          chain doesn't actually follow) and perspective_engagement (mundane
+          alternatives never get into the frame). Pointing at confirmation bias names
+          the cause; the lenses are evaluating the visible reasoning.
+
+      - facet_ref: relevance
+        label: Does the evidence fit the claim?
+        why_tempting: >
+          Anya's general phrases about "unusual color morphs in isolated urban
+          populations" sound like generic biology, and the group is applying them to
+          one squirrel — which looks like an evidence-doesn't-fit-the-claim issue.
+        why_wrong: >
+          We don't actually know whether Anya's framing is relevant or not — that's
+          the point. The group hasn't established what Anya works on, so the question
+          isn't "is this evidence relevant?" but "is this person a usable source at
+          all?" The unaudited credential (source_credibility) and the unsupported leap
+          (inferential_validity) come before relevance can even be evaluated.
+
+      - facet_ref: sufficiency
+        label: Is there enough evidence?
+        why_tempting: >
+          Jules and Cam are building a big conclusion — that the squirrel is a
+          candidate biosignature — on what looks like very little, which fits the
+          shape of a sufficiency problem.
+        why_wrong: >
+          Episode 1 was the sufficiency episode (one weekend sighting carrying a big
+          claim). Episode 2's chain has *acquired links* — Anya, Marcus, the
+          credential — and the weakness lives in the gaps *between* those links. That
+          is inferential_validity, not sufficiency. The mistake isn't "too little
+          evidence"; it's "the steps connecting the evidence to the conclusion are
+          missing."
+
+    lens_visibility:
+      logic:
+        engagement: partial
+        affordance: rich
+        what_shows: >
+          The chain Jules is building (Anya said X, Marcus vouches for her, therefore
+          our squirrel is a candidate biosignature) has visible structural gaps that
+          logic-lens evaluation could name. Maya partially engages the lens at t05
+          (beginning the right question) but withdraws at t07; Cam treats two
+          unverified items as "a pattern" at t04 without examining how the pattern
+          claim would close. The lens is highly afforded; the characters' engagement
+          with it is real but interrupted.
+
+      evidence:
+        engagement: partial
+        affordance: rich
+        what_shows: >
+          Two source moments sit side by side: Cam does a provenance check on the
+          TikTok creator (t02) and reports back what he found, and then Jules
+          introduces Anya (t03, t06) and the group accepts the credential word as
+          establishing the source. The lens is engaged once, with strength, and
+          declines to engage a few minutes later on a structurally identical question.
+          The contrast is the whole point of the scene.
+
+      scope:
+        engagement: none
+        affordance: moderate
+        what_shows: >
+          The frame quietly closes at t04 ("what else could it even be?") and t09
+          ("nothing else really fits") without any mundane alternatives — pigmentation
+          genetics, founder effect, environmental stressors, ordinary leucism, an
+          escaped pet — being raised, considered, or dismissed. The lens is afforded
+          (mundane alternatives exist and matter), but no character reaches for it.
+
+    turn_annotations:
+      - turn_id: t01
+        speaker: Jules
+        moves: [scene_opening]
+        why_it_matters: >
+          Marks this as its own beat — not more retelling of Saturday — and signals to
+          the group that something new is about to be brought to the table. The other
+          three settle in around it.
+
+      - turn_id: t02
+        speaker: Cam
+        moves: [provenance_report, self_undercutting_admission]
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: strong
+            strength: moderate
+        why_it_matters: >
+          Cam does the who-made-this move on yesterday's TikTok and reports the
+          finding (a 7th grader, a comedy account, four similar videos) even though it
+          undercuts what he said yesterday. This is the episode's strength beat. It
+          establishes that the group can do this move — which makes the failure to
+          do it on Anya, two minutes later, structurally visible.
+        discussion_cue_seeds:
+          - source_credibility
+          - provenance_check
+          - contrastive_within_passage
+
+      - turn_id: t03
+        speaker: Jules
+        moves: [authority_invocation, retelling_with_register_borrow]
+        facet_signals:
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: strong
+          - facet_ref: condition_sensitivity
+            polarity: weak
+            strength: subtle
+        why_it_matters: >
+          Jules reports Anya's phrases ("candidate biosignatures," "unusual color
+          morphs in isolated urban populations," "exactly the kind of thing they look
+          for") in Anya's register but stripped of whatever caveats a Ph.D. candidate
+          would almost certainly have attached. The phrasing carries the weight of
+          authority into the conversation as a premise, and the chain that will use
+          it as a premise is about to be built on top.
+        discussion_cue_seeds:
+          - source_credibility
+          - inferential_validity
+          - authority_deference
+          - condition_sensitivity
+
+      - turn_id: t04
+        speaker: Cam
+        moves: [premise_absorption, pattern_assertion, frame_narrowing]
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: strong
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+          - facet_ref: perspective_engagement
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Cam treats Anya and the TikTok as landing on the same side of a scale ("that's
+          two now") without noticing he just disqualified the TikTok in the previous
+          minute, and asks "what else could it even be?" — a rhetorical move that
+          quietly closes the frame to mundane alternatives. The shape of his
+          acceptance is the same shape he used on the TikTok yesterday and he does
+          not see that it is the same.
+        discussion_cue_seeds:
+          - source_credibility
+          - uncritical_acceptance
+          - black_and_white_thinking
+          - contrastive_within_passage
+
+      - turn_id: t05
+        speaker: Maya
+        moves: [question_first, objection_initiation, standard_articulation]
+        facet_signals:
+          - facet_ref: reasoning_completeness
+            polarity: strong
+            strength: moderate
+          - facet_ref: source_credibility
+            polarity: strong
+            strength: moderate
+        why_it_matters: >
+          Maya begins exactly the question the chain needs — "how did your brother
+          know she was the right person to" — and starts to lay out the credential
+          audit (what kind of researcher, is she the squirrel kind). This is the
+          standard she will fail to hold two turns later; the standard itself is
+          articulated here.
+        discussion_cue_seeds:
+          - reasoning_completeness
+          - source_credibility
+          - what_would_close_the_chain
+
+      - turn_id: t06
+        speaker: Jules
+        moves: [credibility_for_credentials_substitution, authority_via_intermediary]
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: strong
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Jules answers a credentials question with credibility — "she's a researcher
+          at U of M, Marcus said she does this stuff, he knows her from colloquia."
+          The authority hops Anya → Marcus → Jules, a caveat falling off at each hop,
+          and lands at the table as something the group accepts.
+        discussion_cue_seeds:
+          - source_credibility
+          - authority_deference
+          - laundered_credential
+
+      - turn_id: t07
+        speaker: Maya
+        moves: [objection_softening, standard_withdrawal]
+        facet_signals:
+          - facet_ref: reasoning_completeness
+            polarity: weak
+            strength: strong
+          - facet_ref: internal_consistency
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          The hinge of the scene. Maya reads Jules's face, softens her objection to
+          "Marcus is smart, it's fine," and lets the chain stand. The completeness
+          weakness lives here (the question that would have closed the chain isn't
+          finished aloud), and the consistency weakness begins here (her spoken
+          position has slid away from the standard she articulated at t05).
+        discussion_cue_seeds:
+          - reasoning_completeness
+          - internal_consistency
+          - group_pressure
+          - friend_protective_softening
+
+      - turn_id: t08
+        speaker: Cam
+        moves: [phrase_application, retelling_loop]
+        facet_signals:
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+        why_it_matters: >
+          Cam pulls Anya's general phrase ("unusual color morphs in isolated urban
+          populations") and turns it back on the specific sighting ("that's us,
+          right?"). The leap from a general framing to this specific squirrel happens
+          here without any of the steps that would justify it. He does not reach for
+          the who-made-this move he did six turns ago.
+        discussion_cue_seeds:
+          - inferential_validity
+          - contrastive_within_passage
+          - confirmation_bias
+
+      - turn_id: t09
+        speaker: Jules
+        moves: [chain_doubling_down, frame_collapse]
+        facet_signals:
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: strong
+          - facet_ref: perspective_engagement
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Jules answers Cam's earlier "what else could it be" with "nothing else
+          really fits" — the binary in her head closes off the question before any
+          mundane alternative can fill the space. She is speaking as if Anya's
+          framing and her own observation are the same piece of information.
+        discussion_cue_seeds:
+          - inferential_validity
+          - black_and_white_thinking
+          - perspective_engagement
+
+      - turn_id: t10
+        speaker: Maya
+        moves: [position_drift, deference_to_authority]
+        facet_signals:
+          - facet_ref: internal_consistency
+            polarity: weak
+            strength: strong
+          - facet_ref: reasoning_completeness
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          "If the grad student thinks it, that's worth knowing" is not the standard
+          Maya started the scene with. The drift from t05's question-first stance to
+          t10's authority-based shrug is the consistency weakness made fully visible.
+          She talks as if the chain has closed because a credentialed adult is in it.
+        discussion_cue_seeds:
+          - internal_consistency
+          - authority_deference
+          - position_drift
+
+      - turn_id: t11
+        speaker: Jules
+        moves: [fear_naming, vulnerability]
+        why_it_matters: >
+          Jules names what is underneath the retelling — "what if it's happening and
+          no one's noticing." The line is what makes Maya's softening at t07 sit
+          differently in the scene; it is also what closes the door on anyone
+          re-opening the credential question. This is the emotional pivot.
+        discussion_cue_seeds:
+          - emotional_register
+          - friend_protective_pressure
+
+      - turn_id: t12
+        speaker: Priya
+        moves: [witnessing, presence_without_agreement]
+        why_it_matters: >
+          Priya offers warmth without arguing with the content. "I hear you. We're
+          listening" makes the room a place the fear can sit without requiring the
+          group to do anything with it. Notably, Priya does not reach for what her
+          mom (U of M biology faculty) might know — that reach is not on the table
+          for her in this scene.
+        discussion_cue_seeds:
+          - presence_not_agreement
+          - latent_disambiguating_resource
+
+      - turn_id: t13
+        speaker: Cam
+        moves: [forward_commitment, premise_consolidation]
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          "That grad student thing is real, that's something to hold onto" consolidates
+          Anya's authority as load-bearing for the group's working hypothesis going
+          forward. The credential, never audited, is now a shared anchor.
+        discussion_cue_seeds:
+          - source_credibility
+          - authority_consolidation
+
+      - turn_id: t14
+        speaker: Maya
+        moves: [scene_closure]
+        why_it_matters: >
+          Maya agrees to keep meeting. The notebook (and the unfinished half-sentence
+          inside it) closes around the unresolved disagreement. Her two-word answer
+          is the trace of what she didn't say.
+
+    causal_layer:
+      facets_explained:
+        - facet_ref: inferential_validity
+          cognitive:
+            - pattern_ref: black_and_white_thinking
+              label: Black-and-white thinking
+              one_line: >
+                In Jules's head the question has narrowed to "aliens, for real" or
+                "nothing interesting at all," which is why "what else could it be?"
+                gets answered "nothing else really fits" rather than "let me think."
+              evidence_turns: [t04, t09]
+            - pattern_ref: confirmation_bias
+              label: Confirmation bias
+              one_line: >
+                Both Jules and Cam hear Anya as confirming what they already believed,
+                so the framing lands as weight rather than as a claim that needs
+                checking.
+              evidence_turns: [t03, t04, t08, t09]
+          social:
+            - dynamic_ref: authority_deference
+              label: Authority deference
+              one_line: >
+                Anya's "researcher at U of M" credential, laundered through Marcus
+                and through Jules's retelling, is treated as sanctioning the chain
+                without anyone asking what the credential covers.
+              evidence_turns: [t03, t06, t13]
+          interaction: mutual
+          interaction_note: >
+            The black-and-white framing and the deferred-to credential reinforce each
+            other in the same chain. The binary makes the alien side feel chosen
+            rather than assumed; the credentialed voice makes the chosen side feel
+            sanctioned. Either alone would be weaker; together, the chain feels
+            tight to its speakers without anything having actually closed.
+
+        - facet_ref: source_credibility
+          cognitive:
+            - pattern_ref: uncritical_acceptance
+              label: Uncritical acceptance
+              one_line: >
+                Cam treats the credential word "researcher" as doing all the work of
+                establishing the source — same register he used yesterday for a
+                TikTok he has just (in t02) had to disqualify.
+              evidence_turns: [t04, t08, t13]
+          social:
+            - dynamic_ref: authority_deference
+              label: Authority deference
+              one_line: >
+                The credential is laundered through intermediaries: Anya → Marcus →
+                Jules → the table. At each hop a caveat falls off, and the group
+                accepts the lightest version.
+              evidence_turns: [t03, t06]
+          interaction: cognitive_amplified_by_social
+          interaction_note: >
+            Cam's habit of taking sources at face value (cognitive) is the steady
+            disposition; the laundered authority chain (social) is what makes the
+            specific failure on Anya feel reasonable to him in this scene. Without
+            the credential to defer to, his uncritical acceptance would have less to
+            attach to here.
+
+        - facet_ref: reasoning_completeness
+          social:
+            - dynamic_ref: group_pressure
+              label: Group pressure (friend-protective form)
+              one_line: >
+                The pressure on Maya at t07 is not conformity; it is care for a
+                visibly scared friend. She sees the gap and chooses, out of love
+                for Jules, not to push the question to completion aloud.
+              evidence_turns: [t05, t07, t11]
+          interaction: social_only
+
+        - facet_ref: internal_consistency
+          social:
+            - dynamic_ref: group_pressure
+              label: Group pressure (friend-protective form)
+              one_line: >
+                After softening at t07, Maya talks at t10 as if the chain has closed
+                because a credentialed adult vouched for it — a standard she would
+                not have accepted at t05. The friend-protective pressure that made
+                her soften also makes the new spoken position stable.
+              evidence_turns: [t05, t07, t10]
+          interaction: social_only
+
+    perspective_transitions:
+      - from: evidence
+        to: logic
+        trigger: >
+          Once the question "is Anya a usable source?" is left unasked at t06–t07,
+          the next visible problem becomes whether the chain Jules is building on
+          top of the unverified credential actually follows.
+        what_they_gain: >
+          Logic surfaces the structural gap: Anya's general framing about "color
+          morphs in isolated populations" does not, by itself, license the
+          conclusion that this specific squirrel is one of those things. The leap
+          is between t03 and t08–t09.
+        what_they_realize: >
+          Even if you grant the credential, the chain doesn't close. The argument
+          and the evidence are two separate things that have to each survive their
+          own audit.
+        prompt: >
+          If we accepted Anya's credential for the sake of argument, would the
+          chain from her general phrases to this specific squirrel still hold?
+
+      - from: logic
+        to: evidence
+        trigger: >
+          The leap at t08 ("that's us, right?") forces the question of whose
+          authority is licensing it, which sends attention back to Anya as a
+          source.
+        what_they_gain: >
+          Evidence surfaces that the credential never got audited: department,
+          dissertation, what Marcus actually knows about her work — none of it is
+          on the table.
+        what_they_realize: >
+          The leap they noticed in the logic frame is being sanctioned by an
+          authority whose relevance to the question hasn't been established. The
+          two failures are holding each other up.
+        prompt: >
+          What would we need to know about Anya's actual work for her phrases to
+          carry the weight Cam is giving them?
+
+      - from: evidence
+        to: scope
+        trigger: >
+          The "what else could it even be?" at t04 and "nothing else really fits"
+          at t09 are doing work outside the evidence question — they are quietly
+          shrinking the space of explanations being considered.
+        what_they_gain: >
+          Scope surfaces the alternatives that never entered the frame: ordinary
+          leucism, pigmentation genetics, founder effect in a small isolated park
+          population, environmental stressors, an escaped pet — mundane causes
+          for an unusual-looking squirrel.
+        what_they_realize: >
+          The chain feels closed because the frame is narrow, not because the
+          alternatives were considered and ruled out. The mundane options were
+          never in the room to begin with.
+        prompt: >
+          What other explanations for a red-eyed white squirrel never made it
+          into the conversation, and why didn't they?
+
+    counterfactuals:
+      - facet_ref: inferential_validity
+        evidence_turn: t09
+        what_would_fix_it: >
+          If Jules had paused after "the eyes were wrong" and named the missing step
+          out loud — something like "she said it's the kind of thing they look for,
+          but she didn't say our squirrel is one" — the gap between Anya's general
+          framing and the specific sighting would be visible to the group rather
+          than papered over.
+
+      - facet_ref: source_credibility
+        evidence_turn: t06
+        what_would_fix_it: >
+          If Jules had answered Maya's t05 question with specifics rather than
+          credibility — "Marcus said she's in the biology department, her side
+          project is on urban wildlife color variation, he sat next to her at a
+          colloquium last spring" — the credential would either hold up or not, and
+          the group would know which.
+
+      - facet_ref: source_credibility
+        evidence_turn: t04
+        what_would_fix_it: >
+          If Cam had applied the same provenance question he made on the TikTok at
+          t02 — "wait, what does she actually work on though, like is it the
+          squirrel kind of thing or the physics kind of thing?" — the symmetry of
+          the two source moves would have closed instead of staying open.
+
+      - facet_ref: source_credibility
+        evidence_turn: t02
+        what_would_fix_it: >
+          The strength holds; the inversion is the gap Cam fails to generalize. If
+          Cam had said, after reporting the TikTok finding, "OK so 'someone said
+          it' isn't enough — we should do that for whoever Jules talked to, too,"
+          the strength would have transferred to the next minute of the scene
+          instead of staying with the TikTok kid.
+
+      - facet_ref: reasoning_completeness
+        evidence_turn: t07
+        what_would_fix_it: >
+          If Maya had finished the t05 sentence even gently — "Marcus is smart,
+          and I still want to know what kind of researcher Anya actually is, can
+          you ask him?" — Jules's fear could have been honored without the
+          objection getting dropped.
+
+      - facet_ref: internal_consistency
+        evidence_turn: t10
+        what_would_fix_it: >
+          If Maya had reread the half-sentence from her own notebook before
+          speaking at t10 — or even said "wait, two minutes ago I was asking what
+          kind of researcher she is, I don't want to drop that" — her spoken
+          position would have stayed with the standard she had voiced.
+
+      - facet_ref: perspective_engagement
+        evidence_turn: t09
+        what_would_fix_it: >
+          If anyone had named one mundane alternative out loud at t09 — "what
+          about leucism, isn't that just a pigmentation thing?" — the binary in
+          Jules's head would have had a third option in the room and the frame
+          would have widened by one.
+
+      - facet_ref: condition_sensitivity
+        evidence_turn: t03
+        what_would_fix_it: >
+          If Jules had reported one of Anya's caveats alongside the confident
+          phrases — "she said it's the kind of thing they look for, but she also
+          said you'd need genetics work to actually tell" — the framing would
+          enter the group with the conditions Anya almost certainly attached.
+
+    connects_to:
+      echoes:
+        - facet_ref: sufficiency
+          source_episode: 1
+          source_passage: p1
+        - facet_ref: source_credibility
+          source_episode: 1
+          source_passage: p1
+        - facet_ref: inferential_validity
+          source_episode: 1
+          source_passage: p1
+      contrastive: []

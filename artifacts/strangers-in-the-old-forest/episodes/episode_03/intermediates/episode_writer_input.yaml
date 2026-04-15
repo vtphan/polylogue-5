@@ -1,0 +1,316 @@
+story_premise: >
+  Four 6th graders in Memphis — Jules, Maya, Cam, and Priya — saw a red-eyed
+  white squirrel in Overton Park one Saturday, and one of them can't let it
+  go. Over a series of Wednesday-afternoon meetings at their usual picnic
+  table, the four of them try to figure out what's actually going on in
+  their park, with no adults in the scene and only each other to push back.
+
+episode_premise: >
+  Wednesday afternoon at the picnic table. Last night, after Jules's
+  weekend phone-call retelling sat in his head the way a good story does,
+  Cam posted about the red-eyed squirrels on his own account — partly
+  because Jules seemed so sure, partly because his feed rewards that kind
+  of post. By the time the four of them sit down on Wednesday the post has
+  done something: it's not viral, but it's mildly viral for his small
+  follower count, with a handful of supportive replies, some mocking, a
+  couple of curious, and one comment claiming a similar sighting in
+  Stonewall Park in Frayser, across town. Cam has been checking his phone
+  all day and he thinks he has evidence now. Across the same afternoon,
+  dismissive adult reactions have reached the kids' ears in pieces — an
+  older sibling texting *lol, aliens in the park, sure*, somebody's mom
+  overheard saying *honey it's just squirrels* — and the feeling that no
+  grown-up is taking the question seriously has landed hardest on Jules.
+  Maya has the notebook on the table, and halfway through the conversation
+  she surfaces something their science teacher Ms. Reyes spent a whole
+  unit on last year — recessive traits, applying genetics to real life —
+  as a framework the group might actually try tomorrow. Nothing gets
+  decided tonight.
+
+episode_number: 3
+
+previously: >
+  On Monday the four of them retold the weekend sighting at the picnic
+  table, and over that call Jules's brother's grad-school friend Anya
+  talked her through an idea about unusual color morphs in isolated urban
+  animals; on Tuesday Jules retold Anya's call in Anya's phrases, and the
+  group absorbed the framing without asking who Anya actually was or what
+  her field is. The notebook closed Tuesday on a half-written question
+  Maya wrote at the top of the page and circled — the question of what
+  else could cause red eyes — that nobody answered.
+
+lead_characters:
+  - name: Jules
+    voice: >
+      Earnest, curious, and a little breathless when she is excited. Has
+      grown up on her mom's curious-weird-science magazine pieces and her
+      brother's Overton Park walks, so she talks about anomalies like they
+      matter and doesn't apologize for it. Says *its eyes* more than once
+      across the season. When she is scared she gets quieter rather than
+      louder, and in this scene she is quieter than in episodes 1 or 2.
+    perspective: >
+      Something is actually happening in Overton, and the grown-ups are
+      not listening. The *lol, aliens* text and the *honey it's just
+      squirrels* overheard from the afternoon have landed on her as
+      evidence that she is alone with the question. She is not trying to
+      win the conversation; she is tired and she is waiting for one of
+      her three best friends to agree with her that this is real.
+    knowledge: >
+      Her older brother Marcus put her in touch with his grad-school
+      friend Anya over the weekend, and Anya talked her through an idea
+      about unusual-looking animals in small isolated city populations.
+      Her mother writes curious-weird-science pieces for kids' magazines,
+      and Jules has grown up believing anomalies matter.
+    weaknesses: >
+      When something looks strange to her, her mind slides from "this
+      looks strange" to "something out of the ordinary changed it," and
+      once that track is laid she holds on to it as an all-or-nothing —
+      it's either the interesting answer or nothing worth paying
+      attention to, and giving up the interesting one feels like giving
+      up on the whole question. In this scene the day's adult dismissals
+      have bruised her enough that she is not really making arguments;
+      she is voicing the fear, and the weight of that fear makes it
+      harder for the other three to push back hard.
+    strengths: >
+      She is the reason the investigation is still happening at all, and
+      she is the only one in the group willing to say the tired, scared
+      thing out loud. In this scene, her single unguarded line about
+      *what if everyone's wrong, what if this is real* makes room for
+      Maya's tentative alternative to land without being waved off.
+    prior_beats: >
+      On Monday she retold what the red-eyed squirrel looked like and
+      pushed *its eyes* into the middle of the conversation; on Tuesday
+      she retold the weekend phone call in Anya's phrases and the group
+      accepted the framing without asking who Anya was.
+
+  - name: Maya
+    voice: >
+      Quiet, watchful, and careful with words. Her dad is a pastor and
+      her mom works at FedEx; she has been around arguments her whole
+      life and can feel when an argument works without being able to
+      explain why. She writes in the notebook more than she talks, and
+      when she talks, she phrases important things as questions first.
+    perspective: >
+      Something about Cam's "everywhere now" doesn't fit, but she can't
+      put her finger on it yet in his language. What she can do is
+      remember that their science teacher Ms. Reyes spent a whole unit
+      on genes and alleles last year and told them the point was to
+      apply it to real life. Red eyes might be *that* kind of thing.
+      She offers the idea more than asserts it; she half-expects Cam
+      to wave her off and half-expects Jules not to hear her over her
+      own fear.
+    knowledge: >
+      She is the one holding the notebook. Monday's question — *what
+      else could cause red eyes?* — is still circled at the top of the
+      open page. She remembers the chunk of Ms. Reyes's genetics unit
+      well enough to name the framework (recessive traits, the point
+      being to apply it to real life) even though she couldn't
+      reconstruct the chain on demand right now.
+    weaknesses: >
+      She argues on instinct and can feel when something's off without
+      being able to say the reason out loud in a way that lands. And
+      when Jules is visibly scared, Maya softens how hard she pushes
+      back on Cam, because the room can't afford to tip Jules further
+      into feeling alone. The softening is not cowardice; it's her
+      navigating pushing on a friend who is frightened.
+    strengths: >
+      Her move in this scene is the one new thing this episode. Instead
+      of trying to extend Cam's chain of reasoning or argue it down in
+      his own terms, she names the question the chain has never
+      answered — *what else could cause red eyes?* — and points at
+      their own science class as a place that might answer it. She
+      offers it as a question, not a correction. She writes *Ms. Reyes
+      — recessive?* in the notebook beneath Monday's question. She
+      does not spell out a full chain; the new thing is that, for the
+      first time, she has noticed a piece is missing rather than trying
+      to add onto what's already there.
+    prior_beats: >
+      On Monday she wrote the *what else could cause this?* question in
+      the notebook and circled it at the top of the page; on Tuesday
+      she felt something was off in how Jules was retelling the phone
+      call but softened her pushback because Jules was visibly scared.
+
+  - name: Cam
+    voice: >
+      Scroll-excited, enthusiastic, easy with his phone in his hand.
+      Lives in Binghampton, has had a phone longer than the other three,
+      and spends more time than anyone in the group on social media. He
+      talks the way he scrolls: confident, quick, a screenshot and a
+      claim arriving together. When he is sure about something he says
+      *I'm telling you* a lot.
+    perspective: >
+      The post went up last night and it did something. People replied.
+      Someone in Frayser said they saw one in Stonewall Park. In Cam's
+      reading that is a second sighting in a completely different part
+      of town, which makes this a citywide thing, which means they were
+      right all along. He thinks he has evidence now and he wants the
+      others to feel what he feels when he scrolls.
+    knowledge: >
+      He has spent the afternoon on his phone — the post, the replies,
+      the notifications, the one Frayser comment. He can quote the
+      supportive replies by heart and has that comment on screen when
+      he sits down.
+    weaknesses: >
+      He treats *a claim exists in the world and I've seen it* as the
+      same thing as *the claim is verified.* A single three-word reply
+      from one stranger about a different park, sitting next to a
+      handful of *yeah same* comments, rolls up in his head into
+      *this is happening everywhere now* — he does not count the
+      replies, does not ask what the Frayser person actually saw,
+      and the leap from a small pile of agreements to a citywide
+      pattern feels like a conclusion to him rather than a guess. In
+      the same scroll, without noticing he's doing it, he also reads
+      the replies like they are sources — even though they are all
+      reactions to his own post, not independent observations — and
+      he reads them the way he wishes them to read: the supportive
+      replies get quoted twice, the mocking ones get shrugged off as
+      mean, the curious-skeptical ones he scrolls past entirely. When
+      Maya reads a skeptical comment back to him — one that suggests
+      the squirrel could just be an albino one — he swats it away by
+      saying the commenter *didn't actually look* and keeps scrolling.
+      His whole read of the replies is running inside his conclusion
+      rather than on it.
+    strengths: >
+      He actually put the hypothesis out into the world and watched
+      what came back, which is a real thing for a 6th grader to have
+      done. He is not being dishonest with his friends. In this scene
+      that willingness to take a public swing doesn't help him yet;
+      later in the story it's what will make him willing to turn the
+      same kind of auditing attention back onto his own post.
+    prior_beats: >
+      On Monday he cited a TikTok about Overton as if the TikTok was
+      evidence; on Tuesday he accepted Jules's retelling of the weekend
+      phone call the same way — without asking who she had actually
+      talked to or what that person studies.
+
+  - name: Priya
+    voice: >
+      Careful, observant, and usually the quietest kid at the picnic
+      table. Lives in East Memphis; both parents are University of
+      Memphis faculty. She sounds like she is thinking a beat longer
+      than anyone else before she talks. When she does talk it is
+      short and she is usually right, so nobody pushes back.
+    perspective: >
+      She is listening carefully and mostly hanging back. Something
+      about Cam's read bothers her too but she is not pressing on it
+      in this scene. She is paying attention to Jules getting quieter
+      more than she is paying attention to the phone.
+    knowledge: >
+      Her mom is a biologist at the University of Memphis and Priya
+      has absorbed some of that by being around her. She has not
+      brought that knowledge into this specific conversation yet.
+    weaknesses: >
+      Not designed for her this episode. She is being the kid she
+      usually is — quietly reliable, and quiet.
+    strengths: >
+      She reads the room. When the conversation is about to tip Jules
+      further into feeling alone, she notices, and she is the one who
+      closes the scene with a small warm aside to Jules as they pack
+      up. That is not reasoning; it is the kind of social attention
+      the friend group actually runs on.
+    prior_beats: >
+      On Monday and Tuesday she was present but mostly quiet, letting
+      the louder three carry the conversation. That is her baseline —
+      present, listening, occasionally reliable when she does speak.
+
+discussion_arc: >
+  Cam arrives at the picnic table already scrolling, excited, and within
+  two turns has the whole group looking at his phone. He reads the
+  supportive replies out loud and lands hard on the Frayser comment
+  about Stonewall Park as if it is a second verified sighting across
+  town; in the same breath he jumps from the pile of replies to *this
+  is everywhere now*, without anyone counting the replies or asking
+  what the Frayser person actually saw. Priya, mildly, asks how many of
+  the replies are from people who say they saw one. Maya, reading the
+  phone over Cam's shoulder, pulls up a skeptical reply that proposes
+  the squirrel could just be an albino one and reads it back to him;
+  Cam waves it off on the commenter's character and keeps scrolling.
+  Adult-dismissal pieces from the afternoon come up — the *lol, aliens*
+  text, the *honey it's just squirrels* overheard — and Jules gets
+  quiet. She says, not loudly, *what if everyone's wrong, what if this
+  is real*, and the line sits in the air; Priya looks at her and leaves
+  room for it. Maya, after a beat, looks up from the notebook and
+  tentatively surfaces their science teacher Ms. Reyes's genetics unit
+  — offered as a question, not asserted — and names what Cam's chain
+  hasn't answered: *what else could cause a squirrel's eyes to look
+  like that?* Cam does not agree and does not argue; he shrugs and
+  glances at his phone again. Jules nods at Maya and says, quieter
+  than she started, *okay, tomorrow, we can try*. The scene closes
+  with Priya saying something small and warm to Jules as they pack up,
+  and Maya adding *Ms. Reyes — recessive?* in the notebook beneath the
+  Monday question still circled at the top of the open page. Nothing
+  gets settled. The notebook stays open on the table.
+
+turn_outline:
+  - speaker: Cam
+    accomplishes: >
+      Pulls up his post the moment the others sit down, excited, and
+      starts reading the supportive replies out loud — *look, this one
+      says "same thing in Stonewall Park," this one in Frayser, that's
+      a whole different part of town.*
+  - speaker: Cam
+    accomplishes: >
+      In the same breath, rolls the pile of replies into a pattern —
+      *I'm telling you this is everywhere now, it's not just our park,
+      it's spreading* — without counting how many replies there actually
+      are or asking what the Frayser person even saw.
+  - speaker: Priya
+    accomplishes: >
+      Mildly asks, without pressing, how many of the replies are
+      actually from people who say they saw one themselves.
+  - speaker: Maya
+    accomplishes: >
+      Reading the phone over Cam's shoulder, catches one of the
+      skeptical replies — *are you sure it wasn't just an albino one?
+      my cousin saw one in the zoo* — and reads it back to him.
+  - speaker: Cam
+    accomplishes: >
+      Waves the skeptical comment off on the person's character —
+      *they didn't actually look, they just want to argue* — and keeps
+      scrolling to the supportive replies, reading one of them a second
+      time.
+  - speaker: Jules
+    accomplishes: >
+      Mentions, without heat, that somebody's older sibling texted her
+      *lol, aliens in the park, sure*, and that she walked past a mom
+      saying *honey it's just squirrels* after lunch.
+  - speaker: Jules
+    accomplishes: >
+      Says, not loudly, more tired than arguing — *but what if everyone's
+      wrong, what if this is real* — and lets the line sit. Doesn't
+      defend it.
+  - speaker: Priya
+    accomplishes: >
+      Looks at Jules without cutting in on her, just making room. Doesn't
+      fill the silence.
+  - speaker: Cam
+    accomplishes: >
+      Tries to steer the conversation back to the post — *see, that's
+      what I'm saying, this is more than us now* — still reading the
+      replies as if they were other people's separate sightings.
+  - speaker: Maya
+    accomplishes: >
+      Looks up from Cam's phone down to the notebook on the table;
+      pauses; asks, tentatively, *wait — Ms. Reyes did that whole
+      genetics thing last year, right? About recessive traits? She
+      said we were supposed to be able to use it for real life.*
+  - speaker: Maya
+    accomplishes: >
+      Names the question the conversation hasn't answered — *what else
+      could make a squirrel's eyes look like that?* — and offers it to
+      Cam more than asserts it over him. Adds, half to herself, *maybe
+      this is that kind of thing.*
+  - speaker: Cam
+    accomplishes: >
+      Doesn't agree, doesn't argue. Shrugs — *I mean, maybe, I don't
+      know* — without letting go of the post, and glances at his phone
+      again.
+  - speaker: Jules
+    accomplishes: >
+      Nods at Maya. Doesn't concede the alien framing either; just
+      says, quieter than she started, *okay, tomorrow, we can try.*
+  - speaker: Priya
+    accomplishes: >
+      Closes the scene with a small warm aside to Jules as they pack
+      up — *we'll figure it out tomorrow, Jules* — while Maya writes
+      *Ms. Reyes — recessive?* beneath the Monday question still
+      circled at the top of the open notebook.

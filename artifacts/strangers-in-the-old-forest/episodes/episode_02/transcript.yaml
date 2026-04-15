@@ -1,0 +1,135 @@
+story_id: strangers-in-the-old-forest
+episode_number: 2
+scenario_id: strangers-in-the-old-forest-ep-02
+personas:
+- name: Jules
+  perspective: 'Saturday night''s call with Anya confirmed what the squirrel already felt like to her.
+    She believes Anya takes the question seriously in the way nobody else in her life has, and she wants
+    the three friends at the table to feel the weight of what a real researcher said. The fear underneath
+    the retelling is that something is happening in Overton and no adult is noticing.
+
+    '
+- name: Maya
+  perspective: 'She can feel Jules''s chain is not closing. The question "how did your brother know Anya
+    was the right person?" is sitting in her head. She also sees Jules''s face and knows Jules is scared.
+    She wants both things — for Jules to be held in the room and for the group to know who Anya actually
+    is — and she does not yet know how to do both at once.
+
+    '
+- name: Cam
+  perspective: 'Something interesting is happening and Jules is making it more interesting. If a researcher
+    at U of M says what his feed has been saying, that is two now — a pattern. He is not trying to be
+    uncritical; he is genuinely excited. He also comes in grudgingly remembering his mom pushing him last
+    night to look up yesterday''s TikTok creator, and he has the result to share whether he wants to or
+    not.
+
+    '
+- name: Priya
+  perspective: 'She is quieter today than yesterday. She heard Jules''s weight on Monday and is absorbing
+    what Jules is saying today rather than arguing with it. Her friend is scared and her friend''s fear
+    is the thing to sit with. She does not reach for what her mom (a U of M biology professor who could
+    most immediately disambiguate "researcher at U of M working on urban wildlife") might know — that
+    reach is not on the table for her in this scene.
+
+    '
+turns:
+- speaker: Jules
+  sentences:
+  - text: OK so.
+    sentence_id: turn_01.s01
+  - text: I talked to someone.
+    sentence_id: turn_01.s02
+  turn_id: turn_01
+- speaker: Cam
+  sentences:
+  - text: Wait, hold on — before you start, my mom made me look up that TikTok from yesterday.
+    sentence_id: turn_02.s01
+  - text: It's some 7th grader in Cordova, comedy account, he does the same aliens bit about every park
+      in Memphis.
+    sentence_id: turn_02.s02
+  - text: I watched like four of them, it's the exact same script.
+    sentence_id: turn_02.s03
+  turn_id: turn_02
+- speaker: Jules
+  sentences:
+  - text: OK anyway — Marcus got me on the phone with this grad student, Anya, and she said stuff like
+      "candidate biosignatures" and "unusual color morphs in isolated urban populations."
+    sentence_id: turn_03.s01
+  - text: That's literally the phrase she used.
+    sentence_id: turn_03.s02
+  - text: She said it's exactly the kind of thing they look for.
+    sentence_id: turn_03.s03
+  turn_id: turn_03
+- speaker: Cam
+  sentences:
+  - text: Wait, so we've got someone at U of M saying basically what my feed's been saying?
+    sentence_id: turn_04.s01
+  - text: That's two now.
+    sentence_id: turn_04.s02
+  - text: Like what else could it even be?
+    sentence_id: turn_04.s03
+  turn_id: turn_04
+- speaker: Maya
+  sentences:
+  - text: Wait — how did your brother know she was the right person to — like what does she actually work
+      on, is she the squirrel kind of —
+    sentence_id: turn_05.s01
+  turn_id: turn_05
+- speaker: Jules
+  sentences:
+  - text: She's a researcher at U of M.
+    sentence_id: turn_06.s01
+  - text: Marcus said she does this stuff, he knows her from colloquia and everything.
+    sentence_id: turn_06.s02
+  turn_id: turn_06
+- speaker: Maya
+  sentences:
+  - text: Yeah, no — Marcus is smart, it's fine.
+    sentence_id: turn_07.s01
+  turn_id: turn_07
+- speaker: Cam
+  sentences:
+  - text: '"Unusual color morphs in isolated urban populations" — dude, that''s us, right?'
+    sentence_id: turn_08.s01
+  - text: That's literally what we saw on Saturday.
+    sentence_id: turn_08.s02
+  turn_id: turn_08
+- speaker: Jules
+  sentences:
+  - text: Right, and the eyes were wrong, and something had to cause that, and she said that's exactly
+      the kind of thing they look for.
+    sentence_id: turn_09.s01
+  - text: Like — nothing else really fits.
+    sentence_id: turn_09.s02
+  turn_id: turn_09
+- speaker: Maya
+  sentences:
+  - text: OK, I mean — if the grad student thinks it, that's worth knowing.
+    sentence_id: turn_10.s01
+  turn_id: turn_10
+- speaker: Jules
+  sentences:
+  - text: Like — what if it's happening and no one's noticing.
+    sentence_id: turn_11.s01
+  turn_id: turn_11
+- speaker: Priya
+  sentences:
+  - text: I hear you.
+    sentence_id: turn_12.s01
+  - text: We're listening, Jules.
+    sentence_id: turn_12.s02
+  turn_id: turn_12
+- speaker: Cam
+  sentences:
+  - text: We should keep meeting about this — like tomorrow, or Thursday.
+    sentence_id: turn_13.s01
+  - text: That grad student thing is real, that's something to hold onto.
+    sentence_id: turn_13.s02
+  turn_id: turn_13
+- speaker: Maya
+  sentences:
+  - text: Yeah.
+    sentence_id: turn_14.s01
+  - text: Tomorrow.
+    sentence_id: turn_14.s02
+  turn_id: turn_14

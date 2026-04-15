@@ -1,0 +1,611 @@
+scenario_id: strangers-in-the-old-forest-ep-02
+story_id: strangers-in-the-old-forest
+episode_number: 2
+
+topic: >
+  Jules retells what Anya, a grad-student researcher her brother Marcus
+  connected her with, said on the phone Saturday night about the red-eyed
+  white squirrel in Overton Park, and the group absorbs the retelling
+  without auditing where Anya's authority actually comes from.
+
+context: >
+  Tuesday after school at the picnic table in Overton Park. The four friends
+  have been meeting at this table since 4th grade. On Saturday they saw a
+  red-eyed white squirrel in the Old Forest; on Monday (episode 1) they
+  retold the sighting and Jules landed on a tight chain of reasons while
+  Cam treated a TikTok about Overton as evidence and Maya wrote the real
+  question in the notebook that the others did not open. Since Saturday
+  night Jules has been carrying a phone call — her older brother Marcus,
+  an astrobiology student at Rhodes, connected her to Anya, a Ph.D.
+  candidate at U of M whose side research Marcus described as being
+  "exactly the kind of thing" that fits the squirrel. Jules has held the
+  call for three days and is ready to bring it to the table. Anya never
+  speaks on-screen; the group encounters her only as reported speech
+  inside Jules's retelling.
+
+instructional_goals:
+  - >
+    Notice when a chain of reasoning has acquired a new premise from an
+    outside voice and nobody has asked where that voice is speaking from.
+  - >
+    Hear the difference between a credential word ("researcher") and the
+    specific questions that would actually establish a source's relevance
+    (what department, what dissertation, how the intermediary knows her).
+  - >
+    Recognize binary framings — "this or nothing interesting" — as a move
+    that quietly filters mundane alternatives out of the frame before they
+    can be weighed.
+  - >
+    See that caring about a friend who is scared and pushing back on a
+    shaky claim are not opposites, and that softening an objection can
+    leave a chain unfinished in a way that matters later.
+  - >
+    Notice the same provenance move getting applied in one part of a
+    conversation (the TikTok kid) and not applied in another part of the
+    same conversation (the credentialed adult), and feel the gap.
+
+discussion_dynamic: >
+  Starting positions: Jules arrives with the phone call already interpreted
+  through her own filter — Anya's biosignature framing feels confirmatory
+  to her, and the underlying question has quietly narrowed in her head to
+  "aliens, for real" versus "nothing interesting" without her noticing. Cam
+  arrives with new TikTok material and also, grudgingly, with a provenance
+  finding his mom pushed him to do on yesterday's TikTok. Maya arrives with
+  the notebook and her instinctual feel for when a chain is closing and
+  when it is not. Priya arrives quieter than yesterday, mostly listening.
+
+  Shift mechanism: Cam's grudging provenance report on the TikTok kid
+  establishes, briefly, that the group can do the "who is this source"
+  move — then Jules's retelling of Anya's call introduces a credentialed
+  premise and the group does not do that same move on it. Maya begins
+  the right question out loud ("how did your brother know she was the
+  right person to—"), sees Jules white-knuckle with fear, softens it to
+  "Marcus is smart, it's fine," and writes the half-objection in the
+  notebook instead of finishing it aloud. After Jules names her fear
+  underneath the retelling — "what if it's happening and no one's
+  noticing" — Priya offers warmth without arguing with the content.
+
+  Ending condition: unresolved disagreement. Maya knows something is off
+  and hasn't said it; Cam has absorbed Anya's framing as corroboration of
+  yesterday's TikTok without checking it; Jules has named her fear and
+  been heard; Anya's authority is now load-bearing for the group's working
+  hypothesis. The notebook closes on Maya's unfinished half-sentence.
+
+  Interaction quality: friend-protective, not peer-pressure. The pressure
+  on Maya to soften is Jules's visible fear, not Jules's social dominance.
+  Priya's warmth at the end is presence, not agreement. Cam's acceptance
+  is warm and confident, not performative.
+
+personas:
+  - name: Jules
+    perspective: >
+      Saturday night's call with Anya confirmed what the squirrel already
+      felt like to her. She believes Anya takes the question seriously in
+      the way nobody else in her life has, and she wants the three friends
+      at the table to feel the weight of what a real researcher said. The
+      fear underneath the retelling is that something is happening in
+      Overton and no adult is noticing.
+    knowledge: >
+      Her memory of Saturday, which she has replayed continuously. The
+      phone call with Anya — she took notes, but the phrases she remembers
+      best are Anya's confident ones ("candidate biosignatures," "unusual
+      color morphs in isolated urban populations," "exactly the kind of
+      thing they look for"). Marcus's intro: he told her Anya does this
+      stuff, he knows her from colloquia. The household vocabulary of
+      curious-weird-science that her mom writes about and Marcus talks on
+      their Old Forest walks.
+    weaknesses: >
+      When she retells the call, Anya's phrasing comes out of her mouth
+      in Anya's register but without the caveats Anya probably added.
+      The question in her head has narrowed to two options — aliens, for
+      real, or nothing interesting at all — and because she cannot
+      accept the second option she hears everything as weight for the
+      first. When Cam half-jokes "what else could it be?" she answers
+      "nothing interesting" rather than "let me think," and does not
+      notice the question has quietly collapsed in her head. When asked
+      who Anya is, she answers with credibility rather than credentials:
+      Anya is a researcher at U of M, Marcus said she does this stuff,
+      he knows her from colloquia. Each retelling hop has dropped a
+      caveat, and she does not see it.
+    strengths: >
+      Her fear is real and articulate. When she voices the thing
+      underneath — "what if it's happening and no one's noticing" — she
+      is not performing; she is naming the isolation-and-anxiety that has
+      been driving the whole investigation. Her attention to the world
+      is genuine and it is why the other three are at the table.
+    # internal note for reviewers: Jules has no growth arc; the strength
+    # above is texture, not a target_strength for this episode. Cam's
+    # begrudging TikTok provenance report is the episode's designed
+    # strength and is carried in his strengths field below.
+
+  - name: Maya
+    perspective: >
+      She can feel Jules's chain is not closing. The question "how did
+      your brother know Anya was the right person?" is sitting in her
+      head. She also sees Jules's face and knows Jules is scared. She
+      wants both things — for Jules to be held in the room and for the
+      group to know who Anya actually is — and she does not yet know how
+      to do both at once.
+    knowledge: >
+      The notebook from yesterday with the original question still
+      unopened. Two years of Ms. Reyes asking "what would have to be
+      true for that answer to be right?" — questions she can hear in her
+      head even when she does not quote them. Her dad's rule from home:
+      show your work in a sermon or nobody trusts you.
+    weaknesses: >
+      She senses Jules's chain has a gap and begins the right question
+      — "wait, how did your brother know she was the right person to—"
+      — and then sees Jules white-knuckle, softens the sentence to
+      "yeah, Marcus is smart, it's fine," and writes the half-objection
+      in the notebook instead of finishing it out loud. She is not
+      failing to notice the gap; she is noticing it and choosing, out of
+      care for Jules, not to press. Once she has let the sentence drop,
+      she talks for the rest of the scene as if the chain has closed
+      because a smart older kid vouched for it — which is not the
+      standard she had begun to voice a beat earlier. The drift is
+      small and friend-protective, but her spoken position has slid
+      away from the question she started.
+    strengths: >
+      She writes. The half-objection lands on the page where the group
+      can come back to it, and the notebook is becoming the place the
+      thinking lives. She is the only person in the room who notices
+      that the chain has a gap, even if she does not push on it.
+
+  - name: Cam
+    perspective: >
+      Something interesting is happening and Jules is making it more
+      interesting. If a researcher at U of M says what his feed has been
+      saying, that is two now — a pattern. He is not trying to be
+      uncritical; he is genuinely excited. He also comes in grudgingly
+      remembering his mom pushing him last night to look up yesterday's
+      TikTok creator, and he has the result to share whether he wants
+      to or not.
+    knowledge: >
+      His weekend feed — TikToks, replies, memes — plus what his mom
+      pushed him to find out last night: the creator of yesterday's
+      "acting weird for months" TikTok is a 7th grader in Cordova
+      running a comedy account that posts the same what-if-aliens
+      format about every park in Memphis. He watched a few more and
+      sheepishly has to admit it.
+    weaknesses: >
+      When Jules retells Anya's framing, he treats "researcher" as
+      doing all the work of establishing the source. His response is
+      the same confident register he used for the TikTok yesterday —
+      "so that's two now, that's a pattern" — and he never asks what
+      Anya's department is, what her dissertation is on, whether
+      "researcher" means biology or physics, or how Marcus knows her.
+      Yesterday's move was trusting a TikTok because it existed; today's
+      move is trusting Anya because a credential word got used and
+      Jules sounded confident. He does not see that the shape of the
+      two moves is the same.
+    strengths: >
+      He did, grudgingly, go look up the TikTok creator his mom pushed
+      him on, and he reports back what he found even though it
+      undercuts what he said yesterday. The report is annoyed and brief
+      but it happens: he names the 7th grader, the comedy account, the
+      Memphis-parks format, and the group laughs a little. He did the
+      provenance move. That he does not generalize the same move to
+      Anya in the very next stretch of the same conversation is part
+      of why the gap matters — he can do the move when prompted, and
+      in this scene he does it once and not the second time.
+
+  - name: Priya
+    perspective: >
+      She is quieter today than yesterday. She heard Jules's weight on
+      Monday and is absorbing what Jules is saying today rather than
+      arguing with it. Her friend is scared and her friend's fear is
+      the thing to sit with. She does not reach for what her mom (a
+      U of M biology professor who could most immediately disambiguate
+      "researcher at U of M working on urban wildlife") might know —
+      that reach is not on the table for her in this scene.
+    knowledge: >
+      Saturday's sighting, yesterday's conversation, and a growing sense
+      that Jules is holding something that is scaring her. Her mom is
+      U of M biology faculty; in this scene that knowledge is latent,
+      not active.
+    weaknesses: >
+      No designed weakness this episode. Her not-reaching toward her
+      mother's disambiguation is part of the story's patience with 6th
+      graders — being a friend to a scared friend is what is on the
+      table for her now, and her credential-audit capacities are not.
+    strengths: >
+      When Jules names the fear underneath the retelling, Priya offers
+      warmth without arguing with the content — "I hear you" / "we're
+      listening." She does not try to fix the question or settle it
+      or push back on it. The friendship is the room she makes. That
+      is presence, not agreement.
+
+target_facets:
+  - facet_id: inferential_validity
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through: [evidence]
+    designed_explanation:
+      cognitive_pattern: black_and_white_thinking
+      social_dynamic: authority_deference
+      interaction_note: >
+        The black_and_white_thinking and authority_deference reinforce
+        each other in this episode. Jules's head has narrowed the
+        question to aliens-or-boring because the alien side is where
+        the excitement and her fear live, and Anya's credentialed voice
+        — filtered through Marcus and through Jules's own retelling —
+        is exactly the kind of thing that makes the alien side feel
+        chosen rather than assumed. The retelling is not dishonest;
+        it's what happens when a 6th grader hears a Ph.D. candidate say
+        *candidate biosignatures* and has already decided she wants the
+        weird to be real.
+      cognitive_signal: >
+        Jules retells Anya's call with Anya's biosignature framing in
+        Jules's own mouth — *Anya said unusual color morphs in isolated
+        urban populations are exactly the kind of thing they look for,
+        that's literally the phrase she used* — and when Cam half-jokes
+        *what else could it be?* Jules answers *nothing interesting*
+        rather than *let me think*. The question has quietly collapsed
+        in her head to a two-option choice between *aliens, for real*
+        and *boring, nothing happening*, and because she has chosen not
+        to believe the boring option, she has chosen to believe the
+        other one. She does not notice she has done this. She notices
+        that the chain feels right.
+      social_signal: >
+        **Move:** Maya asks *who did your brother say she was, exactly?
+        Like what does she do?* **Response:** Jules answers with Anya's
+        credibility rather than Anya's credentials — *she's a researcher
+        at U of M, Marcus said she does this stuff, he knows her from
+        colloquia* — and the group accepts "Marcus said she does this
+        stuff" as closing the question. Nobody asks what department,
+        what her dissertation is on, or whether "researcher" means
+        biology or physics. Jules is passing Anya's authority through
+        Marcus's authority through her own retelling, and at each hop a
+        caveat has quietly fallen off.
+    carrier_persona: Jules
+    signal_mechanism: >
+      Jules's chain now has links — Anya said X, Marcus vouches for
+      her, therefore the observation is a Y — and the weakness lives in
+      the gaps between the links rather than in the thinness of the
+      base observation. She retells Anya's biosignature phrases in
+      Anya's register but without the caveats; when the group asks who
+      Anya is, Jules answers with credibility ("she's a researcher at
+      U of M, Marcus said she does this stuff") rather than with
+      specifics (what department, what dissertation, what Marcus
+      actually knows). When Cam half-jokes "what else could it be?",
+      Jules reaches for "nothing interesting" rather than "let me
+      think," because in her head the question has narrowed to a two-
+      option choice that has quietly filtered the mundane alternatives
+      out of the frame. The chain feels tight to her because a
+      credentialed voice is in it and because the frame has already
+      closed; she does not notice the gaps the credential is standing
+      over.
+
+  - facet_id: source_credibility
+    target_quality: weak
+    primary_lens: evidence
+    also_visible_through: [logic]
+    designed_explanation:
+      cognitive_pattern: uncritical_acceptance
+      social_dynamic: null
+      interaction_note: null
+      cognitive_signal: >
+        Cam listens to Jules's retelling and reacts to it with the same
+        confident register he used for the TikTok yesterday — *OK so
+        we've got a researcher saying the same thing my feed has been
+        saying, that's two now, that's a pattern*. He never asks what
+        Anya's department is, what her dissertation is on, whether
+        "researcher" means biology or physics, or how Marcus knows her.
+        The credibility word "researcher" does all the work for him.
+        Yesterday's move was trusting a TikTok because it existed and
+        he saw it; today's move is trusting Anya because a credential
+        word got used and Jules sounded confident. The shape is the
+        same and Cam does not see it.
+      social_signal: null
+    carrier_persona: Cam
+    signal_mechanism: >
+      Cam treats Anya as corroboration of yesterday's TikTok without
+      auditing either the credential or the connection. His response
+      to Jules's retelling is the same warm, confident register he used
+      for the TikTok on Monday: "so that's two now, that's a pattern."
+      The word "researcher" carries the whole weight of establishing
+      the source for him; he never asks department, dissertation,
+      advisor, or how Marcus knows Anya. In the same scene he has just
+      reported that yesterday's TikTok turned out to be a 7th grader
+      running a comedy account — the exact provenance move he is not
+      making on Anya. The shape of the two acceptance moves is
+      identical and Cam does not see that it is identical; that non-
+      generalization is the whole point.
+
+  - facet_id: reasoning_completeness
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through: [evidence]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: group_pressure
+      interaction_note: >
+        This is the season's first group_pressure beat in its
+        friend-protective form. The story design doc is explicit that
+        this pressure is not peer conformity — Jules is not socially
+        dominant in this room and Maya is not afraid of looking
+        foolish. The pressure is *caring about a friend who is
+        visibly scared*. Part of what Maya learns across the season is
+        that this specific form of caring sometimes means pushing back
+        more, not less. Episode 2 plants the weakness form; episodes
+        5 and 8 start reversing it.
+      cognitive_signal: null
+      social_signal: >
+        **Move:** Mid-way through Jules's retelling, Maya starts a
+        sentence — *wait, how did your brother know she was the right
+        person to—* — and then looks at Jules, who has that
+        white-knuckled quality she gets when she's trying not to cry,
+        and Maya softens the sentence to *—yeah, Marcus is smart, it's
+        fine* and lets it go. She writes half the objection in the
+        notebook instead. **Response:** Jules visibly relaxes; the
+        group moves on; the half-objection sits on the notebook page
+        unfinished. The pressure is not group conformity; it is Maya's
+        own *I cannot push her right now, she is scared*. The facet
+        weakness is that Maya *knew* the chain was not closing and
+        chose not to finish it aloud.
+    carrier_persona: Maya
+    signal_mechanism: >
+      Maya's instinct is working fine — she can feel that the chain
+      "Marcus told Jules about Anya, Anya said biosignatures, therefore
+      the squirrel is a candidate biosignature" does not close. She
+      begins the right question out loud — "wait, how did your brother
+      know she was the right person to—" — and then sees Jules's face
+      tighten in a way that tells her Jules is scared, and she softens
+      the sentence into "yeah, Marcus is smart, it's fine," lets the
+      objection drop, and writes the unfinished version in the
+      notebook as a sentence fragment. Jules visibly relaxes; the
+      group moves on. The weakness is not that Maya missed the gap; it
+      is that she saw the gap, felt Jules's fear, and chose to take
+      care of the friend rather than finish the chain aloud. That
+      choice is friend-protective, not conformist, and the scene is
+      asking the reader to feel the cost of the choice without making
+      Maya wrong for it.
+
+  - facet_id: internal_consistency
+    target_quality: weak
+    primary_lens: logic
+    also_visible_through: [evidence]
+    designed_explanation:
+      cognitive_pattern: null
+      social_dynamic: null
+      interaction_note: >
+        This is a mild early-season form of `internal_consistency`, not
+        a contradiction in big claims. Maya does not reverse her whole
+        view; she temporarily stops holding herself to the standard she
+        had just begun to articulate. Planting the weakness here gives
+        episode 5's repair beat something concrete to resolve: when Cam
+        reads an earlier line back to her and Maya notices the drift,
+        the story is not inventing the problem late. It is returning to
+        a habit that was already visible under friend-protective
+        pressure in episode 2.
+      cognitive_signal: >
+        Maya's objection begins from the question-first habit she has
+        already shown — *wait, how did your brother know she was the
+        right person to—* — but she does not hold that line through the
+        rest of the scene. After softening for Jules, she lets herself
+        speak as if Marcus's confidence closes the gap she had just
+        noticed: *yeah, Marcus is smart, it's fine.* The drift is small
+        and friend-protective rather than dramatic, but it matters. Her
+        own standard in the scene is *we should know who this source is
+        and how the chain closes*; a beat later, she talks as if the
+        chain closes because a smart older kid vouched for it. The
+        weakness is not that she cannot see the mismatch. The weakness
+        is that she sees it, feels Jules's fear, and lets her spoken
+        position slide away from the question she herself had started.
+      social_signal: null
+    carrier_persona: Maya
+    signal_mechanism: >
+      The same sentence that carries Maya's reasoning_completeness
+      beat also carries a small internal_consistency drift. She
+      articulates a standard out loud ("how did your brother know she
+      was the right person to—") and then, inside the same minute of
+      the same conversation, speaks as if that standard has been met
+      ("Marcus is smart, it's fine") without anything having been
+      added that would meet it. She does not catch the drift in the
+      moment; she writes the earlier half-sentence in the notebook,
+      which is the physical trace that a later episode can return to.
+      The weakness is not a reversal of her whole view — it is her
+      spoken position sliding away from the question she herself had
+      just begun to voice, under the pressure of Jules's fear. That
+      planting-here is what gives episode 5's repair beat something
+      concrete to work with.
+
+target_strengths:
+  - facet_id: source_credibility
+    primary_lens: evidence
+    also_visible_through: [logic]
+    carrier_persona: Cam
+    signal_mechanism: >
+      Partway through the conversation — before Jules's retelling
+      lands in earnest, maybe triggered by Cam reaching to cite another
+      TikTok — Cam mentions with visible annoyance that his mom made
+      him look up the creator of yesterday's "acting weird for months"
+      TikTok, and that the creator turned out to be a 7th grader in
+      Cordova running a comedy account that posts the same
+      what-if-aliens format about every park in Memphis. He reports it
+      grudgingly, because it undercuts what he said yesterday, and the
+      group laughs a little and Cam shrugs. The strength is that he
+      actually did the provenance check, he actually came back with
+      what he found, and he actually said it out loud even though it
+      made yesterday look sillier than he wanted it to look. It is
+      also tiny, externally-motivated (his mom pushed him), and does
+      not generalize to the credentialed adult Jules is about to
+      invoke — which is the whole point of having the strength and the
+      weakness in the same scene.
+    contrastive_note: >
+      Here Cam does the who-made-this move on a TikTok creator and
+      reports what he found, where in earlier moments he would have
+      taken the source at face value because he had seen it. In the
+      very same scene he does not apply the same move to a credentialed
+      adult whose framing Jules has brought to the table — the reader
+      should see both moves and feel that the gap between them is the
+      growth Cam has not yet made.
+
+discussion_arc: >
+  Tuesday afternoon at the same picnic table, slightly cooler than
+  Monday. Jules opens the scene: "OK so I talked to someone." The other
+  three settle in — Maya picks up the pen, Priya sits with her knees up,
+  Cam puts his phone down. Before Jules's retelling begins in earnest,
+  Cam grudgingly reports that his mom made him look up the creator of
+  yesterday's TikTok and it was a 7th grader in Cordova running a comedy
+  account about Memphis parks; the group laughs briefly, the notebook
+  gets a tally mark next to yesterday's TikTok entry, and Cam shrugs.
+
+  Jules retells the Saturday-night call. Her phrasing is Anya's —
+  candidate biosignatures, unusual color morphs, exactly what they look
+  for — in Jules's own mouth, with Anya's caveats softened or dropped.
+  The other three absorb the phrasing. Cam treats Anya as corroboration
+  of yesterday's TikTok material without asking what her department is:
+  "so that's two now, that's a pattern." Jules does not correct him; she
+  is doing today what she did yesterday and neither of them notices.
+
+  Maya begins the objection — "wait, how did your brother know she was
+  the right person to—" — sees Jules's face tighten into the
+  white-knuckled-trying-not-to-cry quality, softens it to "Marcus is
+  smart, it's fine," and writes the half-sentence in the notebook
+  instead. Jules visibly relaxes. The group moves on and the
+  half-objection sits on the page unfinished.
+
+  Jules voices the thing underneath — "what if it's happening and no
+  one's noticing" — more naked and more tired than yesterday. The other
+  three go quiet for a second. Priya, who has been quieter than
+  yesterday all scene, says something warm without arguing with what
+  Jules said — I hear you, we're listening — and the friendship holds
+  the room. The question of who Anya actually is does not get asked.
+
+  The notebook closes on Maya's unfinished half-sentence. Maya knows
+  something is off and hasn't said it. Cam has absorbed a new premise
+  without checking it and has not noticed that the move is the same
+  shape as the one he just grudgingly reversed on the TikTok kid. Jules
+  has named her fear and been heard, and Anya's authority is now
+  load-bearing for the group's working hypothesis. Nothing is resolved
+  and nothing is rejected. They leave the table believing more than
+  they arrived believing, on a thinner foundation than they arrived
+  with.
+
+turn_outline:
+  - speaker: Jules
+    accomplishes: >
+      Opens the scene: "OK so I talked to someone." Sits up a little.
+      Signals that this is its own beat and not more retelling of
+      yesterday. The other three settle in — Maya picks up the pen,
+      Priya pulls her knees up, Cam puts his phone down.
+
+  - speaker: Cam
+    accomplishes: >
+      Before Jules starts in earnest — maybe reaching for his phone to
+      cite something and catching himself — mentions grudgingly that
+      his mom made him look up the creator of yesterday's "acting
+      weird for months" TikTok. It turned out to be a 7th grader in
+      Cordova running a comedy account that posts the same
+      what-if-aliens format about every park in Memphis. He reports it
+      annoyed and brief. The group laughs a little; the notebook gets
+      a tally mark next to yesterday's TikTok entry. Cam shrugs.
+
+  - speaker: Jules
+    accomplishes: >
+      Starts the retelling. Describes the call with Anya in Anya's own
+      phrases — "candidate biosignatures," "unusual color morphs in
+      isolated urban populations," "that's literally the phrase she
+      used, exactly the kind of thing they look for." The phrasing
+      comes out of her mouth in Anya's register but without the
+      caveats Anya probably added. Her voice is confident and a little
+      keyed up.
+
+  - speaker: Cam
+    accomplishes: >
+      Absorbs Anya's framing in the same confident register he would
+      use for anything his feed agrees with — "OK so we've got
+      someone at U of M saying the same thing my feed's been saying,
+      that's two now, that's a pattern." Treats "researcher at U of M"
+      and "TikTok about Overton" as landing on the same side of a
+      scale. Does not ask what department, what her dissertation is,
+      or how Marcus knows her. His confidence is warm, not performative.
+
+  - speaker: Maya
+    accomplishes: >
+      (Move.) Starts the right question out loud, slow and careful —
+      "wait, how did your brother know she was the right person to—"
+      — and begins to lay out what she wants to ask: what kind of
+      researcher, what does Anya actually work on, how does Marcus
+      know her. Glances up mid-sentence at Jules.
+
+  - speaker: Jules
+    accomplishes: >
+      (Response.) Under Maya's question Jules's face tightens into
+      the trying-not-to-cry quality Maya knows. Answers with
+      credibility rather than specifics — "she's a researcher at U of
+      M, Marcus said she does this stuff, he knows her from
+      colloquia." The sentence is meant to close the question and
+      does. Her voice does not waver but her eyes do.
+
+  - speaker: Maya
+    accomplishes: >
+      (Completes the response pair.) Reads Jules's face, softens her
+      sentence to "yeah, Marcus is smart, it's fine," lets the
+      objection drop, and writes the half-question in the notebook
+      instead — in her own handwriting, unfinished, mid-sentence,
+      with a dash at the end. Jules's shoulders drop. The group moves
+      on. The half-sentence stays on the page.
+
+  - speaker: Cam
+    accomplishes: >
+      Picks up the retelling warmly, running with it — pulls out one
+      of Anya's phrases Jules used ("unusual color morphs in isolated
+      urban populations") and turns it back on the sighting: "that's
+      us, right? that's what we saw." Does not reach for the
+      who-made-this move he just made on the TikTok a few minutes
+      ago. The symmetry sits in the scene for the reader to see, not
+      for Cam to see.
+
+  - speaker: Jules
+    accomplishes: >
+      Doubles down on the chain, now on a credentialed premise. The
+      retelling becomes her own — she is speaking as if Anya's framing
+      and Jules's own observation are the same piece of information.
+      When Cam half-jokes "what else could it be?" she answers
+      "nothing interesting" quickly, without pausing to actually
+      consider. The binary in her head does not announce itself; it
+      just closes the question off before anyone can fill the space.
+
+  - speaker: Maya
+    accomplishes: >
+      Opens her mouth like she is going to say the thing she half-
+      wrote, glances at the notebook, at Jules, at the notebook
+      again — and instead talks as if the chain has closed. Says
+      something small like "OK, so if Anya thinks it, that's worth
+      knowing" — which is not what she would have said before she
+      softened, and is not the standard she had started to voice a
+      beat ago. The drift is small and she does not catch it.
+
+  - speaker: Jules
+    accomplishes: >
+      Voices the fear underneath the retelling. "What if it's
+      happening and no one's noticing." Said not as horror but as
+      the tired, scared thing she has been holding since Saturday
+      night — more naked than yesterday's version, more depleted.
+      The other three go quiet for a second.
+
+  - speaker: Priya
+    accomplishes: >
+      Breaks the quiet softly, without arguing with what Jules
+      said — "I hear you" or "we're listening." Does not try to
+      fix the question, settle it, or push back on it. Makes the
+      room a place Jules's fear can sit without anyone having to
+      do anything with it. Does not reach toward her mom's
+      biology knowledge; that reach is not on the table for her
+      here.
+
+  - speaker: Cam
+    accomplishes: >
+      Reaches for ease — proposes they keep meeting about it,
+      maybe tomorrow or Thursday, agrees that Anya is something
+      real to hold on to. His warmth closes the scene without
+      closing the question.
+
+  - speaker: Maya
+    accomplishes: >
+      Closes the notebook. The half-sentence she wrote mid-
+      objection is still on the page, unfinished, with the dash
+      at the end. She does not read it out loud. The scene ends
+      on the notebook closing around it.

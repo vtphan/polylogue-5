@@ -1,0 +1,56 @@
+turns:
+  - speaker: Jules
+    sentences:
+      - text: OK so.
+      - text: I talked to someone.
+  - speaker: Cam
+    sentences:
+      - text: Wait, hold on — before you start.
+      - text: My mom made me look up who made that TikTok from yesterday.
+      - text: It's some 7th grader in Cordova, he does the same aliens bit about every park in Memphis, I watched like four of them.
+  - speaker: Jules
+    sentences:
+      - text: OK anyway — Marcus got me on the phone with this grad student, Anya, and she said stuff like "candidate biosignatures" and "unusual color morphs in isolated urban populations."
+      - text: That's literally the phrase she used.
+      - text: She said it's exactly the kind of thing they look for.
+  - speaker: Cam
+    sentences:
+      - text: Wait, so we've got someone at U of M saying basically what my feed's been saying?
+      - text: That's two now.
+      - text: That's like a pattern.
+  - speaker: Maya
+    sentences:
+      - text: Wait, how did your brother know she was the right person to — like, what does she actually do, is she the squirrel kind of —
+  - speaker: Jules
+    sentences:
+      - text: She's a researcher at U of M.
+      - text: Marcus said she does this stuff, he knows her from colloquia and everything.
+  - speaker: Maya
+    sentences:
+      - text: Yeah, no, Marcus is smart, it's fine.
+  - speaker: Cam
+    sentences:
+      - text: "\"Unusual color morphs in isolated urban populations\" — dude, that's us, right?"
+      - text: That's literally what we saw.
+  - speaker: Jules
+    sentences:
+      - text: Right, and the eyes were wrong, and something had to cause that, and she said that's exactly the kind of thing they look for.
+      - text: Like what else could it even be.
+  - speaker: Maya
+    sentences:
+      - text: OK, I mean — if the grad student thinks it, that's worth knowing.
+  - speaker: Jules
+    sentences:
+      - text: Like — what if it's happening and no one's noticing.
+  - speaker: Priya
+    sentences:
+      - text: I hear you.
+      - text: We're listening, Jules.
+  - speaker: Cam
+    sentences:
+      - text: We should keep meeting about this — like tomorrow, or Thursday.
+      - text: That grad student thing is real, that's something to hold onto.
+  - speaker: Maya
+    sentences:
+      - text: Yeah.
+      - text: Tomorrow.
