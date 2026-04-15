@@ -24,6 +24,7 @@ Lens is designed for a specific instructional setting:
 - Sessions happen during a **Friday period** within a broader school schedule.
 - Students are working in **project-based learning (PBL)** contexts.
 - They typically work in **groups of 3-5 students**.
+- Students access Lens on **laptops or tablets** while seated in those groups.
 - Lens is used during a limited number of class periods allocated to critical-thinking work, not as a full daily curriculum.
 
 This context matters because the app is not optimizing for solitary long-form study, open-ended tutoring, or individualized adaptive instruction as its primary mode. It is optimizing for short, structured classroom sessions that sit alongside ongoing PBL work.
@@ -128,6 +129,7 @@ The following are product-level constraints for Lens:
 
 - middle-school audience
 - small-group classroom use
+- laptop/tablet classroom use during group activity
 - Friday-period / limited-session instructional setting
 - attachment to PBL contexts
 - episodes as the primary learning medium
@@ -160,6 +162,8 @@ Because of the context above, Lens should generally be designed as:
 - a structured analysis tool, not an open sandbox
 - a bridge from exemplar discussions to students' own project reasoning
 - a system that helps teachers orchestrate critical-thinking practice in limited time
+
+Lens should also assume that teachers can require students to begin the activity, but that the app itself must help sustain engagement once students are seated with devices. Teacher authority may initiate participation, but it should not be the primary mechanism that keeps students involved from moment to moment.
 
 Design choices should be evaluated against that reality.
 

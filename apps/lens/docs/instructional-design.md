@@ -1,229 +1,205 @@
-# Lens App: Instructional Design and Artifact Generation
+# Lens Instructional Design
 
-This document specifies the instructional design and artifact generation pipeline for the **Lens** application — the first application built on the [Perspectival Framework for Teaching Critical Thinking](../../../framework/docs/conceptual-framework.md).
+This document is now a working draft for redesign. It is intentionally provisional.
 
-In Lens, students read AI-generated group discussions and evaluate highlighted passages through the framework's three lenses. The core activity is individual articulation followed by group discussion — a reflective, writing-centered experience designed for depth.
+The stable background and product constraints for Lens are documented in `app-background.md`. Everything here should be treated as negotiable and open to revision.
 
-The framework itself (lenses, facets, explanatory variables) is an ontology of reasoning quality; it does not prescribe how students should encounter it. This document records Lens's specific pedagogical choices for turning that ontology into a student experience.
+The purpose of this file is to help us think clearly about the instructional design of Lens before locking in interface, flow, or pipeline assumptions.
 
----
+The current design is overloaded. It asks for too many cognitive moves too early, over-assumes student readiness for written articulation, and bundles together ambitions that should probably be separated into primary goals, secondary goals, and longer-term development. This draft is trying to simplify the design and make the learning model more realistic for the classroom context.
 
-# Pedagogical Stance
+## Table of Contents
 
-Lens commits to four choices about *how* to realize the framework's affordances with middle-school students. These are Lens's design decisions, not framework requirements — a different application could make different choices and still be faithful to the framework.
-
-**Articulation over classification.** Students put what they see into their own words rather than selecting from a menu. Writing "there's a lot of evidence but the sources aren't reliable" is more cognitively productive than picking "mixed" from a dropdown, because the insight is generated rather than recognized (drawing on Chi's self-explanation research). The free-text response is the unit of learning; lens and strength/weakness tags are scaffolds that commit a student to a position for discussion.
-
-**Facets hidden from students.** Lens never shows students the facet inventory, never asks them to classify by facet, and never teaches facet names. Facets are a designer's and teacher's vocabulary only. The bet is that hiding the target preserves the cognitive work of discovery: a student who writes "they jumped to the conclusion without showing how" has perceived reasoning completeness without being told it exists. Making the target visible would let students hunt for labels instead of perceiving reasoning.
-
-**Four sequenced sources of perspective.** Every passage moves through four sources in a fixed order: **individual → peer → AI voice → teacher**. Individual before peer ensures every student commits to a reading before encountering others (preventing anchoring). Peer before AI creates genuine discussion because no participant has authority — students argue on merit. The AI voice is positioned as a fallible external reference, not an answer key: one more perspective to engage with. The teacher is the real expert in the room, synthesizing across groups in whole-class debrief. Authority lives with the human, not the algorithm. This preserves the benefits of cognitive conflict (motivation to revise, schema restructuring) without the classroom risks of top-down correction with middle-schoolers.
-
-**Learning measured by articulation quality, range, and explanatory depth — not flaw-identification accuracy.** Lens does not grade students on getting the "right" reading of a passage. Growth looks like: (1) increasing specificity in what students name, (2) willingness to look through more than one lens, and (3) reasoning about *why* using both cognitive and social forces and beginning to see their interaction. The rubrics in `scaffolding.yaml` are a matching vocabulary for approximate assessment, not an answer key.
+- [1. Primary Learning Goal](#1-primary-learning-goal)
+- [2. Secondary Learning Goals](#2-secondary-learning-goals)
+- [3. Instructional Strategies in Lens](#3-instructional-strategies-in-lens)
+- [4. Operationalizing the Strategies Through Lens](#4-operationalizing-the-strategies-through-lens)
+- [5. Instructional Roles](#5-instructional-roles)
+- [Next Questions](#next-questions)
 
 ---
 
-# Instructional Design
+## 1. Primary Learning Goal
 
-## What Students Work With
+Lens should primarily help students improve their **critical thinking in group discussions**.
 
-An AI pipeline generates scripted multi-character discussions on age-appropriate topics (e.g., a class debating a field trip). The discussions contain predominantly weak reasoning with genuine moments of sound reasoning — sound reasoning provides contrast, motivation, and calibration; weak reasoning is easier to perceive when it sits next to strong reasoning.
+This aligns with the discussion-centered character of PBL work at UMS. Lens is not mainly trying to teach isolated argument terminology or abstract critical-thinking vocabulary. It is trying to help students become better at noticing and judging the quality of reasoning that appears when people think together.
 
-Students read the full discussion, then work through highlighted passages where something interesting is happening in the reasoning. Passages are ordered from most accessible to most subtle.
+For now, the primary goal can be framed as:
 
-## What Students Do
+- noticing the quality of reasoning in a discussion
+- evaluating that reasoning in a basic but meaningful way
 
-For each passage, students choose one or more lenses (Evidence, Logic, Scope), rate the passage as strong or weak on each chosen lens, and articulate why. There is no separation between evaluation and explanation — students respond to an open prompt that invites both.
+This is a stronger and more useful goal than simple awareness, but still more realistic than expecting all students to produce sophisticated written articulation from the start.
 
-## Per-Passage State Machine
+In practical terms, Lens should help students learn that:
 
-Each passage progresses through four states. This is not a linear sequence — it is a state machine with multiple valid transitions.
+- discussions are not just things you participate in
+- discussions can be inspected for reasoning quality
+- people can disagree about what is strong or weak in a discussion
+- critical thinking applies to collaborative talk, not only to essays or formal arguments
 
-**Diagnose.** Each student chooses one or more lenses, rates the passage as strong or weak on each chosen lens, and writes their diagnosis. They cannot see peers' diagnoses until they submit their own. Students work on passages asynchronously — a fast student might be diagnosing Passage 3 while another is still on Passage 1. Group discussion for a passage opens when all members have diagnosed it.
+Near-term success should be defined accordingly. A successful session should leave students engaged, feeling that this is a new and interesting kind of classroom experience, and more aware that discussions can be evaluated for critical-thinking quality. Engagement is not just a desirable side effect; it is a practical design requirement.
 
-**Discuss.** All diagnoses become visible. The app highlights divergence. Discussion happens face-to-face at the table. From here, the group can submit an assessment or spend a lifeline to see a scaffold.
+### Possible Lens Progression
 
-**Reviewing AI.** The AI perspective is visible — either accessed via lifeline (before assessment) or unlocked free (after assessment). The group discusses it and may return to discussion or submit/revise their assessment.
+Rather than relying on a generic taxonomy such as Bloom's, Lens may need its own progression for critical thinking in group discussion.
 
-**Submit Assessment.** The group records their assessment — their collaborative, considered reading of the passage. The assessment is always revisable; there is no finality.
+A possible draft progression:
 
-Valid transitions:
+1. **Notice**  
+   The student notices that something in the discussion is worth attending to.
 
-- **Diagnose → Discuss:** Gated. All group members must have diagnosed this passage.
-- **Discuss → Submit Assessment:** Free. Group submits their assessment.
-- **Discuss → Reviewing AI:** Costs a lifeline. Group chooses to see the AI before committing.
-- **Submit Assessment → Reviewing AI:** Free. AI unlocks automatically after submission.
-- **Reviewing AI → Discuss:** Free. AI perspective sends group back to discussion.
-- **Reviewing AI → Submit Assessment:** Free. Group submits or revises after seeing AI.
-- **Submit Assessment → Discuss:** Free. Group reopens discussion to revise.
+2. **Point**  
+   The student can point to a specific moment, line, or move in the discussion.
 
-## Chat-Style Interaction
+3. **Interpret**  
+   The student can say something basic about what seems strong, weak, incomplete, or questionable.
 
-Individual diagnoses and group assessments are messages in a thread, not form submissions. Students don't edit previous messages — they append new ones. If a student wants to update their thinking, they write a new message. This mirrors the texting interaction natural to this age group.
+4. **Compare**  
+   The student recognizes that another person may see the discussion differently and can engage that difference.
 
-A passage thread captures the full progression: individual diagnoses, group discussion, assessments, reactions to scaffolds, reactions to the AI perspective. The thread is the record — revision history is simply the thread itself.
+5. **Evaluate**  
+   The student gives a reasoned judgment about the quality of the reasoning.
 
-## Scaffolding
+6. **Explain**  
+   The student begins to explain why the reasoning may have happened.
 
-### Front-Door Explicit Scaffolds
+7. **Transfer**  
+   The student starts applying this way of seeing to their own group discussions.
 
-The assistive package should not rely only on gradual hints after students have already found a foothold. Some students will not yet know what a reasoning flaw looks like in practice, and some episodes will carry enough novelty or factual uncertainty that "notice something interesting" is too much to ask at the start.
-
-Lens therefore needs a stronger front-door scaffold in the package: short explicit-support cards the app can surface when students cannot begin, are only guessing, or are locked into a misread. These cards do one of two jobs:
-
-- **Model an episode flaw directly.** Point to a turn, say what is weak about it in plain language, and explain why.
-- **Bridge with a transfer example.** Give a simple example of the same kind of flawed move, then ask students to find a similar move in the current episode.
-
-These are not replacements for productive struggle. They are on-ramps into it. The card should end by handing students back to the episode so the next move is still noticing, explaining, discussing, and revising.
-
-### Unified Scaffold Sequence
-
-For each passage, the pipeline produces a graduated scaffold sequence: one or more hints followed by the AI perspective as the final entry. Minimum two entries per passage (one hint + AI perspective). Each hint is progressively more revealing and supportive, but even the last hint does not give away the answer.
-
-### Lifeline Mechanics
-
-Each hint costs one lifeline from a shared pool. Hints are sequential. The AI perspective is always free after the group submits an assessment. Groups can skip remaining hints at any time by submitting.
-
-### Automatic Mechanisms
-
-Three built-in mechanisms fire without student action and cost no lifelines:
-- *Misreading redirects* catch common misunderstandings after a diagnosis and gently reorient attention
-- *Deepening probes* push students to go further after submitting a diagnosis
-- *Difficulty ordering* sequences passages from most accessible to most challenging
-
-## The Progressive Loop
-
-The AI perspective is revealed per passage, not in a batch. Each reveal calibrates how students approach the next passage. A group that sees the AI notice a scope problem they missed on Passage 1 is primed to look more carefully through the Scope lens on Passage 2. The group can also revisit and revise previous assessments at any time.
-
-## Teacher Debrief
-
-After all groups have submitted assessments, the teacher leads a whole-class discussion. The teacher's role during the session is minimal — observing, not intervening. At the end, the teacher synthesizes across groups, surfaces patterns, introduces formal vocabulary where it adds precision, and records an assessment note in the app.
-
-## Assessment
-
-Learning is tracked across five dimensions, none of which require LLM access at runtime:
-
-- **Articulation quality** — Does the student's diagnosis match any of the facets present in the passage? The app compares free-text responses against pre-computed observation rubric entries at three levels (basic, developing, differentiated) using approximate matching.
-- **Perspectival range** — Does the student diagnose through multiple lenses across sessions? Tracked from stored lens tags.
-- **Explanatory depth** — Does the student's response reference both cognitive and social forces? Does it connect them? Compared against pre-computed explanation rubric entries organized by type (cognitive-only, social-only, interaction) and level.
-- **Scaffolding independence** — Is the student relying less on hints over time? Tracked from scaffold consumption data.
-- **Engagement** — Message count, participation in group threads, responses to AI perspective.
-
-The observation and explanation rubrics are the key enablers for app-side assessment. The three differentiation levels let the app track whether a student's responses are becoming more specific over time — the definition of evaluative differentiation and explanatory reasoning. This matching remains approximate — student responses are free text, not structured data. A student who writes something valid that neither the evaluator nor the instructional designer anticipated should be recognized, not penalized. The rubric entries are a matching vocabulary, not a grading rubric.
+This is not yet a final taxonomy. It is a working proposal that may be useful because it gives Lens a lower floor for participation and a clearer progression over time.
 
 ---
 
-# Artifact Generation
+## 2. Secondary Learning Goals
 
-## The Architectural Principle
+These matter, but should not dominate every session.
 
-The Lens app does not invoke an LLM at runtime. All intelligence the app needs — hints, AI perspectives, rubric entries, misreading redirects, facilitation prompts — must be pre-computed by the pipeline and baked into artifacts. The pipeline has LLM access; the app renders, matches, and sequences, but does not generate.
+- Students begin to notice different dimensions of reasoning, such as logic, evidence, and scope.
+- Students become more open to different perspectives by comparing their interpretations with peers and recognizing that disagreement can be productive.
+- Students begin to connect weak reasoning to cognitive habits and social dynamics.
 
-This constraint is deliberate. It makes sessions deterministic — every student in a class encounters the same scaffolding. It keeps runtime costs zero. It ensures every piece of content students encounter has been reviewed by the pipeline's quality checks and, optionally, by the teacher before the session.
+These goals are important, but they should not all be treated as immediate expectations in every session. In particular, connecting weak reasoning to cognitive habits and social dynamics is likely a more advanced secondary goal than simply noticing reasoning dimensions or engaging productively with peer disagreement.
 
-The consequence: the pipeline must anticipate what the app will need. Every scaffolding move, every assessment comparison, every teacher prompt must be produced at pipeline time. The artifacts are the complete contract between the pipeline and the app.
-
-## What the Pipeline Produces
-
-The pipeline produces six artifacts per scenario. Each is a YAML file stored in `artifacts/{scenario_id}/`.
-
-| Artifact | File | Consumer | Purpose |
-|---|---|---|---|
-| Scenario plan | `episode.yaml` | Pipeline only | Blueprint — topic, personas, targeted facets, discussion arc |
-| Discussion transcript | `transcript.yaml` | App (student-facing) | The scripted group discussion students evaluate |
-| Expert analysis | `analysis.yaml` | App (AI perspective) + teacher | Per-passage facet annotations, AI perspective, diversity metadata |
-| Facilitation guide | `facilitation.yaml` | Teacher | What's structurally present, what students will likely see/miss, debrief materials |
-| Scaffolding materials | `scaffolding.yaml` | App (runtime) | Hints, deepening probes, misreading redirects, rubrics, AI reflection prompts |
-| Session configuration | `session.yaml` | App (setup) | Which passages, lens definitions, passage ordering, file references |
-
-### Why These Six
-
-Each artifact exists because a specific consumer needs it at a specific moment. The mapping to the per-passage state machine:
-
-**Diagnose** requires the transcript (what students read), the session configuration (which passages, lens definitions, suggested order), and the scaffolding materials (deepening probes after submission, misreading redirects after submission).
-
-**Discuss** requires no pipeline artifact for students — peer exchange uses live student responses. The teacher uses the facilitation guide's discussion prompts and observation predictions. The transcript must be rich enough to produce diverse readings, which is a generation concern (episode plan + dialog writing).
-
-**Reviewing AI** requires the AI perspective from the expert analysis and the scaffold sequence from the scaffolding materials — the graduated hints leading to the AI perspective, plus the reflection prompt shown after the AI perspective is revealed.
-
-**Submit Assessment** requires the scaffolding materials' observation and explanation rubrics for approximate matching — tracking articulation quality and explanatory depth without LLM access.
-
-**Teacher Debrief** requires the facilitation guide's whole-class debrief materials — key takeaways, cross-group discussion prompts, connection to future sessions.
-
-**Assessment (background)** requires the expert analysis (facet annotations as ground truth, diversity metadata for expected observations) and the scaffolding materials (rubrics at three differentiation levels).
-
-The episode plan is consumed only by the pipeline itself — it governs generation but is not rendered by the app.
-
-### What Each Artifact Contains
-
-**Scenario plan.** The blueprint for a single discussion: topic, PBL context, instructional goals, 2–3 personas with perspectives and weaknesses, targeted facets with designed explanatory variables and carrier personas, discussion arc, and turn outline. The `weaknesses` and `accomplishes` fields use natural language — no framework terminology — because this plan crosses the information barrier to reach the dialog writer.
-
-**Discussion transcript.** The scripted discussion, fully enumerated. Every turn has an ID; every sentence within a turn has an ID. These sentence IDs are the indexing foundation — every other artifact that references a moment in the discussion uses them. 10–14 turns, 1–3 sentences per turn, under 400 words total. Natural 6th-grade language with distinct persona voices.
-
-**Expert analysis.** Three layers per passage: (1) hidden-layer facet annotations — which facets are present, at what quality level, through which lenses, with what explanatory variables, whether each was a design target or emergent; (2) the AI perspective — a unified block combining per-lens observations with an integrated explanation of why the characters may have reasoned this way, written as perspective not verdict; (3) diversity metadata — which lenses are likely to produce different readings, what students are likely to see and miss. The AI perspective is the final entry in the scaffold sequence. The facet annotations and diversity metadata are never shown to students.
-
-**Facilitation guide.** The teacher's companion, organized by passage and by state (Diagnose, Discuss, AI perspective). For each passage: what's structurally present (using facet language), what to do if students are stuck, likely disagreements and productive questions for discussion, what the AI will say and likely student reactions. Includes a whole-class debrief section: key takeaways, cross-group discussion prompts, and connection to future sessions. Self-contained — the teacher should not need to cross-reference other files during a live session.
-
-**Scaffolding materials.** Everything the app needs to scaffold student engagement at runtime: (1) explicit scaffold cards that model a flaw directly or provide a transfer example, then send students back into the episode; (2) a unified scaffold sequence per passage — graduated hints followed by the AI perspective as the final entry; (3) difficulty signals (accessible / moderate / challenging) for passage ordering; (4) deepening probes — lens-specific prompts shown after diagnosis submission; (5) common misreadings with redirects — predictable misinterpretations matched by pattern, not LLM; (6) AI reflection prompt — shown after AI perspective is revealed; (7) observation rubric — what a student might say at basic, developing, and differentiated levels per lens per passage; (8) explanation rubric — what a student might say when explaining, organized by type (cognitive, social, interaction) and level. All text in student-friendly language.
-
-**Session configuration.** Tells the app how to set up the session: which passages are evaluable, their suggested order (based on difficulty from scaffolding), lens definitions as shown to students, onboarding content (topic summary, reading instruction), and file references to transcript, analysis, and scaffolding.
-
-## The Information Barrier
-
-The information barrier prevents the dialog writer from producing discussion that feels designed rather than natural. It operates through two mechanisms:
-
-1. **Schema stripping.** The `create_transcript` command strips `target_facets`, `target_strengths`, and `discussion_dynamic` from the episode plan before passing it to the dialog writer. The dialog writer sees personas (with `weaknesses` and `strengths` phrased as character traits), the discussion arc, and the turn outline with `accomplishes` fields — character and story, not framework targets.
-
-2. **Language discipline.** The `weaknesses`, `strengths`, and `accomplishes` fields in the episode plan are written in natural language by the planning agent. "Only researched one source, tends to generalize from limited data" — not "will produce weak source diversity and sufficiency." The planning agent prompt enforces this translation.
-
-The transcript instructional designer, evaluator, and scaffolding instructional designer all operate *outside* the barrier — they need to see the full plan to do their jobs (sharpening signals, annotating facets, producing scaffolding). The barrier exists only for the dialog writer.
-
-## Pipeline Stages
-
-The pipeline runs as a sequence of operator-invoked commands. Each command orchestrates one or more agents and produces one or more artifacts.
-
-```
-create_episode ——→ create_transcript ——→ analyze_transcript ——→ design_scaffolding ——→ configure_session
-     ↓                     ↓                      ↓                     ↓                     ↓
-episode.yaml        transcript.yaml         analysis.yaml        scaffolding.yaml       session.yaml
-                                             facilitation.yaml ←── (enriched)
-```
-
-**Stage 1: Create Scenario.** The operator specifies the topic, instructional goals, and which facets to target. A planning agent drafts the episode plan — personas, discussion arc, turn outline. A validation agent reviews the plan: Are the targeted facets detectable? Do they have sufficient cross-lens visibility? Are personas in genuine tension? Is the language barrier-safe? The operator reviews and approves.
-
-**Stage 2: Create Transcript.** The dialog writer receives the episode plan with `target_facets`, `target_strengths`, and `discussion_dynamic` stripped (information barrier) and writes the discussion as natural prose. A structural check validates turn count, speaker names, and turn order. A transcript instructional designer — who sees the full plan — sharpens expression: ensures signal moments for both designed weaknesses and designed strengths are visible but natural, enforces 6th-grade language. An enumeration script assigns sequential IDs to turns and sentences.
-
-**Stage 3: Analyze Transcript.** The operator segments the transcript into evaluable passages (groups of 1–3 consecutive turns). An evaluator agent reads the full transcript and episode plan and produces the expert analysis (facet annotations, AI perspective, diversity metadata) and the facilitation guide (organized by passage and state, with whole-class debrief materials).
-
-**Stage 4: Design Scaffolding.** A scaffolding instructional designer agent receives all prior artifacts and produces the scaffolding materials: scaffold sequence, difficulty signals, deepening probes, common misreadings, rubrics, and AI reflection prompts. This agent also enriches the facilitation guide's discussion prompts with passage-specific questions.
-
-**Stage 5: Configure Session.** A configuration step (script or operator) assembles the session configuration from the transcript, analysis, and scaffolding — listing passages, marking evaluability, setting suggested order, and including lens definitions.
-
-The pipeline uses six agents across five stages. Detailed agent specifications, YAML schemas, and scripts are in the pipeline spec.
+Longer-term success can include growth on these secondary goals, but early sessions do not need to demonstrate full mastery.
 
 ---
 
-## Appendix: Revision History
+## 3. Instructional Strategies in Lens
 
-**v5-6 (current):** Major revision from v5-5 — restructured instructional design and added artifact generation:
+Lens should assume that teacher authority can initiate participation, but should not be relied on to sustain engagement throughout the activity. Once students are seated in groups with laptops or tablets, the app itself has to help keep them involved.
 
-| Change | Before (v5-5) | After (v5-6) | Rationale |
-|---|---|---|---|
-| Document structure | Framework + instructional design | Three parts: Framework, Instructional Design, Artifact Generation | Pipeline artifacts are tightly coupled to the instructional design; one document makes traceability explicit |
-| Phase structure | Two sequential phases (Evaluate then Explain) | One integrated flow — no phase separation | Evaluation and explanation are intertwined dimensions, not sequential operations. Reduces time pressure in 50-minute sessions. |
-| Session flow | Three-beat cycle (Individual → Share → Group Diagnosis) + batch expert reveal | Per-passage state machine (Diagnose → Discuss → Reviewing AI → Submit Assessment) | Non-linear transitions give groups flexibility. AI revealed per passage, not in batch. |
-| Expert framing | "Dr. Chen" / fictional human expert | AI voice as fallible reference + teacher as human authority | AI is one more perspective, not the answer. Teacher synthesizes at class level. |
-| Perspective sources | Three (Individual, Peer, Expert) | Four (Individual, Peer, AI voice, Teacher) | Teacher's whole-class debrief is where authority and cross-group synthesis live. |
-| Scaffolding | Separate hints + separate AI perspective | Unified scaffold sequence (graduated hints → AI perspective as final entry) | Hints and AI perspective are one graduated sequence. Lifelines unlock hints; AI is free after assessment. |
-| Interaction model | Form submissions (diagnose, then overwrite) | Chat-style threads (append-only messages) | Captures deliberation traces, multiplies articulation, matches 6th-grader interaction patterns. |
-| Nomenclature | "Group diagnosis" | Individual = diagnosis, group = assessment (revisable) | Assessment connotes collaboration; revisability reflects that learning is continual. |
-| Learning modes | Articulation only | Articulation (written) + brainstorming (verbal) | Both are essential; each does different cognitive work. |
-| Passage design | Deficit-focused | Mixed-valence (predominantly weak + genuine sound reasoning) | Sound reasoning provides contrast and calibration; matches the premise that critical thinking is not just flaw detection. |
+The app cannot assume that all students enter ready to evaluate and explain reasoning in their own words. It should therefore support a low floor and a rising ceiling, allowing students to participate validly at earlier stages of the taxonomy while still making stronger movement possible over time.
 
-**v5-5:** Two inventory merges from v5-4:
+Key strategies:
 
-| Change | Before | After | Rationale |
-|---|---|---|---|
-| Facet merge | `perspective_breadth` + `counter_argument_engagement` (11 facets) | `perspective_engagement` (10 facets) | Both capture whether other viewpoints are considered; operationally inseparable |
-| Social dynamic merge | `conformity` + `groupthink` (4 dynamics) | `group_pressure` (3 dynamics) | Both describe the group suppressing dissent; nearly identical observable behavior |
+- **Attention direction**  
+  Help students notice and point to something specific before asking for full evaluation.
 
-**v5-4:** Initial framework with 11 facets and 4 social dynamics. Archived at `legacy/docs/archived/polylogue-v5-4.md`.
+- **Low-floor participation**  
+  Allow students to begin with valid but lower-demand moves such as selecting a moment, reacting to a prompt, comparing two possibilities, or extending a sentence frame.
+
+- **Progressive articulation**  
+  Move students from partial expression toward clearer judgment rather than demanding full articulation immediately.
+
+- **Peer comparison before authority**  
+  Let students encounter peers' interpretations before any more authoritative perspective appears.
+
+- **Structured disagreement**  
+  Treat disagreement as productive and normal rather than as a sign that someone is wrong too early.
+
+- **Scaffolded deepening**  
+  Use supports to move students from noticing toward evaluation and, when appropriate, toward explanation.
+
+- **Support fading over time**  
+  Provide stronger supports earlier and reduce them gradually as students gain familiarity.
+
+- **Meaningful gamification**  
+  Use badges or other lightweight rewards to reinforce participation and growth without reducing the activity to answer-hunting. One possible model is a dual badge system:
+  - app-awarded badges for participation, persistence, revision, and movement along the taxonomy
+  - peer-awarded badges for helping a classmate, making a strong point, asking a useful question, or improving the discussion
+  
+  The point of gamification should be to strengthen critical-thinking habits and discussion culture, not to reward speed alone or create a shallow popularity contest.
+
+- **Transfer prompts**  
+  Connect the work on episodes back to students' own PBL discussions and collaborative reasoning.
+
+- **Momentum and engagement by design**  
+  Keep the activity moving with fast entry, visible next steps, short feedback loops, and enough social energy that students stay involved without constant teacher intervention.
+
+Open question:
+
+Which of these strategies are essential to Lens, and which are optional design choices that could vary across versions of the app?
+
+---
+
+## 4. Operationalizing the Strategies Through Lens
+
+This section should explain how Lens turns the instructional strategies into an actual student experience on screen and at the table.
+
+Areas to define:
+
+- **Episode and turn presentation**  
+  How an episode should be displayed so students can read it easily, revisit it, and focus on specific turns or moments when needed.
+
+- **View of the discussion**  
+  Whether students should see the whole episode at once, a passage-focused view, or some combination that helps them move between overall understanding and close attention.
+
+- **Low-floor participation moves**  
+  The specific actions Lens should allow early, such as noticing, selecting a turn, pointing to a line, reacting to a prompt, choosing between interpretations, or extending a sentence frame.
+
+- **Activity types**  
+  The concrete things students do individually and with peers to move from noticing toward interpretation, evaluation, explanation, and transfer.
+
+- **Sequence and flexibility**  
+  Whether activities should follow a fixed order, a guided progression, or a more flexible structure depending on student readiness and group pace.
+
+- **Hints and scaffolds**  
+  What kinds of supports Lens should provide, including attention prompts, sentence frames, modeled examples, redirects, and deeper probes.
+
+- **Timing of supports**  
+  When supports should appear: immediately, on request, after struggle, after a partial response, or after peer discussion.
+
+- **Differentiation**  
+  How Lens should accommodate different readiness levels without splitting the class into entirely different experiences.
+
+- **Progress and feedback**  
+  How the app should show momentum, revision, and growth while keeping the focus on thinking rather than answer-hunting.
+
+This section will likely become the bridge between the instructional design and the product design of Lens.
+
+---
+
+## 5. Instructional Roles
+
+These instructional roles should work together inside the activity rather than be treated as separate systems.
+
+### Supports
+
+Supports help students get started, reduce friction, and deepen thinking without simply revealing the answer. They should be part of the normal experience, not just rescue after failure.
+
+### Peers
+
+Peers create comparison, disagreement, shared language, and social energy. Their role is not mainly to converge on one correct answer, but to make reasoning visible and discussable.
+
+### AI
+
+AI provides prepared examples, support, and perspective aligned with the taxonomy and instructional strategies. It should help students notice, interpret, and deepen discussion without becoming the classroom authority, a live tutor, or a replacement for peers and teachers.
+
+### Teacher
+
+The teacher's role should be minimal: launch the activity, monitor the room, handle logistics or behavior if needed, and briefly close or synthesize at the end. The lesson should not depend on active coaching at every table.
+
+---
+
+## Next Questions
+
+Questions worth refining next:
+
+- What exactly should students do first when they encounter an episode?
+- What is the lowest-floor valid participation move?
+- How much writing should be required early on?
+- How should peer discussion be structured so it helps rather than intimidates?
+- What kind of support should appear before articulation is demanded?
+- What should the app optimize for in early episodes versus later episodes?
