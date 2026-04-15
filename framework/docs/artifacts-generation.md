@@ -49,7 +49,7 @@ The merged `assistive_package.yaml` is the terminal framework artifact. Applicat
 - `transcript.yaml` — enumerated dialog transcript
 - `ground_truth_generated.yaml` — analytical source material
 - `diagnostic_generated.yaml` — reactive intervention content
-- `prose_generated.yaml` — student-facing opening, starter stems, closure prose, and explicit scaffold cards
+- `prose_generated.yaml` — student-facing opening, front-door supports, and closure prose
 - `discussion_generated.yaml` — group-phase cues and talk moves
 - `assistive_package.yaml` — merged runtime package
 
@@ -81,13 +81,17 @@ The episode pipeline uses distinct agents for distinct jobs:
 - `discussion_agent`
 - `package_reviewer`
 
-The four downstream authoring agents each own one file: analyst, diagnostic, prose, and discussion. The merge script is deterministic and runs only after the reviewer accepts the authored package inputs.
+The four downstream authoring agents each own one file: analyst, diagnostic,
+prose, and discussion. The merge script is deterministic and projects authored
+files into a runtime-first package.
 
-The prose layer now carries two levels of student-facing support:
-- light-touch starters (`entry_prompts`)
-- explicit scaffold cards (`explicit_scaffolds`) that can model a flaw directly or give a parallel example and then send students back into the episode
+The prose layer now carries the front-door support system directly:
+- `attention_targets`
+- `sentence_frame_seeds`
+- `modeled_episode_examples`
+- `transfer_examples`
 
-This split is deliberate. It gives Lens a stronger on-ramp for novices without collapsing the rest of the package into answer-key behavior.
+These are authored for deterministic no-LLM retrieval in downstream apps.
 
 ## Artifact Storage
 

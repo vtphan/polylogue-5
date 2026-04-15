@@ -48,7 +48,9 @@ Spawn the **diagnostic_agent**.
 
 Spawn the **prose_agent**.
 
-**Inputs:** episode.yaml, transcript.yaml, ground_truth_generated.yaml, diagnostic_generated.yaml, story design doc, prose schema.
+**Inputs:** episode.yaml, transcript.yaml, ground_truth_generated.yaml,
+diagnostic_generated.yaml, story design doc, prose schema,
+`framework/reference/app_check_model.yaml`.
 
 **Output:** `${EPISODE_DIR}/prose_generated.yaml`
 
@@ -68,11 +70,9 @@ Spawn the **discussion_agent**.
 
 Spawn the **package_reviewer** agent.
 
-**Inputs:** All four generated files, episode.yaml, transcript.yaml, and story frontmatter.
-
-**Gate:** Must return ACCEPT.
-
-If REVISE: read the findings, fix the identified agent output, and re-run from the affected step.
+**Inputs:** All four generated files, `assistive_package.yaml`,
+episode.yaml, transcript.yaml, story frontmatter, and
+`framework/reference/app_check_model.yaml`.
 
 ### Step 6: Merge Script → `assistive_package.yaml`
 
@@ -81,6 +81,10 @@ Run the deterministic merge script:
 ```bash
 python3 framework/pipeline/scripts/merge_assistive_package.py "${EPISODE_DIR}"
 ```
+
+The merge script now defaults to runtime-package schema version `0.2.0`.
+Only pass `--schema-version <value>` if you are intentionally generating a
+different package version for migration or comparison work.
 
 **Gate:** Must exit 0 (all integrity checks pass).
 
@@ -94,12 +98,21 @@ python3 framework/pipeline/scripts/validate_schema.py \
 
 **Final gate:** merged package schema validation must PASS.
 
+### Step 5 (after Step 6): Package Reviewer
+
+Now run the reviewer on the merged output.
+
+**Gate:** Must return ACCEPT.
+
+If REVISE: read the findings, fix the identified agent output, and re-run from
+the affected step.
+
 ## Success Criteria
 
 All gates pass:
 1. Four schema validations PASS
-2. Package reviewer returns ACCEPT
-3. Merge script exits 0 (14/14 integrity checks)
+2. Merge script exits 0 (14/14 integrity checks)
+3. Package reviewer returns ACCEPT
 
 The final `assistive_package.yaml` is the episode's terminal pipeline artifact.
 

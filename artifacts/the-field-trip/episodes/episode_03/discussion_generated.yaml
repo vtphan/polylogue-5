@@ -25,7 +25,7 @@ discussion_cues:
         angle: sufficiency
         lens: logic
         axis: lens_refraction
-        continuation_of: {turn: t01, facet: sufficiency}
+        continuation_of: null
         explanatory_ref: confirmation_bias
         persona: null
         independent_of: []
@@ -42,6 +42,20 @@ discussion_cues:
         explanatory_ref: null
         persona: Sam
         independent_of: [t01_c1]
+      - id: t01_c3
+        text: >
+          Maya's compromise sounds neat because it combines two destinations.
+          But does combining two things automatically make the plan make sense?
+          What step would you still need to hear before the compromise really follows?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t01
+          facet: inferential_validity
+        explanatory_ref: null
+        persona: null
+        independent_of: [t01_c1, t01_c2]
 
     # ── t02: Kai grabs the compromise in logistics terms ──
 
@@ -55,7 +69,7 @@ discussion_cues:
         angle: relevance
         lens: scope
         axis: lens_refraction
-        continuation_of: {turn: t02, facet: relevance}
+        continuation_of: null
         explanatory_ref: tunnel_vision
         persona: null
         independent_of: []
@@ -73,6 +87,35 @@ discussion_cues:
         explanatory_ref: tunnel_vision
         persona: null
         independent_of: [t02_c1]
+      - id: t02_c3
+        text: >
+          Kai grabs Maya's compromise because the schedule makes sense to
+          him right away. Before he starts solving buses and timing, what
+          reason would he need to hear to know the compromise is actually
+          strong enough as an educational plan?
+        angle: sufficiency
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t02
+          facet: sufficiency
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1, t02_c2]
+      - id: t02_c4
+        text: >
+          Kai is solving buses and timing fast. What real consequence is still
+          missing from his frame right now because he has not stopped to ask what
+          the compromise would actually mean for students beyond the schedule?
+        angle: consequence_consideration
+        lens: scope
+        axis: lens_refraction
+        continuation_of:
+          turn: t02
+          facet: consequence_consideration
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1, t02_c2, t02_c3]
 
     # ── t03: Maya rides Kai's energy ──
 
@@ -105,6 +148,20 @@ discussion_cues:
         explanatory_ref: confirmation_bias
         persona: Maya
         independent_of: [t03_c1]
+      - id: t03_c3
+        text: >
+          Maya ends with "everyone wins." Does that conclusion actually follow
+          from the two things she named, or is the ending stronger than the support
+          underneath it?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t03
+          facet: inferential_validity
+        explanatory_ref: null
+        persona: null
+        independent_of: [t03_c1, t03_c2]
 
     # ── t04: Sam asks the conditional question ──
 
@@ -150,6 +207,20 @@ discussion_cues:
         explanatory_ref: null
         persona: Ms. Tsai
         independent_of: [t04_c1, t04_c2]
+      - id: t04_c4
+        text: >
+          Sam asks the question nobody else wants to ask. If you were in the room,
+          whose point of view is she protecting with that question, and why might
+          the rest of the committee be least ready to hear it?
+        angle: perspective_engagement
+        lens: scope
+        axis: lens_refraction
+        continuation_of:
+          turn: t04
+          facet: perspective_engagement
+        explanatory_ref: null
+        persona: null
+        independent_of: [t04_c1, t04_c2, t04_c3]
 
     # ── t05: Maya deflects with "planning detail" ──
 
@@ -226,6 +297,20 @@ discussion_cues:
         explanatory_ref: conflict_avoidance
         persona: Jordan
         independent_of: [t06_c1, t06_c2]
+      - id: t06_c4
+        text: >
+          Kai says they can figure out the question part later. If the group really
+          does that, what is the likely consequence for the quality of the trip
+          decision they end up making?
+        angle: consequence_consideration
+        lens: scope
+        axis: lens_refraction
+        continuation_of:
+          turn: t06
+          facet: consequence_consideration
+        explanatory_ref: null
+        persona: null
+        independent_of: [t06_c1, t06_c2, t06_c3]
 
     # ── t07: Priya's "serious institutions" reframe ──
 
@@ -240,7 +325,7 @@ discussion_cues:
         angle: source_credibility
         lens: evidence
         axis: lens_refraction
-        continuation_of: {turn: t07, facet: source_credibility}
+        continuation_of: null
         explanatory_ref: authority_deference
         persona: null
         independent_of: []
@@ -291,6 +376,20 @@ discussion_cues:
         explanatory_ref: confirmation_bias
         persona: null
         independent_of: [t01_c1, t03_c1]
+      - id: t08_c2
+        text: >
+          Maya says the park has literal physics in it. Even if that part is true,
+          does it get her all the way to "our compromise works," or is there still
+          a jump she has not filled in?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t08
+          facet: inferential_validity
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c1]
 
     # ── t09: Kai treats agreement as evidence ──
 
@@ -324,6 +423,20 @@ discussion_cues:
         explanatory_ref: group_pressure
         persona: null
         independent_of: [t09_c1]
+      - id: t09_c3
+        text: >
+          Kai treats having two people on one side as progress. If the committee
+          keeps following coalition size instead of the question they were given,
+          what happens next to the actual quality of their reasoning?
+        angle: consequence_consideration
+        lens: scope
+        axis: lens_refraction
+        continuation_of:
+          turn: t09
+          facet: consequence_consideration
+        explanatory_ref: null
+        persona: null
+        independent_of: [t09_c1, t09_c2]
 
     # ── t10: Priya rejects bloc-as-evidence ──
 
@@ -451,6 +564,20 @@ discussion_cues:
         explanatory_ref: null
         persona: null
         independent_of: [t12_c1, t12_c2]
+      - id: t12_c4
+        text: >
+          The cost number is real, but one number by itself does not finish the case.
+          What else would the committee still need to know before that number is enough
+          to support a decision?
+        angle: sufficiency
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t12
+          facet: sufficiency
+        explanatory_ref: null
+        persona: null
+        independent_of: [t12_c1, t12_c2, t12_c3]
 
     # ── t13: Maya turns the cost into ammunition ──
 
@@ -484,6 +611,21 @@ discussion_cues:
         explanatory_ref: null
         persona: Ms. Tsai
         independent_of: [t13_c1]
+      - id: t13_c3
+        text: >
+          Maya treats "the walking tour is free" like it finishes the case
+          for the compromise. What part of the argument is still missing if
+          the price point sounds better but the committee still has not shown
+          what the class would actually learn?
+        angle: sufficiency
+        lens: logic
+        axis: lens_refraction
+        continuation_of:
+          turn: t13
+          facet: sufficiency
+        explanatory_ref: null
+        persona: null
+        independent_of: [t13_c1, t13_c2]
 
   # ── Episode-scope cues (continuation_of: null, empty-history guarantee) ──
 

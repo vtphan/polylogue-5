@@ -1,0 +1,185 @@
+# Shared reference: no-LLM app check model for runtime-package retrieval
+#
+# Purpose:
+# - define the deterministic events, tracked state, derived trigger values, and
+#   default thresholds that downstream apps use to retrieve support
+# - provide a single source of truth for schema enums, merge-time migration, and
+#   validation rules
+
+app_check_model:
+  version: "0.1.0"
+
+  phases:
+    - entry
+    - individual
+    - discussion
+    - teacher_dashboard
+
+  events:
+    - response_started
+    - response_submitted
+    - selection_made
+    - check_run
+    - check_failed
+    - check_passed
+    - group_started
+    - group_message_sent
+    - group_ended
+
+  tracked_state:
+    - key: phase
+      type: enum
+      enum: [entry, individual, discussion, teacher_dashboard]
+
+    - key: response_length_chars
+      type: integer
+
+    - key: response_length_words
+      type: integer
+      note: >
+        Authoritative text-length field for low_articulation dispatch. Apps may
+        also track chars, but trigger derivation should use words.
+
+    - key: retry_count
+      type: integer
+
+    - key: selected_passage_id
+      type: string
+      required_for: [wrong_focus]
+
+    - key: selected_turn_ids
+      type: list
+      items: string
+      required_for: [wrong_focus]
+
+    - key: selected_character_ids
+      type: list
+      items: string
+      required_for: [wrong_focus]
+
+    - key: selected_lens
+      type: string
+      enum: [logic, evidence, scope]
+
+    - key: selected_facet
+      type: string
+
+    - key: selected_cognitive_pattern
+      type: string
+
+    - key: selected_social_dynamic
+      type: string
+
+    - key: last_check_result
+      type: enum
+      enum: [pass, fail, none]
+
+    - key: group_turn_count
+      type: integer
+
+    - key: group_member_turn_counts
+      type: object
+      note: "Map of member id to turn count."
+
+    - key: supports_shown
+      type: list
+      items: string
+
+  thresholds:
+    low_articulation_max_words: 8
+    cannot_start_dwell_seconds: 45
+    cannot_start_empty_submissions: 2
+    after_repeat_fail_min_failures: 2
+    many_students_cannot_start_min_fraction: 0.30
+    many_students_wrong_focus_min_fraction: 0.30
+    high_retry_rate_min_average: 2.0
+    low_discussion_participation_min_fraction: 0.50
+
+  trigger_vocabularies:
+    front_door_use_when:
+      - cannot_start
+      - low_articulation
+      - wrong_focus
+      - after_check_fail
+
+    diagnostic_trigger:
+      - after_check_fail
+      - after_repeat_fail
+      - missing_selection
+
+    discussion_phase:
+      - group_start
+      - mid_discussion
+      - group_wrap_up
+
+    teacher_trigger:
+      - many_students_cannot_start
+      - many_students_wrong_focus
+      - high_retry_rate
+      - low_discussion_participation
+
+  trigger_derivations:
+    - trigger: cannot_start
+      from:
+        any:
+          - "no submission yet and dwell_seconds >= cannot_start_dwell_seconds"
+          - "empty_submissions >= cannot_start_empty_submissions"
+
+    - trigger: low_articulation
+      from:
+        all:
+          - "response_submitted"
+          - "response_length_words <= low_articulation_max_words"
+
+    - trigger: wrong_focus
+      from:
+        all:
+          - "current passage has analytic_core target focus"
+          - "selected_passage_id != analytic_core.target_passage_id or no overlap with analytic_core.target_turn_ids / target_character_ids"
+
+    - trigger: after_check_fail
+      from:
+        all:
+          - "check_run"
+          - "last_check_result == fail"
+
+    - trigger: after_repeat_fail
+      from:
+        all:
+          - "last_check_result == fail"
+          - "failure_count >= after_repeat_fail_min_failures"
+
+    - trigger: missing_selection
+      from:
+        any:
+          - "required evidence selection missing"
+          - "required passage/turn selection missing"
+
+    - trigger: many_students_cannot_start
+      from:
+        all:
+          - "teacher dashboard phase"
+          - "fraction of active students in cannot_start >= many_students_cannot_start_min_fraction"
+
+    - trigger: many_students_wrong_focus
+      from:
+        all:
+          - "teacher dashboard phase"
+          - "fraction of active students in wrong_focus >= many_students_wrong_focus_min_fraction"
+
+    - trigger: high_retry_rate
+      from:
+        all:
+          - "teacher dashboard phase"
+          - "average retry_count >= high_retry_rate_min_average"
+
+    - trigger: low_discussion_participation
+      from:
+        all:
+          - "discussion or teacher dashboard phase"
+          - "fraction of group members with zero turns >= low_discussion_participation_min_fraction"
+
+  migration_rules:
+    front_door_use_when:
+      vague_guess: low_articulation
+      after_misread: after_check_fail

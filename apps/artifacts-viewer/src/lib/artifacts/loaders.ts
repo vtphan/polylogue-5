@@ -202,7 +202,7 @@ export async function loadStory(storyId: string): Promise<StorySummary | null> {
 }
 
 function countProbeTurns(diagnostic: unknown, assistivePackage: unknown) {
-  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.diagnostic;
+  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.diagnostic_support;
   const source = (packageSource ?? diagnostic) as Record<string, unknown> | undefined;
   const probes = source?.probes as Record<string, unknown> | undefined;
   const facet = probes?.facet as Record<string, unknown> | undefined;
@@ -211,7 +211,7 @@ function countProbeTurns(diagnostic: unknown, assistivePackage: unknown) {
 }
 
 function countDiscussionCues(discussion: unknown, assistivePackage: unknown) {
-  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.discussion;
+  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.discussion_support;
   const source = (packageSource ?? discussion) as Record<string, unknown> | undefined;
   const cues = source?.discussion_cues as Record<string, unknown> | undefined;
   const byTurn = cues?.by_turn as Record<string, unknown> | undefined;
@@ -226,7 +226,7 @@ function countDiscussionCues(discussion: unknown, assistivePackage: unknown) {
 }
 
 function countPassages(groundTruth: unknown, assistivePackage: unknown) {
-  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.ground_truth;
+  const packageSource = (assistivePackage as Record<string, unknown> | undefined)?.analytic_core;
   const source = (packageSource ?? groundTruth) as Record<string, unknown> | undefined;
   const passages = source?.passages;
   return Array.isArray(passages) ? passages.length : 0;

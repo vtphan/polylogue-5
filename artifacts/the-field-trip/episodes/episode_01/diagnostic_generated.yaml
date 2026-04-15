@@ -1418,7 +1418,7 @@ interventions:
             cost: 4
           has_explanation_depth: false
         relevance:
-          role: afforded_missing
+          role: present
           opening: 'There''s a question nobody is asking right now. Let''s see if
             you can spot it.
 

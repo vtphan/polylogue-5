@@ -23,7 +23,7 @@ discussion_cues:
         angle: source_credibility
         lens: evidence
         axis: lens_refraction
-        continuation_of: {turn: t01, facet: source_credibility}
+        continuation_of: null
         explanatory_ref: uncritical_acceptance
         persona: null
         independent_of: []
@@ -127,7 +127,7 @@ discussion_cues:
         angle: sufficiency
         lens: logic
         axis: lens_refraction
-        continuation_of: {turn: t04, facet: sufficiency}
+        continuation_of: null
         explanatory_ref: null
         persona: null
         independent_of: [t04_c1, t04_c2]
@@ -174,7 +174,7 @@ discussion_cues:
         angle: perspective_engagement
         lens: scope
         axis: lens_refraction
-        continuation_of: {turn: t06, facet: perspective_engagement}
+        continuation_of: null
         explanatory_ref: conflict_avoidance
         persona: null
         independent_of: []

@@ -485,7 +485,7 @@ interventions:
           has_explanation_depth: false
 
         inferential_validity:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It's natural to see Maya's compromise as a clever logical move.
           ladder:
@@ -665,7 +665,7 @@ interventions:
           has_explanation_depth: false
 
         consequence_consideration:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It does look like Kai is being practical about what would
             actually happen.
@@ -824,7 +824,7 @@ interventions:
                     cost: 0
 
         inferential_validity:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might feel like Maya is making a logical leap from
             "combines two things" to "everyone wins."
@@ -919,7 +919,7 @@ interventions:
           has_explanation_depth: false
 
         perspective_engagement:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might feel like Sam is being negative or shutting down
             Maya's idea.
@@ -1223,7 +1223,7 @@ interventions:
           has_explanation_depth: false
 
         consequence_consideration:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might look like Kai is tracking real-world consequences
             with the logistics focus.
@@ -1478,7 +1478,7 @@ interventions:
           has_explanation_depth: false
 
         inferential_validity:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might look like Maya is making a valid point that
             amusement parks involve physics.
@@ -1640,7 +1640,7 @@ interventions:
                     cost: 0
 
         consequence_consideration:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might look like Kai is pointing at something that would
             actually matter for the committee's progress.
@@ -1943,7 +1943,7 @@ interventions:
           has_explanation_depth: false
 
         sufficiency:
-          role: tempting_absent
+          role: afforded_missing
           opening: >
             It might look like Kai is using the number as ammunition
             against Priya's bloc.
@@ -2068,7 +2068,7 @@ interventions:
           has_explanation_depth: false
 
         relevance:
-          role: tempting_absent
+          role: present
           opening: >
             It might look like Maya is making a sensible point that
             the compromise really is cheaper.

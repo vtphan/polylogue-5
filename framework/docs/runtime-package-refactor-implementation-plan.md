@@ -39,6 +39,8 @@ The refactor is complete when all of the following are true:
    new package structure.
 6. Lens can consume the runtime package without needing to inspect raw
    authoring files or reverse-engineer diagnostic ladders for startup support.
+7. Each retained runtime support type has a deterministic retrieval path based
+   on no-LLM app-observable state.
 
 ## Constraints
 
@@ -48,6 +50,10 @@ The refactor is complete when all of the following are true:
 4. Do not optimize heavily for backward compatibility unless active consumers
    require it.
 5. Keep the runtime package easy to consume for apps.
+6. Keep student-facing front-door authorship in `prose`; the merge script may
+   reshape authored content but must not invent new student-facing supports.
+7. Optimize for no-LLM downstream apps using simple deterministic retrieval,
+   not semantic runtime interpretation.
 
 ## Implementation Strategy
 
@@ -61,6 +67,24 @@ The implementation should proceed in this order:
 6. Update the relevant Claude command and agent prompts.
 7. Regenerate pilot episodes and inspect the outputs.
 8. Only after that, begin Lens consumption changes.
+
+## Settled Decisions
+
+These decisions are no longer open for this refactor:
+
+1. Front-door support is authored in `prose`, not composed by the merge script.
+2. `entry_prompts` are absorbed into `front_door_support.sentence_frame_seeds`.
+3. `use_when` is shared runtime vocabulary and should live in
+   `framework/reference/` or another single-source contract that both authored
+   and runtime schemas reference.
+4. The pilot should keep `analytic_core` close to current `ground_truth`
+   unless a field is clearly authoring-only.
+5. Barrier enforcement for front-door support should be field-scoped to
+   student-facing text fields, not a file-wide scan.
+6. `review_support` is deferred from the first no-LLM runtime package until a
+   deterministic review flow is specified.
+7. Legacy front-door enum values are renamed once during migration:
+   `vague_guess` -> `low_articulation`, `after_misread` -> `after_check_fail`.
 
 ## Workstreams
 
@@ -101,12 +125,34 @@ Tasks:
 4. Decide how much raw analytical structure remains in the final package.
 
 Default recommendation:
-- keep app-useful hidden truth in `analytic_core`
-- remove or shrink analytical trace that exists only for authoring audit
+- keep `analytic_core` near current `ground_truth` for the pilot
+- remove only clearly authoring-only trace at first
+- narrow further only after Lens consumption clarifies what is truly app-useful
 
 Deliverable:
 - update `framework/docs/runtime-package-refactor.md` if the mapping decisions
   materially differ from the current proposal
+
+Required artifact from this workstream:
+- a field-by-field disposition table checked into the design doc or adjacent
+  implementation notes
+- a short app check/state model that defines emitted events, tracked state, and
+  how front-door trigger values are derived
+
+Initial mapping table:
+
+| Current field | New field | Disposition | Notes |
+| --- | --- | --- | --- |
+| `ground_truth` | `analytic_core` | keep and move | Keep near-verbatim for pilot unless clearly authoring-only |
+| `diagnostic` | `diagnostic_support` | keep and move | Reactive support remains diagnostic-owned |
+| `prose.entry_prompts` | `front_door_support.sentence_frame_seeds` | keep and rename | Prefer absorbed form over legacy retention |
+| `prose.explicit_scaffolds` | `front_door_support.modeled_episode_examples` / `transfer_examples` | keep and split | Existing prose pattern expands into explicit front-door blocks |
+| `prose.consensus_check` | `discussion_support.consensus_checks` | keep and move | Runtime-facing discussion closure |
+| `discussion` | `discussion_support` | keep and move | Minimal structural change expected |
+| `derived.prior_exposure` | `analytic_core.prior_exposure` | keep and move | Hidden runtime indexing |
+| `derived.calibration_warnings` | `teacher_support.calibration_warnings` | keep and move | Teacher-facing only |
+| `integrity` | `package_meta.integrity` | keep and move | Operational metadata |
+| `review_support` | deferred | remove from v1 runtime package | Revisit only when non-LLM review triggers are defined |
 
 ### Workstream B: Schema Refactor
 
@@ -123,7 +169,6 @@ Required changes:
    - `front_door_support`
    - `diagnostic_support`
    - `discussion_support`
-   - `review_support`
    - `teacher_support`
 
 2. Define `package_meta` fields:
@@ -150,6 +195,20 @@ Recommended fields:
   - optional `lens`
   - optional `source_turns`
 
+Required contract details:
+- `support_id` pattern should be `p{passage_number}_{type}_{nn}`
+- `use_when` enum should come from shared reference data and be:
+  - `cannot_start`
+  - `low_articulation`
+  - `wrong_focus`
+  - `after_check_fail`
+- student-facing text fields must be identifiable in schema so validator rules
+  can apply only to those fields
+- each `use_when` value must be operationally defined in terms of app-observable
+  no-LLM signals
+- shared reference data should also define default thresholds such as
+  `low_articulation_max_words`
+
 - `attention_targets`
   - `text`
 
@@ -171,24 +230,44 @@ Recommended fields:
    - probes
    - interventions
    - struggle calibration
+   - only for deterministic app events such as failed checks, retries, or
+     missing selections
+   - initial trigger enum:
+     - `after_check_fail`
+     - `after_repeat_fail`
+     - `missing_selection`
+     - `low_confidence`
 
 6. Define `discussion_support`:
    - discussion cues
    - talk moves
    - consensus checks
+   - with simple retrieval fields such as `phase` plus optional focus selectors
+   - initial phase enum:
+     - `group_start`
+     - `mid_discussion`
+     - `group_wrap_up`
 
-7. Define `review_support` as a reserved or partial section if current authored
-   inputs do not yet populate it fully.
-
-8. Define `teacher_support`:
+7. Define `teacher_support`:
    - calibration warnings at minimum
-   - leave room for later facilitation-facing fields
+   - keep only triggers that can be derived from aggregate counts or rates
+   - initial trigger enum:
+     - `many_students_cannot_start`
+     - `many_students_wrong_focus`
+     - `high_retry_rate`
+     - `low_discussion_participation`
 
-9. Define `analytic_core`:
+8. Define `analytic_core`:
    - passage truth
    - lens visibility
    - prior exposure
    - other hidden app-usable indexing data
+   - include target-focus fields used to detect `wrong_focus`, such as
+     `target_passage_id`, `target_turn_ids`, and `target_character_ids`
+
+Pilot recommendation:
+- start from the current `ground_truth` shape and remove only fields that are
+  clearly authoring-audit-only
 
 #### B2. `framework/schemas/prose.yaml`
 
@@ -204,17 +283,22 @@ Required changes:
    - `modeled_episode_examples`
    - `transfer_examples`
 
-3. Decide whether `entry_prompts` remains:
-   - as a legacy field temporarily
-   - or is fully absorbed into `sentence_frame_seeds`
-
-Default recommendation:
-- absorb `entry_prompts` into `sentence_frame_seeds`
+3. Absorb `entry_prompts` into `sentence_frame_seeds`.
+   - legacy compatibility handling, if any, belongs in migration tooling rather
+     than in the steady-state authored schema
 
 4. Keep `episode_opening`.
 
 5. Keep `consensus_check` only if it remains authored here before projection
    into `discussion_support.consensus_checks`.
+
+Authoring decision:
+- `prose` writes the front-door content end-to-end
+- `diagnostic` may inform prose quality through input visibility, but the merge
+  script should not compose front-door wording from diagnostic outputs
+- prose authoring guidance should define a minimum-coverage invariant:
+  - each passage must supply at least one `attention_target`
+  - each passage must supply at least one `sentence_frame_seed`
 
 #### B3. `framework/schemas/diagnostic.yaml`
 
@@ -226,8 +310,8 @@ Required changes:
    - struggle calibration
 
 2. Add clarifying comments only if needed:
-   - `worked_example` content may be reused or lifted into runtime
-     `front_door_support`, but diagnostic remains the owner of reactive support
+   - `worked_example` content may inform prose authoring, but diagnostic
+     remains the owner of reactive support
 
 3. Do not move startup-scaffold ownership into diagnostic.
 
@@ -259,7 +343,6 @@ Required changes:
    - `front_door_support`
    - `diagnostic_support`
    - `discussion_support`
-   - `review_support`
    - `teacher_support`
 
 4. Preserve and adapt integrity checks as needed.
@@ -273,9 +356,9 @@ Examples:
 - prose-authored sentence frames -> `front_door_support.sentence_frame_seeds`
 - prose-authored modeled examples -> `front_door_support.modeled_episode_examples`
 - prose-authored transfer examples -> `front_door_support.transfer_examples`
-- `diagnostic.worked_example` may inform or validate front-door items, but the
-  runtime package should not require the app to mine diagnostic ladders for
-  startup help
+- `diagnostic.worked_example` may inform prose authoring or reviewer checks,
+  but the merge step should not synthesize new student-facing front-door text
+  from diagnostic ladders
 
 7. Preserve derivations such as `prior_exposure`, but move them into the new
    runtime section.
@@ -284,9 +367,65 @@ Examples:
 
 9. Keep the script deterministic.
 
+10. Define legacy-input behavior explicitly:
+   - if a legacy episode lacks required front-door authored fields, fail in
+     strict mode rather than silently emitting empty runtime sections
+   - temporary warning-mode handling is acceptable only for clearly labeled
+     migration or audit runs, not for the steady-state build
+
+11. Do not emit runtime support items that lack a documented deterministic
+    retrieval path for a no-LLM downstream app.
+12. Apply enum migration during schema/prompt update tooling so old authored
+    values do not survive into the new runtime package.
+
 Recommended implementation note:
 - Do not attempt a giant clever abstraction pass first. Rewrite the output
   assembly clearly and explicitly.
+
+Worked projection example:
+
+```yaml
+input:
+  prose:
+    sentence_frame_seeds:
+      - passage_id: p1
+        support_id: p1_sf_01
+        use_when: low_articulation
+        lens: evidence
+        frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+        seed: "Jordan keeps repeating that the zoo is 'certified.'"
+
+output:
+  front_door_support:
+    sentence_frame_seeds:
+      - passage_id: p1
+        support_id: p1_sf_01
+        use_when: low_articulation
+        lens: evidence
+        frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+        seed: "Jordan keeps repeating that the zoo is 'certified.'"
+```
+
+Reshape example:
+
+```yaml
+input:
+  prose:
+    entry_prompts:
+      - passage_id: p1
+        lens: evidence
+        stem: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+
+output:
+  front_door_support:
+    sentence_frame_seeds:
+      - passage_id: p1
+        support_id: p1_sf_01
+        use_when: low_articulation
+        lens: evidence
+        frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+        seed: ""
+```
 
 ### Workstream D: Reviewer Update
 
@@ -319,6 +458,14 @@ Required changes:
 Recommended new review criterion:
 - `front-door usefulness`: sampled front-door supports should clearly reduce
   startup difficulty for a novice without replacing the task
+- `retrieval clarity`: retained support items should expose a deterministic
+  matching path from app-observable state
+
+Validator coordination:
+- update `validate_schema.py` to scan only student-facing front-door text fields
+  such as `text`, `frame`, `seed`, `model_text`, `example_text`,
+  `handoff_prompt`, and equivalent prose-authored source fields
+- validate minimum front-door coverage and allowed trigger vocabularies
 
 ### Workstream E: Claude Command Update
 
@@ -380,6 +527,8 @@ Required changes:
    - be 6th-grade readable
    - avoid hidden IDs and internal jargon
    - hand students back to the episode
+7. Where trigger labels are authored or implied, they must correspond to
+   no-LLM app-observable states rather than semantic judgments about free text
 
 #### F2. `diagnostic_agent`
 
@@ -433,6 +582,7 @@ Required changes:
 
 3. Avoid leaving live docs that describe the merged package as a simple
    `ground_truth + diagnostic + prose + discussion` container.
+4. Document deterministic retrieval rules for no-LLM downstream apps.
 
 ### Workstream H: Pilot Regeneration And Verification
 
@@ -450,6 +600,9 @@ Tasks:
 2. Build the new runtime package.
 3. Validate against the updated schema.
 4. Review front-door support quality manually.
+5. Decide how episodes 4-10 will be handled under the schema cut:
+   - regenerate them now
+   - or mark them explicitly as legacy/orphaned artifacts pending revisit
 
 What to inspect specifically:
 
@@ -459,6 +612,10 @@ What to inspect specifically:
 - Do `transfer_examples` simplify the pattern without drifting away from the
   episode?
 - Do all front-door supports end by returning students to the episode?
+- Do `wrong_focus` supports have corresponding target-focus fields in
+  `analytic_core`?
+- Do trigger values map cleanly to the app check/state model without semantic
+  interpretation?
 
 ## Task Checklist By File
 
@@ -485,7 +642,7 @@ What to inspect specifically:
 
 ## Recommended Execution Sequence
 
-Use this exact order unless a dependency forces a change.
+Use this order unless a dependency forces a change.
 
 1. Read:
    - `framework/docs/runtime-package-refactor.md`
@@ -495,11 +652,11 @@ Use this exact order unless a dependency forces a change.
 
 3. Update `framework/schemas/prose.yaml`
 
-4. Refactor `merge_assistive_package.py`
+4. Update `prose_agent.md`
 
-5. Update `package_reviewer.md`
+5. Refactor `merge_assistive_package.py`
 
-6. Update `prose_agent.md`
+6. Update `package_reviewer.md`
 
 7. Update `diagnostic_agent.md` and `discussion_agent.md` only as needed
 
@@ -507,11 +664,13 @@ Use this exact order unless a dependency forces a change.
 
 9. Update supporting docs
 
-10. Regenerate `the-field-trip` pilot episodes
+10. Decide how to handle `the-field-trip` episodes 4-10 under the schema cut
 
-11. Validate and review outputs
+11. Regenerate `the-field-trip` pilot episodes
 
-12. Only after the package is stable, hand off to Lens implementation work
+12. Validate and review outputs
+
+13. Only after the package is stable, hand off to Lens implementation work
 
 ## Verification Checklist
 
@@ -523,6 +682,10 @@ Before calling the refactor done, verify:
 4. Front-door support appears in all pilot episodes.
 5. Front-door support is clearly different from reactive ladders.
 6. The package remains deterministic and app-consumable.
+7. A documented decision exists for `the-field-trip` episodes 4-10.
+8. Every retained support type has a documented no-LLM retrieval path.
+9. Shared thresholds and target-focus fields are defined and exercised in the
+   pilot outputs.
 
 ## Risks
 
@@ -538,11 +701,21 @@ Before calling the refactor done, verify:
 
 3. Carrying too much analytical trace into the runtime package.
    Mitigation:
-   keep `analytic_core` narrow and app-useful.
+   keep the pilot close to current `ground_truth`, then narrow with real app
+   usage evidence.
 
 4. Leaving stale docs or prompts that describe the old merged package.
    Mitigation:
    explicitly inspect command docs, prompts, and live framework docs.
+5. Retaining support sections that no downstream app can trigger reliably.
+   Mitigation:
+   remove or defer any section that lacks a deterministic no-LLM retrieval
+   contract.
+6. Trigger labels drift away from the app's actual emitted events and tracked
+   state.
+   Mitigation:
+   keep a short shared check/state model and validate schema trigger vocabularies
+   against it.
 
 ## Default Decisions
 
@@ -553,6 +726,10 @@ Unless implementation reveals a serious blocker, use these defaults:
 3. Move `consensus_check` into `discussion_support.consensus_checks`.
 4. Keep diagnostic ladders as reactive support only.
 5. Keep front-door support owned by prose.
+6. Do field-scoped barrier validation for student-facing front-door text.
+7. Defer `review_support` from the first no-LLM runtime package.
+8. Use shared default thresholds for no-LLM trigger derivation unless an app
+   explicitly overrides them.
 
 ## Final Handoff
 
@@ -567,5 +744,9 @@ If another agent wants the shortest possible summary:
    - `transfer_examples`
 4. Update the prose schema and prose agent to author those materials.
 5. Update the merge script to project everything into the new runtime shape.
-6. Update reviewer criteria and the build command docs.
-7. Pilot the refactor on `the-field-trip` episodes 1-3.
+6. Keep only support sections with deterministic no-LLM retrieval paths;
+   defer `review_support`.
+7. Update reviewer criteria, validator logic, and the build command docs.
+8. Pilot the refactor on `the-field-trip` episodes 1-3.
+9. Explicitly resolve what happens to `the-field-trip` episodes 4-10 after the
+   schema cut.

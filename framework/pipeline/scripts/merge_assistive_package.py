@@ -6,7 +6,7 @@ file, computes deterministic derivations, and runs 13 mandatory integrity
 checks. Exits nonzero if any mandatory check fails.
 
 Usage:
-    python3 merge_assistive_package.py <episode_dir> [--schema-version 0.1.0]
+    python3 merge_assistive_package.py <episode_dir> [--schema-version 0.2.0]
 
 The script reads:
     <episode_dir>/ground_truth.yaml  (or ground_truth_generated.yaml)
@@ -43,12 +43,173 @@ def load_file(episode_dir, name, generated_name):
 def load_reference(ref_dir="framework/reference"):
     """Load canonical reference data."""
     refs = {}
-    for name in ["facet_inventory", "lenses", "explanatory_variables", "wrestling_gates"]:
+    for name in ["facet_inventory", "lenses", "explanatory_variables", "wrestling_gates", "app_check_model"]:
         path = os.path.join(ref_dir, f"{name}.yaml")
         if os.path.exists(path):
             with open(path) as f:
                 refs[name] = yaml.safe_load(f)
     return refs
+
+
+def load_migration_rules(refs):
+    app_check = refs.get("app_check_model", {}).get("app_check_model", {})
+    return (app_check.get("migration_rules") or {}).get("front_door_use_when", {})
+
+
+def migrate_use_when(value, migration_rules):
+    if not value:
+        return value
+    return migration_rules.get(value, value)
+
+
+def build_target_focus(passage):
+    """Build deterministic wrong_focus comparison targets for a passage."""
+    passage_id = passage.get("passage_id")
+    target_turn_ids = []
+    for facet in passage.get("facets_present", []):
+        for tid in facet.get("evidence_turns", []):
+            if tid not in target_turn_ids:
+                target_turn_ids.append(tid)
+    if not target_turn_ids:
+        target_turn_ids = list(passage.get("turn_range", []))[:1]
+
+    speaker_by_turn = {
+        ann.get("turn_id"): ann.get("speaker")
+        for ann in passage.get("turn_annotations", [])
+        if ann.get("turn_id") and ann.get("speaker")
+    }
+    target_character_ids = []
+    for tid in target_turn_ids:
+        speaker = speaker_by_turn.get(tid)
+        if speaker and speaker not in target_character_ids:
+            target_character_ids.append(speaker)
+
+    return {
+        "passage_id": passage_id,
+        "target_passage_id": passage_id,
+        "target_turn_ids": target_turn_ids,
+        "target_character_ids": target_character_ids,
+        "turn_range": passage.get("turn_range", []),
+        "lens_visibility": passage.get("lens_visibility", {}),
+        "facets_present": passage.get("facets_present", []),
+    }
+
+
+def _normalize_attention_targets(prose, migration_rules):
+    items = []
+    for item in prose.get("attention_targets", []) or []:
+        normalized = dict(item)
+        normalized["use_when"] = migrate_use_when(item.get("use_when"), migration_rules)
+        items.append(normalized)
+    return items
+
+
+def _normalize_sentence_frame_seeds(prose, migration_rules):
+    items = []
+    if prose.get("sentence_frame_seeds"):
+        for item in prose.get("sentence_frame_seeds", []):
+            normalized = dict(item)
+            normalized["use_when"] = migrate_use_when(item.get("use_when"), migration_rules)
+            items.append(normalized)
+        return items
+
+    for idx, item in enumerate(prose.get("entry_prompts", []) or [], start=1):
+        items.append({
+            "passage_id": item.get("passage_id"),
+            "support_id": f"{item.get('passage_id')}_sf_{idx:02d}",
+            "use_when": "low_articulation",
+            "lens": item.get("lens"),
+            "frame": item.get("stem", ""),
+            "seed": "",
+        })
+    return items
+
+
+def _normalize_modeled_examples(prose, migration_rules):
+    items = []
+    if prose.get("modeled_episode_examples"):
+        for item in prose.get("modeled_episode_examples", []):
+            normalized = dict(item)
+            normalized["use_when"] = migrate_use_when(item.get("use_when"), migration_rules)
+            items.append(normalized)
+        return items
+
+    for idx, item in enumerate(prose.get("explicit_scaffolds", []) or [], start=1):
+        if item.get("type") != "modeled_episode_example":
+            continue
+        items.append({
+            "passage_id": item.get("passage_id"),
+            "support_id": f"{item.get('passage_id')}_me_{idx:02d}",
+            "use_when": migrate_use_when(item.get("use_when"), migration_rules),
+            "lens": item.get("lens"),
+            "source_turns": item.get("source_turns", []),
+            "model_text": item.get("model_text", ""),
+            "why_this_counts": item.get("why_this_counts", ""),
+            "handoff_prompt": item.get("transfer_prompt", ""),
+        })
+    return items
+
+
+def _normalize_transfer_examples(prose, migration_rules):
+    items = []
+    if prose.get("transfer_examples"):
+        for item in prose.get("transfer_examples", []):
+            normalized = dict(item)
+            normalized["use_when"] = migrate_use_when(item.get("use_when"), migration_rules)
+            items.append(normalized)
+        return items
+
+    for idx, item in enumerate(prose.get("explicit_scaffolds", []) or [], start=1):
+        if item.get("type") != "transfer_example":
+            continue
+        items.append({
+            "passage_id": item.get("passage_id"),
+            "support_id": f"{item.get('passage_id')}_te_{idx:02d}",
+            "use_when": migrate_use_when(item.get("use_when"), migration_rules),
+            "lens": item.get("lens"),
+            "example_text": item.get("model_text", ""),
+            "why_this_counts": item.get("why_this_counts", ""),
+            "handoff_prompt": item.get("transfer_prompt", ""),
+        })
+    return items
+
+
+def project_front_door_support(prose, migration_rules):
+    return {
+        "attention_targets": _normalize_attention_targets(prose, migration_rules),
+        "sentence_frame_seeds": _normalize_sentence_frame_seeds(prose, migration_rules),
+        "modeled_episode_examples": _normalize_modeled_examples(prose, migration_rules),
+        "transfer_examples": _normalize_transfer_examples(prose, migration_rules),
+    }
+
+
+def _project_cue(cue, default_phase):
+    projected = dict(cue)
+    projected["phase"] = default_phase if cue.get("continuation_of") is None else "mid_discussion"
+    projected["facet_focus"] = cue.get("angle")
+    projected["lens_focus"] = cue.get("lens")
+    explanatory_ref = cue.get("explanatory_ref")
+    if explanatory_ref:
+        projected["explanatory_focus"] = explanatory_ref
+    return projected
+
+
+def project_discussion_support(disc, prose):
+    by_turn = {}
+    for turn_id, cues in (disc.get("discussion_cues", {}) or {}).get("by_turn", {}).items():
+        by_turn[turn_id] = [_project_cue(cue, "group_start") for cue in cues]
+    episode_scope = [
+        _project_cue(cue, "group_start")
+        for cue in (disc.get("discussion_cues", {}) or {}).get("episode_scope", [])
+    ]
+    return {
+        "discussion_cues": {
+            "by_turn": by_turn,
+            "episode_scope": episode_scope,
+        },
+        "talk_moves": disc.get("talk_moves", []),
+        "consensus_checks": prose.get("consensus_check", []),
+    }
 
 
 def load_story_design(story_id):
@@ -116,7 +277,7 @@ class IntegrityChecker:
                         facets[sig["facet_ref"]] = "present"
             # Also check facets_absent_but_tempting
             for fat in p.get("facets_absent_but_tempting", []):
-                facets[fat["facet_ref"]] = "tempting_absent"
+                facets.setdefault(fat["facet_ref"], "tempting_absent")
         return facets
 
     def _build_facet_to_lens(self):
@@ -434,6 +595,19 @@ class IntegrityChecker:
         student_texts.append(("prose.episode_opening", self.prose.get("episode_opening", "")))
         for ep in self.prose.get("entry_prompts", []):
             student_texts.append(("prose.entry_prompt", ep.get("stem", "")))
+        for item in self.prose.get("attention_targets", []):
+            student_texts.append(("prose.attention_target", item.get("text", "")))
+        for item in self.prose.get("sentence_frame_seeds", []):
+            student_texts.append(("prose.sentence_frame_seed.frame", item.get("frame", "")))
+            student_texts.append(("prose.sentence_frame_seed.seed", item.get("seed", "")))
+        for item in self.prose.get("modeled_episode_examples", []):
+            student_texts.append(("prose.modeled_episode_example.model_text", item.get("model_text", "")))
+            student_texts.append(("prose.modeled_episode_example.why_this_counts", item.get("why_this_counts", "")))
+            student_texts.append(("prose.modeled_episode_example.handoff_prompt", item.get("handoff_prompt", "")))
+        for item in self.prose.get("transfer_examples", []):
+            student_texts.append(("prose.transfer_example.example_text", item.get("example_text", "")))
+            student_texts.append(("prose.transfer_example.why_this_counts", item.get("why_this_counts", "")))
+            student_texts.append(("prose.transfer_example.handoff_prompt", item.get("handoff_prompt", "")))
         for cc in self.prose.get("consensus_check", []):
             student_texts.append(("prose.consensus_check", cc))
         # Discussion cue text
@@ -529,7 +703,7 @@ def derive_calibration_warnings(story_fm):
 def main():
     parser = argparse.ArgumentParser(description="Merge agent outputs into assistive_package.yaml")
     parser.add_argument("episode_dir", help="Path to episode artifact directory")
-    parser.add_argument("--schema-version", default="0.1.0", help="Schema version string")
+    parser.add_argument("--schema-version", default="0.2.0", help="Schema version string")
     args = parser.parse_args()
 
     episode_dir = args.episode_dir
@@ -548,6 +722,7 @@ def main():
 
     # Load references
     refs = load_reference()
+    migration_rules = load_migration_rules(refs)
     story_id = gt.get("story_id", "")
     episode_number = gt.get("episode_number", 1)
     story_fm = load_story_design(story_id)
@@ -572,48 +747,42 @@ def main():
     artifacts_base = os.path.dirname(episode_dir)
     prior_exposure = derive_prior_exposure(gt, story_id, episode_number, artifacts_base)
     calibration_warnings = derive_calibration_warnings(story_fm)
+    front_door_support = project_front_door_support(prose, migration_rules)
+    discussion_support = project_discussion_support(disc, prose)
+    analytic_passages = [build_target_focus(p) for p in gt.get("passages", [])]
 
-    # Build the merged package
+    if not any(front_door_support.values()):
+        print("\n  FAIL: no front-door support could be projected from prose output")
+        sys.exit(1)
+
+    # Build the runtime-first package
     package = {
-        "story_id": story_id,
-        "episode_number": episode_number,
-        "scenario_id": gt.get("scenario_id"),
-        "schema_version": args.schema_version,
-        "ground_truth": {
-            "passages": gt.get("passages", [])
+        "package_meta": {
+            "story_id": story_id,
+            "episode_number": episode_number,
+            "scenario_id": gt.get("scenario_id"),
+            "schema_version": args.schema_version,
+            "integrity": {
+                "checks_passed": checks_passed,
+                "checks_total": checks_total,
+                "timestamp": datetime.datetime.now().isoformat(),
+            },
         },
-        "diagnostic": {
+        "analytic_core": {
+            "passages": analytic_passages,
+            "prior_exposure": prior_exposure,
+        },
+        "front_door_support": front_door_support,
+        "diagnostic_support": {
             "probes": diag.get("probes"),
             "interventions": diag.get("interventions"),
             "struggle_calibration": diag.get("struggle_calibration"),
-            "assumes_familiar_with": diag.get("assumes_familiar_with", []),
-            "introduces": diag.get("introduces", []),
-            "character_arc_position": diag.get("character_arc_position"),
-            "growth_beats": diag.get("growth_beats"),
-            "response_space": diag.get("response_space"),
         },
-        "prose": {
-            "episode_opening": prose.get("episode_opening"),
-            "entry_prompts": prose.get("entry_prompts", []),
-            "consensus_check": prose.get("consensus_check", []),
-            "explicit_scaffolds": prose.get("explicit_scaffolds", []),
-        },
-        "discussion": {
-            "discussion_cues": disc.get("discussion_cues"),
-            "talk_moves": disc.get("talk_moves", []),
-        },
-        "derived": {
-            "prior_exposure": prior_exposure,
-        },
-        "integrity": {
-            "checks_passed": checks_passed,
-            "checks_total": checks_total,
-            "timestamp": datetime.datetime.now().isoformat(),
+        "discussion_support": discussion_support,
+        "teacher_support": {
+            "calibration_warnings": calibration_warnings or [],
         },
     }
-
-    if calibration_warnings is not None:
-        package["derived"]["calibration_warnings"] = calibration_warnings
 
     # Write
     out_path = os.path.join(episode_dir, "assistive_package.yaml")

@@ -12,6 +12,14 @@ episode_opening: >
   committee should be asking. They all did homework — but pay attention to what
   each person actually brought and how the rest of the committee responds to it.
 
+attention_targets:
+  - passage_id: p1
+    support_id: p1_at_01
+    use_when: cannot_start
+    text: >
+      Start with one piece of evidence someone brings in this meeting and ask
+      what it actually proves for the class's real assignment.
+
 entry_prompts:
   - passage_id: p1
     lens: evidence

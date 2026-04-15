@@ -2,7 +2,7 @@
 # Describes the structure of
 #   artifacts/{story_id}/episodes/episode_{NN}/prose.yaml
 # Short, voiced, register-matched student-facing prose.
-# Source: pipeline-revision-plan.md §2.4
+# Runtime-package refactor source schema for no-LLM downstream apps.
 
 schema:
   root:
@@ -27,14 +27,14 @@ schema:
           One paragraph, student-facing, in the story's declared
           pedagogical_register. Sets the narrative scene and ends with
           a non-leading "what to watch for" sentence. Barrier-safe:
-          no framework terminology. §2.4.
+          no framework terminology.
 
-      entry_prompts:
+      attention_targets:
         type: list
         required: true
         description: >
-          Per passage, per lens. One-sentence starter stems a student
-          can adopt verbatim. §2.4.
+          Per-passage attention redirects for students who cannot start
+          or are focused on the wrong place.
         constraints:
           min_length: 1
         items:
@@ -45,89 +45,159 @@ schema:
               required: true
               constraints:
                 pattern: "p\\d+"
-            lens:
+            support_id:
               type: string
               required: true
               constraints:
-                enum: [logic, evidence, scope]
-            stem:
+                pattern: "p\\d+_at_\\d+"
+            use_when:
               type: string
               required: true
-              description: >
-                One-sentence starter. Scaffolds writing production
-                without revealing the observation.
+              constraints:
+                enum: [cannot_start, wrong_focus]
+            source_turns:
+              type: list
+              required: false
+              items:
+                type: string
+            text:
+              type: string
+              required: true
+
+      sentence_frame_seeds:
+        type: list
+        required: true
+        description: >
+          Per-passage startup scaffolds that combine a reusable sentence
+          frame with a short episode-specific seed.
+        constraints:
+          min_length: 1
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+"
+            support_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+_sf_\\d+"
+            use_when:
+              type: string
+              required: true
+              constraints:
+                enum: [cannot_start, low_articulation, wrong_focus, after_check_fail]
+            lens:
+              type: string
+              required: false
+              constraints:
+                enum: [logic, evidence, scope]
+            source_turns:
+              type: list
+              required: false
+              items:
+                type: string
+            frame:
+              type: string
+              required: true
+            seed:
+              type: string
+              required: true
+
+      modeled_episode_examples:
+        type: list
+        required: true
+        description: >
+          Explicit supports that model one real flaw in the episode and
+          then hand the student back to the text.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+"
+            support_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+_me_\\d+"
+            use_when:
+              type: string
+              required: true
+              constraints:
+                enum: [cannot_start, low_articulation, wrong_focus, after_check_fail]
+            lens:
+              type: string
+              required: false
+              constraints:
+                enum: [logic, evidence, scope]
+            source_turns:
+              type: list
+              required: false
+              items:
+                type: string
+            model_text:
+              type: string
+              required: true
+            why_this_counts:
+              type: string
+              required: true
+            handoff_prompt:
+              type: string
+              required: true
+
+      transfer_examples:
+        type: list
+        required: true
+        description: >
+          Explicit supports that simplify the pattern outside the episode
+          and then hand the student back to the text.
+        items:
+          type: object
+          fields:
+            passage_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+"
+            support_id:
+              type: string
+              required: true
+              constraints:
+                pattern: "p\\d+_te_\\d+"
+            use_when:
+              type: string
+              required: true
+              constraints:
+                enum: [cannot_start, low_articulation, wrong_focus, after_check_fail]
+            lens:
+              type: string
+              required: false
+              constraints:
+                enum: [logic, evidence, scope]
+            example_text:
+              type: string
+              required: true
+            why_this_counts:
+              type: string
+              required: true
+            handoff_prompt:
+              type: string
+              required: true
 
       consensus_check:
         type: list
         required: true
         description: >
           1-2 short questions fired on group-phase closure.
-          Not reactive to student state. §2.4.
+          Not reactive to student state.
         constraints:
           min_length: 1
           max_length: 2
         items:
           type: string
-
-      explicit_scaffolds:
-        type: list
-        required: true
-        description: >
-          Short explicit-support cards Lens can show when students do not
-          yet have enough traction to begin. Each card either models a flaw
-          from the episode directly or gives a parallel example, then asks
-          students to transfer the noticing back into the episode. These are
-          stronger than entry prompts but still designed to hand students
-          back to the episode, not replace the episode. §2.4.
-        constraints:
-          min_length: 1
-        items:
-          type: object
-          fields:
-            passage_id:
-              type: string
-              required: true
-              constraints:
-                pattern: "p\\d+"
-            lens:
-              type: string
-              required: true
-              constraints:
-                enum: [logic, evidence, scope]
-            type:
-              type: string
-              required: true
-              constraints:
-                enum: [modeled_episode_example, transfer_example]
-            use_when:
-              type: string
-              required: true
-              constraints:
-                enum: [cannot_start, vague_guess, after_misread]
-            source_turns:
-              type: list
-              required: false
-              description: >
-                Turn IDs the scaffold points to when it models an episode
-                moment directly. May be omitted for transfer examples.
-              items:
-                type: string
-            model_text:
-              type: string
-              required: true
-              description: >
-                Student-facing modeled noticing. For episode-modeled cards,
-                this names the flaw in plain language. For transfer cards,
-                this is a parallel example in plain language.
-            why_this_counts:
-              type: string
-              required: true
-              description: >
-                Short explanation of why the move is weak or incomplete,
-                still in student-friendly language.
-            transfer_prompt:
-              type: string
-              required: true
-              description: >
-                The handoff back to the episode: asks students to find the
-                same or a similar move in the current passage.

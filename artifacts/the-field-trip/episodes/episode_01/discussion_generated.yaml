@@ -16,9 +16,7 @@ discussion_cues:
       angle: inferential_validity
       lens: logic
       axis: lens_refraction
-      continuation_of:
-        turn: t01
-        facet: inferential_validity
+      continuation_of: null
       explanatory_ref: null
       persona: null
       independent_of:
@@ -142,6 +140,24 @@ discussion_cues:
       independent_of:
       - t2_c1
       - t2_c2
+    - id: t2_c5
+      text: 'Priya''s proposal sounds polished, but step back from the museum itself:
+        does "how science is communicated to the public" really answer the class''s
+        cross-disciplinary assignment, or does the group accept it because it sounds academic?
+
+        '
+      angle: relevance
+      lens: evidence
+      axis: lens_refraction
+      continuation_of:
+        turn: t02
+        facet: relevance
+      explanatory_ref: null
+      persona: null
+      independent_of:
+      - t2_c1
+      - t2_c2
+      - t2_c3
     - id: t02_c4
       text: 'The museum costs $18 per student. Ask your group: did anyone on the committee
         think about what that means for students who can''t afford it?'
@@ -184,6 +200,23 @@ discussion_cues:
       persona: Maya
       independent_of:
       - t3_c1
+    - id: t3_c3
+      text: 'Priya''s museum pitch starts to sound stronger because of her family
+        connection. Does anyone stop to ask whether the museum would feel the same
+        to classmates who do not know the place the way Priya does?
+
+        '
+      angle: perspective_engagement
+      lens: scope
+      axis: lens_refraction
+      continuation_of:
+        turn: t03
+        facet: perspective_engagement
+      explanatory_ref: null
+      persona: null
+      independent_of:
+      - t3_c1
+      - t3_c2
     t04:
     - id: t4_c1
       text: 'Sam says the committee should start with a question, not a destination.
@@ -353,6 +386,23 @@ discussion_cues:
       persona: Priya
       independent_of:
       - t7_c1
+    - id: t7_c3
+      text: 'Sam''s big point was that the committee should start with the question,
+        not the destination. When Priya moves on, does anyone answer that point,
+        or does the group switch back to naming places without checking the assignment?
+
+        '
+      angle: relevance
+      lens: evidence
+      axis: lens_refraction
+      continuation_of:
+        turn: t07
+        facet: relevance
+      explanatory_ref: null
+      persona: null
+      independent_of:
+      - t7_c1
+      - t7_c2
     t08:
     - id: t8_c1
       text: 'Maya says she "honestly loves all of these." Is loving all of them the

@@ -101,6 +101,81 @@ It should not primarily answer:
 
 - which authoring agent originally wrote this material
 
+## Downstream Runtime Assumption
+
+This refactor should assume the downstream app has no LLM and no semantic free
+text interpretation.
+
+The runtime package should therefore optimize for:
+
+- deterministic retrieval
+- simple app-observable triggers
+- exact-match or threshold-based routing
+- authored support that can be selected without model inference
+
+The package should not depend on:
+
+- semantic interpretation of student writing
+- semantic interpretation of group discussion
+- AI-generated runtime explanations
+
+## App Check Model
+
+The no-LLM downstream app should expose a small deterministic check model. The
+runtime package is authored against this model.
+
+Required app events:
+
+- `response_started`
+- `response_submitted`
+- `selection_made`
+- `check_run`
+- `check_failed`
+- `check_passed`
+- `group_started`
+- `group_message_sent`
+- `group_ended`
+
+Required app state:
+
+- `phase`: `entry | individual | discussion | teacher_dashboard`
+- `response_length_chars`
+- `response_length_words`
+- `retry_count`
+- `selected_passage_id`
+- `selected_turn_ids`
+- `selected_character_ids`
+- `selected_lens`
+- `selected_facet`
+- `selected_cognitive_pattern`
+- `selected_social_dynamic`
+- `last_check_result`: `pass | fail | none`
+- `group_turn_count`
+- `group_member_turn_counts`
+- `supports_shown`
+
+Derived front-door states:
+
+- `cannot_start`:
+  - no submission yet and dwell time exceeds app threshold
+  - or repeated empty submissions
+- `low_articulation`:
+  - submission exists but is below shared minimum length threshold
+- `wrong_focus`:
+  - selected passage/turn/character does not intersect the authored target
+    focus for the current support
+- `after_check_fail`:
+  - the app has run a deterministic check and the most recent result is fail
+
+Default thresholds:
+
+- `low_articulation_max_words`: 8
+- `cannot_start_dwell_seconds`: 45
+- `cannot_start_empty_submissions`: 2
+
+These defaults should live in shared reference data alongside trigger enums so
+authors and downstream apps calibrate against the same thresholds.
+
 ## Target Runtime Structure
 
 The new `assistive_package.yaml` should be organized around instructional
@@ -147,22 +222,7 @@ Proposed contents:
 - talk moves
 - consensus checks
 
-### 4. `review_support`
-
-Purpose:
-- support the AI-review and revision phase
-
-Proposed contents:
-
-- AI perspective
-- AI reflection prompts
-- revision prompts if present later
-
-Note:
-- the current package may not yet expose this as a fully separate authored
-  block. It is still useful to reserve the section in the runtime design.
-
-### 5. `teacher_support`
+### 4. `teacher_support`
 
 Purpose:
 - give the teacher high-value live-use support
@@ -177,7 +237,7 @@ Proposed contents:
 This may require future alignment with facilitation outputs if they remain
 outside the shared package.
 
-### 6. `analytic_core`
+### 5. `analytic_core`
 
 Purpose:
 - hold hidden analytical truth the app may need for matching, routing, and
@@ -191,7 +251,7 @@ Proposed contents:
 - prior exposure
 - any hidden runtime indexing needed by apps
 
-### 7. `package_meta`
+### 6. `package_meta`
 
 Purpose:
 - store package-level operational metadata
@@ -203,6 +263,16 @@ Proposed contents:
 - `scenario_id`
 - `schema_version`
 - integrity-check info if still kept in the package
+
+Deferred from this refactor:
+
+- `review_support`
+
+Reason:
+- a review section is not useful to a no-LLM downstream app unless the runtime
+  also has deterministic review checkpoints and authored revision prompts tied
+  to those checkpoints
+- reserve it for a later refactor once a non-LLM review flow is specified
 
 ## Front-Door Support
 
@@ -258,6 +328,13 @@ The package should support this intended progression:
 Apps may choose a different sequencing policy, but the package should be
 authored with this escalation path in mind.
 
+This progression is advisory metadata for authors and app logic, not a
+structural requirement that every app must follow in order.
+
+In a no-LLM app, students do not necessarily move linearly through this
+staircase. The app may route directly to the matching support based on current
+observable state such as `wrong_focus` or `after_check_fail`.
+
 ### Required design rule
 
 Every front-door support item must end by handing the student back to the
@@ -265,6 +342,79 @@ episode.
 
 The point is not to replace the activity. The point is to make the activity
 startable.
+
+### Shared support metadata contract
+
+Every front-door support item should use the same metadata contract.
+
+Required common fields:
+
+- `passage_id`
+- `support_id`
+- `use_when`
+
+Optional common fields:
+
+- `lens`
+- `source_turns`
+
+Contract notes:
+
+- `support_id` should follow `p{passage_number}_{type}_{nn}` such as
+  `p1_at_01`, `p1_sf_01`, `p1_me_01`, `p1_te_01`
+- `use_when` is a shared runtime enum, not prose-local vocabulary:
+  - `cannot_start`
+  - `low_articulation`
+  - `wrong_focus`
+  - `after_check_fail`
+- `use_when` should live in shared reference data under `framework/reference/`
+  or another single-source contract, and both `prose.yaml` and the new
+  `assistive_package.yaml` should bind to that source
+- `source_turns` are authored highlight hints and UI scoping hints, not a
+  primary retrieval key; the app may use them to focus the current view once a
+  support item has already matched
+
+### Runtime Retrieval Contract
+
+The downstream app should retrieve support deterministically from observable
+state, not inferred student intent.
+
+Each runtime section should use a simple trigger style that matches what the
+app can actually measure:
+
+- `front_door_support`: `use_when` plus optional selectors such as `lens` and
+  `source_turns`
+- `diagnostic_support`: small `trigger` enums tied to explicit app events such
+  as failed checks, retries, or missing selections
+- `discussion_support`: `phase` plus optional focus selectors such as
+  `lens_focus`, `facet_focus`, `cognitive_pattern_focus`,
+  `social_dynamic_focus`
+- `teacher_support`: dashboard-style trigger enums derived from aggregate
+  counts or rates
+
+Matching rule:
+
+1. The app filters by the current section and phase.
+2. The app exact-matches trigger fields against current observable state.
+3. If multiple supports match, prefer the most specific item.
+4. If nothing matches, fall back to the lowest-risk generic support for that
+   section.
+
+Do not introduce a universal condition DSL unless a real app need justifies the
+extra complexity.
+
+Specificity rule:
+
+- count the number of matched non-null selector fields beyond the base trigger
+  field
+- more matched selector fields wins
+- if tied, use authored order within the section
+
+Generic fallback rule:
+
+- a support item is generic when it has the base trigger field only and no
+  additional selectors such as `lens`, `source_turns`, `lens_focus`,
+  `facet_focus`, or similar scoping fields
 
 ### `attention_targets`
 
@@ -302,7 +452,7 @@ Example shape:
 sentence_frame_seeds:
   - passage_id: p1
     support_id: p1_sf_01
-    use_when: vague_guess
+    use_when: low_articulation
     lens: evidence
     frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
     seed: "Jordan keeps repeating that the zoo is 'certified.'"
@@ -324,7 +474,7 @@ Example shape:
 modeled_episode_examples:
   - passage_id: p1
     support_id: p1_me_01
-    use_when: cannot_start
+    use_when: after_check_fail
     lens: logic
     source_turns: [t01]
     model_text: >
@@ -355,7 +505,7 @@ Example shape:
 transfer_examples:
   - passage_id: p1
     support_id: p1_te_01
-    use_when: after_misread
+    use_when: after_check_fail
     lens: evidence
     example_text: >
       A student says, "This camp must be the best because its own website says
@@ -378,13 +528,34 @@ Reason:
 - they are pre-authored
 - they are not primarily reactive ladders
 
-However, the prose agent should be allowed to reuse or lift material from:
+Decision:
+- use author-time ownership, not projection-time composition
+- `prose` authors all four front-door blocks end-to-end
+- the merge script may reshape, rename, and validate these fields, but it
+  should not compose new student-facing front-door content from diagnostic
+  ladders
+
+The prose agent may reuse material from:
 
 - `ground_truth`
 - `diagnostic`, especially strong `worked_example` rungs
 
-This is a projection problem, not a purity ritual. The package should not force
-excellent modeled content to remain trapped in the wrong section.
+That reuse happens during prose authoring. The runtime projector should remain
+deterministic and non-creative.
+
+Operational trigger note:
+- every `use_when` value should be defined in terms of app-observable signals
+  such as empty response, low response length, wrong selected passage/turn, or
+  failed deterministic check
+- avoid trigger labels that require semantic interpretation of free text
+
+Coverage invariant:
+- every passage should provide at least one `attention_target` and one
+  `sentence_frame_seed`
+- `modeled_episode_examples` and `transfer_examples` may be authored more
+  selectively at passage or episode scope
+- this ensures the app always has a low-risk fallback when a front-door trigger
+  fires
 
 ## Mapping Current Content To The New Runtime Structure
 
@@ -399,13 +570,17 @@ Map into `analytic_core`:
 - facet truth
 - lens visibility
 - prior-exposure inputs
+- target-focus fields for deterministic retrieval such as preferred passage,
+  turn, and character targets
 
 Do not expose unnecessary analytical trace directly if it does not serve app
 consumption.
 
 Potential rule:
-- keep what apps need for routing, matching, and hidden truth
-- drop or demote what is only useful for authoring audit
+- for the pilot, keep `analytic_core` close to the current `ground_truth`
+  structure unless a field is clearly authoring-only
+- tighten and shrink it only after Lens consumption makes the app-useful subset
+  concrete
 
 ### From `diagnostic_generated.yaml`
 
@@ -417,10 +592,16 @@ Map into `diagnostic_support`:
 - struggle calibration
 - misread redirects
 
-Potential front-door lifts:
-- selected `worked_example` rungs may be copied or transformed into
-  `modeled_episode_examples`
-- selected ladder openings may inform `attention_targets`
+Authoring dependency:
+- diagnostic `worked_example` rungs may inform prose authoring
+- diagnostic remains the owner of reactive ladders, not front-door runtime
+  blocks
+
+Runtime constraint:
+- only keep diagnostic items that can be triggered by explicit app events or
+  structured checkpoints
+- do not require downstream apps to infer subtle misunderstanding from free
+  text
 
 ### From `prose_generated.yaml`
 
@@ -433,7 +614,10 @@ Specific mapping:
 
 - `entry_prompts` -> likely `sentence_frame_seeds` or adjacent startup support
 - `consensus_check` -> `discussion_support.consensus_checks`
-- current or future `explicit_scaffolds` -> `front_door_support`
+- `explicit_scaffolds.type: modeled_episode_example` ->
+  `front_door_support.modeled_episode_examples`
+- `explicit_scaffolds.type: transfer_example` ->
+  `front_door_support.transfer_examples`
 
 ### From `discussion_generated.yaml`
 
@@ -441,6 +625,10 @@ Map into `discussion_support`:
 
 - discussion cues
 - talk moves
+
+Runtime constraint:
+- discussion items should be retrievable from explicit phase and focus fields
+- avoid triggers that require semantic reading of the live group discussion
 
 ### From `derived`
 
@@ -477,7 +665,7 @@ package_meta:
 analytic_core:
   passages: [...]
   prior_exposure: [...]
-  calibration_warnings: [...]
+  lens_visibility: [...]
 
 front_door_support:
   attention_targets: [...]
@@ -497,14 +685,61 @@ discussion_support:
   talk_moves: [...]
   consensus_checks: [...]
 
-review_support:
-  ai_perspective: ...
-  reflection_prompts: [...]
-
 teacher_support:
+  calibration_warnings: [...]
   debrief_hooks: [...]
   likely_sticking_points: [...]
 ```
+
+### Worked mapping example
+
+One passage should project roughly like this:
+
+```yaml
+prose_generated:
+  sentence_frame_seeds:
+    - passage_id: p1
+      support_id: p1_sf_01
+      use_when: low_articulation
+      lens: evidence
+      frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+      seed: "Jordan keeps repeating that the zoo is 'certified.'"
+
+assistive_package:
+  front_door_support:
+    sentence_frame_seeds:
+      - passage_id: p1
+        support_id: p1_sf_01
+        use_when: low_articulation
+        lens: evidence
+        frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+        seed: "Jordan keeps repeating that the zoo is 'certified.'"
+```
+
+The merge step may rename or relocate fields, but it should not invent the
+student-facing wording above.
+
+A reshape case should look like this:
+
+```yaml
+prose_generated:
+  entry_prompts:
+    - passage_id: p1
+      lens: evidence
+      stem: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+
+assistive_package:
+  front_door_support:
+    sentence_frame_seeds:
+      - passage_id: p1
+        support_id: p1_sf_01
+        use_when: low_articulation
+        lens: evidence
+        frame: "This sounds convincing at first, but it doesn't actually show ___ because ___."
+        seed: ""
+```
+
+This is a reshape and normalization step, not new semantic authorship.
 
 ## Migration Strategy
 
@@ -529,6 +764,8 @@ Produce a field inventory table with four decisions per field:
 
 This audit should be done before editing prompts or the merge script.
 
+The audit should produce a field-by-field mapping table, not just prose notes.
+
 ### Step 3: Refactor the merge script
 
 `framework/pipeline/scripts/merge_assistive_package.py` should be refactored
@@ -537,9 +774,14 @@ from a merger into a projector.
 New responsibilities:
 
 - map authored inputs into runtime sections
-- lift selected content into `front_door_support`
+- project prose-authored front-door content into `front_door_support`
 - preserve integrity checks
 - avoid leaking hidden terminology into student-facing fields
+
+Non-responsibilities:
+
+- do not compose new student-facing front-door items from diagnostic ladders
+- do not make semantic authorship decisions that belong in `prose`
 
 ### Step 4: Align authoring prompts
 
@@ -563,6 +805,52 @@ The package reviewer should explicitly check:
 - they do not leak hidden IDs
 - they hand students back to the episode rather than closing the task
 
+Validation note:
+- `validate_schema.py` should gain field-scoped checks for student-facing
+  front-door text fields rather than a file-wide scan, because authored files
+  may legitimately contain hidden metadata such as `lens` and `use_when`
+- the field-scoped scan should cover student-facing fields such as `text`,
+  `frame`, `seed`, `model_text`, `example_text`, `handoff_prompt`, and the
+  equivalent prose-authored source fields
+
+Retrieval note:
+- reviewer logic should also verify that every retained runtime-facing support
+  item has a deterministic retrieval path for a no-LLM app
+
+For pilot scope, the reviewer should use these concrete trigger vocabularies:
+
+- `front_door_support.use_when`:
+  - `cannot_start`
+  - `low_articulation`
+  - `wrong_focus`
+  - `after_check_fail`
+- `diagnostic_support.trigger`:
+  - `after_check_fail`
+  - `after_repeat_fail`
+  - `missing_selection`
+  - `low_confidence`
+- `discussion_support.phase`:
+  - `group_start`
+  - `mid_discussion`
+  - `group_wrap_up`
+- `teacher_support.trigger`:
+  - `many_students_cannot_start`
+  - `many_students_wrong_focus`
+  - `high_retry_rate`
+  - `low_discussion_participation`
+
+If any section needs additional trigger vocabulary beyond this pilot set, it
+should be explicitly added to the schema or explicitly deferred rather than
+left implicit.
+
+Migration note:
+- legacy prose artifacts that use `vague_guess` should map to
+  `low_articulation`
+- legacy prose artifacts that use `after_misread` should map to
+  `after_check_fail`
+- this rename should happen once in migration/update tooling rather than as an
+  indefinite runtime compatibility layer
+
 ### Step 6: Regenerate a pilot set
 
 Use `the-field-trip` episodes 1-3 as the first regeneration and review set.
@@ -571,6 +859,11 @@ Reason:
 - these episodes already contain strong candidate content
 - they demonstrate the current gap clearly
 - they are sufficient to evaluate the new front-door section
+
+Schema-cut note:
+- if the refactor ships as a clean schema-version cut, episodes 4-10 of
+  `the-field-trip` must either be regenerated to the new package shape or
+  explicitly marked as legacy/orphaned artifacts until revisited
 
 ## Implementation Order
 
@@ -592,19 +885,17 @@ already approved.
 
 These questions should be resolved during implementation:
 
-1. Should `entry_prompts` remain a separate runtime block, or be fully absorbed
-   into `sentence_frame_seeds`?
-2. Should `consensus_check` live under `discussion_support` only, or also be
+1. Should `consensus_check` live under `discussion_support` only, or also be
    exposed in a teacher-facing section?
-3. How much of `ground_truth` should remain verbatim in the final package versus
-   being reprojected into smaller hidden runtime tables?
-4. Should the refactor ship as a clean cut to a new schema version, or should
+2. After the pilot, which parts of near-verbatim `ground_truth` should remain
+   in `analytic_core` versus being tightened into smaller hidden runtime tables?
+3. Should the refactor ship as a clean cut to a new schema version, or should
    the merge script temporarily emit a compatibility format?
 
 Default recommendation:
-- absorb `entry_prompts` into `sentence_frame_seeds`
 - move `consensus_check` into `discussion_support`
-- keep only app-useful analytics in `analytic_core`
+- keep `analytic_core` close to current `ground_truth` for the pilot, then
+  narrow it once Lens consumption is concrete
 - use a clean schema-version cut unless an active consumer blocks it
 
 ## Exit Criteria
@@ -616,7 +907,8 @@ The refactor is complete when all of the following are true:
 2. The package includes the four front-door support approaches as first-class
    sections.
 3. The merge script builds the new package shape deterministically.
-4. Reviewer criteria explicitly evaluate front-door support quality.
+4. Reviewer criteria explicitly evaluate front-door support quality and
+   deterministic retrievability for a no-LLM app.
 5. `the-field-trip` episodes 1-3 regenerate successfully and demonstrate useful
    startup supports.
 6. Another agent can implement Lens consumption without reading raw authoring
@@ -633,6 +925,11 @@ If another agent reads only this section, the assignment is:
    - `sentence_frame_seeds`
    - `modeled_episode_examples`
    - `transfer_examples`
-4. Keep reactive ladders under `diagnostic_support`.
-5. Refactor the merge script accordingly.
-6. Regenerate and review `the-field-trip` episodes 1-3 as the pilot.
+4. Keep front-door authorship in `prose`; keep reactive ladders in
+   `diagnostic_support`.
+5. Make `use_when` and `support_id` explicit shared runtime contract fields,
+   with `use_when` defined in app-observable no-LLM terms.
+6. Defer `review_support` until a non-LLM review flow is specified.
+7. Refactor the merge script accordingly.
+8. Regenerate and review `the-field-trip` episodes 1-3 as the pilot, then
+   decide how to handle episodes 4-10 under the schema cut.

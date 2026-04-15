@@ -48,6 +48,15 @@ function asArray<T>(value: unknown) {
   return Array.isArray(value) ? (value as T[]) : [];
 }
 
+function firstString(...values: unknown[]) {
+  for (const value of values) {
+    if (typeof value === "string" && value.trim().length > 0) {
+      return value;
+    }
+  }
+  return undefined;
+}
+
 function formatTimestamp(value?: string) {
   if (!value) {
     return "Unknown";
@@ -135,9 +144,9 @@ function renderTranscript(bundle: NonNullable<Awaited<ReturnType<typeof loadEpis
   const transcript = asRecord(bundle.files["transcript.yaml"]);
   const turns = asArray<Record<string, unknown>>(transcript?.turns);
   const packageRoot = asRecord(bundle.files["assistive_package.yaml"]);
-  const groundTruth = asRecord(packageRoot?.ground_truth ?? bundle.files["ground_truth.yaml"]);
-  const diagnostic = asRecord(packageRoot?.diagnostic ?? bundle.files["diagnostic.yaml"]);
-  const discussion = asRecord(packageRoot?.discussion ?? bundle.files["discussion.yaml"]);
+  const groundTruth = asRecord(bundle.files["ground_truth.yaml"]);
+  const diagnostic = asRecord(packageRoot?.diagnostic_support ?? bundle.files["diagnostic.yaml"]);
+  const discussion = asRecord(packageRoot?.discussion_support ?? bundle.files["discussion.yaml"]);
 
   const passages = asArray<Record<string, unknown>>(groundTruth?.passages);
   const turnAnnotations = passages.flatMap((passage) =>
@@ -235,15 +244,36 @@ function renderTranscript(bundle: NonNullable<Awaited<ReturnType<typeof loadEpis
 
 function renderGroundTruth(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode>>>) {
   const packageRoot = asRecord(bundle.files["assistive_package.yaml"]);
-  const groundTruth = asRecord(packageRoot?.ground_truth ?? bundle.files["ground_truth.yaml"]);
+  const groundTruth = asRecord(bundle.files["ground_truth.yaml"]);
+  const analyticCore = asRecord(packageRoot?.analytic_core);
   const passages = asArray<Record<string, unknown>>(groundTruth?.passages);
+  const targetPassages = asArray<Record<string, unknown>>(analyticCore?.passages);
 
-  if (passages.length === 0) {
+  if (passages.length === 0 && targetPassages.length === 0) {
     return <EmptyState message="Ground truth is not available for this episode yet." />;
   }
 
   return (
     <div className="stack">
+      {targetPassages.length > 0 ? (
+        <Panel>
+          <h2 className="section-title">Runtime Target Focus</h2>
+          <ul className="list">
+            {targetPassages.map((passage, index) => (
+              <li key={`target-${index}`}>
+                <strong>{String(passage.passage_id ?? `p${index + 1}`)}</strong>
+                {" · target passage "}
+                {String(passage.target_passage_id ?? "unknown")}
+                {" · turns "}
+                {asArray<string>(passage.target_turn_ids).join(", ") || "none"}
+                {" · characters "}
+                {asArray<string>(passage.target_character_ids).join(", ") || "none"}
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      ) : null}
+
       {passages.map((passage, index) => (
         <Panel key={`${passage.passage_id}-${index}`}>
           <h2 className="section-title">
@@ -309,7 +339,7 @@ function renderGroundTruth(bundle: NonNullable<Awaited<ReturnType<typeof loadEpi
 
 function renderDiagnostic(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode>>>) {
   const packageRoot = asRecord(bundle.files["assistive_package.yaml"]);
-  const diagnostic = asRecord(packageRoot?.diagnostic ?? bundle.files["diagnostic.yaml"]);
+  const diagnostic = asRecord(packageRoot?.diagnostic_support ?? bundle.files["diagnostic.yaml"]);
   const probeByTurn = asRecord(asRecord(asRecord(diagnostic?.probes)?.facet)?.by_turn);
   const interventions = asRecord(asRecord(diagnostic?.interventions)?.by_turn);
   const turnIds = Array.from(
@@ -395,17 +425,36 @@ function renderDiagnostic(bundle: NonNullable<Awaited<ReturnType<typeof loadEpis
 
 function renderProse(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode>>>) {
   const packageRoot = asRecord(bundle.files["assistive_package.yaml"]);
-  const prose = asRecord(packageRoot?.prose ?? bundle.files["prose.yaml"]);
-  if (!prose) {
+  const prose = asRecord(bundle.files["prose.yaml"]);
+  const frontDoor = asRecord(packageRoot?.front_door_support);
+  const discussionSupport = asRecord(packageRoot?.discussion_support);
+
+  if (!prose && !frontDoor) {
     return <EmptyState message="Prose artifacts are not available for this episode yet." />;
   }
+
+  const attentionTargets = asArray<Record<string, unknown>>(
+    frontDoor?.attention_targets ?? prose?.attention_targets,
+  );
+  const sentenceFrameSeeds = asArray<Record<string, unknown>>(
+    frontDoor?.sentence_frame_seeds ?? prose?.sentence_frame_seeds,
+  );
+  const modeledEpisodeExamples = asArray<Record<string, unknown>>(
+    frontDoor?.modeled_episode_examples ?? prose?.modeled_episode_examples,
+  );
+  const transferExamples = asArray<Record<string, unknown>>(
+    frontDoor?.transfer_examples ?? prose?.transfer_examples,
+  );
+  const consensusChecks = asArray<string>(
+    discussionSupport?.consensus_checks ?? prose?.consensus_check,
+  );
 
   return (
     <div className="stack">
       <Panel>
         <h2 className="section-title">Episode Opening</h2>
         <p className="turn-text">
-          {typeof prose.episode_opening === "string"
+          {typeof prose?.episode_opening === "string"
             ? prose.episode_opening
             : "No episode opening available."}
         </p>
@@ -413,39 +462,90 @@ function renderProse(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode>>
 
       <div className="two-col">
         <Panel>
-          <h2 className="section-title">Entry Prompts</h2>
+          <h2 className="section-title">Attention Targets</h2>
           <ul className="list">
-            {asArray<Record<string, unknown>>(prose.entry_prompts).map((prompt, index) => (
-              <li key={`prompt-${index}`}>
-                <strong>{String(prompt.lens ?? "lens")}</strong>
+            {attentionTargets.map((target, index) => (
+              <li key={`attention-${index}`}>
+                <strong>{String(target.passage_id ?? "passage")}</strong>
                 {" · "}
-                {typeof prompt.stem === "string" ? prompt.stem : "No stem"}
+                {firstString(target.use_when, target.lens) ?? "support"}
+                {" · "}
+                {typeof target.text === "string" ? target.text : "No redirect text"}
               </li>
             ))}
           </ul>
         </Panel>
 
         <Panel>
-          <h2 className="section-title">Consensus Check</h2>
+          <h2 className="section-title">Sentence Frame Seeds</h2>
           <ul className="list">
-            {asArray<string>(prose.consensus_check).map((question, index) => (
-              <li key={`consensus-${index}`}>{question}</li>
+            {sentenceFrameSeeds.map((seed, index) => (
+              <li key={`seed-${index}`}>
+                <strong>{String(seed.passage_id ?? "passage")}</strong>
+                {" · "}
+                {firstString(seed.lens, seed.use_when) ?? "support"}
+                {" · "}
+                {firstString(seed.frame, seed.seed) ?? "No frame available"}
+                {typeof seed.seed === "string" && seed.seed.trim().length > 0 ? ` / ${seed.seed}` : ""}
+              </li>
             ))}
           </ul>
         </Panel>
       </div>
+
+      <div className="two-col">
+        <Panel>
+          <h2 className="section-title">Modeled Episode Examples</h2>
+          <ul className="list">
+            {modeledEpisodeExamples.map((example, index) => (
+              <li key={`modeled-${index}`}>
+                <strong>{String(example.passage_id ?? "passage")}</strong>
+                {" · "}
+                {firstString(example.lens, example.use_when) ?? "support"}
+                {" · "}
+                {firstString(example.model_text, example.handoff_prompt) ?? "No example text"}
+              </li>
+            ))}
+          </ul>
+        </Panel>
+
+        <Panel>
+          <h2 className="section-title">Transfer Examples</h2>
+          <ul className="list">
+            {transferExamples.map((example, index) => (
+              <li key={`transfer-${index}`}>
+                <strong>{String(example.passage_id ?? "passage")}</strong>
+                {" · "}
+                {firstString(example.lens, example.use_when) ?? "support"}
+                {" · "}
+                {firstString(example.example_text, example.handoff_prompt) ?? "No example text"}
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </div>
+
+      <Panel>
+        <h2 className="section-title">Consensus Check</h2>
+        <ul className="list">
+          {consensusChecks.map((question, index) => (
+            <li key={`consensus-${index}`}>{question}</li>
+          ))}
+        </ul>
+      </Panel>
     </div>
   );
 }
 
 function renderDiscussion(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode>>>) {
   const packageRoot = asRecord(bundle.files["assistive_package.yaml"]);
-  const discussion = asRecord(packageRoot?.discussion ?? bundle.files["discussion.yaml"]);
+  const discussion = asRecord(packageRoot?.discussion_support ?? bundle.files["discussion.yaml"]);
   const cues = asRecord(discussion?.discussion_cues);
   const byTurn = asRecord(cues?.by_turn);
   const episodeScope = asArray<Record<string, unknown>>(cues?.episode_scope);
+  const talkMoves = asArray<string>(discussion?.talk_moves);
 
-  if (!byTurn && episodeScope.length === 0) {
+  if (!byTurn && episodeScope.length === 0 && talkMoves.length === 0) {
     return <EmptyState message="Discussion cues are not available for this episode yet." />;
   }
 
@@ -458,7 +558,9 @@ function renderDiscussion(bundle: NonNullable<Awaited<ReturnType<typeof loadEpis
               <ul className="list">
                 {asArray<Record<string, unknown>>(cueList).map((cue, index) => (
                   <li key={`${turnId}-cue-${index}`}>
-                    <strong>{String(cue.axis ?? "axis")}</strong>
+                    <strong>{firstString(cue.phase, cue.axis) ?? "cue"}</strong>
+                    {" · "}
+                    {firstString(cue.lens_focus, cue.facet_focus) ?? "general"}
                     {" · "}
                     {typeof cue.text === "string" ? cue.text : "Cue text unavailable"}
                   </li>
@@ -474,8 +576,21 @@ function renderDiscussion(bundle: NonNullable<Awaited<ReturnType<typeof loadEpis
           <ul className="list">
             {episodeScope.map((cue, index) => (
               <li key={`episode-scope-${index}`}>
+                <strong>{firstString(cue.phase, cue.axis) ?? "cue"}</strong>
+                {" · "}
                 {typeof cue.text === "string" ? cue.text : "Cue text unavailable"}
               </li>
+            ))}
+          </ul>
+        </Panel>
+      ) : null}
+
+      {talkMoves.length > 0 ? (
+        <Panel>
+          <h2 className="section-title">Talk Moves</h2>
+          <ul className="list">
+            {talkMoves.map((move, index) => (
+              <li key={`talk-move-${index}`}>{move}</li>
             ))}
           </ul>
         </Panel>
@@ -509,6 +624,20 @@ function renderPackage(bundle: NonNullable<Awaited<ReturnType<typeof loadEpisode
           <li>{bundle.derived.passageCount} passages</li>
           <li>{bundle.derived.probeTurnCount} probe-bearing turns</li>
           <li>{bundle.derived.discussionCueCount} discussion cues</li>
+          <li>
+            {asArray<Record<string, unknown>>(asRecord(packageRoot.front_door_support)?.attention_targets)
+              .length +
+              asArray<Record<string, unknown>>(
+                asRecord(packageRoot.front_door_support)?.sentence_frame_seeds,
+              ).length +
+              asArray<Record<string, unknown>>(
+                asRecord(packageRoot.front_door_support)?.modeled_episode_examples,
+              ).length +
+              asArray<Record<string, unknown>>(
+                asRecord(packageRoot.front_door_support)?.transfer_examples,
+              ).length}{" "}
+            front-door supports
+          </li>
         </ul>
       </Panel>
     </div>

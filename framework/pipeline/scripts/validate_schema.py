@@ -162,6 +162,8 @@ class SchemaValidator:
             self._check_analysis_evidence_basis(artifact)
         elif schema_basename == "episode_writer_input.yaml":
             self._check_projection_literal_scan(artifact_path)
+        elif schema_basename == "assistive_package.yaml":
+            self._check_assistive_package_runtime_rules(artifact)
 
         self._report(artifact_path, schema_path)
         if self.mode == "strict" and self.issues:
@@ -245,6 +247,70 @@ class SchemaValidator:
                 self.issues.append(
                     f"{path}: social_dynamic '{sd}' set but social_signal "
                     f"is missing or empty"
+                )
+
+    def _check_assistive_package_runtime_rules(self, artifact):
+        """Runtime-package rules for no-LLM downstream apps."""
+        if not isinstance(artifact, dict):
+            return
+
+        self._check_assistive_package_literal_scan(artifact)
+        self._check_front_door_coverage(artifact)
+
+    def _check_assistive_package_literal_scan(self, artifact):
+        facet_ids, cog_ids, soc_ids = _load_reference_terms()
+        reserved = {term for term in facet_ids | cog_ids | soc_ids if "_" in term}
+        front = (artifact.get("front_door_support") or {})
+        fields = []
+
+        for item in front.get("attention_targets") or []:
+            fields.append(("front_door_support.attention_targets.text", item.get("text", "")))
+        for item in front.get("sentence_frame_seeds") or []:
+            fields.append(("front_door_support.sentence_frame_seeds.frame", item.get("frame", "")))
+            fields.append(("front_door_support.sentence_frame_seeds.seed", item.get("seed", "")))
+        for item in front.get("modeled_episode_examples") or []:
+            fields.append(("front_door_support.modeled_episode_examples.model_text", item.get("model_text", "")))
+            fields.append(("front_door_support.modeled_episode_examples.why_this_counts", item.get("why_this_counts", "")))
+            fields.append(("front_door_support.modeled_episode_examples.handoff_prompt", item.get("handoff_prompt", "")))
+        for item in front.get("transfer_examples") or []:
+            fields.append(("front_door_support.transfer_examples.example_text", item.get("example_text", "")))
+            fields.append(("front_door_support.transfer_examples.why_this_counts", item.get("why_this_counts", "")))
+            fields.append(("front_door_support.transfer_examples.handoff_prompt", item.get("handoff_prompt", "")))
+
+        for location, text in fields:
+            if not isinstance(text, str):
+                continue
+            for term in reserved:
+                if re.search(r"\b" + re.escape(term) + r"\b", text):
+                    self.issues.append(
+                        f"{location}: reserved term '{term}' found in student-facing runtime text"
+                    )
+
+    def _check_front_door_coverage(self, artifact):
+        analytic = artifact.get("analytic_core") or {}
+        front = artifact.get("front_door_support") or {}
+        passage_ids = [p.get("passage_id") for p in (analytic.get("passages") or []) if p.get("passage_id")]
+
+        attention_by_passage = {}
+        for item in front.get("attention_targets") or []:
+            pid = item.get("passage_id")
+            if pid:
+                attention_by_passage[pid] = attention_by_passage.get(pid, 0) + 1
+
+        frames_by_passage = {}
+        for item in front.get("sentence_frame_seeds") or []:
+            pid = item.get("passage_id")
+            if pid:
+                frames_by_passage[pid] = frames_by_passage.get(pid, 0) + 1
+
+        for pid in passage_ids:
+            if attention_by_passage.get(pid, 0) < 1:
+                self.issues.append(
+                    f"front_door_support: passage '{pid}' is missing an attention_target"
+                )
+            if frames_by_passage.get(pid, 0) < 1:
+                self.issues.append(
+                    f"front_door_support: passage '{pid}' is missing a sentence_frame_seed"
                 )
 
     def _check_projection_literal_scan(self, artifact_path):
