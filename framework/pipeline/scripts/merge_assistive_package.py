@@ -226,6 +226,31 @@ def load_story_design(story_id):
     return {}
 
 
+def extract_calibration_warnings(story_doc_path):
+    """Extract verbatim teacher-facing calibration warning bullets from a story doc."""
+    if not os.path.exists(story_doc_path):
+        return []
+
+    with open(story_doc_path) as f:
+        lines = f.readlines()
+
+    in_section = False
+    bullets = []
+    for raw_line in lines:
+        stripped = raw_line.strip()
+        if not in_section:
+            if stripped == "### Calibration Warnings":
+                in_section = True
+            continue
+
+        if stripped.startswith("#"):
+            break
+        if stripped.startswith("- ") or stripped.startswith("* "):
+            bullets.append(stripped[2:].strip())
+
+    return bullets
+
+
 # ──────────────────────────────────────────────
 # Integrity checks (§2.6)
 # ──────────────────────────────────────────────
@@ -691,14 +716,17 @@ def derive_prior_exposure(gt, story_id, episode_number, artifacts_dir):
     return exposure
 
 
-def derive_calibration_warnings(story_fm):
+def derive_calibration_warnings(story_fm, story_doc_path):
     """Lift calibration warnings from story design doc if declared."""
     if not story_fm.get("declares_calibration_warnings"):
         return None
-    raise SystemExit(
-        "calibration_warnings parser not implemented; set declares_calibration_warnings: false "
-        "or implement calibration_warnings extraction before merging this story"
-    )
+    warnings = extract_calibration_warnings(story_doc_path)
+    if not warnings:
+        raise SystemExit(
+            "story declares calibration warnings but the ### Calibration Warnings "
+            "section is empty or missing"
+        )
+    return warnings
 
 
 def main():
@@ -747,7 +775,8 @@ def main():
     # Compute derivations
     artifacts_base = os.path.dirname(episode_dir)
     prior_exposure = derive_prior_exposure(gt, story_id, episode_number, artifacts_base)
-    calibration_warnings = derive_calibration_warnings(story_fm)
+    story_doc_path = os.path.join("framework", "stories", f"{story_id}.md")
+    calibration_warnings = derive_calibration_warnings(story_fm, story_doc_path)
     front_door_support = project_front_door_support(prose, migration_rules)
     discussion_support = project_discussion_support(disc, prose)
     analytic_passages = [build_target_focus(p) for p in gt.get("passages", [])]

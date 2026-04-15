@@ -1,0 +1,20 @@
+---
+timestamp: '2026-04-15T02:33:23+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-15T02:37:34+00:00'
+command: create_episode
+stage: planning
+agent: planning_agent
+attempt: 1
+verdict: draft_returned
+---
+timestamp: '2026-04-15T02:39:10+00:00'
+command: create_episode
+stage: validation
+agent: validation_agent
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1

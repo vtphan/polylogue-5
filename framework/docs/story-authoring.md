@@ -63,6 +63,27 @@ The frontmatter defines the story-level contract:
 
 Optional capability flags may also appear when the story needs them, such as `pedagogical_register`, `uses_character_growth`, or `supports_jigsaw`.
 
+### Calibration Warnings
+
+`declares_calibration_warnings` means the story includes teacher-facing runtime
+warnings that should be lifted into `teacher_support.calibration_warnings`.
+
+- Turn it on only when the story needs explicit facilitation cautions surfaced
+  to downstream apps or teacher tools.
+- If it is `true`, the story design doc must include an exact
+  `### Calibration Warnings` subsection followed by a bulleted list.
+- Each bullet should be 1-2 sentences, teacher-facing, and written in
+  descriptive or imperative language.
+- Example:
+  `- Treat the rumor as socially potent but evidentially weak. If students treat repetition as proof, redirect them to who first made the claim and what anyone actually checked.`
+- Narrative prose about tone or emotional register does not belong in this
+  section. That kind of prose should live in a normal sibling subsection for
+  authoring guidance, and `declares_calibration_warnings` should stay `false`
+  if that is all the story needs.
+- The template in
+  [`framework/templates/story_design_doc.md`](/Users/vinhthuyphan/Development/polylogue-5/framework/templates/story_design_doc.md)
+  shows the required section shape.
+
 The prose body defines premise, setting, cast, arc, stakes, and pedagogical intent. The cast section is the source of truth for character identity.
 
 ## Episode Drafts

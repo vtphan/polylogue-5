@@ -114,6 +114,34 @@ targets:
       more, not less. Episode 2 plants the weakness form; episodes
       5 and 8 start reversing it.
 
+  - facet: internal_consistency
+    lens: logic
+    carrier: Maya
+    cognitive_signal: >
+      Maya's objection begins from the question-first habit she has
+      already shown — *wait, how did your brother know she was the
+      right person to—* — but she does not hold that line through the
+      rest of the scene. After softening for Jules, she lets herself
+      speak as if Marcus's confidence closes the gap she had just
+      noticed: *yeah, Marcus is smart, it's fine.* The drift is small
+      and friend-protective rather than dramatic, but it matters. Her
+      own standard in the scene is *we should know who this source is
+      and how the chain closes*; a beat later, she talks as if the
+      chain closes because a smart older kid vouched for it. The
+      weakness is not that she cannot see the mismatch. The weakness
+      is that she sees it, feels Jules's fear, and lets her spoken
+      position slide away from the question she herself had started.
+    interaction_note: >
+      This is a mild early-season form of `internal_consistency`, not
+      a contradiction in big claims. Maya does not reverse her whole
+      view; she temporarily stops holding herself to the standard she
+      had just begun to articulate. Planting the weakness here gives
+      episode 5's repair beat something concrete to resolve: when Cam
+      reads an earlier line back to her and Maya notices the drift,
+      the story is not inventing the problem late. It is returning to
+      a habit that was already visible under friend-protective
+      pressure in episode 2.
+
 strengths:
   - facet: source_credibility
     carrier: Cam
@@ -211,13 +239,20 @@ to plant in episode 2 so that episode 8's reversal (Cam calling Anya
 himself and asking plain questions) has something to be a reversal
 of.
 
-On Maya: `reasoning_completeness` as weakness here, not
-`internal_consistency` and not `inferential_validity`. The move is
-that she *can feel* the chain has a gap (her instinct is working
-fine — she sees it) and she stops short of finishing the objection
-aloud. That is specifically a completeness failure: the chain she
-would have produced would have asked *who is Anya? how does Marcus
-know her? what kind of researcher?* — and she does not produce it.
+On Maya: this episode now carries a paired weakness for her:
+`reasoning_completeness` and a mild early `internal_consistency`
+drift. The first move is that she *can feel* the chain has a gap
+(her instinct is working fine — she sees it) and she stops short of
+finishing the objection aloud. That is specifically a completeness
+failure: the chain she would have produced would have asked *who is
+Anya? how does Marcus know her? what kind of researcher?* — and she
+does not produce it. The second move is that, after sensing the gap,
+she lets her spoken position slide toward *Marcus is smart, it's
+fine*, which no longer matches the question-first standard she had
+just begun to voice. The weakness is intentionally small and
+friend-protective, not dramatic. That scale matters because episode
+5's repair depends on Maya's drift feeling like a habit she can catch
+and correct, not a huge break in character.
 She could have produced it; she chose not to. The writing-half-of-it-
 in-the-notebook move is load-bearing for episode 5, when Cam reads
 an earlier sentence back to her and she revises; the half-objection

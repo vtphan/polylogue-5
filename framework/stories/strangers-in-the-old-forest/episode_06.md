@@ -63,6 +63,31 @@ targets:
       sound-looking thing he has done all week with a new kind of
       surface.
 
+  - facet: perspective_engagement
+    lens: scope
+    carrier: Cam
+    cognitive_signal: >
+      Cam treats the finished map as if it represents *the park*
+      rather than *the part of the park this group already walks*.
+      When Maya half-names the scope problem, his answer — *but we
+      looked everywhere we go, that's all we can do* — reveals that he
+      is still thinking from inside the group's own route and habits.
+      He is engaged and trying to reason from the data in front of
+      him, but he has not stepped outside their shared vantage point
+      long enough to ask whose walk is on the page and whose is not.
+      The weakness is perspective-shaped rather than fact-shaped: he
+      is looking from one position and mistaking it for the whole
+      field.
+    interaction_note: >
+      This is the episode's early weakness form for
+      `perspective_engagement`. Priya's episode-7 strength will name
+      the missing perspective cleanly; episode 6 only needs the habit
+      visible enough that her line lands as an earned inflection
+      rather than a new idea from nowhere. Assigning the weakness to
+      Cam keeps the scene's structural logic intact: Priya is absent,
+      Maya is carrying the proto-strength, and Cam voices the inside-
+      the-group viewpoint the others have not yet stepped outside.
+
 strengths:
   - facet: reasoning_completeness
     carrier: Maya
@@ -136,13 +161,13 @@ in a new register without planting a new cognitive pattern — the
 move is *a claim/data exists, therefore it counts*, the same habit
 he has exhibited with a TikTok (ep 1), Jules's retelling of Anya
 (ep 2), and his own post's replies (ep 3), now applied to a map.
-The reader should feel the continuity. Second, it sets Cam up for
-ep 7 and ep 8, where the scope lesson from Priya and the Anya call
-will both pressure his habit; ep 6 is the last clean example of the
-habit before ep 7 starts reversing it. Third, it avoids putting the
-weakness on Maya in the same episode where her proto-strength needs
-to land cleanly — a weakness-then-strength arc within one character
-across one episode would crowd her.
+Second, it gives the episode a natural `perspective_engagement`
+weakness carrier while Priya — the character who will later widen
+the frame — is absent. Cam is speaking from inside the group's own
+walk and mistaking that shared viewpoint for the whole park. Third,
+it avoids putting the weakness on Maya in the same episode where her
+proto-strength needs to land cleanly — a weakness-then-strength arc
+within one character across one episode would crowd her.
 
 On Cam's weakness having no named cognitive pattern: his three
 declared patterns (`uncritical_acceptance`, `overgeneralization`,

@@ -5,5 +5,9 @@
 # validate_story.py sidecar audits — regenerated on each run
 framework/stories/validation/
 
+# Python bytecode caches
+__pycache__/
+*.pyc
+
 # macOS
 .DS_Store

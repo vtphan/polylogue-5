@@ -179,6 +179,13 @@ This story declares two social dynamics: `authority_deference` and `group_pressu
 
 The alien hypothesis in this story carries real emotional weight for Jules, and by extension for the group. The dialog writer should treat Jules's fear as **uncanny, not horror-adjacent**: the felt content is *something is here and no one is noticing*, never *something will hurt us* or *something will change us*. Adults are *distracted and dismissive*, not hostile or menacing. The fear resolves into *relief*, not *humiliation* — nobody is silly for having been scared, and the story is explicit that the fear was a reasonable response to a genuinely unsettling observation filtered through a credentialed adult's framing. This calibration is the reason `pedagogical_register: unfinished_not_wrong` is declared and the reason `declares_calibration_warnings: true` is on in the frontmatter: the assistive package should lift this warning into the facilitation layer so teachers using the story have language ready for students who land on the fear before they land on the answer.
 
+### Calibration Warnings
+
+- Treat Jules's fear as uncanny, not horror-adjacent. The felt content is "something is here and no one is noticing," never "something will hurt us."
+- Adults in the story are distracted and dismissive, not hostile or menacing. If a student reads menace into the adult world, redirect them to what the text actually shows.
+- The fear resolves into relief, not humiliation. Affirm that being scared was a reasonable response to a credentialed adult's framing of a genuinely unsettling observation.
+- If a student lands on the fear before they land on the answer, let them sit there briefly rather than rushing to resolve it. The story is designed to let the reasoning do the calming work.
+
 ### Turn-budget rationale
 
 This story's frontmatter declares `turn_budget: "12-18"` and `word_budget: 500`, extending the pipeline's default 10–14 turn range. The rationale is pedagogical: target roughly 60–70% of turns carrying a facet or cognitive-pattern move, with the remaining 30–40% as conversational connective tissue — acknowledgments, transitions, jokes, small clarifications, genuine listening. Every turn being *on* produces artificial dialogue in which no one breathes; the friend-protective `group_pressure` texture in particular needs moments of warmth the kids offer each other between the critical moves, or the dynamic reads as cold. The `transcript_reviewer` for episodes in this story should treat filler turns as a strength, not padding, when they serve cohesion between load-bearing turns. This is a story-level override; `dialog_writer` and `transcript_reviewer` instructions will need to be updated to honor the extended range when Phase 7 runs for this story.

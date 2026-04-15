@@ -178,6 +178,28 @@ def collect_unhedged_labels(analyses):
     return cog_unhedged, soc_unhedged
 
 
+def has_calibration_warnings_section(path):
+    """Return True iff the story doc has a non-empty H3 calibration warnings section."""
+    with open(path) as f:
+        lines = f.readlines()
+
+    in_section = False
+    bullet_count = 0
+    for raw_line in lines:
+        stripped = raw_line.strip()
+        if not in_section:
+            if stripped == "### Calibration Warnings":
+                in_section = True
+            continue
+
+        if stripped.startswith("#"):
+            break
+        if stripped.startswith("- ") or stripped.startswith("* "):
+            bullet_count += 1
+
+    return bullet_count > 0
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--story", required=True,
@@ -238,6 +260,14 @@ def main():
     declared_cog = set(story_fm.get("declared_cognitive_patterns") or [])
     declared_soc = set(story_fm.get("declared_social_dynamics") or [])
     declared_ep_count = story_fm.get("episode_count")
+
+    if story_fm.get("declares_calibration_warnings"):
+        if not has_calibration_warnings_section(design_doc_path):
+            fail(
+                "calibration_warnings_contract",
+                f"{design_doc_path}: declares_calibration_warnings is true but "
+                f"the required ### Calibration Warnings section is missing or empty",
+            )
 
     # ---- Check 1: coverage_mode floor ----
     if coverage_mode == "full":
