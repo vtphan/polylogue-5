@@ -67,6 +67,19 @@ schema:
                   required: true
                   items:
                     type: string
+                turn_range:
+                  type: list
+                  required: false
+                  items:
+                    type: string
+                lens_visibility:
+                  type: object
+                  required: false
+                facets_present:
+                  type: list
+                  required: false
+                  items:
+                    type: object
           prior_exposure:
             type: list
             required: true

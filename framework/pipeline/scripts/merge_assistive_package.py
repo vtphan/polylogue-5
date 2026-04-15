@@ -635,14 +635,14 @@ class IntegrityChecker:
                 for rung in cell.get("ladder", []):
                     student_texts.append((f"interv.{tid}.{fref}.rung", rung.get("text", "")))
 
-        for location, text in student_texts:
-            if not isinstance(text, str):
-                continue
-            # Only flag multi-word snake_case IDs (source_credibility, etc.)
+        # Only flag multi-word snake_case IDs (source_credibility, etc.)
         # and pattern/dynamic IDs. Single common English words like
         # "relevance" or "sufficiency" are not actionable leaks.
         snake_case_reserved = {t for t in reserved if "_" in t}
-        for term in snake_case_reserved:
+        for location, text in student_texts:
+            if not isinstance(text, str):
+                continue
+            for term in snake_case_reserved:
                 if re.search(r"\b" + re.escape(term) + r"\b", text):
                     self.errors.append(
                         f"Check 13: reserved term '{term}' found in student-facing text at {location}"
@@ -695,9 +695,10 @@ def derive_calibration_warnings(story_fm):
     """Lift calibration warnings from story design doc if declared."""
     if not story_fm.get("declares_calibration_warnings"):
         return None
-    # Would parse ## Calibration warnings section from the story doc
-    # For now, return empty list since the-field-trip has declares_calibration_warnings: false
-    return []
+    raise SystemExit(
+        "calibration_warnings parser not implemented; set declares_calibration_warnings: false "
+        "or implement calibration_warnings extraction before merging this story"
+    )
 
 
 def main():

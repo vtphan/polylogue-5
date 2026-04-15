@@ -1,11 +1,11 @@
 ---
-description: Build the v2 assistive package from episode plan and transcript (analyst → diagnostic → prose → discussion → reviewer → merge)
+description: Build the v2 assistive package from episode plan and transcript (analyst → diagnostic → prose → discussion → merge → reviewer)
 argument-hint: <story_id> <episode_number>
 ---
 
 # Build Assistive Package
 
-Build the v2 assistive package for one episode. Runs four authoring agents in dependency order, a package reviewer, and a deterministic merge script.
+Build the v2 assistive package for one episode. Runs four authoring agents in dependency order, a deterministic merge script, and a package reviewer.
 
 ## Arguments
 
@@ -66,15 +66,7 @@ Spawn the **discussion_agent**.
 
 **Gate:** Run `validate_schema.py`. Must PASS.
 
-### Step 5: Package Reviewer
-
-Spawn the **package_reviewer** agent.
-
-**Inputs:** All four generated files, `assistive_package.yaml`,
-episode.yaml, transcript.yaml, story frontmatter, and
-`framework/reference/app_check_model.yaml`.
-
-### Step 6: Merge Script → `assistive_package.yaml`
+### Step 5: Merge Script → `assistive_package.yaml`
 
 Run the deterministic merge script:
 
@@ -98,9 +90,13 @@ python3 framework/pipeline/scripts/validate_schema.py \
 
 **Final gate:** merged package schema validation must PASS.
 
-### Step 5 (after Step 6): Package Reviewer
+### Step 6: Package Reviewer
 
 Now run the reviewer on the merged output.
+
+**Inputs:** All four generated files, `assistive_package.yaml`,
+episode.yaml, transcript.yaml, story frontmatter, and
+`framework/reference/app_check_model.yaml`.
 
 **Gate:** Must return ACCEPT.
 
@@ -110,7 +106,7 @@ the affected step.
 ## Success Criteria
 
 All gates pass:
-1. Four schema validations PASS
+1. Five schema validations PASS
 2. Merge script exits 0 (14/14 integrity checks)
 3. Package reviewer returns ACCEPT
 

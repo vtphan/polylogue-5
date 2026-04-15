@@ -160,6 +160,8 @@ class SchemaValidator:
             self._check_episode_signal_rules(artifact)
         elif schema_basename == "analysis.yaml":
             self._check_analysis_evidence_basis(artifact)
+        elif schema_basename == "prose.yaml":
+            self._check_prose_front_door_coverage(artifact, artifact_path)
         elif schema_basename == "episode_writer_input.yaml":
             self._check_projection_literal_scan(artifact_path)
         elif schema_basename == "assistive_package.yaml":
@@ -256,6 +258,60 @@ class SchemaValidator:
 
         self._check_assistive_package_literal_scan(artifact)
         self._check_front_door_coverage(artifact)
+
+    def _check_prose_front_door_coverage(self, artifact, artifact_path):
+        """Catch per-passage front-door coverage gaps at the prose gate."""
+        if not isinstance(artifact, dict):
+            return
+
+        episode_dir = os.path.dirname(artifact_path)
+        gt_path = None
+        for candidate in ("ground_truth_generated.yaml", "ground_truth.yaml"):
+            path = os.path.join(episode_dir, candidate)
+            if os.path.exists(path):
+                gt_path = path
+                break
+        if not gt_path:
+            self.warnings.append(
+                "prose front-door coverage check skipped: no sibling ground truth file found"
+            )
+            return
+
+        try:
+            with open(gt_path) as f:
+                ground_truth = yaml.safe_load(f) or {}
+        except (OSError, yaml.YAMLError) as exc:
+            self.warnings.append(
+                f"prose front-door coverage check skipped: could not load sibling ground truth ({exc})"
+            )
+            return
+
+        passage_ids = [
+            passage.get("passage_id")
+            for passage in (ground_truth.get("passages") or [])
+            if passage.get("passage_id")
+        ]
+        attention_by_passage = {}
+        for item in artifact.get("attention_targets") or []:
+            pid = item.get("passage_id")
+            if pid:
+                attention_by_passage[pid] = attention_by_passage.get(pid, 0) + 1
+
+        frames_by_passage = {}
+        for item in artifact.get("sentence_frame_seeds") or []:
+            pid = item.get("passage_id")
+            if pid:
+                frames_by_passage[pid] = frames_by_passage.get(pid, 0) + 1
+
+        for pid in passage_ids:
+            if attention_by_passage.get(pid, 0) < 1:
+                self.issues.append(
+                    f"prose front-door coverage: passage '{pid}' is missing an attention_target"
+                )
+            if frames_by_passage.get(pid, 0) < 1:
+                self.issues.append(
+                    f"prose front-door coverage: passage '{pid}' is missing a sentence_frame_seed"
+                )
 
     def _check_assistive_package_literal_scan(self, artifact):
         facet_ids, cog_ids, soc_ids = _load_reference_terms()
