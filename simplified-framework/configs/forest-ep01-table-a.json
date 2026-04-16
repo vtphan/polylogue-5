@@ -1,18 +1,26 @@
 {
   "config_id": "forest-ep01-table-a",
   "episode": {
-    "source": "artifacts/strangers-in-the-old-forest/episodes/episode_01"
+    "source": "simplified-framework/artifacts/strangers-in-the-old-forest/episode_01"
   },
-  "group": {
-    "name": "Table A",
-    "students": [
-      { "id": "s1", "name": "Ava" },
-      { "id": "s2", "name": "Noah" },
-      { "id": "s3", "name": "Mia" }
-    ]
-  },
-  "ui": {
-    "starting_student_id": "s1",
-    "pacing": "guided"
-  }
+  "groups": [
+    {
+      "group_id": "group-a",
+      "name": "Table A",
+      "students": [
+        { "student_id": "ava", "name": "Ava" },
+        { "student_id": "noah", "name": "Noah" },
+        { "student_id": "mia", "name": "Mia" }
+      ]
+    },
+    {
+      "group_id": "group-b",
+      "name": "Table B",
+      "students": [
+        { "student_id": "zoe", "name": "Zoe" },
+        { "student_id": "liam", "name": "Liam" },
+        { "student_id": "ella", "name": "Ella" }
+      ]
+    }
+  ]
 }

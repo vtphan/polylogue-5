@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lens v1.1",
-  description: "Redesigned Lens student runtime",
+  title: "Polylogue",
+  description: "Simplified-framework dedicated app",
 };
 
 export default function RootLayout({
@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <main className="shell">{children}</main>
+      </body>
     </html>
   );
 }

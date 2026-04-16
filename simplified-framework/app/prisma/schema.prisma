@@ -1,0 +1,30 @@
+// Milestone 1 schema. Only session_runs is required.
+// Later milestones will add warmup_progress, level_responses, scaffold_events.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model SessionRun {
+  runId           String    @id @default(cuid()) @map("run_id")
+  configId        String    @map("config_id")
+  episodeSource   String    @map("episode_source")
+  groupId         String    @map("group_id")
+  studentId       String    @map("student_id")
+  status          String    @default("in_progress") // in_progress | complete
+  currentPhase    String    @default("read")        // read | warmup | level | complete
+  currentLevelId  String?   @map("current_level_id")
+  readingComplete Boolean   @default(false) @map("reading_complete")
+  startedAt       DateTime  @default(now()) @map("started_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+  completedAt     DateTime? @map("completed_at")
+
+  @@unique([configId, episodeSource, groupId, studentId, status], name: "unique_open_run")
+  @@index([configId, episodeSource, groupId])
+  @@map("session_runs")
+}

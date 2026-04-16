@@ -4,3 +4,12 @@ out
 dist
 .DS_Store
 *.log
+
+# Prisma
+/prisma/dev.db
+/prisma/dev.db-journal
+/src/generated
+
+# Env
+.env
+.env.local
