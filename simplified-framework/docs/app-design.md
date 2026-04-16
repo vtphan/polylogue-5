@@ -1563,6 +1563,8 @@ Recommended routing model:
 - one warm-up route may render all warm-up states
 - internal state may be derived from persisted `warmup_progress`
 - routing details may vary, but the student-facing sequence must remain deterministic
+- warm-up screens may retain a quiet phase indicator consistent with §6.11
+- Milestone 2 does not need peer-progress UI on warm-up screens and should not depend on live peer data there
 
 ### 10.17 State A: Modeled Warm-Up
 
@@ -1585,12 +1587,14 @@ Visible UI should not include:
 - answer-option selection
 - correctness scoring language
 - challenge-level progress UI
+- peer-progress summaries in the initial Milestone 2 pass
 
 Required data:
 
 - `lesson_package.warmups.modeled.warmup_id`
 - `lesson_package.warmups.modeled.turn_id`
 - `lesson_package.warmups.modeled.title`
+- `lesson_package.warmups.modeled.focus_move`
 - `lesson_package.warmups.modeled.prompt`
 - `lesson_package.warmups.modeled.best_answer_text`
 - `lesson_package.warmups.modeled.worked_explanation`
@@ -1600,8 +1604,10 @@ Required data:
 System behavior:
 
 - load the modeled warm-up object from `lesson_package.yaml`
-- load the targeted turn and a small amount of nearby context from `transcript.yaml`
+- reopen this state when `session_runs.current_phase = warmup` and `modeled_complete = false`
+- load the targeted turn plus one adjacent turn before and after when available from `transcript.yaml`
 - present explanation content directly without waiting for an answer
+- treat `focus_move` as planning metadata unless the implementation chooses to surface it explicitly
 
 Persistence behavior:
 
@@ -1638,6 +1644,7 @@ Required data:
 - `lesson_package.warmups.guided.warmup_id`
 - `lesson_package.warmups.guided.turn_id`
 - `lesson_package.warmups.guided.title`
+- `lesson_package.warmups.guided.focus_move`
 - `lesson_package.warmups.guided.prompt`
 - `lesson_package.warmups.guided.answer_options`
 - `lesson_package.warmups.guided.best_answer_id`
@@ -1648,14 +1655,17 @@ System behavior:
 
 - load the guided warm-up object after modeled warm-up completion
 - allow one answer selection and submission
+- after submission, the selected answer becomes read-only for the first pass
 - reveal explanation content only after submission
 - if hint UI is present, it must remain clearly secondary to the answer task
+- load the targeted turn plus one adjacent turn before and after when available from `transcript.yaml`
+- treat `focus_move` as planning metadata unless the implementation chooses to surface it explicitly
 
 Persistence behavior:
 
 - on submission, persist enough state to reopen the reveal state after reload
 - set `warmup_progress.guided_submitted = true`
-- set `warmup_progress.guided_selected_answer_id`
+- set `warmup_progress.guided_selected_answer_id` to the submitted `answer_options[].option_id`
 - if a hint was opened, set `warmup_progress.guided_used_hint = true`
 - keep `warmup_progress.guided_complete = false` until the student continues
 - keep `session_runs.current_phase = warmup`
@@ -1685,10 +1695,13 @@ Visible UI should not include:
 
 - a second answer submission step
 - challenge-level progress UI
+- runtime-generated per-option feedback or corrective scoring labels
 
 Required data:
 
 - submitted guided warm-up state from `warmup_progress`
+- `lesson_package.warmups.guided.answer_options`
+- `lesson_package.warmups.guided.best_answer_id`
 - `lesson_package.warmups.guided.best_answer_text`
 - `lesson_package.warmups.guided.worked_explanation`
 - `lesson_package.warmups.guided.takeaway`
@@ -1696,7 +1709,9 @@ Required data:
 System behavior:
 
 - reopen this state when `guided_submitted = true` and `guided_complete = false`
+- reconstruct the selected answer from `guided_selected_answer_id` and `answer_options`
 - keep the explanation deterministic from the lesson package rather than generating runtime feedback
+- keep the tone calm and selection-agnostic; the reveal does not need a separate correct/incorrect banner in Milestone 2
 
 Persistence behavior:
 
@@ -1717,14 +1732,14 @@ System behavior:
 
 - mark the guided warm-up complete
 - move the run from `warmup` to `level`
-- initialize `current_level_id` to the first level in sequence
+- initialize `current_level_id` to the `level_id` whose `sequence_index` is lowest
 - persist the updated run state
 
 Persistence behavior:
 
 - set `warmup_progress.guided_complete = true`
 - set `session_runs.current_phase = level`
-- set `session_runs.current_level_id` to the first level's `level_id`
+- set `session_runs.current_level_id` to the `level_id` whose `sequence_index` is lowest
 - update `updated_at`
 
 Postcondition:
@@ -1741,6 +1756,11 @@ Milestone 2 implementation requires these data sources:
 - persisted `session_runs`
 - persisted `warmup_progress`
 
+Warm-up contract note:
+
+- both warm-up objects still carry package-contract fields such as `focus_move`
+- Milestone 2 does not need to render `focus_move` directly if the authored prompt and explanation already embody it
+
 Milestone 2 does not require:
 
 - full `level_responses`
@@ -1751,7 +1771,7 @@ Required persisted warm-up fields:
 
 - `warmup_progress.modeled_complete`
 - `warmup_progress.guided_submitted`
-- `warmup_progress.guided_selected_answer_id`
+- `warmup_progress.guided_selected_answer_id`, which stores the submitted guided `option_id`
 - `warmup_progress.guided_used_hint`
 - `warmup_progress.guided_complete`
 
@@ -1761,7 +1781,7 @@ The server layer should support:
 
 - loading the modeled warm-up payload for the active run
 - loading the guided warm-up payload for the active run
-- creating `warmup_progress` on first warm-up entry if it does not yet exist
+- creating `warmup_progress` on the first warm-up load or write if it does not yet exist
 - saving modeled warm-up completion
 - saving guided warm-up submission state
 - saving whether the guided hint was used
@@ -1802,6 +1822,7 @@ Milestone 2 is ready for approval when all of the following are true:
 - pressing `Continue` after the guided reveal persists `guided_complete` and moves the run to `current_phase = level`
 - the first `current_level_id` is initialized deterministically
 - the two warm-up screens feel like one coherent teaching sequence rather than two unrelated mini-pages
+- the guided reveal can reconstruct and display the student's submitted answer after reload
 
 ### 10.25 Explicit Non-Goals
 
@@ -1813,6 +1834,11 @@ Milestone 2 should not attempt to solve:
 - reward and badge presentation
 - live peer-progress updates during warm-ups
 
+Failure and empty-state note:
+
+- Milestone 2 is primarily specified for the happy path
+- missing warm-up content or malformed package fields may be deferred using the same rule described in §11.16 unless implementation reveals a blocker
+
 ### 10.26 Handoff To Milestone 3
 
 When Milestone 2 is approved, Milestone 3 should be able to assume:
@@ -1821,7 +1847,7 @@ When Milestone 2 is approved, Milestone 3 should be able to assume:
 - modeled and guided warm-up flows are implemented
 - the guided reveal state survives reload
 - the run can reliably enter `current_phase = level`
-- `current_level_id` can be initialized to the first level
+- `current_level_id` is initialized to the first level deterministically
 
 Milestone 3 should build on these pieces rather than replacing them.
 

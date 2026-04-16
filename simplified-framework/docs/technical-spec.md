@@ -345,6 +345,11 @@ Each level must include:
 - `hint`
 - `feedback`
 
+Level ordering rule:
+
+- `levels[]` should be ordered by ascending `sequence_index`
+- the runtime should treat the lowest `sequence_index` as the first level if array order and index order ever diverge
+
 Answer options use:
 
 - `option_id`
