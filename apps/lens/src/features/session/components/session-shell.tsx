@@ -88,6 +88,7 @@ export function SessionShell({
   const [rosterDraft, setRosterDraft] = useState(
     defaultRoster.map((student) => student.name).join("\n"),
   );
+  const [resumeError, setResumeError] = useState<string | null>(null);
 
   useEffect(() => {
     if (resumeTarget) {
@@ -100,16 +101,26 @@ export function SessionShell({
   }
 
   function startNewSession() {
+    setResumeError(null);
     setRosterDraft(defaultRoster.map((student) => student.name).join("\n"));
     setScreen("setup");
+  }
+
+  function pauseToStart() {
+    refreshRecentSessions();
+    setResumeError(null);
+    setScreen("start");
   }
 
   function resumeSession(localSessionId: string) {
     const storedSession = loadSession(localSessionId);
     if (!storedSession) {
+      setResumeError("That saved local session could not be loaded. It may be stale or malformed.");
+      refreshRecentSessions();
       return;
     }
 
+    setResumeError(null);
     hydrateSession(storedSession);
     setScreen(
       storedSession.current_backbone_stage === "revise"
@@ -131,13 +142,17 @@ export function SessionShell({
   function continueFromSetup() {
     const roster = parseRosterDraft(rosterDraft);
     if (roster.length === 0) {
+      setResumeError("Enter at least one student before starting the shared-device session.");
       return;
     }
 
+    setResumeError(null);
     initializeSession(sessionConfig, roster);
     refreshRecentSessions();
     setScreen("landing");
   }
+
+  const latestSessionEntry = recentSessions[0] ?? null;
 
   const resolvedScreen: Screen =
     session?.progress_state.episode_complete === true
@@ -176,6 +191,35 @@ export function SessionShell({
               </div>
               <div className="mt-1 text-lg font-semibold">Create a fresh shared-device session</div>
             </button>
+
+            {latestSessionEntry ? (
+              <button
+                className="rounded-[1.25rem] border border-[var(--line)] bg-[var(--background)]/70 px-5 py-4 text-left"
+                onClick={() => resumeSession(latestSessionEntry.local_session_id)}
+                type="button"
+              >
+                <div className="text-sm font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
+                  Resume latest
+                </div>
+                <div className="mt-1 text-lg font-semibold text-[var(--surface-ink)]">
+                  {latestSessionEntry.group_label}
+                </div>
+                <div className="mt-2 text-sm leading-6 text-[color:rgba(37,50,68,0.72)]">
+                  Stage <code>{latestSessionEntry.current_backbone_stage}</code>
+                  {latestSessionEntry.current_focal_turn_id ? (
+                    <>
+                      {" "}on <code>{latestSessionEntry.current_focal_turn_id}</code>
+                    </>
+                  ) : null}
+                </div>
+              </button>
+            ) : null}
+
+            {resumeError ? (
+              <div className="rounded-[1.25rem] border border-[rgba(146,74,48,0.24)] bg-[rgba(255,245,236,0.92)] px-4 py-4 text-sm leading-6 text-[rgba(114,56,34,0.92)]">
+                {resumeError}
+              </div>
+            ) : null}
 
             <div className="grid gap-3">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
@@ -239,7 +283,7 @@ export function SessionShell({
               </button>
               <button
                 className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
-                onClick={() => setScreen("start")}
+                onClick={pauseToStart}
                 type="button"
               >
                 Back
@@ -308,10 +352,10 @@ export function SessionShell({
               </button>
               <button
                 className="rounded-full bg-[var(--surface-ink)] px-4 py-2 text-sm font-semibold text-white"
-                onClick={() => setScreen("start")}
+                onClick={pauseToStart}
                 type="button"
               >
-                Return to start
+                Pause and return
               </button>
               <button
                 className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
@@ -325,49 +369,93 @@ export function SessionShell({
         )}
 
         {resolvedScreen === "reading" && session && (
-          <EpisodeReadingView
-            assistivePackage={assistivePackage}
-            onSelectFocalTurn={(turnId) => {
-              selectFocalTurn(turnId);
-              setScreen("respond");
-            }}
-            session={session}
-            transcript={transcript}
-          />
+          <div className="grid gap-4">
+            <div className="flex justify-end">
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={pauseToStart}
+                type="button"
+              >
+                Pause session
+              </button>
+            </div>
+            <EpisodeReadingView
+              assistivePackage={assistivePackage}
+              onSelectFocalTurn={(turnId) => {
+                selectFocalTurn(turnId);
+                setScreen("respond");
+              }}
+              session={session}
+              transcript={transcript}
+            />
+          </div>
         )}
 
         {resolvedScreen === "respond" && session && (
-          <FirstResponseView
-            assistivePackage={assistivePackage}
-            onBackToReading={() => setScreen("reading")}
-            onSaveResponse={(payload) => {
-              saveActiveStudentResponse(payload);
-            }}
-            session={session}
-            transcript={transcript}
-          />
+          <div className="grid gap-4">
+            <div className="flex justify-end">
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={pauseToStart}
+                type="button"
+              >
+                Pause session
+              </button>
+            </div>
+            <FirstResponseView
+              assistivePackage={assistivePackage}
+              onBackToReading={() => setScreen("reading")}
+              onSaveResponse={(payload) => {
+                saveActiveStudentResponse(payload);
+              }}
+              session={session}
+              transcript={transcript}
+            />
+          </div>
         )}
 
         {resolvedScreen === "compare" && session && (
-          <ComparisonView
-            assistivePackage={assistivePackage}
-            onOpenDiscussion={() => {
-              openDiscussion();
-              setScreen("discuss");
-            }}
-            session={session}
-          />
+          <div className="grid gap-4">
+            <div className="flex justify-end">
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={pauseToStart}
+                type="button"
+              >
+                Pause session
+              </button>
+            </div>
+            <ComparisonView
+              assistivePackage={assistivePackage}
+              onOpenDiscussion={() => {
+                openDiscussion();
+                setScreen("discuss");
+              }}
+              session={session}
+            />
+          </div>
         )}
 
         {resolvedScreen === "discuss" && session && (
-          <DiscussionView
-            assistivePackage={assistivePackage}
-            onMoveToRevision={() => {
-              moveToRevision();
-              setScreen("revise");
-            }}
-            session={session}
-          />
+          <div className="grid gap-4">
+            <div className="flex justify-end">
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={pauseToStart}
+                type="button"
+              >
+                Pause session
+              </button>
+            </div>
+            <DiscussionView
+              assistivePackage={assistivePackage}
+              onMoveToRevision={() => {
+                moveToRevision();
+                setScreen("revise");
+              }}
+              session={session}
+            />
+          </div>
         )}
 
         {resolvedScreen === "revise" && session && (
@@ -388,7 +476,7 @@ export function SessionShell({
                   completeEpisode();
                   setScreen("complete");
                 }}
-                onPause={() => setScreen("start")}
+                onPause={pauseToStart}
                 point={stoppingPoint}
               />
             )}
@@ -397,7 +485,7 @@ export function SessionShell({
 
         {resolvedScreen === "complete" && session && (
           <CompletionView
-            onReturnToStart={() => setScreen("start")}
+            onReturnToStart={pauseToStart}
             onSaveTakeaway={(payload) => saveTransferTakeaway(payload)}
             session={session}
           />
@@ -416,13 +504,24 @@ export function SessionShell({
             <div className="mt-2 text-lg font-semibold capitalize">{resolvedScreen}</div>
           </div>
           <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
-            This shell is now using the real local session store rather than proof-only buttons. The next
-            step is to route the landing screen into episode reading and focal-turn selection.
+            This shell now treats pause and resume as first-class local behaviors. Returning to start never
+            discards progress because each stage change is persisted into browser-local storage.
           </div>
           <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
             Resume behavior is backed by the browser-local session index. New sessions are created from the
             current config and saved immediately when initialized.
           </div>
+          {session && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              Latest checkpoint: stage <code>{session.current_backbone_stage}</code>
+              {session.current_focal_turn_id ? (
+                <>
+                  {" "}at <code>{session.current_focal_turn_id}</code>
+                </>
+              ) : null}
+              . Active student is <code>{session.active_student_id}</code>.
+            </div>
+          )}
           {resolvedScreen === "reading" && (
             <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
               The reading view now renders the real transcript, marks package-driven focal turns, and uses

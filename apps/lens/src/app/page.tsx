@@ -3,7 +3,9 @@ import {
   buildTurnNormalizationPreview,
   loadSessionBundle,
 } from "@/lib/content/loaders";
+import { RuntimeStatePanel } from "@/components/runtime-state-panel";
 import { SessionShell } from "@/features/session/components/session-shell";
+import type { LoaderBundle } from "@/lib/types/content";
 
 const readinessChecklist = [
   "Fresh Next.js app scaffolded in apps/lens/",
@@ -19,7 +21,35 @@ const nextSlices = [
 ];
 
 export default async function Home() {
-  const bundle = await loadSessionBundle("forest-ep01-table-a");
+  let bundle: LoaderBundle;
+
+  try {
+    bundle = await loadSessionBundle("forest-ep01-table-a");
+  } catch (error) {
+    return (
+      <RuntimeStatePanel
+        description="Lens could not load the configured manifest or episode artifacts for this session. Fix the broken config or artifact contract before continuing."
+        detail={error instanceof Error ? error.message : "Unknown loader failure"}
+        eyebrow="Load Failure"
+        title="The session bundle did not validate."
+      />
+    );
+  }
+
+  if (
+    bundle.transcript.turns.length === 0 ||
+    bundle.assistivePackage.analytic_core.passages.length === 0
+  ) {
+    return (
+      <RuntimeStatePanel
+        description="Lens loaded the session bundle, but the episode is missing the minimum transcript or passage data required to begin reading."
+        detail={`turns=${bundle.transcript.turns.length}, passages=${bundle.assistivePackage.analytic_core.passages.length}`}
+        eyebrow="Empty State"
+        title="This session is missing core episode content."
+      />
+    );
+  }
+
   const turnIndex = buildTranscriptTurnIndex(bundle.transcript);
   const normalizationPreview = buildTurnNormalizationPreview(
     bundle.transcript,

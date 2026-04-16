@@ -30,7 +30,11 @@ function readJson(storageKey: string): unknown {
     return null;
   }
 
-  return JSON.parse(rawValue);
+  try {
+    return JSON.parse(rawValue);
+  } catch {
+    return null;
+  }
 }
 
 function writeJson(storageKey: string, value: unknown): void {
@@ -48,7 +52,8 @@ export function loadSession(localSessionId: string): PersistedSession | null {
     return null;
   }
 
-  return persistedSessionSchema.parse(parsed);
+  const result = persistedSessionSchema.safeParse(parsed);
+  return result.success ? result.data : null;
 }
 
 export function saveSession(session: PersistedSession): void {
@@ -64,7 +69,14 @@ export function loadSessionIndex(): SessionIndex {
     return [];
   }
 
-  return sessionIndexSchema.parse(parsed);
+  if (!Array.isArray(parsed)) {
+    return [];
+  }
+
+  return parsed.flatMap((entry) => {
+    const result = sessionIndexEntrySchema.safeParse(entry);
+    return result.success ? [result.data] : [];
+  });
 }
 
 export function upsertSessionIndexEntry(entry: SessionIndexEntry): void {
