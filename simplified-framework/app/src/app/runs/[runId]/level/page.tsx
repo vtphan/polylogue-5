@@ -23,6 +23,7 @@ import {
   type Badge,
   type BadgeCategory,
 } from "@/lib/completion";
+import { loadSessionChrome } from "@/lib/session-chrome";
 import { LessonWorkspace } from "../_components/LessonWorkspace";
 import type {
   AnswerOption,
@@ -33,7 +34,7 @@ import type { LevelResponse } from "@prisma/client";
 
 type LevelPageProps = {
   params: Promise<{ runId: string }>;
-  searchParams: Promise<{ hint?: string }>;
+  searchParams: Promise<{ hint?: string; flash?: string }>;
 };
 
 function LevelQuestionView({
@@ -72,7 +73,7 @@ function LevelQuestionView({
 
         <div className="action-row">
           <button type="submit" className="primary">
-            Submit
+            Check my answer
           </button>
         </div>
       </form>
@@ -146,7 +147,7 @@ function LevelFeedbackView({
             <p className="selected-answer-text">{selectedOption.text}</p>
           ) : (
             <p className="selected-answer-text subdued">
-              We couldn&apos;t match your saved answer to the current options. Please let your teacher know.
+              We couldn&apos;t match the answer you picked to the current options. Please let your teacher know.
             </p>
           )}
         </div>
@@ -261,7 +262,7 @@ function LevelRetryView({
 
         <div className="action-row">
           <button type="submit" className="primary">
-            Submit
+            Try this answer
           </button>
         </div>
       </form>
@@ -353,7 +354,7 @@ function CompletionSurface({
         <h1 className="completion-title">{lessonPackage.episode.title}</h1>
         <p className="completion-summary">
           You finished the reading, both warm-ups, and all {levelCount}{" "}
-          {levelCount === 1 ? "level" : "levels"}. Your run is saved.
+          {levelCount === 1 ? "level" : "levels"}. Come back to it anytime.
         </p>
       </header>
 
@@ -385,7 +386,7 @@ function CompletionSurface({
 
 export default async function LevelPage({ params, searchParams }: LevelPageProps) {
   const { runId } = await params;
-  const { hint } = await searchParams;
+  const { hint, flash } = await searchParams;
   const run = await getRun(runId);
   if (!run) {
     notFound();
@@ -422,6 +423,7 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
     loadLessonPackage(run.episodeSource),
     loadTranscript(run.episodeSource),
   ]);
+  const sessionChrome = await loadSessionChrome(run, lessonPackage);
 
   const level = resolveActiveLevel(lessonPackage, run.currentLevelId);
   const [response, hintEvent] = await Promise.all([
@@ -438,6 +440,46 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
   const totalLevels = lessonPackage.levels.length;
   const isFinal = nextLevel(lessonPackage, level.level_id) === null;
   const progressLabel = `Level ${level.sequence_index} of ${totalLevels}`;
+  const feedback = response?.completedAt
+    ? feedbackForOption(level, response.finalAnswer ?? response.initialAnswer)
+    : null;
+  const flashMessage =
+    flash === "warmup-badge"
+      ? {
+          key: "warmup-badge",
+          tone: "success" as const,
+          title: "Badge earned: Finished the warm-up",
+          detail: "You’re ready for the challenge levels now.",
+        }
+      : flash === "retry-open"
+        ? {
+            key: "retry-open",
+            tone: "encourage" as const,
+            title: "Not yet, but you get one more try.",
+            detail: "Look back at this turn and pick a different answer when you’re ready.",
+          }
+        : flash === "level-locked" && response?.completedAt
+          ? feedback?.isCorrect
+            ? response.answerChanged
+              ? {
+                  key: "level-locked-corrected",
+                  tone: "success" as const,
+                  title: "Nice recovery.",
+                  detail: "You changed your mind, landed the answer, and earned your level badge.",
+                }
+              : {
+                  key: "level-locked-correct",
+                  tone: "success" as const,
+                  title: "Nice work.",
+                  detail: "You landed the answer and earned your level badge.",
+                }
+            : {
+                key: "level-locked-wrong",
+                tone: "encourage" as const,
+                title: "Thanks for sticking with it.",
+                detail: "You can keep moving and keep building the skill on the next level.",
+              }
+          : null;
 
   if (step.kind === "feedback") {
     return (
@@ -445,10 +487,12 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
         episodeTitle={lessonPackage.episode.title}
         progressLabel={progressLabel}
         phaseLabel="Level · feedback"
+        sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={level.turn_id}
         drawerTitle="Feedback"
         reopenLabel="See your feedback"
+        flash={flashMessage}
       >
         <LevelFeedbackView
           runId={run.runId}
@@ -467,10 +511,12 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
         episodeTitle={lessonPackage.episode.title}
         progressLabel={progressLabel}
         phaseLabel="Level · one more try"
+        sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={level.turn_id}
         drawerTitle="One more try"
         reopenLabel="Take another look"
+        flash={flashMessage}
       >
         <LevelRetryView
           runId={run.runId}
@@ -487,10 +533,12 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
       episodeTitle={lessonPackage.episode.title}
       progressLabel={progressLabel}
       phaseLabel="Level"
+      sessionChrome={sessionChrome}
       transcript={transcript}
       targetTurnId={level.turn_id}
       drawerTitle="Challenge question"
       reopenLabel="Answer about this turn"
+      flash={flashMessage}
     >
       <LevelQuestionView
         runId={run.runId}

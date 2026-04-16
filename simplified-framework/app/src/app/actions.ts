@@ -78,7 +78,10 @@ export async function finishReadingAction(formData: FormData): Promise<void> {
   // through /warmup.
   const run = await markReadingComplete(runId);
   revalidatePath(`/runs/${runId}`, "layout");
-  redirect(routeForRun(run));
+  if (run.status === "complete") {
+    redirect(routeForRun(run));
+  }
+  redirect(`/runs/${runId}/warmup?flash=read-badge`);
 }
 
 export async function completeModeledWarmupAction(formData: FormData): Promise<void> {
@@ -108,7 +111,7 @@ export async function submitGuidedWarmupAction(formData: FormData): Promise<void
   const run = await requireWarmupRun(runId);
   await submitGuidedWarmup({ run, selectedAnswerId, usedHint });
   revalidatePath(`/runs/${runId}/warmup`);
-  redirect(`/runs/${runId}/warmup`);
+  redirect(`/runs/${runId}/warmup?flash=guided-submitted`);
 }
 
 export async function openGuidedHintAction(formData: FormData): Promise<void> {
@@ -132,7 +135,7 @@ export async function continueFromGuidedWarmupAction(formData: FormData): Promis
   const run = await requireWarmupRun(runId);
   await continueFromGuidedWarmup(run);
   revalidatePath(`/runs/${runId}`, "layout");
-  redirect(`/runs/${runId}/level`);
+  redirect(`/runs/${runId}/level?flash=warmup-badge`);
 }
 
 export async function openLevelHintAction(formData: FormData): Promise<void> {
@@ -158,9 +161,10 @@ export async function submitLevelAnswerAction(formData: FormData): Promise<void>
   }
 
   const run = await requireLevelRun(runId);
-  await submitLevelAnswer({ run, selectedAnswerId });
+  const response = await submitLevelAnswer({ run, selectedAnswerId });
   revalidatePath(`/runs/${runId}/level`);
-  redirect(`/runs/${runId}/level`);
+  const flash = response.completedAt ? "level-locked" : "retry-open";
+  redirect(`/runs/${runId}/level?flash=${flash}`);
 }
 
 export async function continueFromLevelFeedbackAction(formData: FormData): Promise<void> {

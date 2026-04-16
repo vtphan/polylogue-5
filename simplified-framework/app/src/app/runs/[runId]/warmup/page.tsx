@@ -14,6 +14,7 @@ import {
   getOrCreateWarmupProgress,
   type WarmupProgress,
 } from "@/lib/warmup";
+import { loadSessionChrome } from "@/lib/session-chrome";
 import { RevealStages, type RevealStage } from "./RevealStages";
 import { LessonWorkspace } from "../_components/LessonWorkspace";
 import type {
@@ -24,7 +25,7 @@ import type {
 
 type WarmupPageProps = {
   params: Promise<{ runId: string }>;
-  searchParams: Promise<{ hint?: string }>;
+  searchParams: Promise<{ hint?: string; flash?: string }>;
 };
 
 function ModeledWarmupView({
@@ -216,13 +217,10 @@ function GuidedRevealView({
           {selectedOption ? (
             <>
               <p className="selected-answer-text">{selectedOption.text}</p>
-              <p className="subdued">
-                Your answer is saved. You can keep it as you read the explanation.
-              </p>
             </>
           ) : (
             <p className="selected-answer-text subdued">
-              We couldn&apos;t match your saved answer to the current options. Please let your teacher know.
+              We couldn&apos;t match the answer you picked to the current options. Please let your teacher know.
             </p>
           )}
         </div>
@@ -235,7 +233,7 @@ function GuidedRevealView({
 
 export default async function WarmupPage({ params, searchParams }: WarmupPageProps) {
   const { runId } = await params;
-  const { hint } = await searchParams;
+  const { hint, flash } = await searchParams;
   const run = await getRun(runId);
   if (!run) {
     notFound();
@@ -256,8 +254,41 @@ export default async function WarmupPage({ params, searchParams }: WarmupPagePro
     loadTranscript(run.episodeSource),
     getOrCreateWarmupProgress(runId),
   ]);
+  const sessionChrome = await loadSessionChrome(run, lessonPackage);
 
   const step = deriveWarmupStep(progress);
+  const guidedPickedBestAnswer =
+    progress.guidedSelectedAnswerId === lessonPackage.warmups.guided.best_answer_id;
+  const flashMessage =
+    flash === "read-badge"
+      ? {
+          key: "read-badge",
+          tone: "success" as const,
+          title: "Badge earned: Read the episode",
+          detail: "You made it through the conversation. Now you can practice with it.",
+        }
+      : flash === "guided-submitted"
+        ? guidedPickedBestAnswer
+          ? {
+              key: "guided-submitted-correct",
+              tone: "success" as const,
+              title: "Nice thinking.",
+              detail: "You picked a strong answer. Now let’s see why it works.",
+            }
+          : {
+              key: "guided-submitted-encourage",
+              tone: "encourage" as const,
+              title: "Good try.",
+              detail: "Let’s walk through this one together and see what to notice.",
+            }
+        : flash === "warmup-badge"
+          ? {
+              key: "warmup-badge",
+              tone: "success" as const,
+              title: "Badge earned: Finished the warm-up",
+              detail: "You worked through the example and the practice. On to the challenge.",
+            }
+          : null;
 
   if (step === "done") {
     // guided_complete is true but session_runs was not yet updated (shouldn't
@@ -278,12 +309,14 @@ export default async function WarmupPage({ params, searchParams }: WarmupPagePro
     return (
       <LessonWorkspace
         episodeTitle={lessonPackage.episode.title}
-        progressLabel="Warm-up · Modeled"
-        phaseLabel="Modeled warm-up"
+        progressLabel="Warm-up · Example"
+        phaseLabel="Walkthrough"
+        sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={lessonPackage.warmups.modeled.turn_id}
-        drawerTitle="Modeled warm-up"
+        drawerTitle="Walkthrough"
         reopenLabel="Open the walkthrough"
+        flash={flashMessage}
       >
         <ModeledWarmupView
           runId={run.runId}
@@ -297,12 +330,14 @@ export default async function WarmupPage({ params, searchParams }: WarmupPagePro
     return (
       <LessonWorkspace
         episodeTitle={lessonPackage.episode.title}
-        progressLabel="Warm-up · Guided"
-        phaseLabel="Guided warm-up"
+        progressLabel="Warm-up · Practice"
+        phaseLabel="Practice question"
+        sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={lessonPackage.warmups.guided.turn_id}
-        drawerTitle="Guided warm-up"
+        drawerTitle="Practice question"
         reopenLabel="Answer about this turn"
+        flash={flashMessage}
       >
         <GuidedQuestionView
           runId={run.runId}
@@ -317,12 +352,14 @@ export default async function WarmupPage({ params, searchParams }: WarmupPagePro
   return (
     <LessonWorkspace
       episodeTitle={lessonPackage.episode.title}
-      progressLabel="Warm-up · Guided"
-      phaseLabel="Guided warm-up · explanation"
+      progressLabel="Warm-up · Practice"
+      phaseLabel="Practice · look together"
+      sessionChrome={sessionChrome}
       transcript={transcript}
       targetTurnId={lessonPackage.warmups.guided.turn_id}
-      drawerTitle="Guided warm-up · explanation"
+      drawerTitle="Let’s look together"
       reopenLabel="Open the explanation"
+      flash={flashMessage}
     >
       <GuidedRevealView
         runId={run.runId}
