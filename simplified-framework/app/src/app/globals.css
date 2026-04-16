@@ -374,6 +374,159 @@ a.ghost:hover {
   text-transform: lowercase;
 }
 
+/* Warm-up screens */
+.warmup-card h1 {
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  line-height: 1.2;
+}
+
+.warmup-body {
+  gap: 1rem;
+}
+
+.warmup-label {
+  margin: 0 0 0.25rem;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.warmup-prompt {
+  font-size: 1.06rem;
+  line-height: 1.65;
+}
+
+.warmup-takeaway {
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  background: var(--accent-soft);
+}
+
+.turn-context {
+  padding: 1.1rem 1.2rem;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background: var(--surface-strong);
+}
+
+.turn-context-list {
+  margin: 0.6rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.turn-context-item {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: 0.7rem;
+}
+
+.turn-context-item.is-target {
+  background: rgba(106, 123, 88, 0.12);
+  border: 1px solid rgba(106, 123, 88, 0.25);
+}
+
+.answer-options {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.answer-options legend {
+  margin-bottom: 0.4rem;
+  padding: 0;
+}
+
+.answer-option {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  cursor: pointer;
+  transition: border-color 140ms ease, background 140ms ease;
+}
+
+.answer-option:hover {
+  border-color: rgba(184, 92, 46, 0.4);
+}
+
+.answer-option input[type="radio"] {
+  margin-top: 0.25rem;
+}
+
+.answer-option-text {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.hint-area {
+  margin-top: 0.25rem;
+}
+
+.hint-card {
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px dashed var(--line);
+  background: var(--surface-strong);
+}
+
+.selected-answer {
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(106, 123, 88, 0.25);
+  background: rgba(106, 123, 88, 0.08);
+}
+
+.selected-answer-text {
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+/* Progressive-reveal scaffold (modeled + guided reveal) */
+.reveal-stages {
+  display: grid;
+  gap: 1rem;
+}
+
+.reveal-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.reveal-stage {
+  display: grid;
+  gap: 0.25rem;
+}
+
+.reveal-stage--highlight {
+  padding: 0.9rem 1rem;
+  border-radius: 0.9rem;
+  background: var(--accent-soft);
+}
+
+.reveal-advance-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.reveal-advance {
+  font-weight: 500;
+}
+
+.reveal-final {
+  margin-top: 0.25rem;
+}
+
 /* Utility */
 .inline-form {
   display: inline;
@@ -396,6 +549,185 @@ a.ghost:hover {
   color: #7f3715;
   padding: 1.25rem 1.4rem;
   border-radius: 1rem;
+}
+
+/* Lesson workspace — transcript-first layout with side/drawer work panel */
+.lesson-workspace {
+  width: min(72rem, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: 1fr;
+}
+
+.workspace-header {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem 1.25rem;
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.workspace-titles {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+}
+
+.workspace-title {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.workspace-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.transcript-canvas {
+  border-radius: 1.25rem;
+  background: var(--surface-strong);
+  border: 1px solid var(--line);
+  padding: 1.4rem 1.6rem;
+}
+
+.transcript-turns {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1.1rem;
+  font-size: 1.04rem;
+  line-height: 1.7;
+}
+
+.transcript-turns .turn {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.transcript-turns .turn + .turn {
+  border-top: 0;
+}
+
+.transcript-turns .turn--target {
+  background: rgba(106, 123, 88, 0.08);
+  border-color: rgba(106, 123, 88, 0.3);
+  box-shadow: 0 6px 18px rgba(52, 42, 28, 0.05);
+}
+
+.turn-chip {
+  justify-self: flex-start;
+  margin-top: 0.3rem;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid rgba(184, 92, 46, 0.4);
+  background: white;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.turn-chip:hover {
+  background: rgba(184, 92, 46, 0.08);
+}
+
+/* Mobile / narrow — drawer is a bottom sheet overlay */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(31, 37, 34, 0.22);
+  z-index: 40;
+}
+
+.work-drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.3rem 1.5rem 1.6rem;
+  background: var(--panel);
+  border-top: 1px solid var(--line);
+  border-radius: 1.25rem 1.25rem 0 0;
+  box-shadow: 0 -22px 60px rgba(52, 42, 28, 0.22);
+  z-index: 50;
+  display: grid;
+  gap: 1rem;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.drawer-close {
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+}
+
+.drawer-close:hover {
+  background: rgba(31, 37, 34, 0.06);
+  color: var(--ink);
+}
+
+.drawer-body {
+  display: grid;
+  gap: 1rem;
+}
+
+.drawer-card {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.drawer-title {
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  line-height: 1.25;
+  margin: 0;
+}
+
+/* Desktop — drawer becomes an in-flow sticky side panel */
+@media (min-width: 900px) {
+  .lesson-workspace.drawer-open {
+    grid-template-columns: minmax(0, 1fr) 26rem;
+  }
+
+  .drawer-backdrop {
+    display: none;
+  }
+
+  .work-drawer {
+    position: sticky;
+    top: 1.5rem;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    max-height: calc(100vh - 3rem);
+    align-self: start;
+    border: 1px solid var(--line);
+    border-radius: 1.25rem;
+    box-shadow: var(--shadow);
+    padding: 1.4rem 1.6rem;
+  }
 }
 
 @media (max-width: 640px) {

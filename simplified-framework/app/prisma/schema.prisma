@@ -1,5 +1,7 @@
-// Milestone 1 schema. Only session_runs is required.
-// Later milestones will add warmup_progress, level_responses, scaffold_events.
+// Milestone 3 schema. Adds level_responses (one durable row per
+// run_id + level_id) and scaffold_events (append-only log of scaffold
+// interactions, with a uniqueness guard per (run_id, level_id, step_key)
+// so hint-open writes are idempotent).
 
 generator client {
   provider = "prisma-client-js"
@@ -11,20 +13,70 @@ datasource db {
 }
 
 model SessionRun {
-  runId           String    @id @default(cuid()) @map("run_id")
-  configId        String    @map("config_id")
-  episodeSource   String    @map("episode_source")
-  groupId         String    @map("group_id")
-  studentId       String    @map("student_id")
-  status          String    @default("in_progress") // in_progress | complete
-  currentPhase    String    @default("read")        // read | warmup | level | complete
-  currentLevelId  String?   @map("current_level_id")
-  readingComplete Boolean   @default(false) @map("reading_complete")
-  startedAt       DateTime  @default(now()) @map("started_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
-  completedAt     DateTime? @map("completed_at")
+  runId           String          @id @default(cuid()) @map("run_id")
+  configId        String          @map("config_id")
+  episodeSource   String          @map("episode_source")
+  groupId         String          @map("group_id")
+  studentId       String          @map("student_id")
+  status          String          @default("in_progress") // in_progress | complete
+  currentPhase    String          @default("read")        // read | warmup | level | complete
+  currentLevelId  String?         @map("current_level_id")
+  readingComplete Boolean         @default(false) @map("reading_complete")
+  startedAt       DateTime        @default(now()) @map("started_at")
+  updatedAt       DateTime        @updatedAt @map("updated_at")
+  completedAt     DateTime?       @map("completed_at")
+  warmupProgress  WarmupProgress?
+  levelResponses  LevelResponse[]
+  scaffoldEvents  ScaffoldEvent[]
 
-  @@unique([configId, episodeSource, groupId, studentId, status], name: "unique_open_run")
+  // Partial unique index on (config_id, episode_source, group_id, student_id)
+  // WHERE status = 'in_progress' is defined in raw SQL in the
+  // 20260416_allow_multiple_completes migration — Prisma does not model
+  // partial indexes in schema. This regular composite index covers the same
+  // lookup path used by createOrResumeRun.findFirst.
+  @@index([configId, episodeSource, groupId, studentId])
   @@index([configId, episodeSource, groupId])
   @@map("session_runs")
+}
+
+model WarmupProgress {
+  runId                  String     @id @map("run_id")
+  modeledComplete        Boolean    @default(false) @map("modeled_complete")
+  guidedSubmitted        Boolean    @default(false) @map("guided_submitted")
+  guidedSelectedAnswerId String?    @map("guided_selected_answer_id")
+  guidedUsedHint         Boolean    @default(false) @map("guided_used_hint")
+  guidedComplete         Boolean    @default(false) @map("guided_complete")
+  updatedAt              DateTime   @updatedAt @map("updated_at")
+  sessionRun             SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
+
+  @@map("warmup_progress")
+}
+
+model LevelResponse {
+  id                 String     @id @default(cuid())
+  runId              String     @map("run_id")
+  levelId            String     @map("level_id")
+  initialAnswer      String     @map("initial_answer")
+  finalAnswer        String     @map("final_answer")
+  usedHint           Boolean    @default(false) @map("used_hint")
+  answerChanged      Boolean    @default(false) @map("answer_changed")
+  completedAt        DateTime   @map("completed_at")
+  sessionRun         SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
+
+  @@unique([runId, levelId], name: "unique_level_response")
+  @@index([runId])
+  @@map("level_responses")
+}
+
+model ScaffoldEvent {
+  id         String     @id @default(cuid())
+  runId      String     @map("run_id")
+  levelId    String     @map("level_id")
+  stepKey    String     @map("step_key")
+  createdAt  DateTime   @default(now()) @map("created_at")
+  sessionRun SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
+
+  @@unique([runId, levelId, stepKey], name: "unique_scaffold_event")
+  @@index([runId, levelId])
+  @@map("scaffold_events")
 }

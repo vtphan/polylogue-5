@@ -5,6 +5,7 @@ import { getGroup } from "@/lib/config";
 import { loadLessonPackage, loadTranscript } from "@/lib/content";
 import { finishReadingAction } from "@/app/actions";
 import type { RunPhase } from "@/lib/domain";
+import type { SessionRun } from "@prisma/client";
 
 const PHASE_LABELS: Record<RunPhase | "not_started", string> = {
   not_started: "Not started",
@@ -17,6 +18,19 @@ const PHASE_LABELS: Record<RunPhase | "not_started", string> = {
 type ReadPageProps = {
   params: Promise<{ runId: string }>;
 };
+
+function choosePeerRun(current: SessionRun | undefined, candidate: SessionRun): SessionRun {
+  if (!current) {
+    return candidate;
+  }
+  if (current.status !== "in_progress" && candidate.status === "in_progress") {
+    return candidate;
+  }
+  if (current.status === "in_progress" && candidate.status !== "in_progress") {
+    return current;
+  }
+  return candidate.updatedAt > current.updatedAt ? candidate : current;
+}
 
 export default async function TranscriptReadingPage({ params }: ReadPageProps) {
   const { runId } = await params;
@@ -36,7 +50,13 @@ export default async function TranscriptReadingPage({ params }: ReadPageProps) {
     }),
   ]);
 
-  const runsByStudent = new Map(groupRuns.map((entry) => [entry.studentId, entry]));
+  const runsByStudent = new Map<string, SessionRun>();
+  for (const entry of groupRuns) {
+    runsByStudent.set(
+      entry.studentId,
+      choosePeerRun(runsByStudent.get(entry.studentId), entry),
+    );
+  }
 
   return (
     <div className="page-wide">
@@ -57,12 +77,20 @@ export default async function TranscriptReadingPage({ params }: ReadPageProps) {
         ))}
       </section>
 
-      <form action={finishReadingAction} className="continue-row">
-        <input type="hidden" name="run_id" value={run.runId} />
-        <button type="submit" className="primary">
-          Continue
-        </button>
-      </form>
+      {run.status === "complete" ? (
+        <div className="continue-row">
+          <Link href={`/runs/${run.runId}/level`} className="primary">
+            Back to your finished episode
+          </Link>
+        </div>
+      ) : (
+        <form action={finishReadingAction} className="continue-row">
+          <input type="hidden" name="run_id" value={run.runId} />
+          <button type="submit" className="primary">
+            Continue
+          </button>
+        </form>
+      )}
 
       {group ? (
         <aside className="peer-row" aria-label="Group progress">

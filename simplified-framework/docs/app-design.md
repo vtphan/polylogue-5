@@ -1147,7 +1147,7 @@ Approval gate:
 Goal:
 
 - implement the ending state
-- the detailed implementation contract for this milestone is defined in §10.41–10.51
+- the detailed implementation contract for this milestone is defined in §10.41–10.53
 
 Must resolve:
 
@@ -2270,16 +2270,17 @@ The implementation is successful if the completion state feels clearly finished,
 
 ### 10.43 Required UI States
 
-Milestone 4 should implement exactly these user-visible states:
+Milestone 4 should implement exactly one user-visible state:
 
-1. completion summary
-2. completion summary with earned accomplishments visible
-3. completion reload or resume state for an already finished run
+1. completion summary, with earned badges rendered inline as a visually secondary block
+
+Reload or resume for an already-finished run reopens this same state from persisted data; it is not a separate rendered state.
 
 Recommended routing model:
 
-- the app may use a dedicated completion route or may let the existing level route redirect into a completion surface
-- routing details may vary, but a run with `current_phase = complete` should reopen the same saved-complete experience deterministically
+- Milestone 4 should continue to render completion at `/runs/{runId}/level`, replacing the Milestone 3 saved-complete handoff placeholder in place
+- Milestone 4 should not introduce a dedicated completion route — `routeForRun` already points completed runs at `/level` and the Milestone 3 phase gate already renders a placeholder there
+- a run with `current_phase = complete` should reopen the completion surface deterministically from persisted data
 - completion routing should not depend on browser-local state
 
 ### 10.44 State A: Completion Summary
@@ -2292,14 +2293,14 @@ Visible UI must include:
 
 - clear completion heading or equivalent end-state signal
 - the episode title
-- the final takeaway from `lesson_package.episode.final_takeaway`
+- the final takeaway from `lesson_package.episode.final_takeaway`, rendered as a visually prominent closing element (callout or pull-quote treatment; it is the last teaching moment of the episode)
 - a concise summary that the episode is finished
+- the earned-badges block per §10.45, rendered inline and visually secondary to the final takeaway
 - at least one clear next-step action
 
 Visible UI may include:
 
 - a subdued recap of completed progress such as all levels finished
-- a quiet phase indicator or completion badge-like marker
 - a coarse peer-progress summary for the student's group
 
 Visible UI should not include:
@@ -2307,6 +2308,7 @@ Visible UI should not include:
 - the full active level UI
 - answer-editing controls
 - loud celebration, leaderboard treatment, or competitive comparison
+- reveal or unlock interactions that gate the earned-badges block behind an extra click
 
 Required data:
 
@@ -2321,32 +2323,32 @@ System behavior:
 - treat `status = complete` and `current_phase = complete` as the source of truth for the saved-complete state
 - render the completion surface without requiring any further mutation
 - keep the tone slightly more celebratory than intermediate states, but still restrained per §8.6
+- completed runs that visit `/runs/{runId}/read` should continue to see the Milestone 3 read-only treatment (transcript readable; Continue replaced with a link back to the completion surface); Milestone 4 must not regress that behavior
 
 Persistence behavior:
 
-- no additional write is required just to view the completion summary
-- `updated_at` may be refreshed if needed, but the completion state must already be recoverable from saved data
+- no additional write is required to view the completion summary; the completed run is terminal and must not be mutated on render per the Milestone 3 terminal-state invariant
 
-### 10.45 State B: Earned Accomplishments
+### 10.45 Earned-Badges Block (Within State A)
 
 Purpose:
 
 - acknowledge meaningful progress without overpowering the lesson close
+- produce as many concrete, feel-good markers as the persisted state actually supports, rather than collapsing related events into one aggregate
+
+This is not a separate user-visible state; it is the badges panel rendered inline within the State A completion summary per §10.44.
 
 Visible UI must include:
 
-- earned badges or accomplishments derived from deterministic runtime state
-
-Visible UI may include:
-
-- a short label explaining why an accomplishment was earned
-- a small completion-specific acknowledgement for finishing the episode
+- every badge earned by the student per the predicate mapping below, with a short label explaining why it was earned
+- a small completion-specific acknowledgement for finishing the episode (the `Episode Complete` badge below satisfies this)
 
 Visible UI should not include:
 
 - a persistent badge dashboard
-- cross-student reward comparison
-- accomplishments that require subjective or runtime-generated judgment
+- cross-student badge comparison
+- badges that require subjective or runtime-generated judgment
+- a reveal or unlock gate in front of the badges block
 
 Required data:
 
@@ -2354,39 +2356,42 @@ Required data:
 - `warmup_progress`
 - `level_responses`
 - `scaffold_events`
+- `lesson_package.levels[]` (for the authored level set used when computing per-level badges)
+
+Predicate mapping — the v1 visible badge set derived from the frozen categories in §8.5 and §8.10:
+
+- `Read The Episode` — one badge per run, earned when `session_runs.reading_complete = true` (always true for a completed run)
+- `Finished Warm-Up` — one badge per run, earned when `warmup_progress.guided_complete = true`
+- `Level Complete` — one badge **per authored level** that has a completed `level_responses` row (`completed_at` set). An N-level episode completed in full therefore yields N `Level Complete` badges
+- `Used Help And Kept Going` — one badge per support-used-and-still-completed moment:
+  - one instance for the warm-up when `warmup_progress.guided_used_hint = true` AND `warmup_progress.guided_complete = true`
+  - one instance per level where a matching `scaffold_events` row exists (or `level_responses.used_hint = true`) AND `level_responses.completed_at` is set
+- `Changed My Mind` — reserved for a future revision-capable milestone. In Milestone 3's single-submit flow `level_responses.answer_changed` is always `false`, so this category is not earnable in v1. Milestone 4 should omit it from the rendered set rather than display a perpetually empty category
+- `Episode Complete` — one badge per run, earned when `session_runs.status = complete` AND `session_runs.completed_at` is set
+
+Each earned badge should carry a short label that names the moment (e.g. for `Level Complete`: "Finished Level 2: Priya's leap"; for `Used Help And Kept Going`: "Used a hint on Level 3 and kept going"). Labels should draw from authored fields (`lesson_package.levels[].title`) rather than runtime-generated text.
 
 System behavior:
 
-- compute earned accomplishments deterministically from saved runtime state rather than from a new runtime model call
-- use the frozen v1 reward-event set in §8.5 and §8.10 as the source for visible accomplishment logic
-- keep accomplishment presentation visually secondary to the final takeaway
+- compute earned badges deterministically from saved runtime state rather than from a new runtime model call
+- use the predicate mapping above; do not invent additional categories in Milestone 4
+- keep badge presentation visually secondary to the final takeaway
 
 Persistence behavior:
 
 - Milestone 4 does not require a separate rewards table
-- accomplishment display may be computed on read from persisted runtime state
-- if the implementation caches derived accomplishment data later, that should be treated as an optimization rather than the source of truth
+- the earned-badges block may be computed on read from persisted runtime state
+- if the implementation caches derived badge data later, that should be treated as an optimization rather than the source of truth
 
-### 10.46 State C: Completion Resume
+### 10.46 Reload And Resume Semantics
 
-Purpose:
-
-- reopen a finished run in a stable, non-confusing way on reload or another device
-
-Visible UI must include:
-
-- the same completion summary used for a newly finished run
-
-Visible UI should not include:
-
-- a return to unfinished level feedback
-- controls that imply the run is still in progress
+Resuming a completed run reopens the same State A completion surface described in §10.44. It is not a separate rendered state.
 
 System behavior:
 
-- reopen the completion surface whenever the selected run is already complete
-- do not require `current_level_id` to be present for completion rendering
-- if the existing route resolver still lands complete runs on the former level path, that path must redirect or render the completion surface gracefully rather than 404
+- reopen the completion surface whenever the selected run has `status = complete`
+- do not require `current_level_id` to be present for completion rendering (Milestone 3 clears it on final-level transition)
+- the `/runs/{runId}/level` path must render the completion surface for complete runs rather than 404 or redirect — the Milestone 3 terminal-state invariant requires that completed runs never redirect out of `/level` (otherwise `routeForRun`'s status-first rule produces a loop)
 
 Persistence behavior:
 
@@ -2405,7 +2410,7 @@ Visible UI must include:
 
 Visible UI may include:
 
-- a secondary action to reread the transcript or revisit the finished episode in read-only form
+- a secondary action to reread the transcript — this should link to `/runs/{runId}/read`, which Milestone 3 already renders in read-only form for completed runs (transcript is shown, the Continue button is replaced with a link back to the completion surface)
 
 Visible UI should not include:
 
@@ -2415,11 +2420,12 @@ Visible UI should not include:
 System behavior:
 
 - leaving the completion screen for a neutral starting point should not mutate the completed run
-- any future "start again" flow should create a new run rather than rewrite the saved completed one
+- the re-read action must not rewind `current_phase` or `reading_complete` on a completed run; the Milestone 3 terminal-state guards in `markReadingComplete` and the read-page UI enforce this
+- any future "start again" flow should create a new run rather than rewrite the saved completed one (the partial unique index on `session_runs` added in the Milestone 3 followup already permits unbounded completed rows per student)
 
 Persistence behavior:
 
-- completion actions in Milestone 4 do not need to mutate the completed run unless a future explicit replay feature is added
+- completion actions in Milestone 4 do not mutate the completed run
 
 ### 10.48 Data Contract For Milestone 4
 
@@ -2439,12 +2445,12 @@ Milestone 4 may also read:
 Completion contract note:
 
 - the final takeaway should come from `lesson_package.episode.final_takeaway`
-- accomplishment display should be derived from persisted runtime state rather than newly persisted completion-only records
-- peer visibility, if present on the completion screen, must remain status-based and must not include reward information
+- earned-badge display should be derived from persisted runtime state per the §10.45 predicate mapping, rather than newly persisted completion-only records
+- peer visibility, if present on the completion screen, must remain status-based and must not include badge information
 
 Milestone 4 does not require:
 
-- a new rewards table
+- a new rewards or badges table
 - historical reward timelines
 - cross-episode summaries
 - editable post-completion reflection workflows
@@ -2455,14 +2461,14 @@ The server layer should support:
 
 - loading the saved-complete run state
 - loading the final takeaway from the active package
-- deriving visible accomplishments from persisted runtime state
+- deriving the earned-badge set from persisted runtime state per §10.45
 - returning coarse peer-progress summaries when requested by the completion UI
 - reopening completed runs deterministically
 
 Recommended minimal server actions or route handlers:
 
 - `getCompletion(runId)`
-- `listEarnedAccomplishments(runId)`
+- `listEarnedBadges(runId)`
 
 Names may vary in implementation, but the responsibilities should remain the same.
 
@@ -2471,7 +2477,7 @@ Names may vary in implementation, but the responsibilities should remain the sam
 The client layer should support:
 
 - rendering the completion summary
-- rendering quiet earned accomplishments
+- rendering quiet earned badges inline within the summary
 - rendering simple next-step actions
 - reopening the saved-complete state without depending on transient client state
 
@@ -2481,13 +2487,17 @@ The client should not treat locally remembered celebration state as the primary 
 
 Milestone 4 is ready for approval when all of the following are true:
 
-- a student arriving at a completed run sees a true completion surface rather than a leftover level placeholder
-- the completion surface shows the episode final takeaway clearly
-- earned accomplishments are derived deterministically from persisted runtime state
-- accomplishment UI remains visually secondary to the final takeaway
-- reloading or resuming a completed run reopens the same saved-complete experience
-- the completion surface offers at least one clear next action that does not mutate the saved completed run
-- any peer-progress shown on completion remains coarse and status-based, not reward-based
+- a student arriving at a completed run sees a true completion surface rather than the Milestone 3 placeholder
+- the completion surface renders at `/runs/{runId}/level` (the Milestone 3 handoff route), not at a new dedicated completion route
+- the final takeaway from `lesson_package.episode.final_takeaway` is presented as a visually prominent closing element
+- the earned-badge block is rendered inline with the summary (no reveal/unlock gate) and stays visually secondary to the final takeaway
+- every badge earned by the student per the §10.45 predicate mapping is visible, including per-level `Level Complete` badges (one per completed authored level) and per-moment `Used Help And Kept Going` badges (warm-up + per level where applicable)
+- the `Changed My Mind` category is omitted from v1 rather than displayed as perpetually empty
+- badges are derived deterministically from persisted runtime state with no real-time model call
+- reloading or resuming a completed run reopens the same completion surface from persisted data alone
+- visiting `/runs/{runId}/read` on a completed run still shows the Milestone 3 read-only treatment (transcript readable; the Continue form is replaced with a link back to the completion surface)
+- the completion surface offers at least one clear next action (switch-student or equivalent) that does not mutate the completed run
+- any peer-progress shown on completion remains coarse and status-based, not badge-based
 
 ### 10.52 Explicit Non-Goals
 
@@ -2502,7 +2512,18 @@ Milestone 4 should not attempt to solve:
 Failure and empty-state note:
 
 - Milestone 4 is primarily specified for the happy path
-- missing final-takeaway content or malformed derived accomplishment inputs may be deferred using the same rule described in §11.16 unless implementation reveals a blocker
+- missing final-takeaway content or malformed derived badge inputs may be deferred using the same rule described in §11.16 unless implementation reveals a blocker
+
+### 10.53 Handoff To Milestone 5
+
+When Milestone 4 is approved, Milestone 5 should be able to assume:
+
+- the full end-to-end flow is playable: identity selection → read → modeled warm-up → guided warm-up → per-level flow → completion surface
+- the completion surface renders deterministically from persisted state and reopens on reload
+- the earned-badge predicate mapping in §10.45 is the v1 baseline; Milestone 5 may refine visuals, copy, and micro-interactions but should not reopen the predicate mapping or the frozen reward set in §8
+- all four route shells (`/entry`, `/read`, `/warmup`, `/level`) handle completed runs without redirect loops per the Milestone 3 terminal-state invariant
+
+Milestone 5 should build on these pieces rather than replacing them.
 
 ## 11. Technical Architecture For V1
 
