@@ -33,14 +33,15 @@ export async function loadCompletionInputs(runId: string): Promise<CompletionInp
   return { run, warmupProgress, levelResponses, scaffoldEvents };
 }
 
-// §10.45 visible badge categories. `Changed My Mind` is deliberately omitted
-// here — it is not earnable in v1's single-submit level flow and the spec asks
-// for it to be omitted from the rendered set rather than shown empty.
+// §10.45 visible badge categories. `changed_my_mind` is activated by
+// Milestone 5 once bounded retry can produce genuine revision; its predicate
+// is defined in §10.60 and supersedes the M3/M4 omission.
 export type BadgeCategory =
   | "read_the_episode"
   | "finished_warmup"
   | "level_complete"
   | "used_help_and_kept_going"
+  | "changed_my_mind"
   | "episode_complete";
 
 export type Badge = {
@@ -126,6 +127,30 @@ export function deriveEarnedBadges(inputs: CompletionInputs, pkg: LessonPackage)
     }
   }
 
+  // Changed My Mind — one per level where the student reconsidered after a
+  // wrong first answer and locked the correct answer on retry (§10.60).
+  // Predicate: completedAt set AND answerChanged true AND final_answer is in
+  // feedback.correct.option_ids. Wrong-then-different-wrong sequences are
+  // intentionally excluded — the badge recognises productive revision, not
+  // answer-switching.
+  for (const level of sortedLevels) {
+    const response = responseByLevelId.get(level.level_id);
+    if (!response || !response.completedAt || !response.answerChanged) {
+      continue;
+    }
+    const finalAnswer = response.finalAnswer;
+    if (!finalAnswer) {
+      continue;
+    }
+    if (!level.feedback.correct.option_ids.includes(finalAnswer)) {
+      continue;
+    }
+    badges.push({
+      category: "changed_my_mind",
+      label: `Changed my mind on Level ${level.sequence_index}: ${level.title}`,
+    });
+  }
+
   // Episode Complete — one per run, terminal badge. Presented last so it
   // reads as the final acknowledgement.
   if (run.status === "complete" && run.completedAt) {
@@ -148,6 +173,7 @@ export function countBadgesByCategory(badges: Badge[]): Record<BadgeCategory, nu
     finished_warmup: 0,
     level_complete: 0,
     used_help_and_kept_going: 0,
+    changed_my_mind: 0,
     episode_complete: 0,
   };
   for (const badge of badges) {
@@ -167,6 +193,7 @@ export function groupBadgesByCategory(badges: Badge[]): Array<{
     "finished_warmup",
     "level_complete",
     "used_help_and_kept_going",
+    "changed_my_mind",
     "episode_complete",
   ];
   const byCategory = new Map<BadgeCategory, Badge[]>();

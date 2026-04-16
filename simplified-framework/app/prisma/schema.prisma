@@ -57,10 +57,10 @@ model LevelResponse {
   runId              String     @map("run_id")
   levelId            String     @map("level_id")
   initialAnswer      String     @map("initial_answer")
-  finalAnswer        String     @map("final_answer")
+  finalAnswer        String?    @map("final_answer")
   usedHint           Boolean    @default(false) @map("used_hint")
   answerChanged      Boolean    @default(false) @map("answer_changed")
-  completedAt        DateTime   @map("completed_at")
+  completedAt        DateTime?  @map("completed_at")
   sessionRun         SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
 
   @@unique([runId, levelId], name: "unique_level_response")

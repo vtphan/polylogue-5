@@ -111,17 +111,21 @@ function LevelFeedbackView({
   hintShown: boolean;
   isFinalLevel: boolean;
 }) {
-  // §10.32 / §10.35: reload reconstructs the read-only submitted choice from
-  // level_responses.initial_answer. In M3's single-submit flow final_answer
-  // equals initial_answer, but we read initial_answer to match the spec
-  // exactly — later revision-capable milestones will need the distinction.
-  const submittedOptionId = response.initialAnswer;
+  // §10.59: the locked answer is `final_answer`. In the immediate-lock path
+  // final_answer equals initial_answer; in the retry-finalize path it is the
+  // second-submission answer. Fall back to initial_answer only defensively —
+  // any completed row always has final_answer set.
+  const lockedOptionId = response.finalAnswer ?? response.initialAnswer;
   const selectedOption = level.answer_options.find(
-    (option) => option.option_id === submittedOptionId,
+    (option) => option.option_id === lockedOptionId,
   );
   const feedback = selectedOption
-    ? feedbackForOption(level, submittedOptionId)
+    ? feedbackForOption(level, lockedOptionId)
     : null;
+  // §10.59: subdued acknowledgement when the second-submission corrected the
+  // first wrong answer. Gated on correctness — a wrong-then-different-wrong
+  // sequence does not receive this copy.
+  const correctedOnRetry = response.answerChanged && feedback?.isCorrect === true;
 
   return (
     <div className="drawer-card stack">
@@ -155,6 +159,9 @@ function LevelFeedbackView({
               {feedback.isCorrect ? "That lands it" : "Let's look again"}
             </p>
             <p>{feedback.text}</p>
+            {correctedOnRetry ? (
+              <p className="subdued">You changed your mind and landed it.</p>
+            ) : null}
           </div>
         ) : null}
 
@@ -176,11 +183,116 @@ function LevelFeedbackView({
   );
 }
 
+// §10.58: retry-open state. A LevelResponse row exists with initial_answer
+// set (the student's first wrong submission) and completed_at null. The
+// student sees deterministic feedback for that first answer and gets one
+// more accepted submission, which locks the level.
+function LevelRetryView({
+  runId,
+  level,
+  firstAnswer,
+  hintOpen,
+}: {
+  runId: string;
+  level: LessonLevel;
+  firstAnswer: string;
+  hintOpen: boolean;
+}) {
+  const firstOption = level.answer_options.find(
+    (option) => option.option_id === firstAnswer,
+  );
+  const firstFeedback = firstOption ? feedbackForOption(level, firstAnswer) : null;
+
+  return (
+    <div className="drawer-card stack">
+      <div>
+        <p className="eyebrow">One more try</p>
+        <h2 className="drawer-title">{level.title}</h2>
+      </div>
+
+      <div className="selected-answer" aria-live="polite">
+        <p className="warmup-label">Your first answer</p>
+        {firstOption ? (
+          <p className="selected-answer-text">{firstOption.text}</p>
+        ) : (
+          <p className="selected-answer-text subdued">
+            We couldn&apos;t match your first answer to the current options. Please let your teacher know.
+          </p>
+        )}
+      </div>
+
+      {firstFeedback ? (
+        <div className="reveal-stage">
+          <p className="warmup-label">Let&apos;s look again</p>
+          <p>{firstFeedback.text}</p>
+        </div>
+      ) : null}
+
+      <form action={submitLevelAnswerAction} className="stack">
+        <input type="hidden" name="run_id" value={runId} />
+
+        <fieldset className="answer-options">
+          <legend className="warmup-label">Take another look: {level.prompt}</legend>
+          {level.answer_options.map((option: AnswerOption) => {
+            // §10.58: the first-picked option is disabled on retry — the
+            // student cannot re-submit the same wrong answer. The server
+            // also rejects this case defensively.
+            const alreadyTried = option.option_id === firstAnswer;
+            return (
+              <label
+                key={option.option_id}
+                className={`answer-option${alreadyTried ? " answer-option--disabled" : ""}`}
+              >
+                <input
+                  type="radio"
+                  name="selected_answer_id"
+                  value={option.option_id}
+                  required
+                  disabled={alreadyTried}
+                />
+                <span className="answer-option-text">{option.text}</span>
+                {alreadyTried ? (
+                  <span className="answer-option-note">Already tried</span>
+                ) : null}
+              </label>
+            );
+          })}
+        </fieldset>
+
+        <div className="action-row">
+          <button type="submit" className="primary">
+            Submit
+          </button>
+        </div>
+      </form>
+
+      {level.hint ? (
+        <div className="hint-area">
+          {hintOpen ? (
+            <div className="hint-card">
+              <p className="warmup-label">Hint</p>
+              <p>{level.hint}</p>
+            </div>
+          ) : (
+            <form action={openLevelHintAction} className="inline-form">
+              <input type="hidden" name="run_id" value={runId} />
+              <button type="submit" className="ghost">
+                Need a hint?
+              </button>
+            </form>
+          )}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 const BADGE_CATEGORY_HEADINGS: Record<BadgeCategory, string> = {
   read_the_episode: "Reading",
   finished_warmup: "Warm-up",
   level_complete: "Levels",
   used_help_and_kept_going: "Used help and kept going",
+  changed_my_mind: "Changed my mind",
   episode_complete: "Episode",
 };
 
@@ -344,6 +456,27 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
           response={response!}
           hintShown={Boolean(hintEvent)}
           isFinalLevel={isFinal}
+        />
+      </LessonWorkspace>
+    );
+  }
+
+  if (step.kind === "retry") {
+    return (
+      <LessonWorkspace
+        episodeTitle={lessonPackage.episode.title}
+        progressLabel={progressLabel}
+        phaseLabel="Level · one more try"
+        transcript={transcript}
+        targetTurnId={level.turn_id}
+        drawerTitle="One more try"
+        reopenLabel="Take another look"
+      >
+        <LevelRetryView
+          runId={run.runId}
+          level={level}
+          firstAnswer={step.firstAnswer}
+          hintOpen={step.hintOpen}
         />
       </LessonWorkspace>
     );

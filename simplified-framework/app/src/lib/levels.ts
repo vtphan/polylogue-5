@@ -13,8 +13,14 @@ export const LEVEL_HINT_STEP_KEY = "hint";
 // Derived level state for a run actively on a level. The saved-complete
 // handoff is handled by the page's phase gate before calling this helper, so
 // it is intentionally not a kind here.
+//
+// Milestone 5 adds the retry-open kind: a LevelResponse row exists (the
+// student has submitted once) but completedAt is null (the level is not yet
+// locked). In this state the student sees deterministic feedback for their
+// wrong first answer and has one more submission available.
 export type LevelStep =
   | { kind: "question"; hintOpen: boolean }
+  | { kind: "retry"; firstAnswer: string; hintOpen: boolean }
   | { kind: "feedback" };
 
 export function deriveLevelStep(params: {
@@ -22,13 +28,28 @@ export function deriveLevelStep(params: {
   hintEvent: ScaffoldEvent | null;
   hintQueryOpen: boolean;
 }): LevelStep {
-  if (params.response && params.response.completedAt) {
+  const hintOpen = Boolean(params.hintEvent) || params.hintQueryOpen;
+  if (params.response?.completedAt) {
     return { kind: "feedback" };
   }
-  return {
-    kind: "question",
-    hintOpen: Boolean(params.hintEvent) || params.hintQueryOpen,
-  };
+  if (params.response) {
+    return {
+      kind: "retry",
+      firstAnswer: params.response.initialAnswer,
+      hintOpen,
+    };
+  }
+  return { kind: "question", hintOpen };
+}
+
+// §10.57 retry eligibility: challenge level with at least 3 answer options
+// and exactly one correct option_id. Ineligible levels fall back to the
+// Milestone 3 single-submit flow.
+export function isRetryEligible(level: LessonLevel): boolean {
+  return (
+    level.answer_options.length >= 3 &&
+    level.feedback.correct.option_ids.length === 1
+  );
 }
 
 export function resolveActiveLevel(
@@ -151,14 +172,24 @@ export async function recordLevelHintOpened(params: {
   });
 }
 
-// §10.32 + §10.35: on the first accepted submit, write one durable level
-// response and lock it. Duplicate submits for a completed (run_id, level_id)
-// return the existing row without changing initial_answer / final_answer.
+// §10.58–10.59 + §10.62: the level-submit branches are
 //
-// Concurrency: an atomic create via the unique (run_id, level_id) index. If
-// two callers race, whichever the database inserts first wins; the other hits
-// a Prisma P2002 unique-constraint error which we catch and resolve by
-// returning the canonical winner's row.
+//   1. locked row exists (completedAt set) → idempotent return
+//   2. retry-open row exists (initialAnswer set, completedAt null) →
+//      finalize via a guarded updateMany that only fires while still
+//      retry-open; if a racing caller locked first, return their row
+//   3. no row + wrong first answer + retry-eligible → create a retry-open
+//      row (initialAnswer set, finalAnswer / completedAt null)
+//   4. no row + (correct first answer OR ineligible level) → create a
+//      locked row (Milestone 3 single-submit shape)
+//
+// Concurrency:
+//   - first-submit races are resolved by the unique (run_id, level_id) index:
+//     the winner's create lands, the loser catches P2002 and returns the
+//     canonical row.
+//   - second-submit races on a retry-open row use an updateMany guarded on
+//     completedAt = null; only one caller's guard passes, and losers
+//     re-fetch the canonical locked row.
 export async function submitLevelAnswer(params: {
   run: SessionRun;
   selectedAnswerId: string;
@@ -174,31 +205,85 @@ export async function submitLevelAnswer(params: {
     );
   }
 
-  // Idempotent no-op for duplicate submits after the first accepted response.
   const existing = await getLevelResponse(params.run.runId, level.level_id);
+
+  // Branch 1: locked row → idempotent no-op.
   if (existing && existing.completedAt) {
     return existing;
   }
 
-  // Derive used_hint from scaffold_events at submission time per §10.31.
+  // used_hint is derived at lock time so hints opened between the first and
+  // second submissions on a retry-eligible level still count.
   const hintEvent = await getLevelHintEvent(params.run.runId, level.level_id);
   const usedHint = Boolean(hintEvent);
 
-  try {
-    return await prisma.levelResponse.create({
-      data: {
+  // Branch 2: retry-open row → finalize with a guarded update.
+  if (existing) {
+    // §10.58: the retry view disables the first-picked option so the student
+    // cannot re-submit it. As a server-side boundary guard, reject a second
+    // submission that equals initial_answer by returning the retry-open row
+    // unchanged. The level stays retry-open; the student picks again.
+    if (params.selectedAnswerId === existing.initialAnswer) {
+      return existing;
+    }
+    await prisma.levelResponse.updateMany({
+      where: {
         runId: params.run.runId,
         levelId: level.level_id,
-        initialAnswer: params.selectedAnswerId,
+        completedAt: null,
+      },
+      data: {
         finalAnswer: params.selectedAnswerId,
         usedHint,
-        answerChanged: false,
+        // After the duplicate guard above, final_answer is necessarily
+        // different from initial_answer, so answer_changed is always true
+        // when the retry-finalize branch actually runs.
+        answerChanged: true,
         completedAt: new Date(),
       },
     });
+    // Re-fetch the canonical row — whether our guard fired or a racing caller
+    // locked first, the persisted state is the source of truth.
+    const canonical = await getLevelResponse(params.run.runId, level.level_id);
+    if (!canonical) {
+      throw new Error(
+        `Retry-open row for run "${params.run.runId}" level "${level.level_id}" disappeared mid-submit`,
+      );
+    }
+    return canonical;
+  }
+
+  // Branches 3 + 4: no row yet. Decide retry-open vs immediate lock.
+  const isCorrect = level.feedback.correct.option_ids.includes(
+    params.selectedAnswerId,
+  );
+  const shouldOpenRetry = !isCorrect && isRetryEligible(level);
+
+  try {
+    return await prisma.levelResponse.create({
+      data: shouldOpenRetry
+        ? {
+            runId: params.run.runId,
+            levelId: level.level_id,
+            initialAnswer: params.selectedAnswerId,
+            finalAnswer: null,
+            usedHint,
+            answerChanged: false,
+            completedAt: null,
+          }
+        : {
+            runId: params.run.runId,
+            levelId: level.level_id,
+            initialAnswer: params.selectedAnswerId,
+            finalAnswer: params.selectedAnswerId,
+            usedHint,
+            answerChanged: false,
+            completedAt: new Date(),
+          },
+    });
   } catch (error) {
-    // P2002 = unique constraint violation. Another concurrent submit won;
-    // return the canonical winner's row rather than surfacing a race.
+    // P2002 = unique constraint violation. Another concurrent first-submit
+    // won; return the canonical winner's row rather than surfacing a race.
     if (
       error &&
       typeof error === "object" &&

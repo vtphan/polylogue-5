@@ -2386,7 +2386,7 @@ Predicate mapping — the v1 visible badge set derived from the frozen categorie
 - `Used Help And Kept Going` — one badge per support-used-and-still-completed moment:
   - one instance for the warm-up when `warmup_progress.guided_used_hint = true` AND `warmup_progress.guided_complete = true`
   - one instance per level where a matching `scaffold_events` row exists (or `level_responses.used_hint = true`) AND `level_responses.completed_at` is set
-- `Changed My Mind` — reserved for a future revision-capable milestone. In Milestone 3's single-submit flow `level_responses.answer_changed` is always `false`, so this category is not earnable in v1. Milestone 4 should omit it from the rendered set rather than display a perpetually empty category
+- `Changed My Mind` — Milestone 4 omits this category because the single-submit flow cannot produce `level_responses.answer_changed = true`. Milestone 5 activates the category once bounded retry is implemented; the predicate defined in §10.60 supersedes this entry from Milestone 5 onward
 - `Episode Complete` — one badge per run, earned when `session_runs.status = complete` AND `session_runs.completed_at` is set
 
 Each earned badge should carry a short label that names the moment (e.g. for `Level Complete`: "Finished Level 2: Priya's leap"; for `Used Help And Kept Going`: "Used a hint on Level 3 and kept going"). Labels should draw from authored fields (`lesson_package.levels[].title`) rather than runtime-generated text.
@@ -2571,7 +2571,7 @@ By the end of Milestone 5, a student should be able to:
 1. answer a challenge level once as usual
 2. get one more try on an eligible challenge level when the first answer is wrong
 3. reload during that retry state and return to the same saved retry opportunity
-4. finalize the level after the second try without confusion
+4. finalize the level after the second try and reach the same locked-feedback state a single-submit level would reach
 5. see `Changed My Mind` on the completion surface when they corrected an answer on retry
 
 The implementation is successful if bounded retry feels supportive and calm rather than punitive or game-like.
@@ -2623,19 +2623,23 @@ Visible UI must include:
 - brief deterministic corrective feedback for that first wrong answer, using the authored `feedback.by_option.{option_id}` text for the submitted option
 - a clear second-try action surface that keeps the student on the same level
 - optional hint access when the authored level still exposes a hint and the level is not yet complete
+- the first-picked answer option rendered as disabled (non-selectable) with a short "already tried" affordance, so the retry is framed as reconsideration rather than re-submission
 
 Visible UI should not include:
 
 - full completion-style feedback as if the level were already finalized
 - a third-attempt affordance
 - language that frames the first wrong answer as failure
+- the first-picked option as an available choice on the second submission
 
 System behavior:
 
 - persist the student's first wrong submitted answer
 - keep the run on the same `current_level_id`
 - reopen this retry state on reload or resume until the level is finalized
-- allow one more accepted submission from this state
+- allow one more accepted submission from this state, provided it differs from the first accepted answer
+- relax the Milestone 3 hint-lock-on-submit rule for retry-eligible levels: the level hint may be opened between the first and second submissions even if it was not opened before the first submission, as long as the level is not yet finalized
+- on the server, reject a second submission that equals `initial_answer`: the retry-open row is returned unchanged and the level stays in retry-open state. The disabled client control is the happy-path guard; the server is the boundary guard against client bypass
 
 Persistence behavior:
 
@@ -2669,7 +2673,9 @@ Visible UI must include:
 
 Visible UI may include:
 
-- a subdued acknowledgement when the second accepted submission differs from the first, such as "You changed your mind and landed it"
+- a subdued acknowledgement when the second accepted submission differs from the first AND is correct, such as "You changed your mind and landed it"
+
+When the second accepted submission is also wrong, the locked feedback should be the authored `feedback.by_option.{option_id}` text for that final answer, with no acknowledgement copy. The interaction does not reframe the second wrong answer as failure; it is the same calm locked-feedback state used for any single-submit wrong answer.
 
 System behavior:
 
@@ -2703,7 +2709,14 @@ Predicate mapping for Milestone 5:
 
 - `Changed My Mind` — one badge per level where:
   - `level_responses.answer_changed = true`
+  - `level_responses.final_answer` is in the level's `feedback.correct.option_ids`
   - `level_responses.completed_at` is set
+
+Rationale:
+
+- the badge recognizes productive revision — the student reconsidered and reached the correct answer — rather than answer-switching in general
+- a wrong-then-different-wrong sequence does not earn the badge; the level still records `answer_changed = true` for completeness, but the badge predicate gates on correctness of the final answer
+- this preserves the meaning of the badge as a signal of corrected reasoning and avoids creating a gameable revision-without-thought reward
 
 Labeling rule:
 
@@ -2734,7 +2747,8 @@ Level-response contract changes for Milestone 5:
 
 Implementation note:
 
-- if the current runtime schema requires `final_answer` and `completed_at` on first write, Milestone 5 should migrate that shape so a retry-in-progress level can persist durably before completion
+- the current Milestone 3 contract (§10.32) writes `final_answer` and `completed_at` on the first accepted submit and treats `completed_at` as the reload key. Milestone 5 must migrate that shape so a retry-in-progress level can persist durably before completion. The §10.32 persistence rules are superseded for retry-eligible levels by §10.58 and §10.59
+- the `/level` route's reload logic currently keys on `level_responses.completed_at` per §10.32; Milestone 5 should extend that to recognize three reload targets: active question, retry-open, and locked feedback
 
 Milestone 5 does not require:
 
@@ -2763,8 +2777,9 @@ Names may vary in implementation, but the responsibilities should remain the sam
 Concurrency requirement:
 
 - accepted submits must remain deterministic and race-safe
-- once a level has a finalized response (`completed_at` set), later submits are idempotent no-ops
-- if two submits race while a retry-eligible level is still open, the runtime should preserve one canonical first answer and one canonical final answer rather than silently overwriting accepted state
+- while no `level_responses` row exists for the active level, the first submit to land becomes `initial_answer`; concurrent first-submits do not create a second row, and any later first-submit returns the existing retry-open response without changing `initial_answer`
+- while the level is retry-open, the first second-submit to land becomes `final_answer` and locks the level; concurrent second-submits return the existing locked response rather than overwriting `final_answer`
+- once a level has a finalized response (`completed_at` set), later submits are idempotent no-ops that return the existing saved response
 
 ### 10.63 Client Responsibilities For Milestone 5
 

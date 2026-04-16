@@ -88,7 +88,7 @@ const levelFeedbackSchema = z.object({
     option_ids: z.array(z.string().min(1)).min(1),
     text: z.string().min(1),
   }),
-  by_option: z.record(z.string().min(1), z.string().min(1)).optional(),
+  by_option: z.record(z.string().min(1), z.string().min(1)),
 });
 
 const levelSchema = z
@@ -104,7 +104,23 @@ const levelSchema = z
     hint: z.string().min(1).optional(),
     feedback: levelFeedbackSchema,
   })
-  .passthrough();
+  .passthrough()
+  .superRefine((level, ctx) => {
+    // Pipeline contract: by_option must cover every non-correct option id.
+    // Correct option ids draw their feedback from feedback.correct.text and
+    // are intentionally absent from by_option.
+    const correctIds = new Set(level.feedback.correct.option_ids);
+    for (const option of level.answer_options) {
+      if (correctIds.has(option.option_id)) continue;
+      if (!(option.option_id in level.feedback.by_option)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["feedback", "by_option", option.option_id],
+          message: `feedback.by_option is missing entry for option_id '${option.option_id}'`,
+        });
+      }
+    }
+  });
 
 export type LessonLevel = z.infer<typeof levelSchema>;
 export type LevelFeedback = z.infer<typeof levelFeedbackSchema>;

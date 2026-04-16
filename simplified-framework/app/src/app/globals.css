@@ -469,6 +469,25 @@ a.ghost:hover {
   line-height: 1.5;
 }
 
+.answer-option--disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.answer-option--disabled:hover {
+  border-color: var(--line);
+}
+
+.answer-option-note {
+  align-self: center;
+  font-size: 0.8rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--muted, rgba(0, 0, 0, 0.55));
+  white-space: nowrap;
+}
+
 .hint-area {
   margin-top: 0.25rem;
 }
