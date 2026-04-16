@@ -1,0 +1,65 @@
+story_id: strangers-in-the-old-forest-simplified
+title: Strangers in the Old Forest
+premise: >
+  Four middle-school students keep meeting after school to make sense of a strange
+  squirrel they think they saw in the park. As they talk, they keep slipping into
+  clear reasoning flaws: jumping from one clue to a big conclusion, treating weak
+  evidence like enough, and trusting sources too quickly.
+
+setting:
+  place: neighborhood park in Memphis
+  tone: curious, realistic, slightly eerie
+
+characters:
+  - id: jules
+    name: Jules
+    voice_notes: >
+      Jules gets excited by anomalies and pushes quickly from observation to theory.
+      She speaks with urgency and treats weird details as meaningful clues.
+
+  - id: maya
+    name: Maya
+    voice_notes: >
+      Maya tries to slow the group down, name the real question, and keep the
+      conversation from running away with itself.
+
+  - id: cam
+    name: Cam
+    voice_notes: >
+      Cam likes bringing in outside information and can sound confident even when
+      the source is weak or only half-understood.
+
+  - id: priya
+    name: Priya
+    voice_notes: >
+      Priya compares what she sees to her own experience and notices when something
+      feels unusual, but she can sometimes stretch limited experience too far.
+
+episodes:
+  - episode_id: episode_01
+    title: The First Sighting
+    flaws:
+      - jumping_to_a_conclusion
+      - not_enough_evidence
+    final_takeaway: Check whether the reason really supports the conclusion.
+
+  - episode_id: episode_02
+    title: The Second Meeting
+    flaws:
+      - trusting_a_source_too_quickly
+      - jumping_to_a_conclusion
+    final_takeaway: A source is not trustworthy just because it sounds impressive.
+
+  - episode_id: episode_03
+    title: The Theory Gets Bigger
+    flaws:
+      - not_enough_evidence
+      - ignoring_another_perspective
+    final_takeaway: A big claim needs stronger support than one example or one story.
+
+  - episode_id: episode_04
+    title: What They Are Leaving Out
+    flaws:
+      - missing_important_conditions_or_consequences
+      - not_enough_evidence
+    final_takeaway: Good thinking checks what important details or consequences are missing.

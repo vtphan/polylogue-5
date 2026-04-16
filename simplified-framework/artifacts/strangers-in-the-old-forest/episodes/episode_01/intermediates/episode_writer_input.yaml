@@ -1,0 +1,280 @@
+story_premise: >
+  Four 6th-grade best friends in Memphis saw a white squirrel with red eyes
+  one Saturday afternoon in Overton Park — the 131-acre urban forest they
+  bike to after school — and one of them can't let it go. Across the fall
+  they try to figure out, between themselves, what is actually going on.
+
+episode_premise: >
+  It is the Monday after the Saturday sighting, late afternoon, light going
+  orange over the Old Forest. The four of them are at the picnic table they
+  always use, bags dropped, the notebook open between them. Jules has
+  retold Saturday's sighting over and over since it happened — she froze
+  when she saw the squirrel, she has not slept well, and she is retelling
+  it now for the fourth time in three days. Cam watched a TikTok about
+  Overton over the weekend and brings it to the table like it is the first
+  piece of a case. Priya is comparing what they saw to every other park she
+  knows. Maya writes. No adult is around to frame the question for them —
+  the four of them are trying to assemble the shape of the mystery
+  themselves, out loud, for the first time.
+
+episode_number: 1
+
+previously: ""
+
+lead_characters:
+  - name: Jules
+    voice: >
+      Urgent under a quiet surface. She talks fast when something has caught
+      her, narrates in near-rehearsed order when she has been turning a
+      moment over in her head, and circles back to sensory details — what
+      something looked like, where the light was, its eyes — because the
+      image is how she holds the thing. Comes from a house full of science
+      writing and curious-weird-science breakfast talk; anomalies are how
+      she was taught to see. Eleven years old, not performing.
+    perspective: >
+      She cannot stop thinking about Saturday. The squirrel looked wrong,
+      and wrong-looking has to mean something, and whatever it means is
+      worth figuring out. What she wants from the three friends at the
+      table is for them to feel the weight she has been carrying since
+      Saturday.
+    knowledge: >
+      Her own memory of Saturday — in detail, replayed so many times it
+      comes out in a near-fixed order — plus a household vocabulary of
+      small-strange-science curiosities her mom writes about for kids'
+      magazines and her older brother Marcus's walking-tour talks about
+      the Old Forest.
+    weaknesses: >
+      When something looks wrong to her, she builds a tight string of
+      reasons out loud — wrong-looking means something changed it, and
+      something changing it means something must have caused that — and
+      the string comes out of her mouth as one confident breath because
+      the image is so vivid, and the vividness does the work of making
+      it sound tight. Her urgency is real and warm, which makes the
+      confidence contagious to the others.
+    strengths: >
+      She actually pays attention to the world. The weird thing she is
+      circling is a real weird thing, and her refusing to let it go is
+      why the four of them are at the table in the first place. Her
+      curiosity is sincere, not performative.
+    prior_beats: ""
+
+  - name: Maya
+    voice: >
+      Quiet when she is listening, careful when she speaks. A pastor's
+      daughter from South Memphis — grew up around sermons that had to
+      land and family dinners where her mom walked through why a delivery
+      route was wrong, and she can feel, usually correctly, when an
+      argument is finished and when it is not. Writes in the notebook
+      more readily than she speaks. Treats the page as part of the
+      conversation.
+    perspective: >
+      She can feel that the four of them are talking around something
+      rather than landing on it. What she wants is for them to be clear
+      about what they are actually trying to figure out, so that when
+      they come back to it next week they know what they are answering.
+    knowledge: >
+      What she saw Saturday, and two years of sitting in Ms. Reyes's
+      class being asked "what would have to be true for that answer to
+      be right?" — questions she can hear in her head even when she does
+      not quote them.
+    weaknesses: >
+      Her feel for what an argument needs is strong enough that nobody
+      has ever pushed her to show her work on paper, and she has not yet
+      built the habit of pressing when the group moves past something
+      important. She cares about her friends — especially about Jules,
+      who is keyed up in a way Maya can see — and that care softens how
+      hard she pushes when Jules is running hot. In this scene she
+      surfaces the right move and then lets the room drift past it
+      without making them look.
+    strengths: >
+      She is the only person at the table who names, out loud and on
+      paper, what the four of them are actually trying to answer. She
+      writes the question down in her own careful handwriting, circles
+      it, leaves room underneath for sub-questions, and says once that
+      she wrote it so they can come back to it. That naming is the most
+      load-bearing move anyone makes in the scene, even though the
+      scene does not come back to it.
+    prior_beats: ""
+
+  - name: Cam
+    voice: >
+      Easy, confident, conversational — the kind of 11-year-old who
+      brings material to the group because bringing material is how he
+      participates. Lives on his phone more than the others do. Quotes
+      things casually and in the same register regardless of where
+      they came from — a TikTok and a news clip and a thing Ms. Reyes
+      said all sound the same in his mouth.
+    perspective: >
+      Something interesting is happening and he wants to be part of
+      figuring it out. A TikTok he saw over the weekend said Overton's
+      squirrels have been acting weird for months, and that sounds to
+      him like the first piece of the case Jules is building.
+    knowledge: >
+      Saturday's sighting, plus his weekend feed — a scroll of TikToks,
+      news clips, memes, replies, all arriving through the same app
+      with roughly the same visual weight. He has spent more time
+      unsupervised with a phone than the other three have.
+    weaknesses: >
+      He quotes the TikTok at the same confident register he would use
+      for a news article or a line from Ms. Reyes — the quote arrives
+      at the table like another brick in the case Jules is building,
+      and he sets it down with the same easy weight he would set down
+      anything else. His tone is casual, not evasive; because his
+      confidence is warm, nobody else reaches for the quote either.
+    strengths: >
+      He is genuinely curious and wants to contribute to the group
+      rather than just react. The impulse to bring material is good;
+      he is still learning which pieces carry their own weight and
+      which ones sit lightly.
+    prior_beats: ""
+
+  - name: Priya
+    voice: >
+      Measured, comparative. East Memphis, near Audubon Park; both
+      parents are university faculty, and she has spent more of her
+      life being walked through how-you-know-what-you-know questions
+      than the others have. Speaks less often than Cam but tends to
+      sound like she has already thought something through. In the
+      group's mental picture she is the one who knows things.
+    perspective: >
+      She is comparing Saturday's squirrel to every park she can
+      remember walking in and cannot place a red-eyed squirrel
+      anywhere. That feels significant to her, and she says so.
+    knowledge: >
+      The parks she walks — Audubon, her neighborhood greenways,
+      family Sunday-morning walks. Her mother is a biology professor
+      (which matters later in the season, not this episode); in this
+      scene her knowledge is about the walks she has taken.
+    weaknesses: >
+      When she compares parks — "squirrels don't have red eyes
+      anywhere I've been" — she speaks in the even, already-thought-
+      it-through register of someone who has walked a lot, which
+      she has: her side of town, her neighborhood greenways, Sunday
+      family walks. She does not mark that register as limited; the
+      sentence goes by in the same tone she would use for anything
+      she had already settled in her head. Nobody pushes back
+      because she usually knows what she is talking about and
+      because the sentence is not shaped like a claim.
+    strengths: >
+      She actually reaches — she doesn't only think about the park
+      in front of her, she reaches for other parks, and that reach
+      is the beginning of a habit the season will build on.
+    prior_beats: ""
+
+discussion_arc: >
+  Jules is already mid-retelling when the scene opens, and her urgency
+  carries the room — the Saturday moment is still as vivid for her as
+  it was three days ago, and she narrates it that way. She lands the
+  retelling on her string of reasons, confident and tight-sounding.
+  Cam picks up the thread by quoting a TikTok he saw over the weekend
+  about Overton, dropping the quote at the same register he would use
+  for a news article; the quote sits next to Jules's memory at
+  matching weight. Priya folds in the parks she knows — "squirrels
+  don't have red eyes anywhere I've been" — in her usual even,
+  already-thought-it-through register, and the sentence passes
+  without anyone at the table asking which parks or where she has
+  walked. Maya writes the actual question the four of them are
+  trying to answer into the notebook, circles it, says once that
+  she wrote it so they can come back to it. The other three
+  acknowledge her and keep going. Jules doubles down on her string
+  because it still feels tight to her; Cam adds another detail from
+  the TikTok; Priya keeps folding in parks. Maya tries once, gently,
+  to bring the group back to the page, and when the room moves past
+  her she stops writing — the notebook stays open but the page stays
+  still. Jules names the edge underneath — something might be
+  happening and no one's noticing — and the other three go briefly
+  quiet before Cam eases the room by suggesting they keep meeting
+  about it. They agree. The notebook closes with Maya's question
+  still unopened at the top of the page. The scene ends on the gap
+  the reader is meant to feel: four close friends spent half an hour
+  together and the question Maya wrote was never returned to.
+
+turn_outline:
+  - speaker: Jules
+    accomplishes: >
+      Opens mid-retelling — she is already in the Saturday moment when
+      the scene starts. Names who saw the squirrel first, what its eyes
+      looked like, what she did right after. Narrates with the urgency
+      of someone who has run this story in her head all weekend.
+  - speaker: Jules
+    accomplishes: >
+      Lands the retelling on her string of reasons, out loud — the eyes
+      looked wrong, so something must be wrong with it, so something
+      must have changed it, so something must have caused that — spoken
+      in one confident breath, as if the whole thing is as tight as
+      the picture in her head.
+  - speaker: Cam
+    accomplishes: >
+      Picks up Jules's thread by bringing in a TikTok he watched over
+      the weekend about Overton, quoting the line about the squirrels
+      "acting weird for months" the same way he would quote a news
+      article or something Ms. Reyes had said. Does not say who made
+      the video.
+  - speaker: Maya
+    accomplishes: >
+      Pulls the notebook between the four of them and writes the
+      group's actual question down in her careful handwriting — what,
+      if anything, is going on with the red-eyed squirrel in Overton —
+      circles it, leaves room underneath. Says once, easily, that she
+      wrote it so they can come back to it.
+  - speaker: Priya
+    accomplishes: >
+      Does the compare-to-other-parks move — "squirrels don't have red
+      eyes anywhere I've been" — folding in the parks she knows in her
+      usual even, already-thought-it-through register. The sentence
+      passes without anyone at the table asking which parks or where
+      she has walked.
+  - speaker: Jules
+    accomplishes: >
+      Hears Priya's sentence as weight for her own string of reasons
+      rather than as a qualification, and doubles down — adds more
+      detail from Saturday, re-emphasizes the eyes, pushes the
+      something-caused-it step one more step. The string gets taller;
+      the Saturday moment underneath it stays the same one sighting.
+  - speaker: Cam
+    accomplishes: >
+      Adds another detail from the TikTok, quoting another line or a
+      comment to reinforce the "weird for months" framing. Treats the
+      video as a reserve of information he can keep drawing from.
+  - speaker: Maya
+    accomplishes: >
+      Glances down at the page where she wrote the question and tries
+      once — gently, not forcefully — to bring the group back to it.
+      Something like asking out loud what they actually mean by
+      "something is going on." The attempt is brief and does not
+      insist.
+  - speaker: Priya
+    accomplishes: >
+      Answers Maya's question by folding in another park comparison
+      rather than opening what is on the page — reiterates that she
+      has not seen red-eyed squirrels anywhere, so it must be
+      something about Overton specifically.
+  - speaker: Jules
+    accomplishes: >
+      Takes Priya's comparison as more weight for her string and
+      pushes one more step — the Overton-specific framing becomes
+      the something-changed-it framing, spoken with more conviction.
+      The string is visibly running on its own energy now.
+  - speaker: Cam
+    accomplishes: >
+      Agrees easily and reaches for his phone or gestures at it —
+      the TikTok creator is still on the table, still worth looking
+      at, still a source. No one asks who made it.
+  - speaker: Maya
+    accomplishes: >
+      Stops writing. The notebook stays open but the page stays
+      still. She notices the room has moved past what she put down
+      and does not push harder. Sits with it.
+  - speaker: Jules
+    accomplishes: >
+      Names the edge underneath — something like "something might be
+      happening and no one's noticing" — said not as horror but as
+      the real thing that has been under her retelling the whole
+      time. The other three go briefly quiet.
+  - speaker: Cam
+    accomplishes: >
+      Breaks the silence easily, eases the room — proposes they
+      keep meeting about it, maybe back here Wednesday after
+      school like usual. The four of them agree. The notebook
+      closes with Maya's question still at the top of the page,
+      unreturned-to.

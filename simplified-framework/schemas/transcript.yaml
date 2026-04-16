@@ -1,0 +1,24 @@
+# Simplified transcript.yaml schema sketch
+#
+# This file is a placeholder for the eventual formal schema.
+# For now it documents the intended structured shape.
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - title
+  - characters
+  - turns
+
+properties:
+  story_id:
+    type: string
+  episode_id:
+    type: string
+  title:
+    type: string
+  characters:
+    type: array
+  turns:
+    type: array

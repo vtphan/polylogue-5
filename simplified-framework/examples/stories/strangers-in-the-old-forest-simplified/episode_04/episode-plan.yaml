@@ -1,0 +1,42 @@
+story_id: strangers-in-the-old-forest-simplified
+episode_id: episode_04
+title: What They Are Leaving Out
+
+episode_goal: >
+  The group starts talking as if their strongest theory already works in every case,
+  without checking important missing details, limits, or consequences.
+
+flaws:
+  - missing_important_conditions_or_consequences
+  - not_enough_evidence
+
+student_takeaway: Good thinking checks what important details or consequences are missing.
+
+scene_design:
+  opening: The group returns more confident than before and starts talking about what their theory would mean.
+  turn: They move from "maybe" to "this explains it" without checking key missing conditions or what follows if they are wrong.
+  close: The episode ends with the group more serious about the mystery, but the audience can feel what they are still leaving out.
+
+character_beats:
+  - character_id: jules
+    beat: speaks as if the theory already explains the situation
+  - character_id: cam
+    beat: helps the group imagine bigger consequences before the claim is ready
+  - character_id: maya
+    beat: tries to raise missing questions about limits and consequences
+  - character_id: priya
+    beat: notices practical details the others are skipping
+
+target_teachable_moments: 5
+warmup_candidate_goal: 2
+level_candidate_goal: 3
+
+flaw_embedding_guidance:
+  must_include:
+    - one moment where the group ignores an important missing condition
+    - one moment where a consequence is treated lightly even though it matters
+    - one moment where thin evidence is still doing more work than it should
+  avoid:
+    - abstract or invisible consequences
+    - highly technical condition language
+    - making the flaw depend only on information outside the scene

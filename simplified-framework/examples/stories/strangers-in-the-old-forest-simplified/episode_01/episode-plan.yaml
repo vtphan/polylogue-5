@@ -1,0 +1,42 @@
+story_id: strangers-in-the-old-forest-simplified
+episode_id: episode_01
+title: The First Sighting
+
+episode_goal: >
+  The group gathers after seeing a strange squirrel in the park and quickly starts
+  treating one unsettling detail like proof of a larger hidden cause.
+
+flaws:
+  - jumping_to_a_conclusion
+  - not_enough_evidence
+
+student_takeaway: Check whether the reason really supports the conclusion.
+
+scene_design:
+  opening: The students rehash what they saw and try to describe it.
+  turn: Jules pushes the group from observation into theory faster than the evidence supports.
+  close: The group leaves feeling that something real may be happening and decides to keep talking about it.
+
+character_beats:
+  - character_id: jules
+    beat: pushes the strongest theory and grows more certain with each retelling
+  - character_id: maya
+    beat: tries to slow the group down and pin down the real question
+  - character_id: cam
+    beat: brings in outside media that seems to support Jules
+  - character_id: priya
+    beat: compares the sighting to her own experience and treats the difference as meaningful
+
+target_teachable_moments: 5
+warmup_candidate_goal: 2
+level_candidate_goal: 3
+
+flaw_embedding_guidance:
+  must_include:
+    - one obvious leap from a strange observation to a much bigger conclusion
+    - one moment where a single sighting is treated like enough evidence
+    - one moment where a weak outside source strengthens the group's certainty
+  avoid:
+    - subtle or highly technical flaws
+    - every turn sounding like a lesson
+    - giving Maya too little room to name the real question

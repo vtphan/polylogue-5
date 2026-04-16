@@ -1,0 +1,43 @@
+story_id: strangers-in-the-old-forest-simplified
+episode_id: episode_02
+title: The Second Meeting
+
+episode_goal: >
+  The group meets again with new information, and the conversation turns toward
+  whether a source sounds trustworthy simply because it uses impressive language
+  or comes through someone confident.
+
+flaws:
+  - trusting_a_source_too_quickly
+  - jumping_to_a_conclusion
+
+student_takeaway: A source is not trustworthy just because it sounds impressive.
+
+scene_design:
+  opening: The group returns with an update that undercuts one earlier source.
+  turn: Jules introduces a new source that sounds more credible, and the group quickly leans on it.
+  close: Instead of settling the question, the new source gives the group another reason to keep going.
+
+character_beats:
+  - character_id: cam
+    beat: reports that an earlier exciting source turned out to be weak
+  - character_id: jules
+    beat: replaces that source with a more impressive-sounding one
+  - character_id: maya
+    beat: starts to ask the right credibility question, then softens
+  - character_id: priya
+    beat: listens carefully and helps stabilize the group's mood without resolving the reasoning
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one moment where an impressive title or connection does too much work
+    - one moment where the group treats "someone at a university said it" like enough
+    - one moment where a source claim gets stretched into a stronger conclusion than it supports
+  avoid:
+    - making the credibility problem depend on hidden background knowledge
+    - turning every line into source analysis
+    - resolving the group's uncertainty too neatly

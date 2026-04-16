@@ -1,0 +1,538 @@
+story_id: strangers-in-the-old-forest
+episode_number: 1
+scenario_id: strangers-in-the-old-forest-ep-01
+
+discussion_cues:
+  by_turn:
+    t02:
+      - id: t02_c1
+        text: >
+          Jules sounds totally sure when she says "something changed it, something
+          caused that." But what did she actually see on Saturday? Walk your
+          group through what's at the bottom of her chain.
+        angle: sufficiency
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t02, facet: sufficiency}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c2, t02_c3, t02_c4]
+
+      - id: t02_c2
+        text: >
+          Count the "so"s in Jules's sentence — there are four of them in one
+          breath. Pick one of those "so"s with your group and say what would
+          have to be true for that jump to actually work.
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t02, facet: inferential_validity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t02_c1, t02_c3, t02_c4]
+
+      - id: t02_c3
+        text: >
+          Imagine you're Maya hearing Jules's chain for the fourth time in three
+          days. What would you want to ask her — out loud, at the picnic table —
+          before the conversation moves on?
+        angle: sufficiency
+        lens: evidence
+        axis: persona_projection
+        continuation_of: {turn: t02, facet: sufficiency}
+        explanatory_ref: null
+        persona: Maya
+        independent_of: [t02_c1, t02_c2, t02_c4]
+
+      - id: t02_c4
+        text: >
+          Try it the other way. With your group, defend Jules. If "you don't
+          just get a red-eyed white squirrel for no reason" is right — what's
+          the strongest case anyone could build for that, starting from one
+          Saturday afternoon?
+        angle: sufficiency
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: {turn: t02, facet: sufficiency}
+        explanatory_ref: false_cause
+        persona: null
+        independent_of: [t02_c1, t02_c2, t02_c3]
+
+    t03:
+      - id: t03_c1
+        text: >
+          Cam says "a TikTok said the squirrels in Overton have been acting
+          weird for months." What does Cam tell the group about that video,
+          and what does he leave out? List both with your group.
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t03, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t03_c2, t03_c3, t03_c4]
+
+      - id: t03_c2
+        text: >
+          Pretend Ms. Reyes is at the picnic table when Cam brings up the
+          TikTok. What's the first question she'd ask him before she let
+          "Months, dude" sit on the table?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: {turn: t03, facet: source_credibility}
+        explanatory_ref: uncritical_acceptance
+        persona: Ms. Reyes
+        independent_of: [t03_c1, t03_c3, t03_c4]
+
+      - id: t03_c3
+        text: >
+          Argue Cam's side for a minute. If a TikTok about your own park
+          mentions something weird happening, why might it actually be worth
+          bringing up? Where's the line between bringing something up and
+          quoting it like proof?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: {turn: t03, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t03_c1, t03_c2, t03_c4]
+
+      - id: t03_c4
+        text: >
+          Look at Cam's TikTok claim through Logic instead of Evidence. What
+          bigger claim is the TikTok being used as a stepping-stone toward?
+          Is the TikTok aimed at that bigger claim, or is it aimed at
+          something smaller?
+        angle: source_credibility
+        lens: logic
+        axis: lens_refraction
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t03_c1, t03_c2, t03_c3]
+
+    t04:
+      - id: t04_c1
+        text: >
+          Maya writes the question down — "what, if anything, is going on with
+          the red-eyed squirrel in Overton" — and circles it. Why "if anything"?
+          What does that two-word hedge do that "what is going on" wouldn't?
+        angle: reasoning_completeness
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t04, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t04_c2, t04_c3]
+
+      - id: t04_c2
+        text: >
+          What if Maya weren't there? Take her out of the scene. What would
+          turn 4 sound like with just Jules, Cam, and Priya? Whose move would
+          have stepped in — or would the question never have been written at all?
+        angle: reasoning_completeness
+        lens: logic
+        axis: persona_projection
+        continuation_of: {turn: t04, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: Maya
+        independent_of: [t04_c1, t04_c3]
+
+      - id: t04_c3
+        text: >
+          Defend the opposite — that writing the question down was actually a
+          waste of time. What would someone have to believe to think Maya's
+          notebook move didn't matter? Does the scene give them anything to
+          stand on?
+        angle: reasoning_completeness
+        lens: logic
+        axis: stance_inversion
+        continuation_of: {turn: t04, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t04_c1, t04_c2]
+
+    t05:
+      - id: t05_c1
+        text: >
+          Read Priya's sentence carefully: "squirrels don't have red eyes
+          anywhere I've been." What size is her sentence at the start, and
+          what size is it by the end? Who shrank it or stretched it?
+        angle: condition_sensitivity
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t05, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t05_c2, t05_c3, t05_c4]
+
+      - id: t05_c2
+        text: >
+          Imagine Priya's mom — a biology professor — heard her daughter say
+          this exact sentence. What follow-up question do you think Priya's
+          mom would ask before she let it stand?
+        angle: condition_sensitivity
+        lens: scope
+        axis: persona_projection
+        continuation_of: {turn: t05, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: Priya's mom
+        independent_of: [t05_c1, t05_c3, t05_c4]
+
+      - id: t05_c3
+        text: >
+          Take Priya's side. She really has walked a lot of parks and she
+          really hasn't seen red-eyed squirrels in any of them. With your
+          group, defend her sentence as it is. Where does the defense get hard?
+        angle: condition_sensitivity
+        lens: scope
+        axis: stance_inversion
+        continuation_of: {turn: t05, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t05_c1, t05_c2, t05_c4]
+
+      - id: t05_c4
+        text: >
+          Look at Priya's move through Evidence instead of Scope. What
+          would count as enough evidence to say "squirrels don't have red
+          eyes anywhere"? Has Priya brought anything close to that?
+        angle: condition_sensitivity
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: null
+        explanatory_ref: null
+        persona: null
+        independent_of: [t05_c1, t05_c2, t05_c3]
+
+    t06:
+      - id: t06_c1
+        text: >
+          Jules hears Priya as agreeing with her — and then she pushes the
+          chain one step further. With your group, find the new step she
+          adds in turn 6 that wasn't in turn 2. What's now sitting on top
+          of the same one sighting?
+        angle: sufficiency
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t06, facet: sufficiency}
+        explanatory_ref: confirmation_bias
+        persona: null
+        independent_of: [t06_c2, t06_c3]
+
+      - id: t06_c2
+        text: >
+          Jules's chain at turn 6 is a string of "if-thens." Pick one — like
+          "if it's not normal anywhere else then something's doing it here" —
+          and ask your group: is that a logical step, or a leap with the
+          step missing in the middle?
+        angle: inferential_validity
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t06, facet: inferential_validity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t06_c1, t06_c3]
+
+      - id: t06_c3
+        text: >
+          What would Maya — the one who just wrote the question down — be
+          thinking while Jules talks at turn 6? She doesn't push back here.
+          What might be holding her back, given how keyed up Jules is?
+        angle: reasoning_completeness
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Maya
+        independent_of: [t06_c1, t06_c2]
+
+    t07:
+      - id: t07_c1
+        text: >
+          Cam reaches for the comments now: "I saw one too, I saw one too."
+          Who are these commenters? What does Cam know about them? With your
+          group, list everything he knows and everything he doesn't.
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t07, facet: source_credibility}
+        explanatory_ref: uncritical_acceptance
+        persona: null
+        independent_of: [t07_c2, t07_c3]
+
+      - id: t07_c2
+        text: >
+          Pretend you're Priya hearing Cam quote the comments. Priya's whole
+          move has been comparing parks she's actually walked. What might she
+          want to ask Cam about the people who left those comments?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: {turn: t07, facet: source_credibility}
+        explanatory_ref: null
+        persona: Priya
+        independent_of: [t07_c1, t07_c3]
+
+      - id: t07_c3
+        text: >
+          Defend the comments as evidence. If lots of people in a comment
+          section say "I saw one too," why might that count for something?
+          Where does the defense start to wobble?
+        angle: source_credibility
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: {turn: t07, facet: source_credibility}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t07_c1, t07_c2]
+
+    t08:
+      - id: t08_c1
+        text: >
+          Maya tries again at turn 8 — gently — to bring the group back to
+          her question. Read what she actually says. With your group, decide:
+          is she pushing too hard, just right, or not hard enough? What
+          tells you?
+        angle: reasoning_completeness
+        lens: logic
+        axis: lens_refraction
+        continuation_of: {turn: t08, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c2, t08_c3]
+
+      - id: t08_c2
+        text: >
+          Imagine you were the fifth friend at the table. Maya just asked
+          "what are we trying to figure out?" and the room is about to keep
+          moving. What would you say next to keep the question open?
+        angle: reasoning_completeness
+        lens: logic
+        axis: persona_projection
+        continuation_of: {turn: t08, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c1, t08_c3]
+
+      - id: t08_c3
+        text: >
+          Argue the other way. Was Maya's gentle question actually a wrong
+          move at this moment? Could a strong push have made things worse,
+          given that Jules is so keyed up? Where's the line?
+        angle: reasoning_completeness
+        lens: logic
+        axis: stance_inversion
+        continuation_of: {turn: t08, facet: reasoning_completeness}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t08_c1, t08_c2]
+
+    t09:
+      - id: t09_c1
+        text: >
+          Priya answers Maya's question by saying "it has to be an Overton
+          thing." With your group, trace where that "has to" comes from. What
+          parks does it actually rest on, and what parks does it leave out?
+        angle: condition_sensitivity
+        lens: scope
+        axis: lens_refraction
+        continuation_of: {turn: t09, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t09_c2, t09_c3]
+
+      - id: t09_c2
+        text: >
+          Pretend Cam — who lives in Binghampton, on the other side of town
+          from Priya's East Memphis — speaks up here instead of going back
+          to his TikTok. What might he be able to add about which parts of
+          Memphis are still unwalked?
+        angle: condition_sensitivity
+        lens: scope
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Cam
+        independent_of: [t09_c1, t09_c3]
+
+      - id: t09_c3
+        text: >
+          Defend Priya's "it has to be an Overton thing." When is it
+          reasonable to make a "has-to-be" claim about one place? What
+          would you need to have walked or checked first?
+        angle: condition_sensitivity
+        lens: scope
+        axis: stance_inversion
+        continuation_of: {turn: t09, facet: condition_sensitivity}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t09_c1, t09_c2]
+
+    t10:
+      - id: t10_c1
+        text: >
+          Jules at turn 10 says "that's the whole point." With your group,
+          look at what's actually under "the whole point." Has she added new
+          evidence between turn 2 and turn 10, or has she added voices that
+          sound like agreement?
+        angle: sufficiency
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t10, facet: sufficiency}
+        explanatory_ref: confirmation_bias
+        persona: null
+        independent_of: [t10_c2, t10_c3]
+
+      - id: t10_c2
+        text: >
+          Imagine Jules's brother Marcus, who studies SETI, were at the
+          table. He takes anomalies seriously too. What might he say to
+          Jules at turn 10 that Jules wouldn't be able to wave away?
+        angle: inferential_validity
+        lens: logic
+        axis: persona_projection
+        continuation_of: null
+        explanatory_ref: null
+        persona: Marcus
+        independent_of: [t10_c1, t10_c3]
+
+      - id: t10_c3
+        text: >
+          Defend the chain at turn 10 as if it's good reasoning. What's
+          the strongest case for "something in this park is changing them"
+          on the evidence the four of them have right now? Where does the
+          case run out of fuel?
+        angle: sufficiency
+        lens: evidence
+        axis: stance_inversion
+        continuation_of: {turn: t10, facet: sufficiency}
+        explanatory_ref: null
+        persona: null
+        independent_of: [t10_c1, t10_c2]
+
+    t11:
+      - id: t11_c1
+        text: >
+          Cam says "let me pull the video up — we should watch it together."
+          With your group, ask: does watching the video together actually
+          check whether the source is trustworthy? What would?
+        angle: source_credibility
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: {turn: t11, facet: source_credibility}
+        explanatory_ref: uncritical_acceptance
+        persona: null
+        independent_of: [t11_c2]
+
+      - id: t11_c2
+        text: >
+          Imagine Maya stops the group right at turn 11 before Cam pulls the
+          video up. What's the one question she could ask that would change
+          what watching the video does for the group?
+        angle: source_credibility
+        lens: evidence
+        axis: persona_projection
+        continuation_of: {turn: t11, facet: source_credibility}
+        explanatory_ref: null
+        persona: Maya
+        independent_of: [t11_c1]
+
+    t13:
+      - id: t13_c1
+        text: >
+          Jules says "something might be happening out here and nobody's
+          noticing." With your group, talk about what's underneath the
+          chain Jules has been building. Is the chain about the squirrel,
+          or is the chain about that fear?
+        angle: sufficiency
+        lens: evidence
+        axis: lens_refraction
+        continuation_of: null
+        explanatory_ref: false_cause
+        persona: null
+        independent_of: []
+
+  episode_scope:
+    - id: e_c1
+      turn: null
+      text: >
+        Step back from the whole picnic-table conversation. Maya wrote a
+        question at the top of the page. By the end, did the four friends
+        ever answer it? If not, what were they answering instead?
+      angle: reasoning_completeness
+      lens: logic
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c2, e_c3, e_c4]
+
+    - id: e_c2
+      turn: null
+      text: >
+        Three different things showed up on the table as if they were
+        evidence — Jules's Saturday memory, Cam's TikTok, Priya's other
+        parks. With your group, sort them: which one is closest to evidence
+        for the question Maya wrote, and which one is furthest?
+      angle: sufficiency
+      lens: evidence
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c3, e_c4]
+
+    - id: e_c3
+      turn: null
+      text: >
+        Pretend a fifth kid — someone who's never been to Overton Park —
+        sat down at the picnic table and listened to the whole thing. What
+        would be the first question they'd ask the four of them when it
+        was over?
+      angle: source_credibility
+      lens: evidence
+      axis: persona_projection
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c2, e_c4]
+
+    - id: e_c4
+      turn: null
+      text: >
+        Defend the four friends. They're 11 years old, they saw something
+        weird, and they showed up to talk about it on a Monday after school.
+        What did they get right? What's worth holding onto, even with all
+        the cracks in the reasoning?
+      angle: reasoning_completeness
+      lens: logic
+      axis: stance_inversion
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c2, e_c3]
+
+    - id: e_c5
+      turn: null
+      text: >
+        Look at the conversation through Scope — not at any one sentence
+        but at the whole picnic table. Which Memphis is in this scene, and
+        which Memphis isn't? Whose part of town hasn't shown up yet?
+      angle: condition_sensitivity
+      lens: scope
+      axis: lens_refraction
+      continuation_of: null
+      explanatory_ref: null
+      persona: null
+      independent_of: [e_c1, e_c2, e_c3, e_c4]
+
+talk_moves:
+  - "I want to push back on that — what I noticed was..."
+  - "Building on what ___ said, I think the next question is..."
+  - "Wait, can we go back to ___'s point? I'm not sure I followed it."
+  - "I disagree, because the part of the turn I'm looking at says..."
+  - "I want to argue the other side for a second, even though I don't believe it..."
+  - "Can someone read that turn out loud again? I want to hear it."

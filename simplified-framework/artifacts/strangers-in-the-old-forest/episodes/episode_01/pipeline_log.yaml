@@ -1,0 +1,136 @@
+---
+timestamp: '2026-04-15T02:33:23+00:00'
+command: create_episode
+stage: start
+verdict: START
+---
+timestamp: '2026-04-15T02:37:34+00:00'
+command: create_episode
+stage: planning
+agent: planning_agent
+attempt: 1
+verdict: draft_returned
+---
+timestamp: '2026-04-15T02:39:10+00:00'
+command: create_episode
+stage: validation
+agent: validation_agent
+attempt: 1
+verdict: ACCEPT
+retries_remaining: 1
+---
+timestamp: '2026-04-15T02:43:35+00:00'
+command: create_episode
+stage: projection_review
+agent: projection_reviewer
+attempt: 2
+verdict: ACCEPT
+notes: revised projection; residual RISKs logged as advisory
+---
+timestamp: '2026-04-15T02:43:35+00:00'
+command: create_episode
+stage: schema_validation
+verdict: PASS
+---
+timestamp: '2026-04-15T02:43:35+00:00'
+command: create_episode
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-15T02:47:54+00:00'
+command: create_transcript
+stage: start
+verdict: START
+---
+timestamp: '2026-04-15T02:48:00+00:00'
+command: create_transcript
+stage: projection_schema
+verdict: PASS
+---
+timestamp: '2026-04-15T02:48:00+00:00'
+command: create_transcript
+stage: projection_review
+agent: projection_reviewer
+attempt: 1
+verdict: OK
+notes: projection_reviewer ACCEPT verdict carried over from create_episode (no hand-edits
+  since)
+---
+timestamp: '2026-04-15T02:50:01+00:00'
+command: create_transcript
+stage: dialog_writer
+agent: dialog_writer
+attempt: 1
+---
+timestamp: '2026-04-15T02:50:05+00:00'
+command: create_transcript
+stage: structural_review
+attempt: 1
+verdict: PASS
+---
+timestamp: '2026-04-15T02:51:06+00:00'
+command: create_transcript
+stage: transcript_id
+agent: transcript_id
+attempt: 1
+---
+timestamp: '2026-04-15T02:52:27+00:00'
+command: create_transcript
+stage: transcript_review
+agent: transcript_reviewer
+attempt: 1
+verdict: ACCEPT
+---
+timestamp: '2026-04-15T02:52:30+00:00'
+command: create_transcript
+stage: save
+verdict: SAVE
+---
+timestamp: '2026-04-15T02:52:51+00:00'
+command: build_assistive_package
+stage: start
+verdict: START
+---
+timestamp: '2026-04-15T02:55:26+00:00'
+command: build_assistive_package
+stage: analyst
+agent: analyst_agent
+verdict: PASS
+---
+timestamp: '2026-04-15T03:00:09+00:00'
+command: build_assistive_package
+stage: diagnostic
+agent: diagnostic_agent
+verdict: PASS
+---
+timestamp: '2026-04-15T03:01:44+00:00'
+command: build_assistive_package
+stage: prose
+agent: prose_agent
+verdict: PASS
+---
+timestamp: '2026-04-15T03:04:00+00:00'
+command: build_assistive_package
+stage: discussion
+agent: discussion_agent
+verdict: PASS
+---
+timestamp: '2026-04-15T03:09:07+00:00'
+command: build_assistive_package
+stage: merge
+verdict: PASS
+notes: 14/14 integrity checks after diagnostic fix
+---
+timestamp: '2026-04-15T03:19:17+00:00'
+command: build_assistive_package
+stage: package_review
+agent: package_reviewer
+attempt: 2
+verdict: ACCEPT
+notes: t04/t08 reasoning_completeness routing fixed to social_only; 14/14 integrity
+  checks
+---
+timestamp: '2026-04-15T03:19:17+00:00'
+command: build_assistive_package
+stage: save
+verdict: SAVE

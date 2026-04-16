@@ -1,0 +1,67 @@
+flaws:
+  - id: jumping_to_a_conclusion
+    student_label: jumping to a conclusion
+    difficulty_band: low
+    definition: The speaker moves from one idea or observation to a bigger conclusion too quickly.
+    dialogue_signals:
+      - so that means
+      - it has to be
+      - obviously
+      - that proves
+    authoring_notes:
+      - Keep the leap visible in the turn itself.
+      - Best for early episodes and warm-ups.
+      - Prefer examples where the missing step is easy to name.
+
+  - id: not_enough_evidence
+    student_label: not enough evidence
+    difficulty_band: low
+    definition: The speaker makes a claim without enough support.
+    dialogue_signals:
+      - one example used like proof
+      - one sighting used for a big claim
+      - confidence grows faster than the evidence
+    authoring_notes:
+      - Use concrete evidence gaps that a student can point to.
+      - Good for early episodes and level practice.
+      - Avoid cases where the evidence problem is too subtle.
+
+  - id: ignoring_another_perspective
+    student_label: ignoring another perspective
+    difficulty_band: medium
+    definition: The speaker does not consider another person's point of view, another explanation, or another possibility that matters.
+    dialogue_signals:
+      - what else could it be
+      - nothing else fits
+      - only one side is treated as worth considering
+    authoring_notes:
+      - Use only when the missing perspective or alternative is clear.
+      - Keep the ignored alternative easy to explain.
+      - Better after students have practiced more obvious flaws.
+
+  - id: trusting_a_source_too_quickly
+    student_label: trusting a source too quickly
+    difficulty_band: low
+    definition: The speaker treats a source as reliable without checking who it is, how they know, or whether they can be trusted.
+    dialogue_signals:
+      - I saw it online
+      - someone said
+      - they're a researcher, so
+      - the comments said
+    authoring_notes:
+      - Make the source cue explicit in the dialogue.
+      - Good for warm-ups and early levels.
+      - Prefer examples where the source problem is obvious without expert unpacking.
+
+  - id: missing_important_conditions_or_consequences
+    student_label: missing important conditions or consequences
+    difficulty_band: medium
+    definition: The speaker leaves out an important detail about when the claim would hold, or what might happen if they are wrong.
+    dialogue_signals:
+      - acts like the claim works in every case
+      - ignores the situation or limits
+      - ignores who might be affected
+    authoring_notes:
+      - Use only when the missing condition or consequence is easy to name.
+      - Avoid highly technical or inferred cases at lower levels.
+      - Better as a supporting flaw unless the episode is designed around it clearly.

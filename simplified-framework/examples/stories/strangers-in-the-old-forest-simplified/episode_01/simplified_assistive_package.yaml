@@ -1,0 +1,172 @@
+package_meta:
+  story_id: strangers-in-the-old-forest-simplified
+  episode_number: 1
+  schema_version: simplified_v1
+
+episode:
+  title: The First Sighting
+  student_intro: >
+    Read the discussion first. Then work through a few short challenges about how
+    the group is reasoning.
+  flaws:
+    - jumping_to_a_conclusion
+    - not_enough_evidence
+  final_takeaway: Check whether the reason really supports the conclusion.
+
+warmups:
+  modeled:
+    warmup_id: warmup_01
+    turn_id: t04
+    title: Spot the jump
+    focus_move: jumping_to_a_conclusion
+    prompt: What is the main problem with Jules's reasoning here?
+    best_answer_id: o1
+    best_answer_text: >
+      Jules jumps from one strange detail to a much bigger conclusion without
+      checking the missing step.
+    worked_explanation: >
+      Jules notices one detail: the squirrel's eyes looked red. But then she jumps
+      to "something had to happen to it." That is a much bigger conclusion than
+      the evidence supports. A strong thinker would ask what connects those two
+      ideas before accepting the conclusion.
+    takeaway: One strange detail is not enough to prove a bigger explanation.
+
+  guided:
+    warmup_id: warmup_02
+    turn_id: t11
+    title: Try one yourself
+    focus_move: jumping_to_a_conclusion
+    prompt: What is the biggest problem with Jules's reasoning here?
+    answer_options:
+      - option_id: o1
+        text: She treats weak support like proof that something bigger is happening.
+        kind: best_fit
+      - option_id: o2
+        text: She is excited, but being excited is the main problem.
+        kind: partial
+      - option_id: o3
+        text: She is mostly talking too loudly and too fast.
+        kind: off_target
+      - option_id: o4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: o1
+    best_answer_text: She treats weak support like proof that something bigger is happening.
+    worked_explanation: >
+      Jules uses Cam's weak source like proof. But a vague video and a few comments
+      do not prove that "something is going on out there." The flaw is not just
+      that she feels strongly. The flaw is that the conclusion is much stronger
+      than the support.
+    hint: Compare how strong the evidence is to how strong the conclusion is.
+    takeaway: Strong conclusions need strong support.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t06
+    title: From a few examples to a big claim
+    focus_move: not_enough_evidence
+    prompt: What is the biggest problem with Jules's reasoning here?
+    answer_options:
+      - option_id: o1
+        text: She turns a few people's limited experience into a much bigger claim about the park.
+        kind: best_fit
+      - option_id: o2
+        text: She should sound less certain, but the evidence itself is fine.
+        kind: partial
+      - option_id: o3
+        text: The main problem is that she is not being nice to her friends.
+        kind: off_target
+      - option_id: o4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: o1
+    hint: Ask whether "none of us have seen one elsewhere" is enough to prove something about the whole park.
+    feedback:
+      correct:
+        option_ids: [o1]
+        text: Yes. A few students' limited experience is not enough to support a big claim about the park.
+      by_option:
+        o2: Certainty matters, but the deeper issue is that the support itself is too thin for the conclusion.
+        o3: That does not address the reasoning problem in the turn.
+        o4: Look at how small the evidence is compared with how big the claim becomes.
+    badge_label: Evidence Check
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t08
+    title: Is this enough support?
+    focus_move: not_enough_evidence
+    prompt: How strong is Cam's support for what the group is starting to believe?
+    answer_options:
+      - option_id: o1
+        text: Weak, because he only mentions a vague video without showing why it should be trusted.
+        kind: best_fit
+      - option_id: o2
+        text: Strong, because any outside source makes their idea much more believable.
+        kind: off_target
+      - option_id: o3
+        text: Medium, because at least it sounds like it might connect to what they saw.
+        kind: partial
+      - option_id: o4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: o1
+    hint: Ask what the group really knows about the video and whether that is enough.
+    feedback:
+      correct:
+        option_ids: [o1]
+        text: Right. The source sounds useful, but it is still too vague to count as strong support.
+      by_option:
+        o2: An outside source is not automatically strong evidence. The group still needs to know whether it is reliable.
+        o3: That answer notices a possible connection, but it still gives the source too much credit.
+        o4: Focus on how little Cam actually knows about the video he is using.
+    badge_label: Source Check
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t11
+    title: Too much conclusion, too little support
+    focus_move: jumping_to_a_conclusion
+    prompt: What is the strongest description of Jules's reasoning here?
+    answer_options:
+      - option_id: o1
+        text: She takes weak support and turns it into proof of a bigger conclusion.
+        kind: best_fit
+      - option_id: o2
+        text: She repeats Cam's idea, but repeating an idea is not really a reasoning problem.
+        kind: partial
+      - option_id: o3
+        text: She is wrong because strange things never happen in parks.
+        kind: off_target
+      - option_id: o4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: o1
+    hint: Compare what Cam actually gave the group with the conclusion Jules draws from it.
+    feedback:
+      correct:
+        option_ids: [o1]
+        text: Yes. Jules acts like the weak support settles the question, but it does not.
+      by_option:
+        o2: Repetition is not the main issue. The bigger problem is that the evidence is still too weak for the conclusion.
+        o3: That answer does not address the reasoning in this turn.
+        o4: Ask whether the video and comments really prove what Jules now claims.
+    badge_label: Spot the Leap
+
+hidden_mapping:
+  warmup_01:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t04
+  warmup_02:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t11
+  level_01:
+    flaw: not_enough_evidence
+    source_turn_id: t06
+  level_02:
+    flaw: not_enough_evidence
+    source_turn_id: t08
+  level_03:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t11

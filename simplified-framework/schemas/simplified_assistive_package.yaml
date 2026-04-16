@@ -1,0 +1,23 @@
+# Simplified assistive package schema sketch
+#
+# This file is a placeholder for the eventual formal schema.
+# For now it documents the intended structured shape.
+
+type: object
+required:
+  - package_meta
+  - episode
+  - warmups
+  - levels
+
+properties:
+  package_meta:
+    type: object
+  episode:
+    type: object
+  warmups:
+    type: object
+  levels:
+    type: array
+  hidden_mapping:
+    type: object

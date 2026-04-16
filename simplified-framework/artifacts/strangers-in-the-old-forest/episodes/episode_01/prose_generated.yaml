@@ -1,0 +1,253 @@
+story_id: strangers-in-the-old-forest
+episode_number: 1
+scenario_id: strangers-in-the-old-forest-ep-01
+
+episode_opening: >
+  It's Monday after school in Memphis, and four friends — Jules, Maya, Cam, and
+  Priya — are at their usual picnic table by the Old Forest path in Overton
+  Park. On Saturday they all saw something weird: a white squirrel with bright
+  red eyes. Jules has been thinking about it nonstop. Cam saw a TikTok about
+  it over the weekend. Priya keeps comparing it to other parks she's walked,
+  and Maya opens her notebook to write things down. Nobody's asking whether
+  they're right or wrong yet — they're just trying to figure out what the
+  four of them actually think is going on. As you read, pay attention to how
+  each friend brings something to the table, and to what each one is leaning
+  on when they talk.
+
+attention_targets:
+  - passage_id: p1
+    support_id: p1_at_1
+    use_when: cannot_start
+    source_turns: [t02]
+    text: >
+      Read Jules's turn where she says "its eyes looked wrong, so something's
+      wrong with it, so something changed it, so something caused that."
+      Count the "so"s. Then ask yourself what she actually saw that all those
+      "so"s are resting on.
+
+  - passage_id: p1
+    support_id: p1_at_2
+    use_when: wrong_focus
+    source_turns: [t03, t07, t11]
+    text: >
+      Look at the three turns where Cam brings up the TikTok. Notice what he
+      says about it — and what he never says about it. Who made the video?
+      Cam doesn't tell us, and nobody at the table asks.
+
+  - passage_id: p1
+    support_id: p1_at_3
+    use_when: wrong_focus
+    source_turns: [t05, t09]
+    text: >
+      Look carefully at Priya's two turns. She starts with "anywhere I've
+      been" — which parks is she actually talking about? Then watch how her
+      sentence changes shape by the time she says "it has to be an Overton
+      thing."
+
+  - passage_id: p1
+    support_id: p1_at_4
+    use_when: cannot_start
+    source_turns: [t04, t08]
+    text: >
+      Read what Maya does in turn 4, and then again in turn 8. She's doing
+      something the other three aren't doing. Notice what she writes down,
+      and notice what happens after she writes it.
+
+sentence_frame_seeds:
+  - passage_id: p1
+    support_id: p1_sf_1
+    use_when: cannot_start
+    lens: evidence
+    source_turns: [t02]
+    frame: "Jules sounds really sure, but what she actually saw was ___."
+    seed: >
+      one white squirrel with red eyes, one time, on Saturday afternoon
+
+  - passage_id: p1
+    support_id: p1_sf_2
+    use_when: low_articulation
+    lens: evidence
+    source_turns: [t03]
+    frame: "When Cam brings up the TikTok, the thing he never tells us is ___."
+    seed: >
+      who made the video or why anyone should trust it
+
+  - passage_id: p1
+    support_id: p1_sf_3
+    use_when: wrong_focus
+    lens: scope
+    source_turns: [t05]
+    frame: "Priya's sentence starts out being about ___, but it ends up sounding like it's about ___."
+    seed: >
+      the specific parks she's walked (Audubon, the greenway near her house);
+      squirrels everywhere
+
+  - passage_id: p1
+    support_id: p1_sf_4
+    use_when: cannot_start
+    lens: logic
+    source_turns: [t04, t08]
+    frame: "Maya's move is different because she ___, but the thing that happens after is ___."
+    seed: >
+      writes down the actual question the group is trying to answer;
+      the other three acknowledge her and keep talking about other stuff
+
+  - passage_id: p1
+    support_id: p1_sf_5
+    use_when: after_check_fail
+    lens: evidence
+    source_turns: [t02, t06, t10]
+    frame: "Jules's chain gets taller across turns 2, 6, and 10, but the thing at the bottom of it is still ___."
+    seed: >
+      just the one squirrel she saw on Saturday
+
+sentence_frame_seeds_extra: []
+
+modeled_episode_examples:
+  - passage_id: p1
+    support_id: p1_me_1
+    use_when: low_articulation
+    lens: evidence
+    source_turns: [t02]
+    model_text: >
+      Here's one way to say what's happening in Jules's second turn: "Jules
+      says 'its eyes looked wrong, so something's wrong with it, so something
+      changed it, so something caused that' — that's four jumps in a row,
+      but they're all sitting on top of seeing one squirrel one time."
+    why_this_counts: >
+      Jules sounds confident because the picture in her head is so vivid, but
+      feeling sure isn't the same as having enough to back up that long of a
+      chain of reasoning.
+    handoff_prompt: >
+      Now go back to turn 2 and try it in your own words. What does Jules
+      have, and what is she building on top of it?
+
+  - passage_id: p1
+    support_id: p1_me_2
+    use_when: wrong_focus
+    lens: evidence
+    source_turns: [t03, t07, t11]
+    model_text: >
+      Here's one way to describe Cam's TikTok: "Cam quotes the TikTok the
+      same way he'd quote a teacher or a news article, and then he quotes
+      the comments the same way — but he never says who made the video or
+      who those commenters are."
+    why_this_counts: >
+      Where a claim comes from matters. A video made by a random person and
+      a video made by a park scientist wouldn't carry the same weight, and
+      Cam hasn't asked which one this is.
+    handoff_prompt: >
+      Go back to turn 3, turn 7, and turn 11 and find the place where you
+      think Cam could have paused to ask "who made this?"
+
+  - passage_id: p1
+    support_id: p1_me_3
+    use_when: after_check_fail
+    lens: scope
+    source_turns: [t05, t09]
+    model_text: >
+      Here's one way to read Priya's move: "Priya says 'squirrels don't have
+      red eyes anywhere I've been,' and 'anywhere I've been' means Audubon
+      and the greenway by her house — but by turn 9 her sentence has turned
+      into 'it has to be an Overton thing,' like she's checked every park
+      in the city."
+    why_this_counts: >
+      Priya isn't lying — she really hasn't seen red-eyed squirrels on her
+      walks. But her conclusion sounds bigger than what her actual walks
+      can tell her. The conditions of where she walked drop out of her
+      sentence.
+    handoff_prompt: >
+      Go back to turn 5 and turn 9 and find the exact words where Priya's
+      sentence changes size.
+
+  - passage_id: p1
+    support_id: p1_me_4
+    use_when: cannot_start
+    lens: logic
+    source_turns: [t04, t08]
+    model_text: >
+      Here's one way to describe what Maya is doing: "Maya writes the real
+      question down — 'what, if anything, is going on with the red-eyed
+      squirrel in Overton' — and circles it so they can come back to it.
+      Then in turn 8 she tries once more to pull the group back to what
+      she wrote. Both times, the others say 'okay' and keep talking about
+      something else."
+    why_this_counts: >
+      Naming the question you're actually trying to answer is one of the
+      most useful moves anyone can make in a conversation. Maya does it
+      twice. The scene doesn't reward her for it, but the move is still
+      real.
+    handoff_prompt: >
+      Read turn 4 and turn 8 again. What would have changed about the rest
+      of the conversation if the three others had actually answered the
+      question Maya wrote?
+
+transfer_examples:
+  - passage_id: p1
+    support_id: p1_te_1
+    use_when: low_articulation
+    lens: evidence
+    example_text: >
+      Imagine you see one classmate yawn in first period and say: "She's
+      tired, so she was up late, so her parents let her stay up, so they
+      don't care about her sleep schedule." That's a lot of "so"s built on
+      one yawn. The yawn is real. The chain isn't.
+    why_this_counts: >
+      A vivid single thing can feel like it proves a long story, but one
+      observation usually can't hold up more than one small step.
+    handoff_prompt: >
+      Now go back to turn 2 and see if Jules's chain feels like the yawn
+      example to you. What's the one thing at the bottom of her chain?
+
+  - passage_id: p1
+    support_id: p1_te_2
+    use_when: cannot_start
+    lens: evidence
+    example_text: >
+      Imagine a friend tells you, "I heard on a video that our school is
+      going to add a fourth lunch period." Before you get excited, it helps
+      to ask: who made the video? Was it someone who works at the school,
+      or just someone guessing? A claim is only as strong as where it came
+      from.
+    why_this_counts: >
+      The same question applies to the TikTok Cam brings in. Where a claim
+      comes from decides how much weight it can carry.
+    handoff_prompt: >
+      Now look at turn 3, turn 7, and turn 11. What would you want to know
+      about Cam's TikTok before you let it count?
+
+  - passage_id: p1
+    support_id: p1_te_3
+    use_when: wrong_focus
+    lens: scope
+    example_text: >
+      Imagine someone says, "Nobody at my school likes pineapple pizza." Then
+      later it comes out like: "Nobody likes pineapple pizza." Those aren't
+      the same sentence. The first one is about their school. The second
+      one is about everybody. The size changed, but the evidence didn't.
+    why_this_counts: >
+      That's the kind of slide Priya's sentence does — from the parks she
+      actually walks to parks in general.
+    handoff_prompt: >
+      Go back to turn 5 and turn 9. Where does Priya's sentence go from
+      being about her walks to being about squirrels everywhere?
+
+  - passage_id: p1
+    support_id: p1_te_4
+    use_when: after_check_fail
+    lens: logic
+    example_text: >
+      Imagine your group is working on a poster and one person says, "Wait,
+      what is our poster actually supposed to be about?" Everyone nods,
+      and then keeps gluing stuff on without answering. Five minutes later
+      you've got a beautiful poster about nothing.
+    why_this_counts: >
+      That's the shape of what happens to Maya's question. She names it.
+      Nobody argues with her. Nobody answers her either.
+    handoff_prompt: >
+      Go back to turns 4 and 8 and read what Maya actually wrote. Did the
+      group ever open it?
+
+consensus_check:
+  - "As a group, can you point to the one thing on Saturday that all of Jules's reasoning is resting on?"
+  - "Did the four friends ever actually answer the question Maya wrote in her notebook? If not, what were they answering instead?"

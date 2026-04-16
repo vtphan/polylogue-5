@@ -1,0 +1,28 @@
+# Simplified story.yaml schema sketch
+#
+# This file is a placeholder for the eventual formal schema.
+# For now it documents the intended structured shape.
+
+type: object
+required:
+  - story_id
+  - title
+  - premise
+  - characters
+  - episodes
+
+properties:
+  story_id:
+    type: string
+  title:
+    type: string
+  premise:
+    type: string
+  characters:
+    type: array
+  episodes:
+    type: array
+  setting:
+    type: object
+  audience:
+    type: object

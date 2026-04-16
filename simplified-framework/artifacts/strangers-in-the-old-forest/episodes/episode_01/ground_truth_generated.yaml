@@ -1,0 +1,624 @@
+story_id: strangers-in-the-old-forest
+episode_number: 1
+scenario_id: strangers-in-the-old-forest-ep-01
+
+passages:
+  - passage_id: p1
+    turn_range:
+      - t01
+      - t02
+      - t03
+      - t04
+      - t05
+      - t06
+      - t07
+      - t08
+      - t09
+      - t10
+      - t11
+      - t12
+      - t13
+      - t14
+
+    facets_present:
+      - facet_ref: sufficiency
+        label: >
+          Enough evidence for the claim
+        lens: evidence
+        role: primary
+        severity: strong
+        evidence_turns:
+          - t02
+          - t06
+          - t10
+        one_line: >
+          Jules builds a confident causal chain ("something changed it, something caused
+          that") on the base of one sighting of one squirrel on one afternoon, with the
+          chain growing taller across turns while the evidence base stays a single observation.
+
+      - facet_ref: source_credibility
+        label: >
+          Where a claim came from
+        lens: evidence
+        role: primary
+        severity: strong
+        evidence_turns:
+          - t03
+          - t07
+          - t11
+        one_line: >
+          Cam cites a TikTok about Overton squirrels at the same register as a
+          news article — naming no creator, no channel, and no reason to trust
+          it — and then reinforces it by quoting the comments and offering to
+          pull the video up.
+
+      - facet_ref: condition_sensitivity
+        label: >
+          Where the claim applies
+        lens: scope
+        role: primary
+        severity: subtle
+        evidence_turns:
+          - t05
+          - t09
+        one_line: >
+          Priya's "squirrels don't have red eyes anywhere I've been" slides
+          from an observation about the specific parks she walks into a
+          general claim about squirrels, and at t09 hardens into "it has to
+          be an Overton thing" — the conditions of her walking drop out of
+          the conclusion without being marked.
+
+      - facet_ref: reasoning_completeness
+        label: >
+          Keeping the question in view
+        lens: logic
+        role: strength
+        severity: moderate
+        evidence_turns:
+          - t04
+          - t08
+        one_line: >
+          Maya is the only person at the table who names what the group is
+          actually trying to answer — she writes and circles the question
+          at t04 and tries once at t08 to pull the group back to it — but
+          the group does not engage with the page, and the strength
+          structurally collapses without being rewarded.
+
+      - facet_ref: inferential_validity
+        label: >
+          Leaps in reasoning
+        lens: logic
+        role: cross_lens
+        severity: moderate
+        evidence_turns:
+          - t02
+          - t06
+          - t10
+        one_line: >
+          Jules's chain — wrong-looking → something is wrong → something
+          changed it → something caused that — is a string of inferences
+          that do not follow from the single observation; each "so" in
+          her talk marks a leap that a careful reader can feel.
+
+    facets_absent_but_tempting:
+      - facet_ref: source_diversity
+        label: >
+          Range of sources
+        why_tempting: >
+          Cam cites only one TikTok and Jules relies only on Saturday's
+          sighting, so a student might flag the passage as missing a
+          variety of sources.
+        why_wrong: >
+          The issue in this passage is not that there are too few different
+          sources — it is that the one TikTok is cited without any check on
+          who made it or why it should be trusted, and the one sighting is
+          extended into a causal story. Adding more TikToks of the same
+          kind would not fix Cam's move; asking who made the video would.
+          Source diversity is the cleaner lens for Cam's episode-3 move,
+          not this one.
+
+      - facet_ref: overgeneralization
+        label: >
+          Drawing a broad conclusion from too little evidence
+        why_tempting: >
+          Priya's jump from "parks I've walked" to "anywhere" looks like
+          a textbook overgeneralization — small sample, big claim.
+        why_wrong: >
+          Priya is not generalizing from a lot of data to a bigger claim;
+          she is drawing from the conditions under which she walked —
+          east Memphis parks, family walks, specific paths — and dropping
+          those conditions from the conclusion. The weakness is about
+          the conditions that narrowed her sample (a scope move), not
+          about the size of the sample (a logic/evidence move).
+
+      - facet_ref: perspective_engagement
+        label: >
+          Considering other viewpoints
+        why_tempting: >
+          Nobody at the table pushes back on Jules's causal chain or
+          Cam's TikTok, and nobody voices the "there might be nothing
+          going on" perspective — so the passage looks like it is missing
+          opposing views.
+        why_wrong: >
+          The four kids are not dismissing an opposing view or ignoring a
+          perspective that was raised — no alternative perspective is in
+          the room to engage with. The passage's collapse is that the
+          question Maya wrote down (which would open space for alternatives)
+          is never opened, not that a competing view was pushed aside.
+          Perspective_engagement becomes the cleaner read when someone
+          actually voices an alternative; in this passage the absence is
+          structural, not a failure of engagement.
+
+    lens_visibility:
+      logic:
+        engagement: partial
+        affordance: moderate
+        what_shows: >
+          The passage gives logic something to work with — Jules's chain at
+          t02/t06/t10 has explicit "so"-links a reader can trace and feel
+          gaps in, and Maya's notebook move at t04 is a logic-of-the-
+          investigation move (keeping the question in view). The characters
+          are not doing logic work on themselves, but the structure is
+          visible.
+      evidence:
+        engagement: high
+        affordance: rich
+        what_shows: >
+          Evidence is the primary lens. Two distinct weaknesses sit on the
+          table at once — Jules running a causal story off a single
+          Saturday sighting and Cam putting a TikTok next to that memory
+          as corroboration — and the characters are actively building with
+          what they are treating as evidence, which is exactly what the
+          lens is meant to examine.
+      scope:
+        engagement: partial
+        affordance: moderate
+        what_shows: >
+          Scope is present in soft form: Priya reaches for other parks at
+          t05 and t09, which is a scope move, but she does not keep the
+          conditions of her walking attached to her conclusion. Jules also
+          narrows to "this park" at t10 without examining the boundary.
+          The affordance is real; the characters engage with it unevenly.
+
+    turn_annotations:
+      - turn_id: t01
+        speaker: Jules
+        moves:
+          - recount
+          - set_scene
+        why_it_matters: >
+          Establishes the single observation — one squirrel, one Saturday
+          afternoon — that the rest of Jules's chain will rest on. Base
+          of the sufficiency weakness.
+        discussion_cue_seeds:
+          - sufficiency
+
+      - turn_id: t02
+        speaker: Jules
+        moves:
+          - assert_chain
+          - generalize
+        facet_signals:
+          - facet_ref: sufficiency
+            polarity: weak
+            strength: strong
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          The spine of the sufficiency weakness. Four "so"-links spoken in
+          one breath, with every link after the first resting on the same
+          single observation. "You don't just get a red-eyed white squirrel
+          for no reason" is the fallacy-shaped sentence.
+        discussion_cue_seeds:
+          - sufficiency
+          - false_cause
+          - inferential_validity
+
+      - turn_id: t03
+        speaker: Cam
+        moves:
+          - cite_source
+          - amplify
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: strong
+        why_it_matters: >
+          Cam's TikTok enters the conversation with no attribution — no
+          creator, no channel, no reason to trust it — and the emphatic
+          "Months, dude" gives it the register of something established.
+          The missing question is "who made it?"
+        discussion_cue_seeds:
+          - source_credibility
+          - uncritical_acceptance
+
+      - turn_id: t04
+        speaker: Maya
+        moves:
+          - name_question
+          - write_down
+          - request_return
+        facet_signals:
+          - facet_ref: reasoning_completeness
+            polarity: strong
+            strength: moderate
+        why_it_matters: >
+          Maya performs the passage's most load-bearing cognitive move:
+          she writes the actual question, circles it, and says once that
+          she wrote it so they can come back to it. The strength surfaces
+          here; whether the group engages with it is the passage's test.
+        discussion_cue_seeds:
+          - reasoning_completeness
+          - keeping_question_in_view
+
+      - turn_id: t05
+        speaker: Priya
+        moves:
+          - compare
+          - generalize
+        facet_signals:
+          - facet_ref: condition_sensitivity
+            polarity: weak
+            strength: subtle
+        why_it_matters: >
+          "Squirrels don't have red eyes anywhere I've been" is the
+          sentence that reads as observation and lands as conclusion —
+          the conditions of Priya's walking (the specific parks, the
+          family walks) slide out between the first clause and the
+          "I've never seen that" that closes it.
+        discussion_cue_seeds:
+          - condition_sensitivity
+          - observation_vs_conclusion
+
+      - turn_id: t06
+        speaker: Jules
+        moves:
+          - double_down
+          - amplify
+        facet_signals:
+          - facet_ref: sufficiency
+            polarity: weak
+            strength: strong
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Jules hears Priya's "anywhere I've been" as confirming her chain
+          and pushes it harder — "something's doing it here, something in
+          the park, something changed it." The base stays a single
+          sighting; the chain gets taller and more park-specific.
+        discussion_cue_seeds:
+          - sufficiency
+          - false_cause
+          - confirmation_bias
+
+      - turn_id: t07
+        speaker: Cam
+        moves:
+          - cite_source
+          - amplify
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Cam pulls another layer out of the same TikTok — the comments
+          section — and treats "I saw one too, I saw one too" as more
+          evidence. The anonymous comments sit at the same register as
+          the uncredited video; the question of who these commenters are
+          is not asked.
+        discussion_cue_seeds:
+          - source_credibility
+          - uncritical_acceptance
+
+      - turn_id: t08
+        speaker: Maya
+        moves:
+          - name_question
+          - request_return
+        facet_signals:
+          - facet_ref: reasoning_completeness
+            polarity: strong
+            strength: subtle
+        why_it_matters: >
+          Maya tries once, gently, to pull the group back to the page —
+          "what do we actually mean?" — and does not insist when the
+          group does not follow. This is the second surfacing of the
+          strength and the moment the collapse becomes visible: the
+          invitation is real, and the room moves past it.
+        discussion_cue_seeds:
+          - reasoning_completeness
+          - strength_collapse
+
+      - turn_id: t09
+        speaker: Priya
+        moves:
+          - generalize
+          - narrow_scope
+        facet_signals:
+          - facet_ref: condition_sensitivity
+            polarity: weak
+            strength: subtle
+        why_it_matters: >
+          Priya answers Maya's gentle question by folding in another park
+          comparison rather than opening the page. "It has to be an Overton
+          thing" hardens the scope weakness — the conclusion is now
+          Overton-specific, treated as if the walking-conditions base can
+          carry that weight.
+        discussion_cue_seeds:
+          - condition_sensitivity
+          - observation_vs_conclusion
+
+      - turn_id: t10
+        speaker: Jules
+        moves:
+          - agree
+          - assert_chain
+        facet_signals:
+          - facet_ref: sufficiency
+            polarity: weak
+            strength: moderate
+          - facet_ref: inferential_validity
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          Jules takes Priya's narrowing as further weight and closes the
+          chain on "something in this park changing them." The
+          Overton-specific framing becomes the something-changed-them
+          framing, now shared across two voices and felt as a group
+          conclusion.
+        discussion_cue_seeds:
+          - sufficiency
+          - false_cause
+
+      - turn_id: t11
+        speaker: Cam
+        moves:
+          - cite_source
+        facet_signals:
+          - facet_ref: source_credibility
+            polarity: weak
+            strength: moderate
+        why_it_matters: >
+          "Let me pull the video up — we should watch it together" shows
+          the TikTok is still a working source in Cam's head; he is still
+          not asking who made it, and he is proposing the group watch it
+          together as if watching is verification.
+        discussion_cue_seeds:
+          - source_credibility
+          - uncritical_acceptance
+
+      - turn_id: t12
+        speaker: Maya
+
+      - turn_id: t13
+        speaker: Jules
+        moves:
+          - name_edge
+        why_it_matters: >
+          Jules names the edge underneath her retelling: "something might
+          be happening out here and nobody's noticing." This is the
+          emotional engine that has been running the chain since t02 —
+          it is what Jules is actually afraid of, said plainly for the
+          first time.
+        discussion_cue_seeds:
+          - what_drives_the_chain
+
+      - turn_id: t14
+        speaker: Cam
+        moves:
+          - propose_continuation
+        why_it_matters: >
+          Cam breaks the silence and the four agree to keep meeting. The
+          scene closes on momentum, not on a return to the page — the
+          notebook is still open with Maya's question still on it, and
+          nothing the group decided actually answered, or addressed, what
+          she wrote.
+        discussion_cue_seeds:
+          - what_the_scene_did_not_reward
+
+    causal_layer:
+      facets_explained:
+        - facet_ref: sufficiency
+          cognitive:
+            - pattern_ref: false_cause
+              label: >
+                False cause
+              one_line: >
+                Jules links "eyes looked wrong" to "something changed it"
+                to "something caused that" as if the surface similarity of
+                red eyes is itself evidence of a cause, so the vividness
+                of the image does the work that a second observation
+                should do.
+              evidence_turns:
+                - t02
+                - t06
+                - t10
+          interaction: cognitive_only
+
+        - facet_ref: source_credibility
+          cognitive:
+            - pattern_ref: uncritical_acceptance
+              label: >
+                Uncritical acceptance
+              one_line: >
+                Cam watched, he accepted, he is relaying — the TikTok
+                enters the discussion with no check on the creator, the
+                channel, or what the video is actually about beyond the
+                first few seconds, and the comments get folded in the
+                same way.
+              evidence_turns:
+                - t03
+                - t07
+                - t11
+          interaction: social_only
+          interaction_note: >
+            Although the carrier pattern is cognitive, no social dynamic
+            is present in this passage. Marking this cognitive_only would
+            be legal only for relevance or inferential_validity, so the
+            interaction is recorded as cognitive with no social amplifier
+            active — the table's warmth and the group's lack of a habit of
+            asking "who made this" together create the conditions for the
+            claim to sit unchallenged, but there is no explicit social
+            dynamic (no group pressure, no deference) doing work here.
+
+        - facet_ref: condition_sensitivity
+          cognitive: []
+          social: []
+          interaction: cognitive_only
+          interaction_note: >
+            By design, this target has no named cognitive pattern and no
+            social dynamic. Priya's move is facet-level: she draws from
+            the conditions of her walking and lets those conditions drop
+            out of her conclusion. The slide is the signal; no explanatory
+            variable carries it. Recorded as cognitive_only to preserve
+            the structural shape without claiming a cognitive pattern is
+            operating.
+
+        - facet_ref: reasoning_completeness
+          cognitive: []
+          social: []
+          interaction: social_only
+          interaction_note: >
+            This is the strength side of the ledger, and the "collapse"
+            is structural rather than any one character's failure. No
+            explicit social dynamic (group_pressure, conflict_avoidance,
+            authority_deference) is staged in this episode by design.
+            The reason Maya's move does not land is the social momentum
+            of three compatible-but-unaligned voices — Jules's urgency,
+            Cam's citing, Priya's comparing — which pulls the table
+            forward without pausing to engage what she wrote. Recorded
+            as social_only to mark that the collapse sits in the room's
+            dynamics rather than in a cognitive pattern.
+
+        - facet_ref: inferential_validity
+          cognitive:
+            - pattern_ref: false_cause
+              label: >
+                False cause
+              one_line: >
+                Each "so" in Jules's chain is a leap — the eyes to something
+                wrong, something wrong to something changed, something
+                changed to something caused — and the leaps land as
+                inference because false_cause supplies the missing rung.
+              evidence_turns:
+                - t02
+                - t06
+                - t10
+          interaction: cognitive_only
+
+    perspective_transitions:
+      - from: evidence
+        to: logic
+        trigger: >
+          A reader following Cam's TikTok at t03/t07 as a source-credibility
+          weakness can shift into logic and ask what the TikTok is actually
+          being used to prove — what claim it is a premise for.
+        what_they_gain: >
+          Logic exposes that the TikTok is being slotted into Jules's
+          causal chain as corroboration for "something is happening
+          here," which is a much bigger claim than "someone made a video
+          about Overton squirrels."
+        what_they_realize: >
+          The credibility problem and the inferential problem feed each
+          other: a weak source lands harder because it is propping up
+          a leap that had nothing else under it.
+        prompt: >
+          If you trusted the TikTok completely, would that actually prove
+          what Jules is saying?
+
+      - from: evidence
+        to: scope
+        trigger: >
+          Priya's "anywhere I've been" at t05 invites a scope read: what
+          sample of parks is this claim resting on, and is the conclusion
+          ("anywhere") the same size as the sample?
+        what_they_gain: >
+          Scope shows that the conditions of Priya's walking — east
+          Memphis, family walks, specific paths — are doing silent work
+          inside a sentence that sounds like a statement about squirrels
+          in general.
+        what_they_realize: >
+          The issue is not that Priya has too few data points; it is
+          that the boundary of her experience drops out of her conclusion
+          between clauses. It is an observation, still, when it is
+          spoken as a fact about "anywhere."
+        prompt: >
+          Which parks has Priya actually walked, and does her sentence
+          stay inside those parks or step outside them?
+
+      - from: logic
+        to: evidence
+        trigger: >
+          Maya's notebook move at t04 and her revisit at t08 are logic-of-
+          the-investigation moves — keep the question in view — and they
+          push back on the evidence being brought in on both sides.
+        what_they_gain: >
+          Holding Maya's written question next to the three other voices
+          reveals that the evidence on the table (one sighting, one
+          TikTok, one set of walks) was never addressed to the question
+          she wrote. The passage's evidence weakness is partly a
+          structural one: evidence for what, exactly?
+        what_they_realize: >
+          The passage's collapse is not that the kids brought bad
+          evidence; it is that they brought evidence without ever
+          pinning down the claim it was evidence for.
+        prompt: >
+          If the question Maya wrote is the target, does any of the
+          evidence on the table actually aim at it?
+
+    counterfactuals:
+      - facet_ref: sufficiency
+        evidence_turn: t02
+        what_would_fix_it: >
+          If Jules's chain at t02 ended with "…but we only saw it once, so
+          maybe I'm wrong about part of this" — or if she named the
+          Saturday moment as a single data point before stating the chain
+          — the gap between the base and the conclusion would be visible
+          to the whole table, not just to a careful reader.
+
+      - facet_ref: source_credibility
+        evidence_turn: t03
+        what_would_fix_it: >
+          If Cam said at t03 "a TikTok this weekend — I don't know who
+          made it, but they said the squirrels have been acting weird for
+          months" — naming the missing attribution out loud — the
+          passage's source-credibility move would tilt toward a check
+          instead of a citation, and someone else could pick up the
+          question of who the creator is.
+
+      - facet_ref: condition_sensitivity
+        evidence_turn: t05
+        what_would_fix_it: >
+          If Priya at t05 said "squirrels don't have red eyes at Audubon
+          or the greenway by my house, at least on the walks I've done"
+          — keeping the conditions attached to the conclusion — her
+          observation would not slide into a general claim about
+          squirrels, and Jules would have less room to read it as
+          confirmation at t06.
+
+      - facet_ref: reasoning_completeness
+        evidence_turn: t08
+        what_would_fix_it: >
+          If Maya at t08 pressed the gentle question one turn further —
+          holding the room on "what are we trying to figure out?" until
+          somebody answered the page rather than deflecting to another
+          park comparison — the strength she named at t04 would land
+          structurally instead of collapsing. The fix is not a different
+          question; it is Maya insisting on the answer to the one she
+          already wrote.
+
+      - facet_ref: inferential_validity
+        evidence_turn: t06
+        what_would_fix_it: >
+          If Jules at t06 replaced "if it's not normal anywhere else then
+          something's doing it here" with "if it's not normal anywhere
+          else, I wonder what could be different here" — turning each
+          "so"-link into a question instead of a conclusion — the leap
+          between Priya's comparison and her own causal framing would
+          become visible in the sentence, not hidden inside it.
+
+    connects_to:
+      echoes: []
+      contrastive: []
