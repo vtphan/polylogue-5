@@ -730,6 +730,155 @@ a.ghost:hover {
   }
 }
 
+/* Completion surface (Milestone 4) — calm close, final takeaway dominant,
+   earned badges visually secondary. */
+.completion-page {
+  gap: 2rem;
+}
+
+.completion-header {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.completion-title {
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  line-height: 1.12;
+}
+
+.completion-summary {
+  color: var(--muted);
+  font-size: 1.02rem;
+  max-width: 40rem;
+}
+
+.completion-takeaway {
+  position: relative;
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.9rem 2rem 2rem;
+  border-radius: 1.5rem;
+  background:
+    linear-gradient(180deg, rgba(184, 92, 46, 0.14), rgba(184, 92, 46, 0.04)),
+    var(--surface-strong);
+  border: 1px solid rgba(184, 92, 46, 0.28);
+  box-shadow: var(--shadow);
+}
+
+.completion-takeaway::before {
+  content: "";
+  position: absolute;
+  left: 1.1rem;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+.completion-takeaway .eyebrow {
+  margin-left: 1.2rem;
+}
+
+.completion-takeaway-quote {
+  margin: 0 0 0 1.2rem;
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  line-height: 1.45;
+  color: var(--ink);
+  font-style: italic;
+  max-width: 38rem;
+}
+
+.completion-badges {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.completion-badges-header {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.completion-badges-groups {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.completion-badge-group {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.completion-badge-group-title {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.completion-badge-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.55rem;
+}
+
+.completion-badge {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: var(--surface);
+  color: var(--ink);
+  max-width: 22rem;
+}
+
+.completion-badge-label {
+  font-weight: 600;
+  font-size: 0.94rem;
+  line-height: 1.3;
+}
+
+.completion-badge-description {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.4;
+}
+
+.completion-actions {
+  display: grid;
+  gap: 0.6rem;
+  padding-top: 0.25rem;
+}
+
+@media (max-width: 640px) {
+  .completion-takeaway {
+    padding: 1.4rem 1.3rem 1.5rem;
+    border-radius: 1.1rem;
+  }
+
+  .completion-takeaway::before {
+    left: 0.75rem;
+  }
+
+  .completion-takeaway .eyebrow,
+  .completion-takeaway-quote {
+    margin-left: 0.9rem;
+  }
+
+  .completion-badge {
+    max-width: none;
+    width: 100%;
+  }
+}
+
 @media (max-width: 640px) {
   .shell {
     padding: 1.5rem 1rem 2.5rem;

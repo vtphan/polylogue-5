@@ -16,10 +16,18 @@ import {
   nextLevel,
   resolveActiveLevel,
 } from "@/lib/levels";
+import {
+  deriveEarnedBadges,
+  groupBadgesByCategory,
+  loadCompletionInputs,
+  type Badge,
+  type BadgeCategory,
+} from "@/lib/completion";
 import { LessonWorkspace } from "../_components/LessonWorkspace";
 import type {
   AnswerOption,
   LessonLevel,
+  LessonPackage,
 } from "@/lib/domain";
 import type { LevelResponse } from "@prisma/client";
 
@@ -168,26 +176,93 @@ function LevelFeedbackView({
   );
 }
 
-function CompleteHandoffView({ runId }: { runId: string }) {
+const BADGE_CATEGORY_HEADINGS: Record<BadgeCategory, string> = {
+  read_the_episode: "Reading",
+  finished_warmup: "Warm-up",
+  level_complete: "Levels",
+  used_help_and_kept_going: "Used help and kept going",
+  episode_complete: "Episode",
+};
+
+function EarnedBadgesBlock({ badges }: { badges: Badge[] }) {
+  if (badges.length === 0) {
+    return null;
+  }
+  const grouped = groupBadgesByCategory(badges);
   return (
-    <div className="page">
-      <header className="page-header">
+    <section className="completion-badges" aria-label="Earned accomplishments">
+      <header className="completion-badges-header">
+        <p className="eyebrow">What you earned</p>
+        <p className="subdued">Saved from your work on this episode.</p>
+      </header>
+      <div className="completion-badges-groups">
+        {grouped.map(({ category, badges: badgesInCategory }) => (
+          <div key={category} className="completion-badge-group">
+            <p className="completion-badge-group-title">
+              {BADGE_CATEGORY_HEADINGS[category]}
+            </p>
+            <ul className="completion-badge-list">
+              {badgesInCategory.map((badge, index) => (
+                <li
+                  key={`${badge.category}-${index}`}
+                  className="completion-badge"
+                >
+                  <span className="completion-badge-label">{badge.label}</span>
+                  {badge.description ? (
+                    <span className="completion-badge-description">
+                      {badge.description}
+                    </span>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function CompletionSurface({
+  runId,
+  lessonPackage,
+  badges,
+  levelCount,
+}: {
+  runId: string;
+  lessonPackage: LessonPackage;
+  badges: Badge[];
+  levelCount: number;
+}) {
+  return (
+    <div className="page completion-page">
+      <header className="completion-header">
         <p className="eyebrow">Episode complete</p>
-        <h1>You finished every level</h1>
-        <p className="muted">
-          Your answers and hint history are saved. The completion screen opens here when the next milestone ships.
+        <h1 className="completion-title">{lessonPackage.episode.title}</h1>
+        <p className="completion-summary">
+          You finished the reading, both warm-ups, and all {levelCount}{" "}
+          {levelCount === 1 ? "level" : "levels"}. Your run is saved.
         </p>
       </header>
 
-      <section className="panel stack">
-        <p className="subdued">
-          You can close this tab and come back later — your run stays saved.
-        </p>
+      <section
+        className="completion-takeaway"
+        aria-label="Final takeaway"
+      >
+        <p className="eyebrow">Final takeaway</p>
+        <blockquote className="completion-takeaway-quote">
+          {lessonPackage.episode.final_takeaway}
+        </blockquote>
+      </section>
+
+      <EarnedBadgesBlock badges={badges} />
+
+      <section className="completion-actions" aria-label="What&rsquo;s next">
         <div className="action-row">
-          <Link href="/" className="ghost">
+          <Link href="/" className="primary">
             Switch student
           </Link>
-          <Link href={`/runs/${runId}/read`} className="ghost">
+          <Link href={`/runs/${runId}/read`} className="secondary">
             Re-read the transcript
           </Link>
         </div>
@@ -206,10 +281,25 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
 
   // Terminal state wins, regardless of currentPhase. If status is complete
   // but currentPhase drifted (historical bug recovery, direct URL), still
-  // render the handoff — never redirect, which would loop against
+  // render the completion surface — never redirect, which would loop against
   // routeForRun's status-first rule.
   if (run.status === "complete") {
-    return <CompleteHandoffView runId={run.runId} />;
+    const [lessonPackage, completionInputs] = await Promise.all([
+      loadLessonPackage(run.episodeSource),
+      loadCompletionInputs(run.runId),
+    ]);
+    if (!completionInputs) {
+      notFound();
+    }
+    const badges = deriveEarnedBadges(completionInputs, lessonPackage);
+    return (
+      <CompletionSurface
+        runId={run.runId}
+        lessonPackage={lessonPackage}
+        badges={badges}
+        levelCount={lessonPackage.levels.length}
+      />
+    );
   }
   // Phase gate. Level UI is valid only when the run is in the level phase.
   if (run.currentPhase !== "level") {
