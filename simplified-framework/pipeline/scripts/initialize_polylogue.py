@@ -38,14 +38,9 @@ SIMPLIFIED_REFERENCE = [
 ]
 
 SIMPLIFIED_DOCS = [
-    "simplified-framework/docs/conceptual-model.md",
-    "simplified-framework/docs/instructional-model.md",
-    "simplified-framework/docs/story-spec.md",
-    "simplified-framework/docs/episode-plan-spec.md",
-    "simplified-framework/docs/transcript-spec.md",
-    "simplified-framework/docs/package-schema.md",
+    "simplified-framework/docs/technical-spec.md",
+    "simplified-framework/docs/framework-model.md",
     "simplified-framework/docs/operator-workflow.md",
-    "simplified-framework/docs/app-contract.md",
 ]
 
 
