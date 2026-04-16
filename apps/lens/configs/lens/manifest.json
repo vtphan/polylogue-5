@@ -1,0 +1,14 @@
+{
+  "manifest_version": 1,
+  "sessions": [
+    {
+      "config_id": "forest-ep01-table-a",
+      "label": "Strangers in the Old Forest - Episode 1 - Table A",
+      "config_path": "configs/lens/forest-ep01-table-a.json",
+      "story_id": "strangers-in-the-old-forest",
+      "episode_number": 1,
+      "sequence_index": 0,
+      "next_config_id": "forest-ep02-table-a"
+    }
+  ]
+}

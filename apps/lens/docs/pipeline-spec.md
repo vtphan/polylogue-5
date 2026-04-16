@@ -224,6 +224,13 @@ The runtime schema at `framework/schemas/assistive_package.yaml` defines six top
 
 This is the current runtime contract Lens should be designed around.
 
+For implementation planning, `pipeline-spec.md` and `framework/schemas/assistive_package.yaml` should be used together:
+
+- this document explains the package's role, section meanings, and reviewed examples
+- `framework/schemas/assistive_package.yaml` is the more precise checked-in field-shape source for the merged runtime artifact
+
+Lens should not rely on this document alone for Zod-level shape definition.
+
 ### 6.1 `package_meta`
 
 Contains:
@@ -447,6 +454,13 @@ In practical terms, the app/runtime contract should assume:
 - structured runtime support comes from `assistive_package.yaml`
 - support is precomputed and deterministic
 - the package already contains student-facing, discussion-phase, and teacher-facing support layers
+
+One integration detail should be treated as explicit rather than assumed: the reviewed runtime artifacts currently use different turn-ID forms across files.
+
+- `transcript.yaml` uses `turn_02`-style IDs
+- `assistive_package.yaml` uses `t02`-style IDs
+
+Lens should therefore normalize turn IDs in its content-loader boundary instead of assuming the two files already share one canonical ID string.
 
 If the app is still modeled around:
 

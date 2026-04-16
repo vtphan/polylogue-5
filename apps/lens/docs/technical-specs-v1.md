@@ -7,7 +7,7 @@ It is intentionally narrower than the broader product and instructional-design v
 This document should be read alongside:
 
 - `app-background.md`
-- `instructional-design.md`
+- `instructional-design-v1.md`
 - `pipeline-spec.md`
 
 ---
@@ -31,7 +31,7 @@ The key instructional commitments for v1 are:
   - Explain
   - Transfer
 
-Lens v1 does not need to fully implement every instructional ambition in `instructional-design.md`. It should implement enough of the model to support:
+Lens v1 does not need to fully implement every instructional ambition in `instructional-design-v1.md`. It should implement enough of the model to support:
 
 - meaningful student participation
 - episode-based reasoning analysis
@@ -133,7 +133,8 @@ One reasonable v1 shape:
     ]
   },
   "ui": {
-    "starting_student_id": "s1"
+    "starting_student_id": "s1",
+    "pacing": "guided"
   }
 }
 ```
@@ -161,6 +162,8 @@ For v1, the minimum required fields should be:
 
 Student roster is required before activity begins, but not required inside the config itself.
 
+The `ui.pacing` field is optional and defaults to `guided` when omitted. See § 3.2.1.
+
 ---
 
 ## 3. Features
@@ -183,17 +186,20 @@ The core v1 feature set should be:
 4. **Guided interpretation and optional support**  
    Students can make an initial interpretation and then receive scaffolds, models, or deeper prompts when needed.
 
-5. **Peer comparison and discussion support**  
-   The group can compare individual responses and identify meaningful differences worth discussing.
+5. **Peer comparison, disagreement, and discussion support**  
+   The group can compare individual responses, take a stance toward peer ideas, and identify meaningful differences worth discussing.
 
-6. **Prepared AI perspective**  
-   Lens can show precomputed AI-authored support or perspective without behaving like a live tutor.
+6. **Explicit evaluation and revision**  
+   Lens should ask students to make a basic judgment about what seems strong, weak, or questionable, then revise after discussion.
 
 7. **Progress and engagement system**  
    Lens can show momentum, participation, and badges or recognitions that reinforce engagement.
 
 8. **Browser-local persistence**  
    The app can preserve lightweight group/session history in one browser for continuity and demo use.
+
+9. **Flexible pacing and stopping points**  
+   Lens should support student-paced progress through the focal-turn loop, with clear deterministic stopping points and places to pause and resume.
 
 Anything beyond this should be treated skeptically for v1 unless it is necessary to make the core student experience coherent.
 
@@ -237,7 +243,7 @@ alongside the episode transcript/content for the same episode directory.
 
 V1 should treat the current merged `assistive_package.yaml` as the runtime contract. If the pipeline later migrates to a split such as `runtime_package.yaml` plus `authoring_trace.yaml`, Lens v1 should be updated explicitly; it should not assume that split today.
 
-One package-reading detail remains intentionally open for v1: the exact field contract for the prepared outside perspective. The app is expected to render a prepared perspective from package-backed content, but that final mapping should be settled during implementation planning rather than assumed here.
+One package-reading detail remains intentionally open for later versions: the exact field contract for a standalone prepared outside perspective. V1 should not assume that contract exists yet.
 
 ## 3.2 Student Session Setup
 
@@ -249,6 +255,29 @@ The app should support a lightweight setup flow for a shared device:
 - allow resuming recent local sessions if appropriate
 
 This should be fast and low-friction. Setup should not feel like account creation.
+
+### 3.2.1 v1 Decision: Pacing Policy
+
+For v1, the pacing policy is a **session-config decision**, not a student-facing runtime control. The config selects one supported mode, and the app applies it for the whole session. Students do not see the raw mode label; they see its effects (stopping-point prompts in `guided` mode; uninterrupted forward flow in `open` mode).
+
+Supported modes:
+
+- **open**
+  The group advances whenever ready once local prerequisites are met.
+
+- **guided**
+  The app surfaces deterministic stopping-point cues based on the current focal turn and backbone stage, but the group still advances itself.
+
+If `ui.pacing` is omitted from the session config, the app should default to `guided`.
+
+V1 does not need live classroom orchestration, phase locking, or a real-time teacher dashboard to support this. A config-driven pacing policy plus clear stage boundaries is enough.
+
+The app should not assume it can infer nuanced pacing advice at runtime. Lens v1 is non-LLM at runtime and should therefore base pacing support on explicit structural rules such as:
+
+- current focal turn
+- current backbone stage
+- whether the current round is complete
+- whether a natural stopping point has been reached
 
 ## 3.3 Low-Floor Participation Moves
 
@@ -274,12 +303,14 @@ The most natural v1 core stage flow is:
 
 1. notice a focal turn or moment
 2. make an initial interpretation
-3. receive support if needed
-4. compare with peers
-5. deepen through discussion or explanation
-6. optionally view a prepared outside perspective
+3. make a basic evaluative judgment
+4. receive support if needed
+5. compare with peers
+6. deepen through discussion or explanation
 
 This should not be interpreted as six rigid, separately branded activity modes. It is better understood as a guided backbone for the experience.
+
+Each stage in this backbone should also be a **pacing-aware unit**. The app should know when a group has reached a reasonable stopping point and should preserve enough state to resume from that point later.
 
 Within that backbone, Lens can offer embedded support moves such as:
 
@@ -309,11 +340,19 @@ For v1, the minimum required backbone should be:
 
 1. read / focus on a focal turn
 2. make an initial response
-3. compare with peers
-4. discuss face-to-face
-5. revise or continue
+3. make a basic evaluative move
+4. compare with peers
+5. discuss face-to-face
+6. revise or continue
 
-Supports, deeper prompts, and prepared perspective should sit around this backbone as optional or conditional steps.
+Supports and deeper prompts should sit around this backbone as optional or conditional steps.
+
+For v1, the student-facing stage indicator should collapse the evaluative move into the broader `respond` stage rather than introducing a separate `evaluate` stage label in persistent UI. That means:
+
+- `respond` includes the initial response plus the basic evaluative judgment
+- comparison remains the next distinct stage after all required responses are saved
+
+For v1, each focal turn should be treated as a valid stopping unit. A group should be able to pause after first response, after comparison/discussion, or after revision and return to the same focal turn and stage later.
 
 ## 3.5 Peer Discussion Support
 
@@ -326,6 +365,7 @@ Possible v1 support:
 - reveal side-by-side student responses on one device
 - highlight differences in how students responded
 - provide discussion prompts or turn-based cues
+- provide a lightweight stance-taking move toward a peer response
 - make it easy for the group to recognize disagreement worth discussing
 
 The app does not need to capture full live discussion transcripts in v1. Its job is to make face-to-face discussion easier to start and sustain.
@@ -409,33 +449,33 @@ For v1, support timing should follow a simple hybrid rule set:
 - **sentence frames, modeled examples, and transfer examples** are available on demand
 - **deeper prompts** appear only after an initial response is saved
 - **redirects** appear when a student explicitly asks for help, chooses an "I'm not sure" path, or opens the support panel after a weak first move
-- **prepared perspective** appears only after initial response and peer comparison/discussion, and remains optional
-
 This keeps the flow simple while still supporting different readiness levels.
 
-## 3.7 AI/Prepared Perspective
+### 3.6.2 v1 Decision: Transfer Prompt
 
-Lens v1 should be able to display precomputed AI-authored perspective/support content from the package when appropriate.
+For v1, Lens should include a lightweight transfer prompt at episode completion or another natural stopping point.
 
-This content should be framed as:
+This should:
 
-- prepared support
-- prepared outside perspective
+- connect the episode back to the group's own PBL discussion habits
+- ask for one concrete takeaway or next move
+- remain brief enough that it does not turn the end of the activity into a second full writing task
+- be available whenever the app identifies a good stopping point, not only after the full episode is complete
 
-not as:
+## 3.7 AI in v1
+
+For v1, AI-authored content should appear through **embedded prepared supports** that are already covered by the assistive package contract, such as:
+
+- modeled examples
+- transfer examples
+- deeper prompts
+
+V1 should frame this content as prepared support, not as:
 
 - the final authority
 - a live AI tutor
 
-### 3.7.1 v1 Decision: Perspective Timing
-
-For v1, the prepared outside perspective should appear only after:
-
-- a student has made an initial response
-- peer comparison has occurred
-- the group has had a chance to discuss or at least view a discussion cue
-
-This keeps the prepared perspective in a comparative role rather than letting it replace student thinking.
+A standalone prepared outside perspective view is deferred until the runtime field contract is explicit enough to build against safely.
 
 ## 3.8 Progress and Gamification
 
@@ -448,6 +488,8 @@ At minimum, it should support:
 - peer-awarded badges or recognitions for helpfulness or strong discussion contributions
 
 This system should reinforce engagement and growth, not reduce the experience to right-answer hunting.
+
+For v1, rewards and recognitions should be treated as engagement support, not as the primary pacing mechanism. The app should not assume that students will manage session time well just because progress and rewards are visible.
 
 ### 3.8.1 v1 Decision: Recognition Rules
 
@@ -514,6 +556,17 @@ Lens v1 should persist the following in local browser storage:
 
 Persistence should be treated as session continuity and demo support, not as durable institutional record-keeping.
 
+V1 persistence does not need to implement a full longitudinal progression model. Cross-session growth tracking, support fading over time, and durable student development history belong more naturally to v2.
+
+For v1, persistence should also preserve:
+
+- current focal turn
+- current backbone stage
+- current pacing policy
+- whether the group stopped at a suggested stopping point
+
+If later episodes are available in the current session or bundle, the app should also allow the group to continue forward after finishing an episode rather than forcing a hard stop.
+
 ---
 
 ## 4. User Stories
@@ -525,6 +578,7 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 - As a small group of students sharing one device, we want to enter our names quickly so that we can start the activity without friction.
 - As a returning group on the same browser, we want Lens to remember enough local history that we can resume without re-entering everything from scratch.
 - As a group, we want the app to open directly into our assigned session when a session config is provided so that startup is fast and clear.
+- As a session author, we want to set the pacing mode in the session config so that Lens behavior fits the class period without requiring live student or teacher choice during the activity.
 
 ## 4.2 Episode Reading
 
@@ -542,6 +596,7 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 
 - As a student, I want to give my own initial reading before seeing others' responses so that I can think for myself first.
 - As a student, I want my response to be saved locally under my name so that I can return to it or revise it later in the session.
+- As a student, I want to make a simple judgment about what seems strong, weak, or questionable so that I move beyond noticing into evaluation.
 - As a student, I want optional support after my first move so that I can deepen my thinking without getting shut down.
 - As a student, I want deeper prompts that help me move from basic interpretation toward stronger evaluation or explanation when I am ready.
 - As a student, I want to revise my response after support or discussion so that I can show how my thinking changed.
@@ -550,6 +605,7 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 
 - As a group, we want to compare our responses on one device so that we can quickly see where we agree or disagree.
 - As a student, I want Lens to make differences between responses visible so that discussion has somewhere to begin.
+- As a student, I want a simple way to take a stance toward a peer's idea so that disagreement becomes something we do, not just something we see.
 - As a student, I want prompts or cues that help us discuss the episode face-to-face instead of getting stuck in silence.
 
 ## 4.6 Scaffolds and Supports
@@ -559,13 +615,7 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 - As a student focused on the wrong thing, I want a redirect that helps me attend to a more relevant moment.
 - As a student working at a higher level, I want deeper prompts that push me beyond a basic response.
 
-## 4.7 Prepared AI Perspective
-
-- As a student, I want to see a prepared outside perspective when it is useful so that I can compare my thinking with another reading.
-- As a student, I want the prepared perspective to appear after I have had a chance to think first so that it supports comparison rather than replacing my own reading.
-- As a student, I do not want the AI perspective to feel like the final authority that ends discussion.
-
-## 4.8 Progress and Recognition
+## 4.7 Progress and Recognition
 
 - As a student, I want to feel that I am making progress through the activity so that I stay engaged.
 - As a student, I want badges or recognitions that reflect participation, growth, or helpful discussion moves so that the activity feels rewarding.
@@ -574,18 +624,28 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 - As a student, I want the app to feel lively and rewarding rather than flat so that I want to keep participating.
 - As a student, I want different kinds of smart participation to count, not just getting something "right."
 
-## 4.8.1 Social Energy and Excitement
+## 4.7.1 Social Energy and Excitement
 
 - As a student, I want to see when my group notices different things so that discussion feels interesting.
 - As a student, I want the activity to feel like something we are doing together, not just taking turns filling things out.
 - As a student, I want small moments of surprise, recognition, or unlock-like progress so that the experience feels exciting.
 
-## 4.9 Shared-Browser Use
+## 4.8 Shared-Browser Use
 
 - As a group using one device, we want Lens to keep track of who said what so that individual participation does not disappear into a single shared response.
 - As a group, we want the shared-browser experience to feel natural rather than like a workaround for a single-user tool.
 - As a student, I want it to be clear when it is my turn to respond so that the shared device does not become confusing.
 - As a group, we want to hand off the active student smoothly so that turn-taking feels easy.
+
+## 4.9 Transfer Back to PBL
+
+- As a student, I want to end the episode by naming one thing my group could carry into our own discussion so that this work connects back to real PBL talk.
+
+## 4.10 Pacing And Stopping Points
+
+- As a group, we want Lens to make good stopping points visible so that we can pause without losing the thread.
+- As a returning group, we want to resume exactly where we left off so that stopping mid-episode does not break the experience.
+- As a group that finishes early, we want to move on to the next available episode so that we can keep working instead of waiting.
 
 ---
 
@@ -604,13 +664,13 @@ This section translates the core user journeys into concrete UI surfaces, state 
   Enter or select student names for the current group.
 
 - **Episode landing screen**
-  Show episode title, short setup text, and clear entry into the discussion.
+  Show episode title, short setup text, pacing choice, and clear entry into the discussion.
 
 - **Episode reading view**
   Show the episode in a readable whole-discussion format with focal turns or moments visibly marked.
 
 - **First-response view**
-  Prompt each student to make an initial low-floor move on a focal turn or moment.
+  Prompt each student to make an initial low-floor move and a basic evaluative judgment on a focal turn or moment.
 
 - **Comparison view**
   Reveal side-by-side student responses once each student has completed the required initial move.
@@ -632,8 +692,10 @@ This section translates the core user journeys into concrete UI surfaces, state 
 - local session ID
 - episode/session config reference
 - student roster for current group
+- pacing policy
 - active focal turn or prompt
 - per-student initial responses
+- per-student evaluative judgments
 - completion flags for required first-response step
 
 ## 5.2 Journey B: Student Requests Support Early
@@ -677,11 +739,11 @@ This section translates the core user journeys into concrete UI surfaces, state 
 - **Discussion cue panel**
   Surface one or more prompts that help the group discuss the disagreement face-to-face.
 
+- **Peer stance prompt**
+  Ask students to agree, disagree, extend, or challenge a peer response before revision.
+
 - **Deepening prompt view**
   Offer optional explanation or reasoning-deepening prompts after discussion begins.
-
-- **Prepared perspective view**
-  Optionally show the prepared outside perspective after students have already had a chance to think and discuss.
 
 - **Revision / confirmation view**
   Let students update or confirm their interpretations after discussion.
@@ -694,9 +756,9 @@ This section translates the core user journeys into concrete UI surfaces, state 
 1. `comparison_view_opened`
 2. `difference_detected_or_highlighted`
 3. `discussion_cue_opened`
-4. optional `peer_recognition_awarded`
-5. optional `deepening_prompt_opened`
-6. optional `prepared_perspective_opened`
+4. optional `peer_stance_selected`
+5. optional `peer_recognition_awarded`
+6. optional `deepening_prompt_opened`
 7. `student_response_revised` or `student_response_confirmed`
 8. optional `progress_updated`
 
@@ -704,9 +766,9 @@ This section translates the core user journeys into concrete UI surfaces, state 
 
 - comparison-state data derived from student responses
 - which discussion cue was shown
+- which stance-taking move was used
 - optional peer recognitions awarded
 - whether a deeper prompt was used
-- whether prepared perspective was viewed
 - revised response state per student
 - progress/badge updates caused by the interaction
 
@@ -728,6 +790,8 @@ For v1, the shared-device interaction model should assume:
 - only the active student can submit or edit at that moment
 - the active student can be switched with a simple handoff action
 - prior student responses remain visible for comparison and revision
+
+For fairness, the app should default to **round-robin active-student rotation**. The active student for a round should also be the student who selects the next focal turn for the group.
 
 ## 5.5 Journey D: Student Switch / Turn-Taking on Shared Device
 
@@ -785,8 +849,64 @@ For v1, the shared-device interaction model should assume:
 - student roster
 - per-student responses
 - progress state
+- current backbone stage
+- current pacing policy
 - scaffold usage history if relevant
 - badge/recognition history if implemented
+
+## 5.7 Journey F: Episode Close / Transfer Back to PBL
+
+### Screens / Views
+
+- **Episode completion view**
+  Show completion, progress, and recognitions for the episode.
+
+- **Transfer prompt card**
+  Ask the group to name one discussion move, habit, or caution they could carry into their own PBL talk.
+
+- **Next-episode continuation action**
+  Allow the group to continue to another available episode when the current one is done.
+
+### State Transitions
+
+1. `episode_complete`
+2. `completion_view_opened`
+3. `transfer_prompt_opened`
+4. optional `transfer_response_saved`
+5. `session_return_or_continue_selected`
+
+### Stored Data
+
+- completion summary
+- optional transfer takeaway
+- next-step selection
+
+## 5.8 Journey G: Pause / Resume At A Natural Stopping Point
+
+### Screens / Views
+
+- **Stopping-point prompt**
+  Show that the group has reached a structural stopping point where it is safe to pause or continue.
+
+- **Resume screen**
+  Restore the group to the same focal turn and backbone stage later.
+
+### State Transitions
+
+1. `stopping_point_reached`
+2. optional `pause_selected`
+3. `session_state_saved`
+4. `resume_selected`
+5. `working_state_restored`
+
+### Stored Data
+
+- focal turn at pause
+- backbone stage at pause
+- pacing policy
+- whether the stop was app-suggested or user-selected
+
+For v1, `app-suggested` should mean derived from deterministic structure, not from inferred struggle or open-ended runtime analysis.
 
 ---
 
@@ -800,14 +920,13 @@ Recommended v1 frontend stack:
 
 - **React**
 - **TypeScript**
-- **Next.js** using the existing `lens-app/` codebase as the starting point
+- **Next.js App Router** in a fresh app under `apps/lens/`
 - **Tailwind CSS**
 - **Zustand** for lightweight client state
 - **Zod** for runtime validation of loaded content
 
 Optional:
 
-- **React Router** if the app benefits from a small number of explicit routes
 - **Framer Motion** if used sparingly for presentation polish
 
 The emphasis should be:
@@ -819,9 +938,13 @@ The emphasis should be:
 
 The architecture should stay simple enough that instructional and UX experimentation is easy.
 
-For v1, this does **not** imply using server-side persistence, Prisma-backed data storage, or account-based flows, even though `lens-app/` currently contains Next.js and Prisma infrastructure. The recommended path is to adapt the existing Next.js app shell for a client-heavy, browser-local v1 and leave Prisma/server persistence unused for this version.
+For v1, routing should stay inside the Next.js App Router model. Do not introduce `React Router` or a second client-side routing layer inside the app.
 
-Prisma artifacts that already exist in `lens-app/` should be treated as dormant in v1. V1 code should not import `@prisma/client` or depend on server-side persistence.
+For v1, this should be a greenfield app implementation under `apps/lens/`, not an adaptation of the older `lens-app/` codebase.
+
+The older `lens-app/` should be treated as reference-only legacy material. V1 should not inherit its server-side persistence, Prisma-backed data model, account assumptions, or older evaluate/explain product flow unless a specific low-level utility is intentionally copied over.
+
+V1 code should not import `@prisma/client` or depend on server-side persistence.
 
 ## 6.2 Data Sources
 
@@ -854,6 +977,7 @@ This suggests a simple storage module that owns:
 - active session record
 - response history
 - badge/progress history
+- pacing and stage restoration data
 
 ## 6.3.1 Suggested Client Modules
 
@@ -866,13 +990,13 @@ To keep the app simple but maintainable, v1 should likely separate:
   Validates loaded data with `Zod` before it enters the app.
 
 - **session store**  
-  Holds the current group, current student, active episode, progress state, and in-session responses.
+  Holds the current group, current student, active episode, progress state, pacing policy, current backbone stage, and in-session responses.
 
 - **persistence layer**  
   Reads/writes browser-local state through a thin wrapper around `localStorage`.
 
 - **activity engine**  
-  Determines what activity state the user is in and which supports, prompts, or progress markers should be shown.
+  Determines what activity state the user is in, which supports, prompts, or progress markers should be shown, and when a structural stopping point has been reached.
 
 - **UI layer**  
   Renders episode views, participation moves, discussion views, scaffold views, and progress/badge feedback.
@@ -918,7 +1042,7 @@ V1 does not need full accessibility maturity, but it should not assume mouse-onl
 One reasonable v1 structure:
 
 - `src/app/`
-  SPA shell, app bootstrap, top-level routing if used
+  App Router entry points, route segments, and SPA shell bootstrap
 
 - `src/features/session/`
   Student/group setup, active session state, local session resume
@@ -941,7 +1065,7 @@ One reasonable v1 structure:
 - `src/lib/types/`
   Shared TypeScript and Zod schema definitions used by the app
 
-In the existing Next.js shell, `src/app/` should continue to own route segments and app entry points, while `src/features/` should hold domain modules and reusable product logic. These are complementary layers, not competing structures.
+In the new app under `apps/lens/`, `src/app/` should own App Router route segments and app entry points, while `src/features/` should hold domain modules and reusable product logic. These are complementary layers, not competing structures.
 
 ## 6.6 Suggested Technical Priorities
 
@@ -958,6 +1082,11 @@ For v1, technical priorities should be:
 
 If Lens v1 succeeds, later versions may add:
 
+- a standalone prepared outside perspective view once the runtime contract is stable
+- visible student-facing lens vocabulary and stronger reasoning-language instruction
+- support fading based on prior use and readiness
+- longitudinal progression tracking across sessions
+- richer transfer back into students' own PBL work
 - teacher-facing views
 - networked persistence
 - multi-device collaboration
@@ -966,3 +1095,27 @@ If Lens v1 succeeds, later versions may add:
 - more adaptive support logic
 
 These should be treated as future expansion, not as hidden requirements for v1.
+
+---
+
+## 7. Known v1 Limitations / Pilot Watchpoints
+
+V1 deliberately does not address the items below. They are recorded here so they can be observed during pilot rather than rediscovered as surprises.
+
+- **Non-active-student dead zone**
+  During round-robin first response, students who are not currently active have no designed activity. V1 does not give them a parallel low-stakes task. Watch for off-task behavior, side conversation, or device-monopoly patterns during response turns, especially in groups of 4-5.
+
+- **Stall recovery within a focal turn**
+  V1 supports pause/resume across stages (§ 5.8) but does not provide an in-stage skip when a group is genuinely stuck on the current focal turn. Watch for groups looping discussion cues without progressing, and note whether a "move on for now" affordance would have helped.
+
+- **Read-then-respond timing**
+  V1 does not specify when the group reads the focal turn relative to the round-robin response sequence. Watch whether non-active students re-read on their own turn (slow), respond without close reading, or naturally settle into a group-read-first rhythm.
+
+- **Group-size sensitivity**
+  The same flow plays differently for groups of 3 versus 5. With 5 students, each waits through 4 peer responses before comparison. Watch for engagement decay as group size grows, and note completion rates per period by group size.
+
+- **Recognition fairness**
+  Peer-awarded recognitions can drift toward the same one or two students. V1 has no nudge against this. Watch the distribution of `Helpful` / `Good Point` / `Good Question` / `Changed My Thinking` across rosters.
+
+- **Active-student concentration**
+  In v1 the active student picks the focal turn, types the response, and is the de-facto reader for the round (§ 5.4). Three responsibilities are concentrated on one student per round. Round-robin distributes this across the cohort over time, but watch for fatigue or imbalance within a single session.
