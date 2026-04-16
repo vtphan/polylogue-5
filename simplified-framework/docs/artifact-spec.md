@@ -25,7 +25,7 @@ Defines:
 - turns
 - sentence-level text
 
-### `simplified_assistive_package.yaml`
+### `lesson_package.yaml`
 
 Defines the app-facing teaching content:
 

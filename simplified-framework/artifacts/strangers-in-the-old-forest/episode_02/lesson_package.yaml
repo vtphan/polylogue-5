@@ -1,0 +1,322 @@
+package_meta:
+  story_id: strangers-in-the-old-forest
+  episode_number: 2
+  schema_version: simplified_v1
+
+episode:
+  title: The Phone Call
+  student_intro: >-
+    It is Monday after school. Jules, Maya, Cam, and Priya are at
+    Maya's kitchen table. Jules called a grad student named Anya over
+    the weekend — Anya is someone Jules's big brother knows — and now
+    Jules is retelling what Anya said. In this episode, watch what
+    happens when the group hears that a "real scientist" said
+    something. Your job is to notice when someone is trusting a
+    source too quickly — acting like who said it is the same thing as
+    why it is true. Keep an eye out for leaps too. Those are still
+    around from last time, just quieter.
+  flaws:
+    - trusting_a_source_too_quickly
+    - jumping_to_a_conclusion
+  final_takeaway: A source sounding important does not mean the framing is right.
+
+warmups:
+  modeled:
+    warmup_id: warmup_01
+    turn_id: t05
+    title: Physics, not squirrels
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Maya starts to ask what Anya actually studies. Jules cuts in
+      and says: "Maya. She's a PhD student. In physics. At U of M.
+      Marcus literally works with her. She knows what she's talking
+      about, I promise." What is Jules doing with her reasoning?
+    best_answer_id: modeled_best
+    best_answer_text: >-
+      Jules is trusting a source too quickly. She stacks four things
+      about Anya — PhD, physics, U of M, knows Marcus — and treats
+      that list like it answers Maya's question. But Maya was asking
+      what Anya actually studies. Physics is not the same thing as
+      squirrel biology. Jules never checks whether Anya is an expert
+      in this thing.
+    worked_explanation: >-
+      Look at what Maya was trying to ask: "what does she actually…"
+      Maya wanted to know Anya's area. Jules answers with a stack of
+      credentials instead. Notice the words Jules uses — "PhD
+      student," "physics," "U of M," "Marcus literally works with
+      her." None of those words are about squirrels. Jules closes
+      with "she knows what she's talking about, I promise." The
+      "promise" is doing the work the evidence cannot. Being a PhD
+      student in physics is impressive, and it is still not a reason
+      to trust someone on a question about animals. That is what
+      trusting a source too quickly looks like — accepting the person
+      without checking whether they fit the question.
+    takeaway: >-
+      A stack of credentials is not the same thing as being an expert
+      in this question. Always ask what the person actually studies.
+
+  guided:
+    warmup_id: warmup_02
+    turn_id: t11
+    title: Just a list of who she is
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Priya asks whether Anya said the red eyes "is" a biosignature
+      or "could be" one. Jules answers. Then Cam says: "Grad student.
+      At U of M. Said our park. We were right on Saturday." What is
+      the biggest problem with Cam's reasoning?
+    answer_options:
+      - option_id: g1
+        text: Cam is just listing who Anya is — he is not giving any actual reason the squirrel part is right.
+        kind: best_fit
+      - option_id: g2
+        text: Cam is wrong because grad students are not real scientists yet.
+        kind: partial
+      - option_id: g3
+        text: Cam is being too loud and interrupting Priya.
+        kind: off_target
+      - option_id: g4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: g1
+    best_answer_text: >-
+      Cam is trusting a source too quickly. He answers Priya by
+      chanting facts about Anya — "grad student, U of M" — as if
+      those facts are reasons. But who Anya is does not tell us
+      whether the red eyes are really a biosignature. Cam treats the
+      credentials like they settle the question. That is the move.
+    worked_explanation: >-
+      Read Cam's turn again. Every piece of it is about Anya: she is
+      a grad student, she is at U of M, she said something about
+      their park. Notice what is missing — no reason, no check, no
+      part about the squirrels themselves. Cam ends with "we were
+      right on Saturday," as if listing Anya's title proved them
+      right. That is not an argument. That is a source being trusted
+      because it sounds important.
+    hint: >-
+      Look at every word in Cam's turn. How many of them are reasons,
+      and how many of them are just who Anya is?
+    takeaway: >-
+      Listing a person's title is not the same as giving a reason.
+      When someone "argues" by stacking credentials, slow down.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t08
+    title: "Has to be it"
+    focus_move: jumping to a conclusion
+    prompt: >-
+      Jules just said Anya called the red eyes a possible
+      biosignature. Cam jumps in: "A real scientist said biosignature.
+      About our park. Bro, that has to be it then. That's not us
+      guessing in the grass anymore, that's a PhD." What is the
+      biggest problem with Cam's reasoning?
+    answer_options:
+      - option_id: a1
+        text: Cam leaps from "a scientist used a word" straight to "that has to be it."
+        kind: best_fit
+      - option_id: a2
+        text: Cam is trusting Anya just because she has a PhD.
+        kind: partial
+      - option_id: a3
+        text: Cam should not be excited about science words like biosignature.
+        kind: off_target
+      - option_id: a4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: a1
+    hint: >-
+      Listen for Cam's signal phrase — "has to be it." What did Anya
+      actually say, and how far did Cam travel from that?
+    feedback:
+      correct:
+        option_ids: [a1]
+        text: >-
+          Yes. Anya used one word — "biosignature." Cam goes from
+          that one word to "that has to be it then." That "has to be"
+          is the jump. Hearing a word is not the same as proving an
+          idea.
+      by_option:
+        a2: >-
+          That is a real thing Cam is doing too, and it matters. But
+          the louder move in this turn is the leap — "that has to be
+          it then." One word from a scientist is not a conclusion.
+        a3: >-
+          Being excited about a science word is fine. The problem is
+          that Cam treats hearing the word as the same thing as the
+          answer being true.
+        a4: >-
+          Read Cam's last sentence out loud. "Has to be it" is doing
+          a lot of work. What actually backs it up?
+    badge_label: Catch "has to be"
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t10
+    title: '"Could be" to "confirmed"'
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Priya asks: "Did she say it is one, or did she say it could be
+      one." Jules answers: "She said it's the kind of thing that
+      shows up when something's happening in a habitat. Which, yeah,
+      basically — something is happening in our park, and she's the
+      person who studies that. So she confirmed it. That's her whole
+      job, Priya." What is Jules doing here?
+    answer_options:
+      - option_id: b1
+        text: Anya only said "could be," but Jules treats it as "confirmed" because of who Anya is.
+        kind: best_fit
+      - option_id: b2
+        text: Jules is being rude to Priya for asking a question.
+        kind: off_target
+      - option_id: b3
+        text: Jules does not remember exactly what Anya said and is guessing.
+        kind: partial
+      - option_id: b4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: b1
+    hint: >-
+      Priya asked a very specific question: "is" or "could be." Did
+      Jules answer it, or did she slide past it?
+    feedback:
+      correct:
+        option_ids: [b1]
+        text: >-
+          Yes. Priya pointed at the exact wording — "is" versus "could
+          be." Jules answers by making Anya's "could be" into
+          "confirmed" and then props it up with "that's her whole
+          job." The source is carrying the claim, not the evidence.
+      by_option:
+        b2: >-
+          Jules does sound short with Priya, but that is not the
+          reasoning problem. The problem is that she upgrades
+          Anya's "could be" into "confirmed."
+        b3: >-
+          Jules might be fuzzy on the wording, but that is not the
+          main issue. The main issue is that she treats Anya saying
+          "could be" as Anya saying "is" — because Anya sounds
+          important.
+        b4: >-
+          Compare Priya's question ("is or could be?") to Jules's
+          answer ("she confirmed it"). Those are not the same.
+    badge_label: Catch the upgrade
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t13
+    title: "It doesn't matter"
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Priya quietly asks: "How does Marcus know her again?" Jules
+      answers: "I don't know, from Rhodes, from a thing. It doesn't
+      matter, she's a PhD student, she does this. Can we move on?"
+      What is the biggest problem with Jules's answer?
+    answer_options:
+      - option_id: c1
+        text: Priya is asking a basic question about the source, and Jules says the source does not matter.
+        kind: best_fit
+      - option_id: c2
+        text: Jules does not remember how Marcus knows Anya, which makes her look bad.
+        kind: partial
+      - option_id: c3
+        text: Jules is being impatient with Priya for no reason.
+        kind: off_target
+      - option_id: c4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: c1
+    hint: >-
+      Priya's question is about how trustworthy the source is. What
+      does Jules do with that question?
+    feedback:
+      correct:
+        option_ids: [c1]
+        text: >-
+          Yes. Priya is asking exactly the right thing — how do we
+          know this person is who Jules says she is? Jules says "it
+          doesn't matter" and jumps back to the title. But that is
+          the whole question. Refusing to check the source is what
+          trusting a source too quickly looks like.
+      by_option:
+        c2: >-
+          Not remembering is fine on its own. The real issue is that
+          Jules says the answer does not matter — she is refusing to
+          check the source at all.
+        c3: >-
+          Jules does sound impatient, but the deeper problem is what
+          she is impatient about: a simple question about the source.
+        c4: >-
+          Ask yourself what Priya was trying to find out. Then look
+          at whether Jules answered it or waved it off.
+    badge_label: Notice the brush-off
+
+  - level_id: level_04
+    sequence_index: 4
+    turn_id: t14
+    title: Maya stops asking
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Earlier, Maya started to ask what Anya actually studies and
+      then let it drop. Now she says: "I mean… if she said it, she
+      said it. I'm not about to argue with somebody getting a PhD in
+      it." What is Maya doing with her reasoning?
+    answer_options:
+      - option_id: d1
+        text: Maya stops asking her own question because Anya has a PhD — but a PhD does not make the squirrel part right.
+        kind: best_fit
+      - option_id: d2
+        text: Maya is being a good friend by not pushing back when Jules is excited.
+        kind: partial
+      - option_id: d3
+        text: Maya is changing the subject to something else.
+        kind: off_target
+      - option_id: d4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: d1
+    hint: >-
+      Maya had a real question earlier. What made her drop it? Is
+      that a good reason to stop asking?
+    feedback:
+      correct:
+        option_ids: [d1]
+        text: >-
+          Yes. Maya had the right question — what does Anya actually
+          study? She drops it because "somebody getting a PhD in it"
+          sounds too big to argue with. But Anya's PhD is in physics.
+          Being impressive is not the same as being right here.
+      by_option:
+        d2: >-
+          Caring about your friend is good. But softening a real
+          question because the other person is excited is not the
+          same as caring — and here it lets the source go unchecked.
+        d3: >-
+          Maya is not really changing the subject. She is giving up
+          on her own earlier question because she feels outranked.
+        d4: >-
+          Remember what Maya started to ask earlier. Why did she stop?
+          Is "they have a PhD" actually a reason on the squirrel
+          question?
+    badge_label: Catch the soften
+
+hidden_mapping:
+  warmup_01:
+    flaw: trusting_a_source_too_quickly
+    source_turn_id: t05
+  warmup_02:
+    flaw: trusting_a_source_too_quickly
+    source_turn_id: t11
+  level_01:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t08
+  level_02:
+    flaw: trusting_a_source_too_quickly
+    source_turn_id: t10
+  level_03:
+    flaw: trusting_a_source_too_quickly
+    source_turn_id: t13
+  level_04:
+    flaw: trusting_a_source_too_quickly
+    source_turn_id: t14

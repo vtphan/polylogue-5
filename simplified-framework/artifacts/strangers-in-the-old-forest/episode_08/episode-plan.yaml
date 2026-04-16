@@ -1,0 +1,86 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_08
+title: The Call Back
+
+episode_goal: >
+  Maya assembles the genetic chain — a long-ago mutation in a grey squirrel
+  ancestor, preserved by founder effect in a habitat patch that highways cut
+  off from the rest of Memphis, passed silently through generations of
+  carriers, finally visible as red-eyed homozygotes in numbers large enough
+  for 6th graders to notice. Jules calls Anya back with the group's answer.
+  The evidence flaw and the conditions flaw appear here at their subtlest
+  level — the group almost slips, and catches itself.
+
+flaws:
+  - id: not_enough_evidence
+    amplification: heightened
+    scene_note: >
+      Maya assembles the chain step by step; one early step rests on a thin
+      generalization that the group catches together. A confident claim
+      about how often heterozygous carriers are missed slips in casually
+      before anyone slows it down. While constructing the falsifiable
+      reformulation, the group nearly accepts a number from memory rather
+      than checking it.
+  - id: missing_important_conditions_or_consequences
+    amplification: heightened
+    scene_note: >
+      An almost-universal claim about isolated habitat patches gets walked
+      back when someone names the boundary condition. Jules notices Anya's
+      defensive reframing on the call but does not flag the missing
+      condition out loud, leaving it for the reader to see.
+
+student_takeaway: A good answer can predict what would have to be true for it to be wrong.
+
+scene_design:
+  opening: >
+    Sunday evening. Maya's kitchen table again, notebook open. The group is
+    building the chain together: mutation, founder effect, highway isolation,
+    carriers, homozygotes visible in numbers.
+  turn: >
+    Maya walks the chain forward; the group catches a thin step and fixes
+    it, catches a confident-sounding claim about carriers and slows it down,
+    and formulates the answer as something that could be checked — what
+    would have to be true for it to be wrong. Jules dials Anya.
+  close: >
+    Jules delivers the chain. Anya is kind and, in small ways, defensive.
+    The group notices without pressing. The answer is boring. The relief is
+    real.
+
+character_beats:
+  - character_id: maya
+    beat: >
+      Assembles the chain. Her arc completes — from arguing by feel to
+      writing chains in a notebook. She formalizes by default now.
+  - character_id: priya
+    beat: >
+      Names the boundary condition on the isolated-habitat claim. Her
+      structural instincts are now spoken out loud.
+  - character_id: cam
+    beat: >
+      Slows down the confident carrier claim. He is auditing in real time
+      now, not only after the fact.
+  - character_id: jules
+    beat: >
+      Dials. Delivers the answer as the group's answer, not as her own.
+      Notices Anya's defensiveness and lets it sit — the restraint is the
+      growth.
+
+target_teachable_moments: 5
+warmup_candidate_goal: 2
+level_candidate_goal: 3
+
+flaw_embedding_guidance:
+  must_include:
+    - one heightened evidence moment that the group catches and fixes on stage
+    - one casual overconfident claim about carriers that gets slowed down
+    - one almost-universal claim about isolated habitat patches that Priya
+      walks back with a boundary condition
+    - one "falsifiable reformulation" — the group stating what would have to
+      be true for their answer to be wrong
+  avoid:
+    - making the chain sound like a textbook — the kids are reconstructing
+      it, not reciting it
+    - letting Jules press Anya on the defensive moments; the restraint is
+      the lesson, not the confrontation
+    - resolving the biosignature framing with a victory lap; the relief
+      should be quiet

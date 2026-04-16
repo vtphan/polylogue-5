@@ -12,7 +12,7 @@ The current Lens work has several problems:
 
 - the conceptual framework is rich, but hard to surface clearly for students
 - the app flow has been more complex than the learning payoff
-- the assistive package has been better suited to analysis than to direct teaching
+- the lesson package has been better suited to analysis than to direct teaching
 - the student runtime has not yet taught critical thinking simply and effectively
 
 This simplified framework starts from a stricter question:
@@ -56,8 +56,6 @@ This simplified framework should selectively reuse those materials without inher
   High-level design documents for the simplified framework.
 - `schemas/`
   Draft schemas for app-facing or pipeline-facing simplified artifacts.
-- `prompts/`
-  Prompt drafts for generating simplified content.
 - `examples/`
   Small worked examples of simplified outputs.
 - `mappings/`
@@ -68,7 +66,7 @@ This simplified framework should selectively reuse those materials without inher
 The simplified framework should produce:
 
 - a simpler instructional model
-- a simpler app-facing assistive package
+- a simpler app-facing lesson package
 - a simpler runtime flow
 - episodes designed around a small number of teachable critical-thinking moves
 

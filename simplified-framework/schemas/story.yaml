@@ -1,7 +1,7 @@
-# Simplified story.yaml schema sketch
+# Simplified story.yaml schema sketch — human reference only.
 #
-# This file is a placeholder for the eventual formal schema.
-# For now it documents the intended structured shape.
+# Canonical structural rules live in
+# simplified-framework/pipeline/scripts/validate_story.py.
 
 type: object
 required:

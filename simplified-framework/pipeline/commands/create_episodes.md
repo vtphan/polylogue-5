@@ -14,8 +14,8 @@ Its job is to translate a completed or mostly completed `story.yaml` into a set 
 
 The default artifacts are:
 
-- `simplified-framework/examples/stories/{story_id}/episode_01/episode-plan.yaml`
-- `simplified-framework/examples/stories/{story_id}/episode_02/episode-plan.yaml`
+- `simplified-framework/artifacts/{story_id}/episode_01/episode-plan.yaml`
+- `simplified-framework/artifacts/{story_id}/episode_02/episode-plan.yaml`
 - and so on for the full episode set
 
 These should follow:
@@ -25,7 +25,7 @@ These should follow:
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/examples/stories/{story_id}/{episode_id}/episode-plan.yaml`
+- `python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 
 ## What This Command Must Do
 
@@ -52,7 +52,7 @@ Do not:
 - generate final transcripts
 - assign flaws to every turn
 - force a rigid flaw count across all episodes
-- generate assistive-package answer choices
+- generate lesson package answer choices
 
 Those belong to later commands.
 
@@ -115,7 +115,7 @@ Do not optimize for:
 
 Primary input:
 
-- `simplified-framework/examples/stories/{story_id}/story.yaml`
+- `simplified-framework/stories/{story_id}/story.yaml`
 
 Also read as needed:
 
@@ -140,7 +140,7 @@ If some details are still open:
 After saving each `episode-plan.yaml`, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/examples/stories/{story_id}/{episode_id}/episode-plan.yaml
+python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml
 ```
 
 Each saved episode plan should pass before the episode set is treated as complete.

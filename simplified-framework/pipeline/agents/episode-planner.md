@@ -68,11 +68,37 @@ Introductory episodes should emphasize the easiest flaws:
 - not enough evidence
 - trusting a source too quickly
 
-### 4. Counts Are Targets, Not Rules
+### 4. Choose an Amplification Level for Every Flaw
+
+Each flaw entry in an episode plan must carry an `amplification` level: `unmistakable`, `showcased`, or `heightened`. These tell the dialog writer how loudly the flaw should land in dialog and tell the reviewer what level to calibrate against. Read the `amplification_guidance` block for each flaw in `simplified-framework/reference/flaw-taxonomy.yaml` before assigning levels.
+
+Use this progression rule across the season:
+
+- The first time a flaw appears in the story, plan it at `unmistakable`. The whole point of the introductory episode is teaching the student to recognize this specific move.
+- The next 1–2 episodes that re-use the same flaw should plan it at `showcased`. The student is practicing detection on a moment that is still clearly highlighted but feels more natural.
+- After that, the same flaw should appear at `heightened`. The student has seen the flaw at higher levels and now needs to catch it in close-to-natural dialog.
+
+**Do not skip levels.** A flaw that has only ever appeared at `unmistakable` should not jump to `heightened` in its next appearance. Step down through `showcased` first.
+
+**Do not introduce a new flaw at `showcased` or `heightened`.** A flaw the student has not seen before always enters at `unmistakable`, regardless of which episode introduces it.
+
+**Mix levels within an episode.** A single episode often carries one introductory or recently-introduced flaw at a higher amplification alongside one or two earlier flaws at lower amplifications. That mix is what makes the curriculum feel like progress rather than repetition.
+
+#### One entry per intended flaw moment
+
+When expanding a story's per-episode flaw plan (whether from `story.yaml`'s `flaw_plan` blocks or your own design), create **one flaw entry per intended turn**, not one per (`id`, `amplification`) pair.
+
+If the story specifies that `jumping_to_a_conclusion` should land at `unmistakable` in 5 different turns of an episode, the resulting `episode-plan.yaml` must contain 5 separate flaw entries — same `id`, same `amplification`, different `scene_note` each.
+
+The total number of flaw entries per episode should match the intended-moments target from `episode-composition.md` §2: roughly 5–7 per episode. Most entries should share the primary flaw's `id` and `amplification`; a smaller number share the optional secondary's.
+
+Do not collapse instances and rely on `flaw_embedding_guidance.must_include` to carry the count. `must_include` is supplementary scene direction, not an inventory of flaw entries — the package builder reads `flaws[]` as the authoritative list of candidate teachable moments.
+
+### 5. Counts Are Targets, Not Rules
 
 Use teachable-moment goals as planning aids, not as rigid formulas.
 
-### 5. Preserve Literary Quality
+### 6. Preserve Literary Quality
 
 Episode plans should support natural scenes and believable characters.
 
@@ -90,6 +116,7 @@ Do not turn episodes into disguised worksheets.
 When drafting episode plans:
 
 - produce one `episode-plan.yaml` per episode
+- save each plan under `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - keep them concise
 - align them to `simplified-framework/docs/episode-plan-spec.md`
 

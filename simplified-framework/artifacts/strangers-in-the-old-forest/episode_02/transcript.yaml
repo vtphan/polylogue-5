@@ -1,0 +1,74 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_02
+title: The Phone Call
+characters:
+  - jules
+  - maya
+  - cam
+  - priya
+setting_note: Maya's kitchen table in South Memphis, Monday after school. Backpacks slumped by the door, a sleeve of saltines open between them. Jules has been sitting on this retelling since Saturday night and cannot sit on it anymore.
+
+turns:
+  - turn_id: t01
+    speaker: Jules
+    text: Okay. Okay okay okay. So Saturday night I actually called Anya. Like, on the phone. And y'all — she did not laugh. She got quiet, and then she went in.
+
+  - turn_id: t02
+    speaker: Cam
+    text: Hold up, who's Anya.
+
+  - turn_id: t03
+    speaker: Jules
+    text: Anya. The grad student. Marcus knows her from Rhodes stuff. She's getting her PhD at U of M right now — this is literally what she studies. So when I told her about the squirrel she just went straight into it.
+
+  - turn_id: t04
+    speaker: Maya
+    text: Wait, what does she actually — like, what's her whole —
+
+  - turn_id: t05
+    speaker: Jules
+    text: Maya. She's a PhD student. In physics. At U of M. Marcus literally works with her. She knows what she's talking about, I promise.
+
+  - turn_id: t06
+    speaker: Maya
+    text: …right. Okay. Sorry, go, go.
+
+  - turn_id: t07
+    speaker: Jules
+    text: So she goes, okay, the red eyes thing — that could actually be a biosignature. Which is basically when something in the environment is, like, leaving a mark on the animals. She said this is exactly the kind of thing she looks for.
+
+  - turn_id: t08
+    speaker: Cam
+    text: Wait wait wait. A real scientist said biosignature. About our park. Bro, that has to be it then. That's not us guessing in the grass anymore, that's a PhD.
+
+  - turn_id: t09
+    speaker: Priya
+    text: Hold on. Did she say it is one, or did she say it could be one.
+
+  - turn_id: t10
+    speaker: Jules
+    text: She said it's the kind of thing that shows up when something's happening in a habitat. Which, yeah, basically — something is happening in our park, and she's the person who studies that. So she confirmed it. That's her whole job, Priya.
+
+  - turn_id: t11
+    speaker: Cam
+    text: Grad student. At U of M. Said our park. We were right on Saturday.
+
+  - turn_id: t12
+    speaker: Priya
+    text: Mm. Could I ask — how does Marcus know her again?
+
+  - turn_id: t13
+    speaker: Jules
+    text: I don't know, from Rhodes, from a thing. It doesn't matter, she's a PhD student, she does this. Can we move on?
+
+  - turn_id: t14
+    speaker: Maya
+    text: I mean… if she said it, she said it. I'm not about to argue with somebody getting a PhD in it.
+
+  - turn_id: t15
+    speaker: Priya
+    text: Yeah. Okay.
+
+  - turn_id: t16
+    speaker: Jules
+    text: So biosignature. That's what we're going with. That's our lead. Anya said it and this is what she does — we are not making it up anymore.

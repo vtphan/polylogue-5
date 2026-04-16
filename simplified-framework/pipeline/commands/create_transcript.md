@@ -22,11 +22,11 @@ It should not silently move from transcript generation into package generation.
 
 The default transcript artifact is:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/transcript.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 The default flaw-review artifact is:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/flaw-review.md`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 This should follow:
 
@@ -35,12 +35,12 @@ This should follow:
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/examples/stories/{story_id}/{episode_id}/transcript.yaml`
+- `python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 ## Required Inputs
 
-- `simplified-framework/examples/stories/{story_id}/story.yaml`
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/episode-plan.yaml`
+- `simplified-framework/stories/{story_id}/story.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
 ## Subagent Roles
@@ -58,7 +58,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/transcript.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 ### 2. `flaw_reviewer`
 
@@ -73,7 +73,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/flaw-review.md`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 The flaw reviewer must not stop at naming flaws.
 
@@ -125,7 +125,7 @@ The operator-facing report should be a concise summary of the saved artifacts, n
 The validation step is:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/examples/stories/{story_id}/{episode_id}/transcript.yaml
+python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml
 ```
 
 If validation fails:
@@ -152,7 +152,7 @@ Do not:
 
 - force every turn to contain a flaw
 - treat guideline counts as rigid pass/fail rules
-- build the assistive package automatically after drafting
+- build the lesson package automatically after drafting
 - leave the review only in chat without saving the file artifact
 
 The human operator is the judge of whether the transcript is good enough.

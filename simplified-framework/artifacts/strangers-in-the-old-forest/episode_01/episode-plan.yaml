@@ -1,0 +1,67 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_01
+title: The Play Date
+
+episode_goal: >
+  On the walk home from Overton Park after seeing a red-eyed white squirrel,
+  the four friends stack conclusion on conclusion until a single strange
+  sighting has been turned into "something is happening here that no one is
+  noticing." The episode teaches the student to recognize an unmistakable
+  "so → so → so" leap.
+
+flaws:
+  - id: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_note: >
+      Jules opens with a stacked chain from red eyes to a hidden cause and
+      doubles down after Priya's observation, escalating into "something here
+      is changing them."
+
+student_takeaway: One strange detail is not enough to support a chain of conclusions.
+
+scene_design:
+  opening: >
+    The four kids are regrouping on a bench near Rainbow Lake after the sighting,
+    still buzzing, trying to describe what they saw to each other.
+  turn: >
+    Jules starts linking the red eyes to a hidden cause out loud, stacking
+    "so → so → so" links in one breath. Cam brings up a TikTok he half-remembers;
+    Priya contrasts with her Audubon Park experience and leaps the other way.
+  close: >
+    The group agrees something is going on and decides to keep meeting. Nobody
+    has slowed the chain down yet; that is the point.
+
+character_beats:
+  - character_id: jules
+    beat: >
+      Runs the biggest chain of the episode and doubles down after any pushback,
+      growing more certain with each retelling.
+  - character_id: maya
+    beat: >
+      Feels the argument is off and tries to slow the group down, but mostly
+      by tone, not by naming the missing step.
+  - character_id: cam
+    beat: >
+      Pattern-matches the sighting to a TikTok about the park and treats the
+      existence of the TikTok as evidence that "stuff is definitely happening."
+  - character_id: priya
+    beat: >
+      Compares to other parks she knows and draws her own fast conclusion
+      ("it must be specific to this park") from the gap in her memory.
+
+target_teachable_moments: 5
+warmup_candidate_goal: 2
+level_candidate_goal: 3
+
+flaw_embedding_guidance:
+  must_include:
+    - one unmistakable stacked chain from Jules ("so → so → so" in one breath)
+    - one moment where Jules doubles down after a contrasting observation instead of updating
+    - one leap by Cam from a piece of media to a claim about the park
+    - one leap by Priya from her own limited experience to a claim about "this park"
+    - a group consensus moment that treats the stacked chain as settled
+  avoid:
+    - letting the leap land in the form of source credulity rather than a conclusion-chain
+    - making the kids sound dumb — each individual link should feel almost reasonable
+    - resolving the overreach on stage; the episode should end with the leap unchallenged
+    - flaws other than jumping_to_a_conclusion doing obvious teachable work this episode

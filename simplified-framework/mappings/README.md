@@ -5,4 +5,4 @@ This directory should contain bridge documents between the current Lens framewor
 Examples:
 
 - current Lens concepts to simplified reasoning flaws
-- current assistive package fields to simplified package fields
+- current assistive package fields to simplified lesson package fields

@@ -8,6 +8,7 @@ Generate artifacts that are directly usable by the simplified Lens app.
 
 The pipeline should produce:
 
+- a story source artifact under `simplified-framework/stories/{story_id}/story.yaml`
 - a story-level episode set
 - one transcript at a time
 - one lesson package per accepted transcript
@@ -40,9 +41,13 @@ The simplified pipeline should mirror the broad shape of the current framework:
 
 Each episode should eventually produce:
 
-- `episode-plan.yaml`
-- `transcript.yaml`
-- `simplified_assistive_package.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
+
+The authored story source should live separately at:
+
+- `simplified-framework/stories/{story_id}/story.yaml`
 
 That smaller artifact set should be enough for the app.
 
@@ -55,7 +60,7 @@ Instead of multiple strict validation stages, the main quality-control loop shou
 1. generate transcript
 2. Claude Code reports likely flaw moments and app readiness
 3. human operator decides whether the transcript is good enough
-4. only then build the assistive package
+4. only then build the lesson package
 
 The operator should judge the transcript using guidelines, not rigid counts.
 

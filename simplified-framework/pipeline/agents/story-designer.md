@@ -97,5 +97,6 @@ Default mode:
 When asked to draft:
 
 - produce a `story.yaml` draft aligned to `simplified-framework/docs/story-spec.md`
+- save it by default at `simplified-framework/stories/{story_id}/story.yaml`
 
 The artifact should be good enough for later episode planning, not a final polished world bible.

@@ -1,0 +1,78 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_05
+title: The Map
+
+episode_goal: >
+  Three of the kids (Priya is absent) plot their sightings on a map of
+  Overton Park and announce the squirrels "only live on the south side,"
+  without naming that the south side is the only part of the park they
+  actually walk. The episode introduces "missing important conditions or
+  consequences" at its loudest and keeps the perspective flaw alive at a
+  lower level.
+
+flaws:
+  - id: missing_important_conditions_or_consequences
+    amplification: unmistakable
+    scene_note: >
+      After plotting sightings, Cam declares the squirrels "only live on the
+      south side" without naming the limit on where the group walks. The
+      group writes the conclusion into the notebook without naming that the
+      data only covers paths they walk.
+  - id: ignoring_another_perspective
+    amplification: showcased
+    scene_note: >
+      The three present kids skip the question of what Priya, absent today,
+      would likely say about the map. A passing "or we just haven't walked
+      anywhere else" gets one-word acknowledgment and is dropped.
+
+student_takeaway: A pattern in the data you have is not a pattern in the data you would need.
+
+scene_design:
+  opening: >
+    After school, Wednesday. Maya's kitchen table. The notebook is open, a
+    printed park map is spread out, and the kids start placing dots where
+    they remember seeing squirrels.
+  turn: >
+    The dots cluster on the south side. Cam announces "they only live on
+    this side," and Maya treats the clean clustering as the final answer.
+    Jules calls it "solved."
+  close: >
+    Conclusion goes into the notebook. The group is pleased. The missing
+    condition — that they only ever walk the south loop — is sitting in plain
+    sight and nobody has said it yet.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Delivers the universal claim ("they only live on this side") and writes
+      the conclusion into the notebook.
+  - character_id: maya
+    beat: >
+      Treats the clean clustering as the final answer. This is the episode's
+      showcased failure of Maya's usual "that doesn't sound right" instinct.
+  - character_id: jules
+    beat: >
+      Closes the question ("I think we've basically solved this part") and
+      moves the group on.
+  - character_id: priya
+    beat: >
+      Absent for this scene by design. Her structural instincts — tracking
+      the conditions her observations were collected under — are the voice
+      the room is missing, and that absence should be felt.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one unmistakable universal claim about where the squirrels live
+    - one moment where the group writes the conclusion down without naming
+      the sampling condition
+    - one brushed-past alternative ("or we just haven't walked anywhere else")
+    - one showcased moment where the absent perspective is visibly not asked for
+  avoid:
+    - having the group catch themselves this episode — Priya catches it in ep 06
+    - letting Priya be present; the absence is load-bearing
+    - making the sampling bias sound technical; a 6th grader should be able
+      to name it in plain English

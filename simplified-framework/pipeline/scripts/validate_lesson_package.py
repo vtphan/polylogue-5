@@ -63,7 +63,7 @@ def validate_lesson_package(path: str) -> int:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
 
-    package = require_mapping(data, "simplified_assistive_package.yaml", errors)
+    package = require_mapping(data, "lesson_package.yaml", errors)
 
     package_meta = require_mapping(package.get("package_meta"), "package_meta", errors)
     require_nonempty_string(package_meta.get("story_id"), "package_meta.story_id", errors)
@@ -134,6 +134,6 @@ def validate_lesson_package(path: str) -> int:
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Validate a simplified lesson package artifact")
-    parser.add_argument("path", help="Path to simplified_assistive_package.yaml")
+    parser.add_argument("path", help="Path to lesson_package.yaml")
     args = parser.parse_args()
     sys.exit(validate_lesson_package(args.path))

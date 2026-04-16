@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-`framework/` holds the shared reasoning model, schemas, and pipeline scripts that generate app-agnostic episode artifacts. `artifacts/` stores generated YAML outputs and archived runs. `apps/` holds app-specific docs, schemas, and optional post-pipeline command surfaces. `apps/artifacts-viewer/` is a small Next.js viewer for framework and story artifacts. `apps/lens/` is currently incomplete/in limbo and should be treated as app-specific downstream material, not the canonical Lens runtime. `lens-app/` is still the current Lens Next.js application with route handlers in `src/app/`, reusable UI in `src/components/`, and shared logic in `src/lib/`. Reference material and scaffolding live under `docs/`, `configs/`, `references/`, and `registry/`.
+`framework/` holds the shared reasoning model, schemas, and pipeline scripts that generate app-agnostic episode artifacts. `simplified-framework/` is the self-contained incubation area for the simplified Lens redesign, including its own docs, schemas, Claude Code command specs, example stories, generated lesson artifacts, and a localized student app. `artifacts/` stores generated YAML outputs and archived runs for the older shared framework. `apps/` holds app-specific docs, schemas, and optional post-pipeline command surfaces. `apps/artifacts-viewer/` is a small Next.js viewer for framework and story artifacts. `apps/lens/` is currently incomplete/in limbo and should be treated as app-specific downstream material, not the canonical Lens runtime. `lens-app/` is still the current Lens Next.js application with route handlers in `src/app/`, reusable UI in `src/components/`, and shared logic in `src/lib/`. Reference material and scaffolding live under `docs/`, `configs/`, `references/`, and `registry/`.
 
 ## Build, Test, and Development Commands
 Run commands from the relevant app directory.
@@ -12,13 +12,21 @@ Run commands from the relevant app directory.
 - `cd apps/artifacts-viewer && npm run dev` runs the artifact viewer; `npm run build` and `npm run lint` validate it.
 - `python3 framework/pipeline/scripts/initialize_polylogue.py` initializes the shared framework pipeline.
 - `python3 framework/pipeline/scripts/initialize_polylogue.py --app lens` initializes the shared framework pipeline plus Lens-specific downstream commands.
+- `python3 simplified-framework/pipeline/scripts/initialize_polylogue.py` clears and repopulates `.claude/commands/` and `.claude/agents/` with the simplified workflow command set.
+- `python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/stories/<story_id>/story.yaml` validates a simplified story artifact.
+- `python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/artifacts/<story_id>/<episode_id>/episode-plan.yaml` validates a simplified episode plan.
+- `python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/<story_id>/<episode_id>/transcript.yaml` validates a simplified transcript.
+- `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/artifacts/<story_id>/<episode_id>/simplified_assistive_package.yaml` validates a simplified lesson package.
 
 ## Claude Code Pipeline Commands
-This repo defines Claude Code slash-command workflows under `.claude/commands/` and the corresponding specialized agent prompts under `.claude/agents/` (mirrored from `framework/pipeline/` plus any app-specific additions after initialization).
+This repo defines Claude Code slash-command workflows under `.claude/commands/` and the corresponding specialized agent prompts under `.claude/agents/`. Which command set is present depends on the most recent initializer you ran.
 
 - Example operator usage in Claude Code: `/brainstorm_episode strangers-in-the-old-forest 1`
 - Shared framework commands: `brainstorm_story`, `brainstorm_episode`, `validate_story`, `create_episode`, `create_transcript`, `build_assistive_package`
+- Simplified framework commands: `create_story`, `create_episodes`, `create_transcript`, `create_lesson_package`
 - App-specific commands may appear only after `--app <app_id>` initialization, such as Lens `configure_session` and `design_scaffolding`
+
+If you are working in `simplified-framework/`, initialize that workflow first and then treat the simplified command specs in `.claude/commands/` as the source of truth for the operator flow. The simplified workflow is story-level planning first, then transcript generation one episode at a time with operator approval, then lesson-package generation only after transcript acceptance.
 
 When working in Codex, treat these slash commands as documented workflows rather than shell commands:
 

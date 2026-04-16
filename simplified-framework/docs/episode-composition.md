@@ -146,7 +146,7 @@ Each designated flaw moment should be traceable to:
 - a plain-language explanation
 - a candidate student question
 
-This should be explicit in the episode plan and later reused by the assistive package generator.
+This should be explicit in the episode plan and later reused by the lesson package generator.
 
 ## 9. What Agents Should Optimize For
 

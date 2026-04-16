@@ -1,0 +1,65 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_01
+title: The Play Date
+characters:
+  - jules
+  - maya
+  - cam
+  - priya
+setting_note: Overton Park, Memphis. Bench by Rainbow Lake, late Saturday afternoon, right after the sighting.
+turns:
+  - turn_id: t01
+    speaker: Cam
+    text: Okay but did everybody actually see the eyes though. Because I saw the eyes. They were red red. Like stoplight red.
+
+  - turn_id: t02
+    speaker: Maya
+    text: I saw them. I'm just catching my breath, y'all were running. Can we sit for one second before we start theorizing.
+
+  - turn_id: t03
+    speaker: Jules
+    text: No but listen — its eyes were red, so something is messing with it, so something in the park is doing it, so there's something here that's, like, changing them. That basically proves it.
+
+  - turn_id: t04
+    speaker: Priya
+    text: Whoa. Jules. That was one squirrel. Breathe.
+
+  - turn_id: t05
+    speaker: Jules
+    text: I am breathing. I'm just saying — normal squirrels don't look like that. If it looked like that, something had to make it look like that. You don't just get red eyes for fun, Priya.
+
+  - turn_id: t06
+    speaker: Cam
+    text: Okay wait wait wait. I saw a TikTok like two weeks ago, this guy was at Overton and he was saying the animals were acting weird over here. I didn't even think about it till right now. So stuff is definitely happening in this park.
+
+  - turn_id: t07
+    speaker: Maya
+    text: Cam. A TikTok.
+
+  - turn_id: t08
+    speaker: Cam
+    text: I'm just saying. It lines up.
+
+  - turn_id: t09
+    speaker: Priya
+    text: I go to Audubon like every weekend with my mom and I have never once seen a white squirrel over there. Not one. So it has to be something specific to this park.
+
+  - turn_id: t10
+    speaker: Jules
+    text: See? Priya just said it. It's not everywhere, it's here. So whatever is making them look like that is here, so something here is changing them, and nobody is even noticing.
+
+  - turn_id: t11
+    speaker: Maya
+    text: That's a lot of sos in one sentence, Jules. I don't know. Something about that feels fast to me.
+
+  - turn_id: t12
+    speaker: Jules
+    text: It's not fast, it fits. Red eyes, this park only, nobody talking about it. Come on.
+
+  - turn_id: t13
+    speaker: Cam
+    text: Nah, she's right though. Something is going on out here and grownups are just walking their dogs like it's whatever.
+
+  - turn_id: t14
+    speaker: Priya
+    text: Okay. Same bench, tomorrow after church? We should meet up again. I want to know what this is.

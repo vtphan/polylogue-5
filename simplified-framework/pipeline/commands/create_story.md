@@ -20,9 +20,15 @@ The goal is to produce a usable story artifact for the simplified pipeline.
 
 The primary artifact is:
 
-- `simplified-framework/examples/stories/{story_id}/story.yaml`
+- `simplified-framework/stories/{story_id}/story.yaml`
 
-If the operator wants a first-pass working draft instead of an example path, you may also draft it in another location they specify. But default to the example path above until the simplified pipeline structure is finalized.
+Default to that story-source path unless the operator explicitly asks for another location.
+
+This command creates source material, not generated lesson artifacts.
+
+Episode plans, transcripts, flaw reviews, and lesson packages belong later under:
+
+- `simplified-framework/artifacts/{story_id}/{episode_id}/`
 
 The output should follow:
 
@@ -32,7 +38,7 @@ The output should follow:
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/examples/stories/{story_id}/story.yaml`
+- `python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/stories/{story_id}/story.yaml`
 
 ## What This Command Must Do
 
@@ -89,8 +95,7 @@ The simplified framework uses one main conceptual layer:
 
 - `reasoning flaws`
 
-The current starter flaw set is:
-defined in:
+The current starter flaw set is defined in:
 
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
@@ -126,7 +131,7 @@ Keep this lightweight.
 After saving `story.yaml`, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/examples/stories/{story_id}/story.yaml
+python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/stories/{story_id}/story.yaml
 ```
 
 If validation fails:
@@ -141,4 +146,4 @@ If validation fails:
 - later episode creation commands should use this artifact as their source of truth.
 - transcript generation happens later and one episode at a time.
 
-Do not try to generate transcripts or assistive-package content in this command.
+Do not try to generate transcripts or lesson package content in this command.

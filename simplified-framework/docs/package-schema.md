@@ -1,4 +1,4 @@
-# Simplified Assistive Package Schema
+# Lesson Package Schema
 
 This document describes the app-facing package shape for the simplified Lens framework.
 
@@ -178,19 +178,24 @@ It is also much safer for a deterministic non-LLM runtime.
 
 ## 9. Hidden Mapping Section
 
-The simplified app-facing package may optionally include a hidden mapping section for analytics and future teacher use.
+The lesson package may optionally include a `hidden_mapping` section for analytics and later teacher review.
 
-For example:
+It should be keyed by warm-up ID and level ID, with each entry naming the flaw and the source turn:
 
 ```yaml
 hidden_mapping:
-  lens: logic
-  facet: inferential_validity
-  pattern_type: cognitive_bias
-  pattern_ref: confirmation_bias
+  warmup_01:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t04
+  warmup_02:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t11
+  level_01:
+    flaw: not_enough_evidence
+    source_turn_id: t06
 ```
 
-This keeps the richer framework available without forcing it into the student UI.
+This section is optional and analytics-only. The downstream app must not read it at runtime (see `app-contract.md`). It exists so reviewers and future teacher tools can trace each app-facing item back to the flaw and turn it was built from.
 
 ## 10. Minimal Example
 

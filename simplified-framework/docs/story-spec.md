@@ -6,7 +6,7 @@ It should contain only the information needed to help generate:
 
 - episode plans
 - natural transcripts
-- simplified assistive packages
+- lesson packages
 
 If a field does not materially help those outputs, it should not be in `story.yaml`.
 

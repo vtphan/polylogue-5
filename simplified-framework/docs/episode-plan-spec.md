@@ -5,7 +5,7 @@ This document defines the simplified episode-level planning artifact.
 It should contain only the information needed to help generate:
 
 - one natural transcript
-- one later simplified assistive package
+- one later lesson package
 
 If a field does not materially help those outputs, it should not be in `episode-plan.yaml`.
 
@@ -35,6 +35,16 @@ At minimum, `episode-plan.yaml` should include:
 
 That is the minimum needed to guide transcript writing and later package generation.
 
+Each entry in `flaws` is an object with these fields:
+
+- `id` — one of the flaws defined in `simplified-framework/reference/flaw-taxonomy.yaml`
+- `amplification` — one of `unmistakable`, `showcased`, `heightened`
+- `scene_note` *(optional)* — one short line about where in the scene the flaw should land
+
+The `amplification` field tells the dialog writer how loudly the flaw should appear and tells the reviewer what level to calibrate against. See the `amplification_guidance` block for each flaw in the taxonomy.
+
+**One entry per intended flaw moment.** If the same flaw is intended to appear at the same amplification level in 4 different turns of the episode, write 4 separate entries — same `id` and `amplification`, different `scene_note`. The total entry count should equal the total intended flaw moments per episode (target: 5–7 per `episode-composition.md` §2). Do not collapse multiple instances into one entry with a merged `scene_note`; the per-instance granularity is what later allows the package builder to enumerate candidate teachable moments. `flaw_embedding_guidance.must_include` is supplementary scene direction, not an inventory of flaw entries.
+
 ## 3. Recommended Shape
 
 ```yaml
@@ -47,8 +57,24 @@ episode_goal: >
   over-interpreting what they saw.
 
 flaws:
-  - jumping_to_a_conclusion
-  - not_enough_evidence
+  - id: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_note: Jules opens with a stacked "so→so→so" chain from red eyes to a hidden cause.
+  - id: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_note: Jules doubles down after Priya's observation.
+  - id: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_note: Cam leaps from "a TikTok exists" to "stuff is happening in the park."
+  - id: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_note: The group consensus jumps to "something is happening here."
+  - id: not_enough_evidence
+    amplification: showcased
+    scene_note: A single sighting gets treated like a pattern.
+  - id: not_enough_evidence
+    amplification: showcased
+    scene_note: One online comment is treated as a second confirmed site.
 
 student_takeaway: Check whether the reason really supports the conclusion.
 

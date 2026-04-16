@@ -12,24 +12,28 @@ It brings together:
 
 The purpose of this directory is to let the simplified design evolve as one coherent system rather than splitting the framework, artifacts, and app across different roots.
 
+Authored story source files should live under `simplified-framework/stories/{story_id}/story.yaml`.
+
+Generated episode artifacts should live under `simplified-framework/artifacts/{story_id}/{episode_id}/`.
+
 ## Directory Structure
 
 - `docs/`
   Design documents for the simplified model.
 - `schemas/`
   Draft schemas for simplified artifacts.
-- `prompts/`
-  Prompt drafts for story, episode, transcript, and package generation.
 - `pipeline/`
   Command specs, agent specs, scripts, and templates for the simplified artifact pipeline.
 - `artifacts/`
-  Generated or copied sample artifacts consumed by the simplified app.
+  Generated pipeline artifacts and sample lesson outputs consumed by the simplified app.
 - `configs/`
   App session manifest and config files for local loading.
 - `app/`
   The student-facing runtime for the simplified framework.
 - `examples/`
   Small worked examples and future reference outputs.
+- `stories/`
+  Authored simplified story source files, one directory per story.
 - `mappings/`
   Bridge documents from the current Lens framework to the simplified model.
 - `validation/`

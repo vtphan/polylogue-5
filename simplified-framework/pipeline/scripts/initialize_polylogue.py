@@ -30,7 +30,7 @@ SIMPLIFIED_SCHEMAS = [
     "simplified-framework/schemas/story.yaml",
     "simplified-framework/schemas/episode-plan.yaml",
     "simplified-framework/schemas/transcript.yaml",
-    "simplified-framework/schemas/simplified_assistive_package.yaml",
+    "simplified-framework/schemas/lesson_package.yaml",
 ]
 
 SIMPLIFIED_REFERENCE = [
@@ -45,6 +45,7 @@ SIMPLIFIED_DOCS = [
     "simplified-framework/docs/transcript-spec.md",
     "simplified-framework/docs/package-schema.md",
     "simplified-framework/docs/operator-workflow.md",
+    "simplified-framework/docs/app-contract.md",
 ]
 
 
@@ -114,12 +115,19 @@ def initialize(project_root: str) -> bool:
     else:
         print(f"Docs: {len(SIMPLIFIED_DOCS)} files verified")
 
-    examples_root = root / "simplified-framework" / "examples" / "stories"
-    if examples_root.is_dir():
-        print("Examples: exists")
+    stories_root = root / "simplified-framework" / "stories"
+    if stories_root.is_dir():
+        print("Stories: exists")
     else:
-        examples_root.mkdir(parents=True, exist_ok=True)
-        print("Examples: created")
+        stories_root.mkdir(parents=True, exist_ok=True)
+        print("Stories: created")
+
+    artifacts_root = root / "simplified-framework" / "artifacts"
+    if artifacts_root.is_dir():
+        print("Artifacts: exists")
+    else:
+        artifacts_root.mkdir(parents=True, exist_ok=True)
+        print("Artifacts: created")
 
     if ok:
         print("\nSimplified Lens pipeline initialized. Use /create_story to begin.")

@@ -17,7 +17,7 @@ Your job is to turn an accepted transcript into a deterministic, app-facing less
 
 ## Your Goal
 
-Produce `simplified_assistive_package.yaml` so that the non-LLM app can render:
+Produce `lesson_package.yaml` so that the non-LLM app can render:
 
 - episode intro
 - one modeled warm-up
@@ -39,7 +39,7 @@ Read as needed:
 - `simplified-framework/docs/instructional-model.md`
 - `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
-- `simplified-framework/schemas/simplified_assistive_package.yaml`
+- `simplified-framework/schemas/lesson_package.yaml`
 
 Primary inputs:
 
@@ -109,12 +109,12 @@ Good distractors usually:
 
 Write:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/simplified_assistive_package.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 The output must align to:
 
 - `simplified-framework/docs/package-schema.md`
-- `simplified-framework/schemas/simplified_assistive_package.yaml`
+- `simplified-framework/schemas/lesson_package.yaml`
 
 ## Success Standard
 

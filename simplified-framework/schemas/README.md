@@ -7,8 +7,8 @@ Planned schema files:
 - `story.yaml`
 - `episode-plan.yaml`
 - `transcript.yaml`
-- `simplified_assistive_package.yaml`
+- `lesson_package.yaml`
 
 Right now `story.yaml` and `episode-plan.yaml` are lightweight schema sketches aligned to the simplified docs, not full validators yet.
 
-The same is true for `transcript.yaml` and `simplified_assistive_package.yaml`.
+The same is true for `transcript.yaml` and `lesson_package.yaml`.

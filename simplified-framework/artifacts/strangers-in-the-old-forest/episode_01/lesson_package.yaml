@@ -1,0 +1,298 @@
+package_meta:
+  story_id: strangers-in-the-old-forest
+  episode_number: 1
+  schema_version: simplified_v1
+
+episode:
+  title: The Play Date
+  student_intro: >-
+    Jules, Maya, Cam, and Priya are on a bench at Overton Park right
+    after they saw a white squirrel with red eyes. They are still
+    buzzing. In this episode, watch how one strange sighting turns
+    into a much bigger idea in just a few sentences. Your job is to
+    notice when someone is jumping to a conclusion — stacking "so, so,
+    so" until a small thing starts to sound like proof.
+  flaws:
+    - jumping_to_a_conclusion
+  final_takeaway: One strange detail is not enough to support a chain of conclusions.
+
+warmups:
+  modeled:
+    warmup_id: warmup_01
+    turn_id: t03
+    title: Watch Jules stack the "sos"
+    focus_move: jumping to a conclusion
+    prompt: >-
+      Read Jules's turn. She says: "its eyes were red, so something is
+      messing with it, so something in the park is doing it, so
+      there's something here that's, like, changing them. That
+      basically proves it." What is Jules doing with her reasoning?
+    best_answer_id: modeled_best
+    best_answer_text: >-
+      Jules starts with one thing she saw (red eyes) and uses "so" three
+      times to jump to a much bigger idea — that something in the park
+      is changing the squirrels. Each "so" sounds small, but when you
+      read the whole chain, she has leaped way past what she actually
+      saw.
+    worked_explanation: >-
+      Count the "so" words in Jules's sentence. There are three. She
+      starts with "red eyes" and ends with "something here is changing
+      them." Those two ideas are not the same size. Red eyes is one
+      detail about one squirrel. "Something is changing them" is a
+      huge claim about the whole park. Jules closes with "that
+      basically proves it" — that is the signal phrase. When you hear
+      someone stack "so, so, so" and then say "that proves it," they
+      are jumping to a conclusion.
+    takeaway: >-
+      When you hear a chain of "sos" ending in "that proves it,"
+      slow down and check whether each step really fits.
+
+  guided:
+    warmup_id: warmup_02
+    turn_id: t06
+    title: Is one TikTok enough?
+    focus_move: jumping to a conclusion
+    prompt: >-
+      Cam says he saw a TikTok two weeks ago where a guy said the
+      animals at Overton were acting weird. Then he says, "So stuff is
+      definitely happening in this park." What is the biggest problem
+      with Cam's reasoning?
+    answer_options:
+      - option_id: g1
+        text: Cam jumps from "a TikTok exists" to "something is definitely happening here."
+        kind: best_fit
+      - option_id: g2
+        text: Cam should not trust anything he sees on TikTok ever.
+        kind: partial
+      - option_id: g3
+        text: Cam sounds too excited when he talks.
+        kind: off_target
+      - option_id: g4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: g1
+    best_answer_text: >-
+      Cam jumps from a tiny fact (one TikTok he half-remembers) to a
+      huge conclusion (something is definitely happening in this
+      park). The word "definitely" is the signal — one video is not
+      enough to know that.
+    worked_explanation: >-
+      Cam's base is one TikTok. Cam's conclusion is "stuff is
+      definitely happening." Those are not the same size. A single
+      video a stranger made does not prove something is happening in
+      the whole park. "Definitely" is a giveaway word — it is doing
+      work the evidence cannot back up. That is a jump.
+    hint: >-
+      Compare what Cam actually saw (one TikTok) to what he concludes
+      ("stuff is definitely happening"). Are they the same size?
+    takeaway: >-
+      A big word like "definitely" should come from a lot of
+      evidence, not from one video.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t10
+    title: What did Maya just hear?
+    focus_move: jumping to a conclusion
+    prompt: >-
+      Jules says: "It's not everywhere, it's here. So whatever is
+      making them look like that is here, so something here is
+      changing them, and nobody is even noticing." Right after, Maya
+      says, "That's a lot of sos in one sentence, Jules." What is
+      Maya reacting to?
+    answer_options:
+      - option_id: a1
+        text: Jules is stacking "so" links to leap from one observation into a much bigger claim.
+        kind: best_fit
+      - option_id: a2
+        text: Jules is being too loud and should lower her voice.
+        kind: off_target
+      - option_id: a3
+        text: Jules is repeating herself and saying the same thing twice.
+        kind: partial
+      - option_id: a4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: a1
+    hint: >-
+      Count the "sos" in Jules's turn. Then look at where she started
+      and where she ended up.
+    feedback:
+      correct:
+        option_ids: [a1]
+        text: >-
+          Yes. Maya is flagging the chain — Jules used "so" two
+          times to get from "it's here" to "something is changing them
+          and nobody is noticing." That is the jump.
+      by_option:
+        a2: >-
+          Maya is not worried about volume. She is worried about the
+          shape of Jules's reasoning.
+        a3: >-
+          Jules is not really repeating — she is adding a new link
+          each time. That stacking is the thing Maya is reacting to.
+        a4: >-
+          Look at how many "sos" Jules uses and how far she travels
+          from the first idea to the last one.
+    badge_label: Count the sos
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t09
+    title: Priya's leap
+    focus_move: jumping to a conclusion
+    prompt: >-
+      Priya says: "I go to Audubon like every weekend with my mom and
+      I have never once seen a white squirrel over there. Not one. So
+      it has to be something specific to this park." What is the
+      biggest problem with Priya's reasoning?
+    answer_options:
+      - option_id: b1
+        text: Priya jumps from what she personally remembers to a big claim that it "has to be" about this park.
+        kind: best_fit
+      - option_id: b2
+        text: Priya only checked one other park, so she might need to look at more parks.
+        kind: partial
+      - option_id: b3
+        text: Priya is being rude to Jules by disagreeing with her.
+        kind: off_target
+      - option_id: b4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: b1
+    hint: >-
+      Listen for Priya's signal phrase — "it has to be." Does what she
+      said before really force that conclusion?
+    feedback:
+      correct:
+        option_ids: [b1]
+        text: >-
+          Yes. Priya goes straight from "I haven't seen them at
+          Audubon" to "it has to be something specific to this park."
+          That is a big jump. "Has to be" is the signal.
+      by_option:
+        b2: >-
+          That is a fair thought, but it is not the main problem. The
+          main problem is the leap to "it has to be." Even many parks
+          would not prove it "has to be" this one.
+        b3: >-
+          Priya is not being rude. She is making a friendly point —
+          but the reasoning shape inside it is still a jump.
+        b4: >-
+          Read Priya's last sentence out loud. The words "has to be"
+          are doing a lot of work very fast.
+    badge_label: Catch "has to be"
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t05
+    title: Jules doubles down
+    focus_move: jumping to a conclusion
+    prompt: >-
+      After Priya tells Jules "that was one squirrel, breathe," Jules
+      says: "Normal squirrels don't look like that. If it looked like
+      that, something had to make it look like that." What is Jules
+      doing here?
+    answer_options:
+      - option_id: c1
+        text: Jules got pushed back on and leaped again instead of slowing down.
+        kind: best_fit
+      - option_id: c2
+        text: Jules is scared and should not be talking about this at all.
+        kind: off_target
+      - option_id: c3
+        text: Jules is making a fair point because weird squirrels are rare.
+        kind: partial
+      - option_id: c4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: c1
+    hint: >-
+      Look at what Priya just said, and then look at what Jules does
+      next. Does Jules slow down or does she leap again?
+    feedback:
+      correct:
+        option_ids: [c1]
+        text: >-
+          Yes. Priya gave Jules a reason to slow down. Instead, Jules
+          jumped again with "something had to make it look like that."
+          That "had to" is another signal phrase.
+      by_option:
+        c2: >-
+          Jules being worried is fine. The problem is how she
+          reasons — not that she is reasoning at all.
+        c3: >-
+          It is true that the squirrel looked strange. But "strange"
+          does not force "something had to make it look like that."
+          That is still a leap.
+        c4: >-
+          Compare what Priya said ("that was one squirrel") with what
+          Jules says right after. Did Jules pause?
+    badge_label: Spot the double-down
+
+  - level_id: level_04
+    sequence_index: 4
+    turn_id: t13
+    title: The group agrees
+    focus_move: jumping to a conclusion
+    prompt: >-
+      After Maya says Jules is going too fast, Cam says: "Nah, she's
+      right though. Something is going on out here and grownups are
+      just walking their dogs like it's whatever." What is the
+      problem with how Cam agrees?
+    answer_options:
+      - option_id: d1
+        text: Cam treats the whole chain as settled, even though nothing has actually been shown yet.
+        kind: best_fit
+      - option_id: d2
+        text: Cam is siding with Jules because they are friends, not because of the reasoning.
+        kind: partial
+      - option_id: d3
+        text: Cam is being mean to the grownups in the park.
+        kind: off_target
+      - option_id: d4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: d1
+    hint: >-
+      Ask yourself what the group has actually proven so far. Then
+      look at how Cam talks about it.
+    feedback:
+      correct:
+        option_ids: [d1]
+        text: >-
+          Yes. Cam speaks like the big claim is already true. But
+          nothing has really been checked — he is agreeing with the
+          jump, not with evidence.
+      by_option:
+        d2: >-
+          Friends do back each other up. But the real issue is that
+          Cam treats the chain as proven when it is not.
+        d3: >-
+          Cam is not really talking about the grownups. He is using
+          them to make the claim sound bigger than it is.
+        d4: >-
+          Ask what the group has actually shown. Then listen to how
+          sure Cam sounds.
+    badge_label: Notice the agreement
+
+hidden_mapping:
+  warmup_01:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t03
+  warmup_02:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t06
+  level_01:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t10
+  level_02:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t09
+  level_03:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t05
+  level_04:
+    flaw: jumping_to_a_conclusion
+    source_turn_id: t13

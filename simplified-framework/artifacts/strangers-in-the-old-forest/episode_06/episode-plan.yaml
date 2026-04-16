@@ -1,0 +1,80 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_06
+title: The North Side
+
+episode_goal: >
+  All four kids walk the north side of Overton Park — the part of the park
+  they have never walked — and find squirrels too. Priya, back in the group,
+  names the sampling bias out loud. The episode carries the now-familiar
+  jumping-to-a-conclusion move at its subtlest level and reinforces the
+  conditions flaw.
+
+flaws:
+  - id: jumping_to_a_conclusion
+    amplification: heightened
+    scene_note: >
+      Early in the walk the group leaps from "we figured out the south side"
+      to "we basically have it now." Later, Jules leaps from a new
+      edge-of-forest detail to a fresh single-cause framing. The moves should
+      sound reasonable — the flaw is in the confidence, not in a signal phrase.
+  - id: missing_important_conditions_or_consequences
+    amplification: showcased
+    scene_note: >
+      Even after Priya names the sampling bias, Cam initially folds it into
+      the existing conclusion rather than reopening it. A claim about the
+      park as a whole gets made before anyone tracks how isolated this patch
+      is from the rest of Memphis.
+
+student_takeaway: Where you did not look is part of the answer.
+
+scene_design:
+  opening: >
+    Saturday morning. The four kids are at the Rainbow Lake side of the park.
+    Priya has suggested crossing to the north side — a first. The walk itself
+    is the episode.
+  turn: >
+    They see squirrels on the north side too. The south-side story collapses.
+    Priya names the bias in plain language. Cam initially tries to absorb it
+    into the old frame; the group catches itself. Jules leaps once more
+    toward a fresh single-cause framing (something about the edge of the
+    forest) and this time it is softer, not a stacked chain.
+  close: >
+    The group acknowledges the sampling bias out loud and writes it in the
+    notebook. The investigation reopens. Jules's fresh framing hangs in the
+    air, still uncaught.
+
+character_beats:
+  - character_id: priya
+    beat: >
+      This episode is Priya's. She names the sampling bias plainly; her
+      structural instinct finally lands where the group can hear it.
+  - character_id: cam
+    beat: >
+      Initial move is to fold the new information into the old conclusion;
+      corrects himself mid-exchange.
+  - character_id: maya
+    beat: >
+      Almost closes the notebook on the old conclusion at the start of the
+      walk; visibly updates when the north side produces squirrels.
+  - character_id: jules
+    beat: >
+      Leaps softly toward a fresh single-cause framing near the end. The leap
+      should sound reasonable; this is the "heightened" version of her move.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one early "we basically have it now" move before the north side appears
+    - one late, softer leap from Jules to a fresh single-cause framing
+    - one moment where Cam absorbs the new finding into the old conclusion
+      before catching himself
+    - one clear moment where Priya names the sampling bias in plain language
+  avoid:
+    - letting any of Jules's leaps this episode be stacked chains — her move
+      should read as casual confidence
+    - making Priya's naming feel like a lecture
+    - closing the case this episode; the group should feel the investigation
+      reopen, not resolve

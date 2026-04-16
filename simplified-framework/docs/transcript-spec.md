@@ -17,7 +17,7 @@ The transcript is the source text for:
 - flaw review
 - warm-up selection
 - level selection
-- simplified assistive-package generation
+- lesson package generation
 
 ## 2. Minimum Required Information
 
@@ -94,7 +94,7 @@ Do not include:
 - package-ready questions
 - feedback text
 
-Those belong in the simplified assistive package, not the transcript.
+Those belong in the lesson package, not the transcript.
 
 ## 7. Quality Criteria
 

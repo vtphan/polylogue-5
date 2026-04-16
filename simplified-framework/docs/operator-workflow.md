@@ -44,10 +44,10 @@ After each transcript, Claude Code should report:
 
 It should also save:
 
-- `transcript.yaml`
-- `flaw-review.md`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
 
-under the episode directory before asking the operator to decide.
+under the episode artifact directory before asking the operator to decide.
 
 ## 4. Operator Decision
 
@@ -73,7 +73,7 @@ The operator may approve episodes that differ from this pattern if the episode s
 
 ## 6. Package Generation Rule
 
-Do not build the simplified assistive package until the transcript has been accepted.
+Do not build the lesson package until the transcript has been accepted.
 
 Once accepted, the package generator should produce an app-facing package that maps unambiguously into the student experience.
 

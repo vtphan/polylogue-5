@@ -1,7 +1,7 @@
-# Simplified assistive package schema sketch
+# Lesson package schema sketch — human reference only.
 #
-# This file is a placeholder for the eventual formal schema.
-# For now it documents the intended structured shape.
+# Canonical structural rules live in
+# simplified-framework/pipeline/scripts/validate_lesson_package.py.
 
 type: object
 required:

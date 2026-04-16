@@ -1,0 +1,80 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_04
+title: What Ms. Reyes Said
+
+episode_goal: >
+  In science class the kids half-remember a unit on Mendelian genetics with
+  Ms. Reyes, and a real alternative explanation surfaces — red eyes could be
+  a recessive trait. Instead of considering the alternative, the group
+  narrows back onto the biosignature framing. The episode introduces
+  "ignoring another perspective" at its loudest and keeps the evidence flaw
+  alive at a lower level.
+
+flaws:
+  - id: ignoring_another_perspective
+    amplification: unmistakable
+    scene_note: >
+      Jules talks over Maya's attempt to apply the genetic alternative, and
+      Cam dismisses it because "it doesn't feel like enough." The group
+      narrows back onto Jules's biosignature framing even though the
+      alternative has been explicitly offered on stage.
+  - id: not_enough_evidence
+    amplification: showcased
+    scene_note: >
+      Maya tries to build the genetic chain on the half-remembered Mendelian
+      unit. The group treats one or two Punnett rules as enough to settle
+      which explanation fits.
+
+student_takeaway: Sticking to one explanation when another is on the table is its own kind of mistake.
+
+scene_design:
+  opening: >
+    After science class. Ms. Reyes has just covered alleles and Punnett
+    squares. Priya, remembering, says "wait — this could just be a recessive
+    thing."
+  turn: >
+    Maya tries to walk the group through a rough Punnett-square version of
+    the genetic alternative. Jules talks over her; Cam brushes it past with
+    "it doesn't feel like enough." The group closes on biosignature again.
+  close: >
+    The genetic alternative has been said out loud and visibly set aside.
+    Priya, tired, quietly logs that this happened.
+
+character_beats:
+  - character_id: priya
+    beat: >
+      Surfaces the genetic alternative first — natural for her, given her
+      biology-professor mother — and is brushed past with a one-word
+      acknowledgment.
+  - character_id: maya
+    beat: >
+      Tries to formalize the alternative using the classroom unit they just
+      had. Her chain is thin because she is working from memory, which makes
+      it easy to dismiss.
+  - character_id: jules
+    beat: >
+      Visibly talks over the alternative. This is the episode's clearest
+      teachable move.
+  - character_id: cam
+    beat: >
+      Dismisses the alternative with a vibe-check rather than engagement
+      ("it doesn't feel like enough"). Supports the dismissal.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one unmistakable moment where a named alternative is visibly talked over
+    - one unmistakable moment where the alternative is dismissed without engagement
+    - one moment where the group narrows back onto the biosignature framing
+      despite the alternative being on the table
+    - one showcased evidence moment where the thinness of the genetic chain
+      is used as a reason to drop it rather than to strengthen it
+  avoid:
+    - making Ms. Reyes a character on stage — she is background
+    - resolving the alternative on stage; the episode should end with the
+      alternative visibly set aside, not integrated
+    - letting the genetic chain be airtight — it should be beginner-thin by
+      design, which is part of why the group can dismiss it

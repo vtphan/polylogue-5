@@ -1,0 +1,83 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_07
+title: The Second Call
+
+episode_goal: >
+  Cam calls Anya himself with plain questions and reports back. The group
+  has to absorb that Anya's framing was thinner than they had treated it —
+  she is a physics grad student whose dissertation is on planetary
+  atmospheres; the biosignature idea is side research. Cam also audits his
+  own viral post. Both the source flaw and the perspective flaw appear here
+  at their subtlest level.
+
+flaws:
+  - id: trusting_a_source_too_quickly
+    amplification: heightened
+    scene_note: >
+      Before Cam dials, Jules defends the original framing with a
+      credentialed-adjacent move that sounds reasonable on the surface
+      ("she literally works on this"). After Cam's call, the group has to
+      walk back the weight they had put on Anya's framing.
+  - id: ignoring_another_perspective
+    amplification: heightened
+    scene_note: >
+      Jules begins to dismiss the news from Cam's call before Priya quietly
+      names that they can be kind to Jules and still say what they found.
+      The earlier closedness briefly returns and the group catches it
+      themselves.
+
+student_takeaway: Asking a source plain questions is how you check what they actually said.
+
+scene_design:
+  opening: >
+    Sunday afternoon at Cam's kitchen. Phones are out. Cam is going to call
+    Anya — Marcus has texted Jules her number. Before he dials, Jules
+    re-quotes Anya one more time, defensively.
+  turn: >
+    Cam dials. The call is on stage only through Cam's half of it; Anya's
+    answers are reported back afterward. Cam asks plain questions — what is
+    your dissertation actually on, how long have you studied color morphs,
+    how confident are you in the biosignature framing. The answers are more
+    modest than the retelling had been.
+  close: >
+    The group absorbs the update. Jules almost pushes back before Priya
+    softly names the move. Cam, unprompted, audits his own viral post and
+    proposes a correction.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Carries the episode. Makes the call, asks plain questions, reports
+      back, and — without anyone asking him to — audits his own post. This
+      is the arc of his season.
+  - character_id: jules
+    beat: >
+      Defends the framing one last time at heightened level, absorbs the
+      update, and does not push back. Her growth is that she does not
+      escalate.
+  - character_id: priya
+    beat: >
+      Names the old closedness in one line and makes space for Jules to update.
+  - character_id: maya
+    beat: >
+      Catches herself almost re-deferring to Anya's earlier framing and
+      walks it back out loud.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one pre-call credentialed-adjacent defense by Jules that sounds reasonable
+      on the surface
+    - one moment where the group has to walk back the weight they put on Anya
+    - one moment where Jules begins to dismiss the news and is gently named
+    - one moment where Cam audits his own post without being told to
+  avoid:
+    - making Anya sound wrong on purpose — she is honest about what her
+      dissertation is, and the distance between "what she said" and "how the
+      group had been quoting her" is the lesson
+    - letting the source move land as a signal-phrase moment; at heightened
+      level the flaw is in the confidence, not the phrasing
+    - resolving the biosignature framing entirely; the proper answer comes in ep 08

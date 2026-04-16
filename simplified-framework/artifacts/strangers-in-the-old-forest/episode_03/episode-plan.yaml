@@ -1,0 +1,72 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_03
+title: The Post
+
+episode_goal: >
+  Cam posts a photo of the squirrels overnight and brings the replies to
+  school the next day. The group treats a handful of comments on Cam's own
+  post as independent evidence. The episode introduces "not enough evidence"
+  at its loudest and reinforces the source flaw at a lower level.
+
+flaws:
+  - id: not_enough_evidence
+    amplification: unmistakable
+    scene_note: >
+      Cam announces the squirrels are "everywhere now" based on a handful of
+      online replies. One claimed Frayser sighting in a single comment is
+      treated as a second confirmed site.
+  - id: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_note: >
+      Cam treats anonymous comment-section claims as additional sources rather
+      than echoes of his own post. The group accepts the comment-section count
+      without asking who any of these people are.
+
+student_takeaway: A few online replies to your own post are not independent evidence.
+
+scene_design:
+  opening: >
+    Lunch, Tuesday. Cam is scrolling. He has replies. He reads them out as if
+    he is reading a report.
+  turn: >
+    Cam converts "some replies on my post" into "the squirrels are everywhere
+    now." One single comment mentioning a Frayser sighting gets promoted into
+    a second confirmed site. Cam quotes the supportive comments and waves
+    away the mocking ones.
+  close: >
+    The group treats the comment-section tally as pattern confirmation and
+    adds Frayser to the mental map. Nobody has asked who these commenters are.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Drives this episode. Reads his own post's replies as a data set and sorts
+      them by whether they agree with him.
+  - character_id: jules
+    beat: >
+      Eagerly integrates the "other sightings" into her existing biosignature
+      framing and does not ask how many there actually are.
+  - character_id: maya
+    beat: >
+      Notices the "one comment, one site" slippage and tries to mark it; loses
+      the beat to the group's excitement.
+  - character_id: priya
+    beat: >
+      Asks a credibility question once ("wait, who posted that one?") and lets
+      it drop when nobody answers.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one unmistakable evidence move with numerical contrast — a small number
+      of comments standing in for "everywhere"
+    - one moment where a single comment is promoted into a confirmed site
+    - one moment where Cam selects supportive comments and dismisses mocking ones
+    - one showcased source move where anonymous commenters are treated as sources
+  avoid:
+    - letting Cam audit the post on stage — that move belongs to episode 07
+    - adding a third loud flaw; the episode should stay centered on evidence sufficiency
+    - making the comment-section material too absurd to pass for real online talk

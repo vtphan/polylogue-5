@@ -1,0 +1,322 @@
+story_id: strangers-in-the-old-forest
+title: Strangers in the Old Forest
+
+premise: >
+  Four sixth graders in Memphis see a red-eyed white squirrel in
+  Overton Park one Saturday afternoon, and one of them — Jules —
+  cannot let it go. Her older brother Marcus, an astrobiology student
+  at Rhodes College, knows a physics PhD candidate at the University
+  of Memphis named Anya whose side research is on unusual color morphs
+  in isolated urban animal populations as candidate biosignatures.
+  Jules calls Anya that night. By Monday the four friends are chasing
+  an alien hypothesis they did not quite invent and an anxiety they
+  cannot quite name: something might be happening in their park, and
+  the adults around them do not seem to be noticing.
+
+  Over eight episodes the group investigates. They count squirrels,
+  remember what their sixth-grade science teacher Ms. Reyes taught
+  them about genes and alleles, write inferential chains in a
+  notebook, plot sightings on a map, discover they have been walking
+  only the south side of the park, walk the north side, call Anya
+  back with sharper questions, and arrive at a real answer: a long-ago
+  mutation in a grey squirrel ancestor, preserved by founder effect in
+  a habitat patch that highways cut off from the rest of Memphis,
+  passed silently through generations of carriers, finally visible as
+  red-eyed homozygotes in numbers large enough for sixth graders to
+  notice.
+
+  The story is about what happens when a credentialed adult leads you
+  toward a frightening answer and you have to reason your way back to
+  a boring one. The critical thinking the kids learn is not a
+  performance — it is how they figure out whether to be scared. By
+  the final episode they have used clear reasoning to reconstruct a
+  chain, audit a source, and notice what they had not been looking
+  at, and they have arrived at the mundane answer that was always
+  going to be the right one. The relief is real. So is the answer.
+
+setting:
+  place: Overton Park, Memphis, Tennessee
+  tone: curious, slightly uncanny, friendship-first
+
+characters:
+  - id: jules
+    name: Jules
+    voice_notes: >
+      Jules is the engine of the investigation. She lives in
+      Cooper-Young. Her mother writes science pieces for kids'
+      magazines, and her older brother Marcus studies astrobiology at
+      Rhodes — Jules has grown up on a worldview where anomalies
+      matter and the boring explanation is sometimes the lazy one.
+      That is a real epistemology, not a flaw. The flaw is what she
+      does with it: when she sees something weird she pattern-matches
+      on surface similarity and chains conclusions in one breath.
+      She speaks with urgency. She quotes Anya — a grad student her
+      brother knows — as if Anya's framing is settled. Across the
+      season the loud chains quiet down. Jules does not become a
+      different kind of thinker, but she does end up willing to let
+      the evidence her three best friends have walked her through
+      land, and she notices, without commentary, when a credentialed
+      adult sounds defensive on the other end of the line.
+
+  - id: maya
+    name: Maya
+    voice_notes: >
+      Maya lives in South Memphis. Her dad is a pastor at a small
+      neighborhood church and her mom does logistics for FedEx, and
+      Maya has been around arguments her whole life — sermons that
+      had to land, family dinners where her mom walked through why a
+      delivery route was wrong. She can feel when an argument works.
+      What she has never been asked to do is formalize why. She says
+      things like "that doesn't sound right" and is usually correct,
+      which is the problem. She also softens her pushback when a
+      friend is visibly scared, which she will have to learn is not
+      the same thing as caring. Across the season Maya goes from
+      arguing by feel to writing chains in a notebook. By the late
+      episodes she formalizes by default.
+
+  - id: cam
+    name: Cam
+    voice_notes: >
+      Cam lives in Binghampton. His mom is an ER nurse at Methodist,
+      his dad works construction, and Cam had a phone earlier than
+      the other three because his parents' schedules meant he was
+      unsupervised more in the evenings. His informational life is a
+      scroll: a TikTok, a news clip, a meme, a friend's cousin, all
+      arriving through the same feed with the same visual weight. He
+      treats sources as interchangeable because his whole information
+      environment has treated them as interchangeable. He is the
+      first to bring outside material into the conversation and the
+      most confident about things he half-knows. Across the season
+      Cam learns that the phone is a pile of sources, not a source —
+      and learns it most clearly the day he calls Anya himself, asks
+      her plain questions, and audits his own viral post.
+
+  - id: priya
+    name: Priya
+    voice_notes: >
+      Priya lives in East Memphis, near Audubon Park. Both her parents
+      are University of Memphis faculty — her mom in biology, her dad
+      in economics. She brings real comparisons from her own
+      experience and is usually right, which means the group rarely
+      pushes back on her. Her flaw is structural: she generalizes
+      from the parts of the city and the park she has actually
+      walked, and draws conclusions without tracking the conditions
+      her observations were collected under. Across the season she
+      comes to notice — and name out loud — what her data did not
+      include. The walk to the north side of the park is the moment
+      her eye opens.
+
+  - id: anya
+    name: Anya
+    voice_notes: >
+      Anya is a physics PhD candidate at the University of Memphis
+      whose dissertation is on planetary atmospheres. Her side
+      research is on unusual color morphs in isolated urban animal
+      populations as candidate biosignatures of environmental
+      anomaly. She is credentialed, smart, and wrong about the
+      squirrels. She never appears on stage; she is heard only as
+      reported speech inside the kids' turns, in three phone calls
+      across the season — episode 2 (Jules retells what Anya said
+      over the weekend), episode 7 (Cam calls her with plain
+      questions), episode 8 (Jules calls back with the group's
+      answer). Her tone in episode 2's retelling sounds
+      authoritative; in episode 7's plain-question call she is
+      honest about what her dissertation actually is; in episode 8's
+      call-back she is defensive in small ways the kids notice
+      without pressing. She is not a villain. She is a smart person
+      with a specific kind of blind spot, and the point is that
+      smart people have blind spots and the reasoning tools the
+      kids are learning are exactly how you check an expert's claims
+      against the world.
+
+# Each episode lists the flaw IDs that appear in it (primary first,
+# secondary if present). The richer per-episode flaw plan, including
+# amplification levels, instance counts, and scene notes, lives in
+# the inline `flaw_plan` block below each episode entry. Episode
+# planners and dialog writers should consume `flaw_plan` when
+# expanding into `episode-plan.yaml` artifacts.
+
+episodes:
+  - episode_id: episode_01
+    title: The Play Date
+    flaws:
+      - jumping_to_a_conclusion
+    final_takeaway: One strange detail is not enough to support a chain of conclusions.
+    flaw_plan:
+      primary:
+        id: jumping_to_a_conclusion
+        amplification: unmistakable
+        count: 5
+        scene_notes:
+          - Jules opens with a stacked "so→so→so" chain from red eyes to a hidden cause.
+          - Jules doubles down after Priya's observation, escalating the chain into "something here is changing them."
+          - Cam leaps from "a TikTok exists about this park" to "stuff is definitely happening here."
+          - Priya leaps from "I haven't seen them at other parks I know" to "it must be specific to this park."
+          - The group consensus jumps to "something is happening here that no one is noticing."
+
+  - episode_id: episode_02
+    title: The Phone Call
+    flaws:
+      - trusting_a_source_too_quickly
+      - jumping_to_a_conclusion
+    final_takeaway: A source sounding important does not mean the framing is right.
+    flaw_plan:
+      primary:
+        id: trusting_a_source_too_quickly
+        amplification: unmistakable
+        count: 4
+        scene_notes:
+          - Jules retells what Anya said with stacked credentialed-source cues, never asking what Anya's actual area is.
+          - Cam accepts Jules's retelling without asking who Anya is or how Marcus knows her.
+          - Jules quotes Anya's biosignature framing as settled because "she's a grad student in physics."
+          - The group treats Anya's framing as the working hypothesis without checking the source.
+      secondary:
+        id: jumping_to_a_conclusion
+        amplification: showcased
+        count: 2
+        scene_notes:
+          - Jules leaps from Anya's framing to a sharper version than Anya actually said.
+          - Cam concludes the alien hypothesis "has to be it" because someone credentialed pointed at it.
+
+  - episode_id: episode_03
+    title: The Post
+    flaws:
+      - not_enough_evidence
+      - trusting_a_source_too_quickly
+    final_takeaway: A few online replies to your own post are not independent evidence.
+    flaw_plan:
+      primary:
+        id: not_enough_evidence
+        amplification: unmistakable
+        count: 4
+        scene_notes:
+          - Cam announces the squirrels are "everywhere now" based on a handful of online replies.
+          - One claimed Frayser sighting in a single comment is treated as a second confirmed site.
+          - Cam quotes the supportive comments while waving away the mocking ones.
+          - The group treats "a few replies on a post" as enough to confirm the pattern.
+      secondary:
+        id: trusting_a_source_too_quickly
+        amplification: showcased
+        count: 2
+        scene_notes:
+          - Cam treats anonymous comment-section claims as additional sources rather than echoes of his own post.
+          - The group accepts the comment-section count without asking who any of these people are.
+
+  - episode_id: episode_04
+    title: What Ms. Reyes Said
+    flaws:
+      - ignoring_another_perspective
+      - not_enough_evidence
+    final_takeaway: Sticking to one explanation when another is on the table is its own kind of mistake.
+    flaw_plan:
+      primary:
+        id: ignoring_another_perspective
+        amplification: unmistakable
+        count: 4
+        scene_notes:
+          - Jules talks over Maya's attempt to apply the genetic alternative to the sighting.
+          - Cam dismisses the genetic alternative because "it doesn't feel like enough" without engaging it.
+          - The group narrows back onto Jules's biosignature framing despite the genetics alternative being on the table.
+          - Priya offers a possible mundane mechanism and is brushed past with a one-word acknowledgment.
+      secondary:
+        id: not_enough_evidence
+        amplification: showcased
+        count: 2
+        scene_notes:
+          - Maya tries to build the genetic chain on the half-remembered Mendelian unit and gets a thin version.
+          - The group treats one or two Punnett rules as enough to settle which explanation fits.
+
+  - episode_id: episode_05
+    title: The Map
+    flaws:
+      - missing_important_conditions_or_consequences
+      - ignoring_another_perspective
+    final_takeaway: A pattern in the data you have is not a pattern in the data you would need.
+    flaw_plan:
+      primary:
+        id: missing_important_conditions_or_consequences
+        amplification: unmistakable
+        count: 4
+        scene_notes:
+          - After plotting sightings, Cam declares the squirrels "only live on the south side" without naming the limit on where they walk.
+          - Maya treats the clean clustering as a final answer, with the south loop standing in for the whole park.
+          - Jules announces the pattern is "solved" and the question can close.
+          - The group writes the conclusion into the notebook without naming that the data only covers paths they walk.
+      secondary:
+        id: ignoring_another_perspective
+        amplification: showcased
+        count: 2
+        scene_notes:
+          - The three present kids skip the question of what Priya, who is absent, would likely say about the map.
+          - A passing alternative — "or we just haven't walked anywhere else" — gets one-word acknowledgment and is dropped.
+
+  - episode_id: episode_06
+    title: The North Side
+    flaws:
+      - jumping_to_a_conclusion
+      - missing_important_conditions_or_consequences
+    final_takeaway: Where you did not look is part of the answer.
+    flaw_plan:
+      primary:
+        id: jumping_to_a_conclusion
+        amplification: heightened
+        count: 4
+        scene_notes:
+          - Early in the walk, the group leaps from "we figured out the south side" to "we basically have it now."
+          - Cam confidently extends the south-side pattern across the whole forest before they reach the road.
+          - Maya almost closes the notebook, persuaded by the clean fit, before Priya names the bias.
+          - Jules leaps from the new edge-of-forest detail to a fresh single-cause framing.
+      secondary:
+        id: missing_important_conditions_or_consequences
+        amplification: showcased
+        count: 2
+        scene_notes:
+          - Even after Priya names the sampling bias, Cam initially folds it into the existing conclusion rather than reopening it.
+          - A claim about the park as a whole gets made before anyone tracks how isolated this patch is from the rest of Memphis.
+
+  - episode_id: episode_07
+    title: The Second Call
+    flaws:
+      - trusting_a_source_too_quickly
+      - ignoring_another_perspective
+    final_takeaway: Asking a source plain questions is how you check what they actually said.
+    flaw_plan:
+      primary:
+        id: trusting_a_source_too_quickly
+        amplification: heightened
+        count: 4
+        scene_notes:
+          - Before Cam dials, Jules defends the original framing with a credentialed-adjacent move that sounds reasonable on the surface.
+          - Maya catches herself almost re-deferring to Anya's earlier framing and walks it back.
+          - Cam reports back what he learned, and the group has to absorb that the framing was thinner than they had treated it.
+          - Cam audits his own viral post and proposes a correction without anyone telling him to.
+      secondary:
+        id: ignoring_another_perspective
+        amplification: heightened
+        count: 2
+        scene_notes:
+          - Jules begins to dismiss the news from the call before Priya quietly names that they can be kind to Jules and still say what they found.
+          - The group's earlier closedness comes back briefly when restating the question; they catch it themselves.
+
+  - episode_id: episode_08
+    title: The Call Back
+    flaws:
+      - not_enough_evidence
+      - missing_important_conditions_or_consequences
+    final_takeaway: A good answer can predict what would have to be true for it to be wrong.
+    flaw_plan:
+      primary:
+        id: not_enough_evidence
+        amplification: heightened
+        count: 3
+        scene_notes:
+          - Maya assembles the genetic chain step by step; one early step rests on a thin generalization the group catches together.
+          - A confident claim about how often heterozygous carriers are missed slips in casually before anyone slows it down.
+          - While constructing the falsifiable reformulation, the group nearly accepts a number from memory rather than checking it.
+      secondary:
+        id: missing_important_conditions_or_consequences
+        amplification: heightened
+        count: 2
+        scene_notes:
+          - An almost-universal claim about isolated habitat patches gets walked back when someone names the boundary condition.
+          - Jules notices Anya's defensive reframing on the call but does not flag the missing condition out loud, leaving it for the reader to see.

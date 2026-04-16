@@ -1,7 +1,7 @@
-# Simplified episode-plan.yaml schema sketch
+# Simplified episode-plan.yaml schema sketch — human reference only.
 #
-# This file is a placeholder for the eventual formal schema.
-# For now it documents the intended structured shape.
+# Canonical structural rules live in
+# simplified-framework/pipeline/scripts/validate_episode_plan.py.
 
 type: object
 required:
@@ -23,6 +23,17 @@ properties:
     type: string
   flaws:
     type: array
+    items:
+      type: object
+      required: [id, amplification]
+      properties:
+        id:
+          type: string
+        amplification:
+          type: string
+          enum: [unmistakable, showcased, heightened]
+        scene_note:
+          type: string
   student_takeaway:
     type: string
   scene_design:

@@ -17,23 +17,23 @@ Its job is to turn the accepted episode materials into a deterministic package t
 
 The default artifact is:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/simplified_assistive_package.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 This output should follow:
 
 - `simplified-framework/docs/package-schema.md`
-- `simplified-framework/schemas/simplified_assistive_package.yaml`
+- `simplified-framework/schemas/lesson_package.yaml`
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/examples/stories/{story_id}/{episode_id}/simplified_assistive_package.yaml`
+- `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 ## Required Inputs
 
-- `simplified-framework/examples/stories/{story_id}/story.yaml`
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/episode-plan.yaml`
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/transcript.yaml`
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/flaw-review.md`
+- `simplified-framework/stories/{story_id}/story.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
 ## Subagent Role
@@ -54,7 +54,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/examples/stories/{story_id}/{episode_id}/simplified_assistive_package.yaml`
+- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 ## Important Constraint
 
@@ -87,7 +87,7 @@ After the package is built, Claude Code should report:
 After saving the lesson package, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/examples/stories/{story_id}/{episode_id}/simplified_assistive_package.yaml
+python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml
 ```
 
 If validation fails:

@@ -31,11 +31,39 @@ def validate_episode_plan(path: str) -> int:
     require_nonempty_string(plan.get("episode_goal"), "episode_goal", errors)
     require_nonempty_string(plan.get("student_takeaway"), "student_takeaway", errors)
 
+    allowed_amplifications = {"unmistakable", "showcased", "heightened"}
     flaws = require_list(plan.get("flaws"), "flaws", errors)
     if not flaws:
         errors.append("flaws must contain at least one flaw")
     for index, flaw in enumerate(flaws, start=1):
-        require_nonempty_string(flaw, f"flaws[{index}]", errors)
+        entry = require_mapping(flaw, f"flaws[{index}]", errors)
+        if not entry:
+            continue
+        require_nonempty_string(entry.get("id"), f"flaws[{index}].id", errors)
+        amplification = entry.get("amplification")
+        require_nonempty_string(amplification, f"flaws[{index}].amplification", errors)
+        if isinstance(amplification, str) and amplification not in allowed_amplifications:
+            errors.append(
+                f"flaws[{index}].amplification must be one of "
+                f"{sorted(allowed_amplifications)}, got '{amplification}'"
+            )
+        if "scene_note" in entry:
+            require_nonempty_string(entry.get("scene_note"), f"flaws[{index}].scene_note", errors)
+
+    flaw_count = len(flaws) if isinstance(flaws, list) else 0
+    if 0 < flaw_count < 5:
+        print(
+            f"WARNING: episode-plan.yaml has only {flaw_count} flaw entries; "
+            f"target is 5-7 per episode-composition.md §2. If multiple turns "
+            f"are intended to carry the same flaw, write one entry per turn.",
+            file=sys.stderr,
+        )
+    elif flaw_count > 7:
+        print(
+            f"WARNING: episode-plan.yaml has {flaw_count} flaw entries; "
+            f"target is 5-7 per episode-composition.md §2.",
+            file=sys.stderr,
+        )
 
     if "scene_design" in plan:
         scene = require_mapping(plan.get("scene_design"), "scene_design", errors)

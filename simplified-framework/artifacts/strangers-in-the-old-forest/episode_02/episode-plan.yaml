@@ -1,0 +1,77 @@
+story_id: strangers-in-the-old-forest
+episode_id: episode_02
+title: The Phone Call
+
+episode_goal: >
+  Jules retells a Saturday-night phone call with Anya — a grad student her
+  brother knows — and the rest of the group absorbs Anya's "biosignature"
+  framing as settled because someone credentialed pointed at it. The episode
+  introduces "trusting a source too quickly" at its loudest, and keeps the
+  now-familiar jumping-to-a-conclusion move alive at a lower level.
+
+flaws:
+  - id: trusting_a_source_too_quickly
+    amplification: unmistakable
+    scene_note: >
+      Jules quotes Anya's biosignature framing as settled because she is "a
+      grad student in physics." Nobody asks what Anya's actual area is or
+      how Marcus knows her.
+  - id: jumping_to_a_conclusion
+    amplification: showcased
+    scene_note: >
+      Jules leaps from Anya's framing to a sharper version than Anya actually
+      said, and Cam concludes the alien hypothesis "has to be it" because
+      someone credentialed pointed at it.
+
+student_takeaway: A source sounding important does not mean the framing is right.
+
+scene_design:
+  opening: >
+    Monday, after school. The group is at Maya's kitchen table. Jules is still
+    keyed up from the weekend and launches into retelling the phone call.
+  turn: >
+    The retelling stacks credentialed-source cues — "she's a grad student at
+    U of M, this is literally what she works on" — and the group shifts from
+    "weird squirrel" to "possible biosignature" without anyone asking a source
+    question. Cam sharpens Jules's retelling into a stronger claim than Anya
+    made.
+  close: >
+    By the end the biosignature framing is the group's working hypothesis.
+    Maya almost asks a credibility question and softens it; the question
+    doesn't land.
+
+character_beats:
+  - character_id: jules
+    beat: >
+      Narrator of the call. Reports Anya's framing as settled and subtly
+      sharpens it in the retelling.
+  - character_id: cam
+    beat: >
+      Fully converts to the new framing. Accepts the retelling without asking
+      who Anya is or how Marcus knows her.
+  - character_id: maya
+    beat: >
+      Starts to ask the right question about why a physics grad student would
+      be the right voice on squirrels, then softens because Jules is excited
+      and Maya is reading the room.
+  - character_id: priya
+    beat: >
+      Listens, goes quiet, tracks who in the group is pulling toward the new
+      framing. Does not challenge the source; files it.
+
+target_teachable_moments: 6
+warmup_candidate_goal: 2
+level_candidate_goal: 4
+
+flaw_embedding_guidance:
+  must_include:
+    - one unmistakable source move where a credential is treated as authority
+      on a domain outside it (physics grad student quoted on biology)
+    - one moment where the group adopts the framing without any source check
+    - one showcased leap where the retelling makes Anya's claim stronger than she made it
+    - one moment where Maya starts to question the source and softens
+  avoid:
+    - giving Anya a speaking part on stage — she appears only as reported speech
+    - making Anya a villain; she is a smart person with a specific blind spot
+    - letting the group audit the source on stage this episode
+    - stacking a second unmistakable flaw on top of the source move
