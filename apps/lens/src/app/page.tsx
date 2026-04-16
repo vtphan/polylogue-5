@@ -7,17 +7,17 @@ import { RuntimeStatePanel } from "@/components/runtime-state-panel";
 import { SessionShell } from "@/features/session/components/session-shell";
 import type { LoaderBundle } from "@/lib/types/content";
 
-const readinessChecklist = [
-  "Fresh Next.js app scaffolded in apps/lens/",
-  "Lens v1 docs aligned to a greenfield implementation target",
-  "Manifest, session config, and persistence defaults documented",
-  "Turn-ID normalization rule fixed before loader work begins",
+const statusChecklist = [
+  "Validated manifest, transcript, and assistive-package loading against live episode artifacts.",
+  "Turn normalization is enforced from transcript turn_02 IDs to app-level t02 keys.",
+  "Shared-device sessions persist locally with pause, resume, completion, and recognition state.",
+  "The full v1 backbone now runs in apps/lens from reading through revision and transfer.",
 ];
 
-const nextSlices = [
-  "Define Zod schemas for package, transcript, manifest, session config, and persistence records.",
-  "Build the content loader and normalize transcript turn_02 IDs to package t02 keys.",
-  "Wire bundled manifest discovery and direct-open config resolution.",
+const runtimeHighlights = [
+  "Guided and browser-local by default, with no dependency on the legacy lens-app runtime.",
+  "Comparison, discussion, revision, badges, and peer recognition are all wired to real session state.",
+  "Loader failures and empty episode bundles degrade into explicit runtime-state surfaces.",
 ];
 
 export default async function Home() {
@@ -60,11 +60,9 @@ export default async function Home() {
   const firstPassage = bundle.assistivePackage.analytic_core.passages[0];
 
   return (
-    <main
-      className="min-h-screen px-6 py-8 text-[var(--foreground)] sm:px-8 lg:px-12"
-    >
+    <main className="min-h-screen px-6 py-8 text-[var(--foreground)] sm:px-8 lg:px-12">
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-8">
-        <div className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface)] p-8 shadow-[var(--shadow)] backdrop-blur md:p-10">
+        <div className="lens-panel lens-reveal rounded-[2rem] p-8 backdrop-blur md:p-10">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <div className="max-w-3xl">
               <p className="mb-3 text-sm font-semibold uppercase tracking-[0.28em] text-[var(--accent-strong)]">
@@ -74,43 +72,44 @@ export default async function Home() {
                 className="max-w-3xl text-5xl leading-none sm:text-6xl"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                Lens v1 is now a clean app inside <span className="text-[var(--accent)]">apps/lens</span>.
+                Lens now runs as a dedicated shared-device studio inside <span className="text-[var(--accent)]">apps/lens</span>.
               </h1>
               <p className="mt-5 max-w-2xl text-base leading-7 text-[color:rgba(29,36,48,0.76)] sm:text-lg">
-                This scaffold intentionally starts fresh. The old <code>lens-app/</code> runtime is
-                not the base. The next slices are schemas, content loading, manifest resolution, and
-                browser-local session state.
+                This is no longer a scaffold-only surface. The current build loads live Polylogue artifacts,
+                runs the full round backbone, persists table progress locally, and supports guided stop points
+                without relying on the legacy <code>lens-app/</code> codepath.
               </p>
             </div>
 
-            <div className="grid gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[var(--surface-strong)] p-5 lg:w-[20rem]">
+            <div className="grid gap-3 rounded-[1.5rem] border border-[var(--line)] bg-[rgba(255,255,255,0.52)] p-5 lg:w-[21rem]">
               <span className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
-                Current target
+                Runtime posture
               </span>
-              <div className="text-2xl font-semibold">Greenfield Next.js App Router</div>
+              <div className="text-2xl font-semibold">Artifact-driven and classroom-local</div>
               <div className="text-sm leading-6 text-[color:rgba(37,50,68,0.72)]">
-                Shared-device, browser-local, artifact-driven Lens v1 runtime.
+                Next.js App Router frontend, Zod-validated content contracts, and browser-local session state
+                for one shared device at a table.
               </div>
             </div>
           </div>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
-          <section className="rounded-[2rem] border border-[var(--line)] bg-[var(--surface-strong)] p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
+          <section className="lens-panel lens-reveal rounded-[2rem] p-7" style={{ animationDelay: "80ms" }}>
             <div className="mb-5 flex items-center justify-between gap-4">
               <h2
                 className="text-3xl leading-tight"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                Readiness Snapshot
+                Runtime Snapshot
               </h2>
               <span className="rounded-full bg-[var(--accent-soft)] px-3 py-1 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-strong)]">
-                scaffold
+                live
               </span>
             </div>
 
             <ul className="grid gap-3">
-              {readinessChecklist.map((item, index) => (
+              {statusChecklist.map((item, index) => (
                 <li
                   key={item}
                   className="flex items-start gap-4 rounded-[1.25rem] border border-[var(--line)] bg-white/70 px-4 py-4"
@@ -127,7 +126,7 @@ export default async function Home() {
 
             <div className="mt-6 grid gap-4 rounded-[1.4rem] border border-[var(--line)] bg-[var(--background)]/70 p-5">
               <div className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--moss)]">
-                Loader proof
+                Contract proof
               </div>
               <div className="grid gap-3 text-sm leading-6 text-[color:rgba(29,36,48,0.84)]">
                 <div>
@@ -159,15 +158,15 @@ export default async function Home() {
             </div>
           </section>
 
-          <section className="rounded-[2rem] border border-[var(--line)] bg-[#273548] p-7 text-white shadow-[0_18px_56px_rgba(25,31,43,0.18)]">
+          <section className="lens-dark-panel lens-reveal rounded-[2rem] p-7 text-white" style={{ animationDelay: "140ms" }}>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
-              Immediate next slices
+              What this build already does
             </p>
             <ol className="mt-5 grid gap-4">
-              {nextSlices.map((item, index) => (
+              {runtimeHighlights.map((item, index) => (
                 <li key={item} className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
                   <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
-                    Slice {index + 1}
+                    Highlight {index + 1}
                   </div>
                   <p className="mt-2 text-sm leading-6 text-white/84">{item}</p>
                 </li>

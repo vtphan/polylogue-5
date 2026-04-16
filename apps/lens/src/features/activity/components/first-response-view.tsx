@@ -70,7 +70,7 @@ export function FirstResponseView({
 
   return (
     <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
-      <section className="rounded-[2rem] border border-[var(--line)] bg-white/88 p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
+      <section className="lens-panel rounded-[2rem] p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
@@ -89,7 +89,7 @@ export function FirstResponseView({
         </div>
 
         <div className="grid gap-4">
-          <div className="rounded-[1.35rem] border border-[var(--gold)] bg-[var(--background)]/70 p-5">
+          <div className="rounded-[1.35rem] border border-[var(--gold)] bg-[linear-gradient(180deg,rgba(255,248,229,0.84),rgba(255,252,246,0.96))] p-5">
             <div className="mb-2 flex items-center justify-between gap-3">
               <div className="text-sm font-semibold text-[var(--surface-ink)]">
                 {selectedTurn?.speaker ?? "Selected turn"}
@@ -194,7 +194,7 @@ export function FirstResponseView({
         </div>
       </section>
 
-      <section className="rounded-[2rem] border border-[var(--line)] bg-[#273548] p-7 text-white shadow-[0_18px_56px_rgba(25,31,43,0.18)]">
+      <section className="lens-dark-panel rounded-[2rem] p-7 text-white">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
           Support and handoff
         </p>

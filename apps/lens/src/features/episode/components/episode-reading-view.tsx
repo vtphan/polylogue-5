@@ -28,7 +28,7 @@ export function EpisodeReadingView({
 
   return (
     <section className="grid gap-6 lg:grid-cols-[1.18fr_0.82fr]">
-      <section className="rounded-[2rem] border border-[var(--line)] bg-white/88 p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
+      <section className="lens-panel rounded-[2rem] p-7">
         <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
@@ -55,9 +55,9 @@ export function EpisodeReadingView({
                 key={turn.turn_id}
                 className={`rounded-[1.35rem] border px-4 py-4 transition ${
                   isSelected
-                    ? "border-[var(--accent)] bg-[var(--accent-soft)]/55"
+                    ? "border-[var(--accent)] bg-[linear-gradient(180deg,rgba(246,211,191,0.7),rgba(255,247,240,0.95))] shadow-[0_12px_28px_rgba(191,90,54,0.12)]"
                     : isFocal
-                      ? "border-[var(--gold)] bg-[var(--background)]/70"
+                      ? "border-[var(--gold)] bg-[linear-gradient(180deg,rgba(255,248,229,0.84),rgba(255,252,246,0.94))]"
                       : "border-[var(--line)] bg-white/72"
                 }`}
               >
@@ -104,7 +104,7 @@ export function EpisodeReadingView({
         </div>
       </section>
 
-      <section className="rounded-[2rem] border border-[var(--line)] bg-[#273548] p-7 text-white shadow-[0_18px_56px_rgba(25,31,43,0.18)]">
+      <section className="lens-dark-panel rounded-[2rem] p-7 text-white">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
           Current focus
         </p>

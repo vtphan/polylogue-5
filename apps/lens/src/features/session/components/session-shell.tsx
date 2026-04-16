@@ -170,7 +170,7 @@ export function SessionShell({
 
   return (
     <section className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
-      <section className="rounded-[2rem] border border-[var(--line)] bg-white/88 p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
+      <section className="lens-panel rounded-[2rem] p-7">
         {resolvedScreen === "start" && (
           <div className="grid gap-5">
             <div>
@@ -494,7 +494,7 @@ export function SessionShell({
         )}
       </section>
 
-      <section className="rounded-[2rem] border border-[var(--line)] bg-[#273548] p-7 text-white shadow-[0_18px_56px_rgba(25,31,43,0.18)]">
+      <section className="lens-dark-panel rounded-[2rem] p-7 text-white">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
           Shell status
         </p>
