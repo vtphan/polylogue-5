@@ -1,59 +1,36 @@
 # Simplified Lens Framework
 
-This directory is the self-contained working area for the simplified Lens redesign.
+`simplified-framework/` is the current home for the simplified reasoning-flaws framework, its artifact pipeline, sample artifacts, and the local prototype app.
 
-It brings together:
+## Current Source Of Truth
 
-- the conceptual and instructional model
-- the simplified Claude Code-style artifact pipeline
-- the simplified schemas and prompts
-- generated artifacts
-- the downstream student app
+For current framework behavior and structure, use:
 
-The purpose of this directory is to let the simplified design evolve as one coherent system rather than splitting the framework, artifacts, and app across different roots.
+- `docs/technical-spec.md`
+  Primary technical source of truth for artifacts, pipeline, validators, and runtime contract.
+- `docs/framework-model.md`
+  Conceptual framework, pedagogical assumptions, and intended student learning.
+- `docs/operator-workflow.md`
+  Human-in-the-loop review cadence.
 
-Authored story source files should live under `simplified-framework/stories/{story_id}/story.yaml`.
+`docs/app-design.md` exists for the future dedicated app design, but it is not yet a complete or current design source of truth.
 
-Generated episode artifacts should live under `simplified-framework/artifacts/{story_id}/{episode_id}/`.
+## Canonical Framework Material
 
-## Directory Structure
-
-- `docs/`
-  Design documents for the simplified model.
+- `stories/{story_id}/story.yaml`
+  Authored story source.
+- `artifacts/{story_id}/{episode_id}/`
+  Generated episode artifacts such as `episode-plan.yaml`, `transcript.yaml`, `flaw-review.md`, and `lesson_package.yaml`.
+- `reference/flaw-taxonomy.yaml`
+  Canonical flaw set and amplification guidance.
 - `schemas/`
-  Draft schemas for simplified artifacts.
+  Human-readable schema sketches. Structural truth lives in the validators.
 - `pipeline/`
-  Command specs, agent specs, scripts, and templates for the simplified artifact pipeline.
-- `artifacts/`
-  Generated pipeline artifacts and sample lesson outputs consumed by the simplified app.
-- `configs/`
-  App session manifest and config files for local loading.
-- `app/`
-  The student-facing runtime for the simplified framework.
-- `examples/`
-  Small worked examples and future reference outputs.
-- `stories/`
-  Authored simplified story source files, one directory per story.
-- `mappings/`
-  Bridge documents from the current Lens framework to the simplified model.
-- `validation/`
-  Validation notes and future rule definitions.
+  Command specs, agent specs, and validators for the simplified workflow.
+- `docs/archived/`
+  Historical and superseded docs. Do not treat archived docs as current framework truth.
 
 ## Current Status
 
-This directory is an incubation space, not yet the canonical replacement for the current `framework/`.
+The framework and artifact model are largely in place. The local app under `app/` is still a prototype and is not yet the canonical dedicated app for this framework.
 
-Right now it contains:
-
-- the first simplified design docs
-- a copied sample episode artifact for local use
-- a localized copy of the current `lens-v1_1` prototype under `app/`
-
-The app here is a starting point, not a final product.
-
-## Immediate Priorities
-
-1. Define the simplified conceptual model around one layer: reasoning flaws.
-2. Define the simplified package schema and generation pipeline.
-3. Map the current framework concepts into the simplified model where useful.
-4. Redesign the app to consume the simplified artifacts directly.

@@ -30,7 +30,7 @@ The default flaw-review artifact is:
 
 This should follow:
 
-- `simplified-framework/docs/transcript-spec.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/schemas/transcript.yaml`
 
 Validation script:

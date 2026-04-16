@@ -21,7 +21,7 @@ The default artifact is:
 
 This output should follow:
 
-- `simplified-framework/docs/package-schema.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/schemas/lesson_package.yaml`
 
 Validation script:

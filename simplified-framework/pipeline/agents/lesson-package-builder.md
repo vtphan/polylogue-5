@@ -35,8 +35,8 @@ without guessing what the author meant.
 
 Read as needed:
 
-- `simplified-framework/docs/package-schema.md`
-- `simplified-framework/docs/instructional-model.md`
+- `simplified-framework/docs/technical-spec.md`
+- `simplified-framework/docs/framework-model.md`
 - `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 - `simplified-framework/schemas/lesson_package.yaml`
@@ -121,7 +121,7 @@ Write:
 
 The output must align to:
 
-- `simplified-framework/docs/package-schema.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/schemas/lesson_package.yaml`
 
 ## Success Standard

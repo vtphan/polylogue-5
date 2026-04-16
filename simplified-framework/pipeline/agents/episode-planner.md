@@ -20,10 +20,7 @@ You are building practical episode plans that support later transcript writing.
 
 Read as needed:
 
-- `simplified-framework/docs/overview.md`
-- `simplified-framework/docs/conceptual-model.md`
-- `simplified-framework/docs/instructional-model.md`
-- `simplified-framework/docs/episode-plan-spec.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
@@ -90,7 +87,7 @@ When expanding a story's per-episode flaw plan (whether from `story.yaml`'s `fla
 
 If the story specifies that `jumping_to_a_conclusion` should land at `unmistakable` in 5 different turns of an episode, the resulting `episode-plan.yaml` must contain 5 separate flaw entries — same `id`, same `amplification`, different `scene_note` each.
 
-The total number of flaw entries per episode should match the intended-moments target from `episode-composition.md` §2: roughly 5–7 per episode. Most entries should share the primary flaw's `id` and `amplification`; a smaller number share the optional secondary's.
+The total number of flaw entries per episode should match the intended-moments target from `technical-spec.md`: roughly 5–7 per episode. Most entries should share the primary flaw's `id` and `amplification`; a smaller number share the optional secondary's.
 
 Do not collapse instances and rely on `flaw_embedding_guidance.must_include` to carry the count. `must_include` is supplementary scene direction, not an inventory of flaw entries — the package builder reads `flaws[]` as the authoritative list of candidate teachable moments.
 
@@ -118,6 +115,6 @@ When drafting episode plans:
 - produce one `episode-plan.yaml` per episode
 - save each plan under `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - keep them concise
-- align them to `simplified-framework/docs/episode-plan-spec.md`
+- align them to `simplified-framework/docs/technical-spec.md`
 
 It is acceptable to use provisional placeholders if a small number of details remain open.

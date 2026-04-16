@@ -32,7 +32,7 @@ Episode plans, transcripts, flaw reviews, and lesson packages belong later under
 
 The output should follow:
 
-- `simplified-framework/docs/story-spec.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/schemas/story.yaml`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 

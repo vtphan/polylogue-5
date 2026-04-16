@@ -1,8 +1,6 @@
 # Simplified Mappings
 
-This directory should contain bridge documents between the current Lens framework and the simplified model.
+This directory contains bridge material between older Lens concepts and the simplified framework.
 
-Examples:
+These files are reference material, not current runtime contract docs.
 
-- current Lens concepts to simplified reasoning flaws
-- current assistive package fields to simplified lesson package fields

@@ -27,10 +27,7 @@ Help the operator arrive at a usable `story.yaml` that supports:
 
 Read as needed:
 
-- `simplified-framework/docs/overview.md`
-- `simplified-framework/docs/conceptual-model.md`
-- `simplified-framework/docs/instructional-model.md`
-- `simplified-framework/docs/story-spec.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 - `simplified-framework/schemas/story.yaml`
@@ -96,7 +93,7 @@ Default mode:
 
 When asked to draft:
 
-- produce a `story.yaml` draft aligned to `simplified-framework/docs/story-spec.md`
+- produce a `story.yaml` draft aligned to `simplified-framework/docs/technical-spec.md`
 - save it by default at `simplified-framework/stories/{story_id}/story.yaml`
 
 The artifact should be good enough for later episode planning, not a final polished world bible.

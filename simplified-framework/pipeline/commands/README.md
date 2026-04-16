@@ -1,11 +1,11 @@
 # Simplified Pipeline Commands
 
-This directory should hold Claude Code-style command specifications for the simplified Lens pipeline.
-
-Likely commands:
+This directory contains the command contracts for the simplified workflow:
 
 - `create_story.md`
 - `create_episodes.md`
 - `create_transcript.md`
 - `create_lesson_package.md`
-- `validate_episode.md`
+
+Treat these as workflow specs, not shell commands.
+

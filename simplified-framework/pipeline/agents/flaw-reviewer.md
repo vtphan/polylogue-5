@@ -40,9 +40,7 @@ Review the transcript and report:
 
 Read as needed:
 
-- `simplified-framework/docs/conceptual-model.md`
-- `simplified-framework/docs/instructional-model.md`
-- `simplified-framework/docs/episode-composition.md`
+- `simplified-framework/docs/technical-spec.md`
 - `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`

@@ -1,12 +1,10 @@
 # Simplified Pipeline Agents
 
-This directory should hold specialized agent prompt files for the simplified Lens pipeline.
-
-Likely agents:
+This directory contains the specialized prompt specs used by the simplified workflow:
 
 - story designer
 - episode planner
 - dialog writer
 - flaw reviewer
 - lesson package builder
-- validator
+
