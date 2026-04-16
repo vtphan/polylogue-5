@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import type { SessionConfig, PersistedSession, Student } from "@/lib/types/content";
-import { completeEpisode, deriveStoppingPoint, createInitialSessionRecord, beginFocalTurn, reachRevision, saveRevision, saveStudentResponse, saveTransferTakeaway, startDiscussion } from "@/features/activity/engine";
+import { awardPeerRecognition, beginFocalTurn, completeEpisode, createInitialSessionRecord, deriveStoppingPoint, reachRevision, saveRevision, saveStudentResponse, saveTransferTakeaway, startDiscussion } from "@/features/activity/engine";
 import { saveSession } from "@/lib/storage/session-storage";
 
 type SessionStoreState = {
@@ -17,6 +17,7 @@ type SessionStoreState = {
   saveRevision: (payload: { revisionText: string }) => void;
   completeEpisode: () => void;
   saveTransferTakeaway: (payload: { takeaway: string }) => void;
+  awardPeerRecognition: (payload: { studentId: string; label: string }) => void;
 };
 
 function persistSession(session: PersistedSession) {
@@ -99,5 +100,13 @@ export const useSessionStore = create<SessionStoreState>((set, get) => ({
     }
 
     set(persistSession(saveTransferTakeaway(currentSession, payload)));
+  },
+  awardPeerRecognition: (payload) => {
+    const currentSession = get().session;
+    if (!currentSession) {
+      return;
+    }
+
+    set(persistSession(awardPeerRecognition(currentSession, payload)));
   },
 }));

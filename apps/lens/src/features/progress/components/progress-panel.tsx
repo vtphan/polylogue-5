@@ -24,7 +24,12 @@ function completedCount(session: PersistedSession): number {
 export function ProgressPanel({ session }: ProgressPanelProps) {
   const badges = getBadges(session);
   const recognitions = Array.isArray(session.recognition_state.peer_awards)
-    ? (session.recognition_state.peer_awards as Array<{ label: string }>)
+    ? (session.recognition_state.peer_awards as Array<{
+        id: string;
+        studentId: string;
+        studentName: string;
+        label: string;
+      }>)
     : [];
 
   return (
@@ -73,8 +78,8 @@ export function ProgressPanel({ session }: ProgressPanelProps) {
           </div>
           <div className="mt-3 text-sm leading-6 text-white/84">
             {recognitions.length === 0
-              ? "Peer-awarded recognitions are not wired yet. This panel reserves the surface so later slices can add them without changing the shell shape."
-              : recognitions.map((recognition) => recognition.label).join(", ")}
+              ? "Peer recognitions will appear after the group names concrete contributions during completion."
+              : recognitions.map((recognition) => `${recognition.studentName}: ${recognition.label}`).join(", ")}
           </div>
         </div>
       </div>

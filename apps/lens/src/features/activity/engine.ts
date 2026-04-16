@@ -274,3 +274,50 @@ export function saveTransferTakeaway(
     }, "transfer-saved", "Transfer Takeaway"),
   );
 }
+
+export function awardPeerRecognition(
+  session: PersistedSession,
+  payload: {
+    studentId: string;
+    label: string;
+  },
+): PersistedSession {
+  const rosterMatch = session.roster.find((student) => student.id === payload.studentId);
+  if (!rosterMatch) {
+    return session;
+  }
+
+  const existingAwards = Array.isArray(session.recognition_state.peer_awards)
+    ? (session.recognition_state.peer_awards as Array<{
+        id: string;
+        studentId: string;
+        studentName: string;
+        label: string;
+      }>)
+    : [];
+
+  const nextAward = {
+    id: `${payload.studentId}:${payload.label.toLowerCase().replace(/\s+/g, "-")}`,
+    studentId: payload.studentId,
+    studentName: rosterMatch.name,
+    label: payload.label,
+  };
+
+  if (existingAwards.some((award) => award.id === nextAward.id)) {
+    return session;
+  }
+
+  return withUpdatedTimestamp(
+    awardBadge(
+      {
+        ...session,
+        recognition_state: {
+          ...session.recognition_state,
+          peer_awards: [...existingAwards, nextAward],
+        },
+      },
+      "peer-recognition",
+      "Peer Recognition Shared",
+    ),
+  );
+}

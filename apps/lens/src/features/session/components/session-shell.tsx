@@ -79,6 +79,7 @@ export function SessionShell({
   const saveRevision = useSessionStore((state) => state.saveRevision);
   const completeEpisode = useSessionStore((state) => state.completeEpisode);
   const saveTransferTakeaway = useSessionStore((state) => state.saveTransferTakeaway);
+  const awardPeerRecognition = useSessionStore((state) => state.awardPeerRecognition);
   const stoppingPoint = useSessionStore((state) => state.stoppingPoint);
 
   const defaultRoster = useMemo(() => deriveRoster(sessionConfig), [sessionConfig]);
@@ -485,6 +486,7 @@ export function SessionShell({
 
         {resolvedScreen === "complete" && session && (
           <CompletionView
+            onAwardRecognition={(payload) => awardPeerRecognition(payload)}
             onReturnToStart={pauseToStart}
             onSaveTakeaway={(payload) => saveTransferTakeaway(payload)}
             session={session}
