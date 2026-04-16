@@ -1,11 +1,18 @@
 # Lens v1 Implementation Readiness
 
+Supersession note:
+
+- `v1-redesign-spec.md` is now the canonical source of truth for the current Lens v1 student flow.
+- This document should be interpreted as an implementation companion to that redesign spec.
+- If this document conflicts with `v1-redesign-spec.md` on runtime behavior, interaction model, or saved state assumptions, follow `v1-redesign-spec.md`.
+
 This document closes the remaining gaps between the Lens v1 design docs and a code-ready implementation plan.
 
 It is intentionally practical. It does not reopen product design. It records the implementation defaults that unblock schema work, loader work, state modeling, and slice planning.
 
 This document should be read alongside:
 
+- `v1-redesign-spec.md`
 - `technical-specs-v1.md`
 - `wireframes-v1.md`
 - `pipeline-spec.md`
@@ -78,15 +85,11 @@ The app should normalize once at load time rather than mixing both forms across 
 The pilot `assistive_package.yaml` contains all primitive families currently required by the v1 surfaces:
 
 - `front_door_support.attention_targets`
-- `front_door_support.sentence_frame_seeds`
 - `front_door_support.modeled_episode_examples`
 - `front_door_support.transfer_examples`
 - `diagnostic_support.probes`
 - `diagnostic_support.interventions`
 - `diagnostic_support.struggle_calibration`
-- `discussion_support.discussion_cues`
-- `discussion_support.talk_moves`
-- `discussion_support.consensus_checks`
 
 For v1 implementation, any missing UI data after load should be treated as:
 
@@ -194,22 +197,15 @@ That record should include:
 - `local_session_id`
 - `config_id`
 - `episode_source`
-- `roster`
-- `roster_order`
-- `active_student_id`
-- `next_responder_id`
-- `current_focal_turn_id`
-- `current_backbone_stage`
+- `current_phase`
+- `current_level_id`
+- `current_turn_id`
 - `pacing_policy`
+- `warmup_state`
 - `responses`
-- `evaluative_judgments`
-- `cohort_response_state`
 - `scaffold_usage`
-- `comparison_state`
-- `discussion_state`
-- `recognition_state`
+- `badge_state`
 - `progress_state`
-- `transfer_takeaway`
 - `updated_at`
 
 The session index should hold only summary metadata needed for the Start / Resume screen.
@@ -218,20 +214,14 @@ The session index should hold only summary metadata needed for the Start / Resum
 
 Persist at these checkpoints:
 
-- roster confirmed
-- active student changed
+- reading completed
+- warm-up completed
 - response saved
-- revision saved
-- discussion milestone changed
-- recognition awarded
+- answer revised
+- support milestone changed
+- badge awarded
 - stopping point reached
 - explicit pause selected
-
-For v1, `discussion milestone changed` should mean coarse checkpoints rather than every small interaction. Persist when:
-
-- the first discussion cue for the focal turn is opened
-- a consensus check is completed
-- the group exits discussion into revision
 
 ---
 
@@ -242,40 +232,27 @@ For v1, `discussion milestone changed` should mean coarse checkpoints rather tha
 Use this stage enum in app state and the persistent stage indicator:
 
 - `read`
-- `respond`
-- `compare`
-- `discuss`
-- `revise`
+- `warmup`
+- `level`
+- `support`
+- `complete`
 
-### 5.2 Evaluate Mapping
+### 5.2 Stopping-Point Rules
 
-The design docs include a distinct evaluative move, but the persistent stage indicator should not add a separate `evaluate` stage in v1.
+The activity engine should surface stopping-point prompts only at the checkpoints implied by the redesign spec:
 
-Default:
-
-- the evaluative move is part of `respond`
-- `respond` includes:
-  - initial response
-  - basic evaluative judgment
-  - immediate support access before cohort comparison
-
-This preserves the five-stage wireframe indicator while keeping the evaluative prompt explicit in the response UI.
-
-### 5.3 Stopping-Point Rules
-
-The activity engine should surface stopping-point prompts only at the three checkpoints already implied by the upstream Lens docs:
-
-1. after all first responses for the current focal turn are saved
-2. after the group reaches revision for the current focal turn
-3. after episode completion / transfer prompt
+1. after reading completes
+2. after Warm-Up 1 completes
+3. after each completed level
+4. after episode completion
 
 For `guided` pacing, the app surfaces stopping-point prompts at those checkpoints.
 
 For `open` pacing, the app records the same checkpoints but does not interrupt with a dedicated prompt unless the user explicitly pauses.
 
-The app may still persist silently at other structural checkpoints such as roster confirmation or focal-turn selection, but those should not surface as `good stopping point` prompts in v1.
+The app may still persist silently at other structural checkpoints such as support reveals or answer revisions, but those should not surface as `good stopping point` prompts in v1.
 
-### 5.4 Validation Failure Behavior
+### 5.3 Validation Failure Behavior
 
 If required content fails schema validation, the app should not degrade silently.
 
@@ -316,14 +293,13 @@ Use this implementation order rather than the raw wireframe numbering:
 5. Session store, persistence layer, and resume bootstrap
 6. Activity engine foundation
 7. Start / Resume, Group Setup, and Episode Landing shell
-8. Episode Reading View and focal-turn selection
-9. First Response View with evaluative judgment inside `respond`
-10. Support Panel backed by front-door and diagnostic primitives
-11. Comparison View
-12. Discussion / Deepening View
-13. Revision / Continue flow and stopping-point prompts
-14. Episode completion, transfer prompt, and next-session handoff
-15. Progress / recognition layer
+8. Episode Reading View
+9. Warm-Up 1 and Warm-Up 2 flow
+10. Level engine and Challenge Level View
+11. Support View backed by front-door and diagnostic primitives
+12. Level resolution flow and stopping-point prompts
+13. Episode completion and next-session handoff
+14. Progress / badge layer
 16. Empty and error states hardening
 
 Key dependency note:

@@ -1,5 +1,10 @@
 # Lens App Background and Product Constraints
 
+Supersession note:
+
+- `v1-redesign-spec.md` is the canonical source of truth for the current Lens v1 student runtime flow.
+- This document remains the stable product-background layer, but any current-flow assumptions here should yield to `v1-redesign-spec.md`.
+
 This document records the stable background, purpose, and operating constraints of the **Lens** app. It is not an instructional-design specification and it is not tied to any one generation pipeline format.
 
 Its purpose is to preserve what should remain fixed even as instructional designs, assistive-package schemas, UI flows, and pedagogical strategies evolve.
@@ -105,19 +110,13 @@ This constraint is fundamental to the app's identity and should not be treated a
 
 The detailed instructional design can change, but several pedagogical commitments are core to the current product direction:
 
-- students first work **individually** with the materials
-- students then **discuss with peers**
+- students work **individually** with the materials
 - support can be offered at **different levels of cognitive load**
 - those differentiated supports are mediated by the **assistive packages**
 
 These commitments should be treated as stable unless the product vision itself changes.
 
-They imply that Lens should support both:
-
-- private sense-making
-- collaborative sense-making
-
-The app should not collapse the experience into only individual work or only group discussion.
+For the current v1 redesign, the student runtime should emphasize private sense-making first and defer peer-discussion runtime requirements.
 
 ---
 
@@ -135,7 +134,6 @@ The following are product-level constraints for Lens:
 - episodes as the primary learning medium
 - assistive packages generated upstream
 - no LLM at runtime
-- individual work followed by peer discussion
 - differentiated support for different cognitive loads
 
 ### Changeable
@@ -176,7 +174,7 @@ If a proposed feature fits individual tutoring but not small-group classroom ana
 This document should be read as the stable background layer for Lens documentation.
 
 - Use this file for product context and non-negotiable constraints.
-- Use `instructional-design-v1.md` for the current pedagogical design, knowing that it may evolve.
+- Use `v1-redesign-spec.md` for the current canonical Lens v1 student experience.
 - Use `pipeline-spec.md` for the current artifact and pipeline contract.
 - Use `teacher-overview.md` for a concise audience-facing summary of the project.
 

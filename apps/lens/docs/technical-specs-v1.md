@@ -1,5 +1,11 @@
 # Lens Technical Specs v1
 
+Supersession note:
+
+- `v1-redesign-spec.md` is now the canonical source of truth for the current Lens v1 student experience.
+- If this document conflicts with `v1-redesign-spec.md` on flow, interaction model, or scope, follow `v1-redesign-spec.md`.
+- In particular, older assumptions in this file about shared-device multi-student flow, peer discussion, and writing-first interaction should be treated as historical unless explicitly restated in the redesign spec.
+
 This document defines a practical technical target for the first redesigned version of Lens.
 
 It is intentionally narrower than the broader product and instructional-design vision. The goal of v1 is to build a convincing, usable foundation that supports demos, instructional exploration, and early student-facing analysis work without overcommitting to a larger architecture too early.
@@ -7,7 +13,8 @@ It is intentionally narrower than the broader product and instructional-design v
 This document should be read alongside:
 
 - `app-background.md`
-- `instructional-design-v1.md`
+- `v1-redesign-spec.md`
+- `assistive-package-v1_1.md`
 - `pipeline-spec.md`
 
 ---
@@ -62,11 +69,12 @@ The v1 goal is not full classroom platform completeness. It is a strong, coheren
 
 - Student-facing episode reading and analysis experience
 - Config-driven loading of an episode/session for demo or classroom use
-- Support for multiple students sharing one browser on one device
-- Local persistence of student names and lightweight in-browser history
+- Single-student progress on one device
+- Browser-local persistence of lightweight progress history
 - Use of precomputed episode assets and assistive-package content
-- Individual and peer-facing interaction flows
-- Lightweight progress and engagement mechanisms
+- Warm-up examples before challenge play
+- Level-based constrained interaction flow
+- Lightweight progress and badge mechanisms
 - Demo-friendly visual polish
 
 ## 2.3 Out of Scope for v1
@@ -83,57 +91,36 @@ The v1 goal is not full classroom platform completeness. It is a strong, coheren
 - Advanced permissions or role systems
 - Runtime LLM integration
 
-## 2.4 Shared-Browser Assumption
+## 2.4 Single-Student Runtime Assumption
 
-A key v1 assumption is that multiple students may participate on the **same device in the same browser session**.
+The current v1 redesign assumes one student works through one episode on one device.
 
-That makes v1 closer to a table-use tool than a personal account-based app.
+That means v1 should support:
 
-The app should therefore support:
+- one active learner state per local session
+- simple browser-local save and resume
+- deterministic episode progression without peer orchestration
 
-- entering or selecting student names locally
-- maintaining lightweight local state for multiple students
-- recording who contributed what within the shared browser session
-- preserving enough history to continue a discussion flow during the activity
-
-For v1, browser-local storage is an acceptable solution if it keeps the app simple and reliable.
+Browser-local storage remains acceptable for v1 because the primary goal is a coherent student runtime, not classroom account infrastructure.
 
 ## 2.5 Session Config
 
-For v1, Lens should support loading a **session config** rather than only a raw episode reference.
+For v1, Lens should support loading a lightweight **session config** rather than only a raw episode reference.
 
 A session config should minimally define:
 
-- which episode/session content to load
-- which students are in the group using the shared device
-
-This allows Lens to:
-
-- open directly into the intended episode
-- know which students belong to the current group
-- show the current active student clearly
-- reduce setup friction for demos and classroom use
-
-The app does not need real authentication for this. In v1, the important concept is not a logged-in user in the account sense, but the **active student** or **current responder** inside a shared-device session.
+- which episode content to load
+- optional UI metadata useful for demo or sequencing
 
 One reasonable v1 shape:
 
 ```json
 {
-  "config_id": "forest-ep01-table-a",
+  "config_id": "field-trip-ep01",
   "episode": {
-    "source": "artifacts/strangers-in-the-old-forest/episodes/episode_01"
-  },
-  "group": {
-    "name": "Table A",
-    "students": [
-      { "id": "s1", "name": "Ava" },
-      { "id": "s2", "name": "Noah" },
-      { "id": "s3", "name": "Mia" }
-    ]
+    "source": "artifacts/the-field-trip/episodes/episode_01"
   },
   "ui": {
-    "starting_student_id": "s1",
     "pacing": "guided"
   }
 }
@@ -141,10 +128,10 @@ One reasonable v1 shape:
 
 The app should be able to derive or store locally:
 
-- current active student
-- per-student response history
-- per-student progress during the session
-- any later local revisions to the session state
+- current episode progress
+- current warm-up or level state
+- per-level answer history
+- badge/completion state
 
 ### 2.5.1 v1 Decision
 
@@ -160,9 +147,9 @@ For v1, the minimum required fields should be:
 - `config_id`
 - `episode.source`
 
-Student roster is required before activity begins, but not required inside the config itself.
+Student roster is not required for the current v1 runtime.
 
-The `ui.pacing` field is optional and defaults to `guided` when omitted. See § 3.2.1.
+The `ui.pacing` field is optional and defaults to `guided` when omitted.
 
 ---
 
@@ -174,32 +161,32 @@ Lens v1 should stay focused on a small set of core features that directly suppor
 
 The core v1 feature set should be:
 
-1. **Shared-device session setup**  
-   A group can quickly enter student names and start a local session on one browser.
+1. **Single-student session setup**  
+   A student can quickly start or resume a local session in one browser.
 
 2. **Episode reading and navigation**  
    Students can read an episode, revisit it, and focus on specific turns or passages.
 
-3. **Low-floor individual participation**  
-   Each student can make an initial response without needing advanced writing immediately.
+3. **Warm-up onboarding**  
+   The app teaches the task through one or two warm-up examples before independent play.
 
 4. **Guided interpretation and optional support**  
-   Students can make an initial interpretation and then receive scaffolds, models, or deeper prompts when needed.
+   Students can answer constrained challenges and then receive scaffolds, models, or deeper prompts when needed.
 
-5. **Peer comparison, disagreement, and discussion support**  
-   The group can compare individual responses, take a stance toward peer ideas, and identify meaningful differences worth discussing.
+5. **Level-based progression**  
+   The episode is organized as a sequence of small reasoning challenges with escalating cognitive demand.
 
 6. **Explicit evaluation and revision**  
-   Lens should ask students to make a basic judgment about what seems strong, weak, or questionable, then revise after discussion.
+   Lens should ask students to make a basic judgment and then keep or change the answer after support.
 
 7. **Progress and engagement system**  
-   Lens can show momentum, participation, and badges or recognitions that reinforce engagement.
+   Lens can show momentum and badges that reinforce engagement.
 
 8. **Browser-local persistence**  
-   The app can preserve lightweight group/session history in one browser for continuity and demo use.
+   The app can preserve lightweight session history in one browser for continuity and demo use.
 
 9. **Flexible pacing and stopping points**  
-   Lens should support student-paced progress through the focal-turn loop, with clear deterministic stopping points and places to pause and resume.
+   Lens should support student-paced progress through warm-ups and levels, with clear deterministic stopping points and places to pause and resume.
 
 Anything beyond this should be treated skeptically for v1 unless it is necessary to make the core student experience coherent.
 
@@ -247,14 +234,13 @@ One package-reading detail remains intentionally open for later versions: the ex
 
 ## 3.2 Student Session Setup
 
-The app should support a lightweight setup flow for a shared device:
+The app should support a lightweight setup flow for one student:
 
-- enter student names for the group
-- create a local session for those students
-- store the group locally in browser storage
-- allow resuming recent local sessions if appropriate
+- start a new episode session
+- resume recent local progress if available
+- begin without account creation
 
-This should be fast and low-friction. Setup should not feel like account creation.
+The goal is fast entry into the episode, not user management.
 
 ### 3.2.1 v1 Decision: Pacing Policy
 
@@ -263,10 +249,10 @@ For v1, the pacing policy is a **session-config decision**, not a student-facing
 Supported modes:
 
 - **open**
-  The group advances whenever ready once local prerequisites are met.
+  The student advances whenever ready once local prerequisites are met.
 
 - **guided**
-  The app surfaces deterministic stopping-point cues based on the current focal turn and backbone stage, but the group still advances itself.
+  The app surfaces deterministic stopping-point cues based on current phase and level completion.
 
 If `ui.pacing` is omitted from the session config, the app should default to `guided`.
 
@@ -274,24 +260,25 @@ V1 does not need live classroom orchestration, phase locking, or a real-time tea
 
 The app should not assume it can infer nuanced pacing advice at runtime. Lens v1 is non-LLM at runtime and should therefore base pacing support on explicit structural rules such as:
 
-- current focal turn
-- current backbone stage
-- whether the current round is complete
+- current level
+- current phase
+- whether the current level is complete
 - whether a natural stopping point has been reached
 
 ## 3.3 Low-Floor Participation Moves
 
-Lens v1 should support participation moves that do not require advanced writing immediately.
+Lens v1 should support participation moves that do not require writing.
 
 Examples:
 
-- select a focal turn or moment worth discussing
-- react to a prompt about a turn
-- choose between a small number of plausible interpretations
-- complete or extend a sentence frame
-- record a short initial judgment
+- choose between plausible interpretations
+- choose `I'm not sure yet`
+- open support
+- reveal the next scaffold step
+- confirm or revise an answer
+- record confidence
 
-These moves should map to the lower parts of the current taxonomy and help students get into the activity without blank-page failure.
+These moves should help students get into the activity without blank-page failure.
 
 ## 3.4 Guided Interpretation and Deepening
 
@@ -301,12 +288,13 @@ Lens v1 should therefore be structured as **one guided experience** with a small
 
 The most natural v1 core stage flow is:
 
-1. notice a focal turn or moment
-2. make an initial interpretation
-3. make a basic evaluative judgment
-4. receive support if needed
-5. compare with peers
-6. deepen through discussion or explanation
+1. read the episode
+2. complete one or two warm-ups
+3. enter challenge levels
+4. answer a constrained question
+5. receive support if needed
+6. confirm or revise
+7. complete the level and advance
 
 This should not be interpreted as six rigid, separately branded activity modes. It is better understood as a guided backbone for the experience.
 
@@ -314,61 +302,52 @@ Each stage in this backbone should also be a **pacing-aware unit**. The app shou
 
 Within that backbone, Lens can offer embedded support moves such as:
 
-- selecting a focal turn
 - reacting to a prompt
 - choosing between interpretations
-- extending a sentence frame
 - opening a modeled example
 - receiving a redirect
 - answering a deeper explanation prompt
-- awarding a peer recognition
+- retrying after help
+- keeping or changing an answer
 
 Some of these moves may be optional, conditional, or skippable depending on student readiness and how the group is progressing. The app should feel guided, but not mechanically rigid.
 
 At minimum, Lens v1 should allow students to:
 
-- make an individual response tied to a focal turn, passage, or prompt
-- choose between plausible interpretations when appropriate
-- receive deeper prompts after an initial response
-- return to or revise their interpretation during the session
+- read the episode before analysis begins
+- complete a modeled warm-up
+- answer turn-based or passage-based challenge questions
+- receive deeper prompts after an initial answer
+- return to or revise their answer during the session
 
-The goal is not to enforce long-form writing. The goal is to support a guided path from noticing toward interpretation, evaluation, and explanation.
+The goal is to support a guided path from noticing toward interpretation, evaluation, and explanation without writing.
 
 ### 3.4.1 v1 Decision: Minimum Backbone
 
 For v1, the minimum required backbone should be:
 
-1. read / focus on a focal turn
-2. make an initial response
-3. make a basic evaluative move
-4. compare with peers
-5. discuss face-to-face
-6. revise or continue
+1. read episode
+2. warm-up
+3. answer a challenge
+4. request support if needed
+5. confirm or revise
+6. continue to next level
 
 Supports and deeper prompts should sit around this backbone as optional or conditional steps.
 
-For v1, the student-facing stage indicator should collapse the evaluative move into the broader `respond` stage rather than introducing a separate `evaluate` stage label in persistent UI. That means:
+For v1, each challenge level should be treated as a valid stopping unit. A student should be able to pause after a warm-up, after a completed level, or at episode completion and resume deterministically later.
 
-- `respond` includes the initial response plus the basic evaluative judgment
-- comparison remains the next distinct stage after all required responses are saved
+## 3.5 Warm-Ups
 
-For v1, each focal turn should be treated as a valid stopping unit. A group should be able to pause after first response, after comparison/discussion, or after revision and return to the same focal turn and stage later.
+Lens v1 should include one or two warm-up examples before the main level sequence.
 
-## 3.5 Peer Discussion Support
+Warm-Up 1 should be required and fully modeled.
 
-Lens v1 should support peer comparison and discussion without needing networked multi-device synchronization.
+Warm-Up 2 may be optional and should:
 
-An important design assumption for v1 is that peer discussion happens **face-to-face at the table**, not through an in-app chat system. Students can ask each other questions, challenge one another, and discuss the episode verbally while sharing one device.
-
-Possible v1 support:
-
-- reveal side-by-side student responses on one device
-- highlight differences in how students responded
-- provide discussion prompts or turn-based cues
-- provide a lightweight stance-taking move toward a peer response
-- make it easy for the group to recognize disagreement worth discussing
-
-The app does not need to capture full live discussion transcripts in v1. Its job is to make face-to-face discussion easier to start and sustain.
+- ask a simple multiple-choice question
+- reveal the explanation after the answer
+- prepare the student for the independent levels
 
 ## 3.6 Scaffolds and Hints
 
@@ -377,21 +356,19 @@ Lens v1 should support differentiated scaffolds derived from the assistive packa
 At minimum, it should be able to surface:
 
 - attention prompts
-- sentence frames
 - modeled examples
-- transfer examples
+- transfer examples when available
 - redirects when students are focused in the wrong place
-- deeper prompts after an initial response
+- deeper prompts after an initial answer
 
 The exact timing rules can remain simple in v1, but the app should be structured so that different scaffold types can appear at different points in the activity sequence.
 
 The reviewed assistive package suggests that v1 should especially support:
 
 - recognition/noticing prompts
-- sentence-frame-based articulation
 - modeled and transfer examples
 - explanation prompts tied to why reasoning may have happened
-- discussion cues for peer comparison and deepening
+- intervention ladders with increasing depth
 
 ### 3.6.0 Primitive-to-UI Mapping
 
@@ -410,7 +387,7 @@ To reduce integration ambiguity, v1 should map current assistive-package primiti
   -> focal-turn support panel / immediate noticing help
 
 - `front_door_support.sentence_frame_seeds`
-  -> sentence-frame scaffold drawer
+  -> optional support copy or hidden authoring residue; not a required student-facing interaction in no-writing v1
 
 - `front_door_support.modeled_episode_examples`
   -> modeled-example support card
@@ -425,13 +402,13 @@ To reduce integration ambiguity, v1 should map current assistive-package primiti
   -> conditional support panel after request or weak first move
 
 - `discussion_support.discussion_cues`
-  -> discussion cue panel for face-to-face group talk
+  -> deferred in current v1
 
 - `discussion_support.talk_moves`
-  -> lightweight discussion help / talk stems
+  -> deferred in current v1
 
 - `discussion_support.consensus_checks`
-  -> post-discussion reflection or confirmation prompt
+  -> deferred in current v1
 
 - `diagnostic_support.struggle_calibration`
   -> deferred in v1 unless needed internally by the activity engine; not a direct UI surface in the first implementation
@@ -446,21 +423,10 @@ Any assistive-package field not rendered in v1 should be treated as intentionall
 For v1, support timing should follow a simple hybrid rule set:
 
 - **attention prompts** are available immediately
-- **sentence frames, modeled examples, and transfer examples** are available on demand
-- **deeper prompts** appear only after an initial response is saved
-- **redirects** appear when a student explicitly asks for help, chooses an "I'm not sure" path, or opens the support panel after a weak first move
+- **modeled examples and transfer examples** are available on demand when present
+- **deeper prompts** appear only after an initial answer is recorded
+- **redirects** appear when a student explicitly asks for help, chooses an "I'm not sure" path, or selects a weak first move
 This keeps the flow simple while still supporting different readiness levels.
-
-### 3.6.2 v1 Decision: Transfer Prompt
-
-For v1, Lens should include a lightweight transfer prompt at episode completion or another natural stopping point.
-
-This should:
-
-- connect the episode back to the group's own PBL discussion habits
-- ask for one concrete takeaway or next move
-- remain brief enough that it does not turn the end of the activity into a second full writing task
-- be available whenever the app identifies a good stopping point, not only after the full episode is complete
 
 ## 3.7 AI in v1
 
@@ -485,37 +451,26 @@ At minimum, it should support:
 
 - visible progress through an episode activity
 - app-awarded badges or markers for participation and movement
-- peer-awarded badges or recognitions for helpfulness or strong discussion contributions
 
 This system should reinforce engagement and growth, not reduce the experience to right-answer hunting.
 
-For v1, rewards and recognitions should be treated as engagement support, not as the primary pacing mechanism. The app should not assume that students will manage session time well just because progress and rewards are visible.
+For v1, rewards and recognitions should be treated as engagement support, not as the primary pacing mechanism.
 
 ### 3.8.1 v1 Decision: Recognition Rules
 
-For v1, Lens should support two recognition types:
+For v1, Lens should support app-awarded badges only.
 
-- **app-awarded badges**
-- **peer-awarded recognitions**
+Suggested triggers:
 
-App-awarded badges should be triggered automatically by actions such as:
-
-- submitting a first response
-- revising a response
-- using a scaffold
-- reaching comparison/discussion stages
-- completing a deeper prompt
-
-Peer-awarded recognitions should be limited and lightweight. Suggested categories:
-
-- `Helpful`
-- `Good Point`
-- `Good Question`
-- `Changed My Thinking`
+- completing Warm-Up 1
+- completing Warm-Up 2
+- finishing a level
+- using support and then completing a level
+- changing an answer after support
+- completing the episode
 
 For v1:
 
-- peer recognitions should be visible to the group
 - there should be no public leaderboard
 - correctness should not be the main reward signal
 
@@ -526,16 +481,13 @@ Because Lens must help sustain engagement on student devices, v1 should include 
 This layer should not rely only on correctness or task completion. It should make the experience feel active, social, and rewarding through:
 
 - **visible momentum**  
-  Students can tell that they and their group are moving forward through the activity.
+  Students can tell they are moving forward through the activity.
 
 - **recognition**  
-  Different kinds of participation can be noticed and rewarded, including noticing something important, helping a peer, revising a response, or making a strong discussion contribution.
-
-- **social energy**  
-  The app should make differences, discussion-worthy moments, and group progress visible enough that the activity feels shared rather than solitary.
+  Different kinds of participation can be noticed and rewarded, including noticing something important, revising a response, or completing a difficult level with support.
 
 - **lightweight delight**  
-  Small reveal moments, progress changes, or badge/recognition feedback should make the experience feel lively without turning it into a game detached from the learning goals.
+  Small reveal moments, progress changes, or badge feedback should make the experience feel lively without turning it into a game detached from the learning goals.
 
 The v1 engagement layer should avoid:
 
@@ -548,11 +500,10 @@ The v1 engagement layer should avoid:
 
 Lens v1 should persist the following in local browser storage:
 
-- group/student names
 - current episode/session context
-- individual student responses
+- individual level responses
 - lightweight progress state
-- earned badges or recognitions, if implemented
+- earned badges, if implemented
 
 Persistence should be treated as session continuity and demo support, not as durable institutional record-keeping.
 
@@ -560,92 +511,55 @@ V1 persistence does not need to implement a full longitudinal progression model.
 
 For v1, persistence should also preserve:
 
-- current focal turn
-- current backbone stage
+- current level
+- current phase
 - current pacing policy
-- whether the group stopped at a suggested stopping point
+- whether the student stopped at a suggested stopping point
 
-If later episodes are available in the current session or bundle, the app should also allow the group to continue forward after finishing an episode rather than forcing a hard stop.
+If later episodes are available in the current session or bundle, the app should also allow the student to continue forward after finishing an episode rather than forcing a hard stop.
 
 ---
 
 ## 4. User Stories
 
-These user stories are written for the v1 scope: student-only, shared-device, browser-local, and episode-centered.
+These user stories are written for the current v1 scope: student-only, single-student runtime, browser-local, and episode-centered.
 
 ## 4.1 Session Setup
 
-- As a small group of students sharing one device, we want to enter our names quickly so that we can start the activity without friction.
-- As a returning group on the same browser, we want Lens to remember enough local history that we can resume without re-entering everything from scratch.
-- As a group, we want the app to open directly into our assigned session when a session config is provided so that startup is fast and clear.
-- As a session author, we want to set the pacing mode in the session config so that Lens behavior fits the class period without requiring live student or teacher choice during the activity.
+- As a student, I want to open directly into my assigned episode when a session config is provided so that startup is fast and clear.
+- As a returning student on the same browser, I want Lens to remember enough local history that I can resume without friction.
+- As a session author, I want to set pacing in the session config so that Lens behavior fits the class period without requiring runtime setup.
 
 ## 4.2 Episode Reading
 
-- As a student, I want to read the episode clearly so that I can understand what is happening in the discussion.
-- As a student, I want to revisit specific turns or moments so that I can point to something concrete when responding.
+- As a student, I want to read the episode clearly before challenges begin so that I understand the discussion.
 - As a student, I want the episode view to feel readable and not overwhelming so that I stay engaged.
+- As a student, I want to revisit specific turns or moments while answering a level so that I can ground my choice in the text.
 
-## 4.3 Low-Floor Participation
+## 4.3 Warm-Ups and Challenges
 
-- As a student who is not ready to write a full explanation, I want to make a valid first move anyway so that I can participate without getting stuck.
-- As a student, I want to select a turn, react to a prompt, or build on a sentence frame so that I can begin thinking before writing something more complete.
-- As a student, I want my initial response to feel low-risk so that I am willing to try.
+- As a student, I want to see a worked example first so that I understand what kind of thinking the app expects.
+- As a student, I want a simple guided warm-up before independent play so that I am not thrown directly into the harder levels.
+- As a student, I want each level to feel like a small reasoning challenge so that progress feels clear.
 
-## 4.4 Guided Interpretation and Deepening
+## 4.4 Supports
 
-- As a student, I want to give my own initial reading before seeing others' responses so that I can think for myself first.
-- As a student, I want my response to be saved locally under my name so that I can return to it or revise it later in the session.
-- As a student, I want to make a simple judgment about what seems strong, weak, or questionable so that I move beyond noticing into evaluation.
-- As a student, I want optional support after my first move so that I can deepen my thinking without getting shut down.
-- As a student, I want deeper prompts that help me move from basic interpretation toward stronger evaluation or explanation when I am ready.
-- As a student, I want to revise my response after support or discussion so that I can show how my thinking changed.
-
-## 4.5 Peer Comparison and Discussion
-
-- As a group, we want to compare our responses on one device so that we can quickly see where we agree or disagree.
-- As a student, I want Lens to make differences between responses visible so that discussion has somewhere to begin.
-- As a student, I want a simple way to take a stance toward a peer's idea so that disagreement becomes something we do, not just something we see.
-- As a student, I want prompts or cues that help us discuss the episode face-to-face instead of getting stuck in silence.
-
-## 4.6 Scaffolds and Supports
-
-- As a student who cannot get started, I want a scaffold that helps me notice something meaningful without just giving me the answer.
+- As a student who cannot get started, I want a scaffold that helps me notice something meaningful without immediately giving away the full answer.
 - As a student with a weak or partial first idea, I want support that helps me deepen it.
-- As a student focused on the wrong thing, I want a redirect that helps me attend to a more relevant moment.
-- As a student working at a higher level, I want deeper prompts that push me beyond a basic response.
+- As a student focused on the wrong thing, I want a redirect that helps me attend to a more relevant issue.
+- As a student, I want to keep or change my answer after support so that the app can capture whether my thinking changed.
 
-## 4.7 Progress and Recognition
+## 4.5 Progress and Recognition
 
-- As a student, I want to feel that I am making progress through the activity so that I stay engaged.
-- As a student, I want badges or recognitions that reflect participation, growth, or helpful discussion moves so that the activity feels rewarding.
-- As a student, I want recognitions to feel meaningful rather than random or purely competitive.
-- As a student, I want to see when my progress or badges change so that the activity feels responsive to what I do.
-- As a student, I want the app to feel lively and rewarding rather than flat so that I want to keep participating.
-- As a student, I want different kinds of smart participation to count, not just getting something "right."
+- As a student, I want to feel that I am making progress through the episode so that I stay engaged.
+- As a student, I want badges or completion markers that reflect meaningful progress so that the activity feels rewarding.
+- As a student, I want the app to feel lively and responsive without turning into a noisy game.
 
-## 4.7.1 Social Energy and Excitement
+## 4.6 Pacing and Resume
 
-- As a student, I want to see when my group notices different things so that discussion feels interesting.
-- As a student, I want the activity to feel like something we are doing together, not just taking turns filling things out.
-- As a student, I want small moments of surprise, recognition, or unlock-like progress so that the experience feels exciting.
-
-## 4.8 Shared-Browser Use
-
-- As a group using one device, we want Lens to keep track of who said what so that individual participation does not disappear into a single shared response.
-- As a group, we want the shared-browser experience to feel natural rather than like a workaround for a single-user tool.
-- As a student, I want it to be clear when it is my turn to respond so that the shared device does not become confusing.
-- As a group, we want to hand off the active student smoothly so that turn-taking feels easy.
-
-## 4.9 Transfer Back to PBL
-
-- As a student, I want to end the episode by naming one thing my group could carry into our own discussion so that this work connects back to real PBL talk.
-
-## 4.10 Pacing And Stopping Points
-
-- As a group, we want Lens to make good stopping points visible so that we can pause without losing the thread.
-- As a returning group, we want to resume exactly where we left off so that stopping mid-episode does not break the experience.
-- As a group that finishes early, we want to move on to the next available episode so that we can keep working instead of waiting.
+- As a student, I want clear stopping points so that I can pause without losing the thread.
+- As a returning student, I want to resume exactly where I left off so that stopping mid-episode does not break the experience.
+- As a student who finishes early, I want to continue to the next available episode if one exists.
 
 ---
 
@@ -653,175 +567,109 @@ These user stories are written for the v1 scope: student-only, shared-device, br
 
 This section translates the core user journeys into concrete UI surfaces, state transitions, and stored data for v1.
 
-## 5.1 Journey A: First-Time Group Starting a Session
+## 5.1 Journey A: First-Time Student Starting an Episode
 
 ### Screens / Views
 
 - **Start screen**
-  Option to begin a session, optionally resume a recent local session.
-
-- **Group setup screen**
-  Enter or select student names for the current group.
+  Option to begin a session or resume a recent local session.
 
 - **Episode landing screen**
-  Show episode title, short setup text, pacing choice, and clear entry into the discussion.
+  Show episode title, short setup text, and clear entry into reading.
 
 - **Episode reading view**
-  Show the episode in a readable whole-discussion format with focal turns or moments visibly marked.
+  Show the episode in a readable whole-discussion format.
 
-- **First-response view**
-  Prompt each student to make an initial low-floor move and a basic evaluative judgment on a focal turn or moment.
+- **Warm-Up 1 view**
+  Show one fully modeled example.
 
-- **Comparison view**
-  Reveal side-by-side student responses once each student has completed the required initial move.
+- **Warm-Up 2 view**
+  Show one guided multiple-choice example if enabled.
 
 ### State Transitions
 
 1. `app_opened`
 2. `session_start_requested`
-3. `group_created_locally`
-4. `episode_loaded`
-5. `episode_viewed`
-6. `initial_prompt_opened`
-7. `student_response_saved` repeated per student
-8. `all_required_initial_responses_complete`
-9. `comparison_view_opened`
+3. `episode_loaded`
+4. `episode_viewed`
+5. `warmup_1_opened`
+6. `warmup_1_completed`
+7. optional `warmup_2_opened`
+8. optional `warmup_2_completed`
 
 ### Stored Data
 
 - local session ID
 - episode/session config reference
-- student roster for current group
-- pacing policy
-- active focal turn or prompt
-- per-student initial responses
-- per-student evaluative judgments
-- completion flags for required first-response step
+- current phase
+- reading completion state
+- warm-up completion state
 
-## 5.2 Journey B: Student Requests Support Early
+## 5.2 Journey B: Student Completes a Challenge Level
 
 ### Screens / Views
 
-- **Focal turn / prompt view**
-  Show the selected turn or moment and the first response prompt.
+- **Level hub**
+  Orient the student to the next challenge.
 
-- **Scaffold drawer / support panel**
-  Surface attention prompts, sentence frames, modeled examples, transfer examples, or redirects without leaving the main flow.
+- **Challenge level view**
+  Show the focal turn or passage, prompt, and answer choices.
 
-- **Response revision view**
-  Let the student revise or extend their response after receiving support.
+- **Support view**
+  Surface nudges, hints, redirects, and worked examples.
+
+- **Level resolution view**
+  Let the student keep or change the answer and then continue.
 
 ### State Transitions
 
-1. `initial_prompt_opened`
-2. `support_requested`
-3. `scaffold_opened`
-4. `support_type_viewed`
-5. `student_response_saved`
-6. optional `deeper_prompt_opened`
-7. optional `student_response_revised`
+1. `level_opened`
+2. `answer_selected`
+3. optional `support_requested`
+4. optional `support_step_revealed`
+5. optional `answer_changed`
+6. `level_completed`
+7. optional `badge_awarded`
 
 ### Stored Data
 
-- per-student scaffold usage
+- level ID
+- focal turn or passage
+- question shown
+- options shown
+- initial answer
+- final answer
+- support usage
+- level completion state
+
+## 5.3 Journey C: Student Requests Support
+
+### Screens / Views
+
+- **Challenge level view**
+  Show the level prompt and current answer state.
+
+- **Support view**
+  Reveal attention nudges, focused questions, hints, worked examples, or redirects.
+
+- **Level resolution view**
+  Let the student keep or change the answer after support.
+
+### State Transitions
+
+1. `support_requested`
+2. `support_opened`
+3. `support_step_revealed`
+4. optional `answer_changed`
+5. `level_completed`
+
+### Stored Data
+
 - support type used
-- prompt/turn associated with the support
-- original and latest response state
-- whether a deeper prompt was shown
+- support depth reached
+- whether the answer changed
 
-## 5.3 Journey C: Group Reaches Disagreement
-
-### Screens / Views
-
-- **Comparison view**
-  Show student responses side by side and make meaningful differences visible.
-
-- **Discussion cue panel**
-  Surface one or more prompts that help the group discuss the disagreement face-to-face.
-
-- **Peer stance prompt**
-  Ask students to agree, disagree, extend, or challenge a peer response before revision.
-
-- **Deepening prompt view**
-  Offer optional explanation or reasoning-deepening prompts after discussion begins.
-
-- **Revision / confirmation view**
-  Let students update or confirm their interpretations after discussion.
-
-- **Progress / recognition feedback**
-  Show updated progress state or recognitions when the interaction warrants it.
-
-### State Transitions
-
-1. `comparison_view_opened`
-2. `difference_detected_or_highlighted`
-3. `discussion_cue_opened`
-4. optional `peer_stance_selected`
-5. optional `peer_recognition_awarded`
-6. optional `deepening_prompt_opened`
-7. `student_response_revised` or `student_response_confirmed`
-8. optional `progress_updated`
-
-### Stored Data
-
-- comparison-state data derived from student responses
-- which discussion cue was shown
-- which stance-taking move was used
-- optional peer recognitions awarded
-- whether a deeper prompt was used
-- revised response state per student
-- progress/badge updates caused by the interaction
-
-## 5.4 Cross-Journey Notes
-
-For v1, these journeys should all operate within a **single local browser session**. No shared backend or cross-browser synchronization is assumed.
-
-This means:
-
-- one device/browser can support one table group well
-- multiple browsers can each run their own separate local session
-- cross-device classroom synchronization is not part of v1
-
-The shared-browser model should therefore be treated as the primary operational mode for the first implementation.
-
-For v1, the shared-device interaction model should assume:
-
-- one **active student** at a time
-- only the active student can submit or edit at that moment
-- the active student can be switched with a simple handoff action
-- prior student responses remain visible for comparison and revision
-
-For fairness, the app should default to **round-robin active-student rotation**. The active student for a round should also be the student who selects the next focal turn for the group.
-
-## 5.5 Journey D: Student Switch / Turn-Taking on Shared Device
-
-### Screens / Views
-
-- **Active student indicator**
-  Clearly show which student is currently responding.
-
-- **Turn handoff control**
-  Allow the group to switch from one student to another without confusion.
-
-- **Shared comparison view**
-  Preserve visibility of what each student has already done while making it clear who is active now.
-
-### State Transitions
-
-1. `active_student_set`
-2. `student_response_saved`
-3. `handoff_requested`
-4. `active_student_changed`
-5. optional `student_response_opened_for_revision`
-
-### Stored Data
-
-- active student ID
-- per-student completion state
-- per-student latest response state
-- handoff history if needed for local continuity
-
-## 5.6 Journey E: Resume / Continue a Local Session
+## 5.4 Journey D: Resume / Continue a Local Session
 
 ### Screens / Views
 
@@ -829,10 +677,10 @@ For fairness, the app should default to **round-robin active-student rotation**.
   Show recent local sessions available in the browser.
 
 - **Session summary view**
-  Show which episode, which students, and how far the group has progressed.
+  Show which episode and how far the student has progressed.
 
 - **Restored working view**
-  Return the group to the relevant episode, prompt, comparison state, or progress point.
+  Return the student to the relevant episode phase or level.
 
 ### State Transitions
 
@@ -846,50 +694,43 @@ For fairness, the app should default to **round-robin active-student rotation**.
 
 - saved local session metadata
 - episode/session config reference
-- student roster
-- per-student responses
-- progress state
-- current backbone stage
-- current pacing policy
-- scaffold usage history if relevant
-- badge/recognition history if implemented
+- current phase
+- current level
+- responses
+- scaffold usage
+- badge history
 
-## 5.7 Journey F: Episode Close / Transfer Back to PBL
+## 5.5 Journey E: Episode Completion
 
 ### Screens / Views
 
 - **Episode completion view**
-  Show completion, progress, and recognitions for the episode.
-
-- **Transfer prompt card**
-  Ask the group to name one discussion move, habit, or caution they could carry into their own PBL talk.
+  Show completion, progress, and badges for the episode.
 
 - **Next-episode continuation action**
-  Allow the group to continue to another available episode when the current one is done.
+  Allow the student to continue to another available episode when the current one is done.
 
 ### State Transitions
 
 1. `episode_complete`
 2. `completion_view_opened`
-3. `transfer_prompt_opened`
-4. optional `transfer_response_saved`
-5. `session_return_or_continue_selected`
+3. `session_return_or_continue_selected`
 
 ### Stored Data
 
 - completion summary
-- optional transfer takeaway
+- badge summary
 - next-step selection
 
-## 5.8 Journey G: Pause / Resume At A Natural Stopping Point
+## 5.6 Journey F: Pause / Resume at a Natural Stopping Point
 
 ### Screens / Views
 
 - **Stopping-point prompt**
-  Show that the group has reached a structural stopping point where it is safe to pause or continue.
+  Show that the student has reached a structural stopping point where it is safe to pause or continue.
 
 - **Resume screen**
-  Restore the group to the same focal turn and backbone stage later.
+  Restore the student to the same phase or level later.
 
 ### State Transitions
 
@@ -901,8 +742,8 @@ For fairness, the app should default to **round-robin active-student rotation**.
 
 ### Stored Data
 
-- focal turn at pause
-- backbone stage at pause
+- phase at pause
+- level at pause
 - pacing policy
 - whether the stop was app-suggested or user-selected
 
@@ -968,7 +809,7 @@ The app should use a simple discovery mechanism, such as:
 
 Primary persistence for v1 should be browser-local:
 
-- `localStorage` is acceptable for names, history, recent local sessions, and lightweight session state
+- `localStorage` is acceptable for recent local sessions and lightweight episode state
 - an abstraction layer should still be used so persistence can later move to IndexedDB or a backend without rewriting the whole app
 
 This suggests a simple storage module that owns:
@@ -977,7 +818,7 @@ This suggests a simple storage module that owns:
 - active session record
 - response history
 - badge/progress history
-- pacing and stage restoration data
+- pacing and phase restoration data
 
 ## 6.3.1 Suggested Client Modules
 
@@ -990,7 +831,7 @@ To keep the app simple but maintainable, v1 should likely separate:
   Validates loaded data with `Zod` before it enters the app.
 
 - **session store**  
-  Holds the current group, current student, active episode, progress state, pacing policy, current backbone stage, and in-session responses.
+  Holds the active episode, progress state, pacing policy, current phase, current level, and in-session responses.
 
 - **persistence layer**  
   Reads/writes browser-local state through a thin wrapper around `localStorage`.
@@ -999,7 +840,7 @@ To keep the app simple but maintainable, v1 should likely separate:
   Determines what activity state the user is in, which supports, prompts, or progress markers should be shown, and when a structural stopping point has been reached.
 
 - **UI layer**  
-  Renders episode views, participation moves, discussion views, scaffold views, and progress/badge feedback.
+  Renders episode views, warm-ups, challenge levels, scaffold views, and progress/badge feedback.
 
 ## 6.4 Runtime Model
 
@@ -1019,10 +860,10 @@ The v1 interface should be:
 
 - visually polished enough for demo use
 - readable for middle-school students
-- optimized for shared, in-class use on laptops/tablets
+- optimized for in-class use on laptops/tablets
 - fast to enter
 - clear in progress
-- discussion-friendly rather than form-heavy
+- challenge-friendly rather than form-heavy
 
 The UI should not feel like an admin tool, worksheet, or debugging shell.
 
@@ -1045,13 +886,13 @@ One reasonable v1 structure:
   App Router entry points, route segments, and SPA shell bootstrap
 
 - `src/features/session/`
-  Student/group setup, active session state, local session resume
+  Session start, active session state, local session resume
 
 - `src/features/episode/`
   Episode reading UI, turn/passage focus UI
 
 - `src/features/activity/`
-  Individual response flow, peer comparison flow, scaffold display
+  Warm-up flow, challenge level flow, scaffold display
 
 - `src/features/progress/`
   Badges, progress markers, lightweight feedback
@@ -1073,7 +914,7 @@ For v1, technical priorities should be:
 
 1. Clear student-facing flow
 2. Strong episode-reading and turn-focus UI
-3. Good local-state model for multiple students in one browser
+3. Good local-state model for single-student progression
 4. Flexible rendering of package-driven supports
 5. Lightweight progression/gamification system
 6. Visual quality suitable for demos and design iteration
@@ -1102,20 +943,17 @@ These should be treated as future expansion, not as hidden requirements for v1.
 
 V1 deliberately does not address the items below. They are recorded here so they can be observed during pilot rather than rediscovered as surprises.
 
-- **Non-active-student dead zone**
-  During round-robin first response, students who are not currently active have no designed activity. V1 does not give them a parallel low-stakes task. Watch for off-task behavior, side conversation, or device-monopoly patterns during response turns, especially in groups of 4-5.
+- **Warm-up calibration**
+  One episode may need one warm-up while another may need two. Watch whether students enter the first real level with enough footing.
 
-- **Stall recovery within a focal turn**
-  V1 supports pause/resume across stages (§ 5.8) but does not provide an in-stage skip when a group is genuinely stuck on the current focal turn. Watch for groups looping discussion cues without progressing, and note whether a "move on for now" affordance would have helped.
+- **Support overexposure**
+  If worked examples appear too quickly, the app may feel like answer reveal rather than guided analysis. Watch how often students jump directly to deep support.
 
-- **Read-then-respond timing**
-  V1 does not specify when the group reads the focal turn relative to the round-robin response sequence. Watch whether non-active students re-read on their own turn (slow), respond without close reading, or naturally settle into a group-read-first rhythm.
+- **Level difficulty sequencing**
+  If difficulty rises too sharply, students may disengage after the first easy levels. Watch completion rates level by level.
 
-- **Group-size sensitivity**
-  The same flow plays differently for groups of 3 versus 5. With 5 students, each waits through 4 peer responses before comparison. Watch for engagement decay as group size grows, and note completion rates per period by group size.
+- **Badge inflation**
+  If badges fire too often, they will lose meaning. Watch whether badge moments still feel earned.
 
-- **Recognition fairness**
-  Peer-awarded recognitions can drift toward the same one or two students. V1 has no nudge against this. Watch the distribution of `Helpful` / `Good Point` / `Good Question` / `Changed My Thinking` across rosters.
-
-- **Active-student concentration**
-  In v1 the active student picks the focal turn, types the response, and is the de-facto reader for the round (§ 5.4). Three responsibilities are concentrated on one student per round. Round-robin distributes this across the cohort over time, but watch for fatigue or imbalance within a single session.
+- **Pause/resume granularity**
+  V1 supports pause/resume at deterministic checkpoints, but it may still feel coarse if students stop mid-level. Watch whether finer-grained resume is actually needed.

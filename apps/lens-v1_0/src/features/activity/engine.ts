@@ -1,0 +1,323 @@
+import type { PersistedSession, SessionConfig, Student } from "@/lib/types/content";
+
+export type StoppingPoint = "round-complete" | "revision-reached" | "episode-complete" | null;
+
+type SessionBootstrapInput = {
+  sessionConfig: SessionConfig;
+  rosterOverride?: Student[];
+};
+
+function resolveRoster(sessionConfig: SessionConfig): Student[] {
+  return sessionConfig.group?.students ?? [];
+}
+
+function resolveStartingStudentId(sessionConfig: SessionConfig, roster: Student[]): string {
+  const configuredStudentId = sessionConfig.ui?.starting_student_id;
+  if (configuredStudentId && roster.some((student) => student.id === configuredStudentId)) {
+    return configuredStudentId;
+  }
+
+  const firstStudent = roster[0];
+  if (!firstStudent) {
+    throw new Error(`Session config "${sessionConfig.config_id}" has no roster to initialize`);
+  }
+
+  return firstStudent.id;
+}
+
+function initialCohortState(roster: Student[]): PersistedSession["cohort_response_state"] {
+  return Object.fromEntries(roster.map((student) => [student.id, "pending"]));
+}
+
+function findNextPendingStudent(
+  rosterOrder: string[],
+  currentStudentId: string,
+  cohortState: PersistedSession["cohort_response_state"],
+): string {
+  const currentIndex = Math.max(rosterOrder.indexOf(currentStudentId), 0);
+
+  for (let offset = 1; offset <= rosterOrder.length; offset += 1) {
+    const candidateId = rosterOrder[(currentIndex + offset) % rosterOrder.length];
+
+    if (candidateId && cohortState[candidateId] === "pending") {
+      return candidateId;
+    }
+  }
+
+  return currentStudentId;
+}
+
+function awardBadge(session: PersistedSession, badgeId: string, label: string): PersistedSession {
+  const badges = Array.isArray(session.progress_state.badges)
+    ? (session.progress_state.badges as Array<{ id: string; label: string }>)
+    : [];
+
+  if (badges.some((badge) => badge.id === badgeId)) {
+    return session;
+  }
+
+  return {
+    ...session,
+    progress_state: {
+      ...session.progress_state,
+      badges: [...badges, { id: badgeId, label }],
+    },
+  };
+}
+
+export function createInitialSessionRecord({
+  sessionConfig,
+  rosterOverride,
+}: SessionBootstrapInput): PersistedSession {
+  const roster = rosterOverride && rosterOverride.length > 0 ? rosterOverride : resolveRoster(sessionConfig);
+  const startingStudentId = resolveStartingStudentId(sessionConfig, roster);
+  const rosterOrder = roster.map((student) => student.id);
+  const timestamp = new Date().toISOString();
+
+  return {
+    local_session_id: crypto.randomUUID(),
+    config_id: sessionConfig.config_id,
+    episode_source: sessionConfig.episode.source,
+    roster,
+    roster_order: rosterOrder,
+    active_student_id: startingStudentId,
+    next_responder_id: findNextPendingStudent(
+      rosterOrder,
+      startingStudentId,
+      initialCohortState(roster),
+    ),
+    current_focal_turn_id: null,
+    current_backbone_stage: "read",
+    pacing_policy: sessionConfig.ui?.pacing ?? "guided",
+    responses: {},
+    evaluative_judgments: {},
+    cohort_response_state: initialCohortState(roster),
+    scaffold_usage: {},
+    comparison_state: {},
+    discussion_state: {},
+    recognition_state: {},
+    progress_state: {},
+    updated_at: timestamp,
+  };
+}
+
+export function withUpdatedTimestamp(session: PersistedSession): PersistedSession {
+  return {
+    ...session,
+    updated_at: new Date().toISOString(),
+  };
+}
+
+export function deriveStoppingPoint(session: PersistedSession): StoppingPoint {
+  if (session.progress_state.episode_complete === true) {
+    return "episode-complete";
+  }
+
+  if (session.current_backbone_stage === "revise") {
+    return "revision-reached";
+  }
+
+  const allSaved = Object.values(session.cohort_response_state).every((value) => value === "saved");
+  if (allSaved && session.current_backbone_stage === "compare") {
+    return "round-complete";
+  }
+
+  return null;
+}
+
+export function saveStudentResponse(
+  session: PersistedSession,
+  studentId: string,
+  payload: {
+    responseText: string;
+    judgment: string;
+  },
+): PersistedSession {
+  const responseKey = session.current_focal_turn_id
+    ? `${session.current_focal_turn_id}:${studentId}`
+    : `unfocused:${studentId}`;
+
+  const nextCohortState = {
+    ...session.cohort_response_state,
+    [studentId]: "saved" as const,
+  };
+
+  const allSaved = Object.values(nextCohortState).every((value) => value === "saved");
+  const nextActiveStudentId = allSaved
+    ? studentId
+    : findNextPendingStudent(session.roster_order, studentId, nextCohortState);
+
+  const nextSession: PersistedSession = {
+    ...session,
+    active_student_id: nextActiveStudentId,
+    next_responder_id: allSaved
+      ? nextActiveStudentId
+      : findNextPendingStudent(session.roster_order, nextActiveStudentId, nextCohortState),
+    current_backbone_stage: allSaved ? "compare" : "respond",
+    responses: {
+      ...session.responses,
+      [responseKey]: {
+        responseText: payload.responseText,
+        studentId,
+        turnId: session.current_focal_turn_id,
+      },
+    },
+    evaluative_judgments: {
+      ...session.evaluative_judgments,
+      [responseKey]: payload.judgment,
+    },
+    cohort_response_state: nextCohortState,
+  };
+
+  return withUpdatedTimestamp(
+    awardBadge(nextSession, "first-response", "First Response"),
+  );
+}
+
+export function beginFocalTurn(session: PersistedSession, turnId: string): PersistedSession {
+  const resetCohortState: PersistedSession["cohort_response_state"] = Object.fromEntries(
+    session.roster_order.map((studentId) => [studentId, "pending" as const]),
+  );
+
+  return withUpdatedTimestamp({
+    ...session,
+    current_focal_turn_id: turnId,
+    current_backbone_stage: "respond",
+    cohort_response_state: resetCohortState,
+    active_student_id: session.active_student_id,
+    next_responder_id: findNextPendingStudent(
+      session.roster_order,
+      session.active_student_id,
+      resetCohortState,
+    ),
+  });
+}
+
+export function startDiscussion(session: PersistedSession): PersistedSession {
+  return withUpdatedTimestamp(
+    awardBadge({
+    ...session,
+    current_backbone_stage: "discuss",
+    discussion_state: {
+      ...session.discussion_state,
+      first_cue_opened: true,
+    },
+    }, "discussion-opened", "Discussion Opened"),
+  );
+}
+
+export function reachRevision(session: PersistedSession): PersistedSession {
+  return withUpdatedTimestamp({
+    ...session,
+    current_backbone_stage: "revise",
+  });
+}
+
+export function saveRevision(
+  session: PersistedSession,
+  payload: {
+    revisionText: string;
+  },
+): PersistedSession {
+  const responseKey = session.current_focal_turn_id
+    ? `${session.current_focal_turn_id}:${session.active_student_id}`
+    : `unfocused:${session.active_student_id}`;
+
+  return withUpdatedTimestamp(
+    awardBadge({
+    ...session,
+    responses: {
+      ...session.responses,
+      [responseKey]: {
+        ...(typeof session.responses[responseKey] === "object" && session.responses[responseKey] !== null
+          ? session.responses[responseKey]
+          : {}),
+        responseText: payload.revisionText,
+        revised: true,
+        studentId: session.active_student_id,
+        turnId: session.current_focal_turn_id,
+      },
+    },
+    progress_state: {
+      ...session.progress_state,
+      revision_saved: true,
+    },
+    }, "revision-saved", "Revision Saved"),
+  );
+}
+
+export function completeEpisode(session: PersistedSession): PersistedSession {
+  return withUpdatedTimestamp({
+    ...session,
+    progress_state: {
+      ...session.progress_state,
+      episode_complete: true,
+    },
+  });
+}
+
+export function saveTransferTakeaway(
+  session: PersistedSession,
+  payload: {
+    takeaway: string;
+  },
+): PersistedSession {
+  return withUpdatedTimestamp(
+    awardBadge({
+    ...session,
+    transfer_takeaway: payload.takeaway,
+    progress_state: {
+      ...session.progress_state,
+      episode_complete: true,
+      transfer_saved: true,
+    },
+    }, "transfer-saved", "Transfer Takeaway"),
+  );
+}
+
+export function awardPeerRecognition(
+  session: PersistedSession,
+  payload: {
+    studentId: string;
+    label: string;
+  },
+): PersistedSession {
+  const rosterMatch = session.roster.find((student) => student.id === payload.studentId);
+  if (!rosterMatch) {
+    return session;
+  }
+
+  const existingAwards = Array.isArray(session.recognition_state.peer_awards)
+    ? (session.recognition_state.peer_awards as Array<{
+        id: string;
+        studentId: string;
+        studentName: string;
+        label: string;
+      }>)
+    : [];
+
+  const nextAward = {
+    id: `${payload.studentId}:${payload.label.toLowerCase().replace(/\s+/g, "-")}`,
+    studentId: payload.studentId,
+    studentName: rosterMatch.name,
+    label: payload.label,
+  };
+
+  if (existingAwards.some((award) => award.id === nextAward.id)) {
+    return session;
+  }
+
+  return withUpdatedTimestamp(
+    awardBadge(
+      {
+        ...session,
+        recognition_state: {
+          ...session.recognition_state,
+          peer_awards: [...existingAwards, nextAward],
+        },
+      },
+      "peer-recognition",
+      "Peer Recognition Shared",
+    ),
+  );
+}

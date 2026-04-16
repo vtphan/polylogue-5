@@ -1,0 +1,44 @@
+# Lens Default Instructions
+#
+# Standard student-facing strings for a Lens session. /configure_session
+# loads these and writes them into session.yaml so the operator only has
+# to author the genuinely episode-specific bits (topic_summary,
+# reading_instruction). When a per-session deviation is needed, the
+# operator overrides individual fields and the override is logged.
+#
+# These strings are Lens-specific (writing-centered, reflective, no
+# competitive scoring). Other applications maintain their own defaults
+# under apps/<app-id>/reference/.
+#
+# Voice notes:
+# - 6th-grade-readable, calm, second-person.
+# - No framework terminology (lens names like "Logic" are fine; facet IDs,
+#   cognitive patterns, social dynamics are not).
+# - Each prompt should invite articulation rather than ask for a verdict.
+
+defaults:
+  diagnose:
+    instructions: >
+      Read this passage and choose one or more lenses. Rate the reasoning
+      as strong or weak through each lens, then explain what you noticed.
+    articulation_prompt: >
+      What do you see? Why did you rate it this way?
+
+  discuss:
+    instructions: >
+      See how your group members diagnosed this passage. What did they
+      notice that you didn't? Discuss and decide what your group thinks.
+
+  ai_perspective:
+    instructions: >
+      Here's one more perspective on what's happening in this passage.
+    response_prompt: >
+      After reading the AI's perspective, what stands out to you? Does
+      it match what your group was thinking?
+
+  submit_assessment:
+    instructions: >
+      As a group, write your assessment of the reasoning in this passage.
+    assessment_prompt: >
+      What did you notice about the reasoning? Why do you think they
+      reasoned this way?

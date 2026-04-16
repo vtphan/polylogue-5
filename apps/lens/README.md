@@ -1,27 +1,20 @@
-# Lens v1 App
+# Lens Docs and Planning Hub
 
-This directory now hosts the greenfield Lens v1 application.
+This directory is now the planning and documentation hub for the Lens redesign.
 
-The product and runtime assumptions live in:
+The canonical product and implementation docs live here:
 
+- `docs/v1-redesign-spec.md`
+- `docs/assistive-package-v1_1.md`
 - `docs/technical-specs-v1.md`
 - `docs/wireframes-v1.md`
 - `docs/implementation-readiness-v1.md`
 
-The legacy `lens-app/` directory is not the implementation base for this app.
+Versioned app directories:
 
-## Planned slices
+- `apps/lens-v1_0/`
+  Legacy source snapshot of the older shared-device runtime.
+- `apps/lens-v1_1/`
+  Clean-slate app for the redesigned single-student runtime.
 
-1. App scaffold and baseline tooling
-2. Runtime schemas
-3. Content loader and turn-ID normalization
-4. Manifest and session-config discovery
-5. Local session state and persistence
-
-## Commands
-
-After dependencies are installed:
-
-- `npm run dev`
-- `npm run build`
-- `npm run lint`
+The old `lens-app/` directory remains separate legacy material and is not the implementation base for the redesigned Lens app.
