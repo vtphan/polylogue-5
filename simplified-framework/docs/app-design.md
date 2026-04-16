@@ -1128,6 +1128,7 @@ Approval gate:
 Goal:
 
 - implement the full challenge phase as the main repeatable interaction pattern of the product
+- the detailed implementation contract for this milestone is defined in §10.27–10.38
 
 Must resolve:
 
@@ -1146,6 +1147,7 @@ Approval gate:
 Goal:
 
 - implement the ending state
+- the detailed implementation contract for this milestone is defined in §10.41–10.51
 
 Must resolve:
 
@@ -1851,6 +1853,657 @@ When Milestone 2 is approved, Milestone 3 should be able to assume:
 
 Milestone 3 should build on these pieces rather than replacing them.
 
+### 10.27 Milestone 3 Scope
+
+This section is the implementation contract for the next approved build increment.
+
+Milestone 3 covers:
+
+- active level-question UI for each authored `levels[]` entry
+- deterministic hint access for levels when `hint` is present
+- deterministic feedback reveal after answer submission
+- durable level-response persistence
+- reload and resume behavior during level work
+- deterministic advancement from one level to the next
+- transition from the final level into the saved completion state
+
+Milestone 3 does not cover:
+
+- the final completion screen presentation
+- multi-step scaffold sequences beyond the authored level `hint`
+- post-submit answer revision
+- reward or badge presentation
+- teacher review tools
+
+### 10.28 Product Goal
+
+By the end of Milestone 3, a student should be able to:
+
+1. arrive at the first authored level from Milestone 2
+2. answer a level with a clear prompt, options, and quiet progress cue
+3. optionally open a deterministic hint without leaving the level flow
+4. submit one answer and read deterministic feedback
+5. continue through the remaining levels with durable saved state
+6. finish the last level and leave the run in the correct saved completion state
+
+The implementation is successful if this repeatable level pattern works end to end without route confusion or progress loss.
+
+### 10.29 Required UI States
+
+Milestone 3 should implement exactly these user-visible states:
+
+1. active level question
+2. active level question with hint open
+3. level feedback reveal
+4. transition to the next level
+5. transition from the final level into saved completion state
+
+Recommended routing model:
+
+- one level route may render all level states
+- internal state may be derived from persisted `session_runs`, `level_responses`, and `scaffold_events`
+- routing details may vary, but the student-facing sequence must remain deterministic
+- the level route should trust `session_runs.current_level_id` as the active authored level while `current_phase = level`
+
+### 10.30 State A: Active Level Question
+
+Purpose:
+
+- let the student independently apply the taught flaw to a new turn
+
+Visible UI must include:
+
+- level title
+- quiet level-progress cue such as `Level 2 of 4`
+- targeted turn with nearby transcript context
+- prompt
+- answer options
+- one primary action to submit an answer
+
+Visible UI may include:
+
+- a secondary hint affordance when `lesson_package.levels[].hint` is present
+- a quiet phase indicator consistent with §6.11
+
+Visible UI should not include:
+
+- completion-screen content
+- peer-progress UI that competes with the active question
+- runtime-generated explanation outside the authored feedback contract
+
+Required data:
+
+- the current level object resolved from `session_runs.current_level_id`
+- `lesson_package.levels[].level_id`
+- `lesson_package.levels[].sequence_index`
+- `lesson_package.levels[].turn_id`
+- `lesson_package.levels[].title`
+- `lesson_package.levels[].focus_move`
+- `lesson_package.levels[].prompt`
+- `lesson_package.levels[].answer_options`
+- `lesson_package.levels[].best_answer_id`
+- optional `lesson_package.levels[].hint`
+- `lesson_package.levels[].feedback`
+- transcript context around `turn_id`
+
+System behavior:
+
+- resolve the active level by matching `session_runs.current_level_id` against `lesson_package.levels[].level_id`
+- load the targeted turn plus one adjacent turn before and after when available from `transcript.yaml`
+- reuse the same nearby-context rule used by warm-ups so first-turn and last-turn edge cases stay consistent
+- allow local answer selection before submission
+- do not persist partial answer choice before the first accepted submit
+- treat `focus_move` as planning metadata unless the implementation chooses to surface it explicitly
+- treat `best_answer_id` as authored package metadata rather than the runtime source of truth for feedback resolution in Milestone 3
+
+Persistence behavior:
+
+- no `level_responses` write is required while the student is only selecting an answer
+- keep `session_runs.current_phase = level`
+- keep `session_runs.current_level_id` on the current authored level
+
+### 10.31 State B: Level Question With Hint Open
+
+Purpose:
+
+- support the student during a level without replacing the main question flow
+
+Visible UI must include:
+
+- the full active-level question state
+- the authored hint content in a clearly secondary treatment
+
+Visible UI should not include:
+
+- auto-advance behavior
+- answer correctness labels before submission
+- a hint treatment that visually overpowers the level prompt
+
+Required data:
+
+- all State A inputs
+- `lesson_package.levels[].hint` when present
+
+System behavior:
+
+- reveal the authored hint inline or adjacent to the question area
+- keep the student on the same level and preserve any local selection if possible
+- treat a single level `hint` as the Milestone 3 support surface
+
+Persistence behavior:
+
+- opening the level hint should durably mark hint usage for the active `run_id + level_id`
+- opening the level hint should immediately create durable scaffold state before answer submission, so reload cannot lose the hint-open fact
+- Milestone 3 should therefore persist pre-submit level hint usage in `scaffold_events`
+- write one event for the viewed hint with a stable `step_key` such as `hint`
+- `level_responses.used_hint` should be set to `true` when the level response is later written if a matching hint-open scaffold event exists for that `run_id + level_id`
+
+### 10.32 State C: Level Feedback Reveal
+
+Purpose:
+
+- show deterministic feedback after the student's one submitted level answer
+
+Visible UI must include:
+
+- level title
+- quiet level-progress cue
+- the selected answer in read-only form
+- deterministic authored feedback for that submission
+- one primary action: `Continue`
+
+Visible UI may include:
+
+- targeted turn with nearby transcript context
+- the authored hint in read-only form if it was previously opened
+
+Visible UI should not include:
+
+- a second answer submission step in Milestone 3
+- runtime-generated commentary beyond the authored feedback text
+- reward or badge presentation
+
+Required data:
+
+- the active level object from `lesson_package.levels[]`
+- the persisted level-response state for the active `run_id + level_id`
+- the authored feedback block for the active level
+
+System behavior:
+
+- reopen this state when the active level already has a completed persisted response and the run is still on that level
+- reconstruct the selected answer from `level_responses.initial_answer`
+- resolve feedback deterministically from the lesson package:
+- use `feedback.correct.text` when the submitted answer is in `feedback.correct.option_ids`
+- otherwise use `feedback.by_option.{option_id}` for the submitted answer
+- do not consult `best_answer_id` for feedback resolution in Milestone 3
+- lock the submitted answer in read-only form after the first accepted submission
+- if a later submit arrives for a level that already has a completed persisted response, return the existing response without changing `initial_answer` or `final_answer`
+- keep the tone brief, specific, and calm consistent with §7.4
+
+Persistence behavior:
+
+- on the first accepted submit, write one durable level response for the active `run_id + level_id`
+- set `level_responses.initial_answer` to the submitted option id
+- set `level_responses.final_answer` to the same submitted option id in Milestone 3's first-pass single-submit flow
+- set `level_responses.answer_changed = false` in Milestone 3's first-pass single-submit flow
+- persist whether help was used before completion
+- persist `completed_at` for the level response so reload can reopen the feedback state
+- keep `session_runs.current_phase = level`
+- keep `session_runs.current_level_id` on the current level until the student presses `Continue`
+
+### 10.33 State D: Continue To Next Level
+
+Purpose:
+
+- move the student from the completed current level into the next authored level
+
+Trigger:
+
+- student presses `Continue` after the level feedback has been revealed
+
+System behavior:
+
+- find the next level by ascending `sequence_index`
+- move the run to that next level when one exists
+- persist the updated run state
+
+Persistence behavior:
+
+- keep `session_runs.current_phase = level`
+- set `session_runs.current_level_id` to the next level's `level_id`
+- update `updated_at`
+
+Postcondition:
+
+- the next level question is now ready to render on reload or resume
+
+### 10.34 State E: Finish Levels
+
+Purpose:
+
+- leave the last level cleanly and hand off to the completion phase
+
+Trigger:
+
+- student presses `Continue` after the final level feedback has been revealed
+
+System behavior:
+
+- detect that no authored level remains after the current one
+- move the run from `level` to `complete`
+- persist the updated run state
+
+Persistence behavior:
+
+- set `session_runs.current_phase = complete`
+- set `session_runs.status = complete`
+- clear `session_runs.current_level_id`
+- set `completed_at`
+- update `updated_at`
+
+Postcondition:
+
+- the session is now ready for Milestone 4 work
+- Milestone 3 does not need to implement the full completion screen, but it must leave the run in the correct saved state
+
+### 10.35 Data Contract For Milestone 3
+
+Milestone 3 implementation requires these data sources:
+
+- active episode `lesson_package.yaml`
+- active episode `transcript.yaml`
+- persisted `session_runs`
+- persisted `level_responses`
+- persisted `scaffold_events`
+
+Milestone 3 may also read:
+
+- persisted `warmup_progress` for handoff sanity checks or resume logic
+
+Level-response contract note:
+
+- the first Milestone 3 implementation is a single-submit level flow
+- `initial_answer` and `final_answer` should therefore match in the first pass
+- `answer_changed` remains available for a later revision-capable milestone and should stay `false` in the first pass
+- reload should reconstruct the read-only submitted choice from `level_responses.initial_answer`
+- duplicate level submits after the first accepted completed response should be treated as idempotent no-ops that return the existing saved response
+
+Runtime validation note:
+
+- Milestone 3 implementation should strictly validate each level's runtime fields, including `prompt`, `answer_options`, optional `hint`, and `feedback.{correct,by_option}`, rather than relying on permissive passthrough parsing alone
+
+Milestone 3 does not require:
+
+- multi-step scaffold orchestration
+- reward issuance
+- rich peer-progress displays on level screens
+- completion-screen layout work
+
+Required persisted level fields:
+
+- `session_runs.current_level_id`
+- `level_responses.level_id`
+- `level_responses.initial_answer`
+- `level_responses.final_answer`
+- `level_responses.used_hint`
+- `level_responses.answer_changed`
+- `level_responses.completed_at`
+
+Required persisted scaffold fields:
+
+- `scaffold_events.run_id`
+- `scaffold_events.level_id`
+- `scaffold_events.step_key`
+- `scaffold_events.created_at`
+
+### 10.36 Server Responsibilities For Milestone 3
+
+The server layer should support:
+
+- loading the active level payload for the run
+- loading the current level-response state for the active level
+- loading scaffold state for the active level when relevant
+- saving level hint access
+- saving the first accepted level submission
+- reopening the feedback state after reload
+- saving the transition to the next level
+- saving the transition from the final level to `complete`
+
+Recommended minimal server actions or route handlers:
+
+- `getLevel(runId)`
+- `openLevelHint(runId)`
+- `submitLevelAnswer(runId, answerId)`
+- `continueFromLevelFeedback(runId)`
+
+Names may vary in implementation, but the responsibilities should remain the same.
+
+### 10.37 Client Responsibilities For Milestone 3
+
+The client layer should support:
+
+- rendering the active level question state
+- rendering the hint-open state without leaving the active level
+- rendering the feedback-reveal state
+- locking the submitted answer after the first accepted submit
+- triggering the continue transition to the next level or completion
+- showing quiet authored progress such as current sequence position
+- gracefully rendering the saved-complete handoff state on the level route when `current_phase = complete` and `current_level_id` is null, until Milestone 4 replaces that placeholder
+
+The client should not treat transient component state as the primary source of truth for level completion or reload behavior.
+
+### 10.38 Acceptance Criteria
+
+Milestone 3 is ready for approval when all of the following are true:
+
+- a student arriving at `current_phase = level` sees the active authored level rather than a placeholder
+- the active level is resolved from `session_runs.current_level_id`
+- the level question shows the targeted turn and nearby context, prompt, answer options, and a quiet progress cue
+- opening a level hint keeps the student on the same level and durably records hint usage in `scaffold_events` before the level is submitted
+- the first accepted level submission persists a durable `level_responses` record for that level
+- feedback is revealed deterministically from the authored package rather than generated at runtime
+- reloading after level submission reopens the feedback-reveal state for the same level instead of losing progress
+- pressing `Continue` after a non-final level moves the run to the next authored `level_id` deterministically
+- pressing `Continue` after the final level moves the run to `current_phase = complete` with `status = complete`
+- the repeatable level pattern feels coherent across all authored levels rather than like one-off pages
+
+### 10.39 Explicit Non-Goals
+
+Milestone 3 should not attempt to solve:
+
+- multi-step scaffold trees or teach-and-retry workflows
+- post-submit answer revision
+- visible reward or badge presentation
+- completion-page visual design
+- teacher analytics or review dashboards
+- live peer-progress updates on level screens
+
+Failure and empty-state note:
+
+- Milestone 3 is primarily specified for the happy path
+- missing level content, malformed feedback maps, or unresolved `current_level_id` cases may be deferred using the same rule described in §11.16 unless implementation reveals a blocker
+
+### 10.40 Handoff To Milestone 4
+
+When Milestone 3 is approved, Milestone 4 should be able to assume:
+
+- the reusable level pattern is implemented
+- completed levels create durable `level_responses`
+- hint usage is durably tracked for completed levels
+- the run can reliably move from the final level to `current_phase = complete`
+- `session_runs.status = complete` and `completed_at` are set when the final level is finished
+
+Milestone 4 should build on these pieces rather than replacing them.
+
+### 10.41 Milestone 4 Scope
+
+This section is the implementation contract for the next approved build increment.
+
+Milestone 4 covers:
+
+- a dedicated saved-complete completion surface
+- final takeaway presentation
+- quiet earned-accomplishment or badge presentation derived from persisted runtime state
+- simple next-step actions after completion
+- reload and resume behavior for completed runs
+
+Milestone 4 does not cover:
+
+- cross-episode progression
+- badge galleries or reward-history dashboards
+- teacher analytics or teacher-facing completion views
+- replaying the same run in place by mutating saved completed state
+
+### 10.42 Product Goal
+
+By the end of Milestone 4, a student should be able to:
+
+1. arrive at a clear completion screen after the final level
+2. understand that the episode is finished
+3. read the final takeaway as the closing idea of the lesson
+4. see quiet earned accomplishments derived from their saved work
+5. choose a simple next action without confusion
+6. reload later and return to the same saved-complete surface instead of dropping back into an earlier phase
+
+The implementation is successful if the completion state feels clearly finished, calm, and durable.
+
+### 10.43 Required UI States
+
+Milestone 4 should implement exactly these user-visible states:
+
+1. completion summary
+2. completion summary with earned accomplishments visible
+3. completion reload or resume state for an already finished run
+
+Recommended routing model:
+
+- the app may use a dedicated completion route or may let the existing level route redirect into a completion surface
+- routing details may vary, but a run with `current_phase = complete` should reopen the same saved-complete experience deterministically
+- completion routing should not depend on browser-local state
+
+### 10.44 State A: Completion Summary
+
+Purpose:
+
+- close the episode clearly and reinforce the lesson's final takeaway
+
+Visible UI must include:
+
+- clear completion heading or equivalent end-state signal
+- the episode title
+- the final takeaway from `lesson_package.episode.final_takeaway`
+- a concise summary that the episode is finished
+- at least one clear next-step action
+
+Visible UI may include:
+
+- a subdued recap of completed progress such as all levels finished
+- a quiet phase indicator or completion badge-like marker
+- a coarse peer-progress summary for the student's group
+
+Visible UI should not include:
+
+- the full active level UI
+- answer-editing controls
+- loud celebration, leaderboard treatment, or competitive comparison
+
+Required data:
+
+- `session_runs.status`
+- `session_runs.current_phase`
+- `session_runs.completed_at`
+- `lesson_package.episode.title`
+- `lesson_package.episode.final_takeaway`
+
+System behavior:
+
+- treat `status = complete` and `current_phase = complete` as the source of truth for the saved-complete state
+- render the completion surface without requiring any further mutation
+- keep the tone slightly more celebratory than intermediate states, but still restrained per §8.6
+
+Persistence behavior:
+
+- no additional write is required just to view the completion summary
+- `updated_at` may be refreshed if needed, but the completion state must already be recoverable from saved data
+
+### 10.45 State B: Earned Accomplishments
+
+Purpose:
+
+- acknowledge meaningful progress without overpowering the lesson close
+
+Visible UI must include:
+
+- earned badges or accomplishments derived from deterministic runtime state
+
+Visible UI may include:
+
+- a short label explaining why an accomplishment was earned
+- a small completion-specific acknowledgement for finishing the episode
+
+Visible UI should not include:
+
+- a persistent badge dashboard
+- cross-student reward comparison
+- accomplishments that require subjective or runtime-generated judgment
+
+Required data:
+
+- `session_runs`
+- `warmup_progress`
+- `level_responses`
+- `scaffold_events`
+
+System behavior:
+
+- compute earned accomplishments deterministically from saved runtime state rather than from a new runtime model call
+- use the frozen v1 reward-event set in §8.5 and §8.10 as the source for visible accomplishment logic
+- keep accomplishment presentation visually secondary to the final takeaway
+
+Persistence behavior:
+
+- Milestone 4 does not require a separate rewards table
+- accomplishment display may be computed on read from persisted runtime state
+- if the implementation caches derived accomplishment data later, that should be treated as an optimization rather than the source of truth
+
+### 10.46 State C: Completion Resume
+
+Purpose:
+
+- reopen a finished run in a stable, non-confusing way on reload or another device
+
+Visible UI must include:
+
+- the same completion summary used for a newly finished run
+
+Visible UI should not include:
+
+- a return to unfinished level feedback
+- controls that imply the run is still in progress
+
+System behavior:
+
+- reopen the completion surface whenever the selected run is already complete
+- do not require `current_level_id` to be present for completion rendering
+- if the existing route resolver still lands complete runs on the former level path, that path must redirect or render the completion surface gracefully rather than 404
+
+Persistence behavior:
+
+- no write is required to resume the completion state
+- the saved-complete surface should be fully reconstructable from persisted data
+
+### 10.47 Completion Actions
+
+Purpose:
+
+- give the student simple, low-confusion options after the episode ends
+
+Visible UI must include:
+
+- one clear route back to a neutral starting point such as the home screen or student-selection flow
+
+Visible UI may include:
+
+- a secondary action to reread the transcript or revisit the finished episode in read-only form
+
+Visible UI should not include:
+
+- destructive reset actions by default
+- ambiguous controls that appear to reopen progress on the same completed run
+
+System behavior:
+
+- leaving the completion screen for a neutral starting point should not mutate the completed run
+- any future "start again" flow should create a new run rather than rewrite the saved completed one
+
+Persistence behavior:
+
+- completion actions in Milestone 4 do not need to mutate the completed run unless a future explicit replay feature is added
+
+### 10.48 Data Contract For Milestone 4
+
+Milestone 4 implementation requires these data sources:
+
+- active episode `lesson_package.yaml`
+- persisted `session_runs`
+- persisted `warmup_progress`
+- persisted `level_responses`
+- persisted `scaffold_events`
+
+Milestone 4 may also read:
+
+- active session config for labels or return actions
+- coarse peer-progress summaries when the UI chooses to show them
+
+Completion contract note:
+
+- the final takeaway should come from `lesson_package.episode.final_takeaway`
+- accomplishment display should be derived from persisted runtime state rather than newly persisted completion-only records
+- peer visibility, if present on the completion screen, must remain status-based and must not include reward information
+
+Milestone 4 does not require:
+
+- a new rewards table
+- historical reward timelines
+- cross-episode summaries
+- editable post-completion reflection workflows
+
+### 10.49 Server Responsibilities For Milestone 4
+
+The server layer should support:
+
+- loading the saved-complete run state
+- loading the final takeaway from the active package
+- deriving visible accomplishments from persisted runtime state
+- returning coarse peer-progress summaries when requested by the completion UI
+- reopening completed runs deterministically
+
+Recommended minimal server actions or route handlers:
+
+- `getCompletion(runId)`
+- `listEarnedAccomplishments(runId)`
+
+Names may vary in implementation, but the responsibilities should remain the same.
+
+### 10.50 Client Responsibilities For Milestone 4
+
+The client layer should support:
+
+- rendering the completion summary
+- rendering quiet earned accomplishments
+- rendering simple next-step actions
+- reopening the saved-complete state without depending on transient client state
+
+The client should not treat locally remembered celebration state as the primary source of truth for whether a run is complete.
+
+### 10.51 Acceptance Criteria
+
+Milestone 4 is ready for approval when all of the following are true:
+
+- a student arriving at a completed run sees a true completion surface rather than a leftover level placeholder
+- the completion surface shows the episode final takeaway clearly
+- earned accomplishments are derived deterministically from persisted runtime state
+- accomplishment UI remains visually secondary to the final takeaway
+- reloading or resuming a completed run reopens the same saved-complete experience
+- the completion surface offers at least one clear next action that does not mutate the saved completed run
+- any peer-progress shown on completion remains coarse and status-based, not reward-based
+
+### 10.52 Explicit Non-Goals
+
+Milestone 4 should not attempt to solve:
+
+- cross-episode progression or next-episode recommendations
+- replaying a completed run by rewriting saved state in place
+- badge galleries, reward archives, or achievement dashboards
+- teacher-facing completion analytics
+- competitive reward comparisons
+
+Failure and empty-state note:
+
+- Milestone 4 is primarily specified for the happy path
+- missing final-takeaway content or malformed derived accomplishment inputs may be deferred using the same rule described in §11.16 unless implementation reveals a blocker
+
 ## 11. Technical Architecture For V1
 
 This section defines the intended technical shape of the first app version closely enough that a new implementation agent can begin building without guessing the core architecture.
@@ -2218,6 +2871,15 @@ Notes:
 - `guided_submitted` should mean the student has already answered the guided warm-up and should reopen the reveal state
 - `guided_selected_answer_id` should store the submitted guided option so the reveal state can survive reload
 - `guided_used_hint` should record whether the guided hint was opened in the first warm-up pass
+- `level_responses` should contain at most one durable row for a given `run_id + level_id`
+- `initial_answer` should store the first accepted submitted option id for a level
+- `final_answer` should equal `initial_answer` in Milestone 3's first-pass single-submit flow
+- `used_hint` should be true when the level hint was opened before that level was completed
+- `answer_changed` should remain false until a later milestone explicitly adds revision after first submission
+- `completed_at` on `level_responses` should mean the level has been answered and can reopen directly into feedback on reload
+- `session_runs.current_level_id` should point to the active unfinished level while `current_phase = level`
+- `session_runs.current_level_id` should be cleared when the run moves to `complete`
+- if `scaffold_events` is used for level hints in Milestone 3, a single viewed level hint may use a stable `step_key` such as `hint`
 - `support_steps_viewed` can be stored either as JSON text on `level_responses` or normalized into `scaffold_events`
 
 ### 11.14 Session Lifecycle
