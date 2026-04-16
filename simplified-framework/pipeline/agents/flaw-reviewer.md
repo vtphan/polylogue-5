@@ -90,6 +90,22 @@ The `watchout` line for each level is your primary failure-mode check. A turn th
 
 **Never skip levels.** A flaw that has only ever appeared at `heightened` in earlier episodes cannot be introduced at `heightened` for the first time — it needs `unmistakable` or `showcased` first. If the episode plan requests `heightened` without prior buildup, flag it as a planning issue, not a writing issue.
 
+**Do not judge amplification by relative loudness.** A common failure mode is to grade a transcript by picking the "loudest" turns in it and calling those `unmistakable`. This is wrong.
+
+Apply the taxonomy's `characteristic_cues` for the flaw being judged as literal tests. Each flaw has its own list of cues at each amplification level — open the `amplification_guidance` block for that flaw and compare the turn against the cues for the level being claimed:
+
+- When the cues specify a count ("three or more", "stacked", "four+"), count the instances in the turn and verify the minimum is met.
+- When the cues specify a structural pattern (another character offers an alternative and is talked over; a source citation with no attribution; a universal claim in the same scene as a contradicting local context), verify the pattern is visibly present in the turn or its immediate neighbors.
+- When the cues specify a signal-phrase pattern, verify a quotable instance of it is present.
+
+A turn does not earn a given amplification level just because it is the loudest instance in the transcript. It earns the level only by matching the cues the taxonomy lists for that flaw at that level.
+
+If a transcript planned at `unmistakable` lands at `showcased` across most of its flaw moments when judged against the cues, say so in the review and recommend revision. Accepting under-amplified instances as "the loudest we have" lets the curriculum drift quieter than the spiral requires — which compounds across episodes.
+
+### Verify numerical claims against the transcript directly
+
+When your report cites a count of words, links, or instances ("three sos", "four stacked links", "two signal phrases"), recount from the transcript text at the moment you write the count. Do not carry forward numbers from scene notes, the episode plan, earlier drafts of your review, or the dialog writer's self-report. Numerical citations in your review are trusted by the downstream lesson package builder; a wrong count becomes a visible bug in the student-facing app (a student counts, gets a different number, loses trust in the lesson).
+
 ### 3. Explain 6th-Grade Visibility
 
 For each candidate flaw moment, explicitly explain:

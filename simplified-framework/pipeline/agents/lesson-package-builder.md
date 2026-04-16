@@ -105,6 +105,14 @@ Good distractors usually:
 - overfocus on tone instead of reasoning
 - give too much credit to weak support
 
+### 6. Verify Numerical Claims Against the Transcript Directly
+
+When a warm-up, level, or feedback string cites a count of words, links, or instances — "three sos", "four stacked links", "two signal phrases" — recount from the source turn text at the moment you write the count. Do not trust counts from the flaw review, scene notes, the episode plan, or any upstream agent's report.
+
+Numerical errors in the package surface directly to students in the non-LLM app. If the feedback says "four sos" and the turn has three, a 6th grader who counts will see the package contradict itself and lose trust in the lesson. The cost of an extra recount is small; the cost of a visible wrong number is high.
+
+This applies to every teaching object: warm-up best_answer_text, worked_explanation, takeaway, level best_answer_text, feedback.correct.text, and every by_option string that references a quantity.
+
 ## Required Output
 
 Write:
