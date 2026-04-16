@@ -47,6 +47,24 @@ function findNextPendingStudent(
   return currentStudentId;
 }
 
+function awardBadge(session: PersistedSession, badgeId: string, label: string): PersistedSession {
+  const badges = Array.isArray(session.progress_state.badges)
+    ? (session.progress_state.badges as Array<{ id: string; label: string }>)
+    : [];
+
+  if (badges.some((badge) => badge.id === badgeId)) {
+    return session;
+  }
+
+  return {
+    ...session,
+    progress_state: {
+      ...session.progress_state,
+      badges: [...badges, { id: badgeId, label }],
+    },
+  };
+}
+
 export function createInitialSessionRecord({
   sessionConfig,
   rosterOverride,
@@ -129,7 +147,7 @@ export function saveStudentResponse(
     ? studentId
     : findNextPendingStudent(session.roster_order, studentId, nextCohortState);
 
-  return withUpdatedTimestamp({
+  const nextSession: PersistedSession = {
     ...session,
     active_student_id: nextActiveStudentId,
     next_responder_id: allSaved
@@ -149,7 +167,11 @@ export function saveStudentResponse(
       [responseKey]: payload.judgment,
     },
     cohort_response_state: nextCohortState,
-  });
+  };
+
+  return withUpdatedTimestamp(
+    awardBadge(nextSession, "first-response", "First Response"),
+  );
 }
 
 export function beginFocalTurn(session: PersistedSession, turnId: string): PersistedSession {
@@ -172,14 +194,16 @@ export function beginFocalTurn(session: PersistedSession, turnId: string): Persi
 }
 
 export function startDiscussion(session: PersistedSession): PersistedSession {
-  return withUpdatedTimestamp({
+  return withUpdatedTimestamp(
+    awardBadge({
     ...session,
     current_backbone_stage: "discuss",
     discussion_state: {
       ...session.discussion_state,
       first_cue_opened: true,
     },
-  });
+    }, "discussion-opened", "Discussion Opened"),
+  );
 }
 
 export function reachRevision(session: PersistedSession): PersistedSession {
@@ -199,7 +223,8 @@ export function saveRevision(
     ? `${session.current_focal_turn_id}:${session.active_student_id}`
     : `unfocused:${session.active_student_id}`;
 
-  return withUpdatedTimestamp({
+  return withUpdatedTimestamp(
+    awardBadge({
     ...session,
     responses: {
       ...session.responses,
@@ -217,7 +242,8 @@ export function saveRevision(
       ...session.progress_state,
       revision_saved: true,
     },
-  });
+    }, "revision-saved", "Revision Saved"),
+  );
 }
 
 export function completeEpisode(session: PersistedSession): PersistedSession {
@@ -236,7 +262,8 @@ export function saveTransferTakeaway(
     takeaway: string;
   },
 ): PersistedSession {
-  return withUpdatedTimestamp({
+  return withUpdatedTimestamp(
+    awardBadge({
     ...session,
     transfer_takeaway: payload.takeaway,
     progress_state: {
@@ -244,5 +271,6 @@ export function saveTransferTakeaway(
       episode_complete: true,
       transfer_saved: true,
     },
-  });
+    }, "transfer-saved", "Transfer Takeaway"),
+  );
 }

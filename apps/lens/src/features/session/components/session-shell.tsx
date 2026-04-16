@@ -7,6 +7,7 @@ import { FirstResponseView } from "@/features/activity/components/first-response
 import { DiscussionView } from "@/features/activity/components/discussion-view";
 import { RevisionView } from "@/features/activity/components/revision-view";
 import { StoppingPointPrompt } from "@/features/activity/components/stopping-point-prompt";
+import { ProgressPanel } from "@/features/progress/components/progress-panel";
 import { useSessionStore } from "@/features/session/store/use-session-store";
 import { EpisodeReadingView } from "@/features/episode/components/episode-reading-view";
 import { getLastSessionId, loadSession, loadSessionIndex } from "@/lib/storage/session-storage";
@@ -460,6 +461,8 @@ export function SessionShell({
           )}
         </div>
       </section>
+
+      {session && <ProgressPanel session={session} />}
     </section>
   );
 }
