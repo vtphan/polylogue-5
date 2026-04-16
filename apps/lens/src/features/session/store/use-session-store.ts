@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import type { SessionConfig, PersistedSession, Student } from "@/lib/types/content";
-import { deriveStoppingPoint, createInitialSessionRecord, beginFocalTurn, reachRevision, saveRevision, saveStudentResponse, startDiscussion } from "@/features/activity/engine";
+import { completeEpisode, deriveStoppingPoint, createInitialSessionRecord, beginFocalTurn, reachRevision, saveRevision, saveStudentResponse, saveTransferTakeaway, startDiscussion } from "@/features/activity/engine";
 import { saveSession } from "@/lib/storage/session-storage";
 
 type SessionStoreState = {
@@ -15,6 +15,8 @@ type SessionStoreState = {
   openDiscussion: () => void;
   moveToRevision: () => void;
   saveRevision: (payload: { revisionText: string }) => void;
+  completeEpisode: () => void;
+  saveTransferTakeaway: (payload: { takeaway: string }) => void;
 };
 
 function persistSession(session: PersistedSession) {
@@ -81,5 +83,21 @@ export const useSessionStore = create<SessionStoreState>((set, get) => ({
     }
 
     set(persistSession(saveRevision(currentSession, payload)));
+  },
+  completeEpisode: () => {
+    const currentSession = get().session;
+    if (!currentSession) {
+      return;
+    }
+
+    set(persistSession(completeEpisode(currentSession)));
+  },
+  saveTransferTakeaway: (payload) => {
+    const currentSession = get().session;
+    if (!currentSession) {
+      return;
+    }
+
+    set(persistSession(saveTransferTakeaway(currentSession, payload)));
   },
 }));

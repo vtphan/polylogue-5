@@ -219,3 +219,30 @@ export function saveRevision(
     },
   });
 }
+
+export function completeEpisode(session: PersistedSession): PersistedSession {
+  return withUpdatedTimestamp({
+    ...session,
+    progress_state: {
+      ...session.progress_state,
+      episode_complete: true,
+    },
+  });
+}
+
+export function saveTransferTakeaway(
+  session: PersistedSession,
+  payload: {
+    takeaway: string;
+  },
+): PersistedSession {
+  return withUpdatedTimestamp({
+    ...session,
+    transfer_takeaway: payload.takeaway,
+    progress_state: {
+      ...session.progress_state,
+      episode_complete: true,
+      transfer_saved: true,
+    },
+  });
+}

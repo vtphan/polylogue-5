@@ -2,9 +2,11 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { ComparisonView } from "@/features/activity/components/comparison-view";
+import { CompletionView } from "@/features/activity/components/completion-view";
 import { FirstResponseView } from "@/features/activity/components/first-response-view";
 import { DiscussionView } from "@/features/activity/components/discussion-view";
 import { RevisionView } from "@/features/activity/components/revision-view";
+import { StoppingPointPrompt } from "@/features/activity/components/stopping-point-prompt";
 import { useSessionStore } from "@/features/session/store/use-session-store";
 import { EpisodeReadingView } from "@/features/episode/components/episode-reading-view";
 import { getLastSessionId, loadSession, loadSessionIndex } from "@/lib/storage/session-storage";
@@ -25,7 +27,7 @@ type SessionShellProps = {
   transcript: Transcript;
 };
 
-type Screen = "start" | "setup" | "landing" | "reading" | "respond" | "compare" | "discuss" | "revise";
+type Screen = "start" | "setup" | "landing" | "reading" | "respond" | "compare" | "discuss" | "revise" | "complete";
 
 function deriveRoster(sessionConfig: SessionConfig): Student[] {
   return sessionConfig.group?.students ?? [];
@@ -74,6 +76,9 @@ export function SessionShell({
   const openDiscussion = useSessionStore((state) => state.openDiscussion);
   const moveToRevision = useSessionStore((state) => state.moveToRevision);
   const saveRevision = useSessionStore((state) => state.saveRevision);
+  const completeEpisode = useSessionStore((state) => state.completeEpisode);
+  const saveTransferTakeaway = useSessionStore((state) => state.saveTransferTakeaway);
+  const stoppingPoint = useSessionStore((state) => state.stoppingPoint);
 
   const defaultRoster = useMemo(() => deriveRoster(sessionConfig), [sessionConfig]);
   const [resumeTarget] = useState<PersistedSession | null>(() => loadResumeTarget());
@@ -108,6 +113,8 @@ export function SessionShell({
     setScreen(
       storedSession.current_backbone_stage === "revise"
         ? "revise"
+        : storedSession.progress_state.episode_complete === true
+          ? "complete"
         : storedSession.current_backbone_stage === "discuss"
           ? "discuss"
           : storedSession.current_backbone_stage === "compare"
@@ -132,7 +139,9 @@ export function SessionShell({
   }
 
   const resolvedScreen: Screen =
-    session?.current_backbone_stage === "revise"
+    session?.progress_state.episode_complete === true
+      ? "complete"
+      : session?.current_backbone_stage === "revise"
       ? "revise"
       : session?.current_backbone_stage === "discuss" &&
           (screen === "compare" || screen === "discuss" || screen === "respond")
@@ -361,8 +370,34 @@ export function SessionShell({
         )}
 
         {resolvedScreen === "revise" && session && (
-          <RevisionView
-            onSaveRevision={(payload) => saveRevision(payload)}
+          <div className="grid gap-6">
+            <RevisionView
+              onContinue={() => {
+                completeEpisode();
+                setScreen("complete");
+              }}
+              onSaveRevision={(payload) => saveRevision(payload)}
+              session={session}
+            />
+
+            {session.pacing_policy === "guided" && stoppingPoint === "revision-reached" && (
+              <StoppingPointPrompt
+                focalTurnId={session.current_focal_turn_id}
+                onContinue={() => {
+                  completeEpisode();
+                  setScreen("complete");
+                }}
+                onPause={() => setScreen("start")}
+                point={stoppingPoint}
+              />
+            )}
+          </div>
+        )}
+
+        {resolvedScreen === "complete" && session && (
+          <CompletionView
+            onReturnToStart={() => setScreen("start")}
+            onSaveTakeaway={(payload) => saveTransferTakeaway(payload)}
             session={session}
           />
         )}
@@ -415,6 +450,12 @@ export function SessionShell({
             <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
               Reaching revision now marks the v1 `revise` stopping point. Saving a revision updates the
               current-turn response in browser-local state.
+            </div>
+          )}
+          {resolvedScreen === "complete" && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              The flow now has an explicit completion and transfer state, so guided sessions can stop cleanly
+              and open sessions can continue without losing the round summary.
             </div>
           )}
         </div>
