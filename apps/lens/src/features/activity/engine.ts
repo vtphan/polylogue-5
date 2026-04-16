@@ -153,15 +153,20 @@ export function saveStudentResponse(
 }
 
 export function beginFocalTurn(session: PersistedSession, turnId: string): PersistedSession {
+  const resetCohortState: PersistedSession["cohort_response_state"] = Object.fromEntries(
+    session.roster_order.map((studentId) => [studentId, "pending" as const]),
+  );
+
   return withUpdatedTimestamp({
     ...session,
     current_focal_turn_id: turnId,
     current_backbone_stage: "respond",
+    cohort_response_state: resetCohortState,
     active_student_id: session.active_student_id,
     next_responder_id: findNextPendingStudent(
       session.roster_order,
       session.active_student_id,
-      session.cohort_response_state,
+      resetCohortState,
     ),
   });
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { FirstResponseView } from "@/features/activity/components/first-response-view";
 import { useSessionStore } from "@/features/session/store/use-session-store";
 import { EpisodeReadingView } from "@/features/episode/components/episode-reading-view";
 import { getLastSessionId, loadSession, loadSessionIndex } from "@/lib/storage/session-storage";
@@ -21,7 +22,7 @@ type SessionShellProps = {
   transcript: Transcript;
 };
 
-type Screen = "start" | "setup" | "landing" | "reading";
+type Screen = "start" | "setup" | "landing" | "reading" | "respond";
 
 function deriveRoster(sessionConfig: SessionConfig): Student[] {
   return sessionConfig.group?.students ?? [];
@@ -66,6 +67,7 @@ export function SessionShell({
   const initializeSession = useSessionStore((state) => state.initializeSession);
   const hydrateSession = useSessionStore((state) => state.hydrateSession);
   const selectFocalTurn = useSessionStore((state) => state.selectFocalTurn);
+  const saveActiveStudentResponse = useSessionStore((state) => state.saveActiveStudentResponse);
 
   const defaultRoster = useMemo(() => deriveRoster(sessionConfig), [sessionConfig]);
   const [resumeTarget] = useState<PersistedSession | null>(() => loadResumeTarget());
@@ -97,7 +99,13 @@ export function SessionShell({
     }
 
     hydrateSession(storedSession);
-    setScreen(storedSession.current_focal_turn_id ? "reading" : "landing");
+    setScreen(
+      storedSession.current_backbone_stage === "respond" && storedSession.current_focal_turn_id
+        ? "respond"
+        : storedSession.current_focal_turn_id
+          ? "reading"
+          : "landing",
+    );
   }
 
   function continueFromSetup() {
@@ -286,7 +294,22 @@ export function SessionShell({
         {screen === "reading" && session && (
           <EpisodeReadingView
             assistivePackage={assistivePackage}
-            onSelectFocalTurn={selectFocalTurn}
+            onSelectFocalTurn={(turnId) => {
+              selectFocalTurn(turnId);
+              setScreen("respond");
+            }}
+            session={session}
+            transcript={transcript}
+          />
+        )}
+
+        {screen === "respond" && session && (
+          <FirstResponseView
+            assistivePackage={assistivePackage}
+            onBackToReading={() => setScreen("reading")}
+            onSaveResponse={(payload) => {
+              saveActiveStudentResponse(payload);
+            }}
             session={session}
             transcript={transcript}
           />
@@ -316,6 +339,12 @@ export function SessionShell({
             <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
               The reading view now renders the real transcript, marks package-driven focal turns, and uses
               current assistive-package attention targets as immediate noticing support.
+            </div>
+          )}
+          {screen === "respond" && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              The first-response flow is now round-robin and turn-bound. It saves a short response plus an
+              evaluative judgment against the currently selected focal turn.
             </div>
           )}
         </div>

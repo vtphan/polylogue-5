@@ -1,0 +1,210 @@
+"use client";
+
+import { useState } from "react";
+import { appKeyToTranscriptTurnId, transcriptTurnIdToAppKey } from "@/lib/content/turn-ids";
+import type { AssistivePackage, PersistedSession, Transcript } from "@/lib/types/content";
+
+type FirstResponseViewProps = {
+  assistivePackage: AssistivePackage;
+  onBackToReading: () => void;
+  onSaveResponse: (payload: { judgment: string; responseText: string }) => void;
+  session: PersistedSession;
+  transcript: Transcript;
+};
+
+const judgmentOptions = ["strong", "weak", "questionable"] as const;
+
+export function FirstResponseView({
+  assistivePackage,
+  onBackToReading,
+  onSaveResponse,
+  session,
+  transcript,
+}: FirstResponseViewProps) {
+  const [judgment, setJudgment] = useState<string>("questionable");
+  const [responseText, setResponseText] = useState<string>("");
+
+  const selectedTurn = transcript.turns.find(
+    (turn) =>
+      session.current_focal_turn_id &&
+      transcriptTurnIdToAppKey(turn.turn_id) === session.current_focal_turn_id,
+  );
+
+  const attentionTargets = assistivePackage.front_door_support.attention_targets.filter((item) =>
+    session.current_focal_turn_id ? item.source_turns?.includes(session.current_focal_turn_id) : false,
+  );
+
+  const sentenceFrames = assistivePackage.front_door_support.sentence_frame_seeds.filter((item) =>
+    session.current_focal_turn_id ? item.source_turns?.includes(session.current_focal_turn_id) : false,
+  );
+
+  const roundProgress = session.roster.map((student) => ({
+    ...student,
+    state: session.cohort_response_state[student.id],
+  }));
+
+  return (
+    <section className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr]">
+      <section className="rounded-[2rem] border border-[var(--line)] bg-white/88 p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
+              First Response
+            </p>
+            <h2 className="mt-2 text-3xl leading-tight" style={{ fontFamily: "var(--font-display)" }}>
+              {session.current_focal_turn_id
+                ? `Respond to ${session.current_focal_turn_id.toUpperCase()}`
+                : "Respond to the selected focal turn"}
+            </h2>
+          </div>
+
+          <div className="rounded-full border border-[var(--line)] bg-[var(--background)]/70 px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]">
+            Active student: {session.active_student_id}
+          </div>
+        </div>
+
+        <div className="grid gap-4">
+          <div className="rounded-[1.35rem] border border-[var(--gold)] bg-[var(--background)]/70 p-5">
+            <div className="mb-2 flex items-center justify-between gap-3">
+              <div className="text-sm font-semibold text-[var(--surface-ink)]">
+                {selectedTurn?.speaker ?? "Selected turn"}
+              </div>
+              <div className="text-xs font-semibold uppercase tracking-[0.14em] text-[var(--accent-strong)]">
+                {session.current_focal_turn_id
+                  ? appKeyToTranscriptTurnId(session.current_focal_turn_id)
+                  : "turn_pending"}
+              </div>
+            </div>
+
+            <div className="grid gap-2 text-sm leading-6 text-[color:rgba(29,36,48,0.86)]">
+              {selectedTurn?.sentences.map((sentence) => (
+                <p key={sentence.sentence_id}>{sentence.text}</p>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-3 rounded-[1.35rem] border border-[var(--line)] bg-white/72 p-5">
+            <label className="grid gap-2">
+              <span className="text-sm font-semibold text-[var(--surface-ink)]">
+                What seems strong, weak, or questionable here?
+              </span>
+              <select
+                className="rounded-[1rem] border border-[var(--line)] bg-[var(--background)]/70 px-4 py-3 outline-none"
+                onChange={(event) => setJudgment(event.target.value)}
+                value={judgment}
+              >
+                {judgmentOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="grid gap-2">
+              <span className="text-sm font-semibold text-[var(--surface-ink)]">
+                Initial response
+              </span>
+              <textarea
+                className="min-h-40 rounded-[1rem] border border-[var(--line)] bg-[var(--background)]/70 px-4 py-3 outline-none"
+                onChange={(event) => setResponseText(event.target.value)}
+                placeholder="Write a short first move tied to this focal turn."
+                value={responseText}
+              />
+            </label>
+
+            <div className="flex flex-wrap gap-3">
+              <button
+                className="rounded-full bg-[var(--surface-ink)] px-4 py-2 text-sm font-semibold text-white disabled:opacity-50"
+                disabled={!responseText.trim()}
+                onClick={() => onSaveResponse({ judgment, responseText: responseText.trim() })}
+                type="button"
+              >
+                Save response
+              </button>
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={onBackToReading}
+                type="button"
+              >
+                Back to reading
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[2rem] border border-[var(--line)] bg-[#273548] p-7 text-white shadow-[0_18px_56px_rgba(25,31,43,0.18)]">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--gold)]">
+          Support and handoff
+        </p>
+
+        <div className="mt-5 grid gap-4">
+          <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
+              What to notice
+            </div>
+            <div className="mt-3 grid gap-3">
+              {attentionTargets.length === 0 ? (
+                <p className="text-sm leading-6 text-white/82">
+                  Immediate noticing support for this turn will appear here when the package provides it.
+                </p>
+              ) : (
+                attentionTargets.map((target) => (
+                  <div key={target.support_id} className="rounded-[1rem] border border-white/10 bg-white/8 p-3 text-sm leading-6 text-white/86">
+                    {target.text}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
+              Sentence frames
+            </div>
+            <div className="mt-3 grid gap-3">
+              {sentenceFrames.length === 0 ? (
+                <p className="text-sm leading-6 text-white/82">
+                  Package-backed sentence frames for this turn will surface here in the support panel slice.
+                </p>
+              ) : (
+                sentenceFrames.slice(0, 2).map((frame) => (
+                  <div key={frame.support_id} className="rounded-[1rem] border border-white/10 bg-white/8 p-3 text-sm leading-6 text-white/86">
+                    <div className="font-semibold">{frame.frame}</div>
+                    <div className="mt-1 text-white/74">{frame.seed}</div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
+              Round-robin progress
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {roundProgress.map((student) => {
+                const isActive = student.id === session.active_student_id;
+                return (
+                  <span
+                    key={student.id}
+                    className={`rounded-full px-3 py-2 text-sm font-semibold ${
+                      student.state === "saved"
+                        ? "bg-[var(--moss)] text-white"
+                        : isActive
+                          ? "bg-[var(--gold)] text-[var(--surface-ink)]"
+                          : "border border-white/12 bg-white/8 text-white"
+                    }`}
+                  >
+                    {student.name} · {student.state}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      </section>
+    </section>
+  );
+}
