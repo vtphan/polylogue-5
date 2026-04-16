@@ -2,7 +2,7 @@
 
 import { create } from "zustand";
 import type { SessionConfig, PersistedSession, Student } from "@/lib/types/content";
-import { deriveStoppingPoint, createInitialSessionRecord, beginFocalTurn, reachRevision, saveStudentResponse, startDiscussion } from "@/features/activity/engine";
+import { deriveStoppingPoint, createInitialSessionRecord, beginFocalTurn, reachRevision, saveRevision, saveStudentResponse, startDiscussion } from "@/features/activity/engine";
 import { saveSession } from "@/lib/storage/session-storage";
 
 type SessionStoreState = {
@@ -14,6 +14,7 @@ type SessionStoreState = {
   saveActiveStudentResponse: (payload: { responseText: string; judgment: string }) => void;
   openDiscussion: () => void;
   moveToRevision: () => void;
+  saveRevision: (payload: { revisionText: string }) => void;
 };
 
 function persistSession(session: PersistedSession) {
@@ -72,5 +73,13 @@ export const useSessionStore = create<SessionStoreState>((set, get) => ({
     }
 
     set(persistSession(reachRevision(currentSession)));
+  },
+  saveRevision: (payload) => {
+    const currentSession = get().session;
+    if (!currentSession) {
+      return;
+    }
+
+    set(persistSession(saveRevision(currentSession, payload)));
   },
 }));

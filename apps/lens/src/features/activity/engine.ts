@@ -188,3 +188,34 @@ export function reachRevision(session: PersistedSession): PersistedSession {
     current_backbone_stage: "revise",
   });
 }
+
+export function saveRevision(
+  session: PersistedSession,
+  payload: {
+    revisionText: string;
+  },
+): PersistedSession {
+  const responseKey = session.current_focal_turn_id
+    ? `${session.current_focal_turn_id}:${session.active_student_id}`
+    : `unfocused:${session.active_student_id}`;
+
+  return withUpdatedTimestamp({
+    ...session,
+    responses: {
+      ...session.responses,
+      [responseKey]: {
+        ...(typeof session.responses[responseKey] === "object" && session.responses[responseKey] !== null
+          ? session.responses[responseKey]
+          : {}),
+        responseText: payload.revisionText,
+        revised: true,
+        studentId: session.active_student_id,
+        turnId: session.current_focal_turn_id,
+      },
+    },
+    progress_state: {
+      ...session.progress_state,
+      revision_saved: true,
+    },
+  });
+}

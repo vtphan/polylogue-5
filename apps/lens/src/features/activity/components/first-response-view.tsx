@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { appKeyToTranscriptTurnId, transcriptTurnIdToAppKey } from "@/lib/content/turn-ids";
 import type { AssistivePackage, PersistedSession, Transcript } from "@/lib/types/content";
 
@@ -23,6 +23,7 @@ export function FirstResponseView({
 }: FirstResponseViewProps) {
   const [judgment, setJudgment] = useState<string>("questionable");
   const [responseText, setResponseText] = useState<string>("");
+  const [supportOpen, setSupportOpen] = useState<boolean>(false);
 
   const selectedTurn = transcript.turns.find(
     (turn) =>
@@ -37,6 +38,30 @@ export function FirstResponseView({
   const sentenceFrames = assistivePackage.front_door_support.sentence_frame_seeds.filter((item) =>
     session.current_focal_turn_id ? item.source_turns?.includes(session.current_focal_turn_id) : false,
   );
+
+  const modeledExamples = assistivePackage.front_door_support.modeled_episode_examples.filter((item) =>
+    session.current_focal_turn_id ? item.source_turns?.includes(session.current_focal_turn_id) : false,
+  );
+
+  const transferExamples = assistivePackage.front_door_support.transfer_examples.filter((item) =>
+    session.current_focal_turn_id ? item.source_turns?.includes(session.current_focal_turn_id) : false,
+  );
+
+  const probe = useMemo(() => {
+    const probesRoot = assistivePackage.diagnostic_support.probes as Record<string, unknown>;
+    const facet = probesRoot.facet;
+    if (!facet || typeof facet !== "object" || !session.current_focal_turn_id) {
+      return null;
+    }
+
+    const byTurn = (facet as Record<string, unknown>).by_turn;
+    if (!byTurn || typeof byTurn !== "object") {
+      return null;
+    }
+
+    const candidate = (byTurn as Record<string, unknown>)[session.current_focal_turn_id];
+    return typeof candidate === "object" && candidate !== null ? candidate : null;
+  }, [assistivePackage.diagnostic_support.probes, session.current_focal_turn_id]);
 
   const roundProgress = session.roster.map((student) => ({
     ...student,
@@ -124,12 +149,47 @@ export function FirstResponseView({
               </button>
               <button
                 className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
+                onClick={() => setSupportOpen((currentValue) => !currentValue)}
+                type="button"
+              >
+                {supportOpen ? "Hide support" : "Need help"}
+              </button>
+              <button
+                className="rounded-full border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold text-[var(--surface-ink)]"
                 onClick={onBackToReading}
                 type="button"
               >
                 Back to reading
               </button>
             </div>
+
+            {supportOpen && (
+              <div className="grid gap-3 rounded-[1rem] border border-[var(--line)] bg-[var(--background)]/72 p-4">
+                <div>
+                  <div className="text-sm font-semibold text-[var(--surface-ink)]">Probe</div>
+                  <p className="mt-2 text-sm leading-6 text-[color:rgba(29,36,48,0.82)]">
+                    {probe && "question" in probe
+                      ? String(probe.question)
+                      : "A turn-specific noticing probe will appear here when available."}
+                  </p>
+                </div>
+
+                {probe && "options" in probe && Array.isArray(probe.options) && (
+                  <div className="grid gap-2">
+                    {probe.options.slice(0, 3).map((option, index) => (
+                      <div
+                        key={index}
+                        className="rounded-[0.9rem] border border-[var(--line)] bg-white px-3 py-3 text-sm leading-6 text-[color:rgba(29,36,48,0.84)]"
+                      >
+                        {typeof option === "object" && option !== null && "text" in option
+                          ? String(option.text)
+                          : "Option unavailable"}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -173,6 +233,44 @@ export function FirstResponseView({
                   <div key={frame.support_id} className="rounded-[1rem] border border-white/10 bg-white/8 p-3 text-sm leading-6 text-white/86">
                     <div className="font-semibold">{frame.frame}</div>
                     <div className="mt-1 text-white/74">{frame.seed}</div>
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
+              Modeled example
+            </div>
+            <div className="mt-3 grid gap-3">
+              {modeledExamples.length === 0 ? (
+                <p className="text-sm leading-6 text-white/82">
+                  Modeled examples for this turn will appear here when available.
+                </p>
+              ) : (
+                modeledExamples.slice(0, 1).map((example) => (
+                  <div key={example.support_id} className="rounded-[1rem] border border-white/10 bg-white/8 p-3 text-sm leading-6 text-white/86">
+                    {example.model_text}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4">
+            <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
+              Transfer example
+            </div>
+            <div className="mt-3 grid gap-3">
+              {transferExamples.length === 0 ? (
+                <p className="text-sm leading-6 text-white/82">
+                  Transfer examples for this turn will appear here when available.
+                </p>
+              ) : (
+                transferExamples.slice(0, 1).map((example) => (
+                  <div key={example.support_id} className="rounded-[1rem] border border-white/10 bg-white/8 p-3 text-sm leading-6 text-white/86">
+                    {example.example_text}
                   </div>
                 ))
               )}

@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { ComparisonView } from "@/features/activity/components/comparison-view";
 import { FirstResponseView } from "@/features/activity/components/first-response-view";
+import { DiscussionView } from "@/features/activity/components/discussion-view";
+import { RevisionView } from "@/features/activity/components/revision-view";
 import { useSessionStore } from "@/features/session/store/use-session-store";
 import { EpisodeReadingView } from "@/features/episode/components/episode-reading-view";
 import { getLastSessionId, loadSession, loadSessionIndex } from "@/lib/storage/session-storage";
@@ -22,7 +25,7 @@ type SessionShellProps = {
   transcript: Transcript;
 };
 
-type Screen = "start" | "setup" | "landing" | "reading" | "respond";
+type Screen = "start" | "setup" | "landing" | "reading" | "respond" | "compare" | "discuss" | "revise";
 
 function deriveRoster(sessionConfig: SessionConfig): Student[] {
   return sessionConfig.group?.students ?? [];
@@ -68,6 +71,9 @@ export function SessionShell({
   const hydrateSession = useSessionStore((state) => state.hydrateSession);
   const selectFocalTurn = useSessionStore((state) => state.selectFocalTurn);
   const saveActiveStudentResponse = useSessionStore((state) => state.saveActiveStudentResponse);
+  const openDiscussion = useSessionStore((state) => state.openDiscussion);
+  const moveToRevision = useSessionStore((state) => state.moveToRevision);
+  const saveRevision = useSessionStore((state) => state.saveRevision);
 
   const defaultRoster = useMemo(() => deriveRoster(sessionConfig), [sessionConfig]);
   const [resumeTarget] = useState<PersistedSession | null>(() => loadResumeTarget());
@@ -100,11 +106,17 @@ export function SessionShell({
 
     hydrateSession(storedSession);
     setScreen(
-      storedSession.current_backbone_stage === "respond" && storedSession.current_focal_turn_id
-        ? "respond"
-        : storedSession.current_focal_turn_id
-          ? "reading"
-          : "landing",
+      storedSession.current_backbone_stage === "revise"
+        ? "revise"
+        : storedSession.current_backbone_stage === "discuss"
+          ? "discuss"
+          : storedSession.current_backbone_stage === "compare"
+            ? "compare"
+            : storedSession.current_backbone_stage === "respond" && storedSession.current_focal_turn_id
+              ? "respond"
+              : storedSession.current_focal_turn_id
+                ? "reading"
+                : "landing",
     );
   }
 
@@ -119,10 +131,21 @@ export function SessionShell({
     setScreen("landing");
   }
 
+  const resolvedScreen: Screen =
+    session?.current_backbone_stage === "revise"
+      ? "revise"
+      : session?.current_backbone_stage === "discuss" &&
+          (screen === "compare" || screen === "discuss" || screen === "respond")
+        ? "discuss"
+        : session?.current_backbone_stage === "compare" &&
+            (screen === "respond" || screen === "compare")
+          ? "compare"
+          : screen;
+
   return (
     <section className="grid gap-6 lg:grid-cols-[0.88fr_1.12fr]">
       <section className="rounded-[2rem] border border-[var(--line)] bg-white/88 p-7 shadow-[0_18px_56px_rgba(39,41,53,0.08)]">
-        {screen === "start" && (
+        {resolvedScreen === "start" && (
           <div className="grid gap-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
@@ -174,7 +197,7 @@ export function SessionShell({
           </div>
         )}
 
-        {screen === "setup" && (
+        {resolvedScreen === "setup" && (
           <div className="grid gap-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
@@ -215,7 +238,7 @@ export function SessionShell({
           </div>
         )}
 
-        {screen === "landing" && session && (
+        {resolvedScreen === "landing" && session && (
           <div className="grid gap-5">
             <div>
               <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--moss)]">
@@ -291,7 +314,7 @@ export function SessionShell({
           </div>
         )}
 
-        {screen === "reading" && session && (
+        {resolvedScreen === "reading" && session && (
           <EpisodeReadingView
             assistivePackage={assistivePackage}
             onSelectFocalTurn={(turnId) => {
@@ -303,7 +326,7 @@ export function SessionShell({
           />
         )}
 
-        {screen === "respond" && session && (
+        {resolvedScreen === "respond" && session && (
           <FirstResponseView
             assistivePackage={assistivePackage}
             onBackToReading={() => setScreen("reading")}
@@ -312,6 +335,35 @@ export function SessionShell({
             }}
             session={session}
             transcript={transcript}
+          />
+        )}
+
+        {resolvedScreen === "compare" && session && (
+          <ComparisonView
+            assistivePackage={assistivePackage}
+            onOpenDiscussion={() => {
+              openDiscussion();
+              setScreen("discuss");
+            }}
+            session={session}
+          />
+        )}
+
+        {resolvedScreen === "discuss" && session && (
+          <DiscussionView
+            assistivePackage={assistivePackage}
+            onMoveToRevision={() => {
+              moveToRevision();
+              setScreen("revise");
+            }}
+            session={session}
+          />
+        )}
+
+        {resolvedScreen === "revise" && session && (
+          <RevisionView
+            onSaveRevision={(payload) => saveRevision(payload)}
+            session={session}
           />
         )}
       </section>
@@ -325,7 +377,7 @@ export function SessionShell({
             <div className="text-sm font-semibold uppercase tracking-[0.16em] text-[var(--gold)]">
               Current screen
             </div>
-            <div className="mt-2 text-lg font-semibold capitalize">{screen}</div>
+            <div className="mt-2 text-lg font-semibold capitalize">{resolvedScreen}</div>
           </div>
           <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
             This shell is now using the real local session store rather than proof-only buttons. The next
@@ -335,16 +387,34 @@ export function SessionShell({
             Resume behavior is backed by the browser-local session index. New sessions are created from the
             current config and saved immediately when initialized.
           </div>
-          {screen === "reading" && (
+          {resolvedScreen === "reading" && (
             <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
               The reading view now renders the real transcript, marks package-driven focal turns, and uses
               current assistive-package attention targets as immediate noticing support.
             </div>
           )}
-          {screen === "respond" && (
+          {resolvedScreen === "respond" && (
             <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
               The first-response flow is now round-robin and turn-bound. It saves a short response plus an
               evaluative judgment against the currently selected focal turn.
+            </div>
+          )}
+          {resolvedScreen === "compare" && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              Once every student in the round has saved a response, the app now auto-advances into a
+              comparison reveal with saved responses, the first discussion cue, and starter talk moves.
+            </div>
+          )}
+          {resolvedScreen === "discuss" && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              The discussion view now supports cue cycling, full talk-move access, and consensus checks
+              before the group advances to revision.
+            </div>
+          )}
+          {resolvedScreen === "revise" && (
+            <div className="rounded-[1.25rem] border border-white/12 bg-white/6 p-4 text-sm leading-6 text-white/84">
+              Reaching revision now marks the v1 `revise` stopping point. Saving a revision updates the
+              current-turn response in browser-local state.
             </div>
           )}
         </div>
