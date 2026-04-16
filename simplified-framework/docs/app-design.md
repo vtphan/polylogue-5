@@ -15,7 +15,7 @@ It translates the framework model and technical spec into a concrete student exp
 7. [Key UX Decisions For V1](#7-key-ux-decisions-for-v1)
 8. [V1 Engagement And Reward Strategy](#8-v1-engagement-and-reward-strategy)
 9. [Milestone-Based Implementation Plan](#9-milestone-based-implementation-plan)
-10. [Milestone 1 And Milestone 2 Implementation Briefs](#10-milestone-1-and-milestone-2-implementation-briefs)
+10. [Milestone Implementation Briefs](#10-milestone-implementation-briefs)
 11. [Technical Architecture For V1](#11-technical-architecture-for-v1)
 12. [Review Protocol For Future Implementation](#12-review-protocol-for-future-implementation)
 13. [Source Of Truth For Implementation](#13-source-of-truth-for-implementation)
@@ -1059,8 +1059,9 @@ Current status:
 
 - `Milestone 1` is now treated as frozen at the documentation level
 - future revisions should not reopen its core scope or interaction structure unless a real contradiction or implementation blocker is found
-- later milestone work should build on the frozen `Milestone 1` contract rather than quietly redefining it
-- `Milestone 2` is now the active documentation target and should be specified concretely enough for implementation
+- `Milestone 2`, `Milestone 3`, and `Milestone 4` now have approved implementation contracts and should be treated as frozen except for explicit follow-up revisions
+- later milestone work should build on the frozen earlier contracts rather than quietly redefining them
+- `Milestone 5` is now the next active documentation target and should be specified concretely enough for implementation
 
 ### Milestone 0: Flow Agreement
 
@@ -1159,7 +1160,26 @@ Approval gate:
 
 - user approves the session close before polish and cleanup
 
-### Milestone 5: End-To-End Refinement
+### Milestone 5: Bounded Level Retry
+
+Goal:
+
+- add one bounded retry opportunity on eligible challenge levels after a wrong first answer
+- the detailed implementation contract for this milestone is defined in §10.54–10.66
+
+Must resolve:
+
+- which activity types permit retry
+- what feedback appears after a wrong first answer
+- what persists between the first and second submissions
+- when a level becomes locked and advances again
+- how `Changed My Mind` becomes visible on the completion surface
+
+Approval gate:
+
+- user approves bounded retry as the default interaction for eligible challenge levels before broader polish work begins
+
+### Milestone 6: End-To-End Refinement
 
 Goal:
 
@@ -1172,7 +1192,7 @@ Scope:
 
 This milestone should not reopen core structural questions unless a prior milestone proved fundamentally wrong.
 
-## 10. Milestone 1 And Milestone 2 Implementation Briefs
+## 10. Milestone Implementation Briefs
 
 This section is the implementation contract for the first approved build increment.
 
@@ -2520,10 +2540,289 @@ When Milestone 4 is approved, Milestone 5 should be able to assume:
 
 - the full end-to-end flow is playable: identity selection → read → modeled warm-up → guided warm-up → per-level flow → completion surface
 - the completion surface renders deterministically from persisted state and reopens on reload
-- the earned-badge predicate mapping in §10.45 is the v1 baseline; Milestone 5 may refine visuals, copy, and micro-interactions but should not reopen the predicate mapping or the frozen reward set in §8
+- the current level runtime is still the Milestone 3 single-submit pattern: completed levels store matching `initial_answer` and `final_answer`, and `answer_changed` remains false
+- the earned-badge predicate mapping in §10.45 is the v1 baseline; the completion surface exists, but the `Changed My Mind` category is still omitted because no retry-capable level flow has been implemented yet
 - all four route shells (`/entry`, `/read`, `/warmup`, `/level`) handle completed runs without redirect loops per the Milestone 3 terminal-state invariant
 
 Milestone 5 should build on these pieces rather than replacing them.
+
+### 10.54 Milestone 5 Scope
+
+This section is the implementation contract for the next approved build increment.
+
+Milestone 5 covers:
+
+- one bounded retry opportunity on eligible challenge levels after a wrong first answer
+- durable persistence and reload/resume behavior for retry-in-progress levels
+- deterministic locking of the level after the second accepted submission or the first correct submission
+- activation of the `Changed My Mind` reward category on the completion surface when a student corrects an answer on retry
+
+Milestone 5 does not cover:
+
+- retries on the guided warm-up
+- unlimited retries or open-ended answer revision
+- multi-step remediation trees or adaptive tutoring
+- changing the authored lesson-package format beyond what is needed to support the runtime contract
+
+### 10.55 Product Goal
+
+By the end of Milestone 5, a student should be able to:
+
+1. answer a challenge level once as usual
+2. get one more try on an eligible challenge level when the first answer is wrong
+3. reload during that retry state and return to the same saved retry opportunity
+4. finalize the level after the second try without confusion
+5. see `Changed My Mind` on the completion surface when they corrected an answer on retry
+
+The implementation is successful if bounded retry feels supportive and calm rather than punitive or game-like.
+
+### 10.56 Required UI States
+
+Milestone 5 should implement exactly three user-visible level states:
+
+1. active level question
+2. retry opportunity after a wrong first submission on an eligible level
+3. final level feedback after the level is locked
+
+State 1 and State 3 already exist from Milestone 3. Milestone 5 adds State 2 and updates the persistence contract so reload can reopen it.
+
+### 10.57 Retry Eligibility Rule
+
+Milestone 5 should permit retry only when all of the following are true:
+
+- the activity is a challenge level, not the guided warm-up
+- the level has at least 3 answer options
+- the level has exactly 1 correct answer id in `feedback.correct.option_ids`
+- the student's first accepted submission for that level is wrong
+
+If any of these conditions are false, the level should preserve the Milestone 3 single-submit behavior.
+
+Rationale:
+
+- challenge levels are independent practice and are the right place for one additional try
+- the guided warm-up is still a coached "one supported attempt" interaction and should remain that way
+- multi-correct or two-choice items are more likely to feel like elimination puzzles if retry is added without further design work
+
+### 10.58 State A: Wrong First Submission On An Eligible Level
+
+Purpose:
+
+- let the student recover from a wrong first answer without erasing the original attempt
+
+Entry condition:
+
+- the run is on an eligible challenge level per §10.57
+- no completed level response exists yet for the active `run_id + level_id`
+- the student's first accepted submission is not in `feedback.correct.option_ids`
+
+Visible UI must include:
+
+- the same transcript-first level layout from Milestone 3
+- the targeted turn and prompt
+- a clear indication of the student's first submitted answer
+- brief deterministic corrective feedback for that first wrong answer, using the authored `feedback.by_option.{option_id}` text for the submitted option
+- a clear second-try action surface that keeps the student on the same level
+- optional hint access when the authored level still exposes a hint and the level is not yet complete
+
+Visible UI should not include:
+
+- full completion-style feedback as if the level were already finalized
+- a third-attempt affordance
+- language that frames the first wrong answer as failure
+
+System behavior:
+
+- persist the student's first wrong submitted answer
+- keep the run on the same `current_level_id`
+- reopen this retry state on reload or resume until the level is finalized
+- allow one more accepted submission from this state
+
+Persistence behavior:
+
+- write or update one durable `level_responses` row for the active `run_id + level_id`
+- set `initial_answer` to the first accepted submitted option id
+- leave `completed_at` unset while the retry opportunity is still open
+- leave `final_answer` unset while the retry opportunity is still open
+- keep `answer_changed = false` while the retry opportunity is still open
+- keep `session_runs.current_phase = level`
+- keep `session_runs.current_level_id` on the same authored level
+
+### 10.59 State B: Finalize A Retry-Capable Level
+
+Purpose:
+
+- lock the level after the first correct answer or after the second accepted submission
+
+Entry condition:
+
+- the student is on a challenge level
+- either:
+  - the first accepted submission is correct, or
+  - the level is in the retry state and the student is making the second accepted submission
+
+Visible UI must include:
+
+- the same final feedback state style used in Milestone 3
+- the locked submitted answer rendered read-only
+- deterministic authored feedback for the locked answer
+- the continue action into the next level or completion
+
+Visible UI may include:
+
+- a subdued acknowledgement when the second accepted submission differs from the first, such as "You changed your mind and landed it"
+
+System behavior:
+
+- if the first accepted submission is correct, finalize immediately with no retry state
+- if the retry state exists, accept exactly one more submission and then finalize the level
+- once finalized, later submits remain idempotent no-ops that return the existing saved response
+- feedback resolution continues to be deterministic from the authored lesson package rather than generated at runtime
+
+Persistence behavior:
+
+- `initial_answer` remains the first accepted submitted option id and never changes
+- on finalization, set `final_answer` to the locked answer
+- set `answer_changed = true` when `final_answer != initial_answer`, otherwise `false`
+- set `completed_at` when the level becomes locked
+- set `used_hint = true` when a matching level-hint scaffold event exists before completion, including hints opened between the first and second submissions
+- keep `session_runs.current_phase = level`
+- keep `session_runs.current_level_id` on the current authored level until the student presses `Continue`
+
+### 10.60 Completion Integration For `Changed My Mind`
+
+Purpose:
+
+- activate the existing reward category once the runtime can actually support it
+
+System behavior:
+
+- extend the Milestone 4 completion summary so the `Changed My Mind` category is rendered when earned
+- derive the category deterministically from persisted runtime state with no new model call
+
+Predicate mapping for Milestone 5:
+
+- `Changed My Mind` — one badge per level where:
+  - `level_responses.answer_changed = true`
+  - `level_responses.completed_at` is set
+
+Labeling rule:
+
+- labels should use authored level titles, for example: "Changed My Mind on Level 2: Priya's leap"
+
+Milestone 5 should not add a new rewards table for this category.
+
+### 10.61 Data Contract For Milestone 5
+
+Milestone 5 implementation requires these data sources:
+
+- active episode `lesson_package.yaml`
+- persisted `session_runs`
+- persisted `level_responses`
+- persisted `scaffold_events`
+
+Milestone 5 may also read:
+
+- persisted `warmup_progress` for completion-summary badge derivation continuity
+
+Level-response contract changes for Milestone 5:
+
+- `level_responses` should now represent durable per-level response state, not only completed levels
+- `initial_answer` stores the first accepted submitted option id
+- `final_answer` stores the locked answer after the level is finalized
+- `completed_at` remains unset while a retry opportunity is still open
+- `answer_changed` becomes meaningful in this milestone and should be true only when the locked answer differs from the first accepted answer
+
+Implementation note:
+
+- if the current runtime schema requires `final_answer` and `completed_at` on first write, Milestone 5 should migrate that shape so a retry-in-progress level can persist durably before completion
+
+Milestone 5 does not require:
+
+- a new authored retry-feedback field
+- a separate attempts table
+- a third submission path
+
+### 10.62 Server Responsibilities For Milestone 5
+
+The server layer should support:
+
+- determining whether the active level is retry-eligible per §10.57
+- saving a wrong first submission into a durable retry state
+- saving the final accepted submission that locks the level
+- reopening retry-in-progress levels on reload
+- deriving `Changed My Mind` badges from persisted state for the completion surface
+
+Recommended minimal server actions or route handlers:
+
+- `submitLevelAnswer(runId, answerId)` with branching behavior for first-submit, retry-open, and finalization states
+- `continueFromLevelFeedback(runId)` unchanged after the level is finalized
+- `listEarnedBadges(runId)` updated to include `Changed My Mind` when earned
+
+Names may vary in implementation, but the responsibilities should remain the same.
+
+Concurrency requirement:
+
+- accepted submits must remain deterministic and race-safe
+- once a level has a finalized response (`completed_at` set), later submits are idempotent no-ops
+- if two submits race while a retry-eligible level is still open, the runtime should preserve one canonical first answer and one canonical final answer rather than silently overwriting accepted state
+
+### 10.63 Client Responsibilities For Milestone 5
+
+The client layer should support:
+
+- rendering the retry opportunity state without leaving the active level route
+- rendering the first accepted wrong answer as saved state, not transient local state
+- reopening the retry state after reload or resume
+- rendering the final feedback state from the locked answer
+- rendering `Changed My Mind` on the completion surface when earned
+
+The client should not:
+
+- treat retry availability as browser-local state
+- offer more than one additional submission on the same level
+- reopen the guided warm-up as a retryable interaction
+
+### 10.64 Acceptance Criteria
+
+Milestone 5 is ready for approval when all of the following are true:
+
+- an eligible challenge level with a wrong first answer reopens into a clear retry state instead of locking immediately
+- the retry state persists across reload and resume without losing the first accepted wrong answer
+- the guided warm-up remains a single-submit supported attempt
+- levels that are not retry-eligible preserve the Milestone 3 single-submit behavior
+- the first accepted correct answer on an eligible level still finalizes the level immediately
+- the second accepted submission on a retry-eligible level finalizes the level and reopens into the normal locked feedback state on reload
+- `level_responses.initial_answer` preserves the first accepted answer and `final_answer` preserves the locked answer
+- `level_responses.answer_changed` is true only when the student finalized a different answer from their first accepted answer
+- completed runs that include corrected-on-retry levels show `Changed My Mind` on the completion surface with deterministic labels derived from authored level titles
+- no new redirect loops or terminal-state regressions are introduced on `/level` or `/read`
+
+### 10.65 Explicit Non-Goals
+
+Milestone 5 should not attempt to solve:
+
+- retry on the guided warm-up
+- more than one retry on a level
+- free answer switching before first submission
+- adaptive remediation trees, extra scaffold branches, or AI-generated coaching
+- teacher analytics about first-vs-final answer changes
+
+Failure and empty-state note:
+
+- Milestone 5 is primarily specified for the happy path
+- malformed authored levels that do not meet the retry-eligibility rule should fall back to the Milestone 3 single-submit flow rather than guessing at retry behavior
+
+### 10.66 Handoff To Milestone 6
+
+When Milestone 5 is approved, Milestone 6 should be able to assume:
+
+- the full end-to-end flow is playable, including bounded retry on eligible challenge levels
+- retry-in-progress levels reopen deterministically from persisted state
+- `answer_changed` is now a meaningful persisted field rather than a permanently-false placeholder
+- the completion surface can render `Changed My Mind` when earned
+- the frozen reward set in §8 is still intact; Milestone 6 may refine visuals, copy, and micro-interactions but should not reopen the reward categories or retry eligibility rule without an explicit design revision
+
+Milestone 6 should build on these pieces rather than replacing them.
 
 ## 11. Technical Architecture For V1
 
@@ -2894,10 +3193,10 @@ Notes:
 - `guided_used_hint` should record whether the guided hint was opened in the first warm-up pass
 - `level_responses` should contain at most one durable row for a given `run_id + level_id`
 - `initial_answer` should store the first accepted submitted option id for a level
-- `final_answer` should equal `initial_answer` in Milestone 3's first-pass single-submit flow
+- `final_answer` should equal `initial_answer` in the Milestone 3 and Milestone 4 single-submit flow, and should store the locked answer once a retry-capable level is finalized in Milestone 5
 - `used_hint` should be true when the level hint was opened before that level was completed
-- `answer_changed` should remain false until a later milestone explicitly adds revision after first submission
-- `completed_at` on `level_responses` should mean the level has been answered and can reopen directly into feedback on reload
+- `answer_changed` should remain false in the Milestone 3 and Milestone 4 single-submit flow, and should become meaningful only when Milestone 5 bounded retry is implemented
+- `completed_at` on `level_responses` should remain unset while a retry-capable level is still open and should mean the level has been locked and can reopen directly into feedback on reload
 - `session_runs.current_level_id` should point to the active unfinished level while `current_phase = level`
 - `session_runs.current_level_id` should be cleared when the run moves to `complete`
 - if `scaffold_events` is used for level hints in Milestone 3, a single viewed level hint may use a stable `step_key` such as `hint`
