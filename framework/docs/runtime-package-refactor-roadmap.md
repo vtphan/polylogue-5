@@ -179,7 +179,7 @@ Lens needs more than startup help. It also needs strong support for:
 - `framework/pipeline/scripts/merge_assistive_package.py`
 - `framework/pipeline/agents/package_reviewer.md`
 - `framework/docs/artifacts-generation.md`
-- `apps/lens/docs/instructional-design.md`
+- `apps/lens/docs/instructional-design-v1.md`
 
 Potentially:
 - future shared facilitation or review-support schemas if needed

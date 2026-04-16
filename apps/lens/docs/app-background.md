@@ -176,7 +176,7 @@ If a proposed feature fits individual tutoring but not small-group classroom ana
 This document should be read as the stable background layer for Lens documentation.
 
 - Use this file for product context and non-negotiable constraints.
-- Use `instructional-design.md` for the current pedagogical design, knowing that it may evolve.
+- Use `instructional-design-v1.md` for the current pedagogical design, knowing that it may evolve.
 - Use `pipeline-spec.md` for the current artifact and pipeline contract.
 - Use `teacher-overview.md` for a concise audience-facing summary of the project.
 

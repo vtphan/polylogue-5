@@ -569,7 +569,7 @@ Primary files:
 
 - `framework/docs/artifacts-generation.md`
 - `framework/docs/architecture.md` if needed
-- `apps/lens/docs/instructional-design.md` if it needs alignment to the new
+- `apps/lens/docs/instructional-design-v1.md` if it needs alignment to the new
   runtime-first framing
 
 Required changes:
@@ -633,7 +633,7 @@ What to inspect specifically:
 
 - `framework/pipeline/agents/diagnostic_agent.md`
 - `framework/pipeline/agents/discussion_agent.md`
-- `apps/lens/docs/instructional-design.md`
+- `apps/lens/docs/instructional-design-v1.md`
 
 ### Possible file edits
 
