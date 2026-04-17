@@ -5,7 +5,7 @@ import { useState, type ReactNode } from "react";
 export type RevealStage = {
   key: string;
   label: string;
-  content: ReactNode;
+  content: string;
   advanceButtonLabel: string;
   highlight?: boolean;
 };
@@ -33,7 +33,7 @@ export function RevealStages({
             className={`reveal-stage${stage.highlight ? " reveal-stage--highlight" : ""}`}
           >
             <p className="warmup-label">{stage.label}</p>
-            {stage.content}
+            <p>{stage.content}</p>
           </section>
         ))}
       </div>
