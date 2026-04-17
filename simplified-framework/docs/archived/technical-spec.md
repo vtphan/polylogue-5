@@ -1,4 +1,6 @@
-# Simplified Framework Technical Spec
+# Simplified Framework Technical Spec (archived)
+
+> **Archived — historical reference only.** Superseded by `simplified-framework/docs/tech-reference.md` (code layout, Prisma data model, runtime contract, change recipes) and `simplified-framework/docs/instructional-design.md` (authoring surface and transcript composition targets).
 
 This document is the primary technical specification for the current simplified framework.
 

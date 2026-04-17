@@ -38,8 +38,8 @@ SIMPLIFIED_REFERENCE = [
 ]
 
 SIMPLIFIED_DOCS = [
-    "simplified-framework/docs/technical-spec.md",
-    "simplified-framework/docs/framework-model.md",
+    "simplified-framework/docs/instructional-design.md",
+    "simplified-framework/docs/tech-reference.md",
     "simplified-framework/docs/operator-workflow.md",
 ]
 

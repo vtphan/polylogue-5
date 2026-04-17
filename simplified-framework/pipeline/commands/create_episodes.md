@@ -20,7 +20,7 @@ The default artifacts are:
 
 These should follow:
 
-- `simplified-framework/docs/technical-spec.md`
+- `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/schemas/episode-plan.yaml`
 
 Validation script:
@@ -119,7 +119,7 @@ Primary input:
 
 Also read as needed:
 
-- `simplified-framework/docs/technical-spec.md`
+- `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 

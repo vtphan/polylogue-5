@@ -1,4 +1,6 @@
-# Dedicated App Design
+# Dedicated App Design (archived)
+
+> **Archived — historical reference only.** Build-time product and interaction design record. Superseded by `simplified-framework/docs/instructional-design.md` (student journey, pedagogy, authoring surface) and `simplified-framework/docs/tech-reference.md` (stack, data model, runtime contract, change recipes).
 
 This document defines the product and interaction design for the dedicated app for the simplified framework.
 

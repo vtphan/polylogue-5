@@ -1,15 +1,11 @@
-# Simplified Framework App — Milestone 1
+# Simplified Framework App
 
-This is the dedicated app for the simplified framework. **Milestone 1 scope only:**
-student identity selection, episode entry, transcript reading, and the transition
-into `current_phase = warmup`. Warm-ups, challenge levels, rewards, and completion
-screens are intentionally not implemented yet.
+Dedicated app for the simplified framework. Implements the full session flow: student identity selection, transcript reading, modeled and guided warm-ups, challenge levels with bounded retry, restrained badge-style rewards with a lifeline-gated bonus, and a completion surface.
 
 ## Canonical docs
 
-- `../docs/app-design.md` — product and interaction design (source of truth)
-- `../docs/technical-spec.md` — artifact and runtime contracts
-- `../docs/framework-model.md` — pedagogical framework
+- `../docs/instructional-design.md` — conceptual framework, student journey, pedagogical mechanics, authoring surface
+- `../docs/tech-reference.md` — stack, directory map, Prisma data model, artifact → runtime contract, phase state machine, change recipes
 
 ## Runtime contract
 
@@ -27,15 +23,16 @@ screens are intentionally not implemented yet.
 - Prisma + SQLite (`prisma/dev.db`)
 - Zod for runtime schema parsing of YAML/JSON artifacts
 
-## Routes (Milestone 1)
+## Routes
 
-| Route                          | Purpose                               |
-| ------------------------------ | ------------------------------------- |
-| `/`                            | Group selection                       |
-| `/groups/[groupId]`            | Student selection (immediate-select)  |
-| `/runs/[runId]/entry`          | Episode entry (title, intro, setting) |
-| `/runs/[runId]/read`           | Transcript reading + Continue         |
-| `/runs/[runId]/warmup`         | Milestone 2 placeholder               |
+| Route                          | Purpose                                            |
+| ------------------------------ | -------------------------------------------------- |
+| `/`                            | Group selection                                    |
+| `/groups/[groupId]`            | Student selection (immediate-select)               |
+| `/runs/[runId]/entry`          | Episode entry (title, intro, setting)              |
+| `/runs/[runId]/read`           | Transcript reading + Continue                      |
+| `/runs/[runId]/warmup`         | Modeled warm-up → guided warm-up → guided reveal   |
+| `/runs/[runId]/level`          | Level question → retry (if eligible) → feedback; also the completion handoff |
 
 ## Setup
 
@@ -75,16 +72,16 @@ npm run dev                 # http://localhost:3000
 
 ## Database
 
-Milestone 1 uses a single table:
+Tables (Prisma schema in `prisma/schema.prisma`):
 
-- `session_runs` — one row per (config, episode, group, student, status).
-  Unique on `(config_id, episode_source, group_id, student_id, status)` so
-  there is at most one `in_progress` row per tuple; resume reopens it.
+- `session_runs` — one row per (config, episode, group, student, attempt). Partial unique index ensures at most one `status = 'in_progress'` row per tuple; completed rows are unbounded so the same student can replay.
+- `warmup_progress` — 1:1 with a run; tracks modeled + guided warm-up state.
+- `level_responses` — one row per (run, level); holds initial/final answers, retry-eligibility state, hint-usage, and lock timestamp.
+- `scaffold_events` — append-only hint-open log with unique `(run_id, level_id, step_key)`.
 
 Enums (enforced at the application layer via Zod):
 
 - `status`: `in_progress` | `complete`
 - `current_phase`: `read` | `warmup` | `level` | `complete`
 
-Later milestones will add `warmup_progress`, `level_responses`, and
-`scaffold_events` per `app-design.md` §11.13.
+See `../docs/tech-reference.md` §4 for field-level detail and derived state helpers.

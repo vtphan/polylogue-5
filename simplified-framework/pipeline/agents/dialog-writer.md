@@ -27,7 +27,7 @@ Produce a transcript that:
 
 Read as needed:
 
-- `simplified-framework/docs/technical-spec.md`
+- `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
 Primary inputs:
@@ -94,7 +94,7 @@ The flaw appears in close-to-natural dialog with one deliberate elevated cue. No
 
 #### Rhythm and spacing
 
-Aim for 5–7 flagged flaw moments across roughly 14 turns (target range 10–16, hard cap 20 per `technical-spec.md`). Surround each flaw moment with at least one turn of natural conversation — agreement, clarification, jokes, listening. Do not place two flaw moments in adjacent turns. Filler is load-bearing: a flaw moment with air around it reads as a moment; a flaw moment in a pile of other flaw moments reads as noise.
+Aim for 5–7 flagged flaw moments across roughly 14 turns (target range 10–16, hard cap 20 per `instructional-design.md` §5.4). Surround each flaw moment with at least one turn of natural conversation — agreement, clarification, jokes, listening. Do not place two flaw moments in adjacent turns. Filler is load-bearing: a flaw moment with air around it reads as a moment; a flaw moment in a pile of other flaw moments reads as noise.
 
 Within an episode, most flaw moments should express the **primary** flaw the planner specified, with the optional **secondary** flaw appearing only where it strengthens the scene.
 

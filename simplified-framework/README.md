@@ -6,14 +6,14 @@
 
 For current framework behavior and structure, use:
 
-- `docs/technical-spec.md`
-  Primary technical source of truth for artifacts, pipeline, validators, and runtime contract.
-- `docs/framework-model.md`
-  Conceptual framework, pedagogical assumptions, and intended student learning.
+- `docs/instructional-design.md`
+  Conceptual framework, student journey, pedagogical mechanics, and the authoring surface.
+- `docs/tech-reference.md`
+  Stack, directory map, Prisma data model, artifact → runtime contract, phase state machine, change recipes.
 - `docs/operator-workflow.md`
   Human-in-the-loop review cadence.
 
-`docs/app-design.md` exists for the future dedicated app design, but it is not yet a complete or current design source of truth.
+Build-time design records (`app-design.md`, `technical-spec.md`, `framework-model.md`) now live in `docs/archived/` and should be treated as historical context only.
 
 ## Canonical Framework Material
 
@@ -32,5 +32,5 @@ For current framework behavior and structure, use:
 
 ## Current Status
 
-The framework and artifact model are largely in place. The local app under `app/` is still a prototype and is not yet the canonical dedicated app for this framework.
+The framework, artifact model, and dedicated app under `app/` are implemented end to end: read → warmup → level → complete, with persisted run state, restrained badges, bounded level retry, and a lifeline-gated bonus. See `docs/tech-reference.md` for the runtime contract and `docs/instructional-design.md` for the pedagogy.
 

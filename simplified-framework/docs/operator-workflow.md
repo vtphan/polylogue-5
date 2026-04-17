@@ -15,7 +15,7 @@ This document defines the current human-in-the-loop workflow for the simplified 
 
 The operator is checking whether the episode is good enough for the app, not whether it is analytically exhaustive.
 
-For the current scope, "good enough for the app" means good enough for the present deterministic lesson flow, not fully expressive of the broader classroom model described in `framework-model.md`.
+For the current scope, "good enough for the app" means good enough for the present deterministic lesson flow, not fully expressive of the broader classroom model described in `instructional-design.md`.
 
 Core review questions:
 

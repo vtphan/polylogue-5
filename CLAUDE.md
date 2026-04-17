@@ -22,21 +22,21 @@ Active documentation set lives in `simplified-framework/docs/`:
 
 | Document | Purpose |
 |---|---|
-| `technical-spec.md` | Primary technical source of truth: artifacts, pipeline, validators, runtime contract |
-| `framework-model.md` | Conceptual framework, pedagogical assumptions, student learning goals |
-| `app-design.md` | Dedicated app product and interaction design, milestone plan, v1 technical architecture |
+| `instructional-design.md` | Conceptual framework, student journey, pedagogical mechanics, authoring surface |
+| `tech-reference.md` | Stack, directory map, Prisma data model, artifact → runtime contract, phase state machine, change recipes |
 | `operator-workflow.md` | Human-in-the-loop workflow and review cadence |
 
-Archived material lives in `simplified-framework/docs/archived/`. Do not treat archived docs as current source of truth.
+Archived material lives in `simplified-framework/docs/archived/` (including the former `framework-model.md`, `app-design.md`, and `technical-spec.md`). Do not treat archived docs as current source of truth.
 
 ### Source-Of-Truth Precedence
 
 1. Validators in `simplified-framework/pipeline/scripts/`
-2. Artifact files under `simplified-framework/stories/` and `simplified-framework/artifacts/`
-3. `simplified-framework/reference/flaw-taxonomy.yaml`
-4. `simplified-framework/docs/technical-spec.md`
-5. Other active docs in `simplified-framework/docs/`
-6. Schema sketches in `simplified-framework/schemas/`
+2. Zod schemas in `simplified-framework/app/src/lib/domain.ts`
+3. Artifact files under `simplified-framework/stories/` and `simplified-framework/artifacts/`
+4. Prisma schema in `simplified-framework/app/prisma/schema.prisma`
+5. `simplified-framework/reference/flaw-taxonomy.yaml`
+6. `simplified-framework/docs/tech-reference.md` and `instructional-design.md`
+7. Schema sketches in `simplified-framework/schemas/`
 
 If prose in a doc drifts from a validator, the validator wins.
 
@@ -66,7 +66,7 @@ EPISODE (per episode in the story):
     → lesson_package.yaml       (only after transcript acceptance)
 ```
 
-Working principles (from `framework-model.md` and `technical-spec.md`):
+Working principles (from `instructional-design.md` and `tech-reference.md`):
 
 - each episode primarily teaches one main flaw; supporting flaws are used sparingly
 - transcripts are source dialogue, not analytic containers — no per-turn flaw labels, no answer keys
@@ -93,44 +93,17 @@ simplified-framework/
 
 ### Dedicated App (simplified-framework/app/)
 
-The local app under `simplified-framework/app/` is a prototype, **not** the source of truth for product or framework behavior. It is the refactor target for v1.
+The app is implemented (Next.js + React + TypeScript, SQLite + Prisma). For current behavior, consult the code and the canonical docs rather than this summary.
 
-**V1 stack decision** (from `app-design.md` §11):
+- Student journey, teaching mechanics, engagement rules, and the authoring surface live in `simplified-framework/docs/instructional-design.md`.
+- Stack, directory map, Prisma data model, server actions, the `read → warmup → level → complete` phase state machine, and change recipes live in `simplified-framework/docs/tech-reference.md`.
 
-- Next.js + React + TypeScript
-- SQLite + Prisma
+Load-bearing runtime invariants:
 
-**Runtime contract** (from `app-design.md` §11 and `technical-spec.md` §12):
-
-- **No real-time LLM.** Lesson content must be prepared upstream. Runtime behavior comes from `transcript.yaml`, `lesson_package.yaml`, session config, and persisted database state.
-- Deterministic rendering only. No runtime prompt construction, no live model dependency for playing a session.
-- One student per device at a time; internet required during use.
-- Cross-device resume supported; the database (not `localStorage`) is the source of truth for run state.
-- App reads canonical simplified artifacts; legacy `assistive_package.yaml` assumptions must be removed from the runtime.
-
-**App-facing contract** (minimum surface the runtime must consume):
-
-- Transcript: `title`, `characters`, `turns[].{turn_id, speaker, text}` (plus optional `setting_note`, `previously`)
-- Package: `package_meta.{story_id, episode_number, schema_version}`, `episode.{title, student_intro, final_takeaway}`, `warmups.modeled`, `warmups.guided`, `levels[]`
-- Every package `turn_id` must exist in the transcript.
-
-**Milestone strategy** (from `app-design.md` §9):
-
-- Milestone 0: flow agreement (this doc set)
-- **Milestone 1: Episode Reading Experience — frozen.** Identity selection, episode entry, transcript reading, and the `read → warmup` transition. Milestone 1 is the only fully specified brief right now; do not reopen its scope unless a real contradiction or implementation blocker is found.
-- Milestone 2: warm-up experience
-- Milestone 3: challenge-level experience
-- Milestone 4: completion and session wrap
-- Milestone 5: end-to-end refinement
-
-Later milestones are intentionally kept at medium detail until they become the next active target.
-
-**V1 reward/engagement strategy** (from `app-design.md` §8, frozen):
-
-- Restrained badge-style recognition only. No points economies, streaks, timers, leaderboards, or public rankings.
-- Default visible reward events: finished reading, finished warm-up, completed a level, completed the episode, used help and kept going, changed an answer after reflection.
-- Deterministic from saved runtime state; no LLM, no subjective free-text evaluation.
-- Peer progress is coarse and status-based; it must not expose reward information, answer correctness, or hint history.
+- **No real-time LLM.** Rendering is deterministic from `transcript.yaml`, `lesson_package.yaml`, the active config, and Prisma state.
+- **Grading uses `feedback.correct.option_ids`**, not `best_answer_id`.
+- **Terminal state is frozen.** A completed run must not be mutated on render.
+- **Restrained engagement only.** Badge-style recognition and a lifeline-gated bonus; no points, streaks, timers, leaderboards, or public rankings.
 
 ### Bootstrapping Simplified
 
