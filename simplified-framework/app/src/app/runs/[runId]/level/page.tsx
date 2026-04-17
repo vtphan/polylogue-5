@@ -18,10 +18,12 @@ import {
 } from "@/lib/levels";
 import {
   deriveEarnedBadges,
+  deriveLifelineState,
   groupBadgesByCategory,
   loadCompletionInputs,
   type Badge,
   type BadgeCategory,
+  type LifelineState,
 } from "@/lib/completion";
 import { loadSessionChrome } from "@/lib/session-chrome";
 import { LessonWorkspace } from "../_components/LessonWorkspace";
@@ -289,12 +291,7 @@ function LevelRetryView({
 }
 
 const BADGE_CATEGORY_HEADINGS: Record<BadgeCategory, string> = {
-  read_the_episode: "Reading",
-  finished_warmup: "Warm-up",
-  level_complete: "Levels",
-  used_help_and_kept_going: "Used help and kept going",
-  changed_my_mind: "Changed my mind",
-  episode_complete: "Episode",
+  correct_answer: "Correct answers",
 };
 
 function EarnedBadgesBlock({ badges }: { badges: Badge[] }) {
@@ -341,11 +338,15 @@ function CompletionSurface({
   lessonPackage,
   badges,
   levelCount,
+  lifelines,
+  bonusApplied,
 }: {
   runId: string;
   lessonPackage: LessonPackage;
   badges: Badge[];
   levelCount: number;
+  lifelines: LifelineState;
+  bonusApplied: boolean;
 }) {
   return (
     <div className="page completion-page">
@@ -367,6 +368,17 @@ function CompletionSurface({
           {lessonPackage.episode.final_takeaway}
         </blockquote>
       </section>
+
+      {bonusApplied ? (
+        <section className="completion-bonus" aria-label="Bonus medals">
+          <p className="eyebrow">Bonus</p>
+          <p>
+            You finished with {lifelines.remaining}{" "}
+            {lifelines.remaining === 1 ? "help token" : "help tokens"} left, so
+            every correct-answer medal doubled.
+          </p>
+        </section>
+      ) : null}
 
       <EarnedBadgesBlock badges={badges} />
 
@@ -404,13 +416,19 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
     if (!completionInputs) {
       notFound();
     }
-    const badges = deriveEarnedBadges(completionInputs, lessonPackage);
+    const lifelines = deriveLifelineState(completionInputs, lessonPackage);
+    const bonusApplied = lifelines.remaining > 0;
+    const badges = deriveEarnedBadges(completionInputs, lessonPackage, {
+      bonusMedals: bonusApplied,
+    });
     return (
       <CompletionSurface
         runId={run.runId}
         lessonPackage={lessonPackage}
         badges={badges}
         levelCount={lessonPackage.levels.length}
+        lifelines={lifelines}
+        bonusApplied={bonusApplied}
       />
     );
   }
@@ -443,50 +461,31 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
   const feedback = response?.completedAt
     ? feedbackForOption(level, response.finalAnswer ?? response.initialAnswer)
     : null;
+  // Flash fires only when the student locks a correct answer — every other
+  // state (retry-open, wrong-locked, phase handoffs) surfaces its own
+  // in-drawer feedback without a celebratory banner.
   const flashMessage =
-    flash === "warmup-badge"
-      ? {
-          key: "warmup-badge",
-          tone: "success" as const,
-          title: "Badge earned: Finished the warm-up",
-          detail: "You’re ready for the challenge levels now.",
-        }
-      : flash === "retry-open"
+    flash === "level-locked" && response?.completedAt && feedback?.isCorrect
+      ? response.answerChanged
         ? {
-            key: "retry-open",
-            tone: "encourage" as const,
-            title: "Not yet, but you get one more try.",
-            detail: "Look back at this turn and pick a different answer when you’re ready.",
+            key: "level-locked-corrected",
+            tone: "success" as const,
+            title: "Nice recovery.",
+            detail: "You changed your mind and landed the correct answer.",
           }
-        : flash === "level-locked" && response?.completedAt
-          ? feedback?.isCorrect
-            ? response.answerChanged
-              ? {
-                  key: "level-locked-corrected",
-                  tone: "success" as const,
-                  title: "Nice recovery.",
-                  detail: "You changed your mind, landed the answer, and earned your level badge.",
-                }
-              : {
-                  key: "level-locked-correct",
-                  tone: "success" as const,
-                  title: "Nice work.",
-                  detail: "You landed the answer and earned your level badge.",
-                }
-            : {
-                key: "level-locked-wrong",
-                tone: "encourage" as const,
-                title: "Thanks for sticking with it.",
-                detail: "You can keep moving and keep building the skill on the next level.",
-              }
-          : null;
+        : {
+            key: "level-locked-correct",
+            tone: "success" as const,
+            title: "Nice work.",
+            detail: "That's a correct-answer medal.",
+          }
+      : null;
 
   if (step.kind === "feedback") {
     return (
       <LessonWorkspace
         episodeTitle={lessonPackage.episode.title}
         progressLabel={progressLabel}
-        phaseLabel="Level · feedback"
         sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={level.turn_id}
@@ -510,7 +509,6 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
       <LessonWorkspace
         episodeTitle={lessonPackage.episode.title}
         progressLabel={progressLabel}
-        phaseLabel="Level · one more try"
         sessionChrome={sessionChrome}
         transcript={transcript}
         targetTurnId={level.turn_id}
@@ -532,7 +530,6 @@ export default async function LevelPage({ params, searchParams }: LevelPageProps
     <LessonWorkspace
       episodeTitle={lessonPackage.episode.title}
       progressLabel={progressLabel}
-      phaseLabel="Level"
       sessionChrome={sessionChrome}
       transcript={transcript}
       targetTurnId={level.turn_id}

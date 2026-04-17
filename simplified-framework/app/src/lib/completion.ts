@@ -33,16 +33,9 @@ export async function loadCompletionInputs(runId: string): Promise<CompletionInp
   return { run, warmupProgress, levelResponses, scaffoldEvents };
 }
 
-// §10.45 visible badge categories. `changed_my_mind` is activated by
-// Milestone 5 once bounded retry can produce genuine revision; its predicate
-// is defined in §10.60 and supersedes the M3/M4 omission.
-export type BadgeCategory =
-  | "read_the_episode"
-  | "finished_warmup"
-  | "level_complete"
-  | "used_help_and_kept_going"
-  | "changed_my_mind"
-  | "episode_complete";
+// Only one badge category now. Medals represent correct answers; the
+// first-try variant was replaced by the lifeline-based bonus mechanic.
+export type BadgeCategory = "correct_answer";
 
 export type Badge = {
   category: BadgeCategory;
@@ -50,34 +43,49 @@ export type Badge = {
   description?: string;
 };
 
-// Pure predicate evaluation per §10.45. Deterministic from persisted state —
-// no runtime model call, no string generation beyond stitching authored
-// fields (`lesson_package.levels[].title`) into short labels.
-export function deriveEarnedBadges(inputs: CompletionInputs, pkg: LessonPackage): Badge[] {
-  const { run, warmupProgress, levelResponses, scaffoldEvents } = inputs;
+// Lifelines: a fixed budget of help-tokens per run, spent when the student
+// opens a level hint. Warm-up hints do not count — they are part of
+// scaffolded practice, not the challenge measure. The formula intentionally
+// gives the student some slack (levels.length - 1) so one hint never forfeits
+// the bonus, with a minimum of 1 to keep the mechanic visible on short
+// episodes.
+export type LifelineState = {
+  initial: number;
+  used: number;
+  remaining: number;
+};
+
+export function deriveLifelineState(
+  inputs: CompletionInputs,
+  pkg: LessonPackage,
+): LifelineState {
+  const initial = Math.max(1, pkg.levels.length - 1);
+  const levelsWithHintOpened = new Set<string>();
+  for (const event of inputs.scaffoldEvents) {
+    if (event.stepKey === LEVEL_HINT_STEP_KEY) {
+      levelsWithHintOpened.add(event.levelId);
+    }
+  }
+  const used = levelsWithHintOpened.size;
+  const remaining = Math.max(0, initial - used);
+  return { initial, used, remaining };
+}
+
+// Pure predicate evaluation. Deterministic from persisted state — no runtime
+// model call, no string generation beyond stitching authored fields
+// (`lesson_package.levels[].title`) into short labels.
+//
+// `options.bonusMedals` doubles each correct-answer medal. Called with true
+// only at episode completion when lifelines remain — see CompletionSurface.
+export function deriveEarnedBadges(
+  inputs: CompletionInputs,
+  pkg: LessonPackage,
+  options: { bonusMedals?: boolean } = {},
+): Badge[] {
+  const { levelResponses } = inputs;
+  const bonusMedals = options.bonusMedals ?? false;
   const badges: Badge[] = [];
 
-  // Read The Episode — one per run, once reading is complete. Always true for
-  // a completed run, but we honour the predicate rather than assuming.
-  if (run.readingComplete) {
-    badges.push({
-      category: "read_the_episode",
-      label: "Read the episode",
-      description: "You took time to read every turn.",
-    });
-  }
-
-  // Finished Warm-Up — one per run, tied to guided warm-up completion.
-  if (warmupProgress?.guidedComplete) {
-    badges.push({
-      category: "finished_warmup",
-      label: "Finished the warm-up",
-      description: "You worked through both warm-up moments.",
-    });
-  }
-
-  // Level Complete — one per authored level with a completed response row.
-  // Iterate in authored sequence so badges read top-to-bottom in level order.
   const sortedLevels = [...pkg.levels].sort(
     (a, b) => a.sequence_index - b.sequence_index,
   );
@@ -87,94 +95,38 @@ export function deriveEarnedBadges(inputs: CompletionInputs, pkg: LessonPackage)
       responseByLevelId.set(response.levelId, response);
     }
   }
-  for (const level of sortedLevels) {
-    if (responseByLevelId.has(level.level_id)) {
-      badges.push({
-        category: "level_complete",
-        label: `Finished Level ${level.sequence_index}: ${level.title}`,
-      });
-    }
-  }
 
-  // Used Help And Kept Going — per support-used-and-still-completed moment.
-  // Warm-up first, then one per eligible level (hint event OR used_hint flag
-  // AND the response was completed). Ordered alongside Level Complete by
-  // authored sequence so the two categories read consistently.
-  if (warmupProgress?.guidedUsedHint && warmupProgress.guidedComplete) {
-    badges.push({
-      category: "used_help_and_kept_going",
-      label: "Used a hint on the warm-up and kept going",
-    });
-  }
-  const hintEventByLevelId = new Map<string, ScaffoldEvent>();
-  for (const event of scaffoldEvents) {
-    if (event.stepKey === LEVEL_HINT_STEP_KEY) {
-      hintEventByLevelId.set(event.levelId, event);
-    }
-  }
+  // Correct Answer — one per authored level where the locked final answer
+  // is in feedback.correct.option_ids. Retry-correct still counts; a level
+  // locked on a wrong final answer earns nothing. When bonusMedals is set,
+  // each correct level yields a second medal labelled as a bonus.
   for (const level of sortedLevels) {
     const response = responseByLevelId.get(level.level_id);
-    if (!response || !response.completedAt) {
+    if (!response || !response.finalAnswer) {
       continue;
     }
-    const usedHelp =
-      hintEventByLevelId.has(level.level_id) || response.usedHint;
-    if (usedHelp) {
+    if (!level.feedback.correct.option_ids.includes(response.finalAnswer)) {
+      continue;
+    }
+    badges.push({
+      category: "correct_answer",
+      label: `Got Level ${level.sequence_index} right: ${level.title}`,
+    });
+    if (bonusMedals) {
       badges.push({
-        category: "used_help_and_kept_going",
-        label: `Used a hint on Level ${level.sequence_index} and kept going`,
+        category: "correct_answer",
+        label: `Bonus medal · Level ${level.sequence_index}: ${level.title}`,
       });
     }
-  }
-
-  // Changed My Mind — one per level where the student reconsidered after a
-  // wrong first answer and locked the correct answer on retry (§10.60).
-  // Predicate: completedAt set AND answerChanged true AND final_answer is in
-  // feedback.correct.option_ids. Wrong-then-different-wrong sequences are
-  // intentionally excluded — the badge recognises productive revision, not
-  // answer-switching.
-  for (const level of sortedLevels) {
-    const response = responseByLevelId.get(level.level_id);
-    if (!response || !response.completedAt || !response.answerChanged) {
-      continue;
-    }
-    const finalAnswer = response.finalAnswer;
-    if (!finalAnswer) {
-      continue;
-    }
-    if (!level.feedback.correct.option_ids.includes(finalAnswer)) {
-      continue;
-    }
-    badges.push({
-      category: "changed_my_mind",
-      label: `Changed my mind on Level ${level.sequence_index}: ${level.title}`,
-    });
-  }
-
-  // Episode Complete — one per run, terminal badge. Presented last so it
-  // reads as the final acknowledgement.
-  if (run.status === "complete" && run.completedAt) {
-    badges.push({
-      category: "episode_complete",
-      label: "Completed the episode",
-      description: "Every level answered, every hint saved. Nice run.",
-    });
   }
 
   return badges;
 }
 
 // Convenience predicate for unit-style reasoning about derived badge sets.
-// Not used on the page itself but useful for anything that wants to count
-// badges by category without re-deriving them.
 export function countBadgesByCategory(badges: Badge[]): Record<BadgeCategory, number> {
   const counts: Record<BadgeCategory, number> = {
-    read_the_episode: 0,
-    finished_warmup: 0,
-    level_complete: 0,
-    used_help_and_kept_going: 0,
-    changed_my_mind: 0,
-    episode_complete: 0,
+    correct_answer: 0,
   };
   for (const badge of badges) {
     counts[badge.category] += 1;
@@ -182,20 +134,13 @@ export function countBadgesByCategory(badges: Badge[]): Record<BadgeCategory, nu
   return counts;
 }
 
-// Used by the completion page to group badges for rendering. Keeps the
-// top-level list deterministic while letting the UI show category headings.
+// Used by the completion page to group badges for rendering. Kept for UI
+// flexibility even though the current category set is a single entry.
 export function groupBadgesByCategory(badges: Badge[]): Array<{
   category: BadgeCategory;
   badges: Badge[];
 }> {
-  const order: BadgeCategory[] = [
-    "read_the_episode",
-    "finished_warmup",
-    "level_complete",
-    "used_help_and_kept_going",
-    "changed_my_mind",
-    "episode_complete",
-  ];
+  const order: BadgeCategory[] = ["correct_answer"];
   const byCategory = new Map<BadgeCategory, Badge[]>();
   for (const badge of badges) {
     const bucket = byCategory.get(badge.category) ?? [];

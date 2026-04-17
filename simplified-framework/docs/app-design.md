@@ -924,6 +924,8 @@ V1 decision:
 - the six badge/event categories above are the default visible reward set
 - this set is frozen for v1 unless the design doc is explicitly revised
 
+> **Revised in §14.1 (2026-04-16).** The visible reward set was narrowed to a single category (`correct_answer`), with a completion-time doubling bonus driven by a new lifelines mechanic. The six categories above remain valid as *tracked* events in persisted state but are no longer surfaced to the student. See §14 for the current contract.
+
 ### 8.6 Visual Treatment Of Rewards
 
 Rewards should fit the calm visual contract.
@@ -2389,6 +2391,8 @@ Predicate mapping — the v1 visible badge set derived from the frozen categorie
 - `Changed My Mind` — Milestone 4 omits this category because the single-submit flow cannot produce `level_responses.answer_changed = true`. Milestone 5 activates the category once bounded retry is implemented; the predicate defined in §10.60 supersedes this entry from Milestone 5 onward
 - `Episode Complete` — one badge per run, earned when `session_runs.status = complete` AND `session_runs.completed_at` is set
 
+> **Revised in §14.1–§14.3 (2026-04-16).** The predicate mapping above is superseded by a single `correct_answer` predicate plus the lifelines/bonus mechanic documented in §14. The older categories still map cleanly onto persisted state if the reward surface is ever broadened back, but the runtime no longer emits them.
+
 Each earned badge should carry a short label that names the moment (e.g. for `Level Complete`: "Finished Level 2: Priya's leap"; for `Used Help And Kept Going`: "Used a hint on Level 3 and kept going"). Labels should draw from authored fields (`lesson_package.levels[].title`) rather than runtime-generated text.
 
 System behavior:
@@ -3360,3 +3364,140 @@ When implementation begins, this document should be treated as the source of tru
 - the v1 technical architecture boundary
 
 If implementation reveals a mismatch, update this document first or alongside the code change. Do not let the codebase silently become the design source of truth.
+
+## 14. Post-Milestone-5 Refinements (2026-04-16)
+
+This section records the design revisions made after Milestone 5 shipped, based on iterative student-experience feedback. Where §14 conflicts with earlier sections (notably §8 Engagement and Reward Strategy, §10.45 Earned-Badges Block, and portions of the Milestone 3 level states), §14 is the current contract. The "frozen for v1" language in §8.5 is explicitly unfrozen for the items listed here.
+
+The spirit of §8.1–§8.4 is preserved: rewards remain calm, supportive, deterministic, and secondary to the lesson. What changed is which behaviors surface to the student.
+
+### 14.1 Reward Surface Reduction
+
+The visible reward set is narrowed from six categories to one. The remaining category — `correct_answer` — is the only reward the session bar and completion page surface to the student.
+
+Rationale: the six-category set (Read, Warm-up, Level Complete, Used Help And Kept Going, Changed My Mind, Episode Complete) was visually accurate but pedagogically mushy. Several categories fired on every run regardless of effort (reading, warm-up, episode complete), and `Level Complete` counted completion even when the final locked answer was wrong. Students had no clear "I got that right" signal.
+
+New predicate:
+
+- `correct_answer` — one medal per authored level where `level_responses.final_answer` is included in `lesson_package.levels[].feedback.correct.option_ids`. A level locked on a wrong final answer (retry-ineligible levels, or bounded-retry levels that lock on a second wrong answer) earns nothing from this predicate.
+
+Categories still tracked in persisted state but not surfaced:
+
+- `Read The Episode`, `Finished Warm-Up`, `Used Help And Kept Going`, `Changed My Mind`, `Episode Complete` — retained as implicit session structure but no longer emitted as visible medals. They can be reintroduced without a schema change if future design calls for them.
+
+Implementation pointers:
+
+- `deriveEarnedBadges(inputs, pkg, options)` in `simplified-framework/app/src/lib/completion.ts`
+- `BadgeCategory` is narrowed to the string literal `"correct_answer"`
+- `groupBadgesByCategory` and `countBadgesByCategory` still exist for future expansion
+
+### 14.2 Lifelines Mechanic
+
+A help-token budget (lifelines) is introduced alongside the correct-answer medals. Lifelines give the student a visible, finite-feeling help allowance without creating a points economy.
+
+Lifeline contract:
+
+- starting count: `max(1, lesson_package.levels.length - 1)` — intentionally grants some slack so a single hint never forfeits the bonus, with a floor of 1 so the mechanic is always visible
+- a lifeline is spent when the student opens a **level** hint. Each authored level contributes at most one spent lifeline, matching the `(run_id, level_id, step_key="hint")` uniqueness on `scaffold_events`
+- warm-up hints do **not** spend a lifeline. The warm-up hint is scaffolded practice, not a challenge signal, and it writes to `warmup_progress.guided_used_hint` rather than `scaffold_events`
+- `remaining = max(0, initial - distinct_level_ids_with_hint_opened)`
+
+Rationale: replaces the earlier `used_help_and_kept_going` medal with a resource-visible model. The prior medal was supportive but hard to understand; lifelines give students a reason to think before asking for help while preserving the "help is OK" stance — hints remain available, and using them never blocks progress.
+
+Deviation from §8.2 "no points economies": lifelines are a minimal, non-accumulating, reset-per-episode allowance. No score, no cross-episode carry-over, no public comparison. The explicit design intent is *signal*, not scoring.
+
+Implementation pointers:
+
+- `deriveLifelineState(inputs, pkg)` in `simplified-framework/app/src/lib/completion.ts`
+- Exposed via `SessionChromeData.lifelines` in `simplified-framework/app/src/lib/session-chrome.ts`
+
+### 14.3 Completion Doubling Bonus
+
+At episode completion, if `lifelines.remaining > 0`, every `correct_answer` medal is doubled on the completion surface. A student with three correct answers who ended with one lifeline remaining sees six medals on the completion page.
+
+Rules:
+
+- the bonus is applied **only at episode completion** (`session_runs.status = complete`). During play, the session bar shows the raw correct-answer count and the remaining hearts — no speculative doubling
+- the completion page renders a short "Bonus" note alongside the doubled medal set explaining why it doubled
+- if `lifelines.remaining = 0`, medals render at their base count with no bonus note
+
+Rationale: the doubling is a completion-time reveal, not a live counter, so the run-time display stays stable and calm per §8.6. The reveal gives students a reason to be thoughtful about hint use without punishing help-seeking: the worst case is "normal medal count," not "lost reward."
+
+Implementation pointers:
+
+- `deriveEarnedBadges(inputs, pkg, { bonusMedals: true })` doubles `correct_answer` entries
+- Called only from the `status === "complete"` branch of `simplified-framework/app/src/app/runs/[runId]/level/page.tsx`
+- Completion bonus copy lives in `CompletionSurface` in the same file; `.completion-bonus` styles in `globals.css`
+
+### 14.4 Session-Bar Visual Treatment
+
+The session bar's middle column renders two medal groups in a single horizontal row:
+
+- **hearts** (`FaHeart`, `#c1432c`) on the left — one icon per lifeline slot; the first `remaining` are filled at full opacity, the rest are faded to `opacity: 0.35` as hints are used
+- **stars** (`FaStar`, `#e0a419`) on the right — one icon per `correct_answer` medal earned so far
+
+Treatment rules:
+
+- no row labels — icons + hover tooltips carry the meaning; the visual hierarchy is self-teaching after one cycle
+- column-gap of ~1.25rem separates hearts from stars
+- hearts always render from the beginning of the run (not gated by phase). The heart row is the only non-phase-specific chrome element; warm-up pages show the full heart allowance, levels fade individual hearts as they're spent
+- the prior "N badges" aggregate pill and per-category chip labels were removed
+
+Implementation pointers:
+
+- `BADGE_CHIPS` in `simplified-framework/app/src/app/runs/[runId]/_components/LessonWorkspace.tsx`
+- `.session-bar__medals`, `.session-medal-group`, `.session-medal--heart*`, `.session-medal--star` in `globals.css`
+
+### 14.5 Flash Messaging Narrowing
+
+The top-right flash banner fires only on a **correct answer**. Previous flash triggers (arriving at warm-up, arriving at level, retry-open, wrong-locked) no longer surface a banner; those states rely on in-drawer feedback instead.
+
+Retained flash cases:
+
+- guided warm-up answered with the best option
+- level locked correct on first submission
+- level locked correct after a retry (different copy: "Nice recovery…")
+
+Implementation pointers:
+
+- `actions.ts` drops `?flash=read-badge`, `?flash=warmup-badge`, and `?flash=retry-open` query parameters
+- `warmup/page.tsx` and `level/page.tsx` interpret only the correct-answer branches
+
+### 14.6 Level Phase Pill Removed
+
+The top-right phase pill in `LessonWorkspace` is no longer rendered on level pages (previously "Level", "Level · feedback", "Level · one more try"). The `progressLabel` ("Level 2 of 4") already carries the phase context, and the pill was redundant.
+
+Warm-up pages still render their phase pill ("Walkthrough", "Practice question", "Practice · look together") because warm-up progress is not obvious from `progressLabel` alone.
+
+Implementation: `phaseLabel` is now optional on `LessonWorkspaceProps`. When absent, the pill is not rendered and the session-bar headline trims the trailing ` · {phaseLabel}` segment.
+
+### 14.7 Viewport-Bounded Workspace Layout
+
+On desktop (`min-width: 900px`, i.e. iPad 11" landscape and wider), the lesson workspace is bounded to the viewport rather than allowed to page-scroll:
+
+- `.lesson-workspace` height = `calc(100dvh - 2.5rem - var(--session-bar-reserve))`
+- `--session-bar-reserve` (default `8rem`) is the bottom clearance for the fixed session bar plus breathing room
+- `.transcript-canvas` and `.work-drawer` each get `overflow-y: auto` and `min-height: 0`, so both panels scroll independently inside the bounded workspace
+- Mobile (`< 900px`) keeps the earlier page-scroll layout with `padding-bottom: 5.8rem`
+
+Rationale: on short viewports like iPad 11" landscape (834 px tall), the previous sticky-drawer layout let the transcript and drawer slide under the fixed session bar during scroll. Bounding the workspace gives each panel its own scroll and guarantees the session bar is never occluded.
+
+Primary tuning knobs:
+
+- `--session-bar-reserve` in `.lesson-workspace` media block — vertical gap between panels and session bar
+- `.lesson-workspace { gap: 1.5rem; }` — gap between the workspace header row and the panel row
+- `.session-bar { padding: ...; gap: ...; }` — session-bar internal padding and inter-column gaps
+
+### 14.8 Files Changed
+
+Code changes landed alongside this doc revision:
+
+- `simplified-framework/app/src/lib/completion.ts`
+- `simplified-framework/app/src/lib/session-chrome.ts`
+- `simplified-framework/app/src/app/runs/[runId]/_components/LessonWorkspace.tsx`
+- `simplified-framework/app/src/app/runs/[runId]/level/page.tsx`
+- `simplified-framework/app/src/app/runs/[runId]/warmup/page.tsx`
+- `simplified-framework/app/src/app/actions.ts`
+- `simplified-framework/app/src/app/globals.css`
+
+`npm run lint` and `npm run build` pass on the `simplified-framework/app/` workspace.

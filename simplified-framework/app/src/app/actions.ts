@@ -81,7 +81,7 @@ export async function finishReadingAction(formData: FormData): Promise<void> {
   if (run.status === "complete") {
     redirect(routeForRun(run));
   }
-  redirect(`/runs/${runId}/warmup?flash=read-badge`);
+  redirect(`/runs/${runId}/warmup`);
 }
 
 export async function completeModeledWarmupAction(formData: FormData): Promise<void> {
@@ -135,7 +135,7 @@ export async function continueFromGuidedWarmupAction(formData: FormData): Promis
   const run = await requireWarmupRun(runId);
   await continueFromGuidedWarmup(run);
   revalidatePath(`/runs/${runId}`, "layout");
-  redirect(`/runs/${runId}/level?flash=warmup-badge`);
+  redirect(`/runs/${runId}/level`);
 }
 
 export async function openLevelHintAction(formData: FormData): Promise<void> {
@@ -163,8 +163,14 @@ export async function submitLevelAnswerAction(formData: FormData): Promise<void>
   const run = await requireLevelRun(runId);
   const response = await submitLevelAnswer({ run, selectedAnswerId });
   revalidatePath(`/runs/${runId}/level`);
-  const flash = response.completedAt ? "level-locked" : "retry-open";
-  redirect(`/runs/${runId}/level?flash=${flash}`);
+  // Flash only when the level is locked (final state). Retry-open and
+  // wrong-locked cases surface their own feedback inside the drawer — the
+  // flash is reserved for the correct-answer celebration the page decides.
+  redirect(
+    response.completedAt
+      ? `/runs/${runId}/level?flash=level-locked`
+      : `/runs/${runId}/level`,
+  );
 }
 
 export async function continueFromLevelFeedbackAction(formData: FormData): Promise<void> {

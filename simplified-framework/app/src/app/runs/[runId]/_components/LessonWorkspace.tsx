@@ -1,34 +1,20 @@
 "use client";
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
-import {
-  FaArrowsRotate,
-  FaBookOpen,
-  FaCircleCheck,
-  FaFlagCheckered,
-  FaLightbulb,
-  FaSeedling,
-} from "react-icons/fa6";
+import { FaHeart, FaStar } from "react-icons/fa6";
 import type { Transcript } from "@/lib/domain";
 
 type SessionChromeData = {
   studentName: string;
   groupName: string;
-  badgeCounts: Record<
-    | "read_the_episode"
-    | "finished_warmup"
-    | "level_complete"
-    | "used_help_and_kept_going"
-    | "changed_my_mind"
-    | "episode_complete",
-    number
-  >;
+  badgeCounts: Record<"correct_answer", number>;
   totalBadges: number;
   completedLevels: number;
   totalLevels: number;
   completedSteps: number;
   totalSteps: number;
   remainingSteps: number;
+  lifelines: { initial: number; used: number; remaining: number };
 };
 
 type WorkspaceFlash = {
@@ -41,7 +27,7 @@ type WorkspaceFlash = {
 type LessonWorkspaceProps = {
   episodeTitle: string;
   progressLabel: string;
-  phaseLabel: string;
+  phaseLabel?: string | null;
   sessionChrome: SessionChromeData;
   transcript: Transcript;
   targetTurnId: string;
@@ -52,12 +38,11 @@ type LessonWorkspaceProps = {
 };
 
 const BADGE_CHIPS = [
-  { key: "read_the_episode", label: "Read", Icon: FaBookOpen },
-  { key: "finished_warmup", label: "Warm-up", Icon: FaSeedling },
-  { key: "level_complete", label: "Levels", Icon: FaCircleCheck },
-  { key: "used_help_and_kept_going", label: "Hints", Icon: FaLightbulb },
-  { key: "changed_my_mind", label: "Changed", Icon: FaArrowsRotate },
-  { key: "episode_complete", label: "Done", Icon: FaFlagCheckered },
+  {
+    key: "correct_answer",
+    description: "You locked the right answer on a level",
+    Icon: FaStar,
+  },
 ] as const;
 
 function WorkspaceFlashMessage({ flash }: { flash: WorkspaceFlash }) {
@@ -132,7 +117,9 @@ export function LessonWorkspace({
           <h1 className="workspace-title">{episodeTitle}</h1>
         </div>
         <div className="workspace-header-actions">
-          <span className="phase-pill">{phaseLabel}</span>
+          {phaseLabel ? (
+            <span className="phase-pill">{phaseLabel}</span>
+          ) : null}
           {!drawerOpen ? (
             <button
               type="button"
@@ -207,25 +194,67 @@ export function LessonWorkspace({
           <div className="session-bar__identity">
             <p className="session-bar__eyebrow">{sessionChrome.studentName}</p>
             <p className="session-bar__headline">
-              {sessionChrome.groupName} · {progressLabel} · {phaseLabel}
+              {sessionChrome.groupName} · {progressLabel}
+              {phaseLabel ? ` · ${phaseLabel}` : ""}
             </p>
           </div>
         </div>
 
         <div className="session-bar__stats" aria-label="Your progress">
-          <div className="session-bar__badges" aria-label="Earned badges">
-            {BADGE_CHIPS.map(({ key, label, Icon }) => (
-              <span key={key} className="session-badge-chip" title={label}>
-                <Icon aria-hidden="true" />
-                <span className="session-badge-chip__count">
-                  {sessionChrome.badgeCounts[key]}
-                </span>
+          <div className="session-bar__medals" aria-label="Lives and stars">
+            {sessionChrome.lifelines.initial > 0 ? (
+              <span
+                className="session-medal-group"
+                aria-label={`Lives left: ${sessionChrome.lifelines.remaining} of ${sessionChrome.lifelines.initial}`}
+              >
+                {Array.from({ length: sessionChrome.lifelines.initial }).map(
+                  (_, index) => {
+                    const spent = index >= sessionChrome.lifelines.remaining;
+                    return (
+                      <span
+                        key={index}
+                        className={`session-medal session-medal--heart${
+                          spent ? " session-medal--heart-spent" : ""
+                        }`}
+                        title={
+                          spent
+                            ? "Hint used — one life spent"
+                            : "Life still available"
+                        }
+                        aria-hidden="true"
+                      >
+                        <FaHeart />
+                      </span>
+                    );
+                  },
+                )}
               </span>
-            ))}
-          </div>
-          <div className="session-pill">
-            <span className="session-pill__count">{sessionChrome.totalBadges}</span>
-            <span className="session-pill__label">badges</span>
+            ) : null}
+            {BADGE_CHIPS.map(({ key, description, Icon }) => {
+              const count = sessionChrome.badgeCounts[key];
+              if (count <= 0) {
+                return null;
+              }
+              const tooltip = `${description} (${count})`;
+              return (
+                <span
+                  key={key}
+                  className="session-medal-group"
+                  aria-label={`Correct answers: ${count}`}
+                >
+                  {Array.from({ length: count }).map((_, index) => (
+                    <span
+                      key={index}
+                      className="session-medal session-medal--star"
+                      title={tooltip}
+                      aria-hidden="true"
+                    >
+                      <Icon />
+                    </span>
+                  ))}
+                </span>
+              );
+            })}
           </div>
         </div>
 

@@ -259,36 +259,17 @@ export default async function WarmupPage({ params, searchParams }: WarmupPagePro
   const step = deriveWarmupStep(progress);
   const guidedPickedBestAnswer =
     progress.guidedSelectedAnswerId === lessonPackage.warmups.guided.best_answer_id;
+  // Flash fires only on a correct answer — every other state either shows
+  // its own in-drawer feedback or simply doesn't warrant celebration.
   const flashMessage =
-    flash === "read-badge"
+    flash === "guided-submitted" && guidedPickedBestAnswer
       ? {
-          key: "read-badge",
+          key: "guided-submitted-correct",
           tone: "success" as const,
-          title: "Badge earned: Read the episode",
-          detail: "You made it through the conversation. Now you can practice with it.",
+          title: "Nice thinking.",
+          detail: "You picked the right answer.",
         }
-      : flash === "guided-submitted"
-        ? guidedPickedBestAnswer
-          ? {
-              key: "guided-submitted-correct",
-              tone: "success" as const,
-              title: "Nice thinking.",
-              detail: "You picked a strong answer. Now let’s see why it works.",
-            }
-          : {
-              key: "guided-submitted-encourage",
-              tone: "encourage" as const,
-              title: "Good try.",
-              detail: "Let’s walk through this one together and see what to notice.",
-            }
-        : flash === "warmup-badge"
-          ? {
-              key: "warmup-badge",
-              tone: "success" as const,
-              title: "Badge earned: Finished the warm-up",
-              detail: "You worked through the example and the practice. On to the challenge.",
-            }
-          : null;
+      : null;
 
   if (step === "done") {
     // guided_complete is true but session_runs was not yet updated (shouldn't
