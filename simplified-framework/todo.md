@@ -296,6 +296,14 @@ Notes:
 3. **Phase 3 — app: orientation + scenes.** A1, A2, A3. A4 only if a real bypass is identified. Ship the new reading-phase UI against the new ep 1.
 4. **Phase 4 — author eps 2 and 3 + archive old story.** P9. Promote P5 word caps from warnings to errors.
 
+### Parallelism
+
+Two streams, not four serial phases:
+
+- **Pipeline stream:** Phase 1 → Phase 2 → Phase 4 (sequential; each depends on the previous).
+- **App stream:** Phase 1 → Phase 3. Starts as soon as Phase 1 ships the schema contract; runs in parallel with Phase 2 authoring. Final end-to-end smoke test of the reading UI waits for ep 1 to exist.
+- Phase 4 (eps 2+3) can also overlap Phase 3 once Phase 2 tuning is locked — authoring and app work are independent.
+
 ### Migration note (breaking)
 
 P2 is a breaking change to `transcript.yaml`: top-level `turns[]`, `setting_note`, and `previously` are removed; `scenes[]` replaces them. Existing artifacts under `simplified-framework/artifacts/strangers-in-the-old-forest/` will fail validation until migrated. The plan is **not** to migrate them — they are archived in Phase 4 along with the story source. Until Phase 4 lands, expect the old artifacts to error on the new validators; reviewers should not interpret that as a regression. No backwards-compatibility shims, no deprecation grace period — clean break aligned with the story collapse.
