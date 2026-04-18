@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getRun } from "@/lib/runs";
 import { getGroup } from "@/lib/config";
-import { loadLessonPackage, loadTranscript } from "@/lib/content";
+import { loadLessonPackage } from "@/lib/content";
 
 type EntryPageProps = {
   params: Promise<{ runId: string }>;
@@ -15,9 +15,8 @@ export default async function EpisodeEntryPage({ params }: EntryPageProps) {
     notFound();
   }
 
-  const [lessonPackage, transcript, group] = await Promise.all([
+  const [lessonPackage, group] = await Promise.all([
     loadLessonPackage(run.episodeSource),
-    loadTranscript(run.episodeSource),
     getGroup(run.groupId),
   ]);
 
@@ -38,14 +37,7 @@ export default async function EpisodeEntryPage({ params }: EntryPageProps) {
           <p className="eyebrow">Episode</p>
           <h1>{lessonPackage.episode.title}</h1>
         </div>
-        <p className="entry-body">{lessonPackage.episode.student_intro}</p>
-
-        {transcript.setting_note ? (
-          <div className="preview-note">
-            <span className="preview-label">Where we are</span>
-            {transcript.setting_note}
-          </div>
-        ) : null}
+        <p className="entry-body">{lessonPackage.episode.summary}</p>
 
         <div className="entry-actions">
           <Link href={`/runs/${run.runId}/read`} className="primary">

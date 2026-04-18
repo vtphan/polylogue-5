@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { FaHeart, FaStar } from "react-icons/fa6";
 import type { Transcript } from "@/lib/domain";
+import { getAllTurns } from "@/lib/transcript";
 
 type SessionChromeData = {
   studentName: string;
@@ -95,6 +96,7 @@ export function LessonWorkspace({
 }: LessonWorkspaceProps) {
   const [drawerOpen, setDrawerOpen] = useState(true);
   const targetRef = useRef<HTMLLIElement | null>(null);
+  const allTurns = useMemo(() => getAllTurns(transcript), [transcript]);
   const progressPercent = Math.max(
     0,
     Math.min(100, (sessionChrome.completedSteps / sessionChrome.totalSteps) * 100),
@@ -137,7 +139,7 @@ export function LessonWorkspace({
         aria-label="Episode transcript"
       >
         <ol className="transcript-turns">
-          {transcript.turns.map((turn) => {
+          {allTurns.map((turn) => {
             const isTarget = turn.turn_id === targetTurnId;
             return (
               <li

@@ -46,16 +46,15 @@ npm run dev                 # http://localhost:3000
 
 - `DATABASE_URL` — SQLite URL. Default in `.env` is `file:./dev.db`.
 - `POLYLOGUE_CONFIG_PATH` — override for the active config path. Absolute, or
-  relative to `simplified-framework/`. Default is
-  `configs/forest-ep01-table-a.json`.
+  relative to `simplified-framework/`. Default is `configs/episode.json`.
 
 ## Config shape (v1)
 
 ```jsonc
 {
-  "config_id": "forest-ep01-table-a",
+  "config_id": "white-squirrel-ep01",
   "episode": {
-    "source": "simplified-framework/artifacts/strangers-in-the-old-forest/episode_01"
+    "source": "simplified-framework/artifacts/the-white-squirrel/episode_01"
   },
   "groups": [
     {

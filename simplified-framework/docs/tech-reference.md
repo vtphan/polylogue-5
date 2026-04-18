@@ -56,8 +56,7 @@ simplified-framework/
       scripts/
         probe_warmup_guards.ts     # dev script for warm-up guard behavior
   configs/                         # runtime config(s)
-    forest-ep01-table-a.json       # active config (one episode + groups)
-    manifest.json                  # config listing
+    episode.json                   # active config (one episode + groups); override path with POLYLOGUE_CONFIG_PATH
   artifacts/{story_id}/{episode_id}/
     transcript.yaml                # source dialogue (consumed at runtime)
     lesson_package.yaml            # app-facing teaching artifact (consumed at runtime)
@@ -77,13 +76,13 @@ simplified-framework/
 The app loads exactly one config per process. Resolution order (`src/lib/config.ts`):
 
 1. env var `POLYLOGUE_CONFIG_PATH` (absolute or repo-relative)
-2. default: `simplified-framework/configs/forest-ep01-table-a.json`
+2. default: `simplified-framework/configs/episode.json`
 
 Shape (validated by `activeConfigSchema` in `domain.ts`):
 
 ```json
 {
-  "config_id": "forest-ep01-table-a",
+  "config_id": "white-squirrel-ep01",
   "episode": { "source": "simplified-framework/artifacts/<story>/<episode>" },
   "groups": [
     {
@@ -323,7 +322,7 @@ This is a structural change. Touchpoints:
 
 ### 10.5 Swap to a new episode
 
-Edit `simplified-framework/configs/forest-ep01-table-a.json` (or set `POLYLOGUE_CONFIG_PATH`) and point `episode.source` at a directory that contains valid `transcript.yaml` + `lesson_package.yaml`. No code change required.
+Edit `simplified-framework/configs/episode.json` (or set `POLYLOGUE_CONFIG_PATH`) and point `episode.source` at a directory that contains valid `transcript.yaml` + `lesson_package.yaml`. No code change required.
 
 ### 10.6 Add a new runtime field to the lesson package
 
@@ -345,7 +344,7 @@ Edit `simplified-framework/configs/forest-ep01-table-a.json` (or set `POLYLOGUE_
 cd simplified-framework/app
 npm install
 npx prisma migrate dev                 # first-time DB setup
-POLYLOGUE_CONFIG_PATH=$(pwd)/../configs/forest-ep01-table-a.json npm run dev
+POLYLOGUE_CONFIG_PATH=$(pwd)/../configs/episode.json npm run dev
 ```
 
 SQLite file path comes from `DATABASE_URL` in `.env` (conventionally `file:./dev.db` under `prisma/`).

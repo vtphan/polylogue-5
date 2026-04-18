@@ -29,16 +29,22 @@ const transcriptTurnSchema = z.object({
   text: z.string().min(1),
 });
 
+const transcriptSceneSchema = z.object({
+  scene_id: z.string().min(1),
+  summary: z.string().min(1),
+  turns: z.array(transcriptTurnSchema).min(1),
+});
+
 export const transcriptSchema = z.object({
   story_id: z.string().min(1),
   episode_id: z.string().min(1),
   title: z.string().min(1),
   characters: z.array(z.string().min(1)).optional(),
-  setting_note: z.string().min(1).optional(),
-  previously: z.string().min(1).optional(),
-  turns: z.array(transcriptTurnSchema).min(1),
+  scenes: z.array(transcriptSceneSchema).min(2).max(4),
 });
 
+export type TranscriptTurn = z.infer<typeof transcriptTurnSchema>;
+export type TranscriptScene = z.infer<typeof transcriptSceneSchema>;
 export type Transcript = z.infer<typeof transcriptSchema>;
 
 const answerOptionSchema = z.object({
@@ -100,7 +106,7 @@ const levelSchema = z
     focus_move: z.string().min(1).optional(),
     prompt: z.string().min(1),
     answer_options: z.array(answerOptionSchema).min(2),
-    best_answer_id: z.string().min(1),
+    best_answer_id: z.string().min(1).optional(),
     hint: z.string().min(1).optional(),
     feedback: levelFeedbackSchema,
   })
@@ -134,7 +140,8 @@ export const lessonPackageSchema = z
     }),
     episode: z.object({
       title: z.string().min(1),
-      student_intro: z.string().min(1),
+      summary: z.string().min(1),
+      previously: z.string().min(1).optional(),
       flaws: z.array(z.string().min(1)).optional(),
       final_takeaway: z.string().min(1),
     }),

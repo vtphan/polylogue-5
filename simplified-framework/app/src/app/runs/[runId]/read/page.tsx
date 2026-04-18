@@ -3,9 +3,9 @@ import { notFound } from "next/navigation";
 import { getRun, listGroupRuns } from "@/lib/runs";
 import { getGroup } from "@/lib/config";
 import { loadLessonPackage, loadTranscript } from "@/lib/content";
-import { finishReadingAction } from "@/app/actions";
 import type { RunPhase } from "@/lib/domain";
 import type { SessionRun } from "@prisma/client";
+import { ReadingSurface } from "./ReadingSurface";
 
 const PHASE_LABELS: Record<RunPhase | "not_started", string> = {
   not_started: "Not started",
@@ -68,29 +68,13 @@ export default async function TranscriptReadingPage({ params }: ReadPageProps) {
         <p className="subdued">Take your time. When you finish, press Continue.</p>
       </header>
 
-      <section className="transcript" aria-label="Episode transcript">
-        {transcript.turns.map((turn) => (
-          <article key={turn.turn_id} className="turn">
-            <span className="turn-speaker">{turn.speaker}</span>
-            <p className="turn-text">{turn.text}</p>
-          </article>
-        ))}
-      </section>
-
-      {run.status === "complete" ? (
-        <div className="continue-row">
-          <Link href={`/runs/${run.runId}/level`} className="primary">
-            Back to your finished episode
-          </Link>
-        </div>
-      ) : (
-        <form action={finishReadingAction} className="continue-row">
-          <input type="hidden" name="run_id" value={run.runId} />
-          <button type="submit" className="primary">
-            Continue
-          </button>
-        </form>
-      )}
+      <ReadingSurface
+        runId={run.runId}
+        isComplete={run.status === "complete"}
+        previously={lessonPackage.episode.previously ?? null}
+        summary={lessonPackage.episode.summary}
+        scenes={transcript.scenes}
+      />
 
       {group ? (
         <aside className="peer-row" aria-label="Group progress">

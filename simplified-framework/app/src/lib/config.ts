@@ -4,9 +4,10 @@ import { activeConfigSchema, type ActiveConfig, type ConfigGroup } from "@/lib/d
 import { simplifiedFrameworkRoot } from "@/lib/paths";
 
 // For v1 / Milestone 1 we load exactly one active config per runtime instance.
-// Default path is simplified-framework/configs/forest-ep01-table-a.json,
-// overridable via POLYLOGUE_CONFIG_PATH (absolute or simplified-framework-relative).
-const DEFAULT_CONFIG_RELATIVE = "configs/forest-ep01-table-a.json";
+// Default path is simplified-framework/configs/episode.json, overridable via
+// POLYLOGUE_CONFIG_PATH (absolute or simplified-framework-relative). The active
+// episode is identified by `episode.source` inside the file, not the filename.
+const DEFAULT_CONFIG_RELATIVE = "configs/episode.json";
 
 function resolveConfigPath(): string {
   const override = process.env.POLYLOGUE_CONFIG_PATH;

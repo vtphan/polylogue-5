@@ -1,7 +1,7 @@
 {
-  "config_id": "forest-ep01-table-a",
+  "config_id": "white-squirrel-ep01",
   "episode": {
-    "source": "simplified-framework/artifacts/strangers-in-the-old-forest/episode_01"
+    "source": "simplified-framework/artifacts/the-white-squirrel/episode_01"
   },
   "groups": [
     {
