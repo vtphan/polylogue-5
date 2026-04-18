@@ -131,7 +131,7 @@ The story touches on **genetic mutations in general** and does not dig into mech
 ## Pipeline changes (authoring + validators)
 
 ### P1. Cap levels at 3
-- Update `simplified-framework/pipeline/scripts/validate_lesson_package.py` to enforce `len(levels) == 3` (or `<= 3` if we want to permit 2 during a transition — call before shipping).
+- Update `simplified-framework/pipeline/scripts/validate_lesson_package.py` to enforce `len(levels) == 3` (hard equality). No transition grace period — existing artifacts are being archived in Phase 4, not migrated.
 - Update `simplified-framework/docs/instructional-design.md` §5.4 and §6.4 to state "3 levels per episode."
 - Update `simplified-framework/schemas/` sketches to match.
 
@@ -152,12 +152,13 @@ The story touches on **genetic mutations in general** and does not dig into mech
   - `scenes[]` required, length **2–4**.
   - Each scene must have `scene_id` (unique), `summary` (required, ≤ 30 words), and `turns[]` (≥ 1 turn).
   - Every `turn_id` must be unique across the whole transcript.
-  - Reject any top-level `turns[]` or `setting_note` (clean break, not deprecation).
+  - Reject any top-level `turns[]`, `setting_note`, or `previously` (clean break, not deprecation). Note: `ALLOWED_TRANSCRIPT_KEYS` in `validate_transcript.py` currently admits all three — tighten to `{story_id, episode_id, title, characters, scenes}`. Recap copy moves to `lesson_package.episode.previously` per P4.
 
-### P3. Add `episode.summary` (required) to `lesson_package.yaml`
-- New required field `episode.summary` — plain-language orientation to the whole episode. ≤ 60 words, 6th-grade vocabulary. Shown to students before any scenes render.
-- Replaces the old `transcript.setting_note` (which is removed in P2).
-- Validator (`validate_lesson_package.py`): required; word cap enforced.
+### P3. Replace `episode.student_intro` with `episode.summary` (required)
+- Rename `episode.student_intro` → `episode.summary`. Same role (plain-language orientation before any dialog), tightened contract: ≤ 60 words, 6th-grade vocabulary. Existing `student_intro` values (e.g., "Jules, Maya, Cam, and Priya are on a bench…") are already the shape `summary` wants; the rename is a schema-level move, not an authorial rewrite — new content for `the-white-squirrel` is authored fresh against the cap regardless.
+- Also absorbs the old `transcript.setting_note` (removed in P2). No separate "where we are" block.
+- Rendered on both the entry page (replacing `student_intro` at `entry/page.tsx:41`) and before scenes on the read page (see A1).
+- Validator (`validate_lesson_package.py`): require `episode.summary`; remove the `episode.student_intro` check; word cap enforced per P5.
 
 ### P4. Add `episode.previously` (required on ep 2+) to `lesson_package.yaml`
 - New field `episode.previously`: a short recap carrying the story arc into this episode. ≤ 40 words. Should reference the prior episode's `final_takeaway` where sensible.
@@ -174,6 +175,7 @@ The story touches on **genetic mutations in general** and does not dig into mech
 - `scene.summary`: soft cap ~30 words (already enforced in P2).
 - Current ep 1 values run 80–100 words on `worked_explanation`; re-author to fit (see P8).
 - Validator emits warnings first; promote to hard errors after P8 lands.
+- **Implementation note.** Word counting is net-new validator logic — no existing validator counts words today. Add a small helper (e.g., `word_count(text)` in `_common.py`) that splits on whitespace after stripping markdown, and call it from `validate_transcript.py` (scene summary) and `validate_lesson_package.py` (episode summary, previously, warm-up fields). Emit one warning per offending field with the measured count vs. the cap.
 
 ### P6. Deprecate `best_answer_id` on levels
 - Runtime already ignores it (grading uses `feedback.correct.option_ids`).
@@ -181,13 +183,17 @@ The story touches on **genetic mutations in general** and does not dig into mech
 - Warm-ups still use `best_answer_id` — leave that alone.
 
 ### P7. Remove withdrawn fields / concepts from docs and agent specs
-- No `setting_note`, no `noticing_frame`, no `signal_phrases`, no `exemplar_line`, no `beats`, no `bridge_text`, no `label`.
+- No `setting_note`, no `noticing_frame`, no `signal_phrases`, no `exemplar_line`, no narrative `beats`, no `bridge_text`, no `label`.
+- Also strike `episode_goal` from `instructional-design.md` §5.1 prose (read-phase framing) — the field is not part of the lesson-package/runtime contract and only survives in `docs/archived/`. **Retain `episode_goal` in `episode-plan.yaml`** (still required by `validate_episode_plan.py:31`) — it's a planning field, not a student-facing one. Do not delete it from the plan validator.
+- Also strike `badge_label` from `instructional-design.md` §6.3 authoring surface and §7.2 Medals, and from `tech-reference.md` §10.2 change recipe. The runtime ignores it (`completion.ts::deriveEarnedBadges` derives labels from `sequence_index` + `title` only). Existing artifacts (`strangers-in-the-old-forest/episode_0{1,2}`) carry legacy `badge_label:` values that are harmless but worth stripping during the `the-white-squirrel` authoring pass.
+- **Scope clarification on "no beats".** The ban is on narrative-structure "beats" in story/transcript vocabulary. `character_beats[]` in `episode-plan.yaml` (and `validate_episode_plan.py`) is a *different* field — a per-character arc note, not a narrative beat. Leave it alone in this batch; if it proves confusing, rename to `character_arc_notes[]` in a follow-up. Flag explicitly in the agent specs so authors don't conflate the two.
 - Update `simplified-framework/pipeline/commands/*.md` and `simplified-framework/pipeline/agents/*.md` to use the scenes/turns vocabulary and the new required fields.
 - Update `simplified-framework/docs/instructional-design.md` and `tech-reference.md` accordingly.
 
 ### P8. Author ep 1 of `the-white-squirrel` against the new schema
 - Author the sighting + Anya-PhD + biosignature-trust plot per the "New story scope" section. Reference material: the squirrel-sighting opening in `stories/strangers-in-the-old-forest/episode_01/` for tone and the Anya-phone-call scene in `stories/strangers-in-the-old-forest/episode_02/` for Anya's voice.
 - Split the transcript into 2–4 scenes with `scene_id` + `summary`.
+- **Scene-boundary heuristic** (applies to P8, P9, and the transcript agent spec). The episode plan does *not* prescribe scene breaks — that is a dialog-craft decision the transcript writer makes. Break scenes at shifts in **location, time, topic, or conversational mode** (e.g., in-person → phone call, speculation → lookup, arrival → investigation). Aim for roughly 3–5 turns per scene; a one-turn scene is almost never right. Each scene's `summary` should describe the scene's purpose in the reasoning arc, not just its setting.
 - Add `episode.summary` to the lesson package.
 - (`episode.previously` not required on ep 1.)
 - Trim warm-up `worked_explanation` text to fit P5 caps.
@@ -217,16 +223,18 @@ Dialog-only additions:
 Scaffolding-only additions:
 > Narrator voice, not character voice. Direct and explanatory; no dramatic flourishes. Respect the word caps from P5.
 
-**Tier 2 — human reviewer reference.** `simplified-framework/pipeline/reference/language-guide.md` holds the same three blocks above with one worked example per rule drawn from existing episodes. Short, not a rule encyclopedia.
+**Tier 2 — human reviewer reference.** `simplified-framework/pipeline/reference/language-guide.md` holds the same three blocks above with one worked example per rule drawn from existing episodes. Short, not a rule encyclopedia. (`pipeline/reference/` does not yet exist — create it as part of this item.)
 
-**Tier 3 — validator readability check.** Add a Flesch-Kincaid (or Dale-Chall) grade-level score to `validate_transcript.py` (per scene) and `validate_lesson_package.py` (per scaffolding block). Warn when score > 7. Warnings only, not hard failures — the author decides whether a flagged phrase is worth the restate.
+**Tier 3 — validator readability check.** Add a Flesch-Kincaid grade-level score to `validate_transcript.py` (per scene) and `validate_lesson_package.py` (per scaffolding block). Warn when score > 7. Warnings only, not hard failures — the author decides whether a flagged phrase is worth the restate. **Min-sample guard:** skip scoring a scene with fewer than ~6 turns or a scaffolding block under ~20 words — Flesch-Kincaid is noisy on one-liners and questions, and a spurious grade-12 warn on a three-word retort wastes author attention. Aggregate per scene, not per turn.
+
+**Implementation.** Hand-roll in `_common.py` — the FK formula (`0.39 · words/sentences + 11.8 · syllables/words − 15.59`) plus a vowel-group syllable heuristic (~40 LOC total). No new dependency; project convention is pure Python + PyYAML. The heuristic lands ~85% accurate on English, which is fine for a warning threshold at grade 7 (false warns land on authors, not students). If Dale-Chall or additional metrics prove necessary later, introduce `textstat` then — explicitly out of scope for this batch.
 
 Notes:
 - Word caps are applied to scaffolding prose (P5) but **not** to dialog. Length is not the right lever for dialog; register is (handled by this guide).
 - The guide complements P5 word caps; it does not replace them.
 
 ### P11. Gates verify app-required minimums only — no content quotas
-- Principle: pipeline gates (notably `flaw_reviewer`, plus `validate_transcript.py` and `validate_lesson_package.py`) check **only what the downstream app requires**. They do not invent additional content quotas like "exactly 5 flaw moments" or "exactly 7 teachable moments."
+- Principle: pipeline gates check **only what the authoring contract requires to produce an app-ready lesson package** — the app's runtime needs plus the plan→transcript→package checks that make those runtime needs realizable. Gates do not invent additional content quotas like "exactly 5 flaw moments" or "exactly 7 teachable moments." `validate_episode_plan.py` is part of this contract even though the app never consumes `episode-plan.yaml` directly: it guarantees the transcript author has a workable target, which is the only way to guarantee an app-ready package downstream.
 - App requirements per episode:
   - 1 modeled warm-up + 1 guided warm-up → **≥ 2 primary-flaw moments** suitable for warm-up use (the modeled one should typically be `unmistakable` so the walk-through is clear).
   - 3 levels with amplification progression → **≥ 1 `unmistakable`, ≥ 1 `showcased`, ≥ 1 `heightened`** primary-flaw moment.
@@ -235,15 +243,20 @@ Notes:
   - Confirm the net minimum and the amplification mix are present in the transcript.
   - Confirm every flaw moment flagged for warm-ups or levels is beginner-teachable (existing check).
   - Confirm the transcript conforms to the `scenes[]` schema from P2.
+  - Confirm the 2 warm-up `turn_id`s and 3 level `turn_id`s in the lesson package are pairwise distinct across all 5 slots (no turn appearing twice, whether across warm-ups and levels or between two levels). Reuse would collapse amplification progression into "same moment, asked twice." Enforced in `validate_lesson_package.py`.
 - Gates **must not**:
   - Require any specific total count (no "exactly 5", no "exactly 7", no "5–7").
   - Require specific supporting flaws, or any specific amplification on supporting flaws.
   - Enforce narrative structure, scene count beyond P2's 2–4, or turn count beyond hard limits.
-- Implementation touchpoints:
-  - Update `simplified-framework/pipeline/agents/flaw_reviewer.md` to codify the minimums above.
-  - Update `validate_transcript.py` to assert the amplification mix when the transcript carries primary-flaw annotations, or leave this check to `flaw_reviewer` if the transcript schema doesn't carry flaw labels (transcripts are source dialogue per current design).
-  - Update `validate_lesson_package.py` to assert exactly 3 levels (P1) and that warm-up counts are correct — do not assert anything about primary-flaw moment counts inside the transcript from the lesson-package validator.
+- **Ownership split** (load-bearing — transcripts stay source dialogue, no per-turn flaw labels):
+  - `validate_episode_plan.py` — pre-gate on the **plan itself**: assert the primary flaw carries ≥1 `unmistakable`, ≥1 `showcased`, ≥1 `heightened` moment, and ≥2 flaw moments total usable for warm-ups. Cheap, structural.
+  - `flaw_reviewer.md` — semantic gate on **plan + transcript together**: confirm each planned moment is actually expressed in the transcript, beginner-teachable, and the amplification labels match. Emit go/no-go in `flaw-review.md`.
+  - `validate_transcript.py` — **stays out of flaw assertions**. Schema-shape, turn-ID discipline, and scene structure only. (Transcripts do not and will not carry flaw annotations per the simplified-framework principle.)
+  - `validate_lesson_package.py` — assert `len(levels) == 3` (P1), warm-up counts are correct, and the 5 warm-up + level `turn_id`s are pairwise distinct. No claims about primary-flaw moment counts inside the transcript.
+- Other touchpoints:
   - Update `simplified-framework/docs/instructional-design.md` §6.4 to replace "roughly 5–7 candidate teachable moments" with the explicit minimum + "additional moments at the author's discretion when they serve the story."
+  - Delete the 5–7 flaw-count warning block in `validate_episode_plan.py:54–66`. The minimum-moment check moves to the ownership split above (plan-level amplification-mix assertion); raw counts no longer gate.
+  - Leave `target_teachable_moments`, `warmup_candidate_goal`, `level_candidate_goal`, and `scene_design` in `validate_episode_plan.py` as optional authoring hints — they do not gate anything and need not be set on new episode plans.
 
 ---
 
@@ -263,22 +276,29 @@ Notes:
 - Final scene's Continue fires `finishReadingAction` and advances to the warm-up phase (preserves current behavior).
 - Students can navigate to **previous** and **next** scenes. Specific prev/next UX (chip, arrows, drawer jump, etc.) is deferred to implementation time.
 
-### A3. Load transcript as scenes
-- Update `loadTranscript` + Zod schema in `src/lib/domain.ts` to consume the new `scenes[]` shape.
+### A3. Load transcript as scenes + update lesson-package schema
+- Update `loadTranscript` + `transcriptSchema` in `src/lib/domain.ts` to consume the new `scenes[]` shape.
+- Update `lessonPackageSchema.episode` in `src/lib/domain.ts`: rename `student_intro` → `summary` (still required); add optional `previously` (required in practice on ep 2+, enforced by the Python validator rather than Zod to avoid threading `package_meta.episode_number` checks into the schema).
 - Update `src/lib/transcript.ts` (`selectTurnContext` and any consumers) — turn lookups now cross scenes; keep `turn_id` as the primary key so `lesson_package.yaml` references still resolve.
+- Update `src/app/runs/[runId]/entry/page.tsx:41` — render `episode.summary` where it currently renders `student_intro`; drop the `transcript.setting_note` conditional block beneath it.
 - Remove any code path that reads `setting_note` or top-level `turns[]`.
 
-### A4. Enforce 3-level cap defensively in routing
+### A4. Enforce 3-level cap defensively in routing (optional)
 - Guard in `routeForRun` / `loadLessonPackage` to fail loudly if a package with more than 3 levels slips through. The validator is the primary check; this is a belt-and-suspenders safeguard.
+- **Optional once P1 is a hard error.** If P1 ships as `len(levels) == 3` (not `<= 3`), a runtime guard adds little — skip unless a real bypass path is identified.
 
 ---
 
 ## Sequencing
 
-1. **Phase 1 — pipeline schema revamp.** P1, P2, P3, P4, P5 (warnings), P6, P7, P10, P11. Update schemas, validators, docs, agent specs, the language guide, and the gate minimums. Low risk; no app changes yet.
-2. **Phase 2 — author ep 1 of `the-white-squirrel`.** P8. Validates the new schema, language guide, and gate minimums against real content.
-3. **Phase 3 — app: orientation + scenes.** A1, A2, A3, A4. Ship the new reading-phase UI against the new ep 1.
+1. **Phase 1 — pipeline schema revamp + gates.** P1, P2, P3, P4, P5 (warnings), P6, P7, **P10 Tier 1** (prompt-level guidance in agent specs), **P10 Tier 3** (FK warning check in `_common.py` + validators, default threshold grade 7; warnings only, never blocking), and the **hard-fail portions of P11** (plan-level amplification-mix assertion in `validate_episode_plan.py`; distinct-turn rule and `len(levels) == 3` in `validate_lesson_package.py`; `scenes[]` conformance in `validate_transcript.py`; the 5–7 warning block deleted). Update docs and agent specs. No app changes yet. Rationale: every hard gate lands before authoring starts, so P8's "validate end-to-end" is meaningful.
+2. **Phase 2 — author ep 1 of `the-white-squirrel`, then tune guardrails.** P8 runs against the Phase-1 validators; hard checks pass, readability warnings surface without blocking. After ep 1 is drafted and reviewed, tune (do not loosen): **P10 Tier 2** (language guide with worked examples drawn from ep 1), re-tune the P10 Tier 3 threshold against the actual ep-1 scene distribution, and refine P11 message wording. No new hard-fail gates are introduced in Phase 2 — tuning only narrows false warns; structural minimums never get relaxed after authoring. Rationale: examples and thresholds calibrate better against real content, but the structural minimums must exist before authoring begins.
+3. **Phase 3 — app: orientation + scenes.** A1, A2, A3. A4 only if a real bypass is identified. Ship the new reading-phase UI against the new ep 1.
 4. **Phase 4 — author eps 2 and 3 + archive old story.** P9. Promote P5 word caps from warnings to errors.
+
+### Migration note (breaking)
+
+P2 is a breaking change to `transcript.yaml`: top-level `turns[]`, `setting_note`, and `previously` are removed; `scenes[]` replaces them. Existing artifacts under `simplified-framework/artifacts/strangers-in-the-old-forest/` will fail validation until migrated. The plan is **not** to migrate them — they are archived in Phase 4 along with the story source. Until Phase 4 lands, expect the old artifacts to error on the new validators; reviewers should not interpret that as a regression. No backwards-compatibility shims, no deprecation grace period — clean break aligned with the story collapse.
 
 ## Explicitly out of scope for this batch
 
