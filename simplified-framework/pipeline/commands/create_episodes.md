@@ -16,20 +16,20 @@ The output of this command is the **full episode-plan set for the story in one r
 
 The default artifacts are:
 
-- `simplified-framework/artifacts/{story_id}/episode_01/episode-plan.yaml`
-- `simplified-framework/artifacts/{story_id}/episode_02/episode-plan.yaml`
+- `artifacts/{story_id}/episode_01/episode-plan.yaml`
+- `artifacts/{story_id}/episode_02/episode-plan.yaml`
 - and so on for the full episode set
 
 This command also prepares an **ephemeral screenwriter projection** for each episode plan. Those projections are in-context handoff material for `create_transcript`, not saved artifacts on disk.
 
 These should follow:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/schemas/episode-plan.yaml`
+- `docs/instructional-design.md`
+- `schemas/episode-plan.yaml`
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- `python3 pipeline/scripts/validate_episode_plan.py artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 
 ## What This Command Must Do
 
@@ -141,26 +141,26 @@ Do not insist on perfection before drafting.
 
 Primary input:
 
-- `simplified-framework/stories/{story_id}/story.yaml`
+- `stories/{story_id}/story.yaml`
 
 Also read as needed:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `docs/instructional-design.md`
+- `reference/flaw-taxonomy.yaml`
 
 Scope rule for this run:
 
-- treat `simplified-framework/stories/{story_id}/story.yaml` as the only story source
-- write only under `simplified-framework/artifacts/{story_id}/`
-- do not inspect sibling story artifact trees under `simplified-framework/artifacts/` unless the operator explicitly asks for comparison or reuse
-- if prior artifacts already exist under `simplified-framework/artifacts/{story_id}/`, use only that same-story path as reference context for overwrites or revisions
+- treat `stories/{story_id}/story.yaml` as the only story source
+- write only under `artifacts/{story_id}/`
+- do not inspect sibling story artifact trees under `artifacts/` unless the operator explicitly asks for comparison or reuse
+- if prior artifacts already exist under `artifacts/{story_id}/`, use only that same-story path as reference context for overwrites or revisions
 
 ## Required Validation Step
 
 After saving each `episode-plan.yaml`, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_episode_plan.py simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml
+python3 pipeline/scripts/validate_episode_plan.py artifacts/{story_id}/{episode_id}/episode-plan.yaml
 ```
 
 Each saved episode plan should pass before the episode set is treated as complete.

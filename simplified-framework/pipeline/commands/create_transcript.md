@@ -23,28 +23,28 @@ It should not silently move from transcript generation into package generation.
 
 The default transcript artifact is:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 The default flaw-review artifact is:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
+- `artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 This should follow:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/schemas/transcript.yaml`
+- `docs/instructional-design.md`
+- `schemas/transcript.yaml`
 
 Transcripts are organized as **3+ scenes** with nested turns. Each scene has a `scene_id`, a plain-language `summary`, and `turns[]`. `turn_id` is globally unique across the whole transcript and strictly increasing.
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `python3 pipeline/scripts/validate_transcript.py artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 ## Required Inputs
 
-- `simplified-framework/stories/{story_id}/story.yaml`
-- `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `stories/{story_id}/story.yaml`
+- `artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- `reference/flaw-taxonomy.yaml`
 
 ## Screenwriter Barrier
 
@@ -112,7 +112,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `artifacts/{story_id}/{episode_id}/transcript.yaml`
 
 ### 3. `flaw_reviewer`
 
@@ -127,7 +127,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
+- `artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 ## Review Standard
 
@@ -159,7 +159,7 @@ The standard is:
 The validation step is:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml
+python3 pipeline/scripts/validate_transcript.py artifacts/{story_id}/{episode_id}/transcript.yaml
 ```
 
 If validation fails:

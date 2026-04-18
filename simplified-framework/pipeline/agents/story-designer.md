@@ -27,10 +27,10 @@ Help the operator arrive at a usable `story.yaml` that supports:
 
 Read as needed:
 
-- `simplified-framework/docs/instructional-design.md`
+- `docs/instructional-design.md`
 - `simplified-framework/mappings/flaw-taxonomy.md`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
-- `simplified-framework/schemas/story.yaml`
+- `reference/flaw-taxonomy.yaml`
+- `schemas/story.yaml`
 
 ## What You Are Designing
 
@@ -93,7 +93,7 @@ Default mode:
 
 When asked to draft:
 
-- produce a `story.yaml` draft aligned to `simplified-framework/docs/instructional-design.md`
-- save it by default at `simplified-framework/stories/{story_id}/story.yaml`
+- produce a `story.yaml` draft aligned to `docs/instructional-design.md`
+- save it by default at `stories/{story_id}/story.yaml`
 
 The artifact should be good enough for later episode planning, not a final polished world bible.

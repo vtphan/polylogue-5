@@ -20,7 +20,7 @@ The goal is to produce a usable story artifact for the simplified pipeline.
 
 The primary artifact is:
 
-- `simplified-framework/stories/{story_id}/story.yaml`
+- `stories/{story_id}/story.yaml`
 
 Default to that story-source path unless the operator explicitly asks for another location.
 
@@ -28,17 +28,17 @@ This command creates source material, not generated lesson artifacts.
 
 Episode plans, transcripts, flaw reviews, and lesson packages belong later under:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/`
+- `artifacts/{story_id}/{episode_id}/`
 
 The output should follow:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/schemas/story.yaml`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `docs/instructional-design.md`
+- `schemas/story.yaml`
+- `reference/flaw-taxonomy.yaml`
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/stories/{story_id}/story.yaml`
+- `python3 pipeline/scripts/validate_story.py stories/{story_id}/story.yaml`
 
 ## What This Command Must Do
 
@@ -97,7 +97,7 @@ The simplified framework uses one main conceptual layer:
 
 The current starter flaw set is defined in:
 
-- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `reference/flaw-taxonomy.yaml`
 
 At the story level, help the operator decide:
 
@@ -131,7 +131,7 @@ Keep this lightweight.
 After saving `story.yaml`, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_story.py simplified-framework/stories/{story_id}/story.yaml
+python3 pipeline/scripts/validate_story.py stories/{story_id}/story.yaml
 ```
 
 If validation fails:

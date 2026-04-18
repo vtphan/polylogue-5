@@ -19,24 +19,24 @@ Scope: the package gates what the app needs at runtime — `episode.summary`, `e
 
 The default artifact is:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
+- `artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 This output should follow:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/schemas/lesson_package.yaml`
+- `docs/instructional-design.md`
+- `schemas/lesson_package.yaml`
 
 Validation script:
 
-- `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
+- `python3 pipeline/scripts/validate_lesson_package.py artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 ## Required Inputs
 
-- `simplified-framework/stories/{story_id}/story.yaml`
-- `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
-- `simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
-- `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `stories/{story_id}/story.yaml`
+- `artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- `artifacts/{story_id}/{episode_id}/transcript.yaml`
+- `artifacts/{story_id}/{episode_id}/flaw-review.md`
+- `reference/flaw-taxonomy.yaml`
 
 ## Subagent Role
 
@@ -58,7 +58,7 @@ Responsibilities:
 
 Required file output:
 
-- `simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml`
+- `artifacts/{story_id}/{episode_id}/lesson_package.yaml`
 
 ## Important Constraint
 
@@ -103,7 +103,7 @@ After the package is built, Claude Code should report:
 After saving the lesson package, run:
 
 ```bash
-python3 simplified-framework/pipeline/scripts/validate_lesson_package.py simplified-framework/artifacts/{story_id}/{episode_id}/lesson_package.yaml
+python3 pipeline/scripts/validate_lesson_package.py artifacts/{story_id}/{episode_id}/lesson_package.yaml
 ```
 
 If validation fails:

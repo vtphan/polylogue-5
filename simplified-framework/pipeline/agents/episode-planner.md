@@ -21,10 +21,10 @@ The projection is not saved on disk. It exists to preserve the v2 screenwriter b
 
 Read as needed:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/docs/operator-workflow.md`
-- `simplified-framework/reference/flaw-taxonomy.yaml`
-- `simplified-framework/schemas/episode-plan.yaml`
+- `docs/instructional-design.md`
+- `docs/operator-workflow.md`
+- `reference/flaw-taxonomy.yaml`
+- `schemas/episode-plan.yaml`
 
 Primary source:
 
@@ -32,8 +32,8 @@ Primary source:
 
 Run scope:
 
-- read the requested story only: `simplified-framework/stories/{story_id}/story.yaml`
-- save plans only under `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- read the requested story only: `stories/{story_id}/story.yaml`
+- save plans only under `artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - do not browse other stories' artifact directories as examples unless the operator explicitly asks for that comparison
 - if same-story prior plans already exist, you may read only that same-story artifact subtree when revising or replacing them
 
@@ -81,7 +81,7 @@ Each planned flaw moment in `flaws[]` must carry:
 - `amplification`
 - `scene_id`
 
-Read the `amplification_guidance` block for each flaw in `simplified-framework/reference/flaw-taxonomy.yaml` before assigning levels.
+Read the `amplification_guidance` block for each flaw in `reference/flaw-taxonomy.yaml` before assigning levels.
 
 Use this progression rule across the season:
 
@@ -189,9 +189,9 @@ So the 3 primary quiz-worthy moments should be:
 When drafting episode plans:
 
 - produce the full `episode-plan.yaml` set for the story in one run
-- save each plan under `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- save each plan under `artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - prepare the paired screenwriter projection for each episode in the same run
 - keep them concise
-- align them to `simplified-framework/docs/instructional-design.md`
+- align them to `docs/instructional-design.md`
 
 It is acceptable to use provisional placeholders if a small number of details remain open.
