@@ -1,0 +1,181 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+
+episode_goal: >
+  A Saturday-afternoon sighting of a white squirrel with red eyes at
+  Overton Park turns into a full-blown alien hypothesis within about
+  twenty minutes, because a credentialed-adjacent adult — Anya, a
+  physics PhD candidate at the University of Memphis whose side
+  research mentions "color morphs as candidate biosignatures" — sounds
+  like the expert the answer is supposed to come from. The episode
+  teaches the student to recognize an unmistakable "I found a source,
+  therefore the framing is right" move, and to notice the shape the
+  move takes across different surfaces: a remembered TikTok, a
+  university page, a friend-of-a-friend phone call, a confident retell.
+  The alien framing does not die in this episode — it wobbles when
+  someone looks up what "biosignature" actually means. The point is
+  planting the move the student is learning to catch, not resolving the
+  plot.
+
+flaws:
+  - id: trusting_a_source_too_quickly
+    amplification: unmistakable
+    scene_note: >
+      Early on the bench, Cam half-remembers an older TikTok — "this
+      account, overton_something, a million views, the comments were
+      all yeah I saw it too, that basically proves something's up."
+      Stacks an anonymous account, popularity-as-truth, comment-section
+      corroboration, and a certainty escalator in one breath. Textbook
+      unmistakable; strong modeled warm-up candidate.
+  - id: trusting_a_source_too_quickly
+    amplification: unmistakable
+    scene_note: >
+      Cam Googles Anya and reads her University of Memphis page aloud
+      with stacked source cues — "PhD candidate, physics" plus "side
+      research, color morphs as candidate biosignatures" plus "it's a
+      .edu page, y'all, this is the actual person." Page-as-authority,
+      label-as-authority, and a certainty escalator stacked on a source
+      the kids have not actually vetted. Second unmistakable; strong
+      candidate for the guided warm-up or the unmistakable level.
+  - id: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_note: >
+      After James relays Anya's phone call, he retells one line from it
+      as settled — "she said candidate biosignature, and that's her
+      whole area, so that's not nothing." One weak second-hand citation
+      + one acceptance signal ("so that's not nothing"), no certainty
+      stack. Showcased level candidate.
+  - id: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_note: >
+      Cam shows the group an old r/Memphis thread about Overton — "the
+      replies under that post were all yeah same, so that's not
+      nothing, right?" Single weak citation (anonymous replies on one
+      thread) + one acceptance signal. Second showcased — reviewer
+      should pick whichever lands cleaner for the level slot.
+  - id: trusting_a_source_too_quickly
+    amplification: heightened
+    scene_note: >
+      Late in the scene, after the disproof starts to wobble the alien
+      framing, James defends Anya with a close-to-natural line —
+      "Anya's literally a grad student at U of M, this is what she
+      works on, if she says biosignature that's not nothing." One
+      credentialed-adjacent cue carried by confident phrasing; no
+      stacking. Heightened level candidate.
+  - id: jumping_to_a_conclusion
+    amplification: showcased
+    scene_note: >
+      Supporting, voice-establishing for ep 2. James chains in his
+      signature shape — "okay but check this out, red eyes, and the
+      color morph thing, so it has to be something like that." One
+      visible leap, one closer phrase ("has to be"). Not a warm-up or
+      level candidate in this episode.
+  - id: jumping_to_a_conclusion
+    amplification: showcased
+    scene_note: >
+      Supporting. James inflates Anya's framing during the retelling,
+      moving from "she said candidate biosignature" to "so basically
+      it's an alien squirrel, that's what she's saying" in one move.
+      One leap, one closer ("that's what she's saying"). Again for
+      voice, not for the lesson package.
+
+student_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+scene_design:
+  opening: >
+    Three kids on a bench near Rainbow Lake at Overton Park, Saturday
+    afternoon, right after a white squirrel with red eyes darted past
+    them. They are buzzing. Cam has his phone out almost immediately;
+    James is already chaining aloud; Leela is the one who first says
+    "wait, actually look at this." The scene should feel like a normal
+    sixth-grade Saturday that has just gotten weird in a small, solvable
+    way — not like an investigation yet.
+  turn: >
+    James mentions his older brother Marcus at Rhodes, and Marcus's
+    grad-student friend Anya at U of M who works on "color morphs as
+    candidate biosignatures." Cam Googles Anya and reads her
+    University of Memphis page aloud with stacked source cues. James
+    phones Anya on the spot and comes back from the call with an
+    inflated retelling. The group anchors on the alien-biosignature
+    framing. The word "biosignature" must appear in dialog, flagged as
+    unfamiliar ("some word she used — biosignature?"). Cam or Leela
+    looks up what it actually means and discovers it is about
+    microbial life on other planets. Doubt lands. The alien framing
+    wobbles but does not die — James still defends it with a quieter,
+    more credentialed-adjacent move.
+  close: >
+    End on the first honest wobble, not on a clean rejection. Someone
+    suggests meeting up the next afternoon. James dramatically names
+    the squirrel "Luminaria" somewhere in the scene — once, not twice.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Lead of this episode. Cam carries the two unmistakable
+      source-quickness moves (TikTok memory + Googling Anya). He is
+      enthusiastic, not gullible — each of his turns should sound
+      reasonable to him in the moment. His phone is a character in the
+      scene, not a prop.
+  - character_id: james
+    beat: >
+      Voice-establishing for ep 2. James chains twice in his signature
+      shape ("okay but check this out … so it has to be …") — these
+      are supporting jumping_to_a_conclusion moments at showcased, not
+      the lesson target. James also carries the heightened
+      trusting_a_source_too_quickly move late in the scene when he
+      defends Anya after the biosignature disproof lands.
+  - character_id: leela
+    beat: >
+      Quieter than the other two. Asks the question that lands the
+      disproof — "wait, does anyone actually know what biosignature
+      means?" — and then reads the definition aloud. Her virtue is in
+      full view here so the ep-3 flip feels earned. She does not carry
+      a flagged flaw moment in this episode.
+
+target_teachable_moments: 5
+warmup_candidate_goal: 2
+level_candidate_goal: 3
+
+flaw_embedding_guidance:
+  must_include:
+    - >
+      An unmistakable source-quickness stack from Cam on an older
+      TikTok, with anonymous account + popularity + comment
+      corroboration + certainty escalator, usable as the modeled warm-up.
+    - >
+      An unmistakable source-quickness stack from Cam on Anya's
+      University of Memphis page, with page-as-authority +
+      label-as-authority + certainty escalator.
+    - >
+      A showcased source-quickness moment from James retelling Anya's
+      call, with one weak citation and one acceptance signal.
+    - >
+      A heightened source-quickness defense from James after the
+      biosignature disproof — credentialed-adjacent, confident, no
+      stacking.
+    - >
+      The word "biosignature" in dialog, flagged as unfamiliar at least
+      once ("bio-what?" or "some word she used — biosignature?"), never
+      narrator-explained.
+    - >
+      Cam or Leela looking up the actual meaning of "biosignature" and
+      discovering it is about microbial life on other planets. The
+      disproof is a lookup, not an adult correction.
+  avoid:
+    - >
+      Letting the source-quickness moves sound gullible. Cam should
+      sound like a bright sixth-grader whose information environment
+      has taught him that a verified-looking page is a source. The
+      lesson is about the move, not about Cam.
+    - >
+      Resolving the alien framing on stage. The episode should end on
+      a wobble, not a clean reject.
+    - >
+      Narrator-explaining what "biosignature" means. The word must stay
+      inside the kids' dialog. Its function in the episode is that
+      technical vocabulary is doing unearned work.
+    - >
+      Stacking jumping_to_a_conclusion cues hard enough to steal focus
+      from the primary flaw. The chains are for voice and ep-2 setup,
+      not for this episode's lesson slots.

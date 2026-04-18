@@ -1,0 +1,80 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+characters:
+  - cam
+  - james
+  - leela
+scenes:
+  - scene_id: s1
+    summary: After the sighting, the kids try to describe what they saw. Cam pulls up an old TikTok about the park. James remembers Marcus knows a grad student who studies this.
+    turns:
+      - turn_id: t01
+        speaker: Cam
+        text: Y'all. Its eyes were red. Like stoplight red. Did everybody see that?
+
+      - turn_id: t02
+        speaker: James
+        text: Okay but check this out — red eyes, and it was just out in the open at like three o'clock, and nothing was chasing it, so something is up with that squirrel. It has to be.
+
+      - turn_id: t03
+        speaker: Leela
+        text: Give me a second. We all saw the same squirrel, right? Not like three different squirrels?
+
+      - turn_id: t04
+        speaker: Cam
+        text: No, same one. And wait — y'all I swear I saw a TikTok about this a few months ago. Some account, "overton_something," I'm looking for it — okay the video had like a million views, and the comments were all people going "yeah same, something's up over here," "I saw one too." That basically proves something is happening in this park.
+
+      - turn_id: t05
+        speaker: James
+        text: Wait wait wait. My brother's friend works on this kind of thing. Marcus at Rhodes College — there's a PhD student at U of M, Anya, she does color morph stuff. Like, animals that come out weird colors. I'm texting Marcus for her page right now.
+
+  - scene_id: s2
+    summary: Cam reads Anya's university page aloud. Leela asks what "biosignature" means. James calls Anya and comes back with a retelling.
+    turns:
+      - turn_id: t06
+        speaker: Cam
+        text: Marcus sent it. Here — okay listen. "Anya Desai, PhD candidate, physics, University of Memphis." And then down here — "side research, color morphs as candidate biosignatures." On her actual .edu page. That's U of M dot edu, y'all. This is the actual person who works on this.
+
+      - turn_id: t07
+        speaker: Leela
+        text: Wait — biosignature? Bio-what? Y'all know what that word even means?
+
+      - turn_id: t08
+        speaker: James
+        text: I can just call her. Marcus gave me her number for a science fair thing last year. Hold on.
+
+      - turn_id: t09
+        speaker: James
+        text: Okay y'all, I talked to her. She said color morphs like that are part of what she looks at — she literally said "candidate biosignature" about red eyes and white fur. And she'd know, that's her whole area, so that's not nothing.
+
+      - turn_id: t10
+        speaker: James
+        text: Like — that's what she's saying, right? If she calls it a candidate biosignature, then basically we found one. We found an actual thing.
+
+  - scene_id: s3
+    summary: Cam shows an old Reddit thread. Leela asks what biosignature actually means. Cam reads the definition. It is about space, not squirrels. James defends Anya anyway.
+    turns:
+      - turn_id: t11
+        speaker: Cam
+        text: Yo and — I just pulled up that r/Memphis post from forever ago, the one about Overton being weird, and the replies under it were all "yeah same, something's off over there," so that's not nothing, right?
+
+      - turn_id: t12
+        speaker: Leela
+        text: Okay — but can someone actually tell me what biosignature means? Because Anya said it, James said it, now Cam's saying stuff, and I still don't know what the word means. Can we just look it up?
+
+      - turn_id: t13
+        speaker: Cam
+        text: Um. Okay. Reading — "biosignature, any substance or pattern that provides evidence of past or present life. Mostly used in astrobiology, the search for microbial life on other planets." … Y'all. That's — that's space bacteria. Like, on Mars.
+
+      - turn_id: t14
+        speaker: James
+        text: Okay but — Anya's literally a grad student at U of M, this is what she works on, if she says biosignature about our squirrel that's not nothing.
+
+      - turn_id: t15
+        speaker: Leela
+        text: I mean — her PhD is in physics though. Did any of us actually ask her what her dissertation is about?
+
+      - turn_id: t16
+        speaker: James
+        text: Okay. Okay. Same bench tomorrow after lunch. We figure this out. And until we know what it is — we're calling it Luminaria. That's official, y'all. That's the name.

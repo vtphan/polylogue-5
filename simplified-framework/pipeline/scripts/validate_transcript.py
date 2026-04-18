@@ -187,13 +187,20 @@ def validate_transcript(path: str) -> int:
                         f"like t01, t02, ..."
                     )
                 if turn_id in seen_turn_ids:
-                    errors.append(f"duplicate turn_id: {turn_id}")
+                    errors.append(
+                        f"duplicate turn_id '{turn_id}' at "
+                        f"scenes[{scene_index}].turns[{turn_index}]; turn_ids must "
+                        f"be unique across the whole transcript"
+                    )
                 seen_turn_ids.add(turn_id)
                 try:
                     number = int(turn_id[1:])
                     if number <= previous_turn_number:
                         errors.append(
-                            "turn_id values must increase strictly across the transcript"
+                            f"turn_id '{turn_id}' at scenes[{scene_index}]."
+                            f"turns[{turn_index}] must be strictly greater than "
+                            f"the previous turn_id; turn_ids must increase "
+                            f"monotonically across the transcript"
                         )
                     previous_turn_number = number
                 except ValueError:

@@ -1,0 +1,126 @@
+story_id: the-white-squirrel
+title: The White Squirrel
+
+premise: >
+  Three sixth graders in Memphis — Cam, James, and Leela — spot a white
+  squirrel with red eyes at Overton Park one Saturday afternoon. None of
+  them can let it go. Across three episodes they chase three different
+  explanations for what they saw. Each explanation is pushed by a
+  different reasoning flaw, and the flaw is what drives the wrong
+  conclusion, not a separate layer over it.
+
+  Episode 1 pursues an alien hypothesis. James's older brother Marcus
+  studies astrobiology at Rhodes College and knows a PhD candidate named
+  Anya whose side research is on "color morphs as candidate
+  biosignatures." Cam Googles Anya, finds a physics PhD student with a
+  credentialed-looking page, and amplifies her as the expert. James
+  calls her that afternoon and retells the conversation with enthusiasm.
+  The group accepts the biosignature framing because Anya has a PhD and
+  the word sounds legitimate. Someone actually looks up what
+  biosignature means — it is about detecting microbial life on other
+  planets, not about explaining mammal coloring on Earth — and the alien
+  framing wobbles.
+
+  Episode 2 pursues an environmental hypothesis. Cam shows the group a
+  TikTok about a polluted river somewhere else where animals had
+  mutations, and James chains from "red eyes, and mutations, and the
+  TikTok, so it has to be the water" in one breath. The disproof is
+  local — Memphis tap water comes from the Memphis Sand Aquifer and is
+  famously clean, and the TikTok was about a different place.
+
+  Episode 3 pursues the right answer. Leela catches their science
+  teacher, Ms. Reyes, after class and hears the mutation angle. The
+  group maps their sightings, realizes they have only ever walked the
+  south side of Overton Park, walks the north side, and finds no red-
+  eyed squirrels there. Leela names the thing that had been sitting
+  next to them the whole time: the highways cut this forest patch off
+  from the rest of Memphis. They call Anya back with plain questions.
+  She admits her dissertation is on planetary atmospheres, not mammal
+  biology, and agrees an isolated-population mutation fits the pattern.
+  The kids assemble a plain-language answer: a rare mutation, a forest
+  patch cut off by highways, a small cut-off group where rare things
+  show up more often over time.
+
+  Across the arc the kids practice three critical-thinking moves —
+  auditing a source before you defer to it, pausing before a big chain
+  of "sos", and naming the condition that makes your pattern hold. The
+  reasoning is the engine of the story; the answer at the end is
+  boring and real.
+
+setting:
+  place: Overton Park, Memphis, Tennessee
+  tone: curious, slightly uncanny, friendship-first
+
+characters:
+  - id: cam
+    name: Cam
+    voice_notes: >
+      Cam is phone-native. His informational life is a scroll — TikToks,
+      Instagram posts, comment threads, the credentialed-adjacent
+      people his older cousins follow — arriving through one feed with
+      one visual weight. He treats sources as interchangeable because
+      his whole information environment has treated them as
+      interchangeable. A PhD student's university page, a viral TikTok,
+      and a verified comment section all carry the same authority to
+      him on first read. He is enthusiastic, quick to bring outside
+      material into the conversation, and the most confident about the
+      things he half-knows. Cam is the ep-1 lead because the biosignature
+      framing lands through exactly this move: Anya sounds like an
+      expert, so she is the expert. Across the three episodes he starts
+      to learn that the phone is a pile of sources, not a source.
+
+  - id: james
+    name: James
+    voice_notes: >
+      James is the chainer. He moves from one observation to a much
+      bigger conclusion in one breath. His signature dialog shape is an
+      opener ("okay but check this out"), stacked links ("and then",
+      "so", "so"), and a closer ("it has to be"). He does not sound
+      hesitant when he is chaining — he sounds excited, like the idea
+      is assembling itself in front of him. His older brother Marcus
+      studies astrobiology at Rhodes College and is how the group first
+      hears of Anya. James is the ep-2 lead because his shape — stack
+      three links fast and close with "has to be" — is exactly how the
+      group slides from "Cam saw a TikTok" to "our water is toxic."
+      Across the arc the chains do not disappear, but by ep 3 he lets
+      other people finish a thought before he jumps.
+
+  - id: leela
+    name: Leela
+    voice_notes: >
+      Leela has a sharp gut for other people's reasoning. She is the
+      one who says "that doesn't sound right" and is usually correct.
+      The same instinct has a flip side: she trusts her own
+      observation, and her sampling is narrower than she realizes. She
+      lives near one edge of Overton Park and only ever walks one loop
+      through the south side. She is the ep-3 lead because the missing
+      condition — "we've only ever walked the south side" — is hiding
+      inside her own experience. The virtue and the flaw share a root.
+      She is also the quietest of the three; when she speaks, the
+      others tend to stop to listen.
+
+# Anya is referenced in the dialog (James retells the call in ep 1, Cam
+# Googles her University of Memphis page, the group calls her back in
+# ep 3) but never appears on stage.
+
+episodes:
+  - episode_id: episode_01
+    title: The Sighting
+    flaws:
+      - trusting_a_source_too_quickly
+      - jumping_to_a_conclusion
+    final_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+  - episode_id: episode_02
+    title: The Water
+    flaws:
+      - jumping_to_a_conclusion
+      - trusting_a_source_too_quickly
+    final_takeaway: A big conclusion in one breath is usually a chain with a step missing.
+
+  - episode_id: episode_03
+    title: The Walk
+    flaws:
+      - missing_important_conditions_or_consequences
+      - ignoring_another_perspective
+    final_takeaway: A pattern in what you have walked is not a pattern in the whole place.

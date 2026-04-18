@@ -122,6 +122,8 @@ Dialog-specific additions: keep each character's voice distinct. When the teacha
 
 Dialog is not subject to a word cap — length is not the right lever for voice. Register is, and that is what the guide above is for. `validate_transcript.py` runs a Flesch-Kincaid readability check per scene and warns when grade level exceeds 7; those warnings are advisory, not blocking, and small scenes are skipped when they fall below the minimum sample size.
 
+For a longer reviewer-facing companion with worked examples from `the-white-squirrel` ep 1, see `simplified-framework/pipeline/reference/language-guide.md`.
+
 ## What To Avoid
 
 Do not:

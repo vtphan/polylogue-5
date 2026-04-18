@@ -143,6 +143,8 @@ Respect these soft word caps (validator warns past each cap):
 
 `validate_lesson_package.py` also runs a Flesch-Kincaid readability check per scaffolding block and warns when the grade level exceeds 7. Warnings are advisory — the author decides whether a flagged phrase is worth the restate. Samples too small to score reliably are skipped.
 
+For a longer reviewer-facing companion with worked examples from `the-white-squirrel` ep 1 (including when to split a long sentence to drop an FK warning and when to leave a near-threshold warning alone), see `simplified-framework/pipeline/reference/language-guide.md`.
+
 ## Required Output
 
 Write:

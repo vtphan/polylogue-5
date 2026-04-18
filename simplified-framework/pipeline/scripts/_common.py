@@ -131,12 +131,18 @@ def flesch_kincaid_grade(text: str) -> float | None:
 
     Formula: 0.39 * (words/sentences) + 11.8 * (syllables/words) - 15.59.
     Uses a vowel-group syllable heuristic so no external dependency is needed.
+
+    The 30-word minimum sample was calibrated against ep 1 of
+    `the-white-squirrel` in Phase 2: below that, one long word or a single
+    comma-spliced sentence tips the score past grade 7 on text that reads
+    perfectly well in context. Tuning narrows false warns on short feedback
+    strings and hints; it does not change the grade-7 threshold itself.
     """
     if not isinstance(text, str) or not text.strip():
         return None
     clean = _strip_markdown(text)
     words = _WORD_RE.findall(clean)
-    if len(words) < 20:
+    if len(words) < 30:
         return None
     sentences = _count_sentences(clean)
     if sentences == 0:

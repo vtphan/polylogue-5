@@ -1,0 +1,229 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 1
+  schema_version: simplified_v1
+
+episode:
+  title: The Sighting
+  summary: >-
+    Cam, James, and Leela just saw a white squirrel with red eyes at
+    Overton Park. In this episode, watch how fast they accept a
+    story that sounds official. Your job is to notice when someone
+    is trusting a source too quickly — leaning on anyone who sounds
+    like they know.
+  flaws:
+    - trusting_a_source_too_quickly
+    - jumping_to_a_conclusion
+  final_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+warmups:
+  modeled:
+    warmup_id: warmup_01
+    turn_id: t04
+    title: Watch Cam stack the cues
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Read Cam's turn. He says: "I saw a TikTok about this a few months
+      ago. Some account, overton_something. The video had like a million
+      views, and the comments were all people going yeah same,
+      something's up over here. That basically proves something is
+      happening in this park." What is Cam doing with his source?
+    best_answer_id: modeled_best
+    best_answer_text: >-
+      Cam piles on four cues — a no-name account, a million views,
+      agreeing comments, and "basically proves." None of those cues
+      tells us who made the video. None of them tells us if that
+      person knew anything about squirrels.
+    worked_explanation: >-
+      Count the cues Cam piles on. "Some account" — we do not know
+      who posted it. "A million views" — popular is not the same as
+      right. "The comments all agreed" — that is the same crowd, not
+      new evidence. "That basically proves it" — a certainty word
+      doing work the source cannot back up.
+    takeaway: >-
+      Popular and official-looking are not the same as right. Count
+      the cues, then ask who.
+
+  guided:
+    warmup_id: warmup_02
+    turn_id: t11
+    title: Replies on a post
+    focus_move: trusting a source too quickly
+    prompt: >-
+      After James's call with Anya, Cam says: "I just pulled up that
+      r/Memphis post from forever ago, the one about Overton being
+      weird, and the replies under it were all yeah same, something's
+      off over there, so that's not nothing, right?" What is the
+      biggest problem with how Cam is using the thread?
+    answer_options:
+      - option_id: g1
+        text: Cam treats anonymous replies on one old post as backup, but those replies are the same kind of random-stranger source, not a new one.
+        kind: best_fit
+      - option_id: g2
+        text: Cam should never trust anything on Reddit for any reason.
+        kind: partial
+      - option_id: g3
+        text: Cam is bringing up something old instead of staying on topic.
+        kind: off_target
+      - option_id: g4
+        text: I'm not sure yet.
+        kind: uncertain
+    best_answer_id: g1
+    best_answer_text: >-
+      Cam piles replies under one post onto the framing. But
+      anonymous replies on one thread are not a separate source —
+      they are the same kind of source, just more of it.
+    worked_explanation: >-
+      Cam's citation is "the replies under that post." That is one
+      thread, and the people replying are strangers we do not know.
+      "So that's not nothing" is his signal phrase — it frames
+      acceptance. Agreement from the same kind of source is not new
+      evidence; it is the same source, louder.
+    hint: >-
+      Ask yourself: is the forum reply a different kind of source, or
+      the same kind as the TikTok Cam brought up earlier?
+    takeaway: >-
+      A lot of the same kind of source is still one kind of source.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t06
+    title: The page says so
+    focus_move: trusting a source too quickly
+    prompt: >-
+      Cam reads Anya's university page aloud: "Anya Desai, PhD
+      candidate, physics, University of Memphis. Side research, color
+      morphs as candidate biosignatures. On her actual .edu page.
+      This is the actual person who works on this." What is the
+      biggest problem with how Cam is reading the page?
+    answer_options:
+      - option_id: a1
+        text: Cam treats a credentialed-looking page as proof Anya is the right kind of expert, without checking whether her field actually fits squirrels.
+        kind: best_fit
+      - option_id: a2
+        text: Cam should read the page more slowly before saying anything.
+        kind: partial
+      - option_id: a3
+        text: Cam is being show-offy about finding the page first.
+        kind: off_target
+      - option_id: a4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      What did Cam check about Anya? What did he not check?
+    feedback:
+      correct:
+        option_ids: [a1]
+        text: >-
+          Yes. "PhD candidate," "physics," ".edu," and "side research"
+          all sound like authority. But Cam never asks what Anya's
+          main work is, or whether a physicist is the right kind of
+          person to explain squirrel coloring.
+      by_option:
+        a2: >-
+          Speed is not the main issue. Even reading slowly would not
+          catch that the page tells you Anya exists, not whether her
+          field fits the question.
+        a3: >-
+          Cam is excited, not show-offy. The real issue is that the
+          excitement skipped the question of whether Anya's field
+          actually fits squirrels.
+        a4: >-
+          Look at what the page actually says — "physics" and "side
+          research" — and ask whether that matches the question the
+          kids are asking.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t09
+    title: She literally said it
+    focus_move: trusting a source too quickly
+    prompt: >-
+      After calling Anya, James says: "She said color morphs like that
+      are part of what she looks at — she literally said candidate
+      biosignature about red eyes and white fur. And she'd know,
+      that's her whole area, so that's not nothing." What is James
+      leaning on as his reason to believe the framing?
+    answer_options:
+      - option_id: b1
+        text: "\"She literally said it\" — James treats Anya saying the word as the reason the framing is right."
+        kind: best_fit
+      - option_id: b2
+        text: James is repeating Anya word-for-word instead of saying things in his own words.
+        kind: partial
+      - option_id: b3
+        text: James is going too fast because he is excited from the call.
+        kind: off_target
+      - option_id: b4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Underline James's reason. What does it actually lean on?
+    feedback:
+      correct:
+        option_ids: [b1]
+        text: >-
+          Yes. "She literally said it" treats Anya's word as the
+          proof. But a word can be used loosely, and the kids have
+          not asked what Anya thinks it means for squirrels.
+      by_option:
+        b2: >-
+          James is paraphrasing, not just repeating. The real issue
+          is that he uses Anya's word as if the word itself settles
+          the question.
+        b3: >-
+          James is excited, but speed is not the issue here. The
+          issue is what he is using as his reason.
+        b4: >-
+          Pick out James's actual reason. It is shorter than you
+          think.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t14
+    title: It's what she works on
+    focus_move: trusting a source too quickly
+    prompt: >-
+      The group just found out "biosignature" is about space — it is
+      the word scientists use when they are looking for life on
+      other planets. Then James says: "Anya's literally a grad
+      student at U of M, this is what she works on, if she says
+      biosignature about our squirrel that's not nothing." What is
+      James doing here?
+    answer_options:
+      - option_id: c1
+        text: James is defending Anya by calling her credentialed, even though the thing she is credentialed in is not about squirrels.
+        kind: best_fit
+      - option_id: c2
+        text: James is arguing with his friends instead of admitting he was wrong.
+        kind: partial
+      - option_id: c3
+        text: James should not have called Anya in the first place.
+        kind: off_target
+      - option_id: c4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Look at what James is treating as his reason. Is "grad student
+      at U of M" enough by itself?
+    feedback:
+      correct:
+        option_ids: [c1]
+        text: >-
+          Yes. "Grad student at U of M" and "this is what she works
+          on" sound convincing, but the group just found out that
+          Anya's word was about space, not squirrels. Credentialed
+          is not the same as credentialed in the right thing.
+      by_option:
+        c2: >-
+          James is defending, not just arguing. The move is leaning
+          on Anya's credential without checking that the credential
+          fits the question.
+        c3: >-
+          Calling Anya was not the mistake. The mistake is using
+          her degree as the reason to keep the framing, even after
+          the group saw the word did not fit squirrels.
+        c4: >-
+          Say what James is leaning on out loud. Is "grad student"
+          a reason about squirrels?
