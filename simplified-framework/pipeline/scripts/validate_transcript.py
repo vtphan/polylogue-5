@@ -17,6 +17,7 @@ from _common import (
     require_readability,
     warn_readability,
     warn_word_cap,
+    word_count,
 )
 
 
@@ -38,9 +39,9 @@ SCENE_SUMMARY_WORD_CAP = 30
 
 MIN_SCENES = 3
 
-# Per-scene FK readability is noisy on tiny samples; only score scenes that
-# have enough dialog to paint a stable picture.
-FK_MIN_TURNS_PER_SCENE = 6
+# Per-scene dialog readability stays warning-only in v2. Aggregate only dialog
+# turns, and only once the scene has at least the shared 30-word minimum sample.
+FK_MIN_DIALOG_WORDS_PER_SCENE = 30
 
 TAXONOMY_PATH = (
     Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
@@ -137,7 +138,7 @@ def validate_transcript(path: str) -> int:
         if not turns:
             errors.append(f"scenes[{scene_index}].turns must contain at least one turn")
 
-        scene_text_parts: list[str] = []
+        scene_dialog_parts: list[str] = []
 
         for turn_index, turn in enumerate(turns, start=1):
             turn_entry = require_mapping(
@@ -191,8 +192,8 @@ def validate_transcript(path: str) -> int:
                             f"framework flaw id '{flaw_id}'"
                         )
 
-            if text:
-                scene_text_parts.append(text)
+            if text and kind == "dialog":
+                scene_dialog_parts.append(text)
 
             if turn_id:
                 if not TURN_ID_RE.match(turn_id):
@@ -224,11 +225,13 @@ def validate_transcript(path: str) -> int:
                 # kept permissive: speaker may render as display name vs. id
                 pass
 
-        # Dialog stays warning-only in v2. Aggregate across dialog text only.
-        if len(turns) >= FK_MIN_TURNS_PER_SCENE and scene_text_parts:
+        # Dialog stays warning-only in v2. Action turns are exempt from the
+        # aggregate, but scene summaries remain hard-error checked above.
+        scene_dialog_text = " ".join(scene_dialog_parts)
+        if word_count(scene_dialog_text) >= FK_MIN_DIALOG_WORDS_PER_SCENE:
             warn_readability(
                 f"scenes[{scene_index}] (scene_id={scene_id or '?'}) dialog",
-                " ".join(scene_text_parts),
+                scene_dialog_text,
             )
 
     return print_result(errors)

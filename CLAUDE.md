@@ -23,7 +23,7 @@ Active documentation set lives in `simplified-framework/docs/`:
 | Document | Purpose |
 |---|---|
 | `instructional-design.md` | Conceptual framework, student journey, pedagogical mechanics, authoring surface |
-| `tech-reference.md` | Stack, directory map, Prisma data model, artifact → runtime contract, phase state machine, change recipes |
+| `tech-reference.md` | Stack, directory map, Prisma direction, artifact → runtime contract, reader flow, change notes |
 | `operator-workflow.md` | Human-in-the-loop workflow and review cadence |
 
 Archived material lives in `simplified-framework/docs/archived/` (including the former `framework-model.md`, `app-design.md`, and `technical-spec.md`). Do not treat archived docs as current source of truth.
@@ -72,7 +72,7 @@ Working principles (from `instructional-design.md` and `tech-reference.md`):
 - transcripts are source dialogue, not analytic containers — no per-turn flaw labels, no answer keys
 - `lesson_package.yaml` is the deterministic, app-facing teaching artifact
 - do **not** generate `lesson_package.yaml` until the transcript has been accepted
-- target turn range 10–16, hard cap 20; roughly 5–7 teachable moments, ~2 warm-up candidates, 3–5 level candidates
+- v2 lesson packages carry exactly 3 inline quizzes; practice is authored separately in `practice_package.yaml`
 
 ### Artifact Storage
 
@@ -96,14 +96,14 @@ simplified-framework/
 The app is implemented (Next.js + React + TypeScript, SQLite + Prisma). For current behavior, consult the code and the canonical docs rather than this summary.
 
 - Student journey, teaching mechanics, engagement rules, and the authoring surface live in `simplified-framework/docs/instructional-design.md`.
-- Stack, directory map, Prisma data model, server actions, the `read → warmup → level → complete` phase state machine, and change recipes live in `simplified-framework/docs/tech-reference.md`.
+- Stack, directory map, Prisma direction, scene-reader flow, and artifact contracts live in `simplified-framework/docs/tech-reference.md`.
 
 Load-bearing runtime invariants:
 
 - **No real-time LLM.** Rendering is deterministic from `transcript.yaml`, `lesson_package.yaml`, the active config, and Prisma state.
 - **Grading uses `feedback.correct.option_ids`**, not `best_answer_id`.
-- **Terminal state is frozen.** A completed run must not be mutated on render.
-- **Restrained engagement only.** Badge-style recognition and a lifeline-gated bonus; no points, streaks, timers, leaderboards, or public rankings.
+- **Finished is not frozen.** `reading_finished_at` marks the milestone, but a finished run remains open for untried quizzes and review.
+- **Restrained engagement only.** Episode-local stars plus a single bonus star; no points, streaks, timers, leaderboards, cumulative totals, or public rankings.
 
 ### Bootstrapping Simplified
 
@@ -120,6 +120,7 @@ python3 simplified-framework/pipeline/scripts/validate_story.py          <path-t
 python3 simplified-framework/pipeline/scripts/validate_episode_plan.py   <path-to-episode-plan.yaml>
 python3 simplified-framework/pipeline/scripts/validate_transcript.py     <path-to-transcript.yaml>
 python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <path-to-lesson_package.yaml>
+python3 simplified-framework/pipeline/scripts/validate_practice_package.py <path-to-practice_package.yaml>
 ```
 
 ---

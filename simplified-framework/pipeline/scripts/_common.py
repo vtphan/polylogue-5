@@ -132,15 +132,10 @@ def flesch_kincaid_grade(text: str) -> float | None:
     Formula: 0.39 * (words/sentences) + 11.8 * (syllables/words) - 15.59.
     Uses a vowel-group syllable heuristic so no external dependency is needed.
 
-    The 30-word minimum sample was calibrated against ep 1 of
-    `the-white-squirrel` in Phase 2. todo.md originally framed the guard at
-    "~20 words." Walking that up to 30 is a real trade-off, not a pure
-    narrowing: it does catch genuine noise (one multisyllabic word or a
-    single long sentence tipping a 20-word block past grade 7), but it also
-    silences warnings on some 20–29-word feedback strings that FK would
-    otherwise score as grade 7–9. The grade-7 threshold itself is unchanged,
-    and no hard-fail gate moved. If later episodes show real grade-9+
-    wording slipping through under this cap, revisit the number.
+    v2 fixes the minimum sample at 30 words across validators and docs. That
+    avoids noisy scores on tiny snippets while keeping enough prose in-scope
+    for the grade-6 scaffolding gate and the transcript's dialog-only warning
+    pass.
     """
     if not isinstance(text, str) or not text.strip():
         return None
@@ -157,7 +152,7 @@ def flesch_kincaid_grade(text: str) -> float | None:
     return 0.39 * (len(words) / sentences) + 11.8 * (syllables / len(words)) - 15.59
 
 
-def warn_readability(label: str, text: str, threshold: float = 7.0) -> None:
+def warn_readability(label: str, text: str, threshold: float = 6.0) -> None:
     """Warn when FK grade exceeds threshold. Silent on samples too small to score."""
     grade = flesch_kincaid_grade(text)
     if grade is None:

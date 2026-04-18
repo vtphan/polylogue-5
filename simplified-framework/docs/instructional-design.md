@@ -1,16 +1,14 @@
 # Instructional Design
 
-This document defines the conceptual framework, the episode-level pedagogy, and the instructional approach as implemented in the simplified-framework app. It is the primary reference for anyone evaluating how effectively the app teaches, or designing new lesson content.
+This document defines the v2 instructional model for `simplified-framework/`.
 
-For code layout, data model, and runtime contracts, see `tech-reference.md`.
-
-> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that will change several sections here (level count, reading-phase scaffolds, word caps, language guide, gate minimums) and will collapse the current 8-episode story into a new 3-episode story `the-white-squirrel`. When the prose here conflicts with the planned changes in `todo.md`, treat `todo.md` as the forward direction and this doc as the current state.
+For stack, persistence, and runtime contracts, see `tech-reference.md`.
 
 ## 1. Conceptual Model
 
-The framework teaches a single student-facing layer: **reasoning flaws**, named in plain language.
+The framework teaches one student-facing layer: **reasoning flaws**, named in plain language.
 
-The canonical flaw set (from `simplified-framework/reference/flaw-taxonomy.yaml`):
+Canonical flaw set:
 
 - jumping to a conclusion
 - not enough evidence
@@ -18,237 +16,187 @@ The canonical flaw set (from `simplified-framework/reference/flaw-taxonomy.yaml`
 - trusting a source too quickly
 - missing important conditions or consequences
 
-These labels stay plain, concrete, and teachable. Richer analytic structure may exist for authoring, review, or analytics, but students never need it.
+Each episode primarily teaches one main flaw. Supporting flaws may appear, but the lesson package and inline quiz flow stay centered on one clear `focus_flaw` at a time.
 
-Each episode primarily teaches **one main flaw**. Supporting flaws are used sparingly; repetition on one flaw is more valuable than covering many. Each flaw has three amplification bands — `unmistakable`, `showcased`, `heightened` — that let authors scaffold from obvious to subtle across a story.
+## 2. Student Modes
 
-## 2. Instructional Setting
+The app has two student-facing modes:
 
-The framework is designed for middle-school classrooms where students work in small groups of 3–5, spend 15–20 minutes per session, and use discussion — not just app completion — as part of the learning. Verbal peer explanation in plain language is the preferred proof of understanding.
+1. **Practice**
+2. **Read a story**
 
-## 3. Learning Goals
+Identity selection is a precondition to both modes. The student chooses or creates a local profile first, then lands on the home screen.
 
-By the end of an episode, a student should be able to:
+### 2.1 Practice
 
-1. notice a weak reasoning move inside a specific turn
-2. name the flaw in plain language
-3. explain to peers, out loud, why the move is weak
-4. recognize the same flaw again in a later turn
-5. leave with one transferable habit of mind
+Practice is a shared tutorial library, not a per-episode warm-up surface.
 
-The goal is usable reasoning practice, not taxonomy mastery.
+- one shared `practice_package.yaml`
+- one exercise per canonical flaw
+- completion-tracked only
+- re-enterable at any time
+- required once for all 5 flaws before story mode unlocks
 
-## 4. Student Journey
+Practice uses a lighter two-click flow:
 
-A plain-prose walk-through from the student's point of view. For state-machine and persistence detail, see §5 (Episode Loop) and `tech-reference.md`.
+1. tap an option to submit
+2. tap `Done` to return to the picker
 
-1. **Arrival.** The student picks their group and their name from a short list and lands in a workspace showing their name and group at the top.
+Hints are free in practice. There are no stars, retries, or bonus mechanics here.
 
-2. **Reading the conversation.** The episode title and a short intro frame who the characters are and what just happened. The transcript follows — a peer dialogue rendered as ordered turns with speaker labels. The student reads it once and continues when ready.
+### 2.2 Read a Story
 
-3. **Watching an example.** The app points at one specific turn and asks *"What is this character doing with their reasoning?"* Before the student answers anything, it walks them through the turn in three stages: what to notice in plain language, the reasoning chain step by step with signal phrases called out, and a one-sentence transferable takeaway. This is explicit instruction, not a quiz.
+Story mode is a scene-based reader with inline quizzes.
 
-4. **Trying one with support.** A different turn with the same flaw. The student picks from a short list of options — including an "I'm not sure yet" choice — with one optional hint. On submit, the app shows the staged reveal (what to notice, worked explanation, takeaway) alongside their pick.
+- the reader is organized into `scene_00` orientation plus `scene_01..scene_N`
+- scene 0 shows `episode.previously` when present, then `episode.summary`
+- each episode has exactly 3 authored quizzes
+- each quiz is attached to one flagged turn
+- at most one authored quiz may live in a scene
 
-5. **Trying on their own.** Three independent questions about different turns. Amplification ramps: the first is obvious, the second harder, the third more subtle. Every option has its own feedback. A first wrong answer on a retry-eligible level earns a second try after the student reads the feedback; the first-picked option is disabled. Correct answers (first try or retry) earn a correct-answer medal.
+Students may move forward and backward freely between scenes. Re-reading is always allowed.
 
-6. **Finishing.** The completion screen shows the episode's final takeaway, the correct-answer medals earned, and — if lifelines remain — a bonus medal for each. The student can replay or return to the group picker.
+## 3. Story-Mode Loop
 
-The journey is deterministic and restrained. No points, streaks, timers, leaderboards, public rankings, or real-time LLM calls. Correct-answer medals and the lifeline-gated bonus are the only game mechanics.
+The old `read → warmup → level → complete` runtime is retired in v2.
 
-## 5. Episode Loop
+The active loop is:
 
-Every episode runs a fixed staged loop. Phase names match the runtime state: `read` → `warmup` → `level` → `complete`.
+1. orientation card
+2. scene reader
+3. optional inline quiz interaction on flagged turns
+4. completion recap view once the final scene has been reached
 
-> **Phase-1-vs-app sync.** The sections below describe the **authoring contract** now enforced by the Python validators (`scenes[]`, `episode.summary`, `episode.previously`, 3-level cap). The app (`simplified-framework/app/`) still loads the **pre-Phase-1 shape** — Zod admits top-level `transcript.turns[]` and `episode.student_intro`, and the entry/read pages render those. Phase 3 of `simplified-framework/todo.md` (items A1–A4) realigns the runtime; until it ships, the authoring contract is ahead of the runtime on purpose and new content authored against the new validators cannot be rendered by the app yet.
+`/complete` is a recap surface, not a terminal phase. A finished run remains writable for untried quizzes and late-earned stars.
 
-### 5.1 Read
+## 4. Inline Quiz Mechanic
 
-The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `episode.summary`, and (on episode 2+) a short `episode.previously` recap frame the conversation. The transcript is authored as **2–4 scenes with nested turns**; each scene has a plain-language `summary`. Turns render in order with speaker labels.
+Each episode has exactly 3 inline quizzes, typically mapped to:
 
-A single Continue action moves the run from `read` to `warmup`. The runtime persists `reading_complete = true`.
+- `unmistakable`
+- `showcased`
+- `heightened`
 
-### 5.2 Modeled warm-up
+Each quiz:
 
-The app walks the student through one specific turn in three staged reveals:
+- opens below the flagged turn
+- allows up to 2 attempts
+- offers 1 optional hint before final submission
+- becomes review-only after submission
 
-1. **Show me what to notice** — reveals `best_answer_text`, naming the move directly.
-2. **Walk me through it** — reveals `worked_explanation`, tracing the reasoning chain step by step.
-3. **What's the takeaway?** — reveals `takeaway`, a one-sentence habit of mind.
+The prompt asks the question directly. It does not quote or paraphrase the highlighted turn, because the student can already see that turn in the reader.
 
-The answer is shown *before* the student is asked to act. This is explicit instruction, not a quiz. Continue marks `modeled_complete = true` and advances to the guided warm-up.
+Reveal copy should be direct:
 
-### 5.3 Guided warm-up
+- best answer explanations say why this is the best answer
+- wrong answer explanations say why this is not the best answer
 
-The same flaw surfaces in a different turn. The student picks from authored multiple-choice options (including an "I'm not sure yet" option by convention) with one optional `hint` available. Opening the hint is recorded (`guided_used_hint = true`) but does not block progression.
+## 5. Stars
 
-On submission the runtime locks `guided_selected_answer_id` and moves to a reveal view: the student sees their selection alongside the staged reveal of `best_answer_text` → `worked_explanation` → `takeaway`. Continue marks `guided_complete = true`, sets `current_phase = level`, and points `current_level_id` at the lowest `sequence_index` in `levels[]`.
+Story mode uses per-quiz stars, scoped to one episode.
 
-### 5.4 Levels
+Per quiz:
 
-The student independently identifies the same flaw in new turns — **exactly 3 levels per episode**, played in `sequence_index` order. The amplification ramp is `unmistakable → showcased → heightened`. Each level has:
+- correct first try, no hint: 3 stars
+- correct first try, hint used: 2 stars
+- wrong first try, correct second try, no hint: 2 stars
+- wrong first try, correct second try, hint used: 1 star
+- wrong twice: 0 stars
 
-- an authored `prompt` about a specific `turn_id`
-- `answer_options` (one `best_fit`, others `partial` / `off_target`, plus an `uncertain` option by convention)
-- an optional single `hint`
-- `feedback.correct.text` shown when the student picks any id in `feedback.correct.option_ids`
-- `feedback.by_option` mapping every non-correct option id to tailored feedback
+Per episode:
 
-**Bounded retry.** A level is retry-eligible when it has ≥3 answer options and exactly one correct option id. On the first submission:
+- 9 stars available across the 3 quizzes
+- 1 bonus star awarded when the student reaches 9/9
+- maximum total: 10 stars
 
-- Correct first answer → level locks immediately, correct-answer medal awarded.
-- Wrong first answer on a retry-eligible level → the level enters a retry-open state. The student sees deterministic feedback for their wrong pick (`feedback.by_option[initial_answer]`), and the retry view re-renders with the wrong option disabled. A second submission locks the level regardless of correctness.
-- Wrong first answer on an ineligible level → locks on the wrong answer with no second attempt.
-
-On lock, Continue advances `current_level_id` to the next level. After the final level, the run transitions to `current_phase = complete`, `status = complete`, and `completed_at` is set.
-
-### 5.5 Complete
-
-The completion surface shows:
-
-- the episode's `final_takeaway`
-- earned correct-answer medals, one per level where the student's final (possibly retry) answer is correct
-- bonus medals doubled if any lifelines remain (see §7)
-- options to replay or return to student selection
+Stars are episode-local recognition only. There are no cumulative totals, streaks, timers, leaderboards, or public rankings.
 
 ## 6. Authoring Surface
 
-A lesson package (`lesson_package.yaml`) is the only artifact that controls what a student sees and is graded on at runtime. Everything below is authored per episode.
+### 6.1 `episode-plan.yaml`
 
-### 6.1 Episode frame
+The plan is a planning artifact, not a runtime artifact.
+
+Required planning shape:
+
+- `story_id`, `episode_id`, `title`, `episode_goal`, `student_takeaway`
+- `flaws[]` with one entry per intended planned moment
+- each planned moment carries `focus_flaw`, `amplification`, and `scene_id`
+
+Hard gate:
+
+- the primary flaw must have exactly 3 planned quiz-worthy moments
+- exactly one each at `unmistakable`, `showcased`, and `heightened`
+- those 3 moments must land in distinct scenes
+
+### 6.2 `transcript.yaml`
+
+The transcript is source story text only.
+
+- `scenes[]` length is 3+
+- each scene has `scene_id`, `summary`, `turns[]`
+- turns use globally unique, increasing `turn_id`s
+- turns may be `kind: dialog` or `kind: action`
+
+The transcript does not contain analytic labels, answer keys, or packaged teaching text.
+
+### 6.3 `lesson_package.yaml`
+
+The lesson package is the deterministic app-facing teaching artifact.
+
+Top-level:
+
+- `package_meta`
+- `episode`
+- `levels`
+
+Episode frame:
 
 - `episode.title`
-- `episode.summary` — plain-language orientation shown at the top of Read (≤ ~60 words; validator warns past the cap)
-- `episode.previously` — short recap shown above the summary on episode 2+ (≤ ~40 words; validator warns past the cap). Forbidden on episode 1; required on ep 2+.
-- `episode.final_takeaway` — the habit of mind reinforced at completion
-- `episode.flaws` (optional) — display-level flaw list for the completion surface
+- `episode.summary`
+- `episode.previously` on episode 2+
+- `episode.final_takeaway`
 
-### 6.2 Warm-ups
+Levels:
 
-Exactly one modeled and one guided warm-up per episode.
+- exactly 3 entries
+- each with `level_id`, `sequence_index`, `turn_id`, `title`, `focus_flaw`, `prompt`, `answer_options`, `feedback`, `takeaway`
+- no `warmups`
+- no `student_intro`
 
-Modeled:
+The runtime grades with `feedback.correct.option_ids`, never `best_answer_id`.
 
-- `turn_id`, `title`, `prompt`
-- `best_answer_text` — what the student should notice, stated plainly
-- `worked_explanation` — the reasoning chain step by step, with signal phrases called out
-- `takeaway` — a one-sentence transferable rule
+### 6.4 `practice_package.yaml`
 
-Guided: everything in the modeled shape plus
+This is the shared tutorial artifact for practice mode.
 
-- `answer_options[]` with `option_id`, `text`, `kind` (`best_fit`, `partial`, `off_target`, `uncertain`)
-- `best_answer_id` — which option is correct
-- `hint` (optional) — a directive, not the answer
+- exactly 5 exercises keyed by canonical `flaw_id`
+- each exercise includes a short scenario, prompt, options, hint, feedback, worked explanation, and takeaway
+- shared across stories
 
-### 6.3 Levels
+## 7. Language and Readability
 
-**Exactly 3 levels** per episode, each with:
+Student-facing language should be plain, direct, and beginner-teachable.
 
-- `level_id`, `sequence_index` (1, 2, 3 — lowest plays first), `turn_id`, `title`, `prompt`
-- `answer_options[]`
-- `best_answer_id` (optional authoring-time metadata; the runtime does not consult this for grading — it uses `feedback.correct.option_ids`)
-- `hint` (optional)
-- `feedback.correct.option_ids` and `feedback.correct.text`
-- `feedback.by_option[option_id]` for every non-correct option
+Validator-backed readability rule:
 
-All 5 slots (modeled warm-up, guided warm-up, level 1, level 2, level 3) must reference **pairwise-distinct** `turn_id`s. The conventional mapping is `unmistakable` → modeled warm-up (and/or level 1), `showcased` → level 2, `heightened` → level 3, with the guided warm-up drawing from a spare `unmistakable` or `showcased` moment.
+- scaffolding prose hard-fails above grade 6
+- dialog text is warning-only
+- action turns are exempt from transcript FK aggregation
+- FK scoring uses a fixed 30-word minimum sample
 
-### 6.4 Transcript composition targets
+## 8. Pipeline Roles
 
-Transcripts are source dialogue, not analytic containers. They contain no per-turn flaw labels, no answer keys, no analytic annotations.
+Transcript generation is a two-pass flow:
 
-Working structure for each episode:
+1. **screenwriter**
+2. **flaw_injector**
 
-- **2–4 scenes** with nested turns (each scene has `scene_id`, a ≤ 30-word plain-language `summary`, and ≥ 1 turn)
-- preferred turn range across the whole transcript: **10–16 turns**, hard cap 20 unless there is a strong reason
-- **≥ 5 primary-flaw moments**, one at each of `unmistakable`, `showcased`, `heightened`, with two more usable for warm-ups. Additional moments at the author's discretion when they serve the story.
-- not every turn needs a flaw — leave connective dialogue so the conversation feels natural
-- supporting flaws are optional; use them only when they strengthen the scene
+The screenwriter receives a stripped projection of the episode plan with flaw fields removed. The flaw injector receives the draft plus the full plan. The reviewer then checks whether the planned moments actually landed and whether the 3 quiz-ready turns are distinct-scene, beginner-visible, and promptable without restating the turn.
 
-### 6.5 Authoring levers that shape the teaching
+## 9. Related Docs
 
-- **Amplification progression.** Order `sequence_index` so early levels use `unmistakable` turns and later levels use `showcased` or `heightened` — this is how difficulty ramps inside an episode.
-- **Signal-phrase noticing.** Call signal phrases out explicitly in `worked_explanation` ("count the 'so's", "notice 'definitely'", "watch for 'has to be'"). These transfer across levels.
-- **Contrastive distractors.** Each non-correct `answer_option` should model a plausible confusion (tone, volume, repetition, source-distrust, topic-confusion). `feedback.by_option` should name why that confusion is tempting and pivot back to the flaw's actual shape.
-- **Retry as reteach.** On retry-eligible levels, the wrong-option feedback is the second chance to teach. Write it as instruction, not judgment.
-- **Takeaway that travels.** Both warm-up `takeaway` and `episode.final_takeaway` should be actionable outside this story ("When you hear a chain of 'so's ending in 'that proves it,' slow down").
-
-## 7. Feedback and Engagement Rules
-
-These rules are enforced by the runtime; an instructional designer relies on them rather than restating them in content.
-
-### 7.1 Feedback
-
-- Deterministic from authored text. No runtime LLM call.
-- Immediate on submission. Every option — correct or wrong — has dedicated feedback.
-- Short, specific, tied to the actual turn, explanatory rather than judgmental.
-- Correct feedback uses `feedback.correct.text`. Wrong feedback uses `feedback.by_option[selected_option_id]`.
-- Bounded retry surfaces the *same* wrong feedback again on the retry-open view — the student studies it, then picks again.
-
-### 7.2 Medals (correct-answer badges)
-
-- Single badge category: `correct_answer`.
-- Awarded per level whose final (possibly retry) answer is in `feedback.correct.option_ids`. Retry-correct still earns the medal.
-- Labels are derived deterministically from `level.sequence_index` and `level.title` in `completion.ts::deriveEarnedBadges`. There is no per-level authored label (no `badge_label` field); a "medal label voice pass" is tracked as future work.
-- No streaks, no points, no public ranking, no time pressure.
-
-### 7.3 Lifelines
-
-A small fixed help-token budget per run, spent when the student opens a **level** hint. Warm-up hints do not cost a lifeline.
-
-- Initial budget: `max(1, levels.length - 1)`. One hint never costs the bonus outright; the minimum of 1 keeps the mechanic visible on short episodes.
-- Cost: one lifeline per level on which the student opened the hint (set-based — multiple opens on the same level still count as one).
-- Effect at completion: if any lifelines remain, every correct-answer medal earns a second "bonus medal" on the completion surface.
-
-### 7.4 Scope rules
-
-- One student per device at a time; internet required.
-- Cross-device resume is supported; the database is the source of truth for run state.
-- No game mechanics beyond restrained badges + the lifeline-gated bonus.
-
-## 8. What the Runtime Captures
-
-Every element below is persisted and available for evaluation or analytics. See `tech-reference.md` §4 for the Prisma schema.
-
-| Signal | Where it lives | What it tells you |
-|---|---|---|
-| Phase transitions | `session_runs.current_phase`, `updated_at`, `completed_at` | Pacing through read → warmup → level → complete |
-| Reading completion | `session_runs.reading_complete` | Student marked transcript read |
-| Modeled warm-up completion | `warmup_progress.modeled_complete` | Student walked through the worked example |
-| Guided warm-up answer | `warmup_progress.guided_selected_answer_id` | Which option the student picked |
-| Guided hint use | `warmup_progress.guided_used_hint` | Whether the student opened the warm-up hint before submitting |
-| Level first answer | `level_responses.initial_answer` | Pre-retry attempt |
-| Level final answer | `level_responses.final_answer` | Post-retry (or only) attempt that locked the level |
-| Level answer changed | `level_responses.answer_changed` | True if retry produced a different final answer |
-| Level hint use | `level_responses.used_hint` (derived at lock from scaffold events) | Whether the student opened the level's hint |
-| Hint-open events | `scaffold_events` (append-only, one per `run_id + level_id + step_key`) | Exact moment a hint was opened |
-| Level completion timestamp | `level_responses.completed_at` | When the level locked |
-
-From these fields an instructional designer can derive:
-
-- where students most often pick which wrong option (miss patterns)
-- which levels convert wrong → right on retry vs. lock on wrong (retry efficacy)
-- which levels trigger hints (difficulty calibration)
-- whether lifelines and bonus medals are actually a reachable reward on this episode length
-
-## 9. Authoring Constraints
-
-A flaw moment is suitable for beginner instruction when an ordinary reader can see that something is off, the flaw can be named in plain language and explained in one or two sentences, and the turn supports a short app interaction plus follow-on discussion.
-
-Feedback on any answer should be short, specific, tied to the actual turn, and explanatory rather than judgmental. The final takeaway should reinforce a habit of mind, not summarize the plot.
-
-Operational limits enforced by the validators and runtime:
-
-- every package `turn_id` must exist in the transcript
-- each level's `feedback.by_option` must cover every non-correct option id
-- `levels` order is determined by `sequence_index`, not array position
-- levels with fewer than 3 options or more than one correct option lock on first submission (no retry)
-
-## 10. Related Docs
-
-- `simplified-framework/todo.md` — in-flight revision plan (reading-phase scaffolds, level cap, word caps, language guide, gate minimums, 3-episode story collapse)
-- `simplified-framework/docs/tech-reference.md` — stack, data model, runtime contracts, change recipes
-- `simplified-framework/docs/operator-workflow.md` — human-in-the-loop authoring cadence
-- `simplified-framework/reference/flaw-taxonomy.yaml` — canonical flaw set with amplification bands
-
-Historical context: `simplified-framework/docs/archived/framework-model.md`, `app-design.md`, and `technical-spec.md` hold the build-time design record.
+- `simplified-framework/docs/tech-reference.md`
+- `simplified-framework/docs/operator-workflow.md`
+- `simplified-framework/reference/flaw-taxonomy.yaml`
+- `simplified-framework/todo-v2.md`

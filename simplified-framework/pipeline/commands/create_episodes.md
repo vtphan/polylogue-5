@@ -39,12 +39,48 @@ For each episode, determine:
 
 - title
 - episode goal
-- flaws — the primary flaw must carry one planned quiz-worthy moment at each of `unmistakable`, `showcased`, and `heightened`, distributed across distinct scenes. Supporting flaws optional.
-- target difficulty
+- flaws — the primary flaw must carry exactly 3 quiz-worthy moments total: one each at `unmistakable`, `showcased`, and `heightened`, distributed across distinct scenes. Supporting flaws optional.
 - student takeaway
 - scene design
-- character beats (per-character arc notes; unrelated to banned narrative "beats" vocabulary)
+- character beats
 - flaw embedding guidance
+
+For each episode, also prepare this exact screenwriter projection shape:
+
+```yaml
+story_id: <str>
+episode_id: <str>
+title: <str>
+narrative_synopsis: >-
+  <episode_goal rewritten in plot and texture terms only, no flaw vocabulary>
+hypothesis_pursued: >-
+  <the wrong explanation the group anchors on this episode, phrased as a plot anchor>
+disproof_event: >-
+  <the visible beat that wobbles or disproves the hypothesis>
+scene_design:
+  opening: <prose>
+  turn: <prose>
+  close: <prose>
+character_beats:
+  - character_id: <id>
+    beat: <voice, prop, physicality, and arc notes; flaw references removed>
+running_threads:
+  - <story-level thread this episode must plant or pay off, in plot terms>
+plot_obligations:
+  - <vocabulary-flagging obligation or must-happen beat, in story terms>
+scene_count_target: { min: 3, max: 5 }
+```
+
+That projection withholds:
+
+- `flaws[]`
+- `student_takeaway`
+- `flaw_embedding_guidance.must_include`
+- `flaw_embedding_guidance.avoid`
+- `target_teachable_moments`
+- `reference/flaw-taxonomy.yaml`
+
+`screenwriter` does not receive the full flaw-bearing plan.
 
 This command should plan all episodes in one shot so the story-level flaw progression is coherent.
 
@@ -101,22 +137,6 @@ Use this workflow:
 
 Do not insist on perfection before drafting.
 
-## What To Optimize For
-
-Optimize for:
-
-- a clear multi-episode learning progression
-- natural story development
-- beginner-friendly flaw focus in early episodes
-- room for reinforcement in later episodes
-- episode plans that later transcript agents can actually write from
-
-Do not optimize for:
-
-- analytic over-completeness
-- packing many flaws into every episode
-- rigid regularity across all episodes
-
 ## Inputs
 
 Primary input:
@@ -126,18 +146,7 @@ Primary input:
 Also read as needed:
 
 - `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
-
-## When To Draft
-
-Once the story-level episode map is sufficiently clear, draft the set of `episode-plan.yaml` files for all episodes.
-
-If some details are still open:
-
-- make reasonable placeholders
-- mark them clearly as provisional
-- keep moving
 
 ## Required Validation Step
 

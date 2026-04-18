@@ -1,0 +1,233 @@
+package_meta:
+  schema_version: simplified_v2
+
+exercises:
+  jumping_to_a_conclusion:
+    exercise_id: practice_01
+    flaw_id: jumping_to_a_conclusion
+    title: Too Fast
+    scenario: >-
+      Eli sees one empty desk and says, "Nora missed one homework, so
+      she must be failing everything now."
+    prompt: >-
+      What is the biggest problem with Eli's reasoning?
+    options:
+      - option_id: a1
+        text: He jumps from one small sign to a much bigger claim.
+        kind: best_fit
+      - option_id: a2
+        text: He should ask whether Nora is okay first.
+        kind: partial
+      - option_id: a3
+        text: He is speaking too loudly in class.
+        kind: off_target
+      - option_id: a4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Compare the one thing Eli saw with the big claim he makes.
+    feedback:
+      correct:
+        option_ids: [a1]
+        text: >-
+          Yes. One empty desk is a small clue, but Eli turns it into a
+          huge conclusion.
+      by_option:
+        a2: >-
+          That could be kind, but the main problem is still the leap in
+          reasoning.
+        a3: >-
+          Volume is not the issue. The issue is how fast he stretches
+          the evidence.
+        a4: >-
+          Start with what Eli actually saw. Then ask if it proves all of
+          that.
+    worked_explanation: >-
+      Eli starts with one missed homework. Then he jumps to "failing
+      everything." That skips many steps. The claim got much bigger,
+      but the evidence did not.
+    takeaway: >-
+      One clue does not prove a huge claim.
+
+  not_enough_evidence:
+    exercise_id: practice_02
+    flaw_id: not_enough_evidence
+    title: Too Little Proof
+    scenario: >-
+      Ava says, "My cousin got sick after the fair once, so the fair
+      food always makes people sick."
+    prompt: >-
+      What is the biggest problem with Ava's claim?
+    options:
+      - option_id: b1
+        text: She uses one example as proof for a broad rule.
+        kind: best_fit
+      - option_id: b2
+        text: She should say which food her cousin ate.
+        kind: partial
+      - option_id: b3
+        text: Fairs are supposed to be fun, not scary.
+        kind: off_target
+      - option_id: b4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Listen for the word "always." What evidence came before it?
+    feedback:
+      correct:
+        option_ids: [b1]
+        text: >-
+          Yes. One story about one person is not enough to prove
+          "always."
+      by_option:
+        b2: >-
+          More detail might help, but the main gap is still the tiny
+          amount of evidence.
+        b3: >-
+          The problem is not Ava's mood. The problem is weak support for
+          a broad claim.
+        b4: >-
+          Count the evidence. Then compare it to the size of the word
+          "always."
+    worked_explanation: >-
+      Ava has one example. Then she makes a rule about all fair food.
+      The claim may be true or false, but she has not shown enough proof
+      yet.
+    takeaway: >-
+      A big rule needs more than one example.
+
+  ignoring_another_perspective:
+    exercise_id: practice_03
+    flaw_id: ignoring_another_perspective
+    title: Only One Angle
+    scenario: >-
+      Leo says the coach is mad at him. Sam says, "Or maybe she was in a
+      hurry." Leo replies, "No, she is definitely mad."
+    prompt: >-
+      What flaw shows up in Leo's reply?
+    options:
+      - option_id: c1
+        text: He ignores another possible explanation that matters.
+        kind: best_fit
+      - option_id: c2
+        text: He should ask the coach later what happened.
+        kind: partial
+      - option_id: c3
+        text: He should never disagree with Sam.
+        kind: off_target
+      - option_id: c4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Notice what Sam adds. Does Leo really consider it?
+    feedback:
+      correct:
+        option_ids: [c1]
+        text: >-
+          Yes. Sam offers another angle, and Leo pushes past it without
+          dealing with it.
+      by_option:
+        c2: >-
+          That could help later, but the flaw here is ignoring Sam's
+          other idea right now.
+        c3: >-
+          Disagreement is not the problem. The problem is brushing past a
+          real alternative.
+        c4: >-
+          Look at Sam's suggestion, then watch what Leo does with it.
+    worked_explanation: >-
+      Sam gives Leo another reason the coach may have acted that way. Leo
+      does not weigh it or answer it. He keeps only his first view.
+    takeaway: >-
+      Pause when someone names another real possibility.
+
+  trusting_a_source_too_quickly:
+    exercise_id: practice_04
+    flaw_id: trusting_a_source_too_quickly
+    title: Check The Source
+    scenario: >-
+      Mina says, "A random account posted it, but thousands liked it, so
+      it must be true."
+    prompt: >-
+      What is the biggest problem with Mina's reasoning?
+    options:
+      - option_id: d1
+        text: She trusts a weak source before checking who knows what.
+        kind: best_fit
+      - option_id: d2
+        text: She should read more than one post.
+        kind: partial
+      - option_id: d3
+        text: She spends too much time online.
+        kind: off_target
+      - option_id: d4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      Ask who posted it and whether likes prove truth.
+    feedback:
+      correct:
+        option_ids: [d1]
+        text: >-
+          Yes. Popularity does not make the source reliable.
+      by_option:
+        d2: >-
+          More posts might help, but the first problem is trusting this
+          source too fast.
+        d3: >-
+          Screen time is not the main issue. The issue is treating likes
+          like proof.
+        d4: >-
+          Focus on the source itself, not just the number of likes.
+    worked_explanation: >-
+      Mina does not know who posted the claim or how they know it. She
+      uses likes as proof instead. A weak source does not get stronger
+      just by spreading fast.
+    takeaway: >-
+      Ask who knows, how they know, and why.
+
+  missing_important_conditions_or_consequences:
+    exercise_id: practice_05
+    flaw_id: missing_important_conditions_or_consequences
+    title: Missing A Key Detail
+    scenario: >-
+      Ben says, "Let's bike home in the dark with no lights. It is only
+      ten minutes, so nothing will happen."
+    prompt: >-
+      What is the biggest problem with Ben's plan?
+    options:
+      - option_id: e1
+        text: He leaves out an important risk and acts like conditions do not matter.
+        kind: best_fit
+      - option_id: e2
+        text: He should ask whether a parent can drive them.
+        kind: partial
+      - option_id: e3
+        text: He should ride faster so the trip is shorter.
+        kind: off_target
+      - option_id: e4
+        text: I'm not sure yet.
+        kind: uncertain
+    hint: >-
+      What important condition did Ben ignore before saying it was safe?
+    feedback:
+      correct:
+        option_ids: [e1]
+        text: >-
+          Yes. Ben talks as if the short trip is all that matters, but
+          the missing lights change the risk.
+      by_option:
+        e2: >-
+          That is one possible fix, but the flaw is leaving out the risky
+          condition.
+        e3: >-
+          Riding faster would not solve the real problem. The danger is
+          still there.
+        e4: >-
+          Ask what detail Ben skipped when he said "nothing will happen."
+    worked_explanation: >-
+      Ben focuses on the short time and skips the condition that matters:
+      it is dark and they have no lights. That missing detail changes
+      what could happen.
+    takeaway: >-
+      Check what conditions or risks got left out.

@@ -15,15 +15,7 @@ Your role is:
 
 Your job is to inspect a drafted transcript and decide whether the intended flaws are actually present in a way that is clear enough for the simplified inline-quiz app.
 
-You should think like:
-
-- an instructional designer
-- a cognitive scientist
-- a developmental psychologist
-
-You are not here to celebrate subtle analysis.
-
-You are here to judge whether the flaws are obvious enough for beginner instruction.
+You are a reviewer only. You do **not** emit package metadata, author answer options, or decide `focus_flaw` fields for the lesson package.
 
 ## Your Goal
 
@@ -68,58 +60,20 @@ If adults would need to debate whether the turn really contains a flaw, it is to
 
 ### 2. Calibrate Against the Amplification Level
 
-Every flaw moment in the episode plan was requested at an `amplification` level: `unmistakable`, `showcased`, or `heightened`. Your primary calibration check is whether each flaw moment landed at the level it was asked to land at.
+Every planned flaw moment in the episode plan was requested at `unmistakable`, `showcased`, or `heightened`. Judge whether each planned moment actually landed at the requested level.
 
-For each planned flaw moment, open the `amplification_guidance` block for that flaw in `simplified-framework/reference/flaw-taxonomy.yaml` and judge against the requested level using these tests:
-
-| Level | Pass condition |
-|---|---|
-| `unmistakable` | You can quote 3 or more distinct cues from the same turn, matching the taxonomy's `characteristic_cues` for this level. The turn ends on a sentence a student could underline and read aloud as the flaw itself. |
-| `showcased` | You can quote one strong cue plus one signal phrase that frames acceptance of the move. Surrounding turns set up the moment as a clear focal point. |
-| `heightened` | You can name the move and point to one phrase that carries it. Pure naturalism with zero cues fails this level — the flaw must have an intentional shape. |
-
-The `watchout` line for each level is your primary failure-mode check. A turn that triggers the watchout — even if the flaw is technically present — should be flagged for revision.
-
-**Reject under-amplification.** A `showcased` instance that reads as `heightened` is too quiet for the curriculum stage. Flag it.
-
-**Reject over-amplification.** A `heightened` instance that reads as `showcased` is too loud for the transfer purpose — the dialog labels the flaw the student is supposed to learn to catch on their own. Flag it.
-
-**Never skip levels.** A flaw that has only ever appeared at `heightened` in earlier episodes cannot be introduced at `heightened` for the first time — it needs `unmistakable` or `showcased` first. If the episode plan requests `heightened` without prior buildup, flag it as a planning issue, not a writing issue.
-
-**Do not judge amplification by relative loudness.** A common failure mode is to grade a transcript by picking the "loudest" turns in it and calling those `unmistakable`. This is wrong.
-
-Apply the taxonomy's `characteristic_cues` for the flaw being judged as literal tests. Each flaw has its own list of cues at each amplification level — open the `amplification_guidance` block for that flaw and compare the turn against the cues for the level being claimed:
-
-- When the cues specify a count ("three or more", "stacked", "four+"), count the instances in the turn and verify the minimum is met.
-- When the cues specify a structural pattern (another character offers an alternative and is talked over; a source citation with no attribution; a universal claim in the same scene as a contradicting local context), verify the pattern is visibly present in the turn or its immediate neighbors.
-- When the cues specify a signal-phrase pattern, verify a quotable instance of it is present.
-
-A turn does not earn a given amplification level just because it is the loudest instance in the transcript. It earns the level only by matching the cues the taxonomy lists for that flaw at that level.
-
-If a transcript planned at `unmistakable` lands at `showcased` across most of its flaw moments when judged against the cues, say so in the review and recommend revision. Accepting under-amplified instances as "the loudest we have" lets the curriculum drift quieter than the spiral requires — which compounds across episodes.
-
-### Verify numerical claims against the transcript directly
-
-When your report cites a count of words, links, or instances ("three sos", "four stacked links", "two signal phrases"), recount from the transcript text at the moment you write the count. Do not carry forward numbers from scene notes, the episode plan, earlier drafts of your review, or the dialog writer's self-report. Numerical citations in your review are trusted by the downstream lesson package builder; a wrong count becomes a visible bug in the student-facing app (a student counts, gets a different number, loses trust in the lesson).
+Reject under-amplification. Reject over-amplification. Do not judge amplification by relative loudness alone; compare the turn against the taxonomy's characteristic cues.
 
 ### 3. Explain 6th-Grade Visibility
 
-For each candidate flaw moment, explicitly explain:
+For each candidate flaw moment, explicitly explain why a 6th grader could pick it out after brief instruction.
 
-- why a 6th grader could pick it out after brief instruction
-
-Good explanations usually point to something concrete in the turn:
+Good explanations point to something concrete in the turn:
 
 - a leap from reason to conclusion
 - a weak source cue
 - a missing alternative
 - a claim with too little support
-
-You should explicitly prefer turns where a 6th grader could say, after brief instruction:
-
-- "that does not prove it"
-- "that is not enough evidence"
-- "they trusted that source too fast"
 
 ### 4. Quiz Candidates
 
@@ -130,12 +84,11 @@ Your report should identify:
 - 3 primary-flaw quiz candidates, one per amplification band
 - the scene each candidate belongs to
 - whether those 3 candidates live in distinct scenes
+- whether each candidate can support one clean student-facing question without the package builder restating the highlighted turn
 
-If the transcript missed one of the bands, call that out as a planning-vs-writing gap in the report rather than promoting a lower-amplification turn to cover the gap.
+If the transcript missed one of the bands, call that out as a planning-vs-writing gap rather than promoting a weaker turn.
 
-Only recommend a turn as a quiz candidate if it can support one clean student-facing question **without** the package builder restating the highlighted turn in the prompt.
-
-If the turn mixes several flaws too heavily, mark it as weak for beginner use even if the analysis is interesting.
+Do not turn this section into structured package output. Your job is to assess promptability and distinct-scene readiness for the already-planned `focus_flaw` targets, not to author package fields.
 
 ### 5. Preserve Naturalness
 
@@ -162,15 +115,6 @@ The report should include these sections in order:
 5. `Why These Flaws Are Visible To 6th Graders`
 6. `Weak Or Unclear Flaw Moments`
 7. `Operator Summary`
-
-Within that report, make sure you cover:
-
-- `candidate_flaw_turns`
-- `quiz_candidates`
-- `quiz_app_fit_notes`
-- `beginner_visibility_notes`
-- `weak_or_unclear_flaw_moments`
-- `app_readiness_judgment`
 
 You may recommend light revisions, but keep them minimal and specific.
 

@@ -34,7 +34,7 @@ This should follow:
 - `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/schemas/transcript.yaml`
 
-Transcripts are organized as **3+ scenes** with nested turns (no top-level `turns[]`, no `setting_note`, no `previously`). Each scene has a `scene_id`, a plain-language `summary`, and `turns[]`. `turn_id` is globally unique across the whole transcript and strictly increasing, so lesson-package references resolve across scenes.
+Transcripts are organized as **3+ scenes** with nested turns. Each scene has a `scene_id`, a plain-language `summary`, and `turns[]`. `turn_id` is globally unique across the whole transcript and strictly increasing.
 
 Validation script:
 
@@ -53,6 +53,34 @@ Before invoking `screenwriter`, this command must prepare the stripped screenwri
 - `screenwriter` receives the projection, not the full flaw-bearing `episode-plan.yaml`
 - `screenwriter` must not be given `reference/flaw-taxonomy.yaml`
 - the full `episode-plan.yaml` and taxonomy remain available to `flaw_injector` and `flaw_reviewer`
+
+The projection shape is:
+
+```yaml
+story_id: <str>
+episode_id: <str>
+title: <str>
+narrative_synopsis: >-
+  <episode_goal rewritten in plot and texture terms only, no flaw vocabulary>
+hypothesis_pursued: >-
+  <the wrong explanation the group anchors on this episode, phrased as a plot anchor>
+disproof_event: >-
+  <the visible beat that wobbles or disproves the hypothesis>
+scene_design:
+  opening: <prose>
+  turn: <prose>
+  close: <prose>
+character_beats:
+  - character_id: <id>
+    beat: <voice, prop, physicality, and arc notes; flaw references removed>
+running_threads:
+  - <story-level thread this episode must plant or pay off, in plot terms>
+plot_obligations:
+  - <vocabulary-flagging obligation or must-happen beat, in story terms>
+scene_count_target: { min: 3, max: 5 }
+```
+
+Do not substitute a looser summary of the plan. `create_transcript` must prepare and pass this stripped projection shape specifically.
 
 This barrier is part of the v2 contract. Do not collapse it into a generic "read the plan and start writing" handoff.
 
@@ -95,22 +123,13 @@ Responsibilities:
 - verify that those quiz candidates live in distinct scenes
 - explain why the flaws are obvious enough, or not obvious enough, for 6th graders
 - judge whether each quiz candidate can support a short direct prompt without quoting or paraphrasing the highlighted turn
-- lightly revise or recommend revision if the flaw moments are too weak, too subtle, or too dependent on restating the turn
+- recommend revision if the flaw moments are too weak, too subtle, or too dependent on restating the turn
 
 Required file output:
 
 - `simplified-framework/artifacts/{story_id}/{episode_id}/flaw-review.md`
 
-The flaw reviewer must not stop at naming flaws.
-
-It must explicitly answer:
-
-- why would a 6th grader be able to see this as a flaw after brief instruction?
-- can the lesson package builder write a short direct prompt without repeating the highlighted turn?
-
 ## Review Standard
-
-The standard is not analytic perfection.
 
 The standard is:
 
@@ -120,22 +139,6 @@ The standard is:
 - those 3 quiz-ready moments occurring in distinct scenes
 - obvious enough for beginner instruction
 - strong enough that the later package builder will not need to compensate with long prompts or verbose scaffolds
-
-## Expected Operator Report
-
-After the transcript and flaw review are complete, Claude Code should report to the operator:
-
-- where the saved transcript file is
-- where the saved flaw-review file is
-- the app-readiness judgment
-- the 3 strongest quiz candidates (primary flaw; one at each of `unmistakable`, `showcased`, `heightened`)
-- which scene each quiz candidate belongs to
-- why these flaws should be visible to 6th graders
-- whether each candidate can support a short direct prompt without restating the turn
-- any weak or too-subtle flaw moments
-- whether revision is recommended
-
-The operator-facing report should be a concise summary of the saved artifacts, not a replacement for them.
 
 ## Required Command Sequence
 

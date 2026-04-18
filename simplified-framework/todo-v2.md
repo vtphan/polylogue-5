@@ -583,6 +583,8 @@ Concretely, `pipeline/agents/` changes:
 
 Parallelism: step 2 can run once step 1 ships. Step 3 depends on the frozen contract, not on a hand-migrated fixture. Step 4 happens only after the implementation work is complete. Step 5 depends on step 1 only — story design can start as soon as the contract is frozen, but artifact regeneration should wait for the stable v2 runtime.
 
+Legacy fixture note: `artifacts/strangers-in-the-old-forest/**` is v1 reference material and should be archived out of the active simplified-framework fixture set. It is not a v2 validation target and should not be treated as app-ready content.
+
 ### Main-branch safety
 
 v2 is not a set of additive changes. Step 1 removes schema affordances (`warmups`) the current runtime hard-requires (`app/src/lib/domain.ts`), Step 2 migrates the live fixture into a form the current app cannot load, and Step 4 swaps the phase state machine entirely. **All v2 work happens on a dedicated `v2` feature branch.** `main` stays on v1 until the full contract + migration + app flip land together in a single atomic merge. No half-migrated state on `main` — intermediate breakage lives on the branch only.
@@ -819,7 +821,7 @@ Blocked on: Step 4.1 regenerating at least one episode artifact set in the finis
 
 **4.1. Regenerate `the-white-squirrel` against the finished v2 pipeline.**
 - *Entry:* Step 3 complete.
-- *Work:* manually regenerate the story's episode artifacts using the finished v2 commands/agents and validators; verify each step as it lands.
+- *Work:* the operator manually regenerates the story's episode artifacts using the finished v2 commands/agents and validators. In Codex sessions, treat this as a coordinated operator workflow: the user runs each manual generation step, then brings resulting artifacts/issues back for validation, review, and fixes before proceeding.
 - *Exit:* the regenerated fixture validates cleanly and is suitable for app verification.
 - *Files:* `artifacts/the-white-squirrel/**` (new regenerated v2 path); prior v1 reference copy lives under `artifacts/archive/the-white-squirrel-v1/**`.
 

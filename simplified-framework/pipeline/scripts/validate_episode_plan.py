@@ -20,7 +20,7 @@ from _common import (
 
 ALLOWED_AMPLIFICATIONS = {"unmistakable", "showcased", "heightened"}
 
-PRIMARY_FLAW_MIN_MOMENTS = 3
+REQUIRED_PRIMARY_AMPLIFICATIONS = ("unmistakable", "showcased", "heightened")
 
 TAXONOMY_PATH = (
     Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
@@ -63,14 +63,17 @@ def validate_episode_plan(path: str) -> int:
 
     allowed_flaw_ids = load_flaw_ids()
 
-    # Build (focus_flaw, amplification) inventory while validating entry shapes.
-    flaw_entries: list[tuple[str, str]] = []
+    # Build per-flaw planned moment inventory while validating entry shapes.
+    flaw_entries_by_id: dict[str, list[tuple[str, str]]] = {}
     for index, flaw in enumerate(flaws, start=1):
         entry = require_mapping(flaw, f"flaws[{index}]", errors)
         if not entry:
             continue
         flaw_id = require_nonempty_string(
             entry.get("focus_flaw"), f"flaws[{index}].focus_flaw", errors
+        )
+        scene_id = require_nonempty_string(
+            entry.get("scene_id"), f"flaws[{index}].scene_id", errors
         )
         amplification = entry.get("amplification")
         require_nonempty_string(amplification, f"flaws[{index}].amplification", errors)
@@ -85,37 +88,58 @@ def validate_episode_plan(path: str) -> int:
             )
         if "scene_note" in entry:
             require_nonempty_string(entry.get("scene_note"), f"flaws[{index}].scene_note", errors)
-        if flaw_id and isinstance(amplification, str) and amplification in ALLOWED_AMPLIFICATIONS:
-            flaw_entries.append((flaw_id, amplification))
+        if (
+            flaw_id
+            and scene_id
+            and isinstance(amplification, str)
+            and amplification in ALLOWED_AMPLIFICATIONS
+        ):
+            flaw_entries_by_id.setdefault(flaw_id, []).append((amplification, scene_id))
 
-    # v2 plan-level amplification-mix assertion on the primary flaw.
-    # Primary flaw is the most frequent focus_flaw in flaws[] (ties broken by
-    # first occurrence). The plan must carry ≥1 entry at each amplification band
-    # and ≥3 moments total for the primary flaw, matching the 3 inline quizzes.
-    if flaw_entries:
-        counts = Counter(entry[0] for entry in flaw_entries)
-        top = counts.most_common(1)[0][1]
-        # Preserve first-occurrence order among ties.
-        tied_ids = [fid for fid in dict.fromkeys(entry[0] for entry in flaw_entries) if counts[fid] == top]
-        primary_id = tied_ids[0]
-        primary_amps = [amp for fid, amp in flaw_entries if fid == primary_id]
-        primary_band_counts = Counter(primary_amps)
-
-        missing_bands = [
-            band for band in ("unmistakable", "showcased", "heightened")
-            if primary_band_counts[band] < 1
+    # v2 exact gate: the primary flaw is the only flaw planned across all three
+    # quiz bands, and it must do so exactly once each in distinct scenes.
+    if flaw_entries_by_id:
+        primary_candidates = [
+            flaw_id
+            for flaw_id, moments in flaw_entries_by_id.items()
+            if set(amp for amp, _scene_id in moments) == set(REQUIRED_PRIMARY_AMPLIFICATIONS)
         ]
-        if missing_bands:
+        if not primary_candidates:
             errors.append(
-                f"primary flaw '{primary_id}' is missing required amplification bands: "
-                f"{missing_bands}. Plan must carry ≥1 moment at each of "
-                f"unmistakable, showcased, heightened."
+                "flaws must identify one primary focus_flaw with exactly one planned "
+                "moment at each amplification: unmistakable, showcased, heightened."
             )
-        if len(primary_amps) < PRIMARY_FLAW_MIN_MOMENTS:
+        elif len(primary_candidates) > 1:
             errors.append(
-                f"primary flaw '{primary_id}' has only {len(primary_amps)} moments; "
-                f"plan must carry ≥{PRIMARY_FLAW_MIN_MOMENTS} (1 unmistakable + 1 showcased + 1 heightened)."
+                "flaws has multiple primary-flaw candidates; only one focus_flaw may "
+                "span unmistakable, showcased, and heightened."
             )
+        else:
+            primary_id = primary_candidates[0]
+            primary_moments = flaw_entries_by_id[primary_id]
+            primary_band_counts = Counter(amp for amp, _scene_id in primary_moments)
+            if len(primary_moments) != len(REQUIRED_PRIMARY_AMPLIFICATIONS):
+                errors.append(
+                    f"primary flaw '{primary_id}' must have exactly 3 planned quiz moments "
+                    f"(one each at {', '.join(REQUIRED_PRIMARY_AMPLIFICATIONS)}); got {len(primary_moments)}"
+                )
+
+            duplicate_bands = [
+                band for band in REQUIRED_PRIMARY_AMPLIFICATIONS
+                if primary_band_counts[band] != 1
+            ]
+            if duplicate_bands:
+                errors.append(
+                    f"primary flaw '{primary_id}' must have exactly one moment at each "
+                    f"required amplification; bad counts for {duplicate_bands}"
+                )
+
+            scene_ids = [scene_id for _amp, scene_id in primary_moments]
+            if len(set(scene_ids)) != len(scene_ids):
+                errors.append(
+                    f"primary flaw '{primary_id}' must land its 3 quiz moments in distinct scenes; "
+                    f"got scene_ids {scene_ids}"
+                )
 
     if "scene_design" in plan:
         scene = require_mapping(plan.get("scene_design"), "scene_design", errors)

@@ -6,6 +6,9 @@
 # The transcript is source dialogue organized into 3+ scenes. Each scene
 # has a plain-language summary and 1+ turns; turn_id is globally unique
 # across the whole transcript so lesson_package.yaml references keep working.
+# FK readability hard-fails scene summaries and only warns on aggregated
+# dialog prose once a scene has at least 30 dialog words; action turns are
+# exempt from that dialog aggregate.
 
 type: object
 required:

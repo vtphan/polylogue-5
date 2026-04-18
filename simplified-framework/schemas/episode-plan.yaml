@@ -3,8 +3,8 @@
 # Canonical structural rules live in
 # simplified-framework/pipeline/scripts/validate_episode_plan.py.
 #
-# The plan's primary flaw must carry one quiz-worthy moment at each
-# amplification band (unmistakable, showcased, heightened), distributed
+# The plan's primary flaw must carry exactly 3 quiz-worthy moments: one each
+# at unmistakable, showcased, and heightened, with those moments distributed
 # across distinct scenes so the downstream app can render exactly 3 inline
 # quizzes with at most one quiz per scene.
 
@@ -37,13 +37,20 @@ properties:
       carry supporting flaws.
     items:
       type: object
-      required: [focus_flaw, amplification]
+      required: [focus_flaw, amplification, scene_id]
       properties:
         focus_flaw:
           type: string
+          description: Canonical flaw id from reference/flaw-taxonomy.yaml.
         amplification:
           type: string
           enum: [unmistakable, showcased, heightened]
+        scene_id:
+          type: string
+          description: >
+            Required normalized scene locator for this planned moment. The
+            primary flaw's three quiz-worthy moments must resolve to three
+            distinct scene_ids.
         scene_note:
           type: string
   student_takeaway:

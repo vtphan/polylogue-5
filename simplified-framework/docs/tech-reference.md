@@ -1,359 +1,208 @@
 # Tech Reference
 
-This document is the primary technical reference for the simplified-framework app. It is for developer agents adding features, fixing bugs, or modifying existing behavior.
+This document is the primary technical reference for the v2 simplified-framework app and pipeline contract.
 
-For pedagogy, lesson authoring, and student-journey framing, see `instructional-design.md`. When prose in this doc drifts from code or validators, the code wins and this doc should be updated.
-
-> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that will change several parts of this doc — the transcript schema (new `scenes[]` structure with nested turns), the lesson-package schema (new `episode.summary`, `episode.previously`, 3-level cap), the read-phase route (scene-based UI), and validator behavior. When planning code changes, consult `todo.md` first so new work aligns with the forward direction.
+For pedagogy and student-facing design, see `instructional-design.md`.
 
 ## 1. Stack
 
-- **Framework**: Next.js 16 (App Router) + React 19 + TypeScript
-- **Database**: SQLite via Prisma 6
-- **Styling**: Tailwind 4 + CSS modules in `globals.css`
-- **Schema validation**: Zod 4 (for both artifact loading and action inputs)
-- **YAML loading**: `js-yaml`
-- **Runtime constraint**: no LLM calls, no external content fetches. Rendering is deterministic from artifacts + Prisma rows.
+- Next.js App Router + React + TypeScript
+- SQLite via Prisma
+- Zod for runtime schema validation
+- YAML artifacts for authored content
 
-App root: `simplified-framework/app/`. All runtime paths assume `cwd = simplified-framework/app`.
+Runtime constraint: no student-time LLM calls. Rendering and grading are deterministic from artifacts plus database state.
 
 ## 2. Directory Map
 
-```
+```text
 simplified-framework/
   app/
-    prisma/
-      schema.prisma                # data model (see §4)
-      migrations/                  # ordered SQL migrations
+    prisma/schema.prisma
     src/
-      app/                         # Next.js App Router
-        page.tsx                   # identity: group → student picker
-        actions.ts                 # all server actions (see §6)
-        layout.tsx, globals.css    # app shell + styles
-        groups/[groupId]/page.tsx  # student picker within a selected group
-        runs/[runId]/
-          _components/
-            LessonWorkspace.tsx    # transcript-left / drawer-right shell
-          entry/page.tsx           # read-phase landing (post identity)
-          read/page.tsx            # full transcript reading surface
-          warmup/
-            page.tsx               # modeled + guided + guided-reveal
-            RevealStages.tsx       # staged reveal button component
-          level/page.tsx           # question / retry / feedback / handoff
+      app/
       lib/
-        db.ts                      # Prisma client singleton
-        domain.ts                  # Zod schemas + shared types
-        config.ts                  # loadActiveConfig, getGroup, getStudent
-        content.ts                 # loadTranscript, loadLessonPackage
-        paths.ts                   # repoRoot, resolveEpisodeSource
-        routing.ts                 # routeForRun(run) — canonical phase router
-        runs.ts                    # createOrResumeRun, markReadingComplete
-        warmup.ts                  # warm-up state + transitions
-        levels.ts                  # level state machine, feedback, retry
-        completion.ts              # medal + lifeline derivation
-        session-chrome.ts          # student/group chrome aggregator
-        transcript.ts              # selectTurnContext helper
-      scripts/
-        probe_warmup_guards.ts     # dev script for warm-up guard behavior
-  configs/                         # runtime config(s)
-    episode.json                   # active config (one episode + groups); override path with POLYLOGUE_CONFIG_PATH
-  artifacts/{story_id}/{episode_id}/
-    transcript.yaml                # source dialogue (consumed at runtime)
-    lesson_package.yaml            # app-facing teaching artifact (consumed at runtime)
-    episode-plan.yaml              # planning artifact (not runtime-required)
-    flaw-review.md                 # operator acceptance gate
-  stories/{story_id}/story.yaml    # authored story source
-  reference/flaw-taxonomy.yaml     # canonical flaws + amplification bands
-  schemas/*.yaml                   # human-readable schema sketches
-  pipeline/
-    scripts/validate_*.py          # authoritative structural validators
-    commands/*.md                  # pipeline workflow contracts
-    agents/*.md                    # authoring agent specs
+  stories/{story_id}/story.yaml
+  artifacts/
+    practice/practice_package.yaml
+    {story_id}/{episode_id}/
+      episode-plan.yaml
+      transcript.yaml
+      flaw-review.md
+      lesson_package.yaml
+  reference/flaw-taxonomy.yaml
+  schemas/*.yaml
+  pipeline/commands/*.md
+  pipeline/agents/*.md
+  pipeline/scripts/validate_*.py
 ```
 
-## 3. Runtime Config
+## 3. Runtime Model
 
-The app loads exactly one config per process. Resolution order (`src/lib/config.ts`):
+The v2 app has two student-facing modes:
 
-1. env var `POLYLOGUE_CONFIG_PATH` (absolute or repo-relative)
-2. default: `simplified-framework/configs/episode.json`
+1. `practice`
+2. `read a story`
 
-Shape (validated by `activeConfigSchema` in `domain.ts`):
+Identity is device-local and selected before the home screen. Story mode stays locked until the active student has completed all 5 practice exercises once.
 
-```json
-{
-  "config_id": "white-squirrel-ep01",
-  "episode": { "source": "simplified-framework/artifacts/<story>/<episode>" },
-  "groups": [
-    {
-      "group_id": "group-a",
-      "name": "Table A",
-      "students": [{ "student_id": "ava", "name": "Ava" }]
-    }
-  ]
-}
-```
+## 4. Prisma Direction
 
-`episode.source` is the directory that contains `transcript.yaml` and `lesson_package.yaml`. It may be repo-relative (`simplified-framework/...`) or simplified-framework-relative (`artifacts/...`); `resolveEpisodeSource` handles both.
+The v2 data model is centered on student-local progress rather than v1 phase progression.
 
-The parsed config is cached in-process after first load.
+Key entities:
 
-## 4. Data Model
+- `Student`
+- catalog rows for story/episode discovery
+- `Run` for one persistent `(student, episode)` reader run
+- `PracticeAttempt` for per-flaw practice completion
 
-All tables defined in `prisma/schema.prisma`. Runtime writes flow through helpers in `src/lib/{runs,warmup,levels,completion}.ts` — never write Prisma models directly from a page or action.
+Load-bearing v2 run fields:
 
-### 4.1 `session_runs` — one row per student × episode attempt
+- scene position
+- per-quiz attempt state
+- per-quiz hint state
+- earned stars
+- `reading_finished_at`
+- `bonus_earned_at`
 
-Key fields:
-
-- `run_id` (pk, cuid)
-- `config_id`, `episode_source`, `group_id`, `student_id` — identity of the attempt
-- `status`: `in_progress` | `complete`
-- `current_phase`: `read` | `warmup` | `level` | `complete`
-- `current_level_id` — set when `current_phase = level`; cleared on completion
-- `reading_complete` (boolean)
-- `started_at`, `updated_at`, `completed_at`
-
-Uniqueness: at most one `status = 'in_progress'` row per `(config_id, episode_source, group_id, student_id)`. Enforced by a partial unique index (declared in raw SQL in the `20260416194327_allow_multiple_completes` migration; Prisma does not model partial indexes). Completed rows are unbounded, enabling replay.
-
-### 4.2 `warmup_progress` — one row per run
-
-1:1 with `session_runs`. Fields:
-
-- `modeled_complete` (boolean)
-- `guided_submitted` (boolean) — locks the guided warm-up after first submission
-- `guided_selected_answer_id` (string | null)
-- `guided_used_hint` (boolean, monotonic)
-- `guided_complete` (boolean) — set when the student continues out of the guided reveal
-
-Derived step (`deriveWarmupStep`): `modeled` → `guided_question` → `guided_reveal` → `done`.
-
-### 4.3 `level_responses` — one row per run × level
-
-Unique on `(run_id, level_id)`. Fields:
-
-- `initial_answer` — first option submitted
-- `final_answer` — answer that locked the level (may equal `initial_answer`)
-- `used_hint` (boolean, derived at lock time from scaffold events)
-- `answer_changed` (boolean) — true when retry produced a different final answer
-- `completed_at` (nullable) — null = retry-open; set = locked
-
-Derived step (`deriveLevelStep`): `question` (no row) → `retry` (row with `completed_at = null`) → `feedback` (row with `completed_at` set).
-
-### 4.4 `scaffold_events` — append-only log
-
-Unique on `(run_id, level_id, step_key)`. Fields:
-
-- `step_key` — currently only `LEVEL_HINT_STEP_KEY = "hint"`
-- `created_at`
-
-Used to record hint-open durably before submission so reload cannot lose the fact. `levels.used_hint` is derived from these events at lock time.
+The old terminal-completion latch is retired. A finished run is still open for untried quizzes and review.
 
 ## 5. Artifact → Runtime Contract
 
-All artifacts are YAML, loaded from `episode_source`, validated by Zod schemas in `domain.ts`. Shapes here are what the runtime requires; validators in `simplified-framework/pipeline/scripts/` are authoritative for authoring.
+### 5.1 `practice_package.yaml`
 
-> **Phase-1-vs-app sync (2026-04-17).** The Python validators now enforce the forward authoring shape (`transcript.scenes[]`, `episode.summary`, `episode.previously`, 3-level cap). The **app has not been updated yet** — `app/src/lib/domain.ts` still accepts top-level `transcript.turns[]` and `episode.student_intro`, and the entry/read pages render those fields. §5.1 and §5.2 below describe the forward contract (the shape the pipeline now produces); the "App still loads" notes flag where the runtime lags. Phase 3 of `simplified-framework/todo.md` (items A1–A4) realigns Zod + pages. Until Phase 3 lands, artifacts authored against the new validators cannot be rendered by the app, and artifacts that render in the app fail the new validators — both conditions are intentional migration state.
+Shared tutorial artifact.
 
-### 5.1 `transcript.yaml`
+- one exercise per canonical flaw
+- validated by `validate_practice_package.py`
+- not tied to any story
 
-**Authoring contract (enforced by `validate_transcript.py`).** Required top-level: `story_id`, `episode_id`, `title`, `characters[]`, `scenes[]`. No top-level `turns[]`, `setting_note`, or `previously` — recap copy lives in `lesson_package.episode.previously`.
+### 5.2 `transcript.yaml`
 
-`scenes[]` has length 2–4. Each scene: `scene_id` (unique within the transcript), `summary` (plain-language, ≤ ~30 words; validator warns past the cap), `turns[]` (≥ 1).
+Required top-level fields:
 
-Each turn: `turn_id` (string, format `tNN`, globally unique across the whole transcript and strictly increasing), `speaker` (string), `text` (string).
+- `story_id`
+- `episode_id`
+- `title`
+- `characters`
+- `scenes`
 
-Every `turn_id` referenced by `lesson_package.yaml` must exist in the transcript. Turn lookups cross scenes; the `turn_id` is the canonical key.
+Rules:
 
-**App still loads:** the pre-Phase-1 shape — top-level `turns[]` with optional `setting_note`/`previously`, no `scenes[]`. See `app/src/lib/domain.ts::transcriptSchema` and `app/src/lib/transcript.ts`. Phase 3 (A3 in `todo.md`) updates the Zod schema and turn-lookup helper to consume `scenes[]`.
+- `scenes[]` length is at least 3
+- each scene has `scene_id`, `summary`, `turns[]`
+- turn ids are globally unique and strictly increasing
+- turns may be `kind: dialog` or `kind: action`
 
-### 5.2 `lesson_package.yaml`
+Readability contract:
 
-**Authoring contract (enforced by `validate_lesson_package.py`).** Top-level sections: `package_meta`, `episode`, `warmups`, `levels[]`.
+- `scenes[].summary` is in hard-error scope
+- scene-level dialog readability is warning-only
+- action turns are excluded from transcript FK aggregation
 
-- `package_meta`: `story_id`, `episode_number`, `schema_version`
-- `episode`: `title`, `summary`, `previously` (required when `episode_number > 1`; forbidden on episode 1), `flaws[]` (optional), `final_takeaway`
-- `warmups.modeled`: `warmup_id`, `turn_id`, `title`, `prompt`, `best_answer_text`, `worked_explanation`, `takeaway`, `focus_move`, `best_answer_id` (required).
-- `warmups.guided`: modeled shape plus `answer_options[]`, `best_answer_id` (required), `hint` (optional).
-- `levels[]` — **exactly 3 entries**: `level_id`, `sequence_index` (1, 2, 3; runtime plays lowest first), `turn_id`, `title`, `prompt`, `answer_options[]`, `best_answer_id` (optional — runtime uses `feedback.correct.option_ids` for grading), `hint` (optional), `feedback`.
+### 5.3 `lesson_package.yaml`
 
-All 5 slots (modeled warm-up, guided warm-up, levels 1–3) must reference **pairwise-distinct** `turn_id`s.
+Required top-level fields:
 
-Validator also emits soft-cap warnings on scaffolding prose length (`episode.summary` ~60, `episode.previously` ~40, warm-up `best_answer_text` ~40, `worked_explanation` ~60, `takeaway` ~20) and a Flesch-Kincaid readability warning when a scaffolding block or feedback string scores above grade 7. Warnings are advisory; they do not block validation.
+- `package_meta`
+- `episode`
+- `levels`
 
-Each `answer_option`: `option_id`, `text`, `kind?` (conventional values: `best_fit`, `partial`, `off_target`, `uncertain`).
+Rules:
 
-`feedback`:
+- `package_meta.schema_version = simplified_v2`
+- `episode.summary` required
+- `episode.previously` required on episode 2+, forbidden on episode 1
+- `levels[]` length is exactly 3
+- every level carries canonical `focus_flaw`
+- no `warmups`
+- no `student_intro`
+- no two levels may resolve to turns in the same scene
+- levels must target dialog turns, not action turns
 
-- `correct.option_ids[]` — source of truth for grading
-- `correct.text`
-- `by_option[option_id]` — must cover every non-correct option id (Zod `superRefine` enforces this)
+The runtime grades with `feedback.correct.option_ids`, not `best_answer_id`.
 
-The runtime **must not** consult `best_answer_id` to decide correctness; use `feedback.correct.option_ids`.
+### 5.4 `episode-plan.yaml`
 
-**App still loads:** the pre-Phase-1 shape — `episode.student_intro` (not `summary`), no `previously`, and `levels[]` of length 1+ (not capped at 3). See `app/src/lib/domain.ts::lessonPackageSchema` and `app/src/app/runs/[runId]/entry/page.tsx`. Phase 3 (A1, A3, A4 in `todo.md`) renames the Zod field, adds optional `previously`, and optionally adds a runtime-side 3-level guard.
+Planning artifact only.
 
-### 5.3 Canonical read paths
+Rules:
 
-Runtime reads only two files per session:
+- every `flaws[]` entry carries `focus_flaw`, `amplification`, and `scene_id`
+- the primary flaw has exactly 3 quiz-worthy moments
+- exactly one each at `unmistakable`, `showcased`, `heightened`
+- those 3 moments occupy distinct scenes
 
-- `${episode_source}/transcript.yaml` via `loadTranscript`
-- `${episode_source}/lesson_package.yaml` via `loadLessonPackage`
+## 6. Reader Flow
 
-`episode-plan.yaml`, `flaw-review.md`, and `story.yaml` are not consumed at runtime.
+The v2 reader is scene-based.
 
-## 6. Server Actions and Phase State Machine
+Routes conceptually map to:
 
-All mutations flow through server actions in `src/app/actions.ts`. Each action guards the current phase before writing. Direct POST bypass is rejected.
+1. home
+2. practice picker / exercise
+3. story picker
+4. `/runs/[runId]/scene/0` for orientation
+5. `/runs/[runId]/scene/[n]` for scenes
+6. `/runs/[runId]/complete` for recap
 
-Phase transitions (driven by `routeForRun` in `src/lib/routing.ts`):
+There is no v2 `read`, `warmup`, or `level` phase machine.
 
-```
-identity → read (createOrResumeRun)
-read → warmup (markReadingComplete)
-warmup → warmup (completeModeledWarmup, submitGuidedWarmup, hint open)
-warmup → level (continueFromGuidedWarmup; sets current_level_id = firstLevelId)
-level → level (submitLevelAnswer, hint open, retry-open → lock)
-level → level (continueFromLevelFeedback when nextLevel exists)
-level → complete (continueFromLevelFeedback on final level; sets status = complete, completed_at)
-```
+## 7. Quiz Mechanics
 
-### 6.1 Actions (all in `src/app/actions.ts`)
+Each story episode has exactly 3 inline quizzes.
 
-| Action | Precondition | Effect |
-|---|---|---|
-| `selectStudentAction` | valid group + student in active config | Creates or resumes a run; redirects via `routeForRun` |
-| `finishReadingAction` | run exists (terminal-state safe) | Sets `reading_complete = true`, `current_phase = warmup`; redirects |
-| `completeModeledWarmupAction` | `current_phase = warmup` | Sets `warmup_progress.modeled_complete = true` (idempotent) |
-| `openGuidedHintAction` | `current_phase = warmup` | Sets `guided_used_hint = true` (monotonic) |
-| `submitGuidedWarmupAction` | `current_phase = warmup`, modeled complete | Atomic conditional write: locks `guided_submitted = true` + `guided_selected_answer_id` |
-| `continueFromGuidedWarmupAction` | guided submitted, selected answer still valid | Sets `guided_complete`, transitions run to `level` phase with `current_level_id = firstLevelId` |
-| `openLevelHintAction` | `current_phase = level`, matches `current_level_id` | Upserts `scaffold_events` row (idempotent) |
-| `submitLevelAnswerAction` | `current_phase = level` | Branches: lock existing row, finalize retry-open, create retry-open, or lock on first submit |
-| `continueFromLevelFeedbackAction` | `current_phase = level`, current level locked | Advances `current_level_id` to next, OR completes the run |
+Rules:
 
-### 6.2 Level submit branches (`submitLevelAnswer`)
+- one flagged quiz turn per scene maximum
+- 2 attempts maximum per quiz
+- 1 optional hint before final submission
+- attempted quizzes lock and become reviewable
+- untried quizzes remain live on re-entry
 
-1. Locked row (`completed_at` set) → idempotent return.
-2. Retry-open row + different answer → guarded `updateMany` finalizes with `answer_changed = true`.
-3. Retry-open row + same answer → reject (returns row unchanged); UI also disables the first-picked option.
-4. No row + wrong answer + retry-eligible level → create retry-open row.
-5. No row + (correct OR ineligible) → create locked row.
+Star scoring:
 
-Retry eligibility: `answer_options.length >= 3 && feedback.correct.option_ids.length === 1`.
+- 3 / 2 / 1 / 0 by hint-use and extra-attempt cost
+- 9 stars across the 3 quizzes
+- 10th bonus star on reaching 9/9
 
-### 6.3 Concurrency
+## 8. Pipeline Contract
 
-- First-submit races on a level: resolved by the unique `(run_id, level_id)` index; loser catches Prisma P2002 and returns the canonical row.
-- Second-submit races on a retry-open row: a `completedAt IS NULL` guard in `updateMany` ensures only one caller's finalize lands; losers re-fetch.
-- Warm-up guided submit: atomic conditional `updateMany` on `modeled_complete = true AND guided_submitted = false`; subsequent hint-flag merge is idempotent.
+Authoring flow:
 
-Treat these as load-bearing; do not replace guarded updates with check-then-act patterns.
+1. `create_story`
+2. `create_episodes`
+3. `create_transcript`
+4. operator review of `flaw-review.md`
+5. `create_lesson_package`
 
-## 7. Completion, Medals, and Lifelines
+Transcript generation is split:
 
-All derived in `src/lib/completion.ts` from persisted rows. No writes happen on render of a completed run.
+1. `screenwriter` writes from a stripped projection of the plan
+2. `flaw_injector` revises the draft against the full flaw-bearing plan
+3. `flaw_reviewer` checks amplification fit, distinct-scene quiz readiness, and promptability
 
-- `deriveEarnedBadges(inputs, pkg, { bonusMedals })` — one badge per level where `final_answer ∈ feedback.correct.option_ids`. With `bonusMedals: true`, each correct level yields a second "bonus medal" row.
-- `deriveLifelineState(inputs, pkg)`:
-  - Initial budget: `max(1, pkg.levels.length - 1)`
-  - Used: count of distinct `level_id`s with a `stepKey = "hint"` scaffold event
-  - Remaining: `max(0, initial - used)`
-- Session chrome (`src/lib/session-chrome.ts`) aggregates student name + group name + badge counts + lifelines + phase progress for the workspace header.
+The screenwriter projection is ephemeral and not written to disk.
 
-The completion surface renders on the level route when `status = complete` or `current_phase = complete`.
-
-## 8. Validators
-
-Authoring correctness is enforced by pure-Python validators (PyYAML only):
-
-```bash
-python3 simplified-framework/pipeline/scripts/validate_story.py          <path>
-python3 simplified-framework/pipeline/scripts/validate_episode_plan.py   <path>
-python3 simplified-framework/pipeline/scripts/validate_transcript.py     <path>
-python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <path>
-```
-
-Runtime also re-validates `transcript.yaml` and `lesson_package.yaml` via Zod on every load. Zod is the last line of defense before a page renders.
-
-## 9. Source Of Truth Precedence
-
-1. Validators in `simplified-framework/pipeline/scripts/`
-2. Zod schemas in `src/lib/domain.ts`
-3. Artifact files under `stories/` and `artifacts/`
-4. Prisma schema in `prisma/schema.prisma`
-5. `reference/flaw-taxonomy.yaml`
-6. This document
-7. Human-readable schema sketches in `schemas/`
-
-## 10. Change Recipes
-
-Starting points for common modifications. Each recipe names the files that must change together.
-
-### 10.1 Swap a challenge level in an episode
-
-The level count is fixed at 3 per episode. To change difficulty, replace one of the existing level entries rather than adding a fourth.
-
-1. Edit `artifacts/{story_id}/{episode_id}/lesson_package.yaml` — replace a `levels[]` entry, keeping `sequence_index` 1/2/3 intact. Include `answer_options`, optional `best_answer_id`, `hint` (optional), full `feedback.correct` and `feedback.by_option`. The new `turn_id` must be distinct from the other 4 slots (modeled + guided warm-ups + other two levels).
-2. Run `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <path>`.
-3. No code change needed. The runtime picks levels by `sequence_index`; `nextLevel`/`firstLevelId` handle ordering.
-
-### 10.2 Change medal labeling
-
-- Labels are generated in `src/lib/completion.ts::deriveEarnedBadges`. Edit the template string there; labels are deterministic from `level.sequence_index` + `level.title`. There is no authored per-level override — the former `badge_label` field has been withdrawn and is not read by the runtime.
-- The category system is pluggable: adding a new `BadgeCategory` means extending `Badge`, `countBadgesByCategory`, `groupBadgesByCategory`, and the chip set in `LessonWorkspace.tsx`.
-
-### 10.3 Add a new scaffold kind (e.g., a second hint tier)
-
-1. Define a new `step_key` constant in `src/lib/levels.ts` alongside `LEVEL_HINT_STEP_KEY`.
-2. Add a matching record-action pattern (see `recordLevelHintOpened`) that upserts a `scaffold_events` row. Uniqueness on `(run_id, level_id, step_key)` makes it idempotent.
-3. Update `deriveLevelStep` + the level page to surface the new scaffold in the UI.
-4. Decide whether this scaffold should count toward lifeline spend; if yes, update `deriveLifelineState` to include its `step_key`.
-
-### 10.4 Add a new phase
-
-This is a structural change. Touchpoints:
-
-1. `RunPhase` enum in `src/lib/domain.ts` and `session_runs.current_phase` in `prisma/schema.prisma` (plus a migration).
-2. `routeForRun` in `src/lib/routing.ts` — add the route case.
-3. Phase guards in `src/app/actions.ts` (`requireWarmupRun`-style helpers).
-4. A transition action analogous to `continueFromGuidedWarmup` or `continueFromLevelFeedback`.
-5. A new `src/app/runs/[runId]/<phase>/page.tsx` that gates on phase and reads from `loadLessonPackage` / `loadTranscript`.
-
-### 10.5 Swap to a new episode
-
-Edit `simplified-framework/configs/episode.json` (or set `POLYLOGUE_CONFIG_PATH`) and point `episode.source` at a directory that contains valid `transcript.yaml` + `lesson_package.yaml`. No code change required.
-
-### 10.6 Add a new runtime field to the lesson package
-
-1. Extend the appropriate Zod schema in `src/lib/domain.ts`.
-2. Add a matching rule (if structural) to the Python validator in `simplified-framework/pipeline/scripts/validate_lesson_package.py`.
-3. Update the schema sketch in `simplified-framework/schemas/` for author reference.
-4. Update `instructional-design.md` §6 "Authoring Surface" so designers see the new field.
-
-### 10.7 Evolve the Prisma schema
-
-1. Edit `prisma/schema.prisma`.
-2. `npx prisma migrate dev --name <short_name>` from `simplified-framework/app/`. Commit the generated SQL under `prisma/migrations/`.
-3. Update the affected helper in `src/lib/*.ts`. Keep derived-state helpers (`deriveWarmupStep`, `deriveLevelStep`) as the single read path for pages.
-4. If adding a partial unique index, declare it in raw SQL inside the migration — Prisma does not model partial indexes in `schema.prisma`.
-
-## 11. Local Development
+## 9. Validation Commands
 
 ```bash
-cd simplified-framework/app
-npm install
-npx prisma migrate dev                 # first-time DB setup
-POLYLOGUE_CONFIG_PATH=$(pwd)/../configs/episode.json npm run dev
+python3 simplified-framework/pipeline/scripts/validate_story.py <story.yaml>
+python3 simplified-framework/pipeline/scripts/validate_episode_plan.py <episode-plan.yaml>
+python3 simplified-framework/pipeline/scripts/validate_transcript.py <transcript.yaml>
+python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <lesson_package.yaml>
+python3 simplified-framework/pipeline/scripts/validate_practice_package.py <practice_package.yaml>
 ```
 
-SQLite file path comes from `DATABASE_URL` in `.env` (conventionally `file:./dev.db` under `prisma/`).
+Validators are the authoritative source of truth when prose drifts.
 
-## 12. Related Docs
+## 10. Migration Notes
 
-- `simplified-framework/todo.md` — in-flight revision plan (schema revamp, reading-phase UI, validators, 3-episode story collapse)
-- `simplified-framework/docs/instructional-design.md` — conceptual framework, student journey, authoring surface
-- `simplified-framework/docs/operator-workflow.md` — human-in-the-loop authoring cadence
-- `simplified-framework/reference/flaw-taxonomy.yaml` — canonical flaw set
+v2 is not additive on top of v1.
 
-Historical context for design decisions lives in `simplified-framework/docs/archived/app-design.md` and `archived/technical-spec.md`.
+- v1 warm-up surfaces are retired
+- v1 completion-state assumptions are retired
+- the database is reset on the v2 branch rather than migrated from old student data
+
+Use `todo-v2.md` as the implementation checklist for remaining app work.
