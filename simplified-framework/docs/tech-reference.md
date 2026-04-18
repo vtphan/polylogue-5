@@ -287,7 +287,7 @@ Starting points for common modifications. Each recipe names the files that must 
 
 ### 10.2 Change medal labeling
 
-- Labels are generated in `src/lib/completion.ts::deriveEarnedBadges`. Edit the template string there; keep labels deterministic from `level.sequence_index` + `level.title` + (optionally) `level.badge_label`.
+- Labels are generated in `src/lib/completion.ts::deriveEarnedBadges`. Edit the template string there; labels are deterministic from `level.sequence_index` + `level.title`. There is no authored per-level override; any `badge_label` field on existing artifacts is legacy and ignored by the runtime.
 - The category system is pluggable: adding a new `BadgeCategory` means extending `Badge`, `countBadgesByCategory`, `groupBadgesByCategory`, and the chip set in `LessonWorkspace.tsx`.
 
 ### 10.3 Add a new scaffold kind (e.g., a second hint tier)

@@ -62,7 +62,7 @@ Every episode runs a fixed staged loop. Phase names match the runtime state: `re
 
 ### 5.1 Read
 
-The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `student_intro`, and (when present) a `setting_note` and `episode_goal` frame the conversation. The transcript is rendered as ordered turns with speaker labels.
+The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `student_intro`, and (when present) a `setting_note` frame the conversation. The transcript is rendered as ordered turns with speaker labels.
 
 A single Continue action moves the run from `read` to `warmup`. The runtime persists `reading_complete = true`.
 
@@ -147,7 +147,6 @@ Guided: everything in the modeled shape plus
 - `hint` (optional)
 - `feedback.correct.option_ids` and `feedback.correct.text`
 - `feedback.by_option[option_id]` for every non-correct option
-- `badge_label` (optional) — short phrase used on the medal label
 
 ### 6.4 Transcript composition targets
 
@@ -186,7 +185,7 @@ These rules are enforced by the runtime; an instructional designer relies on the
 
 - Single badge category: `correct_answer`.
 - Awarded per level whose final (possibly retry) answer is in `feedback.correct.option_ids`. Retry-correct still earns the medal.
-- Labels are derived from `level.title` plus the level's `sequence_index`. An authored `badge_label` (if present) can supply a short customized label.
+- Labels are derived deterministically from `level.sequence_index` and `level.title` in `completion.ts::deriveEarnedBadges`. There is no per-level authored label override today; a "medal label voice pass" is tracked as future work.
 - No streaks, no points, no public ranking, no time pressure.
 
 ### 7.3 Lifelines
