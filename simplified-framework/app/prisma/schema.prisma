@@ -1,8 +1,3 @@
-// Milestone 3 schema. Adds level_responses (one durable row per
-// run_id + level_id) and scaffold_events (append-only log of scaffold
-// interactions, with a uniqueness guard per (run_id, level_id, step_key)
-// so hint-open writes are idempotent).
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,71 +7,84 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model SessionRun {
-  runId           String          @id @default(cuid()) @map("run_id")
-  configId        String          @map("config_id")
-  episodeSource   String          @map("episode_source")
-  groupId         String          @map("group_id")
-  studentId       String          @map("student_id")
-  status          String          @default("in_progress") // in_progress | complete
-  currentPhase    String          @default("read")        // read | warmup | level | complete
-  currentLevelId  String?         @map("current_level_id")
-  readingComplete Boolean         @default(false) @map("reading_complete")
-  startedAt       DateTime        @default(now()) @map("started_at")
-  updatedAt       DateTime        @updatedAt @map("updated_at")
-  completedAt     DateTime?       @map("completed_at")
-  warmupProgress  WarmupProgress?
-  levelResponses  LevelResponse[]
-  scaffoldEvents  ScaffoldEvent[]
+model Student {
+  id               String            @id @default(cuid())
+  name             String
+  createdAt        DateTime          @default(now()) @map("created_at")
+  updatedAt        DateTime          @updatedAt @map("updated_at")
+  runs             Run[]
+  practiceAttempts PracticeAttempt[]
 
-  // Partial unique index on (config_id, episode_source, group_id, student_id)
-  // WHERE status = 'in_progress' is defined in raw SQL in the
-  // 20260416_allow_multiple_completes migration — Prisma does not model
-  // partial indexes in schema. This regular composite index covers the same
-  // lookup path used by createOrResumeRun.findFirst.
-  @@index([configId, episodeSource, groupId, studentId])
-  @@index([configId, episodeSource, groupId])
-  @@map("session_runs")
+  @@map("students")
 }
 
-model WarmupProgress {
-  runId                  String     @id @map("run_id")
-  modeledComplete        Boolean    @default(false) @map("modeled_complete")
-  guidedSubmitted        Boolean    @default(false) @map("guided_submitted")
-  guidedSelectedAnswerId String?    @map("guided_selected_answer_id")
-  guidedUsedHint         Boolean    @default(false) @map("guided_used_hint")
-  guidedComplete         Boolean    @default(false) @map("guided_complete")
-  updatedAt              DateTime   @updatedAt @map("updated_at")
-  sessionRun             SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
+model CatalogEpisode {
+  storyId           String           @map("story_id")
+  episodeId         String           @map("episode_id")
+  storyTitle        String           @map("story_title")
+  episodeTitle      String           @map("episode_title")
+  lessonPackagePath String           @map("lesson_package_path")
+  transcriptPath    String           @map("transcript_path")
+  isAvailable       Boolean          @default(true) @map("is_available")
+  createdAt         DateTime         @default(now()) @map("created_at")
+  updatedAt         DateTime         @updatedAt @map("updated_at")
+  runs              Run[]
 
-  @@map("warmup_progress")
+  @@id([storyId, episodeId])
+  @@map("catalog_episodes")
 }
 
-model LevelResponse {
-  id                 String     @id @default(cuid())
-  runId              String     @map("run_id")
-  levelId            String     @map("level_id")
-  initialAnswer      String     @map("initial_answer")
-  finalAnswer        String?    @map("final_answer")
-  usedHint           Boolean    @default(false) @map("used_hint")
-  answerChanged      Boolean    @default(false) @map("answer_changed")
-  completedAt        DateTime?  @map("completed_at")
-  sessionRun         SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
+model Run {
+  runId              String         @id @default(cuid()) @map("run_id")
+  studentId          String         @map("student_id")
+  storyId            String         @map("story_id")
+  episodeId          String         @map("episode_id")
+  currentSceneIndex  Int            @default(0) @map("current_scene_index")
+  sceneHighWaterMark Int            @default(0) @map("scene_high_water_mark")
+  starsEarned        Int            @default(0) @map("stars_earned")
+  readingFinishedAt  DateTime?      @map("reading_finished_at")
+  bonusEarnedAt      DateTime?      @map("bonus_earned_at")
+  startedAt          DateTime       @default(now()) @map("started_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  student            Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  catalogEpisode     CatalogEpisode @relation(fields: [storyId, episodeId], references: [storyId, episodeId], onDelete: Cascade)
+  quizAttempts       QuizAttempt[]
 
-  @@unique([runId, levelId], name: "unique_level_response")
+  @@unique([studentId, storyId, episodeId], name: "unique_student_episode_run")
+  @@index([studentId])
+  @@index([storyId, episodeId])
+  @@map("runs")
+}
+
+model PracticeAttempt {
+  id          String    @id @default(cuid())
+  studentId   String    @map("student_id")
+  flawId      String    @map("flaw_id")
+  completedAt DateTime? @map("completed_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+  student     Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([studentId, flawId], name: "unique_student_practice_flaw")
+  @@index([studentId])
+  @@map("practice_attempts")
+}
+
+model QuizAttempt {
+  id                  String    @id @default(cuid())
+  runId               String    @map("run_id")
+  levelId             String    @map("level_id")
+  turnId              String    @map("turn_id")
+  firstOptionId       String?   @map("first_option_id")
+  finalOptionId       String?   @map("final_option_id")
+  usedHint            Boolean   @default(false) @map("used_hint")
+  starsEarned         Int       @default(0) @map("stars_earned")
+  lockedAt            DateTime? @map("locked_at")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime  @updatedAt @map("updated_at")
+  run                 Run       @relation(fields: [runId], references: [runId], onDelete: Cascade)
+
+  @@unique([runId, levelId], name: "unique_run_level_quiz_attempt")
   @@index([runId])
-  @@map("level_responses")
-}
-
-model ScaffoldEvent {
-  id         String     @id @default(cuid())
-  runId      String     @map("run_id")
-  levelId    String     @map("level_id")
-  stepKey    String     @map("step_key")
-  createdAt  DateTime   @default(now()) @map("created_at")
-  sessionRun SessionRun @relation(fields: [runId], references: [runId], onDelete: Cascade)
-
-  @@unique([runId, levelId, stepKey], name: "unique_scaffold_event")
-  @@index([runId, levelId])
-  @@map("scaffold_events")
+  @@map("quiz_attempts")
 }

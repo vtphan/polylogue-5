@@ -18,7 +18,7 @@ export const transcriptSchema = z.object({
   episode_id: z.string().min(1),
   title: z.string().min(1),
   characters: z.array(z.string().min(1)).optional(),
-  scenes: z.array(transcriptSceneSchema).min(1),
+  scenes: z.array(transcriptSceneSchema).min(3),
 });
 
 export type TranscriptTurn = z.infer<typeof transcriptTurnSchema>;
@@ -48,16 +48,13 @@ const lessonLevelSchema = z
     level_id: z.string().min(1),
     turn_id: z.string().min(1),
     title: z.string().min(1),
-    focus_flaw: z.string().min(1).optional(),
-    focus_move: z.string().min(1).optional(),
+    focus_flaw: z.string().min(1),
     prompt: z.string().min(1),
     answer_options: z.array(answerOptionSchema).min(2),
     hint: z.string().min(1).optional(),
     feedback: levelFeedbackSchema,
-    takeaway: z.string().min(1).optional(),
-    badge_label: z.string().min(1).optional(),
+    takeaway: z.string().min(1),
   })
-  .passthrough()
   .superRefine((level, ctx) => {
     const correctIds = new Set(level.feedback.correct.option_ids);
     for (const option of level.answer_options) {
@@ -79,7 +76,7 @@ export type LessonLevel = z.infer<typeof lessonLevelSchema>;
 export const lessonPackageSchema = z
   .object({
     package_meta: z.object({
-      schema_version: z.string().min(1),
+      schema_version: z.literal("simplified_v2"),
     }),
     episode: z.object({
       title: z.string().min(1),
@@ -87,7 +84,7 @@ export const lessonPackageSchema = z
       previously: z.string().min(1).optional(),
       final_takeaway: z.string().min(1).optional(),
     }),
-    levels: z.array(lessonLevelSchema).min(1),
+    levels: z.array(lessonLevelSchema).length(3),
   })
   .passthrough();
 

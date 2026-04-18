@@ -8,7 +8,8 @@ import {
   loadReaderTranscriptByPaths,
 } from "@/lib/content";
 import { prisma } from "@/lib/db";
-import { getRun } from "@/lib/runs";
+import { getRunForStudent } from "@/lib/runs";
+import { getActiveStudentFromCookies } from "@/lib/students";
 
 type ScenePageProps = {
   params: Promise<{ runId: string; n: string }>;
@@ -18,13 +19,11 @@ type ScenePageProps = {
 function SceneNavForm({
   runId,
   targetSceneIndex,
-  sceneCount,
   label,
   className,
 }: {
   runId: string;
   targetSceneIndex: number;
-  sceneCount: number;
   label: string;
   className: string;
 }) {
@@ -32,7 +31,6 @@ function SceneNavForm({
     <form action={goToSceneAction}>
       <input type="hidden" name="run_id" value={runId} />
       <input type="hidden" name="target_scene_index" value={targetSceneIndex} />
-      <input type="hidden" name="scene_count" value={sceneCount} />
       <button type="submit" className={className}>
         {label}
       </button>
@@ -48,7 +46,12 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
     notFound();
   }
 
-  const run = await getRun(runId);
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+
+  const run = await getRunForStudent(runId, student.id);
   if (!run) {
     notFound();
   }
@@ -105,7 +108,6 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
             <SceneNavForm
               runId={runId}
               targetSceneIndex={1}
-              sceneCount={sceneCount}
               label="Continue"
               className="primary"
             />
@@ -175,7 +177,6 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
             <SceneNavForm
               runId={runId}
               targetSceneIndex={sceneIndex - 1}
-              sceneCount={sceneCount}
               label={sceneIndex === 1 ? "Back to start" : "Previous"}
               className="secondary"
             />
@@ -191,7 +192,6 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
             <SceneNavForm
               runId={runId}
               targetSceneIndex={sceneIndex + 1}
-              sceneCount={sceneCount}
               label="Next"
               className="primary"
             />

@@ -5,17 +5,12 @@ import { watch, type FSWatcher } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { prisma } from "./db";
+import { lessonPackageSchema, transcriptSchema } from "./domain";
 import { simplifiedFrameworkRoot } from "./paths";
 
 type StoryFile = {
   story_id?: unknown;
   title?: unknown;
-};
-
-type LessonPackageFile = {
-  episode?: {
-    title?: unknown;
-  };
 };
 
 export type CatalogEpisodeRecord = {
@@ -25,6 +20,7 @@ export type CatalogEpisodeRecord = {
   episodeTitle: string;
   lessonPackagePath: string;
   transcriptPath: string;
+  isAvailable: boolean;
 };
 
 const ARTIFACTS_ROOT = path.join(simplifiedFrameworkRoot(), "artifacts");
@@ -79,6 +75,23 @@ async function loadStoryTitles(): Promise<Map<string, string>> {
   return titles;
 }
 
+function getEligibleEpisodeTitle(rawLessonPackage: unknown): string | null {
+  const parsed = lessonPackageSchema.safeParse(rawLessonPackage);
+  if (!parsed.success) {
+    return null;
+  }
+
+  return parsed.data.episode.title.trim();
+}
+
+function hasEligibleTranscriptShape(rawTranscript: unknown): boolean {
+  const parsed = transcriptSchema.safeParse(rawTranscript);
+  if (!parsed.success) {
+    return false;
+  }
+  return true;
+}
+
 async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
   const storyTitles = await loadStoryTitles();
   let storyDirs: string[] = [];
@@ -121,21 +134,28 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
             return null;
           }
 
-          const lessonPackage = await readYamlFile<LessonPackageFile>(lessonPackagePath);
+          const [rawLessonPackage, rawTranscript] = await Promise.all([
+            readYamlFile<unknown>(lessonPackagePath),
+            readYamlFile<unknown>(transcriptPath),
+          ]);
           const episodeTitle =
-            typeof lessonPackage?.episode?.title === "string" &&
-            lessonPackage.episode.title.trim().length > 0
-              ? lessonPackage.episode.title.trim()
-              : episodeId;
+            rawLessonPackage ? getEligibleEpisodeTitle(rawLessonPackage) : null;
 
-          return {
+          if (!episodeTitle || !rawTranscript || !hasEligibleTranscriptShape(rawTranscript)) {
+            return null;
+          }
+
+          const record: CatalogEpisodeRecord = {
             storyId,
             episodeId,
             storyTitle: storyTitles.get(storyId) ?? storyId,
             episodeTitle,
             lessonPackagePath,
             transcriptPath,
-          } satisfies CatalogEpisodeRecord;
+            isAvailable: true,
+          };
+
+          return record;
         }),
       );
 
@@ -152,16 +172,10 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
 }
 
 async function applyCatalogSnapshot(records: CatalogEpisodeRecord[]): Promise<void> {
-  const desiredKeys = new Set(records.map((record) => `${record.storyId}::${record.episodeId}`));
-
   await prisma.$transaction(async (tx) => {
-    const existing = await tx.catalogEpisode.findMany({
-      select: { storyId: true, episodeId: true },
+    await tx.catalogEpisode.updateMany({
+      data: { isAvailable: false },
     });
-
-    const stale = existing.filter(
-      (entry) => !desiredKeys.has(`${entry.storyId}::${entry.episodeId}`),
-    );
 
     for (const record of records) {
       await tx.catalogEpisode.upsert({
@@ -176,19 +190,9 @@ async function applyCatalogSnapshot(records: CatalogEpisodeRecord[]): Promise<vo
           episodeTitle: record.episodeTitle,
           lessonPackagePath: record.lessonPackagePath,
           transcriptPath: record.transcriptPath,
+          isAvailable: true,
         },
         create: record,
-      });
-    }
-
-    for (const entry of stale) {
-      await tx.catalogEpisode.delete({
-        where: {
-          storyId_episodeId: {
-            storyId: entry.storyId,
-            episodeId: entry.episodeId,
-          },
-        },
       });
     }
   });
@@ -215,6 +219,7 @@ export async function listCatalogEpisodes() {
   registerCatalogWatcher();
   await syncCatalogFromFilesystem();
   return prisma.catalogEpisode.findMany({
+    where: { isAvailable: true },
     orderBy: [{ storyId: "asc" }, { episodeId: "asc" }],
   });
 }

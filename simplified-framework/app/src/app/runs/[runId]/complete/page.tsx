@@ -2,7 +2,8 @@ import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { StarRow } from "@/app/_components/StarRow";
 import { prisma } from "@/lib/db";
-import { getRun } from "@/lib/runs";
+import { getRunForStudent } from "@/lib/runs";
+import { getActiveStudentFromCookies } from "@/lib/students";
 
 type CompletePageProps = {
   params: Promise<{ runId: string }>;
@@ -10,7 +11,12 @@ type CompletePageProps = {
 
 export default async function CompletePage({ params }: CompletePageProps) {
   const { runId } = await params;
-  const run = await getRun(runId);
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+
+  const run = await getRunForStudent(runId, student.id);
   if (!run) {
     notFound();
   }

@@ -3,7 +3,10 @@
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/db";
-import { loadReaderLessonPackageByPaths } from "@/lib/content";
+import {
+  loadReaderLessonPackageByPaths,
+  loadReaderTranscriptByPaths,
+} from "@/lib/content";
 import { getQuizAttempt, starsForLockedQuiz, syncRunStars } from "@/lib/quiz";
 import {
   createStudent,
@@ -12,7 +15,7 @@ import {
   hasCompletedAllPractice,
   writeStudentCookies,
 } from "@/lib/students";
-import { getRun, type SessionRun } from "@/lib/runs";
+import { getRunForStudent, type SessionRun } from "@/lib/runs";
 import { createOrResumeRun } from "@/lib/runs";
 import { routeForRun } from "@/lib/routing";
 import { getPracticeExercise } from "@/lib/practice";
@@ -32,6 +35,23 @@ async function getCatalogEpisodeForRun(run: SessionRun) {
     );
   }
   return catalogEpisode;
+}
+
+async function requireActiveStudent() {
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+  return student;
+}
+
+async function requireOwnedRun(runId: string) {
+  const student = await requireActiveStudent();
+  const run = await getRunForStudent(runId, student.id);
+  if (!run) {
+    throw new Error(`Unknown run "${runId}" for active student`);
+  }
+  return { student, run };
 }
 
 async function getReaderLevelForRun(run: SessionRun, levelId: string) {
@@ -77,11 +97,7 @@ export async function openStoryAction(formData: FormData): Promise<void> {
     throw new Error("Missing story or episode selection");
   }
 
-  const student = await getActiveStudentFromCookies();
-  if (!student) {
-    redirect("/");
-  }
-
+  const student = await requireActiveStudent();
   const practiceComplete = await hasCompletedAllPractice(student.id);
   if (!practiceComplete) {
     redirect("/practice");
@@ -103,10 +119,7 @@ export async function openPracticeHintAction(formData: FormData): Promise<void> 
     throw new Error("Missing flaw id");
   }
 
-  const student = await getActiveStudentFromCookies();
-  if (!student) {
-    redirect("/");
-  }
+  await requireActiveStudent();
 
   redirect(`/practice/${flawId}?hint=open`);
 }
@@ -119,11 +132,7 @@ export async function submitPracticeExerciseAction(formData: FormData): Promise<
     throw new Error("Missing practice exercise parameters");
   }
 
-  const student = await getActiveStudentFromCookies();
-  if (!student) {
-    redirect("/");
-  }
-
+  const student = await requireActiveStudent();
   const exercise = await getPracticeExercise(flawId);
   if (!exercise) {
     throw new Error(`Unknown practice flaw "${flawId}"`);
@@ -161,7 +170,6 @@ export async function submitPracticeExerciseAction(formData: FormData): Promise<
 export async function goToSceneAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
   const targetSceneIndex = Number(formData.get("target_scene_index") ?? "");
-  const sceneCount = Number(formData.get("scene_count") ?? "");
 
   if (!runId) {
     throw new Error("Missing run id");
@@ -169,16 +177,13 @@ export async function goToSceneAction(formData: FormData): Promise<void> {
   if (!Number.isInteger(targetSceneIndex) || targetSceneIndex < 0) {
     throw new Error("Invalid target scene index");
   }
-  if (!Number.isInteger(sceneCount) || sceneCount < 1) {
-    throw new Error("Invalid scene count");
-  }
 
-  const run = await getRun(runId);
-  if (!run) {
-    throw new Error(`Unknown run "${runId}"`);
-  }
-
+  const { run } = await requireOwnedRun(runId);
+  const catalogEpisode = await getCatalogEpisodeForRun(run);
+  const transcript = await loadReaderTranscriptByPaths(catalogEpisode.transcriptPath);
+  const sceneCount = transcript.scenes.length;
   const boundedTarget = Math.min(targetSceneIndex, sceneCount);
+
   await prisma.run.update({
     where: { runId },
     data: {
@@ -202,6 +207,7 @@ export async function openQuizPanelAction(formData: FormData): Promise<void> {
     throw new Error("Missing quiz panel parameters");
   }
 
+  await requireOwnedRun(runId);
   redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
 }
 
@@ -212,6 +218,7 @@ export async function closeQuizPanelAction(formData: FormData): Promise<void> {
     throw new Error("Missing quiz close parameters");
   }
 
+  await requireOwnedRun(runId);
   redirect(`/runs/${runId}/scene/${sceneIndex}`);
 }
 
@@ -223,11 +230,7 @@ export async function openQuizHintAction(formData: FormData): Promise<void> {
     throw new Error("Missing quiz hint parameters");
   }
 
-  const run = await getRun(runId);
-  if (!run) {
-    throw new Error(`Unknown run "${runId}"`);
-  }
-
+  const { run } = await requireOwnedRun(runId);
   const level = await getReaderLevelForRun(run, levelId);
   const existing = await getQuizAttempt(runId, levelId);
   if (!level.hint || existing?.lockedAt) {
@@ -265,11 +268,7 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
     throw new Error("Missing quiz answer parameters");
   }
 
-  const run = await getRun(runId);
-  if (!run) {
-    throw new Error(`Unknown run "${runId}"`);
-  }
-
+  const { run } = await requireOwnedRun(runId);
   const level = await getReaderLevelForRun(run, levelId);
   const existing = await getQuizAttempt(runId, levelId);
   if (existing?.lockedAt) {
