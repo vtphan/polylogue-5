@@ -9,21 +9,34 @@
 >
 > When a planned change here conflicts with what the docs describe, treat this file as the forward direction and the docs as the current state. Source-of-truth precedence for authoritative rules (validators, Zod schemas, artifact files, Prisma schema, the taxonomy, then docs) is defined in `CLAUDE.md`.
 
+## Contents
+
+1. [Goal](#goal) — three levers for cutting cognitive load; maps each lever to the items below.
+2. [Scope decisions (baseline)](#scope-decisions-baseline) — the tight commitments (3-level cap, scene structure, vocabulary).
+3. [New story scope — "The White Squirrel"](#new-story-scope--the-white-squirrel-3-episodes) — cast, three-hypothesis structure, per-episode plots, engagement threads, scientific framing, artifact moves.
+4. [Pipeline changes (authoring + validators)](#pipeline-changes-authoring--validators) — schema revamp, validators, agent specs, language guide, gate minimums. Items **P1–P11**.
+5. [App changes (runtime)](#app-changes-runtime) — orientation card, scene-based reading UI, transcript loader, level-cap guard. Items **A1–A4**.
+6. [Sequencing](#sequencing) — four-phase rollout.
+7. [Explicitly out of scope for this batch](#explicitly-out-of-scope-for-this-batch) — deferred work.
+
 ## Goal
 
-Lower cognitive load for 6th-grade students so a full episode reliably fits inside a 20-minute session. Three levers:
+Lower cognitive load for 6th-grade students so a full episode reliably fits inside a 20-minute session. Three levers, each cross-referenced to the items that implement it:
 
 1. **Scaffold the reading phase** — add an episode summary and scenes with summaries so students orient to the episode and to each scene before facing dialog.
+   *Pipeline: P2 (scenes in `transcript.yaml`), P3 (`episode.summary`), P4 (`episode.previously`). App: A1 (render orientation), A2 (scene-based UI), A3 (transcript loader).*
 2. **Shorten scaffolding text** — cap word counts on warm-up `worked_explanation`, `best_answer_text`, `takeaway`, and the new orientation fields, so passive reading load doesn't dominate reasoning load.
+   *Pipeline: P5 (word caps).*
 3. **Reduce the number of levels per episode** — fix at 3 instead of 3–5 so a run fits the session budget without rushing.
+   *Pipeline: P1 (validator cap). App: A4 (defensive guard in routing).*
 
-Dialog is treated separately: no word cap (which would flatten voice and block deliberate reasoning chains), but a **linguistic guide** + readability checks keep vocabulary and register inside 6th-grade range.
+Dialog is treated separately: no word cap (which would flatten voice and block deliberate reasoning chains), but a **linguistic guide** + readability checks keep vocabulary and register inside 6th-grade range. *Pipeline: P10 (linguistic guide for dialog and scaffolding).*
 
-Changes span both the authoring pipeline (schemas + validators + agent specs) and the downstream app (runtime rendering + state).
+Changes span both the authoring pipeline (items P1–P11 in [Pipeline changes](#pipeline-changes-authoring--validators)) and the downstream app (items A1–A4 in [App changes](#app-changes-runtime)).
 
 The reading phase is scoped to **comprehension only** — help students understand what the episode is about before they reason about it. Reasoning scaffolds belong downstream (modeled warm-up, guided warm-up, levels) and are out of scope for this batch.
 
-This revision also collapses the story catalog from the current 8-episode `strangers-in-the-old-forest` into a new 3-episode story, `the-white-squirrel`, and tightens the gate agents so they check only what the app actually requires (no content quotas beyond the runtime minimum).
+This revision also collapses the story catalog from the current 8-episode `strangers-in-the-old-forest` into a new 3-episode story, `the-white-squirrel` (see [New story scope](#new-story-scope--the-white-squirrel-3-episodes); authored via items P8 and P9), and tightens the gate agents so they check only what the app actually requires (see item P11 — no content quotas beyond the runtime minimum).
 
 ## Scope decisions (baseline)
 
