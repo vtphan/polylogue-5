@@ -80,29 +80,31 @@ Use this progression rule across the season:
 
 **Mix levels within an episode.** Every episode must carry the **primary flaw** at all three amplifications — at least one `unmistakable` moment, one `showcased` moment, and one `heightened` moment — so the downstream 3-level package has material for a clean `unmistakable → showcased → heightened` ramp. A single episode often also carries one or two supporting flaws at their own amplifications, typically lower than the primary.
 
-### 5. Flaw-Moment Minimums (Hard Gate)
+### 5. Quiz-Moment Planning (Hard Gate)
 
-Each plan is gated by `validate_episode_plan.py` against these minimums. The **primary flaw** — the most frequent flaw id across the plan's `flaws[]`, ties broken by first occurrence — must carry:
+Each plan is gated by `validate_episode_plan.py` against these minimums. The **primary flaw** must carry:
 
-- **≥ 1 moment at each of** `unmistakable`, `showcased`, `heightened`
-- **≥ 5 moments total** (one modeled warm-up, one guided warm-up, three levels — each feeds one slot in the lesson package)
+- exactly one planned quiz-worthy moment at each of `unmistakable`, `showcased`, `heightened`
+- those 3 quiz-worthy moments distributed across distinct scenes
 
-This is a floor, not a target. It is fine to include more than 5 if the scene calls for them, but do not pad: extra moments that do not serve the scene weaken the reviewer's job.
+This is not busywork for the validator. The downstream app renders exactly 3 inline quizzes, and it allows at most one quiz per scene. Plan the transcript accordingly.
 
 Supporting flaws are unconstrained by the gate — use them when they strengthen the scene, leave them out when they don't.
 
-#### One entry per intended flaw moment
+#### One entry per intended planned moment
 
-Create **one flaw entry per intended turn**, not one per (`id`, `amplification`) pair.
+Create **one flaw entry per intended turn**, not one per flaw name only.
 
-If the primary flaw is `jumping_to_a_conclusion` and you want three `unmistakable` moments plus one `showcased` and one `heightened`, the resulting `episode-plan.yaml` must contain 5 separate flaw entries — three with `amplification: unmistakable`, one `showcased`, one `heightened`, each with a different `scene_note`.
+The canonical field name for each planned moment is `focus_flaw`, not `id`.
 
-Do not collapse instances and rely on `flaw_embedding_guidance.must_include` to carry the count. `must_include` is supplementary scene direction, not an inventory of flaw entries — the package builder reads `flaws[]` as the authoritative list of candidate teachable moments.
+If the primary flaw is `jumping_to_a_conclusion` and you want one `unmistakable`, one `showcased`, and one `heightened` quiz-worthy moment, the resulting `episode-plan.yaml` must contain 3 separate primary-flaw entries — one per amplification — each with a different `scene_note`.
 
-### 6. Counts Are Mostly Targets; Minimums Are Hard
+Do not collapse instances and rely on `flaw_embedding_guidance.must_include` to carry the inventory. `must_include` is supplementary scene direction, not the authoritative list of candidate teachable moments.
 
-- `target_teachable_moments`, `warmup_candidate_goal`, `level_candidate_goal` are optional authoring hints; the validator does not enforce them and they need not be set.
-- The primary-flaw amplification mix and minimum-of-5 from §4–§5 **are** enforced. The plan fails validation otherwise.
+### 6. Counts Are Mostly Targets; Quiz-Moment Distribution Is Hard
+
+- `target_teachable_moments` and similar fields are optional authoring hints; the validator does not need them to enforce the downstream app contract.
+- The primary-flaw amplification mix and distinct-scene quiz distribution from §4–§5 **are** enforced. The plan fails validation otherwise.
 
 ### 7. Preserve Literary Quality
 
@@ -120,6 +122,16 @@ Do not turn episodes into disguised worksheets.
 - Surface risks, but do not over-police.
 - Use plain language first.
 - Ask only the next necessary question if the story plan is under-specified.
+
+## Downstream-App Fit
+
+The app's quiz prompt may not restate the highlighted turn. Plan with that in mind.
+
+So the 3 primary quiz-worthy moments should be:
+
+- clear enough that a short direct question can point at the reasoning move
+- not so context-dependent that the package builder would need to repeat the turn in the prompt
+- spaced across scenes so each quiz has narrative room in the reader
 
 ## Output Expectations
 

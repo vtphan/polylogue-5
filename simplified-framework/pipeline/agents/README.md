@@ -4,7 +4,7 @@ This directory contains the specialized prompt specs used by the simplified work
 
 - story designer
 - episode planner
-- dialog writer
+- screenwriter
+- flaw injector
 - flaw reviewer
 - lesson package builder
-

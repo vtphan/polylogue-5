@@ -7,7 +7,6 @@ type: object
 required:
   - package_meta
   - episode
-  - warmups
   - levels
 
 properties:
@@ -36,13 +35,9 @@ properties:
         type: array
       final_takeaway:
         type: string
-  warmups:
-    type: object
-    description: Exactly one modeled + one guided warm-up.
   levels:
     type: array
     minItems: 3
     maxItems: 3
     description: >
-      Exactly 3 levels. Every level's turn_id plus both warm-up turn_ids
-      must be pairwise distinct — no turn can fill two slots.
+      Exactly 3 levels. No two levels may target turns in the same scene.

@@ -3,10 +3,10 @@
 # Canonical structural rules live in
 # simplified-framework/pipeline/scripts/validate_episode_plan.py.
 #
-# The plan's primary flaw (the most frequent `id` across flaws[]) must carry
-# at least one moment at each amplification band (unmistakable, showcased,
-# heightened) and at least 5 moments total — enough to feed 2 warm-ups + 3
-# levels downstream.
+# The plan's primary flaw must carry one quiz-worthy moment at each
+# amplification band (unmistakable, showcased, heightened), distributed
+# across distinct scenes so the downstream app can render exactly 3 inline
+# quizzes with at most one quiz per scene.
 
 type: object
 required:
@@ -32,14 +32,14 @@ properties:
   flaws:
     type: array
     description: >
-      One entry per intended flaw moment (not per (id, amplification) pair).
-      Most entries should share the primary flaw's id; a smaller number may
+      One entry per intended flaw moment (not per (focus_flaw, amplification) pair).
+      Most entries should share the primary flaw's focus_flaw; a smaller number may
       carry supporting flaws.
     items:
       type: object
-      required: [id, amplification]
+      required: [focus_flaw, amplification]
       properties:
-        id:
+        focus_flaw:
           type: string
         amplification:
           type: string
@@ -53,12 +53,6 @@ properties:
   flaw_embedding_guidance:
     type: object
   target_teachable_moments:
-    type: integer
-    description: Optional authoring hint; not gated.
-  warmup_candidate_goal:
-    type: integer
-    description: Optional authoring hint; not gated.
-  level_candidate_goal:
     type: integer
     description: Optional authoring hint; not gated.
   character_beats:

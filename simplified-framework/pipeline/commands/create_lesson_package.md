@@ -1,5 +1,5 @@
 ---
-description: Convert an accepted transcript into an app-facing lesson package for the simplified Lens runtime
+description: Convert an accepted transcript into a v2 app-facing lesson package for the simplified Lens runtime
 ---
 
 # Create Lesson Package
@@ -13,7 +13,7 @@ This command should run only after:
 
 Its job is to turn the accepted episode materials into a deterministic package that the non-LLM app can render without guesswork.
 
-Scope: the package gates what the app needs at runtime — `episode.summary`, `episode.previously` (on ep 2+), one modeled + one guided warm-up, and **exactly 3 levels** whose turn_ids (plus both warm-up turn_ids) are all distinct. The validator does not enforce any content quota beyond these minimums.
+Scope: the package gates what the app needs at runtime — `episode.summary`, `episode.previously` (on ep 2+), and **exactly 3 inline quizzes** (`levels[]`) bound to distinct scenes. Warm-ups do not exist in v2. Practice lives in its own shared package outside the story artifact.
 
 ## Output Target
 
@@ -47,12 +47,13 @@ This command should use:
 Responsibilities:
 
 - author `episode.summary` (≤ 60 words) and, on episode 2+, `episode.previously` (≤ 40 words)
-- select distinct turns for 1 modeled warm-up, 1 guided warm-up, and 3 levels
+- select exactly 3 quiz turns for `levels[]`
+- ensure the 3 selected quiz turns live in distinct scenes
 - order the 3 levels as `unmistakable` → `showcased` → `heightened` by default
-- write student-facing prompts
+- emit canonical `focus_flaw` on every level
+- write short direct prompts that do **not** quote or paraphrase the highlighted turn
 - write answer options
-- identify best answers (required for warm-ups; optional authoring-time metadata for levels)
-- write hints and feedback
+- write hints, per-option feedback, and per-level takeaways
 - produce an unambiguous app-facing package
 
 Required file output:
@@ -66,22 +67,34 @@ The downstream app is deterministic and non-LLM.
 So this package must already specify:
 
 - which turns are used
-- which prompts are shown
+- which flaw each quiz teaches
+- which prompt is shown
 - which options are shown
-- which option is best
 - what hint to show
-- what feedback to show
+- what feedback to show for each wrong option
 - what takeaway to reinforce
 
 The app should not need to infer any of these at runtime.
+
+## Downstream App Fit
+
+The downstream app is an inline-quiz reader, not a worksheet surface.
+
+That means this command must build quizzes that fit the actual UI:
+
+- prompts are short and direct because the highlighted turn is already visible
+- wrong-option explanations should say why this is **not the best answer**
+- correct explanations should say why this **is the best answer**
+- the student's selected option will sit visually adjacent to its explanation, so the explanation should respond to that exact choice
+- avoid overlong scaffolds that force the student to read a mini-essay inside the scene
 
 ## Expected Operator Report
 
 After the package is built, Claude Code should report:
 
 - where the saved package file is
-- which turns were chosen for warm-ups
-- which turns were chosen for levels
+- which 3 turns were chosen for levels
+- which scene each chosen turn belongs to
 - whether any planned flaw moments were dropped
 - whether the package appears unambiguous enough for the app
 
@@ -105,7 +118,9 @@ If validation fails:
 Do not:
 
 - regenerate the transcript silently
+- emit warm-ups or any v1-only fields
 - rely on hidden analytic interpretation at runtime
+- repeat the highlighted turn in the prompt
 - leave answer quality ambiguous
 
 The package is successful only if the app can render it directly.

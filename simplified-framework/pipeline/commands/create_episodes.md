@@ -35,7 +35,7 @@ For each episode, determine:
 
 - title
 - episode goal
-- flaws — the primary flaw must carry ≥ 1 moment at each of `unmistakable`, `showcased`, `heightened`, and ≥ 5 primary-flaw moments total (2 for warm-ups + 3 for levels). Supporting flaws optional.
+- flaws — the primary flaw must carry one planned quiz-worthy moment at each of `unmistakable`, `showcased`, and `heightened`, distributed across distinct scenes. Supporting flaws optional.
 - target difficulty
 - student takeaway
 - scene design
@@ -70,11 +70,14 @@ The operator and agent should decide:
 - where episodes should stay simple
 - where later episodes can become slightly richer
 
-### 3. Counts Are Guidance, Not Hard Law
+### 3. Plan For The Downstream Reader
 
-Each episode plan may include target teachable-moment counts and warm-up/level goals.
+Each episode plan should give the downstream app what it needs:
 
-These are planning aids, not rigid rules.
+- 3 quiz-worthy primary-flaw moments
+- one per amplification band
+- no two of those 3 moments in the same scene
+- turns clear enough that later prompts can ask the question directly without repeating the turn
 
 ### 4. Preserve Room for Natural Transcript Writing
 

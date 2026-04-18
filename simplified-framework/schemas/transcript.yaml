@@ -3,7 +3,7 @@
 # Canonical structural rules live in
 # simplified-framework/pipeline/scripts/validate_transcript.py.
 #
-# The transcript is source dialogue organized into 2–4 scenes. Each scene
+# The transcript is source dialogue organized into 3+ scenes. Each scene
 # has a plain-language summary and 1+ turns; turn_id is globally unique
 # across the whole transcript so lesson_package.yaml references keep working.
 
@@ -26,8 +26,7 @@ properties:
     type: array
   scenes:
     type: array
-    minItems: 2
-    maxItems: 4
+    minItems: 3
     items:
       type: object
       required: [scene_id, summary, turns]
@@ -44,11 +43,14 @@ properties:
           type: array
           items:
             type: object
-            required: [turn_id, speaker, text]
+            required: [turn_id, text]
             properties:
               turn_id:
                 type: string
                 description: tNN; unique across the whole transcript, strictly increasing.
+              kind:
+                type: string
+                enum: [dialog, action]
               speaker:
                 type: string
               text:
