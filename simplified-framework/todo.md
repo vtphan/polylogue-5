@@ -1,5 +1,14 @@
 # TODO — Lower Cognitive Load and Scaffold the Reading Phase
 
+> **This document describes planned revisions, not current state.** For the system as it stands today, consult:
+>
+> - `simplified-framework/docs/instructional-design.md` — conceptual framework, student journey, authoring surface
+> - `simplified-framework/docs/tech-reference.md` — stack, data model, runtime contracts, change recipes
+> - `simplified-framework/docs/operator-workflow.md` — human-in-the-loop authoring cadence
+> - `simplified-framework/reference/flaw-taxonomy.yaml` — canonical flaws + amplification bands
+>
+> When a planned change here conflicts with what the docs describe, treat this file as the forward direction and the docs as the current state. Source-of-truth precedence for authoritative rules (validators, Zod schemas, artifact files, Prisma schema, the taxonomy, then docs) is defined in `CLAUDE.md`.
+
 ## Goal
 
 Lower cognitive load for 6th-grade students so a full episode reliably fits inside a 20-minute session. Three levers:
