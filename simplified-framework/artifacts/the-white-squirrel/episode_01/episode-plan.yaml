@@ -1,0 +1,126 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+
+episode_goal: >
+  Cam, James, and Leela spot a white squirrel with red eyes at Overton Park.
+  Within an hour the group has talked its way into an alien-biosignature
+  framing, and the move that carried them there was not a logic leap — it was
+  a credential. This episode teaches the student to notice the difference
+  between "a source that sounds important" and "a source that actually
+  answers this question." The flaw is load-bearing, not decorative: the
+  group accepts the biosignature framing because Anya has a PhD and the
+  word sounds legitimate, and then the framing wobbles the moment someone
+  reads what biosignature actually means.
+
+flaws:
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      Cam pulls up a TikTok on his phone about red-eyed animals and stacks
+      all four cues in one breath — unnamed poster, "a million views",
+      "that basically proves something", and the comment section echoing
+      itself as corroboration.
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      James brings up Marcus's friend Anya secondhand — "Marcus says she
+      literally works on this stuff" — as a single weak citation with one
+      acceptance frame ("so that's not nothing"). No stacked escalator.
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      After James calls Anya and retells the conversation, Cam or James
+      lands the credentialed-adjacent line in a voice that sounds
+      reasonable — "Anya's literally a grad student at U of M, and this
+      stuff is what she works on, so if she says biosignature, that's not
+      nothing." The word biosignature is used as if it answers the
+      question about a squirrel on Earth.
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_id: scene_01
+    scene_note: >
+      Supporting flaw right at the sighting — James stacks "its eyes are
+      red, so something's off, so something did this to it, so somebody's
+      doing this on purpose" in a single breath. Sets the buzz the episode
+      then channels into the Anya framing. Not a quiz moment.
+
+student_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+scene_design:
+  opening: >
+    Saturday afternoon at Overton Park. The three kids round a bend near
+    Rainbow Lake and see it — a white squirrel with red eyes. The sighting
+    is short, physical, and real. Everything after this scene is the
+    group trying to explain it.
+  turn: >
+    Cam starts pattern-matching on his phone, then James invokes his
+    brother Marcus, and the group stacks three kinds of source-trust in a
+    row: a viral TikTok, a secondhand endorsement, and a credentialed
+    stranger's university page. Each accepted faster than the last.
+  close: >
+    James calls Anya and retells the call with enthusiasm. The word
+    "biosignature" lands like a verdict. Then Leela, quietly, looks up
+    what biosignature actually means — it is about detecting microbial
+    life on other planets, not mammal coloring on Earth — and the whole
+    frame wobbles. The episode ends in that wobble, not in a clean
+    disproof.
+  scenes:
+    - scene_id: scene_01
+      summary: >
+        The sighting itself near Rainbow Lake. Physical detail first,
+        then the immediate buzz. James stacks a chain in one breath.
+    - scene_id: scene_02
+      summary: >
+        Walking out of the park, on a bench. Cam on his phone pulls up a
+        TikTok about red-eyed animals. Source-trust at its loudest.
+    - scene_id: scene_03
+      summary: >
+        James brings up Marcus and mentions Anya for the first time. The
+        credentialed-adjacent frame enters the conversation, secondhand.
+    - scene_id: scene_04
+      summary: >
+        James calls Anya on speaker. The group hears "color morphs as
+        candidate biosignatures" and treats the vocabulary as a verdict.
+    - scene_id: scene_05
+      summary: >
+        Back at someone's kitchen table. Leela reads what biosignature
+        actually means out loud. Nobody fights it; the framing just
+        quietly wobbles and the episode ends there.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Phone-native. Treats TikToks, comment sections, and Anya's U of M
+      page as one flat layer of "sources." The most confident about the
+      things he half-knows. The episode runs through his thumb.
+  - character_id: james
+    beat: >
+      Chainer. Stacks the opening leap at the sighting and later chains
+      from "Marcus knows her" to "she's the expert here." Sounds excited,
+      not hesitant; the chain is how he thinks, not how he stalls.
+  - character_id: leela
+    beat: >
+      Quiet for most of the episode. Listens, nods, does not push back
+      in the moment. At the very end she is the one who actually reads
+      the definition of biosignature out loud. The wobble lands through
+      her voice without her having to argue.
+
+flaw_embedding_guidance:
+  must_include:
+    - scene_02 Cam-on-phone moment stacks all four unmistakable cues for trusting_a_source_too_quickly (unnamed poster, "a million views", a certainty escalator, comment-section corroboration)
+    - scene_03 has exactly one clearly weak citation plus one acceptance frame — no stacked escalator on top
+    - scene_04 uses the taxonomy's signature "Anya's literally a grad student at U of M... biosignature, that's not nothing" shape, in a voice that passes for normal talk
+    - the word "biosignature" is treated as authoritative until Leela reads what it means in scene_05
+    - scene_01 carries the supporting jumping_to_a_conclusion chain in one breath, to establish James's signature shape for the story
+  avoid:
+    - letting any of the three primary quiz moments drift into "so → so → so" chain territory — this is a source-trust episode, not a leap episode
+    - stacking a certainty escalator on the scene_03 showcased moment (that would push it to unmistakable)
+    - letting the scene_04 heightened moment tip into enthusiasm or caricature — the line has to read as reasonable
+    - resolving the alien framing on stage with an argument; the disproof is Leela reading a definition, not the group arguing
+    - adding explicit flaw vocabulary to dialogue or action turns
+
+target_teachable_moments: 4

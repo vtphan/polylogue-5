@@ -1,0 +1,140 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+title: The Walk
+
+episode_goal: >
+  The kids have wobbled out of two wrong framings. Leela catches Ms. Reyes
+  after class and hears the mutation angle. Back together, the group maps
+  their sightings and realizes they have only ever walked the south side
+  of Overton Park. They walk the north side. No red-eyed squirrels. Leela
+  names the condition that had been sitting next to them the whole time:
+  the highways cut this forest patch off from the rest of Memphis. This
+  episode teaches the student to recognize missing conditions —
+  unspoken pieces of context that quietly do load-bearing work in a
+  claim. The right answer arrives boring and real: a rare mutation, a
+  forest patch cut off by highways, a small cut-off group where rare
+  things show up more often over time.
+
+flaws:
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      The missing condition is set up in the immediately adjacent turn.
+      Leela (or Ms. Reyes, earlier) plants "we always loop the same way
+      through the south side", and then James or Cam lands: "Right, and
+      we've only ever seen them on this loop. So they only live on this
+      side of the park." Universal claim in the same scene as a visible
+      local-context contradiction.
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      On the north-side walk, one of them says: "You only ever see the
+      red-eyed ones when it's quiet — that's when they come out."
+      A quiet generalizer ("you only ever see") that sneaks a condition
+      under a claim. The missed condition is nameable in one short
+      student sentence.
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      Casual line, probably from James or Cam, about the squirrels they
+      have been watching for weeks: "These ones are the most curious
+      squirrels I've ever met." The limiting condition — "the ones from
+      this cut-off patch" — does hidden load-bearing work. Reads as
+      affectionate until Leela names what "these ones" silently means.
+  - focus_flaw: ignoring_another_perspective
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      Supporting flaw — alternative offered out loud in the immediately
+      preceding turn and talked over with a hard signal phrase. Example:
+      Leela — "Or maybe we've just only ever walked one part of the
+      park." James — "No, no, it's the whole forest. That's the thing."
+      The kid who gets brushed past is the one who ends up being right.
+
+student_takeaway: A pattern in what you have walked is not a pattern in the whole place.
+
+scene_design:
+  opening: >
+    Leela catches Ms. Reyes after class. She does not get the full answer.
+    She gets enough: rare mutation, isolated population, small groups,
+    rare things show up more often over time. She does not parrot this
+    back to her friends as a verdict. She holds it.
+  turn: >
+    At the park the group maps their sightings on paper. Leela plants the
+    missing condition quietly — "we always loop the same way" — and the
+    group immediately jumps past it into a universal claim. The walk to
+    the north side is almost a dare. They find no red-eyed squirrels.
+  close: >
+    Leela names the highways. The forest patch is cut off. They call
+    Anya back with plain questions. She admits her dissertation is on
+    planetary atmospheres, not mammal biology, and agrees an isolated-
+    population mutation fits the pattern. The group assembles a plain-
+    language answer together: a rare mutation, a forest patch cut off
+    by highways, a small cut-off group where rare things show up more
+    often over time. The episode ends calm, not triumphant.
+  scenes:
+    - scene_id: scene_01
+      summary: >
+        Leela after class with Ms. Reyes. Ms. Reyes plants the phrases
+        "isolated population" and "rare mutation" without using them
+        like a verdict. Leela listens, does not argue.
+    - scene_id: scene_02
+      summary: >
+        The three friends on a bench with a paper map. Leela names the
+        loop. James flips the claim to the whole park. Leela offers an
+        alternative and James brushes past. Supporting ignore-another
+        moment lands here.
+    - scene_id: scene_03
+      summary: >
+        The north-side walk. Nothing. A showcased missing-condition line
+        slips in while they walk. The absence of red-eyed squirrels
+        lands quietly.
+    - scene_id: scene_04
+      summary: >
+        Resting near the highway overpass. Sound of cars. Someone says
+        the heightened casual line about "these ones." Leela names the
+        highways as the condition. The forest patch idea becomes real.
+    - scene_id: scene_05
+      summary: >
+        Call Anya back. She admits the limits of her field and agrees
+        the isolated-population mutation fits. The group assembles the
+        plain-language answer together.
+
+character_beats:
+  - character_id: leela
+    beat: >
+      Lead this episode. The one who heard Ms. Reyes, the one who names
+      the loop, the one who names the highways. Her instinct for other
+      people's reasoning finally lines up with her own. She does not
+      make speeches — she names things.
+  - character_id: james
+    beat: >
+      Still chains, but less. Brushes past Leela's alternative in
+      scene_02 (supporting ignore-another moment). By scene_04 he lets
+      someone else finish a thought before he jumps. The arc closes
+      here: chains do not vanish, they stop being the loudest voice.
+  - character_id: cam
+    beat: >
+      Calls Anya back in scene_05 and asks plain questions. He is the
+      one who checks a source properly for the first time in the story.
+      The phone is still his, but this time the questions come first.
+
+flaw_embedding_guidance:
+  must_include:
+    - scene_02 sets up the missing condition in an adjacent turn before the unmistakable claim lands; the condition is nameable by a 6th grader in one sentence
+    - scene_02 carries the supporting ignoring_another_perspective moment at unmistakable band — alternative offered out loud and brushed past with a hard signal phrase
+    - scene_03 has a quiet generalizer ("you only ever see") that quietly assumes a condition; no numerical spike
+    - scene_04 uses the heightened casual shape ("these ones are the most ___ I've ever met") with the limiting condition left unsaid
+    - Leela is the one who names the highways in scene_04 — this is her arc payoff and the shape of the right answer in the episode
+    - Anya's credentials are revisited honestly in scene_05 — she admits her field — and the answer becomes boring and real
+  avoid:
+    - letting the unmistakable line land without the Leela setup turn — without setup it becomes unteachable
+    - dressing up the north-side walk as a dramatic reveal with music cues; it should be plain
+    - letting ignoring_another_perspective stack more than one visible brush-off — one per scene
+    - making the final answer sound like a speech; it should be assembled in plain student language
+    - re-using flaw vocabulary anywhere in dialog or action
+
+target_teachable_moments: 4

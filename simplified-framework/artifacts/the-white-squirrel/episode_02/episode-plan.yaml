@@ -1,0 +1,130 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+
+episode_goal: >
+  A few days after the biosignature framing wobbled, Cam shows the group
+  a TikTok about a polluted river elsewhere where animals had mutations.
+  Inside one breath the group has gone from "red eyes, and mutations, and
+  the TikTok" to "our water is toxic." This episode teaches the student
+  to recognize a chain — the shape of stacking "so → so → so" links fast
+  and closing with "it has to be" — as a reasoning flaw, even when each
+  individual link sounds almost reasonable. The disproof is local: Memphis
+  tap water comes from the Memphis Sand Aquifer and is famously clean,
+  and the TikTok was about somewhere else.
+
+flaws:
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      James's signature shape. In one breath: "its eyes were red, and
+      there are mutations in that video, and the video's about a river,
+      so our water did this, so the whole park is drinking it, so that's
+      why we're the only ones seeing it. That basically proves it." Four
+      links, one stacked breath, one closing verdict phrase.
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      One visible leap with one bridge missing, one signal phrase. Example
+      shape: "It's the only toxic thing in any video we've seen about
+      anywhere, so obviously that's what did this." No stacked chain —
+      single confident move.
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      Casual confidence skipping one identifiable step. Example shape:
+      "I mean, red eyes fits pollution, so that has to be it." Reads as
+      normal talk until a careful listener paraphrases back "fits how?"
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_id: scene_01
+    scene_note: >
+      Supporting flaw — Cam introduces the TikTok with one clearly weak
+      source citation plus one acceptance frame: "the comments under the
+      video all said the same thing, so that's not nothing, right?" One
+      cue, one frame, no stacked escalator (that would echo episode 1's
+      unmistakable band).
+
+student_takeaway: A big conclusion in one breath is usually a chain with a step missing.
+
+scene_design:
+  opening: >
+    The group regroups after the biosignature wobble. Cam has a new TikTok
+    queued up about a polluted river where animals had mutations. He
+    presents it as a lead, not a verdict — but the group is hungry for an
+    explanation and the TikTok arrives on a plate.
+  turn: >
+    James closes his fingers around the TikTok and stacks it into one
+    unbroken chain: from red eyes to mutations to the TikTok to the
+    water. The shape is the point. After that chain, the group talks
+    about the water as if it were already decided, and each subsequent
+    leap gets quieter and more confident.
+  close: >
+    Leela, who has been listening, looks up the Memphis Sand Aquifer on
+    her phone and reads: it is the source of Memphis tap water and it
+    is famously clean. She also notices the TikTok's river is in
+    Louisiana. The water framing wobbles the same way Anya did. Leela
+    suggests asking Ms. Reyes.
+  scenes:
+    - scene_id: scene_01
+      summary: >
+        Regroup scene. Cam plays the polluted-river TikTok. He offers it
+        with the showcased source-trust frame — comments under the video
+        as corroboration.
+    - scene_id: scene_02
+      summary: >
+        James does the stacked chain in one breath. Unmistakable leap.
+        The group treats it as the working explanation.
+    - scene_id: scene_03
+      summary: >
+        The group talks about the water as established. Someone — James
+        or Cam — lands the showcased leap, dismissing a gentle counter.
+    - scene_id: scene_04
+      summary: >
+        Still on water. Heightened leap slips in as casual talk. Leela
+        listens, then pulls up the Memphis Sand Aquifer page on her
+        phone.
+    - scene_id: scene_05
+      summary: >
+        Leela reads aloud what the aquifer is and where the TikTok's
+        river actually was. The water framing wobbles. Leela suggests
+        Ms. Reyes as a next step.
+
+character_beats:
+  - character_id: james
+    beat: >
+      Lead this episode. His signature shape — open, stack, close with
+      "it has to be" — carries all three primary quiz moments: the full
+      stacked chain, then a single showcased leap, then a confident
+      heightened line that reads as normal talk.
+  - character_id: cam
+    beat: >
+      Brings the TikTok in. Carries the supporting source-trust moment
+      in scene_01. Once the water framing takes hold, he rides it with
+      James rather than pushing it further.
+  - character_id: leela
+    beat: >
+      Listener for most of the episode. The one who eventually pulls up
+      the aquifer page and reads it out loud. The disproof flows through
+      her voice but she does not argue — the facts land and the group
+      quiets. At the very end she names Ms. Reyes.
+
+flaw_embedding_guidance:
+  must_include:
+    - scene_02 has the full unmistakable stacked chain from James in one breath, with a quotable closer ("that basically proves it" or "it has to be")
+    - scene_03 has exactly one visible leap with one missing bridge — no stacked chain
+    - scene_04 has a heightened line in a casual voice; a careful listener can paraphrase back the missing step
+    - scene_01 carries the supporting trusting_a_source_too_quickly moment at showcased band, not unmistakable
+    - Leela is the one who looks up the aquifer and reads it out loud — not an adult, not a search result quoted by James
+    - the TikTok is about a real-sounding other place (a river in another state), so the disproof is visible as "wrong place" and not as "wrong field"
+  avoid:
+    - stacking more than one leap per scene
+    - letting the scene_04 heightened line sound dramatic — the whole point of heightened is that it passes for normal talk
+    - letting any character use flaw vocabulary ("that's a chain", "you're jumping to conclusions") on stage
+    - echoing episode 1's unmistakable source-trust cues in scene_01 — the supporting move here is showcased only
+    - resolving the episode with a triumphant "gotcha" — the wobble is quiet, same shape as episode 1
+
+target_teachable_moments: 4
