@@ -154,19 +154,23 @@ Used to record hint-open durably before submission so reload cannot lose the fac
 
 All artifacts are YAML, loaded from `episode_source`, validated by Zod schemas in `domain.ts`. Shapes here are what the runtime requires; validators in `simplified-framework/pipeline/scripts/` are authoritative for authoring.
 
+> **Phase-1-vs-app sync (2026-04-17).** The Python validators now enforce the forward authoring shape (`transcript.scenes[]`, `episode.summary`, `episode.previously`, 3-level cap). The **app has not been updated yet** — `app/src/lib/domain.ts` still accepts top-level `transcript.turns[]` and `episode.student_intro`, and the entry/read pages render those fields. §5.1 and §5.2 below describe the forward contract (the shape the pipeline now produces); the "App still loads" notes flag where the runtime lags. Phase 3 of `simplified-framework/todo.md` (items A1–A4) realigns Zod + pages. Until Phase 3 lands, artifacts authored against the new validators cannot be rendered by the app, and artifacts that render in the app fail the new validators — both conditions are intentional migration state.
+
 ### 5.1 `transcript.yaml`
 
-Required top-level: `story_id`, `episode_id`, `title`, `characters[]`, `scenes[]`. There is no top-level `turns[]`, `setting_note`, or `previously` — recap copy lives in `lesson_package.episode.previously`.
+**Authoring contract (enforced by `validate_transcript.py`).** Required top-level: `story_id`, `episode_id`, `title`, `characters[]`, `scenes[]`. No top-level `turns[]`, `setting_note`, or `previously` — recap copy lives in `lesson_package.episode.previously`.
 
 `scenes[]` has length 2–4. Each scene: `scene_id` (unique within the transcript), `summary` (plain-language, ≤ ~30 words; validator warns past the cap), `turns[]` (≥ 1).
 
 Each turn: `turn_id` (string, format `tNN`, globally unique across the whole transcript and strictly increasing), `speaker` (string), `text` (string).
 
-Every `turn_id` referenced by `lesson_package.yaml` must exist in the transcript — enforced at package-load time by Zod plus operator review. Turn lookups cross scenes; the `turn_id` is the canonical key.
+Every `turn_id` referenced by `lesson_package.yaml` must exist in the transcript. Turn lookups cross scenes; the `turn_id` is the canonical key.
+
+**App still loads:** the pre-Phase-1 shape — top-level `turns[]` with optional `setting_note`/`previously`, no `scenes[]`. See `app/src/lib/domain.ts::transcriptSchema` and `app/src/lib/transcript.ts`. Phase 3 (A3 in `todo.md`) updates the Zod schema and turn-lookup helper to consume `scenes[]`.
 
 ### 5.2 `lesson_package.yaml`
 
-Top-level sections: `package_meta`, `episode`, `warmups`, `levels[]`.
+**Authoring contract (enforced by `validate_lesson_package.py`).** Top-level sections: `package_meta`, `episode`, `warmups`, `levels[]`.
 
 - `package_meta`: `story_id`, `episode_number`, `schema_version`
 - `episode`: `title`, `summary`, `previously` (required when `episode_number > 1`; forbidden on episode 1), `flaws[]` (optional), `final_takeaway`
@@ -187,6 +191,8 @@ Each `answer_option`: `option_id`, `text`, `kind?` (conventional values: `best_f
 - `by_option[option_id]` — must cover every non-correct option id (Zod `superRefine` enforces this)
 
 The runtime **must not** consult `best_answer_id` to decide correctness; use `feedback.correct.option_ids`.
+
+**App still loads:** the pre-Phase-1 shape — `episode.student_intro` (not `summary`), no `previously`, and `levels[]` of length 1+ (not capped at 3). See `app/src/lib/domain.ts::lessonPackageSchema` and `app/src/app/runs/[runId]/entry/page.tsx`. Phase 3 (A1, A3, A4 in `todo.md`) renames the Zod field, adds optional `previously`, and optionally adds a runtime-side 3-level guard.
 
 ### 5.3 Canonical read paths
 

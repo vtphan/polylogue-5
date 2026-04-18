@@ -60,6 +60,8 @@ The journey is deterministic and restrained. No points, streaks, timers, leaderb
 
 Every episode runs a fixed staged loop. Phase names match the runtime state: `read` → `warmup` → `level` → `complete`.
 
+> **Phase-1-vs-app sync.** The sections below describe the **authoring contract** now enforced by the Python validators (`scenes[]`, `episode.summary`, `episode.previously`, 3-level cap). The app (`simplified-framework/app/`) still loads the **pre-Phase-1 shape** — Zod admits top-level `transcript.turns[]` and `episode.student_intro`, and the entry/read pages render those. Phase 3 of `simplified-framework/todo.md` (items A1–A4) realigns the runtime; until it ships, the authoring contract is ahead of the runtime on purpose and new content authored against the new validators cannot be rendered by the app yet.
+
 ### 5.1 Read
 
 The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `episode.summary`, and (on episode 2+) a short `episode.previously` recap frame the conversation. The transcript is authored as **2–4 scenes with nested turns**; each scene has a plain-language `summary`. Turns render in order with speaker labels.

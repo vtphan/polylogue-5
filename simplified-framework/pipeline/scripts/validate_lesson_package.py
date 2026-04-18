@@ -86,21 +86,21 @@ def validate_episode_block(episode: dict, episode_number: int | None, errors: li
         warn_readability("episode.summary", summary)
 
     # P4: previously is required on ep 2+, forbidden on ep 1.
-    has_previously = "previously" in episode and episode.get("previously") not in (None, "")
+    # Forbidden = the key must not appear at all on ep 1 (an empty string is
+    # still a field, not an absence).
     if episode_number is not None and episode_number > 1:
-        if not has_previously:
-            errors.append("episode.previously is required when package_meta.episode_number > 1")
-        else:
-            previously_text = require_nonempty_string(
-                episode.get("previously"), "episode.previously", errors
+        previously_text = require_nonempty_string(
+            episode.get("previously"), "episode.previously", errors
+        )
+        if previously_text:
+            warn_word_cap(
+                "episode.previously", previously_text, EPISODE_PREVIOUSLY_CAP
             )
-            if previously_text:
-                warn_word_cap(
-                    "episode.previously", previously_text, EPISODE_PREVIOUSLY_CAP
-                )
-                warn_readability("episode.previously", previously_text)
-    elif episode_number is not None and episode_number == 1 and has_previously:
-        errors.append("episode.previously must not be set on episode 1")
+            warn_readability("episode.previously", previously_text)
+    elif episode_number is not None and episode_number == 1 and "previously" in episode:
+        errors.append(
+            "episode.previously must not be present on episode 1; omit the key entirely"
+        )
 
     # Legacy field guard — student_intro has been renamed to summary.
     if "student_intro" in episode:
@@ -223,9 +223,12 @@ def validate_levels(
                     f"levels[{index}].best_answer_id must match one of the answer option ids"
                 )
 
-        hint = require_nonempty_string(entry.get("hint"), f"levels[{index}].hint", errors)
-        if hint:
-            warn_readability(f"levels[{index}].hint", hint)
+        # Level hint is optional per the authoring contract. If present it must
+        # be a non-empty string — an empty string is not a valid hint shape.
+        if "hint" in entry and entry.get("hint") is not None:
+            hint = require_nonempty_string(entry.get("hint"), f"levels[{index}].hint", errors)
+            if hint:
+                warn_readability(f"levels[{index}].hint", hint)
         validate_feedback(entry.get("feedback"), f"levels[{index}].feedback", option_ids, errors)
 
     return level_turn_ids
