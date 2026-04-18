@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from pathlib import Path
 
 from _common import (
     load_yaml,
@@ -13,7 +14,7 @@ from _common import (
     require_list,
     require_mapping,
     require_nonempty_string,
-    warn_readability,
+    require_readability,
     warn_word_cap,
 )
 
@@ -22,13 +23,56 @@ from _common import (
 # artifacts with a different count are being archived.
 REQUIRED_LEVEL_COUNT = 3
 
-# P5 word caps for scaffolding prose. Warnings in Phase 1; promoted to hard
-# errors after `the-white-squirrel` ep 1 lands (Phase 4).
+# v2 soft word caps for scaffolding prose.
 EPISODE_SUMMARY_CAP = 60
 EPISODE_PREVIOUSLY_CAP = 40
-WARMUP_WORKED_EXPLANATION_CAP = 60
-WARMUP_BEST_ANSWER_TEXT_CAP = 40
-WARMUP_TAKEAWAY_CAP = 20
+LEVEL_TAKEAWAY_CAP = 20
+
+SCHEMA_VERSION = "simplified_v2"
+
+TAXONOMY_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
+)
+
+
+def load_flaw_ids() -> set[str]:
+    try:
+        taxonomy = load_yaml(str(TAXONOMY_PATH))
+    except Exception:
+        return set()
+    flaws = taxonomy.get("flaws", []) if isinstance(taxonomy, dict) else []
+    ids: set[str] = set()
+    for flaw in flaws:
+        if isinstance(flaw, dict):
+            flaw_id = flaw.get("id")
+            if isinstance(flaw_id, str) and flaw_id.strip():
+                ids.add(flaw_id.strip())
+    return ids
+
+
+def load_transcript_turn_map(package_path: str) -> dict[str, tuple[str, str]]:
+    transcript_path = Path(package_path).with_name("transcript.yaml")
+    transcript = load_yaml(str(transcript_path))
+    if not isinstance(transcript, dict):
+        raise ValueError("paired transcript.yaml must be a mapping/object")
+    scenes = transcript.get("scenes")
+    if not isinstance(scenes, list):
+        raise ValueError("paired transcript.yaml must contain scenes[]")
+    turn_map: dict[str, tuple[str, str]] = {}
+    for scene in scenes:
+        if not isinstance(scene, dict):
+            continue
+        scene_id = scene.get("scene_id")
+        turns = scene.get("turns")
+        if not isinstance(scene_id, str) or not isinstance(turns, list):
+            continue
+        for turn in turns:
+            if not isinstance(turn, dict):
+                continue
+            turn_id = turn.get("turn_id")
+            if isinstance(turn_id, str) and turn_id.strip():
+                turn_map[turn_id.strip()] = (scene_id.strip(), str(turn.get("kind", "dialog")))
+    return turn_map
 
 
 def validate_answer_options(options: object, label: str, errors: list[str]) -> list[str]:
@@ -56,7 +100,7 @@ def validate_feedback(feedback: object, label: str, option_ids: list[str], error
             errors.append(f"{label}.correct.option_ids[{idx}] references unknown option_id '{value}'")
     correct_text = require_nonempty_string(correct.get("text"), f"{label}.correct.text", errors)
     if correct_text:
-        warn_readability(f"{label}.correct.text", correct_text)
+        require_readability(f"{label}.correct.text", correct_text, errors)
 
     by_option = require_mapping(feedback_map.get("by_option"), f"{label}.by_option", errors)
     correct_ids = {
@@ -73,7 +117,7 @@ def validate_feedback(feedback: object, label: str, option_ids: list[str], error
             by_option.get(option_id), f"{label}.by_option.{option_id}", errors
         )
         if feedback_text:
-            warn_readability(f"{label}.by_option.{option_id}", feedback_text)
+            require_readability(f"{label}.by_option.{option_id}", feedback_text, errors)
 
 
 def validate_episode_block(episode: dict, episode_number: int | None, errors: list[str]) -> None:
@@ -83,7 +127,7 @@ def validate_episode_block(episode: dict, episode_number: int | None, errors: li
     summary = require_nonempty_string(episode.get("summary"), "episode.summary", errors)
     if summary:
         warn_word_cap("episode.summary", summary, EPISODE_SUMMARY_CAP)
-        warn_readability("episode.summary", summary)
+        require_readability("episode.summary", summary, errors)
 
     # P4: previously is required on ep 2+, forbidden on ep 1.
     # Forbidden = the key must not appear at all on ep 1 (an empty string is
@@ -96,7 +140,7 @@ def validate_episode_block(episode: dict, episode_number: int | None, errors: li
             warn_word_cap(
                 "episode.previously", previously_text, EPISODE_PREVIOUSLY_CAP
             )
-            warn_readability("episode.previously", previously_text)
+            require_readability("episode.previously", previously_text, errors)
     elif episode_number is not None and episode_number == 1 and "previously" in episode:
         errors.append(
             "episode.previously must not be present on episode 1; omit the key entirely"
@@ -117,61 +161,13 @@ def validate_episode_block(episode: dict, episode_number: int | None, errors: li
         episode.get("final_takeaway"), "episode.final_takeaway", errors
     )
     if final_takeaway:
-        warn_readability("episode.final_takeaway", final_takeaway)
-
-
-def validate_warmup(
-    warmup: dict, warmup_name: str, errors: list[str]
-) -> str | None:
-    """Validate one warm-up block; return its turn_id if present."""
-    label = f"warmups.{warmup_name}"
-    require_nonempty_string(warmup.get("warmup_id"), f"{label}.warmup_id", errors)
-    turn_id = require_nonempty_string(warmup.get("turn_id"), f"{label}.turn_id", errors)
-    require_nonempty_string(warmup.get("title"), f"{label}.title", errors)
-    require_nonempty_string(warmup.get("focus_move"), f"{label}.focus_move", errors)
-    require_nonempty_string(warmup.get("prompt"), f"{label}.prompt", errors)
-    require_nonempty_string(warmup.get("best_answer_id"), f"{label}.best_answer_id", errors)
-
-    best_answer_text = require_nonempty_string(
-        warmup.get("best_answer_text"), f"{label}.best_answer_text", errors
-    )
-    if best_answer_text:
-        warn_word_cap(
-            f"{label}.best_answer_text", best_answer_text, WARMUP_BEST_ANSWER_TEXT_CAP
-        )
-        warn_readability(f"{label}.best_answer_text", best_answer_text)
-
-    worked_explanation = require_nonempty_string(
-        warmup.get("worked_explanation"), f"{label}.worked_explanation", errors
-    )
-    if worked_explanation:
-        warn_word_cap(
-            f"{label}.worked_explanation",
-            worked_explanation,
-            WARMUP_WORKED_EXPLANATION_CAP,
-        )
-        warn_readability(f"{label}.worked_explanation", worked_explanation)
-
-    takeaway = require_nonempty_string(warmup.get("takeaway"), f"{label}.takeaway", errors)
-    if takeaway:
-        warn_word_cap(f"{label}.takeaway", takeaway, WARMUP_TAKEAWAY_CAP)
-        warn_readability(f"{label}.takeaway", takeaway)
-
-    if warmup_name == "guided":
-        option_ids = validate_answer_options(
-            warmup.get("answer_options"), f"{label}.answer_options", errors
-        )
-        best = require_nonempty_string(warmup.get("best_answer_id"), f"{label}.best_answer_id", errors)
-        if best and option_ids and best not in option_ids:
-            errors.append(f"{label}.best_answer_id must match one of the guided answer option ids")
-        if "hint" in warmup:
-            require_nonempty_string(warmup.get("hint"), f"{label}.hint", errors)
-
-    return turn_id or None
+        require_readability("episode.final_takeaway", final_takeaway, errors)
 
 
 def validate_levels(
-    levels: list, errors: list[str]
+    levels: list,
+    errors: list[str],
+    allowed_flaw_ids: set[str],
 ) -> list[str]:
     """Validate levels[]; return turn_ids in order."""
     # P1: hard equality on level count.
@@ -204,10 +200,16 @@ def validate_levels(
             level_turn_ids.append(turn_id)
 
         require_nonempty_string(entry.get("title"), f"levels[{index}].title", errors)
-        require_nonempty_string(entry.get("focus_move"), f"levels[{index}].focus_move", errors)
+        focus_flaw = require_nonempty_string(
+            entry.get("focus_flaw"), f"levels[{index}].focus_flaw", errors
+        )
+        if focus_flaw and allowed_flaw_ids and focus_flaw not in allowed_flaw_ids:
+            errors.append(
+                f"levels[{index}].focus_flaw must reference a canonical flaw id, got '{focus_flaw}'"
+            )
         prompt = require_nonempty_string(entry.get("prompt"), f"levels[{index}].prompt", errors)
         if prompt:
-            warn_readability(f"levels[{index}].prompt", prompt)
+            require_readability(f"levels[{index}].prompt", prompt, errors)
 
         option_ids = validate_answer_options(
             entry.get("answer_options"), f"levels[{index}].answer_options", errors
@@ -228,7 +230,11 @@ def validate_levels(
         if "hint" in entry and entry.get("hint") is not None:
             hint = require_nonempty_string(entry.get("hint"), f"levels[{index}].hint", errors)
             if hint:
-                warn_readability(f"levels[{index}].hint", hint)
+                require_readability(f"levels[{index}].hint", hint, errors)
+        takeaway = require_nonempty_string(entry.get("takeaway"), f"levels[{index}].takeaway", errors)
+        if takeaway:
+            warn_word_cap(f"levels[{index}].takeaway", takeaway, LEVEL_TAKEAWAY_CAP)
+            require_readability(f"levels[{index}].takeaway", takeaway, errors)
         validate_feedback(entry.get("feedback"), f"levels[{index}].feedback", option_ids, errors)
 
     return level_turn_ids
@@ -251,37 +257,45 @@ def validate_lesson_package(path: str) -> int:
     )
     if episode_number is not None and episode_number <= 0:
         errors.append("package_meta.episode_number must be greater than 0")
-    require_nonempty_string(package_meta.get("schema_version"), "package_meta.schema_version", errors)
+    schema_version = require_nonempty_string(
+        package_meta.get("schema_version"), "package_meta.schema_version", errors
+    )
+    if schema_version and schema_version != SCHEMA_VERSION:
+        errors.append(
+            f"package_meta.schema_version must be '{SCHEMA_VERSION}'; v1 -> v2 migration required"
+        )
 
     episode = require_mapping(package.get("episode"), "episode", errors)
     validate_episode_block(episode, episode_number, errors)
 
-    warmups = require_mapping(package.get("warmups"), "warmups", errors)
-    warmup_turn_ids: list[tuple[str, str]] = []
-    for warmup_name in ("modeled", "guided"):
-        warmup = require_mapping(warmups.get(warmup_name), f"warmups.{warmup_name}", errors)
-        if warmup:
-            turn_id = validate_warmup(warmup, warmup_name, errors)
-            if turn_id:
-                warmup_turn_ids.append((f"warmups.{warmup_name}", turn_id))
+    if "warmups" in package:
+        errors.append("warmups is not allowed in simplified_v2; practice lives in practice_package.yaml")
 
+    allowed_flaw_ids = load_flaw_ids()
     levels = require_list(package.get("levels"), "levels", errors)
-    level_turn_ids = validate_levels(levels, errors)
+    level_turn_ids = validate_levels(levels, errors, allowed_flaw_ids)
 
-    # P11: the 2 warm-up + 3 level turn_ids must be pairwise distinct. Reuse
-    # would collapse amplification progression into "same moment, asked twice."
-    all_slots: list[tuple[str, str]] = list(warmup_turn_ids) + [
-        (f"levels[{index + 1}]", turn_id) for index, turn_id in enumerate(level_turn_ids)
-    ]
-    seen: dict[str, str] = {}
-    for slot_label, turn_id in all_slots:
-        if turn_id in seen:
+    try:
+        turn_map = load_transcript_turn_map(path)
+    except Exception as exc:  # noqa: BLE001
+        errors.append(f"paired transcript lookup failed: {exc}")
+        turn_map = {}
+
+    seen_scene_ids: dict[str, str] = {}
+    for index, turn_id in enumerate(level_turn_ids, start=1):
+        label = f"levels[{index}].turn_id"
+        if turn_id not in turn_map:
+            errors.append(f"{label} references unknown turn_id '{turn_id}' in paired transcript")
+            continue
+        scene_id, kind = turn_map[turn_id]
+        if kind == "action":
+            errors.append(f"{label} references action turn '{turn_id}'; levels must target dialog turns")
+        if scene_id in seen_scene_ids:
             errors.append(
-                f"turn_id '{turn_id}' reused across {seen[turn_id]} and {slot_label}; "
-                f"warm-up and level slots must reference distinct turns"
+                f"levels may not target two turns in the same scene; {seen_scene_ids[scene_id]} and levels[{index}] both resolve to scene_id '{scene_id}'"
             )
         else:
-            seen[turn_id] = slot_label
+            seen_scene_ids[scene_id] = f"levels[{index}]"
 
     return print_result(errors)
 

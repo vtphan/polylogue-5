@@ -231,7 +231,7 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
 
 ### `lesson_package.yaml`
 
-- **Bump `package_meta.schema_version` from `simplified_v1` to `simplified_v2`.** The new contract is incompatible with v1 (warmups removed, `focus_flaw` required, prompt rewrite, new `kind: action` turn affordance in the paired transcript). `validate_lesson_package.py` rejects any package whose `schema_version` is not `simplified_v2`. No in-place migration shim; the one existing v1 package (`the-white-squirrel/episode_01`) is hand-migrated as the fixture.
+- **Bump `package_meta.schema_version` from `simplified_v1` to `simplified_v2`.** The new contract is incompatible with v1 (warmups removed, `focus_flaw` required, prompt rewrite, new `kind: action` turn affordance in the paired transcript). `validate_lesson_package.py` rejects any package whose `schema_version` is not `simplified_v2`. No in-place migration shim; v1 artifacts are regenerated against the finished v2 implementation rather than hand-migrated mid-build.
 - **Remove the `warmups:` block entirely.** Warm-ups are replaced by practice mode, which lives outside the story artifact.
 - **Keep `levels[]`**, exactly 3 entries. Each level keeps `turn_id`, options, feedback, hint, and a required `takeaway`.
 - **Add required `focus_flaw`** (canonical flaw_id from the taxonomy) to every level.
@@ -292,8 +292,8 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
           p1c: <≤ 40 words>
           p1d: <≤ 40 words>
       worked_explanation: >-
-        <≤ 60 words. Plain-language unpack; lands after a correct answer
-         in the Reveal state.>
+        <≤ 60 words. Plain-language unpack; lands in the Reveal state
+         after any submitted answer.>
       takeaway: <≤ 20 words. Single sentence.>
     # repeat the shape for the remaining 4 flaws
   ```
@@ -399,7 +399,7 @@ The current `dialog_writer` juggles voice, plot, and flaw engineering at once; f
 - Enforced by input projection only (no separate validator). The screenwriter agent's spec prohibits loading `reference/flaw-taxonomy.yaml`; the episode-plan projection given to the screenwriter has all flaw fields stripped.
 - Simpler than the shared framework's two-agent-plus-projection-reviewer setup. The simplified framework does not need literal-scan enforcement because the screenwriter has no reason to emit flaw vocabulary in the first place.
 
-**Flaw reviewer.** Contract unchanged. Still reads the plan + transcript and emits `flaw-review.md` with a go/no-go on whether each planned moment actually landed at the stated amplification. In the new flow, its acceptance rate should go up — the injector is specifically trying to satisfy it.
+**Flaw reviewer.** Core role unchanged: it still reads the plan + transcript and emits `flaw-review.md` with a go/no-go on whether each planned moment actually landed at the stated amplification. In v2, its report also explicitly names the 3 quiz-ready primary-flaw turns, checks that they live in distinct scenes, and judges whether each can support a short direct prompt without restating the turn. In the new flow, its acceptance rate should go up — the injector is specifically trying to satisfy it.
 
 ### Register / vocabulary guidelines
 
@@ -511,15 +511,13 @@ Concretely, `pipeline/agents/` changes:
 
 ## Migration + end-to-end verification
 
-### Fixture: `the-white-squirrel` ep 1
+### Artifact regeneration strategy
 
-- Ep 1's current transcript already has 3 scenes and 3 levels — close to the new shape.
-- Migrate it:
-  - Remove the `warmups:` block from `lesson_package.yaml`.
-  - Add `focus_flaw: trusting_a_source_too_quickly` to each of the 3 levels.
-  - Rewrite level prompts to drop the quoted-turn preamble.
-  - Keep scenes, turns, IDs, feedback, options untouched.
-- This is the app-test fixture for the new UI.
+- Do **not** hand-migrate `the-white-squirrel` or other v1 artifacts during the implementation phase.
+- Archive the current v1-era `the-white-squirrel` artifact set under `artifacts/archive/the-white-squirrel-v1/` and reserve `artifacts/the-white-squirrel/` for the future regenerated v2 artifact set.
+- Finish the v2 contract + app rebuild first.
+- After `todo-v2.md` is complete, manually regenerate artifacts against the final v2 pipeline and have each step verified as it lands.
+- This avoids preserving v1 assumptions in partially migrated fixtures and reduces duplicate artifact churn while the runtime is still moving.
 
 ### Practice package authoring
 
@@ -535,20 +533,21 @@ Concretely, `pipeline/agents/` changes:
 
 ### Archive
 
-- Move existing `artifacts/strangers-in-the-old-forest/` and `artifacts/the-white-squirrel/episode_0{2,3}` stubs (if any) into `artifacts/archive/`.
-- `the-white-squirrel` ep 1 stays live as the migration fixture.
+- Move existing `artifacts/strangers-in-the-old-forest/` into `artifacts/archive/`.
+- Move the current v1-era `artifacts/the-white-squirrel/` into `artifacts/archive/the-white-squirrel-v1/`.
+- Reserve `artifacts/the-white-squirrel/` for the regenerated v2 fixture.
 
 ---
 
 ## Sequencing
 
 1. **Contract first.** Update schemas, validators, and agent specs. No app or authoring work yet. Land the practice-package validator, the `focus_flaw` requirement, the `kind: action` turn affordance, and the `warmups` removal together. In the same step, split `dialog_writer` into `screenwriter` + `flaw_injector`, update the episode-plan projection, and tighten the readability pass to grade 6 per § 8.
-2. **Migrate ep 1 fixture.** Convert `the-white-squirrel` ep 1 to the new contract by hand. Validate.
-3. **Author the practice package.** 5 flaw exercises. Validate.
-4. **App rebuild.** Build the new routes and components against the migrated ep 1 + practice package. Delete the old reading / warmup / level routes.
+2. **Author the practice package.** 5 flaw exercises. Validate.
+3. **App rebuild.** Build the new routes and components against the frozen v2 contract. Delete the old reading / warmup / level routes.
+4. **Regenerate artifacts after implementation.** Manually regenerate `the-white-squirrel` and any new story content only after the v2 app/runtime is stable; validate each step as it lands.
 5. **New 3-episode story.** Design premise, author all three episodes through the updated pipeline. End-to-end smoke test in the app.
 
-Parallelism: steps 2 and 3 can run alongside each other once step 1 ships. Step 4 depends on step 2 for a visual fixture; step 3 unlocks the practice surface independently. Step 5 depends on step 1 only — it can start as soon as the contract is frozen.
+Parallelism: step 2 can run once step 1 ships. Step 3 depends on the frozen contract, not on a hand-migrated fixture. Step 4 happens only after the implementation work is complete. Step 5 depends on step 1 only — story design can start as soon as the contract is frozen, but artifact regeneration should wait for the stable v2 runtime.
 
 ### Main-branch safety
 
@@ -593,7 +592,7 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 **1.5. Enforce transcript `len(scenes) ≥ 3`.**
 - *Entry:* 1.4.
 - *Work:* `validate_transcript.py` hard-fails fewer than 3 scenes; no upper bound. In the same validator batch, `validate_lesson_package.py` enforces that no two authored levels resolve to turns in the same scene.
-- *Exit:* a 2-scene transcript fails; 3–5-scene transcripts pass.
+- *Exit:* a 2-scene transcript fails; transcripts with 3 or more scenes pass.
 - *Files:* `pipeline/scripts/validate_transcript.py`.
 
 **1.6. Create `validate_practice_package.py` + schema.**
@@ -638,97 +637,97 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 - *Exit:* docs reference v2 shapes only; no stale v1 vocabulary.
 - *Files:* `CLAUDE.md`, `simplified-framework/docs/instructional-design.md`, `simplified-framework/docs/tech-reference.md`.
 
-### Step 2 — Migrate ep 1 fixture
+### Step 2 — Author the practice package
 
-**2.1. Migrate `the-white-squirrel/episode_01/lesson_package.yaml` to v2.**
-- *Entry:* Step 1 complete.
-- *Work:* bump `schema_version`; remove the `warmups` block; add `focus_flaw` and required `takeaway` to each level; rewrite level prompts to drop the quoted-turn preamble.
-- *Exit:* `validate_lesson_package.py` passes on the migrated file.
-- *Files:* `artifacts/the-white-squirrel/episode_01/lesson_package.yaml`.
-
-**2.2. Spot-check the paired transcript.**
-- *Entry:* 2.1.
-- *Work:* confirm `validate_transcript.py` passes; optionally insert one `kind: action` beat to exercise the new affordance and anchor the narrative-texture guidelines against real content.
-- *Exit:* transcript validates.
-- *Files:* `artifacts/the-white-squirrel/episode_01/transcript.yaml`.
-
-### Step 3 — Author the practice package
-
-**3.1. Author `practice_package.yaml`.**
+**2.1. Author `practice_package.yaml`.**
 - *Entry:* Step 1 complete.
 - *Work:* write five exercises (one per canonical flaw) per the schema in § 7. Reuse phrasing patterns from the existing v1 worked-explanations where they are already in-register.
 - *Exit:* `validate_practice_package.py` passes with no warnings; the file is sufficient to unlock story mode once a student has completed all 5 exercises.
 - *Files:* `artifacts/practice/practice_package.yaml` (new).
 
-### Step 4 — App rebuild
+### Step 3 — App rebuild
 
-**4.1. Prisma schema migration.**
+**3.1. Prisma schema migration.**
 - *Entry:* Steps 1–2 complete.
 - *Work:* add `Student`, `CatalogEpisode`, `PracticeAttempt`; reshape `Run` per § 9 (remove `state = completed`; add `reading_finished_at`, `bonus_earned_at`, per-quiz attempt fields, `locked_at`, scene indexes); make `Run` and `PracticeAttempt` children of `Student`; `prisma migrate reset`.
 - *Exit:* schema compiles; fresh dev DB seeds cleanly.
 - *Files:* `app/prisma/schema.prisma`.
 
-**4.2. Filesystem-scan catalog + dev watcher.**
-- *Entry:* 4.1.
+**3.2. Filesystem-scan catalog + dev watcher.**
+- *Entry:* 3.1.
 - *Work:* boot-time scan of `simplified-framework/artifacts/**` for eligible artifact pairs plus `stories/{story_id}/story.yaml` for display titles; upsert `CatalogEpisode` (and `CatalogStory` if used); dev watcher on `{lesson_package,transcript}.yaml` and story YAML in dev mode.
 - *Exit:* app boot populates `CatalogEpisode` with ep 1; dev-mode file add/remove reflects without restart.
 - *Files:* `app/src/lib/catalog.ts` (new), `app/src/instrumentation.ts`.
 
-**4.3. Cookie-based identity middleware + name picker.**
-- *Entry:* 4.1.
+**3.3. Cookie-based identity middleware + name picker.**
+- *Entry:* 3.1.
 - *Work:* Next.js middleware redirects `/practice/*` and `/runs/*` without `active_student_id` to `/`; with `active_student_id` present but incomplete practice, `/runs/*` redirects to `/practice`; home renders the name picker when cookie missing; submission creates a `Student` row and sets the cookie.
 - *Exit:* deep links without cookie redirect to home; creating a profile lands on the home grid.
 - *Files:* `app/src/middleware.ts` (new), `app/src/app/page.tsx`, `app/src/lib/students.ts` (new).
 
-**4.4. Home screen shell.**
-- *Entry:* 4.2, 4.3.
+**3.4. Home screen shell.**
+- *Entry:* 3.2, 3.3.
 - *Work:* profile chip, two primary actions (Practice / Read a story), per-episode star grid ordered by `(story_id, episode_id)`; Read a story is visibly locked until the active student has completed all 5 practice exercises.
 - *Exit:* home renders ep 1's empty star row for a fresh student and shows the story action as locked before practice completion.
 - *Files:* `app/src/app/page.tsx`, `app/src/app/_components/ProfileChip.tsx` (new), `app/src/app/_components/StarRow.tsx` (new).
 
-**4.5. Story picker route.**
-- *Entry:* 4.4.
+**3.5. Story picker route.**
+- *Entry:* 3.4.
 - *Work:* flat list grouped by story heading, with Resume/Open targets that post `(story_id, episode_id)` to the open-or-resume server action and redirect from the server to the existing run or a newly created one; the action first checks the active student's 5-of-5 practice completion and redirects to `/practice` if story mode is still locked.
 - *Exit:* tapping an ep 1 card resolves the canonical run and redirects to `/runs/[runId]/scene/0` for a fresh run or `/runs/[runId]/complete` for a finished run.
 - *Files:* `app/src/app/stories/page.tsx` (new).
 
-**4.6. Scene reader with orientation card.**
-- *Entry:* 4.5.
+**3.6. Scene reader with orientation card.**
+- *Entry:* 3.5.
 - *Work:* `/runs/[runId]/scene/[n]`; n=0 renders the orientation card (previously + summary); n≥1 renders dialog + action beats chat-style with icons on flagged turns; bottom nav bar carries the live star row; Previous/Next affordances.
 - *Exit:* ep 1 navigates from scene 0 through scene 3 with flagged-turn icons visible and nav bar updating.
 - *Files:* `app/src/app/runs/[runId]/scene/[n]/page.tsx` (new), `app/src/app/runs/[runId]/_components/SceneReader.tsx` (new).
 
-**4.7. Inline quiz panel.**
-- *Entry:* 4.6.
+**3.7. Inline quiz panel.**
+- *Entry:* 3.6.
 - *Work:* Ask / Reveal / Closed sub-states; 2-attempt + 1-hint mechanic; 3-star scoring per § 5; wrong-option lockout; collapsed chip after submission; untried quizzes remain live on re-reads.
 - *Exit:* completing a quiz awards the correct stars and persists; re-entry shows the locked Reveal.
 - *Files:* `app/src/app/runs/[runId]/_components/QuizPanel.tsx` (new).
 
-**4.8. End-of-episode view `/complete`.**
-- *Entry:* 4.6, 4.7.
+**3.8. End-of-episode view `/complete`.**
+- *Entry:* 3.6, 3.7.
 - *Work:* large 10-star layout (3-3-3 + bonus); Read again / Home actions; accessible at any time from a finished run (not a terminal state).
 - *Exit:* advancing into the final scene sets `reading_finished_at`; visiting `/complete` shows the correct star state; returning to `/scene/[n]` works.
 - *Files:* `app/src/app/runs/[runId]/complete/page.tsx` (new).
 
-**4.9. Practice picker + exercise routes.**
-- *Entry:* 4.3, Step 3 complete.
+**3.9. Practice picker + exercise routes.**
+- *Entry:* 3.3, Step 2 complete.
 - *Work:* `/practice` lists 5 flaws with completion marks and the remaining unlock count; `/practice/[flaw_id]` runs the 2-click exercise; records `completed_at` on first submit past Reveal.
 - *Exit:* completing one exercise persists; picker shows a check on return; completing all 5 unlocks story mode immediately for the active student.
 - *Files:* `app/src/app/practice/page.tsx` (new), `app/src/app/practice/[flaw_id]/page.tsx` (new).
 
-**4.10. Retire v1 routes and components.**
-- *Entry:* 4.6–4.9 functional.
+**3.10. Retire v1 routes and components.**
+- *Entry:* 3.6–3.9 functional.
 - *Work:* delete `/runs/[runId]/{read,warmup,level/*}`; delete `ReadingSurface`, `LessonWorkspace`, warmup components; rework `routing.ts` and `runs.ts` to the milestone model (no terminal `completed` state, no handoff-routing of finished runs).
 - *Exit:* `tsc` clean; `next build` clean; no stale imports; no references to the old phase names.
 - *Files:* `app/src/app/runs/[runId]/{read,warmup,level}/*` (delete), `app/src/lib/routing.ts`, `app/src/lib/runs.ts`.
 
-**4.11. End-to-end smoke test on ep 1.**
-- *Entry:* 4.10.
-- *Work:* start the dev server, create a profile, verify story mode is locked, complete all 5 practice exercises, verify story mode unlocks, then complete ep 1 end-to-end; verify all 10 stars reachable including the bonus; verify re-entry to the finished run lands on `/complete` and allows scene re-reads.
+**3.11. End-to-end smoke test on regenerated fixture.**
+- *Entry:* 3.10 plus at least one regenerated v2 episode artifact set.
+- *Work:* start the dev server, create a profile, verify story mode is locked, complete all 5 practice exercises, verify story mode unlocks, then complete the regenerated fixture end-to-end; verify all 10 stars reachable including the bonus; verify re-entry to the finished run lands on `/complete` and allows scene re-reads.
 - *Exit:* full flow works in the browser without errors or console warnings.
 - *Files:* none (manual test).
 
-### Step 5 — New 3-episode story (can start in parallel with Step 4 once Step 1 is frozen)
+### Step 4 — Regenerate artifacts after implementation
+
+**4.1. Regenerate `the-white-squirrel` against the finished v2 pipeline.**
+- *Entry:* Step 3 complete.
+- *Work:* manually regenerate the story's episode artifacts using the finished v2 commands/agents and validators; verify each step as it lands.
+- *Exit:* the regenerated fixture validates cleanly and is suitable for app verification.
+- *Files:* `artifacts/the-white-squirrel/**` (new regenerated v2 path); prior v1 reference copy lives under `artifacts/archive/the-white-squirrel-v1/**`.
+
+**4.2. Use the regenerated fixture for end-to-end verification.**
+- *Entry:* 4.1.
+- *Work:* run the smoke test from 3.11 using the regenerated artifact set.
+- *Exit:* the app is verified against regenerated, not hand-migrated, content.
+- *Files:* none (manual test).
+
+### Step 5 — New 3-episode story (can start in parallel with Step 3 once Step 1 is frozen; artifact generation should wait for Step 3 completion)
 
 **5.1. Design the new story.**
 - *Entry:* Step 1 complete.

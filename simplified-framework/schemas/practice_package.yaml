@@ -1,0 +1,19 @@
+# Practice package schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# simplified-framework/pipeline/scripts/validate_practice_package.py.
+
+type: object
+required:
+  - package_meta
+  - exercises
+
+properties:
+  package_meta:
+    type: object
+    required: [schema_version]
+  exercises:
+    type: object
+    description: >
+      Exactly 5 entries keyed by canonical flaw_id, one per flaw in
+      reference/flaw-taxonomy.yaml.

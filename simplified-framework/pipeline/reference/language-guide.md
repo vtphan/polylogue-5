@@ -1,8 +1,8 @@
 # Language Guide (P10 Tier 2)
 
 > Reviewer reference for authoring dialog + scaffolding in the simplified
-> framework. Complements the shorter prompt-level guidance in the dialog
-> writer and lesson-package-builder agent specs. Examples are drawn from
+> framework. Complements the shorter prompt-level guidance in the screenwriter,
+> flaw_injector, and lesson-package-builder agent specs. Examples are drawn from
 > `the-white-squirrel` / `episode_01 (The Sighting)`.
 
 There are three blocks: a **shared core** that applies to everything
@@ -29,10 +29,10 @@ reading load.
 Separately, avoid telling the student what to notice in the summary.
 Read-phase copy is comprehension-only — orient to characters,
 setting, and situation. Reasoning framing ("watch for someone trusting
-a source too quickly") belongs in the modeled warm-up, not in the
-pre-read surface. This is a spec rule, not a style preference: pre-read
-reasoning primes were deliberately withdrawn in the Phase 2 todo
-because the modeled warm-up already performs that function.
+a source too quickly") does not belong in the orientation card or
+scene summaries. This is a spec rule, not a style preference: story-mode
+reading stays narrative-first, and flaw teaching happens in practice
+plus the inline quizzes.
 
 ### 2. Preserve signal phrases verbatim when you quote them.
 
@@ -40,8 +40,8 @@ A signal phrase is the sentence a student can underline and read aloud
 as the flaw itself — "that basically proves it," "it has to be," "so
 that's not nothing." These are the teaching handles. Do not soften,
 abbreviate, or paraphrase them. If a dialog turn ends on a signal phrase,
-quote it word-for-word in the warm-up or level prompt, including the
-closer punctuation.
+quote it word-for-word in the level hint or feedback when needed,
+including the closer punctuation.
 
 **Worked example — ep 1 `levels[3].prompt`.** The level quotes James
 verbatim:
@@ -144,13 +144,13 @@ stacking dissolves and the `unmistakable` amplification slips to
 
 ### 7. Narrator voice, not character voice. Direct and explanatory.
 
-Scaffolding prose (warm-up walk-throughs, worked explanations,
-feedback, takeaways) is narrator-to-student, not character-to-character.
-No contractions that belong to a character ("y'all," "okay but"), no
-dramatic flourishes, no "let's unpack this." Direct, explanatory, and
-short.
+Scaffolding prose (practice worked explanations, level feedback,
+level takeaways, episode framing copy) is narrator-to-student, not
+character-to-character. No contractions that belong to a character
+("y'all," "okay but"), no dramatic flourishes, no "let's unpack this."
+Direct, explanatory, and short.
 
-**Worked example — ep 1 modeled warm-up `worked_explanation`.**
+**Worked example — ep 1 level feedback / practice worked explanation voice.**
 
 > "Count the cues Cam piles on. 'Some account' — we do not know who
 > posted it. 'A million views' — popular is not the same as right. 'The
@@ -171,9 +171,12 @@ Soft caps (validator warns past each):
 |---|---|
 | `episode.summary` | ~60 words |
 | `episode.previously` (ep 2+) | ~40 words |
-| `warmups.*.best_answer_text` | ~40 words |
-| `warmups.*.worked_explanation` | ~60 words |
-| `warmups.*.takeaway` | ~20 words |
+| `levels[*].hint` | ~20–30 words |
+| `levels[*].feedback.correct.text` | ~35–40 words |
+| `levels[*].feedback.by_option.*` | ~30–35 words |
+| `levels[*].takeaway` | ~20 words |
+| `practice.exercises[*].worked_explanation` | ~60 words |
+| `practice.exercises[*].takeaway` | ~20 words |
 | `scene.summary` (transcript) | ~30 words |
 
 The caps are soft-but-real. Going one or two words over on a block that
@@ -181,7 +184,7 @@ reads well is fine; going 30% over systematically is the pattern to
 watch for, and it usually means the block is carrying two ideas that
 want to be one.
 
-**Worked example — ep 1 modeled warm-up `takeaway` (cap 20).**
+**Worked example — ep 1 level `takeaway` (cap 20).**
 
 > "Popular and official-looking are not the same as right. Count the
 > cues, then ask who."
@@ -198,7 +201,7 @@ sentences — a single 30-word sentence tips the score even if the words
 themselves are plain. When a warning fires and the vocabulary is
 already simple, check for a run-on sentence and split it.
 
-**Worked example — ep 1 modeled warm-up `best_answer_text` revision.**
+**Worked example — ep 1 feedback / explanation revision.**
 
 An earlier draft was one long sentence:
 > "Cam stacks four kinds of cues — a no-name account, a million views, agreeing comments, and 'basically proves' — but none of them tells us who made the video or whether they knew anything about squirrels."

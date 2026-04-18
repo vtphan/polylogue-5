@@ -41,3 +41,15 @@ properties:
     maxItems: 3
     description: >
       Exactly 3 levels. No two levels may target turns in the same scene.
+    items:
+      type: object
+      required:
+        - level_id
+        - sequence_index
+        - turn_id
+        - title
+        - focus_flaw
+        - prompt
+        - answer_options
+        - feedback
+        - takeaway

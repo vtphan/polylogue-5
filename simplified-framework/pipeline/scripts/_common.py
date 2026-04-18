@@ -170,6 +170,22 @@ def warn_readability(label: str, text: str, threshold: float = 7.0) -> None:
         )
 
 
+def require_readability(
+    label: str,
+    text: str,
+    errors: list[str],
+    threshold: float = 6.0,
+) -> None:
+    """Hard-error when FK grade exceeds threshold. Silent on small samples."""
+    grade = flesch_kincaid_grade(text)
+    if grade is None:
+        return
+    if grade > threshold:
+        errors.append(
+            f"{label} reads at grade {grade:.1f} (cap {threshold:.0f}). Prefer plainer wording."
+        )
+
+
 def print_result(errors: list[str]) -> int:
     if errors:
       # keep output compact and deterministic

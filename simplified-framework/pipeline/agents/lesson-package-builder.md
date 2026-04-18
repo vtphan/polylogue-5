@@ -119,7 +119,7 @@ This applies to every teaching object: level prompt, hint, takeaway, feedback.co
 
 Scaffolding prose is narrator voice, not character voice. Direct and explanatory; no dramatic flourishes.
 
-Follow the shared linguistic guide (same core as the dialog writer): write for an average or slightly-struggling 6th grader; when quoting a signal phrase from the dialog, preserve it verbatim; when a term above grade level is needed, either restate it in plain words adjacent to its use, or mark it explicitly as unfamiliar ("some word Anya used — biosignature?"). Prefer a plain-language description of a mechanism over the technical term.
+Follow the shared linguistic guide: write for an average or slightly-struggling 6th grader; when quoting a signal phrase from the dialog, preserve it verbatim; when a term above grade level is needed, either restate it in plain words adjacent to its use, or mark it explicitly as unfamiliar ("some word Anya used — biosignature?"). Prefer a plain-language description of a mechanism over the technical term.
 
 Respect these soft word caps (validator warns past each cap):
 

@@ -14,6 +14,7 @@ from _common import (
     require_list,
     require_mapping,
     require_nonempty_string,
+    require_readability,
     warn_readability,
     warn_word_cap,
 )
@@ -31,12 +32,11 @@ ALLOWED_TRANSCRIPT_KEYS = {
 
 ALLOWED_SCENE_KEYS = {"scene_id", "summary", "turns"}
 
-ALLOWED_TURN_KEYS = {"turn_id", "speaker", "text"}
+ALLOWED_TURN_KEYS = {"turn_id", "kind", "speaker", "text"}
 
 SCENE_SUMMARY_WORD_CAP = 30
 
-MIN_SCENES = 2
-MAX_SCENES = 4
+MIN_SCENES = 3
 
 # Per-scene FK readability is noisy on tiny samples; only score scenes that
 # have enough dialog to paint a stable picture.
@@ -92,10 +92,9 @@ def validate_transcript(path: str) -> int:
     scenes = require_list(transcript.get("scenes"), "scenes", errors)
     if not scenes:
         errors.append("scenes must contain at least one scene")
-    elif not MIN_SCENES <= len(scenes) <= MAX_SCENES:
+    elif len(scenes) < MIN_SCENES:
         errors.append(
-            f"scenes must contain between {MIN_SCENES} and {MAX_SCENES} entries "
-            f"(got {len(scenes)})"
+            f"scenes must contain at least {MIN_SCENES} entries (got {len(scenes)})"
         )
 
     flaw_ids = load_flaw_ids()
@@ -132,6 +131,7 @@ def validate_transcript(path: str) -> int:
                 summary,
                 SCENE_SUMMARY_WORD_CAP,
             )
+            require_readability(f"scenes[{scene_index}].summary", summary, errors)
 
         turns = require_list(entry.get("turns"), f"scenes[{scene_index}].turns", errors)
         if not turns:
@@ -158,16 +158,30 @@ def validate_transcript(path: str) -> int:
                 f"scenes[{scene_index}].turns[{turn_index}].turn_id",
                 errors,
             )
-            speaker = require_nonempty_string(
-                turn_entry.get("speaker"),
-                f"scenes[{scene_index}].turns[{turn_index}].speaker",
-                errors,
-            )
+            kind = turn_entry.get("kind", "dialog")
+            if kind not in {"dialog", "action"}:
+                errors.append(
+                    f"scenes[{scene_index}].turns[{turn_index}].kind must be 'dialog' or 'action'"
+                )
+                kind = "dialog"
             text = require_nonempty_string(
                 turn_entry.get("text"),
                 f"scenes[{scene_index}].turns[{turn_index}].text",
                 errors,
             )
+
+            speaker_value = turn_entry.get("speaker")
+            speaker = ""
+            if kind == "dialog":
+                speaker = require_nonempty_string(
+                    speaker_value,
+                    f"scenes[{scene_index}].turns[{turn_index}].speaker",
+                    errors,
+                )
+            elif speaker_value not in (None, ""):
+                errors.append(
+                    f"scenes[{scene_index}].turns[{turn_index}].speaker must be omitted for action turns"
+                )
 
             if text and flaw_ids:
                 for flaw_id in flaw_ids:
@@ -210,8 +224,7 @@ def validate_transcript(path: str) -> int:
                 # kept permissive: speaker may render as display name vs. id
                 pass
 
-        # Readability warning per scene — skip scenes without enough dialog to
-        # score stably. Aggregate across all turn text.
+        # Dialog stays warning-only in v2. Aggregate across dialog text only.
         if len(turns) >= FK_MIN_TURNS_PER_SCENE and scene_text_parts:
             warn_readability(
                 f"scenes[{scene_index}] (scene_id={scene_id or '?'}) dialog",

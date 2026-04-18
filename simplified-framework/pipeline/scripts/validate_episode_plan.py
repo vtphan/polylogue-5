@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import sys
 from collections import Counter
+from pathlib import Path
 
 from _common import (
     load_yaml,
@@ -19,10 +20,26 @@ from _common import (
 
 ALLOWED_AMPLIFICATIONS = {"unmistakable", "showcased", "heightened"}
 
-# P11 net minimum: 5 primary-flaw moments total, covering all three
-# amplification bands. This guarantees enough material for 2 warm-ups + 3
-# levels with a valid amplification progression downstream.
-PRIMARY_FLAW_MIN_MOMENTS = 5
+PRIMARY_FLAW_MIN_MOMENTS = 3
+
+TAXONOMY_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
+)
+
+
+def load_flaw_ids() -> set[str]:
+    try:
+        taxonomy = load_yaml(str(TAXONOMY_PATH))
+    except Exception:
+        return set()
+    flaws = taxonomy.get("flaws", []) if isinstance(taxonomy, dict) else []
+    ids: set[str] = set()
+    for flaw in flaws:
+        if isinstance(flaw, dict):
+            flaw_id = flaw.get("id")
+            if isinstance(flaw_id, str) and flaw_id.strip():
+                ids.add(flaw_id.strip())
+    return ids
 
 
 def validate_episode_plan(path: str) -> int:
@@ -44,15 +61,23 @@ def validate_episode_plan(path: str) -> int:
     if not flaws:
         errors.append("flaws must contain at least one flaw")
 
-    # Build (id, amplification) inventory while validating entry shapes.
+    allowed_flaw_ids = load_flaw_ids()
+
+    # Build (focus_flaw, amplification) inventory while validating entry shapes.
     flaw_entries: list[tuple[str, str]] = []
     for index, flaw in enumerate(flaws, start=1):
         entry = require_mapping(flaw, f"flaws[{index}]", errors)
         if not entry:
             continue
-        flaw_id = require_nonempty_string(entry.get("id"), f"flaws[{index}].id", errors)
+        flaw_id = require_nonempty_string(
+            entry.get("focus_flaw"), f"flaws[{index}].focus_flaw", errors
+        )
         amplification = entry.get("amplification")
         require_nonempty_string(amplification, f"flaws[{index}].amplification", errors)
+        if flaw_id and allowed_flaw_ids and flaw_id not in allowed_flaw_ids:
+            errors.append(
+                f"flaws[{index}].focus_flaw must reference a canonical flaw id, got '{flaw_id}'"
+            )
         if isinstance(amplification, str) and amplification not in ALLOWED_AMPLIFICATIONS:
             errors.append(
                 f"flaws[{index}].amplification must be one of "
@@ -63,11 +88,10 @@ def validate_episode_plan(path: str) -> int:
         if flaw_id and isinstance(amplification, str) and amplification in ALLOWED_AMPLIFICATIONS:
             flaw_entries.append((flaw_id, amplification))
 
-    # P11: plan-level amplification-mix assertion on the primary flaw.
-    # Primary flaw is the most frequent id in flaws[] (ties broken by first
-    # occurrence). The plan must carry ≥1 entry at each amplification band and
-    # ≥5 moments total for the primary flaw, matching the 2 warm-ups + 3 levels
-    # that the downstream lesson package requires.
+    # v2 plan-level amplification-mix assertion on the primary flaw.
+    # Primary flaw is the most frequent focus_flaw in flaws[] (ties broken by
+    # first occurrence). The plan must carry ≥1 entry at each amplification band
+    # and ≥3 moments total for the primary flaw, matching the 3 inline quizzes.
     if flaw_entries:
         counts = Counter(entry[0] for entry in flaw_entries)
         top = counts.most_common(1)[0][1]
@@ -90,7 +114,7 @@ def validate_episode_plan(path: str) -> int:
         if len(primary_amps) < PRIMARY_FLAW_MIN_MOMENTS:
             errors.append(
                 f"primary flaw '{primary_id}' has only {len(primary_amps)} moments; "
-                f"plan must carry ≥{PRIMARY_FLAW_MIN_MOMENTS} (2 warm-ups + 3 levels)."
+                f"plan must carry ≥{PRIMARY_FLAW_MIN_MOMENTS} (1 unmistakable + 1 showcased + 1 heightened)."
             )
 
     if "scene_design" in plan:
@@ -114,7 +138,7 @@ def validate_episode_plan(path: str) -> int:
                 for item_index, item in enumerate(items, start=1):
                     require_nonempty_string(item, f"flaw_embedding_guidance.{field}[{item_index}]", errors)
 
-    for field in ("target_teachable_moments", "warmup_candidate_goal", "level_candidate_goal"):
+    for field in ("target_teachable_moments",):
         if field in plan:
             value = require_int(plan.get(field), field, errors)
             if value is not None and value <= 0:

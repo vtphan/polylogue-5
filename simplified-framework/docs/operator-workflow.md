@@ -1,8 +1,8 @@
 # Operator Workflow
 
-This document defines the current human-in-the-loop workflow for the simplified pipeline.
+This document defines the current human-in-the-loop workflow for the simplified v2 pipeline.
 
-> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that tightens the review standard (gates check only app-required minimums — ≥ 2 warm-up-suitable primary-flaw moments plus 1 `unmistakable` + 1 `showcased` + 1 `heightened` for 3 levels; no arbitrary "5–7 moments" rules), adds a linguistic guide for dialog and scaffolding, and retargets the pipeline at a new 3-episode story `the-white-squirrel`. Consult `todo.md` before reviewing or building new content.
+> **Current direction.** `simplified-framework/todo-v2.md` is the active implementation plan. Where older docs still describe the retired warm-up flow, treat `todo-v2.md`, the Python validators, and the checked-in `pipeline/commands/` + `pipeline/agents/` specs as the forward contract.
 
 ## Workflow
 
@@ -23,16 +23,16 @@ Core review questions:
 
 1. Does the transcript sound natural?
 2. Are the flaw moments clear enough for the intended difficulty?
-3. Are there enough warm-up and level candidates?
+3. Are there exactly 3 quiz-ready primary-flaw turns, one per amplification band, in distinct scenes?
 4. Is the main flaw clear across the episode?
-5. Can the package be built without guesswork?
+5. Can the package be built without guesswork and with short direct prompts?
 
 ## Guideline Counts
 
 Use these as targets, not hard gates:
 
-- about 2 warm-up candidates
-- about 3 to 5 level candidates
+- 3+ scenes with at most one authored quiz turn per scene
+- exactly 3 primary-flaw quiz candidates worth carrying into the lesson package
 
 ## Packaging Rule
 

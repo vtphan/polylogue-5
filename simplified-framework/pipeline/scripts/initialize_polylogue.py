@@ -31,6 +31,7 @@ SIMPLIFIED_SCHEMAS = [
     "simplified-framework/schemas/episode-plan.yaml",
     "simplified-framework/schemas/transcript.yaml",
     "simplified-framework/schemas/lesson_package.yaml",
+    "simplified-framework/schemas/practice_package.yaml",
 ]
 
 SIMPLIFIED_REFERENCE = [
