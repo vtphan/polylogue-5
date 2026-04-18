@@ -26,6 +26,10 @@ export function QuizPanel({
   const isLocked = Boolean(attempt?.lockedAt);
   const isRetry = Boolean(attempt?.firstOptionId) && !isLocked;
   const selectedOptionId = attempt?.finalOptionId ?? attempt?.firstOptionId ?? null;
+  const correctOptionIds = new Set(level.feedback.correct.option_ids);
+  const correctOptions = level.answer_options.filter((option) =>
+    correctOptionIds.has(option.option_id),
+  );
 
   if (!open && isLocked) {
     const selected = level.answer_options.find((option) => option.option_id === selectedOptionId);
@@ -96,6 +100,16 @@ export function QuizPanel({
             <p className="subdued">{feedback}</p>
           </div>
         </div>
+
+        {!wasCorrect ? (
+          <div className="quiz-answer-review stack">
+            <p className="quiz-answer-review__label">Best answer</p>
+            <div className="quiz-answer-review__card">
+              <p>{correctOptions.map((option) => option.text).join(", ") || "No authored best answer"}</p>
+              <p className="subdued">{level.feedback.correct.text}</p>
+            </div>
+          </div>
+        ) : null}
 
         <div className="quiz-answer-review stack">
           <p className="quiz-answer-review__label">Takeaway</p>

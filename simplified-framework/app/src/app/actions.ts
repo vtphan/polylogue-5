@@ -275,6 +275,15 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
     redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
   }
 
+  const validOptionIds = new Set(level.answer_options.map((option) => option.option_id));
+  if (!validOptionIds.has(optionId)) {
+    throw new Error(`Unknown option "${optionId}" for level "${levelId}"`);
+  }
+
+  if (existing?.firstOptionId && existing.firstOptionId === optionId) {
+    throw new Error(`Option "${optionId}" has already been used for level "${levelId}"`);
+  }
+
   const isCorrect = level.feedback.correct.option_ids.includes(optionId);
 
   if (!existing || !existing.firstOptionId) {

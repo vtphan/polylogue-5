@@ -5,7 +5,7 @@ import {
   PRACTICE_COMPLETE_COOKIE,
 } from "@/lib/student-cookies";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const activeStudentId = request.cookies.get(ACTIVE_STUDENT_COOKIE)?.value ?? "";
   const practiceComplete =

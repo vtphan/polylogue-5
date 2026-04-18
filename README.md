@@ -1,53 +1,46 @@
 # Polylogue
 
-A research project for teaching critical thinking to middle school students (grades 6-8). Students read AI-generated group discussions and evaluate the reasoning — where it is sound, where it is weak, and why the characters reasoned the way they did.
+`simplified-framework/` is the only active framework in this repository.
 
-## Structure
+The current working model is:
 
-- **`framework/`** — The application-agnostic theory (three evaluative lenses, ten hidden facets, cognitive patterns, social dynamics) and the shared pipeline that generates per-episode artifacts.
-- **`apps/`** — Application-specific implementations (Lens, Reasoning Lab) that consume the pipeline's output.
-- **`artifacts/`** — Generated story and episode artifacts (YAML files).
-- **`legacy/`** — Archived roots from the previous Polylogue architecture (`legacy/docs/`, `legacy/configs/`, `legacy/registry/`). Kept only as historical reference.
+- `simplified-framework/` contains the live reasoning-flaws framework, validators, pipeline specs, artifacts, and the dedicated Next.js app.
+- `.claude/` at the repo root is the canonical Claude Code command/agent sync target.
+- `legacy/` contains the older shared-framework roots and archived pre-v2 material, kept only for reference.
 
-## Documentation
+## Current Docs
 
-| Document | Purpose |
-|---|---|
-| `framework/docs/conceptual-framework.md` | The reasoning quality ontology — lenses, facets, explanatory variables |
-| `framework/docs/story-authoring.md` | Story-level workflow — design doc, episode drafts, and `/validate_story` |
-| `framework/docs/artifacts-generation.md` | Episode-level pipeline — `/create_episode` → `/create_transcript` → `/build_assistive_package` |
-| `framework/docs/operator-guide.md` | Short practical runbook |
-| `framework/docs/architecture.md` | Repository and system structure |
-| `framework/docs/README.md` | Entry point to the live docs set |
+Use these as the active source of truth:
 
-## Pipeline
+- `simplified-framework/docs/instructional-design.md`
+- `simplified-framework/docs/tech-reference.md`
+- `simplified-framework/docs/operator-workflow.md`
 
-Stories are authored as prose (a design doc + per-episode drafts), then each episode runs through three shared pipeline stages:
+## Bootstrap
 
-```
-/create_episode  →  /create_transcript  →  /build_assistive_package
-```
-
-The pipeline is operated through Claude Code. For the story-level command set,
-initialize with:
+Run the simplified initializer against the repo root so it syncs into repo-root `.claude/`:
 
 ```bash
-python3 framework/pipeline/scripts/initialize_polylogue.py
+cd ~/Development/polylogue-5
+python3 simplified-framework/pipeline/scripts/initialize_polylogue.py
 ```
 
-This syncs the full shared framework pipeline without any app-specific
-commands.
-For the full app-facing pipeline:
+If you are already inside `simplified-framework/`, pass the repo root explicitly:
 
 ```bash
-python3 framework/pipeline/scripts/initialize_polylogue.py --app lens
+python3 pipeline/scripts/initialize_polylogue.py --project-root ~/Development/polylogue-5
 ```
 
-See `framework/docs/README.md` for the current documentation set.
+## Validation
 
-## Applications
+```bash
+python3 simplified-framework/pipeline/scripts/validate_story.py <story.yaml>
+python3 simplified-framework/pipeline/scripts/validate_episode_plan.py <episode-plan.yaml>
+python3 simplified-framework/pipeline/scripts/validate_transcript.py <transcript.yaml>
+python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <lesson_package.yaml>
+python3 simplified-framework/pipeline/scripts/validate_practice_package.py <practice_package.yaml>
+```
 
-| Application | Status | Description |
-|---|---|---|
-| **Lens** | Pipeline complete, app not yet built | Students evaluate passages through lenses. Reflective, writing-centered. |
-| **Reasoning Lab** | Experimental | Forensic investigation metaphor with competitive scoring. |
+## Legacy Material
+
+Older roots such as the former shared framework, old app surfaces, and historical artifacts live under `legacy/`. They are not part of the active simplified-framework workflow and should not be treated as current source of truth.

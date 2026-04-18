@@ -1,0 +1,110 @@
+story_id: the-field-trip
+result: PASS
+issues: []
+audit:
+  story_id: the-field-trip
+  coverage_mode: focused
+  episode_count_declared: 5
+  episode_count_found: 5
+  facets:
+    condition_sensitivity:
+      weakness_episodes:
+      - 4
+      strength_episodes:
+      - 3
+    consequence_consideration:
+      weakness_episodes:
+      - 5
+      strength_episodes:
+      - 3
+      - 4
+    inferential_validity:
+      weakness_episodes:
+      - 1
+      strength_episodes:
+      - 2
+      - 5
+    perspective_engagement:
+      weakness_episodes:
+      - 1
+      - 4
+      strength_episodes:
+      - 4
+      - 5
+    relevance:
+      weakness_episodes:
+      - 3
+      strength_episodes:
+      - 1
+      - 2
+      - 4
+      - 5
+    source_credibility:
+      weakness_episodes:
+      - 2
+      - 3
+      strength_episodes:
+      - 5
+    sufficiency:
+      weakness_episodes:
+      - 2
+      - 3
+      strength_episodes:
+      - 5
+  cognitive_patterns:
+    confirmation_bias:
+      episodes:
+      - 1
+      - 2
+      - 3
+      - 5
+    egocentric_thinking:
+      episodes:
+      - 1
+      - 4
+    tunnel_vision:
+      episodes:
+      - 3
+      - 4
+      - 5
+    uncritical_acceptance:
+      episodes:
+      - 2
+      - 4
+      - 5
+  social_dynamics:
+    authority_deference:
+      episodes:
+      - 1
+      - 2
+      - 3
+    conflict_avoidance:
+      episodes:
+      - 3
+    group_pressure:
+      episodes:
+      - 1
+      - 3
+      - 5
+  lens_distribution:
+    logic: 2
+    evidence: 1
+    scope: 2
+  shape_distribution:
+    early_strength_collapse: 1
+    stalemate: 1
+    unresolved_disagreement: 1
+    self_correction: 1
+    strength_prevails: 1
+  strengths_per_character:
+    Sam: 6
+    Maya: 2
+    Kai: 2
+    Priya: 2
+    Jordan: 1
+  weaknesses_per_character:
+    Maya: 4
+    Priya: 3
+    Jordan: 3
+    Kai: 3
+  hedged_annotation_check_ran: false

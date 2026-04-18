@@ -1,0 +1,124 @@
+story_id: strangers-in-the-old-forest
+result: FAIL
+issues:
+- check: facet_no_weakness_episode
+  severity: FAIL
+  message: declared facet 'perspective_engagement' never appears as a weakness in
+    any episode draft
+- check: facet_no_weakness_episode
+  severity: FAIL
+  message: declared facet 'internal_consistency' never appears as a weakness in any
+    episode draft
+audit:
+  story_id: strangers-in-the-old-forest
+  coverage_mode: focused
+  episode_count_declared: 10
+  episode_count_found: 10
+  facets:
+    condition_sensitivity:
+      weakness_episodes:
+      - 1
+      - 4
+      - 6
+      strength_episodes:
+      - 7
+      - 7
+      - 9
+    inferential_validity:
+      weakness_episodes:
+      - 2
+      - 4
+      - 5
+      - 7
+      strength_episodes:
+      - 3
+      - 5
+      - 9
+    internal_consistency:
+      weakness_episodes: []
+      strength_episodes:
+      - 5
+      - 5
+      - 10
+    perspective_engagement:
+      weakness_episodes: []
+      strength_episodes:
+      - 7
+      - 8
+    reasoning_completeness:
+      weakness_episodes:
+      - 2
+      - 8
+      strength_episodes:
+      - 1
+      - 4
+      - 6
+    source_credibility:
+      weakness_episodes:
+      - 1
+      - 2
+      - 10
+      strength_episodes:
+      - 2
+      - 8
+    source_diversity:
+      weakness_episodes:
+      - 3
+      strength_episodes:
+      - 8
+    sufficiency:
+      weakness_episodes:
+      - 1
+      - 3
+      - 9
+      strength_episodes:
+      - 10
+  cognitive_patterns:
+    black_and_white_thinking:
+      episodes:
+      - 2
+      - 5
+      - 7
+    confirmation_bias:
+      episodes:
+      - 3
+    false_cause:
+      episodes:
+      - 1
+    overgeneralization:
+      episodes:
+      - 3
+    uncritical_acceptance:
+      episodes:
+      - 1
+      - 2
+  social_dynamics:
+    authority_deference:
+      episodes:
+      - 2
+      - 10
+    group_pressure:
+      episodes:
+      - 2
+      - 8
+  lens_distribution:
+    logic: 4
+    evidence: 4
+    scope: 2
+  shape_distribution:
+    early_strength_collapse: 1
+    unresolved_disagreement: 1
+    stalemate: 2
+    self_correction: 1
+    strength_prevails: 3
+    distributed_self_correction: 2
+  strengths_per_character:
+    Maya: 8
+    Cam: 6
+    Priya: 4
+  weaknesses_per_character:
+    Jules: 5
+    Cam: 6
+    Priya: 2
+    Maya: 3
+  hedged_annotation_check_ran: false

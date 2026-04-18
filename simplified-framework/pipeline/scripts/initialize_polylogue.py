@@ -45,6 +45,22 @@ SIMPLIFIED_DOCS = [
 ]
 
 
+def resolve_default_project_root() -> Path:
+    cwd = Path.cwd().resolve()
+
+    if (cwd / "simplified-framework" / "pipeline" / "scripts").is_dir():
+        return cwd
+
+    if cwd.name == "simplified-framework" and (cwd / "pipeline" / "scripts").is_dir():
+        return cwd.parent
+
+    for candidate in [cwd, *cwd.parents]:
+        if (candidate / "simplified-framework" / "pipeline" / "scripts").is_dir():
+            return candidate
+
+    return cwd
+
+
 def sync_glob(pattern: str, dest_dir: str) -> int:
     sources = [
         src for src in sorted(glob.glob(pattern))
@@ -137,8 +153,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Initialize the simplified Lens pipeline")
     parser.add_argument(
         "--project-root",
-        default=os.getcwd(),
-        help="Project root directory (default: current directory)",
+        default=str(resolve_default_project_root()),
+        help="Project root directory (default: auto-detected repo root)",
     )
     args = parser.parse_args()
     success = initialize(args.project_root)

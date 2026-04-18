@@ -5,7 +5,7 @@ import { watch, type FSWatcher } from "node:fs";
 import path from "node:path";
 import yaml from "js-yaml";
 import { prisma } from "./db";
-import { lessonPackageSchema, transcriptSchema } from "./domain";
+import { lessonPackageSchema, transcriptSchema, type LessonPackage, type Transcript } from "./domain";
 import { simplifiedFrameworkRoot } from "./paths";
 
 type StoryFile = {
@@ -75,20 +75,41 @@ async function loadStoryTitles(): Promise<Map<string, string>> {
   return titles;
 }
 
-function getEligibleEpisodeTitle(rawLessonPackage: unknown): string | null {
+function parseEligibleLessonPackage(rawLessonPackage: unknown): LessonPackage | null {
   const parsed = lessonPackageSchema.safeParse(rawLessonPackage);
-  if (!parsed.success) {
-    return null;
-  }
-
-  return parsed.data.episode.title.trim();
+  return parsed.success ? parsed.data : null;
 }
 
-function hasEligibleTranscriptShape(rawTranscript: unknown): boolean {
+function parseEligibleTranscript(rawTranscript: unknown): Transcript | null {
   const parsed = transcriptSchema.safeParse(rawTranscript);
-  if (!parsed.success) {
-    return false;
+  return parsed.success ? parsed.data : null;
+}
+
+function isEligibleEpisodePair(
+  lessonPackage: LessonPackage,
+  transcript: Transcript,
+): boolean {
+  const turnMap = new Map<string, { sceneId: string; kind: "dialog" | "action" }>();
+
+  for (const scene of transcript.scenes) {
+    for (const turn of scene.turns) {
+      turnMap.set(turn.turn_id, { sceneId: scene.scene_id, kind: turn.kind });
+    }
   }
+
+  const seenSceneIds = new Set<string>();
+
+  for (const level of lessonPackage.levels) {
+    const turn = turnMap.get(level.turn_id);
+    if (!turn || turn.kind !== "dialog") {
+      return false;
+    }
+    if (seenSceneIds.has(turn.sceneId)) {
+      return false;
+    }
+    seenSceneIds.add(turn.sceneId);
+  }
+
   return true;
 }
 
@@ -138,10 +159,12 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
             readYamlFile<unknown>(lessonPackagePath),
             readYamlFile<unknown>(transcriptPath),
           ]);
-          const episodeTitle =
-            rawLessonPackage ? getEligibleEpisodeTitle(rawLessonPackage) : null;
+          const lessonPackage =
+            rawLessonPackage ? parseEligibleLessonPackage(rawLessonPackage) : null;
+          const transcript =
+            rawTranscript ? parseEligibleTranscript(rawTranscript) : null;
 
-          if (!episodeTitle || !rawTranscript || !hasEligibleTranscriptShape(rawTranscript)) {
+          if (!lessonPackage || !transcript || !isEligibleEpisodePair(lessonPackage, transcript)) {
             return null;
           }
 
@@ -149,7 +172,7 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
             storyId,
             episodeId,
             storyTitle: storyTitles.get(storyId) ?? storyId,
-            episodeTitle,
+            episodeTitle: lessonPackage.episode.title.trim(),
             lessonPackagePath,
             transcriptPath,
             isAvailable: true,
