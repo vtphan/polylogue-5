@@ -30,6 +30,13 @@ Primary source:
 
 - the story artifact produced by `create_story`
 
+Run scope:
+
+- read the requested story only: `simplified-framework/stories/{story_id}/story.yaml`
+- save plans only under `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
+- do not browse other stories' artifact directories as examples unless the operator explicitly asks for that comparison
+- if same-story prior plans already exist, you may read only that same-story artifact subtree when revising or replacing them
+
 ## Your Goal
 
 For each episode, produce a saved plan that defines:

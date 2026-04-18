@@ -148,6 +148,13 @@ Also read as needed:
 - `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
+Scope rule for this run:
+
+- treat `simplified-framework/stories/{story_id}/story.yaml` as the only story source
+- write only under `simplified-framework/artifacts/{story_id}/`
+- do not inspect sibling story artifact trees under `simplified-framework/artifacts/` unless the operator explicitly asks for comparison or reuse
+- if prior artifacts already exist under `simplified-framework/artifacts/{story_id}/`, use only that same-story path as reference context for overwrites or revisions
+
 ## Required Validation Step
 
 After saving each `episode-plan.yaml`, run:
