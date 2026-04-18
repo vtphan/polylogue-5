@@ -106,7 +106,7 @@ Practice intentionally does **not** mirror story quizzes 100%:
 - **At most one quiz may live in a scene.** Scenes without a flagged turn are allowed, but no scene may hold two flagged turns that both target authored quizzes.
 - **Tapping the icon opens the quiz inline, below the flagged turn.** The student never navigates away from the scene.
 - **Skipping is fine.** A student can read past a flagged turn without engaging. The icon remains clickable.
-- **Each quiz names its target flaw.** `focus_flaw` on each level is a required **canonical flaw_id** from `reference/flaw-taxonomy.yaml` (e.g. `trusting_a_source_too_quickly`). Upstream pipeline agents (episode planner → flaw reviewer → lesson package builder) fill this field; the validator enforces it. The app uses it to render the right icon and attribute earned stars to a specific flaw.
+- **Each quiz names its target flaw.** `focus_flaw` on each level is a required **canonical flaw_id** from `reference/flaw-taxonomy.yaml` (e.g. `trusting_a_source_too_quickly`). Upstream pipeline ownership is: `episode-plan.yaml` carries the canonical target, `flaw-review.md` verifies that the chosen turns really teach that flaw cleanly, and `lesson_package.yaml` emits `focus_flaw` on each authored quiz. The validator enforces the package field. The app uses it to render the right icon and attribute earned stars to a specific flaw.
 
 ### Navigation and re-reading
 
@@ -251,6 +251,7 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
 - Drop the warm-up planning fields (`warmup_candidate_goal` etc.).
 - Still required to call out 3 primary-flaw moments with the amplification mix.
 - Still required to emit canonical `focus_flaw` on each planned flaw moment so downstream agents have a target. `episode-plan.yaml` does not use a separate `flaw_id` field for these moments; `focus_flaw` is the single canonical field name from plan → reviewer → lesson package.
+- Each planned primary-flaw moment must also carry a validator-checkable scene locator (`scene_id` or equivalent normalized scene slot), so the "distinct scenes" rule is enforceable in `validate_episode_plan.py` rather than left to prose interpretation.
 
 ### New: `practice_package.yaml`
 
@@ -312,7 +313,7 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
 
 - `validate_transcript.py` — `len(scenes) ≥ 3` (no upper bound enforcement), scene-shape unchanged.
 - `validate_lesson_package.py` — `len(levels) == 3`, `warmups` block forbidden, `focus_flaw` required and must resolve to the taxonomy, no two levels in the same scene.
-- `validate_episode_plan.py` — drop warm-up candidate quotas; keep amplification-mix assertion; require `focus_flaw` per planned moment.
+- `validate_episode_plan.py` — drop warm-up candidate quotas; keep amplification-mix assertion; require `focus_flaw` per planned moment; require a per-moment scene locator and enforce that the 3 primary-flaw quiz-worthy moments occupy distinct scenes.
 - `validate_practice_package.py` — new; 5 entries keyed by taxonomy.
 
 ### Catalog contract (new)
@@ -445,7 +446,7 @@ Concretely, `pipeline/agents/` changes:
 - **`flaw_injector.md`** — new. Takes draft + flaw target, outputs final `transcript.yaml`.
 - **`dialog_writer.md`** — retired.
 - **`episode_planner.md`** — updated to emit a projection for the screenwriter with all flaw fields stripped, alongside the full plan for the injector and reviewer.
-- **`flaw_reviewer.md`** — unchanged contract.
+- **`flaw_reviewer.md`** — same artifact target (`flaw-review.md`), but updated to review against the v2 amplification and inline-quiz readiness contract. It does not emit structured package fields such as `focus_flaw`.
 - **`lesson_package_builder.md`** — updated to emit `focus_flaw` canonically, drop warm-ups, and produce prompts without the quoted-turn preamble.
 
 ### Small things pinned
@@ -610,8 +611,8 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 
 **1.8. Prune episode-plan validator.**
 - *Entry:* 1.1.
-- *Work:* drop `warmup_candidate_goal` check; keep amplification-mix assertion; add a requirement that every planned flaw moment in `flaws[]` carries an explicit canonical `focus_flaw`.
-- *Exit:* existing ep 1 plan re-validates after a minor edit; new plans without warm-up fields pass.
+- *Work:* drop `warmup_candidate_goal` check; keep amplification-mix assertion; add a requirement that every planned flaw moment in `flaws[]` carries an explicit canonical `focus_flaw`; add a required per-moment scene locator (`scene_id` or equivalent normalized scene slot) so the validator can enforce that the 3 primary-flaw quiz-worthy moments land in distinct scenes.
+- *Exit:* existing ep 1 plan re-validates after a minor edit; new plans without warm-up fields pass; a plan that puts two primary quiz moments in the same scene fails with a clear validator error.
 - *Files:* `pipeline/scripts/validate_episode_plan.py`, `schemas/episode-plan.yaml`.
 
 **1.9. Split `dialog_writer.md` into `screenwriter.md` + `flaw_injector.md`.**
@@ -622,7 +623,7 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 
 **1.10. Update `episode_planner.md` to emit the screenwriter projection.**
 - *Entry:* 1.9.
-- *Work:* planner spec documents both outputs — the saved `episode-plan.yaml` and the in-context screenwriter projection (field list per § 8). The command and agent specs must both say that `create_episodes` is a whole-story planning pass that emits the full plan set in one run.
+- *Work:* planner spec documents both outputs — the saved `episode-plan.yaml` and the in-context screenwriter projection (field list per § 8). It must stop using retired `dialog_writer` wording and explicitly define the stripped projection as a second planner output, with flaw fields withheld from the screenwriter handoff. The command and agent specs must both say that `create_episodes` is a whole-story planning pass that emits the full plan set in one run.
 - *Exit:* invoking the planner on the existing ep 1 produces both outputs.
 - *Files:* `pipeline/agents/episode_planner.md`.
 
@@ -638,9 +639,15 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 - *Exit:* a builder run on the migrated ep 1 transcript produces a v2-valid package.
 - *Files:* `pipeline/agents/lesson_package_builder.md`.
 
+**1.12a. Update `flaw_reviewer.md` wording for the v2 contract.**
+- *Entry:* 1.9, 1.10.
+- *Work:* keep the same saved artifact target (`flaw-review.md`), but remove any ambiguity that the reviewer emits structured package fields. The spec should say plainly that the reviewer validates amplification fit, distinct-scene quiz readiness, and promptability for the already-planned `focus_flaw` targets.
+- *Exit:* the reviewer contract reads as a review role only, not as a producer of package metadata.
+- *Files:* `pipeline/agents/flaw_reviewer.md`.
+
 **1.13. Add a contract-sync acceptance pass.**
-- *Entry:* 1.9–1.12.
-- *Work:* check `todo-v2.md`, `pipeline/commands/*.md`, and `pipeline/agents/*.md` together and remove stale warmup-era wording or mismatched workflow descriptions.
+- *Entry:* 1.9–1.12a.
+- *Work:* check `todo-v2.md`, `pipeline/commands/*.md`, `pipeline/agents/*.md`, and validator behavior together and remove stale warmup-era wording or mismatched workflow descriptions. This pass must verify not just wording but actual enforceability: distinct-scene plan checks, action-beat readability exemptions, and the screenwriter projection barrier must all match across surfaces.
 - *Exit:* the v2 pipeline contract is described the same way in all three surfaces.
 - *Files:* `todo-v2.md`, `pipeline/commands/*.md`, `pipeline/agents/*.md`.
 
