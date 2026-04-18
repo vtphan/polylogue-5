@@ -122,7 +122,7 @@ Write:
 The output must align to:
 
 - `simplified-framework/docs/tech-reference.md` §5 (artifact → runtime contract)
-- `simplified-framework/docs/instructional-design.md` §5 (authoring surface)
+- `simplified-framework/docs/instructional-design.md` §6 (authoring surface)
 - `simplified-framework/schemas/lesson_package.yaml`
 
 ## Success Standard

@@ -132,7 +132,7 @@ The story touches on **genetic mutations in general** and does not dig into mech
 
 ### P1. Cap levels at 3
 - Update `simplified-framework/pipeline/scripts/validate_lesson_package.py` to enforce `len(levels) == 3` (or `<= 3` if we want to permit 2 during a transition — call before shipping).
-- Update `simplified-framework/docs/instructional-design.md` §4.4 and §5.4 to state "3 levels per episode."
+- Update `simplified-framework/docs/instructional-design.md` §5.4 and §6.4 to state "3 levels per episode."
 - Update `simplified-framework/schemas/` sketches to match.
 
 ### P2. Revamp `transcript.yaml` — introduce `scenes[]` with nested turns
@@ -243,7 +243,7 @@ Notes:
   - Update `simplified-framework/pipeline/agents/flaw_reviewer.md` to codify the minimums above.
   - Update `validate_transcript.py` to assert the amplification mix when the transcript carries primary-flaw annotations, or leave this check to `flaw_reviewer` if the transcript schema doesn't carry flaw labels (transcripts are source dialogue per current design).
   - Update `validate_lesson_package.py` to assert exactly 3 levels (P1) and that warm-up counts are correct — do not assert anything about primary-flaw moment counts inside the transcript from the lesson-package validator.
-  - Update `simplified-framework/docs/instructional-design.md` §5.4 to replace "roughly 5–7 candidate teachable moments" with the explicit minimum + "additional moments at the author's discretion when they serve the story."
+  - Update `simplified-framework/docs/instructional-design.md` §6.4 to replace "roughly 5–7 candidate teachable moments" with the explicit minimum + "additional moments at the author's discretion when they serve the story."
 
 ---
 

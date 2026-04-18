@@ -316,7 +316,7 @@ Edit `simplified-framework/configs/forest-ep01-table-a.json` (or set `POLYLOGUE_
 1. Extend the appropriate Zod schema in `src/lib/domain.ts`.
 2. Add a matching rule (if structural) to the Python validator in `simplified-framework/pipeline/scripts/validate_lesson_package.py`.
 3. Update the schema sketch in `simplified-framework/schemas/` for author reference.
-4. Update `instructional-design.md` §5 "Authoring Surface" so designers see the new field.
+4. Update `instructional-design.md` §6 "Authoring Surface" so designers see the new field.
 
 ### 10.7 Evolve the Prisma schema
 

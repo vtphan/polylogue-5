@@ -54,14 +54,14 @@ def validate_episode_plan(path: str) -> int:
     if 0 < flaw_count < 5:
         print(
             f"WARNING: episode-plan.yaml has only {flaw_count} flaw entries; "
-            f"target is 5-7 per instructional-design.md §5.4. If multiple turns "
+            f"target is 5-7 per instructional-design.md §6.4. If multiple turns "
             f"are intended to carry the same flaw, write one entry per turn.",
             file=sys.stderr,
         )
     elif flaw_count > 7:
         print(
             f"WARNING: episode-plan.yaml has {flaw_count} flaw entries; "
-            f"target is 5-7 per instructional-design.md §5.4.",
+            f"target is 5-7 per instructional-design.md §6.4.",
             file=sys.stderr,
         )
 
