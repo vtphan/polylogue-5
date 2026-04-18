@@ -1,27 +1,59 @@
 # Polylogue — Research Overview
 
-Polylogue teaches critical thinking to middle school students (grades 6-8) through evaluation of AI-generated group discussions. Students read a scripted conversation between fictional peers, then articulate what they see in the reasoning — where it is sound and where it is weak — and consider why the characters reasoned the way they did.
+Polylogue is a research project for teaching critical thinking to middle school students through short narrative episodes and explicit reasoning practice.
 
-## The Framework
+The active implementation in this repository is `simplified-framework/`. It teaches one student-facing layer only: reasoning flaws expressed in plain language.
 
-Students examine reasoning through three **lenses**: Evidence (is the claim supported?), Logic (does the reasoning hold?), and Scope (is the analysis thorough?). These direct attention without constraining what students see.
+## Current Instructional Model
 
-Behind the lenses, a hidden layer of **facets** gives reasoning its internal complexity — specific dimensions like source credibility, inferential validity, or perspective engagement. Students discover facets through their own articulation without being taught them. The pipeline uses facets as generation targets; teachers use them as scaffolding vocabulary; students never see the taxonomy.
+Students work with five recurring reasoning flaws:
 
-When students consider *why* the characters reasoned the way they did, they draw on **cognitive patterns** (individual thinking tendencies like confirmation bias, tunnel vision, overgeneralization) and **social dynamics** (group forces like group pressure, conflict avoidance, authority deference). These interact — "she had tunnel vision, and nobody pushed back, so she just kept going" — and that interaction is the framework's deepest learning objective.
+- jumping to a conclusion
+- not enough evidence
+- ignoring another perspective
+- trusting a source too quickly
+- missing important conditions or consequences
 
-For the full ontology — lenses, facets, explanatory variables, and how they relate — see `framework/docs/conceptual-framework.md`.
+The design goal is not to hide the core concept behind abstract theory. Students are told directly what kind of reasoning move they are looking at, then they practice noticing it in context.
 
-## What Students Learn
+## Student Experience
 
-**Evaluative differentiation** — Moving from "that's bad reasoning" to pinpointing specific dimensions of strength and weakness.
+The current model has two modes:
 
-**Perspectival engagement** — Moving from "I'm right and you're wrong" to "we saw different things, and both are there."
+- **Practice mode** teaches the interaction pattern with one short exercise per flaw.
+- **Read-a-story mode** places three inline quizzes inside a story episode at authored teachable moments.
 
-**Explanatory reasoning as perspective taking** — Considering why people reason the way they do, connecting cognitive patterns and social dynamics.
+Students can read the story linearly, open quizzes in place, use a hint when needed, and earn episode-local stars for quiz performance. The runtime is deterministic: there is no LLM call during student use.
 
-## The Pipeline
+## Research Aim
 
-An AI pipeline generates all session materials from authored stories with recurring casts. Each episode produces a scripted discussion, an analytical ground truth, diagnostic interventions (probes, intervention ladders), prose (openings, starters, closure questions), and group discussion cues. The pipeline has LLM access; the student-facing app does not — everything it needs at runtime is precomputed into a single `assistive_package.yaml` per episode.
+The simplified framework is designed to study whether students can:
 
-See `framework/docs/pipeline-architecture.md` for the full specification.
+- identify flawed reasoning more precisely when the categories are explicit and concrete
+- apply the same reasoning language across multiple stories and situations
+- move from isolated practice to in-context story reading without needing a different interaction model
+
+The emphasis is on clarity, transfer, and teachability rather than on preserving a large hidden ontology.
+
+## Authoring And Runtime
+
+Authors create:
+
+- `story.yaml`
+- `episode-plan.yaml`
+- `transcript.yaml`
+- `flaw-review.md`
+- `lesson_package.yaml`
+- `practice_package.yaml`
+
+These artifacts are validated before use. The app reads the authored YAML plus local Prisma state to render practice, story reading, inline quizzes, persistence, and scoring.
+
+## Active References
+
+For the live project model, use:
+
+- `simplified-framework/docs/instructional-design.md`
+- `simplified-framework/docs/tech-reference.md`
+- `simplified-framework/docs/operator-workflow.md`
+
+Historical shared-framework material now lives under `legacy/` and should be treated as reference only.
