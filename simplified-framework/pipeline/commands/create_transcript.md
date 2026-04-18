@@ -46,6 +46,16 @@ Validation script:
 - `simplified-framework/artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
+## Screenwriter Barrier
+
+Before invoking `screenwriter`, this command must prepare the stripped screenwriter-safe projection described in `todo-v2.md` § 8.
+
+- `screenwriter` receives the projection, not the full flaw-bearing `episode-plan.yaml`
+- `screenwriter` must not be given `reference/flaw-taxonomy.yaml`
+- the full `episode-plan.yaml` and taxonomy remain available to `flaw_injector` and `flaw_reviewer`
+
+This barrier is part of the v2 contract. Do not collapse it into a generic "read the plan and start writing" handoff.
+
 ## Subagent Roles
 
 This command should use three specialized subagents:
@@ -133,14 +143,15 @@ The operator-facing report should be a concise summary of the saved artifacts, n
 
 1. read `story.yaml`
 2. read the selected `episode-plan.yaml`
-3. invoke `screenwriter`
-4. invoke `flaw_injector`
-5. save `transcript.yaml`
-6. run transcript validation
-7. invoke `flaw_reviewer`
-8. save `flaw-review.md`
-9. present a concise summary to the operator
-10. stop and wait for operator judgment
+3. prepare the stripped screenwriter projection from the episode plan
+4. invoke `screenwriter` with that projection only
+5. invoke `flaw_injector` with the screenwriter draft plus the full flaw-bearing plan
+6. save `transcript.yaml`
+7. run transcript validation
+8. invoke `flaw_reviewer`
+9. save `flaw-review.md`
+10. present a concise summary to the operator
+11. stop and wait for operator judgment
 
 The validation step is:
 
@@ -172,6 +183,7 @@ Do not:
 
 - force every turn to contain a flaw
 - silently collapse back to the old single-pass `dialog_writer` flow
+- pass the full flaw-bearing plan or taxonomy straight through to `screenwriter`
 - build the lesson package automatically after drafting
 - leave the review only in chat without saving the file artifact
 

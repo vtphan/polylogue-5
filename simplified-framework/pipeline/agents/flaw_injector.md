@@ -25,6 +25,10 @@ You may revise turns, add turns, cut turns, and add action beats.
 
 You may **not** reorder scene boundaries.
 
+You must preserve the screenwriter's narrative texture unless a local revision is needed to land the planned flaw mix.
+
+Keep sensory anchors, transitions, friction, props, and running threads intact where possible.
+
 ## Downstream-App Constraints
 
 1. The lesson package will select exactly 3 quiz turns, with no two in the same scene.

@@ -463,6 +463,7 @@ Concretely, `pipeline/agents/` changes:
 - **Remove:** `/runs/[runId]/read`, `/runs/[runId]/warmup`, `/runs/[runId]/level/...`.
 - **Add:**
   - `/` — home (practice / read-a-story picker + per-episode star grid).
+  - `/stories` — story picker grouped by story heading.
   - `/practice` — picker over the 5 flaws.
   - `/practice/[flaw_id]` — single practice exercise (2-click flow).
   - `/runs/[runId]/scene/[n]` — story reader for scene n (0 = orientation card, 1..N = scenes), with inline quizzes on flagged turns.
@@ -615,24 +616,36 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 
 **1.9. Split `dialog_writer.md` into `screenwriter.md` + `flaw_injector.md`.**
 - *Entry:* 1.1–1.8.
-- *Work:* author the screenwriter spec (narrative-texture guidelines, barrier-safe projection input per § 8) and the flaw-injector spec (revise-turns authority, no scene-boundary edits); delete `dialog_writer.md`.
+- *Work:* author the screenwriter spec (narrative-texture guidelines, barrier-safe projection input per § 8, explicit prohibition on loading the full flaw-bearing plan or taxonomy) and the flaw-injector spec (revise-turns authority, no scene-boundary edits, preserve the screenwriter's texture work while landing the flaw mix); delete `dialog_writer.md`.
 - *Exit:* both specs in `pipeline/agents/`; a test invocation on the ep-1 projection runs cleanly.
 - *Files:* `pipeline/agents/screenwriter.md` (new), `pipeline/agents/flaw_injector.md` (new), `pipeline/agents/dialog_writer.md` (deleted).
 
 **1.10. Update `episode_planner.md` to emit the screenwriter projection.**
 - *Entry:* 1.9.
-- *Work:* planner spec documents both outputs — full `episode-plan.yaml` and the in-context projection (field list per § 8).
+- *Work:* planner spec documents both outputs — the saved `episode-plan.yaml` and the in-context screenwriter projection (field list per § 8). The command and agent specs must both say that `create_episodes` is a whole-story planning pass that emits the full plan set in one run.
 - *Exit:* invoking the planner on the existing ep 1 produces both outputs.
 - *Files:* `pipeline/agents/episode_planner.md`.
 
-**1.11. Update `lesson_package_builder.md` for v2.**
+**1.11. Update `create_transcript.md` for the projection handoff.**
+- *Entry:* 1.9, 1.10.
+- *Work:* command spec explicitly inserts the screenwriter-projection preparation step before `screenwriter`, requires that the stripped projection rather than the full flaw-bearing plan is passed to `screenwriter`, and keeps the full plan reserved for `flaw_injector` and `flaw_reviewer`.
+- *Exit:* the command contract cannot be read as a full-plan handoff to `screenwriter`.
+- *Files:* `pipeline/commands/create_transcript.md`.
+
+**1.12. Update `lesson_package_builder.md` for v2.**
 - *Entry:* 1.3.
-- *Work:* spec emits `focus_flaw` canonically, emits required per-level `takeaway`, omits warmups, drops the quoted-turn preamble from level prompts, and explicitly forbids quoting or paraphrasing the highlighted turn inside the prompt text.
+- *Work:* spec emits `focus_flaw` canonically, emits required per-level `takeaway`, omits warmups, drops the quoted-turn preamble from level prompts, explicitly forbids quoting or paraphrasing the highlighted turn inside the prompt text, and matches § 8's grade-6 hard-error readability rule for scaffolding prose.
 - *Exit:* a builder run on the migrated ep 1 transcript produces a v2-valid package.
 - *Files:* `pipeline/agents/lesson_package_builder.md`.
 
-**1.12. Sync `CLAUDE.md` and `docs/` to v2.**
-- *Entry:* 1.1–1.11.
+**1.13. Add a contract-sync acceptance pass.**
+- *Entry:* 1.9–1.12.
+- *Work:* check `todo-v2.md`, `pipeline/commands/*.md`, and `pipeline/agents/*.md` together and remove stale warmup-era wording or mismatched workflow descriptions.
+- *Exit:* the v2 pipeline contract is described the same way in all three surfaces.
+- *Files:* `todo-v2.md`, `pipeline/commands/*.md`, `pipeline/agents/*.md`.
+
+**1.14. Sync `CLAUDE.md` and `docs/` to v2.**
+- *Entry:* 1.1–1.13.
 - *Work:* reword the `CLAUDE.md` engagement-invariant list to reflect stars + bonus (replacing the lifeline-bonus language); update `docs/instructional-design.md` to the new phase model; update `docs/tech-reference.md` for the Prisma additions and routing changes.
 - *Exit:* docs reference v2 shapes only; no stale v1 vocabulary.
 - *Files:* `CLAUDE.md`, `simplified-framework/docs/instructional-design.md`, `simplified-framework/docs/tech-reference.md`.
@@ -737,7 +750,7 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 
 **5.2. Produce 3 episode plans.**
 - *Entry:* 5.1.
-- *Work:* `create_episodes` flow per episode; each plan carries canonical `focus_flaw` per planned moment and the amplification mix.
+- *Work:* run `create_episodes` once as a whole-story planning pass to produce the 3 `episode-plan.yaml` files; each plan carries canonical `focus_flaw` per planned moment and the amplification mix.
 - *Exit:* 3× `validate_episode_plan.py` pass.
 - *Files:* `artifacts/<new_story_id>/episode_0{1,2,3}/episode-plan.yaml`.
 

@@ -132,7 +132,7 @@ Respect these soft word caps (validator warns past each cap):
 | `levels[*].feedback.by_option.*` | ~30–35 words |
 | `levels[*].takeaway` | ~12–20 words |
 
-`validate_lesson_package.py` also runs a Flesch-Kincaid readability check per scaffolding block and warns when the grade level exceeds the configured threshold. Samples too small to score reliably are skipped.
+`validate_lesson_package.py` also runs a Flesch-Kincaid readability check per scaffolding block. In v2, scaffolding prose above grade 6 is a hard error, not an advisory warning. Samples too small to score reliably are skipped.
 
 For a longer reviewer-facing companion with worked examples from `the-white-squirrel` ep 1 (including when to split a long sentence to drop an FK warning and when to leave a near-threshold warning alone), see `simplified-framework/pipeline/reference/language-guide.md`.
 

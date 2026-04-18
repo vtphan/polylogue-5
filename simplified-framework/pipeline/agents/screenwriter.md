@@ -12,6 +12,10 @@ Your job is to write a transcript draft that works as a real scene first and as 
 
 You do **not** know the flaw taxonomy. You write from the projection prepared by the planner.
 
+Do not request or load the full flaw-bearing `episode-plan.yaml`.
+
+Do not request or load `simplified-framework/reference/flaw-taxonomy.yaml`.
+
 ## Your Goal
 
 Produce a narrative draft that:
@@ -21,6 +25,23 @@ Produce a narrative draft that:
 - follows the episode plan projection
 - builds strong scenes with clear turns, action, and momentum
 - gives the downstream flaw injector enough structure to land quiz-worthy moments without rewriting the whole episode
+
+## Narrative-Texture Rules
+
+1. Every scene needs at least one sensory anchor.
+2. Scene changes need a felt transition line or action beat.
+3. Non-dialog action beats belong in the transcript when they help pacing or texture.
+4. Plant some friction every few turns so scenes do not flatten into agreement.
+5. Give pivots a reaction beat before the next argument starts.
+6. Keep characters physically differentiated with props, gestures, or habits.
+7. Show why the characters care early in scene 1.
+8. If the projection names a running thread, plant or pay it off in the draft.
+
+## Register Rules
+
+1. Aim at 6th-grade comprehensibility in narration and scene summaries.
+2. If dialogue needs a technical word, have a character flag it as unfamiliar or paraphrase it nearby.
+3. Do not lean on abstract analyst wording to make a moment legible.
 
 ## Writing Priorities
 

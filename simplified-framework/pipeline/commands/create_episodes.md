@@ -10,6 +10,8 @@ This command is story-level planning, not transcript generation.
 
 Its job is to translate a completed or mostly completed `story.yaml` into a set of simplified `episode-plan.yaml` artifacts, one per episode, with a coherent learning arc across the whole story.
 
+The output of this command is the **full episode-plan set for the story in one run**. Do not reinterpret this as a per-episode planning command.
+
 ## Output Target
 
 The default artifacts are:
@@ -17,6 +19,8 @@ The default artifacts are:
 - `simplified-framework/artifacts/{story_id}/episode_01/episode-plan.yaml`
 - `simplified-framework/artifacts/{story_id}/episode_02/episode-plan.yaml`
 - and so on for the full episode set
+
+This command also prepares an **ephemeral screenwriter projection** for each episode plan. Those projections are in-context handoff material for `create_transcript`, not saved artifacts on disk.
 
 These should follow:
 
@@ -148,7 +152,7 @@ Each saved episode plan should pass before the episode set is treated as complet
 ## Relationship to Later Commands
 
 - `create_story` creates the story-level source artifact.
-- `create_episodes` turns that into the full episode plan set.
+- `create_episodes` turns that into the full episode plan set and the paired in-context projection shape used later by `screenwriter`.
 - later transcript creation should happen one episode at a time.
 
 Do not move into transcript writing in this command.
