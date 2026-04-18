@@ -1,5 +1,7 @@
 # TODO — Lower Cognitive Load and Scaffold the Reading Phase
 
+> **FROZEN — 2026-04-17.** Superseded by `todo-v2.md`. Phases 1–3 of this plan shipped (pipeline schema revamp, ep 1 authoring + guardrail tuning, scene-based reading UI). **Phase 4 (author eps 2+3 of `the-white-squirrel`) is explicitly skipped**: the forthcoming v2 redesign merges reading and reasoning into a single scene-by-scene phase, which changes the transcript/lesson-package contract and would require re-authoring those episodes anyway. Ep 1 remains on disk as the app-test fixture for v2 migration. Do not implement remaining items from this file; continue work in `todo-v2.md`.
+
 > **This document describes planned revisions, not current state.** For the system as it stands today, consult:
 >
 > - `simplified-framework/docs/instructional-design.md` — conceptual framework, student journey, authoring surface
