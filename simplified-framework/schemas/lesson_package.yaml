@@ -53,3 +53,53 @@ properties:
         - answer_options
         - feedback
         - takeaway
+      properties:
+        level_id:
+          type: string
+        sequence_index:
+          type: integer
+        turn_id:
+          type: string
+        title:
+          type: string
+        focus_flaw:
+          type: string
+        prompt:
+          type: string
+        hint:
+          type: string
+        answer_options:
+          type: array
+          items:
+            type: object
+            required: [option_id, text, kind]
+            properties:
+              option_id:
+                type: string
+              text:
+                type: string
+              kind:
+                type: string
+        feedback:
+          type: object
+          required: [correct, by_option]
+          properties:
+            correct:
+              type: object
+              required: [option_ids, text]
+              properties:
+                option_ids:
+                  type: array
+                  items:
+                    type: string
+                text:
+                  type: string
+            by_option:
+              type: object
+              description: >
+                Map of each wrong option_id directly to a feedback string.
+                Values are plain strings, not nested objects.
+              additionalProperties:
+                type: string
+        takeaway:
+          type: string

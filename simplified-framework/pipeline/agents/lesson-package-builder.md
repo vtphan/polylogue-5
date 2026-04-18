@@ -127,6 +127,21 @@ Do not emit `warmups` or `student_intro`; the validator rejects them.
 
 Every level must include `focus_flaw`, `prompt`, `answer_options`, `feedback`, and `takeaway`. The runtime uses `feedback.correct.option_ids` for grading, not `best_answer_id`.
 
+`feedback` shape is exact:
+
+```yaml
+feedback:
+  correct:
+    option_ids: [opt_a]
+    text: <plain string>
+  by_option:
+    opt_b: <plain string>
+    opt_c: <plain string>
+    opt_d: <plain string>
+```
+
+`feedback.by_option` maps each wrong `option_id` directly to a string. Do not wrap those values in `{text: ...}` objects.
+
 Prompt rule: ask the question directly. Do not quote, paraphrase, or summarize the highlighted turn inside `levels[*].prompt`; the turn is already visible in the reader.
 
 ## Success Standard

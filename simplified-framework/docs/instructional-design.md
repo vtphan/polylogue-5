@@ -165,6 +165,7 @@ Levels:
 - no `student_intro`
 
 The runtime grades with `feedback.correct.option_ids`, never `best_answer_id`.
+`feedback.correct.text` is a plain string, and `feedback.by_option.{option_id}` values are also plain strings, not nested objects.
 
 ### 6.4 `practice_package.yaml`
 

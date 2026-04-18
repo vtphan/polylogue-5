@@ -76,6 +76,21 @@ So this package must already specify:
 
 The app should not need to infer any of these at runtime.
 
+`feedback` must use the canonical YAML shape:
+
+```yaml
+feedback:
+  correct:
+    option_ids: [opt_a]
+    text: <plain string>
+  by_option:
+    opt_b: <plain string>
+    opt_c: <plain string>
+    opt_d: <plain string>
+```
+
+`feedback.by_option` values are plain strings keyed by wrong `option_id`, not nested `{text: ...}` objects.
+
 ## Downstream App Fit
 
 The downstream app is an inline-quiz reader, not a worksheet surface.

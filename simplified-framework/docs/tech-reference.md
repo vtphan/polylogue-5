@@ -122,6 +122,7 @@ Rules:
 - levels must target dialog turns, not action turns
 
 The runtime grades with `feedback.correct.option_ids`, not `best_answer_id`.
+`feedback.correct.text` is a plain string, and `feedback.by_option.{option_id}` maps each wrong option id directly to a plain string.
 
 ### 5.4 `episode-plan.yaml`
 

@@ -41,6 +41,26 @@ For each implementation item in § 12:
 
 Keep these notes terse and implementation-facing. Do not log conversation history here.
 
+### Migration debugging workflow
+
+During v2 migration, this file is not just a design spec. It is also the working contract for manually debugging and hardening the pipeline until the stable operator workflow can move back to `docs/operator-workflow.md`.
+
+Expected operator process during migration:
+
+1. Run the pipeline manually in Claude Code, one stage at a time.
+2. Treat each generated artifact as a test of whether the current v2 implementation is correct.
+3. Check each stage's output against this file, the current Python validators, and the checked-in command and agent specs.
+4. If a stage drifts from the v2 contract, stop downstream generation and fix the issue before continuing.
+5. Use Claude Code or Codex interactively to diagnose and fix the problem, whether the fix belongs in the generated artifact, validator, command spec, agent spec, or related implementation code.
+6. Continue this manual stage-by-stage process until the pipeline behavior matches the v2 contract closely enough to close this TODO and return to the stable operator workflow.
+
+Precedence during this migration-debug process:
+
+- `todo-v2.md` is the canonical contract for intended v2 behavior.
+- Validator behavior should enforce that contract wherever possible.
+- Checked-in command and agent specs should describe the same contract and workflow.
+- Generated artifacts are evidence of whether the implementation is actually aligned.
+
 ### Decision log
 
 - 2026-04-18: `episode-plan.yaml` v2 gate fixed to exactly 3 primary-flaw quiz moments, one each at `unmistakable`, `showcased`, and `heightened`, in distinct scenes.
