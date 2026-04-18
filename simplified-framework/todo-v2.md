@@ -15,7 +15,8 @@
 9. [App changes](#app-changes)
 10. [Migration + end-to-end verification](#migration--end-to-end-verification)
 11. [Sequencing](#sequencing)
-12. [Explicitly out of scope](#explicitly-out-of-scope)
+12. [Implementation plan](#implementation-plan)
+13. [Explicitly out of scope](#explicitly-out-of-scope)
 
 ---
 
@@ -35,7 +36,9 @@ Two levers:
 
 ## Architecture — two modes
 
-**Opening page** offers two choices:
+**Entry flow.** Identity selection is a precondition to the home screen, not a peer of the two primary actions. On a fresh install (no `active_student_id` cookie on the origin), the app opens a device-local name picker — "Who are you?" — which creates or selects a `Student` row (see § 9). Once a profile is active, the home screen renders; switching or adding a profile from the home screen is done via the active-profile chip at the top of the page (see § 6). The name picker does not reappear on every visit; it is gated on the presence of the cookie.
+
+**Home screen** offers two choices:
 
 - **Practice** — the tutorial library. Student picks a flaw, works through a short exercise. Shared across all stories; authored once.
 - **Read a story** — pick an episode; read it scene by scene with inline quizzes on flagged turns.
@@ -81,6 +84,13 @@ No separate Submit, no separate Reveal, no per-step Next. The hint is always fre
 - Each scene has `scene_id`, a plain-language `summary` (≤ 30 words), and `turns[]`.
 - Authoring principle unchanged: break scenes at shifts in location, time, topic, or conversational mode. Aim ~3–5 turns per scene.
 
+### Orientation card (pre-scene)
+
+- Before scene 1, the reader shows a single orientation card rendering `episode.previously` (present on ep 2+ only) followed by `episode.summary`. One **Continue** affordance advances to scene 1.
+- Addressed as `scene_00` in the URL (e.g., `/runs/[runId]/scene/0`) for routing consistency, but it is **not** a scene in the phase machine — the phase machine still iterates `scene_01 → … → scene_N`. The orientation card is an introductory page before `scene_01`.
+- Reachable from any scene via a "Back to start" affordance in the scene nav. On re-entry to an unfinished run, the reader lands on the student's last scene, not the orientation card; on re-entry to a finished run, the reader lands on `/complete` per § 4.
+- `reading_finished_at` is unaffected by the orientation card — only advancing into scene N sets it.
+
 ### Flagged turns and inline quizzes
 
 - Each episode has **exactly 3 quizzes** (renamed from "levels" at the UI layer, though the lesson package may still call them `levels[]` — see contract). The 3-quiz amplification mix (`unmistakable` / `showcased` / `heightened`) is unchanged.
@@ -100,9 +110,11 @@ No separate Submit, no separate Reveal, no per-step Next. The hint is always fre
 
 ### Completion
 
-- An episode is considered **complete when the student advances into the final scene** — i.e., taps Next on scene N-1. Scrolling within the final scene is not required, and no end-of-scene confirmation is needed. Zero quizzes attempted is a valid finish.
-- Stars accumulate across sittings. A student can earn all 9 over several reads and still receive the 10th bonus star; the bonus fires at the moment the 9th star is earned, whenever that happens.
-- Completion is a one-way latch on the run (see run lifecycle below): once marked complete, the run stays complete on every subsequent re-read, even if the student earns additional stars.
+- **Completion is a milestone, not a terminal state.** Reaching the final scene sets `reading_finished_at` on the run. Writes to quiz state, stars, and the bonus-star flag continue afterward — the run is never closed or made read-only by completion. There is no v2 equivalent of the current terminal-completion latch.
+- The milestone fires when the student **advances into the final scene** — i.e., taps Next on scene N-1. Scrolling within the final scene is not required, and no end-of-scene confirmation is needed. Zero quizzes attempted is a valid finish.
+- Stars accumulate across sittings. A student can earn all 9 over several reads and still receive the 10th bonus star; the bonus fires at the moment the 9th star is earned, whenever that happens — before or after `reading_finished_at`.
+- **`/complete` is a view, not a state transition.** The phase state machine (§ 9) never leaves scene-indexing; there is no "complete" phase node. `/complete` is an end-of-episode recap surface (the big 10-star screen with Read again / Home) that is reachable at any time from a finished run via an explicit affordance, and is the **default landing view** on re-entry to a finished run. The student can return from `/complete` to any scene — the scene reader remains interactive with untried quizzes still tappable.
+- **Current terminal-completion paths must be reworked.** `app/src/lib/runs.ts` and `app/src/lib/routing.ts` today treat a completed run as frozen and route it to handoff. v2's "finished" is a durable flag on an open run, not a lock on writes. Named as a Step-4 obligation in § 11.
 
 ---
 
@@ -146,9 +158,19 @@ Stars in v2 are **badge-style per-quiz recognition**, not a running score. They 
 
 ### Opening / home page
 
+- **Active profile chip at top.** Shows the current student's name with an affordance to switch or add a profile (opens the device-local name picker — see § 9).
 - Two primary actions: **Practice** and **Read a story**.
 - Below the actions: **per-episode grid.** Each episode is a small card: title + a row of 10 stars (filled for earned, hollow for unearned), visually grouped as 3-3-3 + bonus (see below).
+- **Grid ordering:** stories ordered by `story_id` ascending; within each story, episodes ordered by `episode_id` ascending (authored sequence). No completion-based reordering; the grid stays stable across re-entries so students can count on finding episodes in the same place.
 - **Remove every other stat** currently shown on the home screen (counts, times, completion percentages).
+
+### Story picker
+
+- The **Read a story** primary action opens the story picker.
+- Flat list, grouped under story headings. Each story heading shows the story title (from `story.yaml.title`). Below it, the story's episodes are listed in authored sequence, with the same 10-star progress row as the home grid and a tap target that opens or resumes the episode.
+- Ordering matches the home grid (stories by `story_id`, episodes by `episode_id`). Stable across re-entries.
+- Untouched episodes show an empty star row; in-progress episodes show accumulated stars and a "Resume" affordance; finished episodes show their full star state and open directly onto `/complete`.
+- No search, filter, or favorites in v2 — the catalog is short enough to not need them.
 
 ### Inline quiz panel (story mode)
 
@@ -213,9 +235,58 @@ No page transitions. One scroll position.
 ### New: `practice_package.yaml`
 
 - Lives at `simplified-framework/artifacts/practice/practice_package.yaml`.
-- One entry per canonical flaw (5 entries total).
-- Each entry: scenario (short), prompt, options, hint (always-free), worked explanation, takeaway.
-- Own validator: `pipeline/scripts/validate_practice_package.py`.
+- Exactly 5 exercises, one per canonical `flaw_id` in `reference/flaw-taxonomy.yaml`. Keyed by `flaw_id` in the `exercises` map. No more, no fewer.
+- **Schema sketch:**
+  ```yaml
+  package_meta:
+    schema_version: simplified_v2
+  exercises:
+    trusting_a_source_too_quickly:
+      exercise_id: practice_trusting_a_source_too_quickly
+      flaw_id: trusting_a_source_too_quickly
+      title: <short, ≤ 6 words>
+      scenario: >-
+        <Self-contained mini-scenario. 2–4 turns of dialog OR one short
+        situation paragraph. ≤ 80 words. Must not reference any story.>
+      prompt: <One question. ≤ 30 words.>
+      options:
+        - option_id: p1a
+          text: <best_fit>
+          kind: best_fit
+        - option_id: p1b
+          text: <partial>
+          kind: partial
+        - option_id: p1c
+          text: <off_target>
+          kind: off_target
+        - option_id: p1d
+          text: I'm not sure yet.
+          kind: uncertain
+      hint: <≤ 30 words. Always free in practice — no star/lifeline cost.>
+      feedback:
+        correct:
+          option_ids: [p1a]
+          text: <≤ 50 words>
+        by_option:
+          p1b: <≤ 40 words>
+          p1c: <≤ 40 words>
+          p1d: <≤ 40 words>
+      worked_explanation: >-
+        <≤ 60 words. Plain-language unpack; lands after a correct answer
+         in the Reveal state.>
+      takeaway: <≤ 20 words. Single sentence.>
+    # repeat the shape for the remaining 4 flaws
+  ```
+- **Validator: `pipeline/scripts/validate_practice_package.py`** enforces:
+  - `package_meta.schema_version == "simplified_v2"`.
+  - `exercises` map contains **exactly** the 5 canonical flaw_ids from the taxonomy.
+  - Each exercise's top-level `flaw_id` matches its map key.
+  - `options[]` contains exactly one `best_fit`, exactly one `uncertain`, ≥ 1 `partial`, ≥ 1 `off_target`.
+  - `feedback.correct.option_ids` references the single `best_fit`.
+  - `feedback.by_option` covers every non-`best_fit` option_id.
+  - Word-cap warnings on the soft caps named in the schema sketch.
+  - FK readability hard-error on scaffolding fields: `scenario`, `prompt`, `hint`, `feedback.correct.text`, every value in `feedback.by_option`, `worked_explanation`, `takeaway`.
+- **Completion semantics.** An exercise is marked `completed_at` the first time the student submits an option (correct or not) and advances past the Reveal state via the Done affordance. Re-entering a completed exercise is always allowed; re-attempts do **not** update `completed_at`. No star state is tracked in practice.
 
 ### Validators
 
@@ -223,6 +294,20 @@ No page transitions. One scroll position.
 - `validate_lesson_package.py` — `len(levels) == 3`, `warmups` block forbidden, `focus_flaw` required and must resolve to the taxonomy.
 - `validate_episode_plan.py` — drop warm-up candidate quotas; keep amplification-mix assertion; require `focus_flaw` per planned moment.
 - `validate_practice_package.py` — new; 5 entries keyed by taxonomy.
+
+### Catalog contract (new)
+
+The current runtime is single-episode — one `episode.source` per active config (`app/src/lib/config.ts`). v2's home screen surfaces multiple episodes, which requires a catalog concept the runtime does not have today.
+
+- **Source of truth: filesystem.** At app startup, scan `simplified-framework/artifacts/{story_id}/{episode_id}/` directories and register episodes in a new `CatalogEpisode` Prisma table keyed by `(story_id, episode_id)`.
+- **Eligibility for registration: the full runnable artifact pair.** An episode is registered only if its directory contains **both** `lesson_package.yaml` (with `schema_version: simplified_v2`) **and** `transcript.yaml`. Either file missing → the episode is skipped and does not appear on the home screen. A package without its paired transcript is a pipeline-in-progress, not a shippable episode; the home screen must never list an episode that cannot actually open. Boot performs a structural parse only (valid YAML, required top-level keys present); the authoritative correctness check remains the Python validators in `pipeline/scripts/`, which run before artifacts land on disk.
+- **Rescan triggers (spelled out):**
+  - **Production / runtime:** boot-only. The scan runs once when the Next.js process starts; rows are upserted into Prisma and that set is authoritative until restart. New episodes require a redeploy. Acceptable because story content is authored offline and shipped via redeploy.
+  - **Dev mode:** a file watcher on `simplified-framework/artifacts/**/{lesson_package,transcript}.yaml` re-runs the eligibility check and upserts or removes the affected `CatalogEpisode` row on change. Covers both runtime artifacts so eligibility transitions in either direction (adding a missing `transcript.yaml` to a previously skipped directory, or removing one from a registered episode) are picked up without a dev-server restart. Makes authoring iteration tight.
+  - **No request-time rescan.** Home-page loads do not touch the filesystem; they read Prisma only.
+- **Home page reads from Prisma.** The star grid and "Read a story" picker query `CatalogEpisode` joined to the student's `Run` rows. YAML is read once at boot, not on every page load.
+- **Retire `configs/episode.json`.** Its fields (display title, opener text, etc.) move into the lesson package itself. The active-config loader goes away; there is no longer a notion of a single "active episode" at runtime.
+- **Validator scope unchanged.** Discovery is a runtime concern; `validate_lesson_package.py` stays focused on artifact correctness.
 
 ### Pipeline agents
 
@@ -246,8 +331,40 @@ Both are agent-prompt problems, not schema problems. This section locks the agen
 The current `dialog_writer` juggles voice, plot, and flaw engineering at once; flaw engineering wins when they conflict. Split the job into two passes, same final artifact:
 
 **Pass 1 — Screenwriter.**
-- Input: a **projection** of `episode-plan.yaml` carrying plot, character arcs, scene intent, the wrong hypothesis the group pursues in this episode, running-thread obligations, and all sensory/pacing/voice notes.
-- **Withheld from input:** flaw IDs, amplification labels, the canonical taxonomy, moment-placement hints. The screenwriter does not know the word "flaw" exists.
+- Input: a projection of `episode-plan.yaml` with all flaw fields stripped. Built by the `episode_planner` as a sibling output of the full plan; passed to the screenwriter in-context. Ephemeral — not written to disk. Exact shape:
+  ```yaml
+  story_id: <str>
+  episode_id: <str>
+  title: <str>
+  narrative_synopsis: >-
+    <episode_goal rewritten in plot and texture terms only, no flaw
+     vocabulary. What happens, to whom, where, why it matters.>
+  hypothesis_pursued: >-
+    <the wrong explanation the group anchors on this episode, phrased as
+     a plot anchor — e.g., "the group anchors on the alien-biosignature
+     explanation.">
+  disproof_event: >-
+    <the visible beat that wobbles or disproves the hypothesis — e.g.,
+     "Cam looks up biosignature and finds it is about microbial life on
+     other planets.">
+  scene_design:
+    opening: <prose>
+    turn: <prose>
+    close: <prose>
+  character_beats:
+    - character_id: <id>
+      beat: <voice, prop, physicality, and arc notes. Flaw references
+             removed.>
+  running_threads:
+    - <story-level thread this episode must plant or pay off, in plot
+       terms. e.g., "James dramatically names the squirrel Luminaria once.">
+  plot_obligations:
+    - <vocabulary-flagging obligations and must-happen beats, e.g., "the
+       word biosignature appears in dialog, flagged by a character as
+       unfamiliar, never narrator-explained.">
+  scene_count_target: { min: 3, max: 5 }
+  ```
+- **Withheld from input:** `flaws[]` (IDs and amplification), `student_takeaway`, `flaw_embedding_guidance.must_include` / `.avoid`, `target_teachable_moments`, `warmup_candidate_goal`, `level_candidate_goal`, and `reference/flaw-taxonomy.yaml`. The screenwriter agent spec forbids loading the taxonomy. The screenwriter does not know the word "flaw" exists.
 - Brief: narrative craft only — voice differentiation, friction, sensory grounding, scene beats, stakes, running threads. Produces a clean narrative draft: scenes with turns (dialog + action beats).
 - Output is **ephemeral** — lives in the agent's working context, not on disk. No intermediate `narrative-draft.yaml` artifact.
 
@@ -290,8 +407,13 @@ Applies to the screenwriter; the flaw injector must preserve these when revising
 
 - FK warning threshold drops from **grade 7 to grade 6**.
 - **Scaffolding prose is upgraded from warning to hard error** on grade-above-6. The student-facing scaffolds cannot regress to the current state.
-- Dialog stays on warning — register is primarily handled by the screenwriter guidelines, not a grade-level number.
-- Min-sample guard from Phase 1 (skip short scenes / short scaffolding blocks) unchanged.
+- **Fields that count as scaffolding prose (hard-error scope):**
+  - `lesson_package.yaml`: `episode.summary`, `episode.previously`, `episode.final_takeaway`; each level's `prompt`, `hint`, `feedback.correct.text`, every value in `feedback.by_option`.
+  - `transcript.yaml`: `scenes[].summary` (scene summary prose only — not the dialog turns).
+  - `practice_package.yaml`: every exercise's `scenario`, `prompt`, `hint`, `feedback.correct.text`, every value in `feedback.by_option`, `worked_explanation`, `takeaway`.
+- Dialog (`transcript.yaml scenes[].turns[].text` for turns with `kind: dialog`) stays on **warning only** — register there is primarily handled by the screenwriter guidelines, not a grade-level number.
+- Action beats (turns with `kind: action`) are **exempt** from FK — they are terse stage lines, not prose.
+- Min-sample guard from Phase 1 (skip short scenes / short scaffolding blocks under ~20 words) unchanged.
 
 ### Agent surface
 
@@ -321,18 +443,29 @@ Concretely, `pipeline/agents/` changes:
   - `/` — home (practice / read-a-story picker + per-episode star grid).
   - `/practice` — picker over the 5 flaws.
   - `/practice/[flaw_id]` — single practice exercise (2-click flow).
-  - `/runs/[runId]/scene/[n]` — story reader for scene n, with inline quizzes on flagged turns.
+  - `/runs/[runId]/scene/[n]` — story reader for scene n (0 = orientation card, 1..N = scenes), with inline quizzes on flagged turns.
   - `/runs/[runId]/complete` — end-of-episode star screen.
+
+### Cookie-precondition guard
+
+- Next.js middleware reads the `active_student_id` cookie (§ 9). Requests to `/practice/*` or `/runs/*` without the cookie **redirect to `/`**, where the name picker renders. The home screen (`/`) is the single surface that handles the no-cookie case directly; every other student-facing route assumes an active profile.
 
 ### Phase state machine
 
-- Collapses from `read → warmup → level → complete` to `scene_01 → … → scene_N → complete`.
+- Collapses from `read → warmup → level → complete` to scene-indexing only: `scene_01 → scene_02 → … → scene_N`. There is no terminal "complete" node in the phase machine.
+- `reading_finished_at` is a timestamp milestone on the run (§ 4), not a phase. It is set when the student first enters scene N; the student remains in scene N after that until they navigate elsewhere.
+- `/runs/[runId]/complete` is a **view**, reachable at any time from a finished run and the default landing on re-entry. It is not a phase and does not close the run.
 - Practice is not a run phase; it's its own top-level surface.
 
 ### Prisma state
 
-- **New `Student` entity.** The current Prisma schema is run-centric; practice completion is per-student across runs, which requires a student primary key that does not exist today. Add a `Student` entity and make `Run` and `PracticeAttempt` children of it. This is a known piece of new infrastructure in this batch.
-- **Per-run:** one row per `(student_id, episode_id)`. Holds per-quiz attempts, hint-used flag, earned stars, bonus-earned flag, completion flag, current scene index, scene-high-water-mark. Never duplicated — re-reads reuse the same row per the run lifecycle rule in § 4.
+- **New `Student` entity.** The current schema is run-centric; practice completion is per-student across runs, which requires a student primary key that does not exist today. Add a `Student` entity and make `Run` and `PracticeAttempt` children of it.
+- **Student model: device-local, multi-profile, no authentication.** A device may carry N `Student` rows. On a fresh install the home screen shows "Who are you?" with a single text-input affordance; submitting creates a `Student` row. On a device with existing profiles, the home screen shows the existing names with a "+ New" affordance. No password, no recovery, no network identity — students on two devices are two different `Student` rows. This preserves the shared-classroom-device use case without introducing auth. See § 12 for what is out of scope (network-synced accounts).
+- **Active-profile transport: `active_student_id` cookie.** The selected `Student.id` is written to a non-HttpOnly cookie on the origin so that both Next.js server components / server actions (via `cookies()`) and the client profile chip (via `document.cookie`) read the same value. Not signed — identity selection is not authentication, and impersonation is not a threat model on a shared classroom device. The cookie is the single source of truth for "who is currently active." `localStorage` is not used for identity.
+- **Product decision, explicit.** v2 replaces the current config-driven single-identity model with this device-local multi-profile picker. This is a product call, not just a schema move.
+- **New `CatalogEpisode` entity.** Mirrors a v2 lesson package at `(story_id, episode_id)`, populated by the boot-time filesystem scan in § 7. Home-screen queries join `Student × CatalogEpisode × Run` for the per-episode star grid.
+- **Per-run:** one row per `(student_id, story_id, episode_id)`. Holds per-quiz attempts, hint-used flag, earned stars, `bonus_earned_at`, `reading_finished_at`, current scene index, scene-high-water-mark. Never duplicated — re-reads reuse the same row per § 4. **No terminal / closed state.** The current `Run.state = completed` model is replaced by the `reading_finished_at` timestamp milestone.
+- **Run row creation timing.** A `Run` row is created **lazily on first arrival to `/runs/[runId]/scene/*`** for a given `(student_id, story_id, episode_id)` tuple. Tapping an episode card on the home grid or in the story picker resolves to an existing run if one exists (resume) or generates a new runId and redirects to scene 0 (orientation) or scene 1 if no orientation card is needed. There is no explicit Start action; the row comes into existence on arrival. No half-created / draft rows.
 - **Per-student (cross-run):** practice completion per flaw (`flaw_id → completed_at?`).
 - Re-read semantics live in per-run state: attempted quizzes carry a `locked_at` timestamp; untried ones remain open.
 
@@ -393,10 +526,221 @@ Concretely, `pipeline/agents/` changes:
 
 Parallelism: steps 2 and 3 can run alongside each other once step 1 ships. Step 4 depends on step 2 for a visual fixture; step 3 unlocks the practice surface independently. Step 5 depends on step 1 only — it can start as soon as the contract is frozen.
 
+### Main-branch safety
+
+v2 is not a set of additive changes. Step 1 removes schema affordances (`warmups`) the current runtime hard-requires (`app/src/lib/domain.ts`), Step 2 migrates the live fixture into a form the current app cannot load, and Step 4 swaps the phase state machine entirely. **All v2 work happens on a dedicated `v2` feature branch.** `main` stays on v1 until the full contract + migration + app flip land together in a single atomic merge. No half-migrated state on `main` — intermediate breakage lives on the branch only.
+
+### v1 database state on the v2 branch
+
+The v2 Prisma schema is incompatible with v1 (`Student`, `CatalogEpisode`, `reading_finished_at` milestone, no `Run.state` completion). **Dev-only reset, no migration script.** The v2 branch runs `prisma migrate reset` against a fresh database when brought up; no production student data exists yet, so a hard reset is the right move. If the v2 branch needs to rebase against new v1 work during development, reset again — do not attempt to preserve v1 `Run` rows.
+
+---
+
+## Implementation plan
+
+Organized by the five phases in § 11. Medium granularity — each item is a 1–3 hour chunk with explicit **Entry**, **Work**, **Exit**, and **Files** fields. Intended as the executable checklist once work starts. Steps run sequentially within a phase; cross-phase parallelism follows the rules in § 11.
+
+### Step 1 — Contract first (pipeline only, no app changes)
+
+**1.1. Bump `schema_version` to `simplified_v2` in lesson_package validator.**
+- *Entry:* v2 branch created; `main` current.
+- *Work:* `validate_lesson_package.py` accepts only `simplified_v2`; rejects `simplified_v1` with a helpful "v1 → v2 migration required" error.
+- *Exit:* running the validator on the current ep 1 package fails cleanly with the migration message.
+- *Files:* `pipeline/scripts/validate_lesson_package.py`, `schemas/lesson_package.yaml`.
+
+**1.2. Remove `warmups` block from lesson_package schema + validator.**
+- *Entry:* 1.1.
+- *Work:* delete `warmups` from the schema sketch; validator rejects any package containing a `warmups:` key.
+- *Exit:* v2-shaped fixture validates; any package with `warmups:` fails with a named-field error.
+- *Files:* same as 1.1.
+
+**1.3. Require `focus_flaw` on every level.**
+- *Entry:* 1.2.
+- *Work:* validator asserts `focus_flaw` is present on every level and resolves to a canonical id in `reference/flaw-taxonomy.yaml`.
+- *Exit:* missing or invalid `focus_flaw` fails with the offending level named.
+- *Files:* same as 1.1.
+
+**1.4. Add `kind: action` turn affordance to transcript.**
+- *Entry:* 1.1.
+- *Work:* `validate_transcript.py` accepts `kind` on turns (`dialog` default; `action` allowed with no `speaker`); preserves global `turn_id` uniqueness; `validate_lesson_package.py` cross-checks and rejects any level whose `turn_id` points at an action turn.
+- *Exit:* transcript with action beats validates; a lesson package referencing an action turn fails with a clear error.
+- *Files:* `pipeline/scripts/validate_transcript.py`, `schemas/transcript.yaml`, `pipeline/scripts/validate_lesson_package.py`.
+
+**1.5. Enforce transcript `len(scenes) ≥ 3`.**
+- *Entry:* 1.4.
+- *Work:* `validate_transcript.py` hard-fails fewer than 3 scenes; no upper bound.
+- *Exit:* a 2-scene transcript fails; 3–5-scene transcripts pass.
+- *Files:* `pipeline/scripts/validate_transcript.py`.
+
+**1.6. Create `validate_practice_package.py` + schema.**
+- *Entry:* 1.3.
+- *Work:* new validator per § 7 spec (schema_version, exactly 5 exercises keyed by flaw_id, options shape, feedback coverage, word-cap warnings).
+- *Exit:* validator rejects malformed practice packages with specific errors; well-formed one passes.
+- *Files:* `pipeline/scripts/validate_practice_package.py` (new), `schemas/practice_package.yaml` (new).
+
+**1.7. Tighten FK readability pass (grade 6 hard-error on scaffolding prose).**
+- *Entry:* 1.3, 1.4, 1.6.
+- *Work:* move FK threshold to grade 6; promote to hard error on the field list in § 8; wire into all three validators. Dialog stays on warning; action beats exempt; min-sample guard unchanged.
+- *Exit:* a known above-grade scaffolding phrase hard-fails; an above-grade dialog phrase only warns.
+- *Files:* `pipeline/scripts/_common.py`, `validate_lesson_package.py`, `validate_transcript.py`, `validate_practice_package.py`.
+
+**1.8. Prune episode-plan validator.**
+- *Entry:* 1.1.
+- *Work:* drop `warmup_candidate_goal` check; keep amplification-mix assertion; add a requirement that every planned flaw moment in `flaws[]` carries an explicit canonical `flaw_id`.
+- *Exit:* existing ep 1 plan re-validates after a minor edit; new plans without warm-up fields pass.
+- *Files:* `pipeline/scripts/validate_episode_plan.py`, `schemas/episode-plan.yaml`.
+
+**1.9. Split `dialog_writer.md` into `screenwriter.md` + `flaw_injector.md`.**
+- *Entry:* 1.1–1.8.
+- *Work:* author the screenwriter spec (narrative-texture guidelines, barrier-safe projection input per § 8) and the flaw-injector spec (revise-turns authority, no scene-boundary edits); delete `dialog_writer.md`.
+- *Exit:* both specs in `pipeline/agents/`; a test invocation on the ep-1 projection runs cleanly.
+- *Files:* `pipeline/agents/screenwriter.md` (new), `pipeline/agents/flaw_injector.md` (new), `pipeline/agents/dialog_writer.md` (deleted).
+
+**1.10. Update `episode_planner.md` to emit the screenwriter projection.**
+- *Entry:* 1.9.
+- *Work:* planner spec documents both outputs — full `episode-plan.yaml` and the in-context projection (field list per § 8).
+- *Exit:* invoking the planner on the existing ep 1 produces both outputs.
+- *Files:* `pipeline/agents/episode_planner.md`.
+
+**1.11. Update `lesson_package_builder.md` for v2.**
+- *Entry:* 1.3.
+- *Work:* spec emits `focus_flaw` canonically, omits warmups, drops the quoted-turn preamble from level prompts.
+- *Exit:* a builder run on the migrated ep 1 transcript produces a v2-valid package.
+- *Files:* `pipeline/agents/lesson_package_builder.md`.
+
+**1.12. Sync `CLAUDE.md` and `docs/` to v2.**
+- *Entry:* 1.1–1.11.
+- *Work:* reword the `CLAUDE.md` engagement-invariant list to reflect stars + bonus (replacing the lifeline-bonus language); update `docs/instructional-design.md` to the new phase model; update `docs/tech-reference.md` for the Prisma additions and routing changes.
+- *Exit:* docs reference v2 shapes only; no stale v1 vocabulary.
+- *Files:* `CLAUDE.md`, `simplified-framework/docs/instructional-design.md`, `simplified-framework/docs/tech-reference.md`.
+
+### Step 2 — Migrate ep 1 fixture
+
+**2.1. Migrate `the-white-squirrel/episode_01/lesson_package.yaml` to v2.**
+- *Entry:* Step 1 complete.
+- *Work:* bump `schema_version`; remove the `warmups` block; add `focus_flaw` to each level; rewrite level prompts to drop the quoted-turn preamble.
+- *Exit:* `validate_lesson_package.py` passes on the migrated file.
+- *Files:* `artifacts/the-white-squirrel/episode_01/lesson_package.yaml`.
+
+**2.2. Spot-check the paired transcript.**
+- *Entry:* 2.1.
+- *Work:* confirm `validate_transcript.py` passes; optionally insert one `kind: action` beat to exercise the new affordance and anchor the narrative-texture guidelines against real content.
+- *Exit:* transcript validates.
+- *Files:* `artifacts/the-white-squirrel/episode_01/transcript.yaml`.
+
+### Step 3 — Author the practice package
+
+**3.1. Author `practice_package.yaml`.**
+- *Entry:* Step 1 complete.
+- *Work:* write five exercises (one per canonical flaw) per the schema in § 7. Reuse phrasing patterns from the existing v1 worked-explanations where they are already in-register.
+- *Exit:* `validate_practice_package.py` passes with no warnings.
+- *Files:* `artifacts/practice/practice_package.yaml` (new).
+
+### Step 4 — App rebuild
+
+**4.1. Prisma schema migration.**
+- *Entry:* Steps 1–2 complete.
+- *Work:* add `Student`, `CatalogEpisode`, `PracticeAttempt`; reshape `Run` per § 9 (remove `state = completed`; add `reading_finished_at`, `bonus_earned_at`, per-quiz attempt fields, `locked_at`, scene indexes); make `Run` and `PracticeAttempt` children of `Student`; `prisma migrate reset`.
+- *Exit:* schema compiles; fresh dev DB seeds cleanly.
+- *Files:* `app/prisma/schema.prisma`.
+
+**4.2. Filesystem-scan catalog + dev watcher.**
+- *Entry:* 4.1.
+- *Work:* boot-time scan of `simplified-framework/artifacts/**` for eligible artifact pairs; upsert `CatalogEpisode`; dev watcher on `{lesson_package,transcript}.yaml`.
+- *Exit:* app boot populates `CatalogEpisode` with ep 1; dev-mode file add/remove reflects without restart.
+- *Files:* `app/src/lib/catalog.ts` (new), `app/src/instrumentation.ts`.
+
+**4.3. Cookie-based identity middleware + name picker.**
+- *Entry:* 4.1.
+- *Work:* Next.js middleware redirects `/practice/*` and `/runs/*` without `active_student_id` to `/`; home renders the name picker when cookie missing; submission creates a `Student` row and sets the cookie.
+- *Exit:* deep links without cookie redirect to home; creating a profile lands on the home grid.
+- *Files:* `app/src/middleware.ts` (new), `app/src/app/page.tsx`, `app/src/lib/students.ts` (new).
+
+**4.4. Home screen shell.**
+- *Entry:* 4.2, 4.3.
+- *Work:* profile chip, two primary actions (Practice / Read a story), per-episode star grid ordered by `(story_id, episode_id)`.
+- *Exit:* home renders ep 1's empty star row for a fresh student.
+- *Files:* `app/src/app/page.tsx`, `app/src/app/_components/ProfileChip.tsx` (new), `app/src/app/_components/StarRow.tsx` (new).
+
+**4.5. Story picker route.**
+- *Entry:* 4.4.
+- *Work:* flat list grouped by story heading, with Resume/Open targets that resolve to an existing or new run.
+- *Exit:* tapping an ep 1 card creates a run and redirects to `/runs/[runId]/scene/0`.
+- *Files:* `app/src/app/stories/page.tsx` (new).
+
+**4.6. Scene reader with orientation card.**
+- *Entry:* 4.5.
+- *Work:* `/runs/[runId]/scene/[n]`; n=0 renders the orientation card (previously + summary); n≥1 renders dialog + action beats chat-style with icons on flagged turns; bottom nav bar carries the live star row; Previous/Next affordances.
+- *Exit:* ep 1 navigates from scene 0 through scene 3 with flagged-turn icons visible and nav bar updating.
+- *Files:* `app/src/app/runs/[runId]/scene/[n]/page.tsx` (new), `app/src/app/runs/[runId]/_components/SceneReader.tsx` (new).
+
+**4.7. Inline quiz panel.**
+- *Entry:* 4.6.
+- *Work:* Ask / Reveal / Closed sub-states; 2-attempt + 1-hint mechanic; 3-star scoring per § 5; wrong-option lockout; collapsed chip after submission; untried quizzes remain live on re-reads.
+- *Exit:* completing a quiz awards the correct stars and persists; re-entry shows the locked Reveal.
+- *Files:* `app/src/app/runs/[runId]/_components/QuizPanel.tsx` (new).
+
+**4.8. End-of-episode view `/complete`.**
+- *Entry:* 4.6, 4.7.
+- *Work:* large 10-star layout (3-3-3 + bonus); Read again / Home actions; accessible at any time from a finished run (not a terminal state).
+- *Exit:* advancing into the final scene sets `reading_finished_at`; visiting `/complete` shows the correct star state; returning to `/scene/[n]` works.
+- *Files:* `app/src/app/runs/[runId]/complete/page.tsx` (new).
+
+**4.9. Practice picker + exercise routes.**
+- *Entry:* 4.3, Step 3 complete.
+- *Work:* `/practice` lists 5 flaws with completion marks; `/practice/[flaw_id]` runs the 2-click exercise; records `completed_at` on first submit past Reveal.
+- *Exit:* completing one exercise persists; picker shows a check on return.
+- *Files:* `app/src/app/practice/page.tsx` (new), `app/src/app/practice/[flaw_id]/page.tsx` (new).
+
+**4.10. Retire v1 routes and components.**
+- *Entry:* 4.6–4.9 functional.
+- *Work:* delete `/runs/[runId]/{read,warmup,level/*}`; delete `ReadingSurface`, `LessonWorkspace`, warmup components; rework `routing.ts` and `runs.ts` to the milestone model (no terminal `completed` state, no handoff-routing of finished runs).
+- *Exit:* `tsc` clean; `next build` clean; no stale imports; no references to the old phase names.
+- *Files:* `app/src/app/runs/[runId]/{read,warmup,level}/*` (delete), `app/src/lib/routing.ts`, `app/src/lib/runs.ts`.
+
+**4.11. End-to-end smoke test on ep 1.**
+- *Entry:* 4.10.
+- *Work:* start the dev server, create a profile, complete practice + ep 1 end-to-end; verify all 10 stars reachable including the bonus; verify re-entry to the finished run lands on `/complete` and allows scene re-reads.
+- *Exit:* full flow works in the browser without errors or console warnings.
+- *Files:* none (manual test).
+
+### Step 5 — New 3-episode story (can start in parallel with Step 4 once Step 1 is frozen)
+
+**5.1. Design the new story.**
+- *Entry:* Step 1 complete.
+- *Work:* use the `create_story` skill interactively with the operator; produce `story.yaml`.
+- *Exit:* `validate_story.py` passes.
+- *Files:* `stories/<new_story_id>/story.yaml`.
+
+**5.2. Produce 3 episode plans.**
+- *Entry:* 5.1.
+- *Work:* `create_episodes` flow per episode; each plan carries canonical `flaw_id` per moment and the amplification mix.
+- *Exit:* 3× `validate_episode_plan.py` pass.
+- *Files:* `artifacts/<new_story_id>/episode_0{1,2,3}/episode-plan.yaml`.
+
+**5.3. Produce 3 transcripts via the two-pass agents.**
+- *Entry:* 5.2.
+- *Work:* for each episode invoke the screenwriter on its projection, then the flaw_injector on the draft; operator reviews texture and flaw placement; `flaw_reviewer` emits a go signal per episode.
+- *Exit:* 3× `validate_transcript.py` pass; 3× `flaw-review.md` accepted.
+- *Files:* `artifacts/<new_story_id>/episode_0{1,2,3}/{transcript.yaml,flaw-review.md}`.
+
+**5.4. Produce 3 lesson packages.**
+- *Entry:* 5.3.
+- *Work:* `create_lesson_package` per episode.
+- *Exit:* 3× `validate_lesson_package.py` pass.
+- *Files:* `artifacts/<new_story_id>/episode_0{1,2,3}/lesson_package.yaml`.
+
+**5.5. End-to-end verification in the app.**
+- *Entry:* 5.4 and Step 4 complete.
+- *Work:* restart dev app; new story appears in catalog + picker; complete practice + all 3 new episodes end-to-end.
+- *Exit:* all artifacts render; all quizzes score correctly; all 10 stars per episode reachable; no console errors.
+- *Files:* none (manual test).
+
 ---
 
 ## Explicitly out of scope
 
+- **Network-synced student accounts across devices.** v2 supports multiple local `Student` profiles per device (see § 9) but does not authenticate them, sync them between devices, or offer password/recovery. A student on two devices is two separate rows. Revisit when a deployment context requires cross-device identity.
 - Teacher-facing dashboard.
 - Cross-episode mixed-flaw review / interlude episodes.
 - Adaptive re-attempts or replay variation.
