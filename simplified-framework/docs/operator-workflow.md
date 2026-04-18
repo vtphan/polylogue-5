@@ -2,6 +2,8 @@
 
 This document defines the current human-in-the-loop workflow for the simplified pipeline.
 
+> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that tightens the review standard (gates check only app-required minimums — ≥ 2 warm-up-suitable primary-flaw moments plus 1 `unmistakable` + 1 `showcased` + 1 `heightened` for 3 levels; no arbitrary "5–7 moments" rules), adds a linguistic guide for dialog and scaffolding, and retargets the pipeline at a new 3-episode story `the-white-squirrel`. Consult `todo.md` before reviewing or building new content.
+
 ## Workflow
 
 1. Create or revise `story.yaml`.

@@ -4,6 +4,8 @@ This document defines the conceptual framework, the episode-level pedagogy, and 
 
 For code layout, data model, and runtime contracts, see `tech-reference.md`.
 
+> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that will change several sections here (level count, reading-phase scaffolds, word caps, language guide, gate minimums) and will collapse the current 8-episode story into a new 3-episode story `the-white-squirrel`. When the prose here conflicts with the planned changes in `todo.md`, treat `todo.md` as the forward direction and this doc as the current state.
+
 ## 1. Conceptual Model
 
 The framework teaches a single student-facing layer: **reasoning flaws**, named in plain language.
@@ -223,6 +225,7 @@ Operational limits enforced by the validators and runtime:
 
 ## 9. Related Docs
 
+- `simplified-framework/todo.md` — in-flight revision plan (reading-phase scaffolds, level cap, word caps, language guide, gate minimums, 3-episode story collapse)
 - `simplified-framework/docs/tech-reference.md` — stack, data model, runtime contracts, change recipes
 - `simplified-framework/docs/operator-workflow.md` — human-in-the-loop authoring cadence
 - `simplified-framework/reference/flaw-taxonomy.yaml` — canonical flaw set with amplification bands

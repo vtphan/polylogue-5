@@ -4,6 +4,8 @@ This document is the primary technical reference for the simplified-framework ap
 
 For pedagogy, lesson authoring, and student-journey framing, see `instructional-design.md`. When prose in this doc drifts from code or validators, the code wins and this doc should be updated.
 
+> **In-flight revisions.** `simplified-framework/todo.md` scopes a planned revision that will change several parts of this doc — the transcript schema (new `scenes[]` structure with nested turns), the lesson-package schema (new `episode.summary`, `episode.previously`, 3-level cap), the read-phase route (scene-based UI), and validator behavior. When planning code changes, consult `todo.md` first so new work aligns with the forward direction.
+
 ## 1. Stack
 
 - **Framework**: Next.js 16 (App Router) + React 19 + TypeScript
@@ -336,6 +338,7 @@ SQLite file path comes from `DATABASE_URL` in `.env` (conventionally `file:./dev
 
 ## 12. Related Docs
 
+- `simplified-framework/todo.md` — in-flight revision plan (schema revamp, reading-phase UI, validators, 3-episode story collapse)
 - `simplified-framework/docs/instructional-design.md` — conceptual framework, student journey, authoring surface
 - `simplified-framework/docs/operator-workflow.md` — human-in-the-loop authoring cadence
 - `simplified-framework/reference/flaw-taxonomy.yaml` — canonical flaw set
