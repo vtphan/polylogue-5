@@ -20,6 +20,36 @@
 
 ---
 
+## Progress Tracking
+
+Use this file as the canonical implementation tracker across conversations.
+
+### Status labels
+
+- `pending` — not started
+- `in_progress` — actively being worked
+- `done` — implemented and checked
+- `blocked` — cannot proceed until an upstream dependency or decision is resolved
+
+### Update rule
+
+For each implementation item in § 12:
+
+- append `Status: <label>` directly under the item heading
+- when status becomes `done`, append `Outcome: <one line summary of what changed>`
+- if blocked, append `Blocked on: <one line dependency>`
+
+Keep these notes terse and implementation-facing. Do not log conversation history here.
+
+### Decision log
+
+- 2026-04-18: `episode-plan.yaml` v2 gate fixed to exactly 3 primary-flaw quiz moments, one each at `unmistakable`, `showcased`, and `heightened`, in distinct scenes.
+- 2026-04-18: screenwriter projection shape in § 8 is canonical and must be described consistently across `todo-v2.md`, `create_episodes.md`, `episode-planner.md`, and `create_transcript.md`.
+- 2026-04-18: FK readability min-sample threshold fixed at 30 words across docs and validators.
+- 2026-04-18: `kind: action` turns are exempt from transcript FK aggregation; validator behavior must match the prose.
+
+---
+
 ## Motivation
 
 The current app runs students through separate `read → warmup → level → complete` phases. Two problems this design addresses:
@@ -249,9 +279,10 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
 ### `episode-plan.yaml`
 
 - Drop the warm-up planning fields (`warmup_candidate_goal` etc.).
-- Still required to call out 3 primary-flaw moments with the amplification mix.
+- Still required to call out exactly 3 primary-flaw quiz moments with the amplification mix.
 - Still required to emit canonical `focus_flaw` on each planned flaw moment so downstream agents have a target. `episode-plan.yaml` does not use a separate `flaw_id` field for these moments; `focus_flaw` is the single canonical field name from plan → reviewer → lesson package.
-- Each planned primary-flaw moment must also carry a validator-checkable scene locator (`scene_id` or equivalent normalized scene slot), so the "distinct scenes" rule is enforceable in `validate_episode_plan.py` rather than left to prose interpretation.
+- Each planned flaw moment must also carry a validator-checkable scene locator (`scene_id` or equivalent normalized scene slot), so the "distinct scenes" rule is enforceable in `validate_episode_plan.py` rather than left to prose interpretation.
+- The plan-level hard gate is explicit: the primary flaw must have exactly 3 planned quiz-worthy moments, with exactly one each at `unmistakable`, `showcased`, and `heightened`, and those 3 moments must occupy distinct scenes. Extra supporting-flaw moments are fine; extra primary quiz moments are not.
 
 ### New: `practice_package.yaml`
 
@@ -313,7 +344,7 @@ Equivalent plain-language phrasing is fine, but the rule is the same: name the s
 
 - `validate_transcript.py` — `len(scenes) ≥ 3` (no upper bound enforcement), scene-shape unchanged.
 - `validate_lesson_package.py` — `len(levels) == 3`, `warmups` block forbidden, `focus_flaw` required and must resolve to the taxonomy, no two levels in the same scene.
-- `validate_episode_plan.py` — drop warm-up candidate quotas; keep amplification-mix assertion; require `focus_flaw` per planned moment; require a per-moment scene locator and enforce that the 3 primary-flaw quiz-worthy moments occupy distinct scenes.
+- `validate_episode_plan.py` — drop warm-up candidate quotas; require `focus_flaw` per planned moment; require a per-moment scene locator; and enforce an exact primary-flaw quiz inventory: exactly 3 planned quiz-worthy moments, exactly one each at `unmistakable`, `showcased`, and `heightened`, occupying distinct scenes.
 - `validate_practice_package.py` — new; 5 entries keyed by taxonomy.
 
 ### Catalog contract (new)
@@ -387,6 +418,7 @@ The current `dialog_writer` juggles voice, plot, and flaw engineering at once; f
   scene_count_target: { min: 3, max: 5 }
   ```
 - **Withheld from input:** `flaws[]` (IDs and amplification), `student_takeaway`, `flaw_embedding_guidance.must_include` / `.avoid`, `target_teachable_moments`, `warmup_candidate_goal`, `level_candidate_goal`, and `reference/flaw-taxonomy.yaml`. The screenwriter agent spec forbids loading the taxonomy. The screenwriter does not know the word "flaw" exists.
+- **Source-of-truth note:** this exact projection shape must be described the same way in `todo-v2.md`, `pipeline/commands/create_episodes.md`, `pipeline/agents/episode-planner.md`, and `pipeline/commands/create_transcript.md`. The planner owns producing it; `create_transcript` owns preparing/passing it forward for the screenwriter handoff.
 - Brief: narrative craft only — voice differentiation, friction, sensory grounding, scene beats, stakes, running threads. Produces a clean narrative draft: scenes with turns (dialog + action beats).
 - Output is **ephemeral** — lives in the agent's working context, not on disk. No intermediate `narrative-draft.yaml` artifact.
 
@@ -436,7 +468,7 @@ Applies to the screenwriter; the flaw injector must preserve these when revising
   - `practice_package.yaml`: every exercise's `scenario`, `prompt`, `hint`, `feedback.correct.text`, every value in `feedback.by_option`, `worked_explanation`, `takeaway`.
 - Dialog (`transcript.yaml scenes[].turns[].text` for turns with `kind: dialog`) stays on **warning only** — register there is primarily handled by the screenwriter guidelines, not a grade-level number.
 - Action beats (turns with `kind: action`) are **exempt** from FK — they are terse stage lines, not prose.
-- Min-sample guard from Phase 1 (skip short scenes / short scaffolding blocks under ~20 words) unchanged.
+- Min-sample guard is now fixed at **30 words** for FK scoring. Samples under 30 words are skipped as too small to score reliably. All validator/docs wording should use this same threshold.
 
 ### Agent surface
 
@@ -604,54 +636,80 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 - *Files:* `pipeline/scripts/validate_practice_package.py` (new), `schemas/practice_package.yaml` (new).
 
 **1.7. Tighten FK readability pass (grade 6 hard-error on scaffolding prose).**
+Status: done
+Outcome: FK docs/defaults now use a fixed 30-word sample, scaffolding validators stay at grade 6 hard-error, and transcript dialog readability is warning-only.
 - *Entry:* 1.3, 1.4, 1.6.
-- *Work:* move FK threshold to grade 6; promote to hard error on the field list in § 8; wire into all three validators. Dialog stays on warning; action beats exempt; min-sample guard unchanged.
+- *Work:* move FK threshold to grade 6; promote to hard error on the field list in § 8; wire into all three validators. Dialog stays on warning; action beats exempt; min-sample guard is fixed at 30 words and documented the same way across `_common.py`, validator comments, and `todo-v2.md`.
 - *Exit:* a known above-grade scaffolding phrase hard-fails; an above-grade dialog phrase only warns.
 - *Files:* `pipeline/scripts/_common.py`, `validate_lesson_package.py`, `validate_transcript.py`, `validate_practice_package.py`.
 
 **1.8. Prune episode-plan validator.**
+Status: done
+Outcome: Episode-plan validation now requires `focus_flaw` + `scene_id` on each flaw moment and hard-gates the primary flaw to exactly 3 distinct-scene quiz moments.
 - *Entry:* 1.1.
-- *Work:* drop `warmup_candidate_goal` check; keep amplification-mix assertion; add a requirement that every planned flaw moment in `flaws[]` carries an explicit canonical `focus_flaw`; add a required per-moment scene locator (`scene_id` or equivalent normalized scene slot) so the validator can enforce that the 3 primary-flaw quiz-worthy moments land in distinct scenes.
+- *Work:* drop `warmup_candidate_goal` check; add a requirement that every planned flaw moment in `flaws[]` carries an explicit canonical `focus_flaw`; add a required per-moment scene locator (`scene_id` or equivalent normalized scene slot); and replace the loose primary-flaw count check with an exact gate: the primary flaw must have exactly 3 planned quiz-worthy moments, exactly one each at `unmistakable`, `showcased`, and `heightened`, with those 3 moments landing in distinct scenes. The validator must fail plans that duplicate a scene across those 3 primary moments or that author extra primary quiz moments beyond the required 3.
 - *Exit:* existing ep 1 plan re-validates after a minor edit; new plans without warm-up fields pass; a plan that puts two primary quiz moments in the same scene fails with a clear validator error.
 - *Files:* `pipeline/scripts/validate_episode_plan.py`, `schemas/episode-plan.yaml`.
 
+**1.8a. Exempt action turns from transcript FK aggregation for real.**
+Status: done
+Outcome: Transcript FK aggregation now scores dialog turns only, leaving `kind: action` text out of the scene-level warning path.
+- *Entry:* 1.4, 1.7.
+- *Work:* make `validate_transcript.py` aggregate readability warnings from `kind: dialog` turns only, not all `turns[].text`; keep `scenes[].summary` in hard-error scope; ensure validator comments match the actual behavior.
+- *Exit:* adding dense `kind: action` stage lines does not affect the scene-dialog FK warning path.
+- *Files:* `pipeline/scripts/validate_transcript.py`.
+
 **1.9. Split `dialog_writer.md` into `screenwriter.md` + `flaw_injector.md`.**
+Status: done
+Outcome: The simplified pipeline now documents the two-pass `screenwriter` + `flaw_injector` flow and treats the old single-pass `dialog_writer` as retired.
 - *Entry:* 1.1–1.8.
 - *Work:* author the screenwriter spec (narrative-texture guidelines, barrier-safe projection input per § 8, explicit prohibition on loading the full flaw-bearing plan or taxonomy) and the flaw-injector spec (revise-turns authority, no scene-boundary edits, preserve the screenwriter's texture work while landing the flaw mix); delete `dialog_writer.md`.
 - *Exit:* both specs in `pipeline/agents/`; a test invocation on the ep-1 projection runs cleanly.
 - *Files:* `pipeline/agents/screenwriter.md` (new), `pipeline/agents/flaw_injector.md` (new), `pipeline/agents/dialog_writer.md` (deleted).
 
 **1.10. Update `episode_planner.md` to emit the screenwriter projection.**
+Status: done
+Outcome: The planner agent and `create_episodes` command now describe the exact stripped projection shape and whole-story planning output in the same terms.
 - *Entry:* 1.9.
-- *Work:* planner spec documents both outputs — the saved `episode-plan.yaml` and the in-context screenwriter projection (field list per § 8). It must stop using retired `dialog_writer` wording and explicitly define the stripped projection as a second planner output, with flaw fields withheld from the screenwriter handoff. The command and agent specs must both say that `create_episodes` is a whole-story planning pass that emits the full plan set in one run.
+- *Work:* planner spec documents both outputs — the saved `episode-plan.yaml` and the in-context screenwriter projection (using the exact field list in § 8, not a paraphrase). It must stop using retired `dialog_writer` wording and explicitly define the stripped projection as a second planner output, with flaw fields withheld from the screenwriter handoff. The command and agent specs must both say that `create_episodes` is a whole-story planning pass that emits the full plan set in one run, and they must describe the projection in the same terms.
 - *Exit:* invoking the planner on the existing ep 1 produces both outputs.
 - *Files:* `pipeline/agents/episode_planner.md`.
 
 **1.11. Update `create_transcript.md` for the projection handoff.**
+Status: done
+Outcome: `create_transcript` now requires projection preparation before `screenwriter` and reserves the full flaw-bearing plan for `flaw_injector` and `flaw_reviewer`.
 - *Entry:* 1.9, 1.10.
 - *Work:* command spec explicitly inserts the screenwriter-projection preparation step before `screenwriter`, requires that the stripped projection rather than the full flaw-bearing plan is passed to `screenwriter`, and keeps the full plan reserved for `flaw_injector` and `flaw_reviewer`.
 - *Exit:* the command contract cannot be read as a full-plan handoff to `screenwriter`.
 - *Files:* `pipeline/commands/create_transcript.md`.
 
 **1.12. Update `lesson_package_builder.md` for v2.**
+Status: done
+Outcome: The lesson package builder spec now requires canonical `focus_flaw`, 3 levels only, no warmups, direct prompts without turn restatement, and grade-6 scaffolding readability.
 - *Entry:* 1.3.
 - *Work:* spec emits `focus_flaw` canonically, emits required per-level `takeaway`, omits warmups, drops the quoted-turn preamble from level prompts, explicitly forbids quoting or paraphrasing the highlighted turn inside the prompt text, and matches § 8's grade-6 hard-error readability rule for scaffolding prose.
 - *Exit:* a builder run on the migrated ep 1 transcript produces a v2-valid package.
 - *Files:* `pipeline/agents/lesson_package_builder.md`.
 
 **1.12a. Update `flaw_reviewer.md` wording for the v2 contract.**
+Status: done
+Outcome: The flaw reviewer spec now reads as a review-only role focused on amplification fit, distinct-scene quiz readiness, and promptability for planned `focus_flaw` targets.
 - *Entry:* 1.9, 1.10.
 - *Work:* keep the same saved artifact target (`flaw-review.md`), but remove any ambiguity that the reviewer emits structured package fields. The spec should say plainly that the reviewer validates amplification fit, distinct-scene quiz readiness, and promptability for the already-planned `focus_flaw` targets.
 - *Exit:* the reviewer contract reads as a review role only, not as a producer of package metadata.
 - *Files:* `pipeline/agents/flaw_reviewer.md`.
 
 **1.13. Add a contract-sync acceptance pass.**
+Status: done
+Outcome: The v2 projection barrier, distinct-scene quiz wording, and review/package responsibilities are now aligned across `todo-v2.md`, pipeline commands, and pipeline agents.
 - *Entry:* 1.9–1.12a.
 - *Work:* check `todo-v2.md`, `pipeline/commands/*.md`, `pipeline/agents/*.md`, and validator behavior together and remove stale warmup-era wording or mismatched workflow descriptions. This pass must verify not just wording but actual enforceability: distinct-scene plan checks, action-beat readability exemptions, and the screenwriter projection barrier must all match across surfaces.
 - *Exit:* the v2 pipeline contract is described the same way in all three surfaces.
 - *Files:* `todo-v2.md`, `pipeline/commands/*.md`, `pipeline/agents/*.md`.
 
 **1.14. Sync `CLAUDE.md` and `docs/` to v2.**
+Status: done
+Outcome: `CLAUDE.md`, `instructional-design.md`, and `tech-reference.md` now describe the v2 two-mode app, scene reader, stars, and retired warmup-era runtime contract.
 - *Entry:* 1.1–1.13.
 - *Work:* reword the `CLAUDE.md` engagement-invariant list to reflect stars + bonus (replacing the lifeline-bonus language); update `docs/instructional-design.md` to the new phase model; update `docs/tech-reference.md` for the Prisma additions and routing changes.
 - *Exit:* docs reference v2 shapes only; no stale v1 vocabulary.
@@ -660,6 +718,8 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 ### Step 2 — Author the practice package
 
 **2.1. Author `practice_package.yaml`.**
+Status: done
+Outcome: Added the shared five-flaw `artifacts/practice/practice_package.yaml` and kept it validator-clean for v2 practice mode.
 - *Entry:* Step 1 complete.
 - *Work:* write five exercises (one per canonical flaw) per the schema in § 7. Reuse phrasing patterns from the existing v1 worked-explanations where they are already in-register.
 - *Exit:* `validate_practice_package.py` passes with no warnings; the file is sufficient to unlock story mode once a student has completed all 5 exercises.
@@ -668,66 +728,88 @@ Organized by the five phases in § 11. Medium granularity — each item is a 1�
 ### Step 3 — App rebuild
 
 **3.1. Prisma schema migration.**
+Status: done
+Outcome: Replaced the v1 run tables with the v2 student/catalog/run/practice/quiz schema and applied the reset migration to the local dev SQLite DB.
 - *Entry:* Steps 1–2 complete.
 - *Work:* add `Student`, `CatalogEpisode`, `PracticeAttempt`; reshape `Run` per § 9 (remove `state = completed`; add `reading_finished_at`, `bonus_earned_at`, per-quiz attempt fields, `locked_at`, scene indexes); make `Run` and `PracticeAttempt` children of `Student`; `prisma migrate reset`.
 - *Exit:* schema compiles; fresh dev DB seeds cleanly.
 - *Files:* `app/prisma/schema.prisma`.
 
 **3.2. Filesystem-scan catalog + dev watcher.**
+Status: done
+Outcome: Added filesystem catalog sync plus a dev-time watcher that tracks eligible `lesson_package.yaml`/`transcript.yaml` pairs and story titles in Prisma `CatalogEpisode`.
 - *Entry:* 3.1.
 - *Work:* boot-time scan of `simplified-framework/artifacts/**` for eligible artifact pairs plus `stories/{story_id}/story.yaml` for display titles; upsert `CatalogEpisode` (and `CatalogStory` if used); dev watcher on `{lesson_package,transcript}.yaml` and story YAML in dev mode.
 - *Exit:* app boot populates `CatalogEpisode` with ep 1; dev-mode file add/remove reflects without restart.
 - *Files:* `app/src/lib/catalog.ts` (new), `app/src/instrumentation.ts`.
 
 **3.3. Cookie-based identity middleware + name picker.**
+Status: done
+Outcome: Added local student creation/selection, `active_student_id` cookie handling, and middleware redirects for missing profiles and story-mode practice lock.
 - *Entry:* 3.1.
 - *Work:* Next.js middleware redirects `/practice/*` and `/runs/*` without `active_student_id` to `/`; with `active_student_id` present but incomplete practice, `/runs/*` redirects to `/practice`; home renders the name picker when cookie missing; submission creates a `Student` row and sets the cookie.
 - *Exit:* deep links without cookie redirect to home; creating a profile lands on the home grid.
 - *Files:* `app/src/middleware.ts` (new), `app/src/app/page.tsx`, `app/src/lib/students.ts` (new).
 
 **3.4. Home screen shell.**
+Status: done
+Outcome: Reworked home into the v2 dashboard with an active-profile chip, two primary mode cards, and a per-episode 10-star grid driven from catalog episodes and the active student's runs.
 - *Entry:* 3.2, 3.3.
 - *Work:* profile chip, two primary actions (Practice / Read a story), per-episode star grid ordered by `(story_id, episode_id)`; Read a story is visibly locked until the active student has completed all 5 practice exercises.
 - *Exit:* home renders ep 1's empty star row for a fresh student and shows the story action as locked before practice completion.
 - *Files:* `app/src/app/page.tsx`, `app/src/app/_components/ProfileChip.tsx` (new), `app/src/app/_components/StarRow.tsx` (new).
 
 **3.5. Story picker route.**
+Status: done
+Outcome: Added `/stories` plus a canonical open-or-resume action that looks up the active student’s single run per episode and routes fresh vs. finished runs to the correct v2 destinations.
 - *Entry:* 3.4.
 - *Work:* flat list grouped by story heading, with Resume/Open targets that post `(story_id, episode_id)` to the open-or-resume server action and redirect from the server to the existing run or a newly created one; the action first checks the active student's 5-of-5 practice completion and redirects to `/practice` if story mode is still locked.
 - *Exit:* tapping an ep 1 card resolves the canonical run and redirects to `/runs/[runId]/scene/0` for a fresh run or `/runs/[runId]/complete` for a finished run.
 - *Files:* `app/src/app/stories/page.tsx` (new).
 
 **3.6. Scene reader with orientation card.**
+Status: done
+Outcome: Added scene-based reader routes with orientation at `/scene/0`, persisted scene navigation, flagged-turn markers, bottom star nav, and a minimal recap page for finished-run routing.
 - *Entry:* 3.5.
 - *Work:* `/runs/[runId]/scene/[n]`; n=0 renders the orientation card (previously + summary); n≥1 renders dialog + action beats chat-style with icons on flagged turns; bottom nav bar carries the live star row; Previous/Next affordances.
 - *Exit:* ep 1 navigates from scene 0 through scene 3 with flagged-turn icons visible and nav bar updating.
 - *Files:* `app/src/app/runs/[runId]/scene/[n]/page.tsx` (new), `app/src/app/runs/[runId]/_components/SceneReader.tsx` (new).
 
 **3.7. Inline quiz panel.**
+Status: done
+Outcome: Added inline ask/retry/reveal quiz panels with persisted `QuizAttempt` state, per-quiz hint use, two-attempt lock rules, and star scoring reflected back onto the run.
 - *Entry:* 3.6.
 - *Work:* Ask / Reveal / Closed sub-states; 2-attempt + 1-hint mechanic; 3-star scoring per § 5; wrong-option lockout; collapsed chip after submission; untried quizzes remain live on re-reads.
 - *Exit:* completing a quiz awards the correct stars and persists; re-entry shows the locked Reveal.
 - *Files:* `app/src/app/runs/[runId]/_components/QuizPanel.tsx` (new).
 
 **3.8. End-of-episode view `/complete`.**
+Status: done
+Outcome: Upgraded `/complete` into the v2 recap surface with a large 10-star layout, Read again/Home actions, and finished-run recap access from any scene while unfinished runs stay in the reader.
 - *Entry:* 3.6, 3.7.
 - *Work:* large 10-star layout (3-3-3 + bonus); Read again / Home actions; accessible at any time from a finished run (not a terminal state).
 - *Exit:* advancing into the final scene sets `reading_finished_at`; visiting `/complete` shows the correct star state; returning to `/scene/[n]` works.
 - *Files:* `app/src/app/runs/[runId]/complete/page.tsx` (new).
 
 **3.9. Practice picker + exercise routes.**
+Status: done
+Outcome: Added `/practice` and `/practice/[flaw_id]` with shared practice-package loading, two-click exercise flow, persisted completion tracking, and immediate story unlock cookie refresh on completion.
 - *Entry:* 3.3, Step 2 complete.
 - *Work:* `/practice` lists 5 flaws with completion marks and the remaining unlock count; `/practice/[flaw_id]` runs the 2-click exercise; records `completed_at` on first submit past Reveal.
 - *Exit:* completing one exercise persists; picker shows a check on return; completing all 5 unlocks story mode immediately for the active student.
 - *Files:* `app/src/app/practice/page.tsx` (new), `app/src/app/practice/[flaw_id]/page.tsx` (new).
 
 **3.10. Retire v1 routes and components.**
+Status: done
+Outcome: Deleted the old v1 run/group surfaces and support libs, trimmed server actions to v2-only flows, and verified the app builds cleanly on the remaining v2 routes.
 - *Entry:* 3.6–3.9 functional.
 - *Work:* delete `/runs/[runId]/{read,warmup,level/*}`; delete `ReadingSurface`, `LessonWorkspace`, warmup components; rework `routing.ts` and `runs.ts` to the milestone model (no terminal `completed` state, no handoff-routing of finished runs).
 - *Exit:* `tsc` clean; `next build` clean; no stale imports; no references to the old phase names.
 - *Files:* `app/src/app/runs/[runId]/{read,warmup,level}/*` (delete), `app/src/lib/routing.ts`, `app/src/lib/runs.ts`.
 
 **3.11. End-to-end smoke test on regenerated fixture.**
+Status: blocked
+Blocked on: Step 4.1 regenerating at least one episode artifact set in the finished v2 shape; current checked-in story fixtures are still legacy-shaped.
 - *Entry:* 3.10 plus at least one regenerated v2 episode artifact set.
 - *Work:* start the dev server, create a profile, verify story mode is locked, complete all 5 practice exercises, verify story mode unlocks, then complete the regenerated fixture end-to-end; verify all 10 stars reachable including the bonus; verify re-entry to the finished run lands on `/complete` and allows scene re-reads.
 - *Exit:* full flow works in the browser without errors or console warnings.

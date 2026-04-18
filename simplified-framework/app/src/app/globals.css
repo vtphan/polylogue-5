@@ -78,6 +78,368 @@ p {
   gap: 1.5rem;
 }
 
+.home-shell {
+  gap: 1.35rem;
+}
+
+.home-shell__header {
+  gap: 1rem;
+}
+
+.profile-chip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.95rem 1.05rem;
+  border: 1px solid rgba(184, 92, 46, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 251, 244, 0.7);
+  box-shadow: 0 10px 30px rgba(52, 42, 28, 0.08);
+}
+
+.profile-chip__label,
+.profile-chip__meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.profile-chip__name {
+  margin: 0.1rem 0 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.home-actions {
+  display: grid;
+  gap: 1rem;
+}
+
+.home-action-card {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: var(--surface);
+}
+
+.home-action-card--locked {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.88), rgba(255, 248, 240, 0.92));
+}
+
+.home-action-card p:not(.eyebrow) {
+  color: var(--muted);
+}
+
+.home-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.episode-grid {
+  display: grid;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.episode-card {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.episode-card__copy {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.episode-card__copy h3 {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.episode-card__story,
+.episode-card__episode-id {
+  margin: 0;
+  color: var(--muted);
+}
+
+.episode-card__story {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.episode-card__episode-id {
+  font-size: 0.84rem;
+}
+
+.story-picker-card {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.practice-card {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.story-picker-card__copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: start;
+}
+
+.story-picker-card__state {
+  color: var(--accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.orientation-card {
+  gap: 1.2rem;
+}
+
+.scene-reader {
+  gap: 1.2rem;
+}
+
+.scene-turns {
+  display: grid;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.scene-turn {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.scene-turn--action .scene-turn__bubble {
+  background: rgba(106, 123, 88, 0.09);
+  font-style: italic;
+}
+
+.scene-turn__speaker {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.scene-turn__speaker--action {
+  color: var(--moss);
+}
+
+.scene-turn__bubble {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+.scene-turn__flag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.scene-nav-panel {
+  display: grid;
+  gap: 1rem;
+}
+
+.scene-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.scene-nav--with-recap {
+  flex-wrap: wrap;
+}
+
+.quiz-chip-form {
+  margin-top: 0.55rem;
+}
+
+.quiz-chip {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px dashed rgba(184, 92, 46, 0.38);
+  border-radius: 0.9rem;
+  background: rgba(184, 92, 46, 0.08);
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.quiz-chip--prompt {
+  background: rgba(106, 123, 88, 0.08);
+  border-color: rgba(106, 123, 88, 0.3);
+}
+
+.quiz-chip__meta {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.quiz-panel {
+  margin-top: 0.65rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(184, 92, 46, 0.22);
+  border-radius: 1rem;
+  background: rgba(255, 251, 244, 0.92);
+}
+
+.quiz-panel__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: start;
+}
+
+.quiz-panel__header h3 {
+  margin: 0.15rem 0 0;
+  font-size: 1rem;
+}
+
+.quiz-status {
+  margin: 0;
+  font-weight: 700;
+}
+
+.quiz-status--correct {
+  color: var(--moss);
+}
+
+.quiz-status--wrong {
+  color: var(--accent);
+}
+
+.quiz-options {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.quiz-option {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.quiz-option--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quiz-answer-review__label {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.quiz-answer-review__card {
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  background: white;
+}
+
+.practice-panel {
+  gap: 1.4rem;
+}
+
+.practice-hint,
+.practice-feedback-card {
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.74);
+}
+
+.practice-reveal {
+  gap: 0.85rem;
+}
+
+.star-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.24rem;
+  color: #c7b9a3;
+}
+
+.star-row--hero {
+  justify-content: center;
+  gap: 0.42rem;
+}
+
+.star-row__star {
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.star-row--hero .star-row__star {
+  font-size: clamp(1.9rem, 4.6vw, 2.6rem);
+}
+
+.star-row__star--filled {
+  color: #c86b2d;
+}
+
+.star-row__star--bonus {
+  color: #88774a;
+}
+
+.star-row__star--bonus.star-row__star--filled {
+  color: #7f6a1e;
+}
+
+.star-row__star--break {
+  margin-right: 0.42rem;
+}
+
 .eyebrow {
   margin: 0;
   color: var(--accent);
@@ -113,6 +475,21 @@ p {
 .stack {
   display: grid;
   gap: 0.9rem;
+}
+
+.complete-page {
+  justify-items: center;
+  text-align: center;
+}
+
+.complete-page .page-header {
+  justify-items: center;
+}
+
+.complete-panel {
+  width: min(36rem, 100%);
+  padding-block: 2rem;
+  gap: 1.4rem;
 }
 
 .muted {

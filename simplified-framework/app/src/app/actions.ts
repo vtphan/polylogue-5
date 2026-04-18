@@ -2,185 +2,355 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
-import { createOrResumeRun, getRun, markReadingComplete, type SessionRun } from "@/lib/runs";
+import { prisma } from "@/lib/db";
+import { loadReaderLessonPackageByPaths } from "@/lib/content";
+import { getQuizAttempt, starsForLockedQuiz, syncRunStars } from "@/lib/quiz";
+import {
+  createStudent,
+  getActiveStudentFromCookies,
+  getStudentById,
+  hasCompletedAllPractice,
+  writeStudentCookies,
+} from "@/lib/students";
+import { getRun, type SessionRun } from "@/lib/runs";
+import { createOrResumeRun } from "@/lib/runs";
 import { routeForRun } from "@/lib/routing";
-import {
-  completeModeledWarmup,
-  continueFromGuidedWarmup,
-  recordGuidedHintOpened,
-  submitGuidedWarmup,
-} from "@/lib/warmup";
-import {
-  continueFromLevelFeedback,
-  recordLevelHintOpened,
-  submitLevelAnswer,
-} from "@/lib/levels";
+import { getPracticeExercise } from "@/lib/practice";
 
-// Shared guard for every warm-up-only action. Throwing here (instead of
-// silently no-op-ing) prevents a direct POST from bypassing the read → warmup
-// transition and writing warm-up state for a run that hasn't reached that
-// phase yet.
-async function requireWarmupRun(runId: string): Promise<SessionRun> {
-  const run = await getRun(runId);
-  if (!run) {
-    throw new Error(`Unknown run "${runId}"`);
-  }
-  if (run.currentPhase !== "warmup") {
+async function getCatalogEpisodeForRun(run: SessionRun) {
+  const catalogEpisode = await prisma.catalogEpisode.findUnique({
+    where: {
+      storyId_episodeId: {
+        storyId: run.storyId,
+        episodeId: run.episodeId,
+      },
+    },
+  });
+  if (!catalogEpisode) {
     throw new Error(
-      `Run "${runId}" is not in warmup phase (current: ${run.currentPhase})`,
+      `Missing catalog episode for run "${run.runId}" (${run.storyId}/${run.episodeId})`,
     );
   }
-  return run;
+  return catalogEpisode;
 }
 
-// Level actions require current_phase = level. The saved-complete handoff
-// state is read-only on the client side (no mutation actions bound to it), so
-// we do not accept `complete` here — only a run actively on a level can open a
-// hint, submit, or press Continue.
-async function requireLevelRun(runId: string): Promise<SessionRun> {
-  const run = await getRun(runId);
-  if (!run) {
-    throw new Error(`Unknown run "${runId}"`);
+async function getReaderLevelForRun(run: SessionRun, levelId: string) {
+  const catalogEpisode = await getCatalogEpisodeForRun(run);
+  const lessonPackage = await loadReaderLessonPackageByPaths(catalogEpisode.lessonPackagePath);
+  const level = lessonPackage.levels.find((entry) => entry.level_id === levelId);
+  if (!level) {
+    throw new Error(`Unknown level "${levelId}" for run "${run.runId}"`);
   }
-  if (run.currentPhase !== "level") {
-    throw new Error(
-      `Run "${runId}" is not in level phase (current: ${run.currentPhase})`,
-    );
-  }
-  if (!run.currentLevelId) {
-    throw new Error(
-      `Run "${runId}" is in level phase but current_level_id is unset`,
-    );
-  }
-  return run;
+  return level;
 }
 
 export async function selectStudentAction(formData: FormData): Promise<void> {
-  const groupId = String(formData.get("group_id") ?? "");
   const studentId = String(formData.get("student_id") ?? "");
 
-  if (!groupId || !studentId) {
-    throw new Error("Missing group or student selection");
+  if (!studentId) {
+    throw new Error("Missing student selection");
   }
 
-  const run = await createOrResumeRun({ groupId, studentId });
+  const student = await getStudentById(studentId);
+  if (!student) {
+    throw new Error(`Unknown student "${studentId}"`);
+  }
+
+  await writeStudentCookies(student.id);
+  revalidatePath("/");
+  redirect("/");
+}
+
+export async function createStudentAction(formData: FormData): Promise<void> {
+  const name = String(formData.get("name") ?? "");
+  const student = await createStudent(name);
+  await writeStudentCookies(student.id);
+  revalidatePath("/");
+  redirect("/");
+}
+
+export async function openStoryAction(formData: FormData): Promise<void> {
+  const storyId = String(formData.get("story_id") ?? "");
+  const episodeId = String(formData.get("episode_id") ?? "");
+
+  if (!storyId || !episodeId) {
+    throw new Error("Missing story or episode selection");
+  }
+
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+
+  const practiceComplete = await hasCompletedAllPractice(student.id);
+  if (!practiceComplete) {
+    redirect("/practice");
+  }
+
+  const run = await createOrResumeRun({
+    studentId: student.id,
+    storyId,
+    episodeId,
+  });
+
+  revalidatePath("/stories");
   redirect(routeForRun(run));
 }
 
-export async function finishReadingAction(formData: FormData): Promise<void> {
-  const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+export async function openPracticeHintAction(formData: FormData): Promise<void> {
+  const flawId = String(formData.get("flaw_id") ?? "");
+  if (!flawId) {
+    throw new Error("Missing flaw id");
   }
 
-  // markReadingComplete is a no-op for already-completed runs. Route via
-  // routeForRun so a completed run goes to the handoff instead of looping
-  // through /warmup.
-  const run = await markReadingComplete(runId);
-  revalidatePath(`/runs/${runId}`, "layout");
-  if (run.status === "complete") {
-    redirect(routeForRun(run));
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
   }
-  redirect(`/runs/${runId}/warmup`);
+
+  redirect(`/practice/${flawId}?hint=open`);
 }
 
-export async function completeModeledWarmupAction(formData: FormData): Promise<void> {
-  const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+export async function submitPracticeExerciseAction(formData: FormData): Promise<void> {
+  const flawId = String(formData.get("flaw_id") ?? "");
+  const optionId = String(formData.get("option_id") ?? "");
+
+  if (!flawId || !optionId) {
+    throw new Error("Missing practice exercise parameters");
   }
 
-  await requireWarmupRun(runId);
-  await completeModeledWarmup(runId);
-  revalidatePath(`/runs/${runId}/warmup`);
-  redirect(`/runs/${runId}/warmup`);
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+
+  const exercise = await getPracticeExercise(flawId);
+  if (!exercise) {
+    throw new Error(`Unknown practice flaw "${flawId}"`);
+  }
+
+  const optionExists = exercise.options.some((option) => option.optionId === optionId);
+  if (!optionExists) {
+    throw new Error(`Unknown option "${optionId}" for practice flaw "${flawId}"`);
+  }
+
+  await prisma.practiceAttempt.upsert({
+    where: {
+      unique_student_practice_flaw: {
+        studentId: student.id,
+        flawId,
+      },
+    },
+    update: {
+      completedAt: new Date(),
+    },
+    create: {
+      studentId: student.id,
+      flawId,
+      completedAt: new Date(),
+    },
+  });
+
+  await writeStudentCookies(student.id);
+  revalidatePath("/");
+  revalidatePath("/practice");
+  revalidatePath("/stories");
+  redirect(`/practice/${flawId}?choice=${encodeURIComponent(optionId)}`);
 }
 
-export async function submitGuidedWarmupAction(formData: FormData): Promise<void> {
+export async function goToSceneAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
-  const selectedAnswerId = String(formData.get("selected_answer_id") ?? "");
-  const usedHint = formData.get("used_hint") === "true";
+  const targetSceneIndex = Number(formData.get("target_scene_index") ?? "");
+  const sceneCount = Number(formData.get("scene_count") ?? "");
 
   if (!runId) {
     throw new Error("Missing run id");
   }
-  if (!selectedAnswerId) {
-    throw new Error("Missing selected answer");
+  if (!Number.isInteger(targetSceneIndex) || targetSceneIndex < 0) {
+    throw new Error("Invalid target scene index");
+  }
+  if (!Number.isInteger(sceneCount) || sceneCount < 1) {
+    throw new Error("Invalid scene count");
   }
 
-  const run = await requireWarmupRun(runId);
-  await submitGuidedWarmup({ run, selectedAnswerId, usedHint });
-  revalidatePath(`/runs/${runId}/warmup`);
-  redirect(`/runs/${runId}/warmup?flash=guided-submitted`);
+  const run = await getRun(runId);
+  if (!run) {
+    throw new Error(`Unknown run "${runId}"`);
+  }
+
+  const boundedTarget = Math.min(targetSceneIndex, sceneCount);
+  await prisma.run.update({
+    where: { runId },
+    data: {
+      currentSceneIndex: boundedTarget,
+      sceneHighWaterMark: Math.max(run.sceneHighWaterMark, boundedTarget),
+      ...(boundedTarget === sceneCount && !run.readingFinishedAt
+        ? { readingFinishedAt: new Date() }
+        : {}),
+    },
+  });
+
+  revalidatePath(`/runs/${runId}/scene/${boundedTarget}`);
+  redirect(`/runs/${runId}/scene/${boundedTarget}`);
 }
 
-export async function openGuidedHintAction(formData: FormData): Promise<void> {
+export async function openQuizPanelAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+  const sceneIndex = Number(formData.get("scene_index") ?? "");
+  const levelId = String(formData.get("level_id") ?? "");
+  if (!runId || !levelId || !Number.isInteger(sceneIndex) || sceneIndex < 1) {
+    throw new Error("Missing quiz panel parameters");
   }
 
-  await requireWarmupRun(runId);
-  await recordGuidedHintOpened(runId);
-  revalidatePath(`/runs/${runId}/warmup`);
-  redirect(`/runs/${runId}/warmup?hint=open`);
+  redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
 }
 
-export async function continueFromGuidedWarmupAction(formData: FormData): Promise<void> {
+export async function closeQuizPanelAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+  const sceneIndex = Number(formData.get("scene_index") ?? "");
+  if (!runId || !Number.isInteger(sceneIndex) || sceneIndex < 1) {
+    throw new Error("Missing quiz close parameters");
   }
 
-  const run = await requireWarmupRun(runId);
-  await continueFromGuidedWarmup(run);
-  revalidatePath(`/runs/${runId}`, "layout");
-  redirect(`/runs/${runId}/level`);
+  redirect(`/runs/${runId}/scene/${sceneIndex}`);
 }
 
-export async function openLevelHintAction(formData: FormData): Promise<void> {
+export async function openQuizHintAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+  const sceneIndex = Number(formData.get("scene_index") ?? "");
+  const levelId = String(formData.get("level_id") ?? "");
+  if (!runId || !levelId || !Number.isInteger(sceneIndex) || sceneIndex < 1) {
+    throw new Error("Missing quiz hint parameters");
   }
 
-  const run = await requireLevelRun(runId);
-  await recordLevelHintOpened({ run, levelId: run.currentLevelId! });
-  revalidatePath(`/runs/${runId}/level`);
-  redirect(`/runs/${runId}/level?hint=open`);
-}
-
-export async function submitLevelAnswerAction(formData: FormData): Promise<void> {
-  const runId = String(formData.get("run_id") ?? "");
-  const selectedAnswerId = String(formData.get("selected_answer_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
-  }
-  if (!selectedAnswerId) {
-    throw new Error("Missing selected answer");
+  const run = await getRun(runId);
+  if (!run) {
+    throw new Error(`Unknown run "${runId}"`);
   }
 
-  const run = await requireLevelRun(runId);
-  const response = await submitLevelAnswer({ run, selectedAnswerId });
-  revalidatePath(`/runs/${runId}/level`);
-  // Flash only when the level is locked (final state). Retry-open and
-  // wrong-locked cases surface their own feedback inside the drawer — the
-  // flash is reserved for the correct-answer celebration the page decides.
+  const level = await getReaderLevelForRun(run, levelId);
+  const existing = await getQuizAttempt(runId, levelId);
+  if (!level.hint || existing?.lockedAt) {
+    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+  }
+
+  if (existing) {
+    await prisma.quizAttempt.update({
+      where: { id: existing.id },
+      data: { usedHint: true },
+    });
+  } else {
+    await prisma.quizAttempt.create({
+      data: {
+        runId,
+        levelId,
+        turnId: level.turn_id,
+        usedHint: true,
+      },
+    });
+  }
+
+  revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
   redirect(
-    response.completedAt
-      ? `/runs/${runId}/level?flash=level-locked`
-      : `/runs/${runId}/level`,
+    `/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}&hint=open`,
   );
 }
 
-export async function continueFromLevelFeedbackAction(formData: FormData): Promise<void> {
+export async function submitQuizAnswerAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
-  if (!runId) {
-    throw new Error("Missing run id");
+  const sceneIndex = Number(formData.get("scene_index") ?? "");
+  const levelId = String(formData.get("level_id") ?? "");
+  const optionId = String(formData.get("option_id") ?? "");
+  if (!runId || !levelId || !optionId || !Number.isInteger(sceneIndex) || sceneIndex < 1) {
+    throw new Error("Missing quiz answer parameters");
   }
 
-  const run = await requireLevelRun(runId);
-  await continueFromLevelFeedback(run);
-  revalidatePath(`/runs/${runId}`, "layout");
-  redirect(`/runs/${runId}/level`);
+  const run = await getRun(runId);
+  if (!run) {
+    throw new Error(`Unknown run "${runId}"`);
+  }
+
+  const level = await getReaderLevelForRun(run, levelId);
+  const existing = await getQuizAttempt(runId, levelId);
+  if (existing?.lockedAt) {
+    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+  }
+
+  const isCorrect = level.feedback.correct.option_ids.includes(optionId);
+
+  if (!existing || !existing.firstOptionId) {
+    if (isCorrect) {
+      const usedHint = Boolean(existing?.usedHint);
+      if (existing) {
+        await prisma.quizAttempt.update({
+          where: { id: existing.id },
+          data: {
+            firstOptionId: optionId,
+            finalOptionId: optionId,
+            starsEarned: starsForLockedQuiz({
+              usedHint,
+              firstWasCorrect: true,
+              secondWasCorrect: true,
+            }),
+            lockedAt: new Date(),
+          },
+        });
+      } else {
+        await prisma.quizAttempt.create({
+          data: {
+            runId,
+            levelId,
+            turnId: level.turn_id,
+            firstOptionId: optionId,
+            finalOptionId: optionId,
+            starsEarned: starsForLockedQuiz({
+              usedHint: false,
+              firstWasCorrect: true,
+              secondWasCorrect: true,
+            }),
+            lockedAt: new Date(),
+          },
+        });
+      }
+      await syncRunStars(run);
+      revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
+      redirect(`/runs/${runId}/scene/${sceneIndex}`);
+    }
+
+    if (existing) {
+      await prisma.quizAttempt.update({
+        where: { id: existing.id },
+        data: { firstOptionId: optionId },
+      });
+    } else {
+      await prisma.quizAttempt.create({
+        data: {
+          runId,
+          levelId,
+          turnId: level.turn_id,
+          firstOptionId: optionId,
+        },
+      });
+    }
+
+    revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
+    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+  }
+
+  await prisma.quizAttempt.update({
+    where: { id: existing.id },
+    data: {
+      finalOptionId: optionId,
+      starsEarned: starsForLockedQuiz({
+        usedHint: existing.usedHint,
+        firstWasCorrect: false,
+        secondWasCorrect: isCorrect,
+      }),
+      lockedAt: new Date(),
+    },
+  });
+
+  await syncRunStars(run);
+  revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
+  redirect(`/runs/${runId}/scene/${sceneIndex}`);
 }
