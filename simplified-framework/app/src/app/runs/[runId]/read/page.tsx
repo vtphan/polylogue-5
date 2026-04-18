@@ -60,15 +60,8 @@ export default async function TranscriptReadingPage({ params }: ReadPageProps) {
 
   return (
     <div className="page-wide">
-      <header className="reading-header">
-        <p className="eyebrow">
-          {group?.name ?? "Group"} · {lessonPackage.episode.title}
-        </p>
-        <h1>Read the transcript</h1>
-        <p className="subdued">Take your time. When you finish, press Continue.</p>
-      </header>
-
       <ReadingSurface
+        episodeTitle={lessonPackage.episode.title}
         runId={run.runId}
         isComplete={run.status === "complete"}
         previously={lessonPackage.episode.previously ?? null}
@@ -77,7 +70,7 @@ export default async function TranscriptReadingPage({ params }: ReadPageProps) {
       />
 
       {group ? (
-        <aside className="peer-row" aria-label="Group progress">
+        <aside className="peer-row peer-row--reading" aria-label="Group progress">
           {group.students.map((student) => {
             const otherRun = runsByStudent.get(student.student_id);
             const phase: RunPhase | "not_started" = otherRun
