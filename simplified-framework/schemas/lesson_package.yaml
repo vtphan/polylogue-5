@@ -13,11 +13,36 @@ required:
 properties:
   package_meta:
     type: object
+    required: [story_id, episode_number, schema_version]
   episode:
     type: object
+    required: [title, summary, flaws, final_takeaway]
+    # `previously` is required when package_meta.episode_number > 1 and
+    # forbidden on episode 1 (enforced by the Python validator, not Zod).
+    properties:
+      title:
+        type: string
+      summary:
+        type: string
+        description: >
+          Plain-language episode orientation shown before any dialog.
+          Soft cap ~60 words; warned by validator.
+      previously:
+        type: string
+        description: >
+          Short recap carrying the arc into this episode (ep 2+ only).
+          Soft cap ~40 words; warned by validator.
+      flaws:
+        type: array
+      final_takeaway:
+        type: string
   warmups:
     type: object
+    description: Exactly one modeled + one guided warm-up.
   levels:
     type: array
-  hidden_mapping:
-    type: object
+    minItems: 3
+    maxItems: 3
+    description: >
+      Exactly 3 levels. Every level's turn_id plus both warm-up turn_ids
+      must be pairwise distinct — no turn can fill two slots.

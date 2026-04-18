@@ -35,12 +35,11 @@ For each episode, determine:
 
 - title
 - episode goal
-- flaws
+- flaws — the primary flaw must carry ≥ 1 moment at each of `unmistakable`, `showcased`, `heightened`, and ≥ 5 primary-flaw moments total (2 for warm-ups + 3 for levels). Supporting flaws optional.
 - target difficulty
-- rough number of teachable moments
 - student takeaway
 - scene design
-- character beats
+- character beats (per-character arc notes; unrelated to banned narrative "beats" vocabulary)
 - flaw embedding guidance
 
 This command should plan all episodes in one shot so the story-level flaw progression is coherent.

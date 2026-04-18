@@ -8,7 +8,15 @@ import re
 import sys
 from pathlib import Path
 
-from _common import load_yaml, print_result, require_list, require_mapping, require_nonempty_string
+from _common import (
+    load_yaml,
+    print_result,
+    require_list,
+    require_mapping,
+    require_nonempty_string,
+    warn_readability,
+    warn_word_cap,
+)
 
 
 TURN_ID_RE = re.compile(r"^t\d{2,}$")
@@ -18,12 +26,21 @@ ALLOWED_TRANSCRIPT_KEYS = {
     "episode_id",
     "title",
     "characters",
-    "turns",
-    "setting_note",
-    "previously",
+    "scenes",
 }
 
+ALLOWED_SCENE_KEYS = {"scene_id", "summary", "turns"}
+
 ALLOWED_TURN_KEYS = {"turn_id", "speaker", "text"}
+
+SCENE_SUMMARY_WORD_CAP = 30
+
+MIN_SCENES = 2
+MAX_SCENES = 4
+
+# Per-scene FK readability is noisy on tiny samples; only score scenes that
+# have enough dialog to paint a stable picture.
+FK_MIN_TURNS_PER_SCENE = 6
 
 TAXONOMY_PATH = (
     Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
@@ -66,56 +83,133 @@ def validate_transcript(path: str) -> int:
     characters = require_list(transcript.get("characters"), "characters", errors)
     if not characters:
         errors.append("characters must contain at least one character id")
-    character_ids = set()
+    character_ids: set[str] = set()
     for index, character in enumerate(characters, start=1):
         cid = require_nonempty_string(character, f"characters[{index}]", errors)
         if cid:
             character_ids.add(cid.lower())
 
-    turns = require_list(transcript.get("turns"), "turns", errors)
-    if not turns:
-        errors.append("turns must contain at least one turn")
+    scenes = require_list(transcript.get("scenes"), "scenes", errors)
+    if not scenes:
+        errors.append("scenes must contain at least one scene")
+    elif not MIN_SCENES <= len(scenes) <= MAX_SCENES:
+        errors.append(
+            f"scenes must contain between {MIN_SCENES} and {MAX_SCENES} entries "
+            f"(got {len(scenes)})"
+        )
 
     flaw_ids = load_flaw_ids()
 
-    seen_ids: set[str] = set()
-    previous_number = 0
-    for index, turn in enumerate(turns, start=1):
-        entry = require_mapping(turn, f"turns[{index}]", errors)
+    seen_scene_ids: set[str] = set()
+    seen_turn_ids: set[str] = set()
+    previous_turn_number = 0
 
-        extra_turn = sorted(set(entry.keys()) - ALLOWED_TURN_KEYS)
-        if extra_turn:
-            errors.append(f"turns[{index}] has disallowed keys: {extra_turn}")
+    for scene_index, scene in enumerate(scenes, start=1):
+        entry = require_mapping(scene, f"scenes[{scene_index}]", errors)
+        if not entry:
+            continue
 
-        turn_id = require_nonempty_string(entry.get("turn_id"), f"turns[{index}].turn_id", errors)
-        speaker = require_nonempty_string(entry.get("speaker"), f"turns[{index}].speaker", errors)
-        text = require_nonempty_string(entry.get("text"), f"turns[{index}].text", errors)
+        extra_scene = sorted(set(entry.keys()) - ALLOWED_SCENE_KEYS)
+        if extra_scene:
+            errors.append(
+                f"scenes[{scene_index}] has disallowed keys: {extra_scene}"
+            )
 
-        if text and flaw_ids:
-            for flaw_id in flaw_ids:
-                if flaw_id in text:
+        scene_id = require_nonempty_string(
+            entry.get("scene_id"), f"scenes[{scene_index}].scene_id", errors
+        )
+        if scene_id:
+            if scene_id in seen_scene_ids:
+                errors.append(f"duplicate scene_id: {scene_id}")
+            seen_scene_ids.add(scene_id)
+
+        summary = require_nonempty_string(
+            entry.get("summary"), f"scenes[{scene_index}].summary", errors
+        )
+        if summary:
+            warn_word_cap(
+                f"scenes[{scene_index}].summary",
+                summary,
+                SCENE_SUMMARY_WORD_CAP,
+            )
+
+        turns = require_list(entry.get("turns"), f"scenes[{scene_index}].turns", errors)
+        if not turns:
+            errors.append(f"scenes[{scene_index}].turns must contain at least one turn")
+
+        scene_text_parts: list[str] = []
+
+        for turn_index, turn in enumerate(turns, start=1):
+            turn_entry = require_mapping(
+                turn, f"scenes[{scene_index}].turns[{turn_index}]", errors
+            )
+            if not turn_entry:
+                continue
+
+            extra_turn = sorted(set(turn_entry.keys()) - ALLOWED_TURN_KEYS)
+            if extra_turn:
+                errors.append(
+                    f"scenes[{scene_index}].turns[{turn_index}] has disallowed keys: "
+                    f"{extra_turn}"
+                )
+
+            turn_id = require_nonempty_string(
+                turn_entry.get("turn_id"),
+                f"scenes[{scene_index}].turns[{turn_index}].turn_id",
+                errors,
+            )
+            speaker = require_nonempty_string(
+                turn_entry.get("speaker"),
+                f"scenes[{scene_index}].turns[{turn_index}].speaker",
+                errors,
+            )
+            text = require_nonempty_string(
+                turn_entry.get("text"),
+                f"scenes[{scene_index}].turns[{turn_index}].text",
+                errors,
+            )
+
+            if text and flaw_ids:
+                for flaw_id in flaw_ids:
+                    if flaw_id in text:
+                        errors.append(
+                            f"scenes[{scene_index}].turns[{turn_index}].text leaks "
+                            f"framework flaw id '{flaw_id}'"
+                        )
+
+            if text:
+                scene_text_parts.append(text)
+
+            if turn_id:
+                if not TURN_ID_RE.match(turn_id):
                     errors.append(
-                        f"turns[{index}].text leaks framework flaw id '{flaw_id}'"
+                        f"scenes[{scene_index}].turns[{turn_index}].turn_id must look "
+                        f"like t01, t02, ..."
                     )
+                if turn_id in seen_turn_ids:
+                    errors.append(f"duplicate turn_id: {turn_id}")
+                seen_turn_ids.add(turn_id)
+                try:
+                    number = int(turn_id[1:])
+                    if number <= previous_turn_number:
+                        errors.append(
+                            "turn_id values must increase strictly across the transcript"
+                        )
+                    previous_turn_number = number
+                except ValueError:
+                    pass
 
-        if turn_id:
-            if not TURN_ID_RE.match(turn_id):
-                errors.append(f"turns[{index}].turn_id must look like t01, t02, ...")
-            if turn_id in seen_ids:
-                errors.append(f"duplicate turn_id: {turn_id}")
-            seen_ids.add(turn_id)
-            try:
-                number = int(turn_id[1:])
-                if number <= previous_number:
-                    errors.append("turn_id values must increase strictly")
-                previous_number = number
-            except ValueError:
+            if speaker and character_ids:
+                # kept permissive: speaker may render as display name vs. id
                 pass
 
-        if speaker and character_ids and speaker.lower() not in character_ids and speaker.lower() not in {
-            cid.replace("_", " ") for cid in character_ids
-        }:
-            pass
+        # Readability warning per scene — skip scenes without enough dialog to
+        # score stably. Aggregate across all turn text.
+        if len(turns) >= FK_MIN_TURNS_PER_SCENE and scene_text_parts:
+            warn_readability(
+                f"scenes[{scene_index}] (scene_id={scene_id or '?'}) dialog",
+                " ".join(scene_text_parts),
+            )
 
     return print_result(errors)
 

@@ -94,9 +94,11 @@ The flaw appears in close-to-natural dialog with one deliberate elevated cue. No
 
 #### Rhythm and spacing
 
-Aim for 5–7 flagged flaw moments across roughly 14 turns (target range 10–16, hard cap 20 per `instructional-design.md` §6.4). Surround each flaw moment with at least one turn of natural conversation — agreement, clarification, jokes, listening. Do not place two flaw moments in adjacent turns. Filler is load-bearing: a flaw moment with air around it reads as a moment; a flaw moment in a pile of other flaw moments reads as noise.
+Aim for natural pacing across roughly 14 turns (target range 10–16, hard cap 20). Surround each planned flaw moment with at least one turn of natural conversation — agreement, clarification, jokes, listening. Do not place two flaw moments in adjacent turns. Filler is load-bearing: a flaw moment with air around it reads as a moment; a flaw moment in a pile of other flaw moments reads as noise.
 
-Within an episode, most flaw moments should express the **primary** flaw the planner specified, with the optional **secondary** flaw appearing only where it strengthens the scene.
+The episode plan is the authoritative source for how many primary-flaw moments to include and at which amplifications. Do not invent extra flaw moments or raise the amplification of a planned one to hit a count target — follow the plan. At minimum the plan will specify 5 primary-flaw moments (one at each of `unmistakable`, `showcased`, `heightened`, with 2 more usable for warm-ups), so the downstream lesson package has enough material for 2 warm-ups + 3 levels with a clean amplification ramp.
+
+Within an episode, most flaw moments should express the **primary** flaw the planner specified, with any supporting flaws appearing only where they strengthen the scene.
 
 #### Self-check before finishing
 
@@ -111,6 +113,14 @@ If the answer to any of these is no, rewrite the turn before passing it to the r
 ### 5. Keep It Readable
 
 The transcript should be easy to read and easy to later review for flaw moments.
+
+#### Linguistic guide (shared with scaffolding agents)
+
+Write for an average or slightly-struggling 6th grader. When quoting a signal phrase from the dialog (e.g., "that basically proves it", "has to be", "so, so, so"), preserve it verbatim — do not soften or paraphrase. When a term above grade level is needed, either restate it in plain words adjacent to its use, or mark it explicitly as unfamiliar ("some word Anya used — biosignature?"). When a scientific concept needs to be explained in student-facing text, prefer a plain-language description of the mechanism over the technical term.
+
+Dialog-specific additions: keep each character's voice distinct. When the teachable move in a turn is a reasoning chain or a signal-phrase escalation, preserve the stacking exactly — do not split it into shorter sentences.
+
+Dialog is not subject to a word cap — length is not the right lever for voice. Register is, and that is what the guide above is for. `validate_transcript.py` runs a Flesch-Kincaid readability check per scene and warns when grade level exceeds 7; those warnings are advisory, not blocking, and small scenes are skipped when they fall below the minimum sample size.
 
 ## What To Avoid
 
@@ -145,17 +155,27 @@ Write `transcript.yaml` in the simplified format. Allowed top-level keys:
 - `episode_id`
 - `title`
 - `characters`
-- `turns`
-- optional `setting_note`
-- optional `previously`
+- `scenes` — a list of 2–4 scenes, each a mapping with `scene_id`, `summary`, and `turns[]`
+
+There is no top-level `turns[]`, no `setting_note`, and no `previously`. Recap copy (when needed on ep 2+) belongs in `lesson_package.episode.previously`, not in the transcript.
+
+Each scene:
+
+- `scene_id` — unique within the transcript (e.g., `s1`, `s2`, …)
+- `summary` — plain-language scene summary, 6th-grade vocabulary, ≤ 30 words (validator warns past the cap)
+- `turns` — at least one turn
 
 Each turn may only include:
 
-- `turn_id`
+- `turn_id` — `tNN`, globally unique across the whole transcript, strictly increasing
 - `speaker`
 - `text`
 
 Do not output prose commentary in the artifact itself.
+
+### Scene-boundary heuristic
+
+The episode plan does **not** prescribe scene breaks — that is a dialog-craft decision you make as the writer. Break scenes at shifts in **location, time, topic, or conversational mode** (e.g., in-person → phone call, speculation → lookup, arrival → investigation). Aim for roughly 3–5 turns per scene; a one-turn scene is almost never right. Each scene's `summary` should describe the scene's purpose in the reasoning arc, not just its setting.
 
 If you want to note concerns for the operator, those belong in the command-level summary or later flaw review, not in `transcript.yaml`.
 
@@ -164,7 +184,7 @@ If you want to note concerns for the operator, those belong in the command-level
 Use the episode-composition guidance:
 
 - prefer natural flow
-- aim roughly for 10 to 16 turns
+- aim roughly for 10 to 16 turns in total across all scenes
 - do not exceed 20 turns without strong reason
 
 This is guidance, not a rigid rule.

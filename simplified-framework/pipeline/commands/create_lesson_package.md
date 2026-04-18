@@ -13,6 +13,8 @@ This command should run only after:
 
 Its job is to turn the accepted episode materials into a deterministic package that the non-LLM app can render without guesswork.
 
+Scope: the package gates what the app needs at runtime — `episode.summary`, `episode.previously` (on ep 2+), one modeled + one guided warm-up, and **exactly 3 levels** whose turn_ids (plus both warm-up turn_ids) are all distinct. The validator does not enforce any content quota beyond these minimums.
+
 ## Output Target
 
 The default artifact is:
@@ -44,11 +46,12 @@ This command should use:
 
 Responsibilities:
 
-- select the warm-up turns
-- select the level turns
+- author `episode.summary` (≤ 60 words) and, on episode 2+, `episode.previously` (≤ 40 words)
+- select distinct turns for 1 modeled warm-up, 1 guided warm-up, and 3 levels
+- order the 3 levels as `unmistakable` → `showcased` → `heightened` by default
 - write student-facing prompts
 - write answer options
-- identify best answers
+- identify best answers (required for warm-ups; optional authoring-time metadata for levels)
 - write hints and feedback
 - produce an unambiguous app-facing package
 

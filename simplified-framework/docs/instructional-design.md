@@ -62,7 +62,7 @@ Every episode runs a fixed staged loop. Phase names match the runtime state: `re
 
 ### 5.1 Read
 
-The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `student_intro`, and (when present) a `setting_note` frame the conversation. The transcript is rendered as ordered turns with speaker labels.
+The student sees the full transcript — a peer dialogue in which the target flaw appears naturally, unlabeled. Title, a short `episode.summary`, and (on episode 2+) a short `episode.previously` recap frame the conversation. The transcript is authored as **2–4 scenes with nested turns**; each scene has a plain-language `summary`. Turns render in order with speaker labels.
 
 A single Continue action moves the run from `read` to `warmup`. The runtime persists `reading_complete = true`.
 
@@ -84,7 +84,7 @@ On submission the runtime locks `guided_selected_answer_id` and moves to a revea
 
 ### 5.4 Levels
 
-The student independently identifies the same flaw in new turns — typically 3–5 levels per episode, played in `sequence_index` order. Each level has:
+The student independently identifies the same flaw in new turns — **exactly 3 levels per episode**, played in `sequence_index` order. The amplification ramp is `unmistakable → showcased → heightened`. Each level has:
 
 - an authored `prompt` about a specific `turn_id`
 - `answer_options` (one `best_fit`, others `partial` / `off_target`, plus an `uncertain` option by convention)
@@ -116,7 +116,8 @@ A lesson package (`lesson_package.yaml`) is the only artifact that controls what
 ### 6.1 Episode frame
 
 - `episode.title`
-- `episode.student_intro` — short learning-oriented intro at the top of Read
+- `episode.summary` — plain-language orientation shown at the top of Read (≤ ~60 words; validator warns past the cap)
+- `episode.previously` — short recap shown above the summary on episode 2+ (≤ ~40 words; validator warns past the cap). Forbidden on episode 1; required on ep 2+.
 - `episode.final_takeaway` — the habit of mind reinforced at completion
 - `episode.flaws` (optional) — display-level flaw list for the completion surface
 
@@ -139,27 +140,28 @@ Guided: everything in the modeled shape plus
 
 ### 6.3 Levels
 
-3–5 levels per episode, each with:
+**Exactly 3 levels** per episode, each with:
 
-- `level_id`, `sequence_index` (ordering; lowest plays first), `turn_id`, `title`, `prompt`
+- `level_id`, `sequence_index` (1, 2, 3 — lowest plays first), `turn_id`, `title`, `prompt`
 - `answer_options[]`
-- `best_answer_id` (authoring-time metadata; the runtime does not consult this for grading — it uses `feedback.correct.option_ids`)
+- `best_answer_id` (optional authoring-time metadata; the runtime does not consult this for grading — it uses `feedback.correct.option_ids`)
 - `hint` (optional)
 - `feedback.correct.option_ids` and `feedback.correct.text`
 - `feedback.by_option[option_id]` for every non-correct option
+
+All 5 slots (modeled warm-up, guided warm-up, level 1, level 2, level 3) must reference **pairwise-distinct** `turn_id`s. The conventional mapping is `unmistakable` → modeled warm-up (and/or level 1), `showcased` → level 2, `heightened` → level 3, with the guided warm-up drawing from a spare `unmistakable` or `showcased` moment.
 
 ### 6.4 Transcript composition targets
 
 Transcripts are source dialogue, not analytic containers. They contain no per-turn flaw labels, no answer keys, no analytic annotations.
 
-Working targets for each episode:
+Working structure for each episode:
 
-- preferred turn range: **10–16 turns**, hard cap 20 unless there is a strong reason
-- roughly **5–7 candidate teachable moments** across the episode
-- about **2 warm-up candidates** (one modeled, one guided)
-- about **3–5 level candidates**
+- **2–4 scenes** with nested turns (each scene has `scene_id`, a ≤ 30-word plain-language `summary`, and ≥ 1 turn)
+- preferred turn range across the whole transcript: **10–16 turns**, hard cap 20 unless there is a strong reason
+- **≥ 5 primary-flaw moments**, one at each of `unmistakable`, `showcased`, `heightened`, with two more usable for warm-ups. Additional moments at the author's discretion when they serve the story.
 - not every turn needs a flaw — leave connective dialogue so the conversation feels natural
-- most teachable turns should express the primary flaw; secondary flaws used sparingly
+- supporting flaws are optional; use them only when they strengthen the scene
 
 ### 6.5 Authoring levers that shape the teaching
 
@@ -185,7 +187,7 @@ These rules are enforced by the runtime; an instructional designer relies on the
 
 - Single badge category: `correct_answer`.
 - Awarded per level whose final (possibly retry) answer is in `feedback.correct.option_ids`. Retry-correct still earns the medal.
-- Labels are derived deterministically from `level.sequence_index` and `level.title` in `completion.ts::deriveEarnedBadges`. There is no per-level authored label override today; a "medal label voice pass" is tracked as future work.
+- Labels are derived deterministically from `level.sequence_index` and `level.title` in `completion.ts::deriveEarnedBadges`. There is no per-level authored label (no `badge_label` field); a "medal label voice pass" is tracked as future work.
 - No streaks, no points, no public ranking, no time pressure.
 
 ### 7.3 Lifelines

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import sys
+from collections import Counter
 
 from _common import (
     load_yaml,
@@ -14,6 +15,14 @@ from _common import (
     require_mapping,
     require_nonempty_string,
 )
+
+
+ALLOWED_AMPLIFICATIONS = {"unmistakable", "showcased", "heightened"}
+
+# P11 net minimum: 5 primary-flaw moments total, covering all three
+# amplification bands. This guarantees enough material for 2 warm-ups + 3
+# levels with a valid amplification progression downstream.
+PRIMARY_FLAW_MIN_MOMENTS = 5
 
 
 def validate_episode_plan(path: str) -> int:
@@ -31,39 +40,58 @@ def validate_episode_plan(path: str) -> int:
     require_nonempty_string(plan.get("episode_goal"), "episode_goal", errors)
     require_nonempty_string(plan.get("student_takeaway"), "student_takeaway", errors)
 
-    allowed_amplifications = {"unmistakable", "showcased", "heightened"}
     flaws = require_list(plan.get("flaws"), "flaws", errors)
     if not flaws:
         errors.append("flaws must contain at least one flaw")
+
+    # Build (id, amplification) inventory while validating entry shapes.
+    flaw_entries: list[tuple[str, str]] = []
     for index, flaw in enumerate(flaws, start=1):
         entry = require_mapping(flaw, f"flaws[{index}]", errors)
         if not entry:
             continue
-        require_nonempty_string(entry.get("id"), f"flaws[{index}].id", errors)
+        flaw_id = require_nonempty_string(entry.get("id"), f"flaws[{index}].id", errors)
         amplification = entry.get("amplification")
         require_nonempty_string(amplification, f"flaws[{index}].amplification", errors)
-        if isinstance(amplification, str) and amplification not in allowed_amplifications:
+        if isinstance(amplification, str) and amplification not in ALLOWED_AMPLIFICATIONS:
             errors.append(
                 f"flaws[{index}].amplification must be one of "
-                f"{sorted(allowed_amplifications)}, got '{amplification}'"
+                f"{sorted(ALLOWED_AMPLIFICATIONS)}, got '{amplification}'"
             )
         if "scene_note" in entry:
             require_nonempty_string(entry.get("scene_note"), f"flaws[{index}].scene_note", errors)
+        if flaw_id and isinstance(amplification, str) and amplification in ALLOWED_AMPLIFICATIONS:
+            flaw_entries.append((flaw_id, amplification))
 
-    flaw_count = len(flaws) if isinstance(flaws, list) else 0
-    if 0 < flaw_count < 5:
-        print(
-            f"WARNING: episode-plan.yaml has only {flaw_count} flaw entries; "
-            f"target is 5-7 per instructional-design.md §6.4. If multiple turns "
-            f"are intended to carry the same flaw, write one entry per turn.",
-            file=sys.stderr,
-        )
-    elif flaw_count > 7:
-        print(
-            f"WARNING: episode-plan.yaml has {flaw_count} flaw entries; "
-            f"target is 5-7 per instructional-design.md §6.4.",
-            file=sys.stderr,
-        )
+    # P11: plan-level amplification-mix assertion on the primary flaw.
+    # Primary flaw is the most frequent id in flaws[] (ties broken by first
+    # occurrence). The plan must carry ≥1 entry at each amplification band and
+    # ≥5 moments total for the primary flaw, matching the 2 warm-ups + 3 levels
+    # that the downstream lesson package requires.
+    if flaw_entries:
+        counts = Counter(entry[0] for entry in flaw_entries)
+        top = counts.most_common(1)[0][1]
+        # Preserve first-occurrence order among ties.
+        tied_ids = [fid for fid in dict.fromkeys(entry[0] for entry in flaw_entries) if counts[fid] == top]
+        primary_id = tied_ids[0]
+        primary_amps = [amp for fid, amp in flaw_entries if fid == primary_id]
+        primary_band_counts = Counter(primary_amps)
+
+        missing_bands = [
+            band for band in ("unmistakable", "showcased", "heightened")
+            if primary_band_counts[band] < 1
+        ]
+        if missing_bands:
+            errors.append(
+                f"primary flaw '{primary_id}' is missing required amplification bands: "
+                f"{missing_bands}. Plan must carry ≥1 moment at each of "
+                f"unmistakable, showcased, heightened."
+            )
+        if len(primary_amps) < PRIMARY_FLAW_MIN_MOMENTS:
+            errors.append(
+                f"primary flaw '{primary_id}' has only {len(primary_amps)} moments; "
+                f"plan must carry ≥{PRIMARY_FLAW_MIN_MOMENTS} (2 warm-ups + 3 levels)."
+            )
 
     if "scene_design" in plan:
         scene = require_mapping(plan.get("scene_design"), "scene_design", errors)

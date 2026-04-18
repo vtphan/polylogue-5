@@ -2,6 +2,11 @@
 #
 # Canonical structural rules live in
 # simplified-framework/pipeline/scripts/validate_episode_plan.py.
+#
+# The plan's primary flaw (the most frequent `id` across flaws[]) must carry
+# at least one moment at each amplification band (unmistakable, showcased,
+# heightened) and at least 5 moments total — enough to feed 2 warm-ups + 3
+# levels downstream.
 
 type: object
 required:
@@ -21,8 +26,15 @@ properties:
     type: string
   episode_goal:
     type: string
+    description: >
+      Planning-only — the narrative/learning aim for this episode. Not
+      student-facing; not present in lesson_package.yaml.
   flaws:
     type: array
+    description: >
+      One entry per intended flaw moment (not per (id, amplification) pair).
+      Most entries should share the primary flaw's id; a smaller number may
+      carry supporting flaws.
     items:
       type: object
       required: [id, amplification]
@@ -42,9 +54,16 @@ properties:
     type: object
   target_teachable_moments:
     type: integer
+    description: Optional authoring hint; not gated.
   warmup_candidate_goal:
     type: integer
+    description: Optional authoring hint; not gated.
   level_candidate_goal:
     type: integer
+    description: Optional authoring hint; not gated.
   character_beats:
     type: array
+    description: >
+      Per-character arc notes for the transcript writer. Unrelated to the
+      banned narrative "beats" vocabulary — these are character shaping
+      notes, not scene-structure beats.

@@ -22,7 +22,6 @@ Read as needed:
 
 - `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/docs/operator-workflow.md`
-- `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 - `simplified-framework/schemas/episode-plan.yaml`
 
@@ -79,27 +78,41 @@ Use this progression rule across the season:
 
 **Do not introduce a new flaw at `showcased` or `heightened`.** A flaw the student has not seen before always enters at `unmistakable`, regardless of which episode introduces it.
 
-**Mix levels within an episode.** A single episode often carries one introductory or recently-introduced flaw at a higher amplification alongside one or two earlier flaws at lower amplifications. That mix is what makes the curriculum feel like progress rather than repetition.
+**Mix levels within an episode.** Every episode must carry the **primary flaw** at all three amplifications — at least one `unmistakable` moment, one `showcased` moment, and one `heightened` moment — so the downstream 3-level package has material for a clean `unmistakable → showcased → heightened` ramp. A single episode often also carries one or two supporting flaws at their own amplifications, typically lower than the primary.
+
+### 5. Flaw-Moment Minimums (Hard Gate)
+
+Each plan is gated by `validate_episode_plan.py` against these minimums. The **primary flaw** — the most frequent flaw id across the plan's `flaws[]`, ties broken by first occurrence — must carry:
+
+- **≥ 1 moment at each of** `unmistakable`, `showcased`, `heightened`
+- **≥ 5 moments total** (one modeled warm-up, one guided warm-up, three levels — each feeds one slot in the lesson package)
+
+This is a floor, not a target. It is fine to include more than 5 if the scene calls for them, but do not pad: extra moments that do not serve the scene weaken the reviewer's job.
+
+Supporting flaws are unconstrained by the gate — use them when they strengthen the scene, leave them out when they don't.
 
 #### One entry per intended flaw moment
 
-When expanding a story's per-episode flaw plan (whether from `story.yaml`'s `flaw_plan` blocks or your own design), create **one flaw entry per intended turn**, not one per (`id`, `amplification`) pair.
+Create **one flaw entry per intended turn**, not one per (`id`, `amplification`) pair.
 
-If the story specifies that `jumping_to_a_conclusion` should land at `unmistakable` in 5 different turns of an episode, the resulting `episode-plan.yaml` must contain 5 separate flaw entries — same `id`, same `amplification`, different `scene_note` each.
-
-The total number of flaw entries per episode should match the intended-moments target from `instructional-design.md` §6.4: roughly 5–7 per episode. Most entries should share the primary flaw's `id` and `amplification`; a smaller number share the optional secondary's.
+If the primary flaw is `jumping_to_a_conclusion` and you want three `unmistakable` moments plus one `showcased` and one `heightened`, the resulting `episode-plan.yaml` must contain 5 separate flaw entries — three with `amplification: unmistakable`, one `showcased`, one `heightened`, each with a different `scene_note`.
 
 Do not collapse instances and rely on `flaw_embedding_guidance.must_include` to carry the count. `must_include` is supplementary scene direction, not an inventory of flaw entries — the package builder reads `flaws[]` as the authoritative list of candidate teachable moments.
 
-### 5. Counts Are Targets, Not Rules
+### 6. Counts Are Mostly Targets; Minimums Are Hard
 
-Use teachable-moment goals as planning aids, not as rigid formulas.
+- `target_teachable_moments`, `warmup_candidate_goal`, `level_candidate_goal` are optional authoring hints; the validator does not enforce them and they need not be set.
+- The primary-flaw amplification mix and minimum-of-5 from §4–§5 **are** enforced. The plan fails validation otherwise.
 
-### 6. Preserve Literary Quality
+### 7. Preserve Literary Quality
 
 Episode plans should support natural scenes and believable characters.
 
 Do not turn episodes into disguised worksheets.
+
+### 8. Character Beats vs Narrative Beats
+
+`character_beats[]` in this plan is a per-character arc note — a character-shaping hint for the transcript writer. It is **unrelated** to banned narrative "beats" vocabulary (no "scene beats", "story beats", "dialogue beats" in any artifact). Keep using `character_beats[]` when it helps the writer; do not rename it in this batch.
 
 ## Guidance Style
 

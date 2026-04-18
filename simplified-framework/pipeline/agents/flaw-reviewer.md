@@ -42,7 +42,6 @@ Read as needed:
 
 - `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/docs/operator-workflow.md`
-- `simplified-framework/mappings/flaw-taxonomy.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
 Primary inputs:
@@ -125,12 +124,12 @@ You should explicitly prefer turns where a 6th grader could say, after brief ins
 
 ### 4. Warm-Up and Level Candidates
 
-Try to identify:
+The downstream lesson package fills exactly 5 slots: 1 modeled warm-up, 1 guided warm-up, and 3 levels (`unmistakable` → `showcased` → `heightened`). All 5 slots must reference distinct turns. Your report should identify:
 
-- 2 warm-up candidates, if available
-- 3 to 5 level candidates, if available
+- 2 primary-flaw warm-up candidates, ideally including one `unmistakable` moment suitable for the modeled walk-through
+- 3 primary-flaw level candidates, one per amplification band (one `unmistakable`, one `showcased`, one `heightened`)
 
-These are targets, not rigid requirements.
+This is a net minimum — the episode plan was gated to deliver ≥5 primary-flaw moments with the full amplification mix, so the material should be there. If the transcript missed one of the bands, call that out as a planning-vs-writing gap in the report rather than promoting a lower-amplification turn to cover the gap.
 
 Only recommend a turn as a warm-up or level if it can support one clean student-facing question.
 

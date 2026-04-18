@@ -156,21 +156,27 @@ All artifacts are YAML, loaded from `episode_source`, validated by Zod schemas i
 
 ### 5.1 `transcript.yaml`
 
-Required top-level: `story_id`, `episode_id`, `title`, `turns[]`. Optional: `characters[]`, `setting_note`, `previously`.
+Required top-level: `story_id`, `episode_id`, `title`, `characters[]`, `scenes[]`. There is no top-level `turns[]`, `setting_note`, or `previously` — recap copy lives in `lesson_package.episode.previously`.
 
-Each turn: `turn_id` (string), `speaker` (string), `text` (string).
+`scenes[]` has length 2–4. Each scene: `scene_id` (unique within the transcript), `summary` (plain-language, ≤ ~30 words; validator warns past the cap), `turns[]` (≥ 1).
 
-Every `turn_id` referenced by `lesson_package.yaml` must exist in the transcript — enforced at package-load time by Zod plus operator review.
+Each turn: `turn_id` (string, format `tNN`, globally unique across the whole transcript and strictly increasing), `speaker` (string), `text` (string).
+
+Every `turn_id` referenced by `lesson_package.yaml` must exist in the transcript — enforced at package-load time by Zod plus operator review. Turn lookups cross scenes; the `turn_id` is the canonical key.
 
 ### 5.2 `lesson_package.yaml`
 
 Top-level sections: `package_meta`, `episode`, `warmups`, `levels[]`.
 
 - `package_meta`: `story_id`, `episode_number`, `schema_version`
-- `episode`: `title`, `student_intro`, `flaws[]` (optional), `final_takeaway`
-- `warmups.modeled`: `warmup_id`, `turn_id`, `title`, `prompt`, `best_answer_text`, `worked_explanation`, `takeaway`. `focus_move`, `best_answer_id` optional.
+- `episode`: `title`, `summary`, `previously` (required when `episode_number > 1`; forbidden on episode 1), `flaws[]` (optional), `final_takeaway`
+- `warmups.modeled`: `warmup_id`, `turn_id`, `title`, `prompt`, `best_answer_text`, `worked_explanation`, `takeaway`, `focus_move`, `best_answer_id` (required).
 - `warmups.guided`: modeled shape plus `answer_options[]`, `best_answer_id` (required), `hint` (optional).
-- `levels[]` (at least 1, typically 3–5): `level_id`, `sequence_index` (positive int; runtime plays lowest first), `turn_id`, `title`, `prompt`, `answer_options[]`, `best_answer_id` (metadata only), `hint` (optional), `feedback`.
+- `levels[]` — **exactly 3 entries**: `level_id`, `sequence_index` (1, 2, 3; runtime plays lowest first), `turn_id`, `title`, `prompt`, `answer_options[]`, `best_answer_id` (optional — runtime uses `feedback.correct.option_ids` for grading), `hint` (optional), `feedback`.
+
+All 5 slots (modeled warm-up, guided warm-up, levels 1–3) must reference **pairwise-distinct** `turn_id`s.
+
+Validator also emits soft-cap warnings on scaffolding prose length (`episode.summary` ~60, `episode.previously` ~40, warm-up `best_answer_text` ~40, `worked_explanation` ~60, `takeaway` ~20) and a Flesch-Kincaid readability warning when a scaffolding block or feedback string scores above grade 7. Warnings are advisory; they do not block validation.
 
 Each `answer_option`: `option_id`, `text`, `kind?` (conventional values: `best_fit`, `partial`, `off_target`, `uncertain`).
 
@@ -279,15 +285,17 @@ Runtime also re-validates `transcript.yaml` and `lesson_package.yaml` via Zod on
 
 Starting points for common modifications. Each recipe names the files that must change together.
 
-### 10.1 Add a new challenge level to an episode
+### 10.1 Swap a challenge level in an episode
 
-1. Edit `artifacts/{story_id}/{episode_id}/lesson_package.yaml` — append to `levels[]` with a unique `level_id` and next `sequence_index`. Include `answer_options`, `best_answer_id`, `hint` (optional), full `feedback.correct` and `feedback.by_option`.
+The level count is fixed at 3 per episode. To change difficulty, replace one of the existing level entries rather than adding a fourth.
+
+1. Edit `artifacts/{story_id}/{episode_id}/lesson_package.yaml` — replace a `levels[]` entry, keeping `sequence_index` 1/2/3 intact. Include `answer_options`, optional `best_answer_id`, `hint` (optional), full `feedback.correct` and `feedback.by_option`. The new `turn_id` must be distinct from the other 4 slots (modeled + guided warm-ups + other two levels).
 2. Run `python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <path>`.
 3. No code change needed. The runtime picks levels by `sequence_index`; `nextLevel`/`firstLevelId` handle ordering.
 
 ### 10.2 Change medal labeling
 
-- Labels are generated in `src/lib/completion.ts::deriveEarnedBadges`. Edit the template string there; labels are deterministic from `level.sequence_index` + `level.title`. There is no authored per-level override; any `badge_label` field on existing artifacts is legacy and ignored by the runtime.
+- Labels are generated in `src/lib/completion.ts::deriveEarnedBadges`. Edit the template string there; labels are deterministic from `level.sequence_index` + `level.title`. There is no authored per-level override — the former `badge_label` field has been withdrawn and is not read by the runtime.
 - The category system is pluggable: adding a new `BadgeCategory` means extending `Badge`, `countBadgesByCategory`, `groupBadgesByCategory`, and the chip set in `LessonWorkspace.tsx`.
 
 ### 10.3 Add a new scaffold kind (e.g., a second hint tier)

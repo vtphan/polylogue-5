@@ -33,6 +33,8 @@ This should follow:
 - `simplified-framework/docs/instructional-design.md`
 - `simplified-framework/schemas/transcript.yaml`
 
+Transcripts are organized as **2–4 scenes** with nested turns (no top-level `turns[]`, no `setting_note`, no `previously`). Each scene has a `scene_id`, a ≤ 30-word `summary`, and ≥ 1 turn. `turn_id` is globally unique across the whole transcript and strictly increasing, so lesson-package references resolve across scenes.
+
 Validation script:
 
 - `python3 simplified-framework/pipeline/scripts/validate_transcript.py simplified-framework/artifacts/{story_id}/{episode_id}/transcript.yaml`
@@ -100,8 +102,8 @@ After the transcript and flaw review are complete, Claude Code should report to 
 - where the saved flaw-review file is
 - the app-readiness judgment
 - the strongest flaw turns
-- 2 best warm-up candidates if available
-- 3 to 5 best level candidates if available
+- 2 best warm-up candidates (primary flaw; one should be `unmistakable`)
+- 3 best level candidates (primary flaw; one at each of `unmistakable`, `showcased`, `heightened`)
 - why these flaws should be visible to 6th graders
 - any weak or too-subtle flaw moments
 - whether revision is recommended
