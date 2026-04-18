@@ -19,14 +19,20 @@ Aim for plain words, short clauses, concrete nouns. When you are tempted
 by a phrase that feels too elevated, read it aloud — if a 6th grader
 would not say it, rewrite.
 
-**Worked example — ep 1 `episode.summary`.** An earlier draft opened:
-> "In this episode, watch how fast they accept an expert-sounding explanation."
+**Worked example — ep 1 `episode.summary`.** An earlier draft included
+the compound adjective "expert-sounding explanation." That is grade-8+
+vocabulary; the revision replaces it with plain nouns the student
+already knows ("a grad student at the University of Memphis who
+studies animals that come out in unusual colors"). Same setup, lower
+reading load.
 
-The compound adjective "expert-sounding" is grade-8+ vocabulary. The
-revision landed at plain words that carry the same meaning:
-> "In this episode, watch how fast they accept a story that sounds official."
-
-Both sentences say the same thing; the second is readable for the student.
+Separately, avoid telling the student what to notice in the summary.
+Read-phase copy is comprehension-only — orient to characters,
+setting, and situation. Reasoning framing ("watch for someone trusting
+a source too quickly") belongs in the modeled warm-up, not in the
+pre-read surface. This is a spec rule, not a style preference: pre-read
+reasoning primes were deliberately withdrawn in the Phase 2 todo
+because the modeled warm-up already performs that function.
 
 ### 2. Preserve signal phrases verbatim when you quote them.
 
