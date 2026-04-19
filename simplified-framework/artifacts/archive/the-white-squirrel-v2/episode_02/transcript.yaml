@@ -1,0 +1,203 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+characters:
+  - cam
+  - james
+  - leela
+scenes:
+  - scene_id: scene_01
+    summary: The three kids head back to Overton Park. The squirrel from last Saturday replays in their heads, and this time it looks wrong instead of magical.
+    turns:
+      - turn_id: t01
+        speaker: cam
+        text: The park looks completely different today. Everything is gray. I already don't like it.
+      - turn_id: t02
+        speaker: james
+        text: Okay but be honest. Be honest. You have been thinking about it.
+      - turn_id: t03
+        speaker: cam
+        text: Dude, I have been thinking about nothing else.
+      - turn_id: t04
+        speaker: leela
+        text: I dreamed about it.
+      - turn_id: t05
+        speaker: james
+        text: You DREAMED about it? About Zorp?
+      - turn_id: t06
+        speaker: leela
+        text: I dreamed about the squirrel. Not Zorp.
+      - turn_id: t07
+        speaker: james
+        text: We are all walking slower, right? This is a slower walk than last time.
+      - turn_id: t08
+        speaker: cam
+        text: Like — okay. The eyes. The eyes were red, right? But not red like cool red. Red like something was wrong with them.
+      - turn_id: t09
+        speaker: james
+        text: Right? Like irritated. Like when you rub your eye too hard.
+      - turn_id: t10
+        speaker: cam
+        text: And the fur wasn't — it wasn't shiny white. It was kind of washed out. Kind of dingy.
+      - turn_id: t11
+        speaker: leela
+        text: I keep thinking about how fast it went. How it just — poof.
+      - turn_id: t12
+        speaker: james
+        text: Like it didn't want to be looked at.
+      - turn_id: t13
+        speaker: cam
+        text: Something was off. Something was off about it.
+      - turn_id: t14
+        speaker: leela
+        text: The branch is empty. And somehow that feels worse.
+
+  - scene_id: scene_02
+    summary: Cam pulls up a TikTok about a polluted river. James watches it, hands back the phone, and chains out loud from red eyes to toxic water in one breath.
+    turns:
+      - turn_id: t15
+        speaker: cam
+        text: Sit down. Same bench. I found something and I need both of you to watch it before you talk.
+      - turn_id: t16
+        speaker: cam
+        text: Okay wait. Wait. Before you say anything. Watch this.
+      - turn_id: t17
+        speaker: james
+        text: What is it.
+      - turn_id: t18
+        speaker: cam
+        text: Just watch.
+      - turn_id: t19
+        speaker: cam
+        text: Brown river water. Dead fish. Weird heron wing. The text says polluted river in Louisiana and the caption says chemicals are making animals sick.
+      - turn_id: t20
+        speaker: cam
+        text: And the guy who posted it — his bio literally says he covers pollution stuff.
+      - turn_id: t21
+        speaker: james
+        text: Wait. Wait. Let me see that. Let me see it again.
+      - turn_id: t22
+        speaker: james
+        text: Again. I need to watch that again. Okay. No. I already know where this is going.
+      - turn_id: t23
+        speaker: james
+        text: Okay but check this out. The squirrel had red eyes, right, which is irritated, which is like a chemical thing, and this video is literally animals getting messed up from pollution, and that is a river, and we have rivers here, and the park has water, and the squirrel drinks water, so — it has to be the water. It is the water. That is it.
+      - turn_id: t24
+        speaker: cam
+        text: Oh my god.
+      - turn_id: t25
+        speaker: james
+        text: It is the WATER, Cam.
+      - turn_id: t26
+        speaker: leela
+        text: James.
+      - turn_id: t27
+        speaker: james
+        text: No, no, no — the fur was washed out too, you said that, that is a chemical thing, that is bleach in the fur basically, that is — oh my god.
+      - turn_id: t28
+        speaker: leela
+        text: Keep talking if you want. I am looking something up.
+
+  - scene_id: scene_03
+    summary: The theory widens. James pushes from the squirrel to the ducks at the pond, and the scare starts to feel like it might affect real people.
+    turns:
+      - turn_id: t29
+        speaker: james
+        text: I cannot sit down with this theory. I have to pace while I explain it.
+      - turn_id: t30
+        speaker: james
+        text: Because — think about it. Think about it. The pond. The pond is right there.
+      - turn_id: t31
+        speaker: cam
+        text: The pond by the playground?
+      - turn_id: t32
+        speaker: james
+        text: The ducks are in that pond all day, man. They are basically soaking in it. So the ducks are next.
+      - turn_id: t33
+        speaker: cam
+        text: There are little kids right by that water. And dogs. And strollers. That is actually not funny.
+      - turn_id: t34
+        speaker: james
+        text: Exactly. That is what I am saying.
+      - turn_id: t35
+        speaker: james
+        text: The kids. The dogs. Bro. This is — this is Zorp juice, this is bad.
+      - turn_id: t36
+        speaker: cam
+        text: Should we tell somebody? Like — should this be on the news?
+      - turn_id: t37
+        speaker: james
+        text: I am telling you right now, if one duck out there has red eyes, one duck, we are calling somebody.
+      - turn_id: t38
+        speaker: leela
+        text: Can both of you stop for one second and listen when I am ready.
+      - turn_id: t39
+        speaker: leela
+        text: Guys.
+      - turn_id: t40
+        speaker: james
+        text: What.
+      - turn_id: t41
+        speaker: leela
+        text: Hold on.
+
+  - scene_id: scene_04
+    summary: Leela surfaces the Memphis Sand Aquifer from her phone. The water theory cracks. James goes quieter but does not quite let the squirrel go.
+    turns:
+      - turn_id: t42
+        speaker: leela
+        text: Look. City water page. There is a whole diagram here and the word AQUIFER is doing a lot of work.
+      - turn_id: t43
+        speaker: cam
+        text: What am I looking at.
+      - turn_id: t44
+        speaker: leela
+        text: Memphis tap water comes from way underground. It is called the Memphis Sand Aquifer. It is like — a giant clean water layer under the city. Sand filters it.
+      - turn_id: t45
+        speaker: james
+        text: Under the —
+      - turn_id: t46
+        speaker: leela
+        text: Under everything. It is not from the river. The water here is actually famously clean.
+      - turn_id: t47
+        speaker: james
+        text: Okay. I did not expect underground sand science to show up right now.
+      - turn_id: t48
+        speaker: cam
+        text: But the TikTok —
+      - turn_id: t49
+        speaker: leela
+        text: The TikTok was Louisiana. That is a different place. Different river, different rules, different everything.
+      - turn_id: t50
+        speaker: james
+        text: Okay but —
+      - turn_id: t51
+        speaker: leela
+        text: Memphis. Sand. Aquifer.
+      - turn_id: t52
+        speaker: cam
+        text: James sat down so fast I think the bench just learned something.
+      - turn_id: t53
+        speaker: cam
+        text: So it's — not the water.
+      - turn_id: t54
+        speaker: leela
+        text: Not the tap water. Not from the aquifer.
+      - turn_id: t55
+        speaker: james
+        text: I mean — the fur still looked wrong, so something's getting into it from somewhere.
+      - turn_id: t56
+        speaker: cam
+        text: Zorp is not having a good day.
+      - turn_id: t57
+        speaker: james
+        text: Zorp is not having a good WEEK.
+      - turn_id: t58
+        speaker: leela
+        text: That duck over there sounds aggressively normal, by the way.
+      - turn_id: t59
+        speaker: cam
+        text: So what is it then.
+      - turn_id: t60
+        speaker: leela
+        text: I don't know yet.

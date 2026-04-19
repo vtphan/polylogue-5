@@ -1,0 +1,204 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+title: The Walk
+characters:
+  - cam
+  - james
+  - leela
+  - ms_reyes
+scenes:
+  - scene_id: scene_01
+    summary: After class, Leela hangs back and asks Ms. Reyes about the squirrel. Ms. Reyes does not explain it. She asks two questions and goes back to grading.
+    turns:
+      - turn_id: t01
+        speaker: leela
+        text: Ms. Reyes, everybody already left and Cam and James are waiting in the hall, but I need to ask you something weird before I go.
+      - turn_id: t02
+        speaker: leela
+        text: Ms. Reyes. Can I ask you something kind of weird.
+      - turn_id: t03
+        speaker: ms_reyes
+        text: Kind of weird is my favorite kind.
+      - turn_id: t04
+        speaker: leela
+        text: We saw a white squirrel at Overton Park. Red eyes. Like pink-red. And we've been — we've been trying to figure it out for like two weeks and we keep getting it wrong.
+      - turn_id: t05
+        speaker: ms_reyes
+        text: That does sound weird. And it sounds like you want me to skip to the end for you.
+      - turn_id: t06
+        speaker: leela
+        text: Do you know what it is.
+      - turn_id: t07
+        speaker: ms_reyes
+        text: Hm. Let me ask you something first. Are you sure you've looked at the whole park?
+      - turn_id: t08
+        speaker: leela
+        text: I — what?
+      - turn_id: t09
+        speaker: ms_reyes
+        text: And are you sure the squirrels you saw are one big group?
+      - turn_id: t10
+        speaker: ms_reyes
+        text: Start there. Then come back if you still need me.
+
+  - scene_id: scene_02
+    summary: At the park with a map, the kids pin every sighting. Every pin lands on the south side. Leela offers an alternative. James brushes past it.
+    turns:
+      - turn_id: t11
+        speaker: cam
+        text: It is ten in the morning, I am cold, and this map is zoomed in so far I can see every weird little path.
+      - turn_id: t12
+        speaker: cam
+        text: Okay so I dropped a pin for the oak. That's sighting one.
+      - turn_id: t13
+        speaker: james
+        text: Sighting one, classic. That's the branch one. Red eyes. Fake-for-a-second. Poof.
+      - turn_id: t14
+        speaker: leela
+        text: I saw one by the fountain last spring. The one with the lion face on it.
+      - turn_id: t15
+        speaker: cam
+        text: Pin. Dropped.
+      - turn_id: t16
+        speaker: james
+        text: My cousin said she saw one behind the dog park. Like, the fenced part.
+      - turn_id: t17
+        speaker: cam
+        text: Dog park. Pin.
+      - turn_id: t18
+        speaker: leela
+        text: There was one on the bench path. By the green bench. Two summers ago.
+      - turn_id: t19
+        speaker: cam
+        text: Green bench. Pin.
+      - turn_id: t20
+        speaker: cam
+        text: Hold on. All five pins are on the bottom half of the map. Every single one. Nothing on the top half.
+      - turn_id: t21
+        speaker: james
+        text: Wait. Wait wait. Look at this.
+      - turn_id: t22
+        speaker: cam
+        text: I see it. I see it.
+      - turn_id: t23
+        speaker: james
+        text: They're all down here. All of them. Not one up top. Not one.
+      - turn_id: t24
+        speaker: cam
+        text: So — so it's a south thing.
+      - turn_id: t25
+        speaker: leela
+        text: Or maybe we just walk the same paths.
+      - turn_id: t26
+        speaker: james
+        text: No, no, look — it is not paths. The map is the map. They are only here.
+      - turn_id: t27
+        speaker: cam
+        text: Leela thinks we're skipping a step.
+      - turn_id: t28
+        speaker: cam
+        text: We have only ever walked the south loop though.
+      - turn_id: t29
+        speaker: james
+        text: Yeah, but so? It still means they only live on this side of the park. South-side squirrels. Done.
+      - turn_id: t30
+        speaker: leela
+        text: The north half is still blank because we never go there.
+      - turn_id: t31
+        speaker: leela
+        text: We could just go check.
+      - turn_id: t32
+        speaker: james
+        text: Check what.
+      - turn_id: t33
+        speaker: leela
+        text: The other side.
+
+  - scene_id: scene_03
+    summary: They cross to the north side of the park over a footbridge above the highways. No red-eyed squirrels. Leela names the highways as a barrier.
+    turns:
+      - turn_id: t34
+        speaker: cam
+        text: This footbridge is way louder than I remember. Listen to that. It is just cars and trucks and wind.
+      - turn_id: t35
+        speaker: cam
+        text: I have literally never been over here.
+      - turn_id: t36
+        speaker: james
+        text: You only ever see the white ones when it is quiet enough, though. Maybe it is not quiet enough yet.
+      - turn_id: t37
+        speaker: james
+        text: We have been walking up here forever and all we have seen is regular gray squirrels, one brown one, and a chipmunk with no interest in helping.
+      - turn_id: t38
+        speaker: cam
+        text: Nothing. Not one.
+      - turn_id: t39
+        speaker: james
+        text: Okay but maybe they're just — hiding. Maybe today is a hiding day.
+      - turn_id: t40
+        speaker: leela
+        text: The highways.
+      - turn_id: t41
+        speaker: cam
+        text: What about the highways.
+      - turn_id: t42
+        speaker: leela
+        text: The highways cut this forest patch off from the rest of Memphis. The south side is its own little island. The squirrels over there can't really cross. We just walked over a bridge that a squirrel would never walk over.
+      - turn_id: t43
+        speaker: cam
+        text: Oh. So the park is one park for us, but not for them.
+      - turn_id: t44
+        speaker: james
+        text: Oh.
+
+  - scene_id: scene_04
+    summary: The kids text Sophie with plainer questions. She agrees a rare mutation in a cut-off group fits. The joke beat lands. The sighting image is reread.
+    turns:
+      - turn_id: t45
+        speaker: cam
+        text: I'm texting Sophie. Hey Sophie, quick question — if a bunch of squirrels are stuck in one patch of woods cut off by highways, could a rare trait show up more there? White fur, red eyes kind of thing.
+      - turn_id: t46
+        speaker: leela
+        text: That is the first text you have sent about this that sounds like a real question.
+      - turn_id: t47
+        speaker: cam
+        text: She answered.
+      - turn_id: t48
+        speaker: cam
+        text: She says — okay — "Honestly mammals aren't my field, I do stars. But yeah, a rare mutation in a small cut-off group would show up more over time. That fits what you're describing." And then she put a squirrel emoji.
+      - turn_id: t49
+        speaker: james
+        text: A squirrel emoji. From a space scientist.
+      - turn_id: t50
+        speaker: leela
+        text: So it's a mutation. A rare one. And because the highways cut this patch off, a tiny group of squirrels has been making more of themselves in here for a long time. So the rare thing shows up.
+      - turn_id: t51
+        speaker: cam
+        text: Like — if you only had ten people on an island, and one of them had a weird thing, after a while everybody on the island kind of has the weird thing.
+      - turn_id: t52
+        speaker: leela
+        text: Yeah. Basically.
+      - turn_id: t53
+        speaker: james
+        text: These ones are just the ones who will come out for people, I bet. The brave ones.
+      - turn_id: t54
+        speaker: cam
+        text: That is actually the least wild thing you have said this whole month.
+      - turn_id: t55
+        speaker: leela
+        text: Maybe your hair is a mutation too, Cam.
+      - turn_id: t56
+        speaker: cam
+        text: Your NAME is a mutation. Of allele.
+      - turn_id: t57
+        speaker: leela
+        text: That's an anagram.
+      - turn_id: t58
+        speaker: james
+        text: Agree to disagree.
+      - turn_id: t59
+        speaker: leela
+        text: There. On the branch. Same white fur. Same pink-red eyes. Same fake-for-a-second thing. And now it's gone again.
+      - turn_id: t60
+        speaker: james
+        text: Zorp. Buddy. You were just a rare allele this whole time.

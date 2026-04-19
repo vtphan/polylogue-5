@@ -11,16 +11,26 @@ import { simplifiedFrameworkRoot } from "./paths";
 type StoryFile = {
   story_id?: unknown;
   title?: unknown;
+  premise?: unknown;
+};
+
+type CatalogStoryRecord = {
+  storyId: string;
+  title: string;
+  premise: string;
 };
 
 export type CatalogEpisodeRecord = {
   storyId: string;
   episodeId: string;
-  storyTitle: string;
   episodeTitle: string;
   lessonPackagePath: string;
   transcriptPath: string;
   isAvailable: boolean;
+};
+
+export type CatalogEpisodeListItem = CatalogEpisodeRecord & {
+  story: CatalogStoryRecord;
 };
 
 const ARTIFACTS_ROOT = path.join(simplifiedFrameworkRoot(), "artifacts");
@@ -40,14 +50,14 @@ async function readYamlFile<T>(filePath: string): Promise<T | null> {
   }
 }
 
-async function loadStoryTitles(): Promise<Map<string, string>> {
-  const titles = new Map<string, string>();
+async function loadStoryMetadata(): Promise<Map<string, CatalogStoryRecord>> {
+  const stories = new Map<string, CatalogStoryRecord>();
   let entries: string[] = [];
 
   try {
     entries = await fs.readdir(STORIES_ROOT);
   } catch {
-    return titles;
+    return stories;
   }
 
   await Promise.all(
@@ -64,15 +74,25 @@ async function loadStoryTitles(): Promise<Map<string, string>> {
         typeof data.title === "string" && data.title.trim().length > 0
           ? data.title.trim()
           : canonicalId;
+      const premise =
+        typeof data.premise === "string" && data.premise.trim().length > 0
+          ? data.premise.trim()
+          : "";
 
-      titles.set(canonicalId, title);
+      const record: CatalogStoryRecord = {
+        storyId: canonicalId,
+        title,
+        premise,
+      };
+
+      stories.set(canonicalId, record);
       if (canonicalId !== storyId) {
-        titles.set(storyId, title);
+        stories.set(storyId, record);
       }
     }),
   );
 
-  return titles;
+  return stories;
 }
 
 function parseEligibleLessonPackage(rawLessonPackage: unknown): LessonPackage | null {
@@ -89,32 +109,31 @@ function isEligibleEpisodePair(
   lessonPackage: LessonPackage,
   transcript: Transcript,
 ): boolean {
-  const turnMap = new Map<string, { sceneId: string; kind: "dialog" | "action" }>();
+  const turnMap = new Map<string, string>();
 
   for (const scene of transcript.scenes) {
     for (const turn of scene.turns) {
-      turnMap.set(turn.turn_id, { sceneId: scene.scene_id, kind: turn.kind });
+      turnMap.set(turn.turn_id, scene.scene_id);
     }
   }
 
   const seenSceneIds = new Set<string>();
 
   for (const level of lessonPackage.levels) {
-    const turn = turnMap.get(level.turn_id);
-    if (!turn || turn.kind !== "dialog") {
+    const sceneId = turnMap.get(level.turn_id);
+    if (!sceneId) {
       return false;
     }
-    if (seenSceneIds.has(turn.sceneId)) {
+    if (seenSceneIds.has(sceneId)) {
       return false;
     }
-    seenSceneIds.add(turn.sceneId);
+    seenSceneIds.add(sceneId);
   }
 
   return true;
 }
 
 async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
-  const storyTitles = await loadStoryTitles();
   let storyDirs: string[] = [];
 
   try {
@@ -171,7 +190,6 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
           const record: CatalogEpisodeRecord = {
             storyId,
             episodeId,
-            storyTitle: storyTitles.get(storyId) ?? storyId,
             episodeTitle: lessonPackage.episode.title.trim(),
             lessonPackagePath,
             transcriptPath,
@@ -194,13 +212,39 @@ async function discoverEligibleEpisodes(): Promise<CatalogEpisodeRecord[]> {
     );
 }
 
-async function applyCatalogSnapshot(records: CatalogEpisodeRecord[]): Promise<void> {
+async function applyCatalogSnapshot(
+  stories: CatalogStoryRecord[],
+  episodes: CatalogEpisodeRecord[],
+): Promise<void> {
   await prisma.$transaction(async (tx) => {
+    for (const story of stories) {
+      await tx.catalogStory.upsert({
+        where: { storyId: story.storyId },
+        update: {
+          title: story.title,
+          premise: story.premise,
+        },
+        create: story,
+      });
+    }
+
+    if (stories.length === 0) {
+      await tx.catalogStory.deleteMany({});
+    } else {
+      await tx.catalogStory.deleteMany({
+        where: {
+          storyId: {
+            notIn: stories.map((story) => story.storyId),
+          },
+        },
+      });
+    }
+
     await tx.catalogEpisode.updateMany({
       data: { isAvailable: false },
     });
 
-    for (const record of records) {
+    for (const record of episodes) {
       await tx.catalogEpisode.upsert({
         where: {
           storyId_episodeId: {
@@ -209,7 +253,6 @@ async function applyCatalogSnapshot(records: CatalogEpisodeRecord[]): Promise<vo
           },
         },
         update: {
-          storyTitle: record.storyTitle,
           episodeTitle: record.episodeTitle,
           lessonPackagePath: record.lessonPackagePath,
           transcriptPath: record.transcriptPath,
@@ -227,8 +270,16 @@ export async function syncCatalogFromFilesystem(): Promise<void> {
   }
 
   syncPromise = (async () => {
-    const records = await discoverEligibleEpisodes();
-    await applyCatalogSnapshot(records);
+    const [storyMetadata, episodes] = await Promise.all([
+      loadStoryMetadata(),
+      discoverEligibleEpisodes(),
+    ]);
+    const stories = Array.from(
+      new Map(
+        Array.from(storyMetadata.values()).map((story) => [story.storyId, story]),
+      ).values(),
+    ).sort((a, b) => a.storyId.localeCompare(b.storyId));
+    await applyCatalogSnapshot(stories, episodes);
   })();
 
   try {
@@ -238,13 +289,27 @@ export async function syncCatalogFromFilesystem(): Promise<void> {
   }
 }
 
-export async function listCatalogEpisodes() {
+export async function listCatalogEpisodes(): Promise<CatalogEpisodeListItem[]> {
   registerCatalogWatcher();
   await syncCatalogFromFilesystem();
-  return prisma.catalogEpisode.findMany({
-    where: { isAvailable: true },
-    orderBy: [{ storyId: "asc" }, { episodeId: "asc" }],
-  });
+  const [episodes, stories] = await Promise.all([
+    prisma.catalogEpisode.findMany({
+      where: { isAvailable: true },
+      orderBy: [{ storyId: "asc" }, { episodeId: "asc" }],
+    }),
+    prisma.catalogStory.findMany(),
+  ]);
+
+  const storiesById = new Map(stories.map((story) => [story.storyId, story]));
+
+  return episodes.map((episode) => ({
+    ...episode,
+    story: storiesById.get(episode.storyId) ?? {
+      storyId: episode.storyId,
+      title: episode.storyId,
+      premise: "",
+    },
+  }));
 }
 
 function scheduleResync() {

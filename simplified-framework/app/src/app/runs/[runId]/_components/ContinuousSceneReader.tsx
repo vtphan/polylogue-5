@@ -77,7 +77,7 @@ export function ContinuousSceneReader({
           scene_id: scene.scene_id,
           index: index + 1,
           summary: scene.summary,
-          turns: scene.turns.filter((turn) => turn.kind !== "action"),
+          turns: scene.turns,
           level,
         };
       }),

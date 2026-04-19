@@ -1,0 +1,167 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 1
+  schema_version: simplified_v2
+
+episode:
+  title: The Sighting
+  summary: >
+    Three sixth graders at Overton Park in Memphis see a white squirrel
+    with red eyes. It freezes on a branch, then vanishes. Nobody can
+    explain it. Cam pulls up a page for a college student named Sophie
+    and reads it like it has the answer. But does her page really fit
+    the question they are asking?
+  flaws:
+    - trusting_a_source_too_quickly
+    - jumping_to_a_conclusion
+  final_takeaway: >
+    A source that sounds important is not the same as a source that
+    fits your question.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t23
+    title: Stacking up the source
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: What is Cam doing wrong here?
+    hint: >
+      Look at what Cam counts as proof. Is any of it about whether
+      Sophie studies squirrels?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          He is treating a page that looks official as proof, without
+          checking if her field fits the question.
+        kind: best
+      - option_id: opt_b
+        text: He is jumping from red eyes all the way to a big conclusion.
+        kind: distractor
+      - option_id: opt_c
+        text: He does not have enough evidence yet for any answer.
+        kind: distractor
+      - option_id: opt_d
+        text: He is ignoring James and Leela and not sharing what he found.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. Cam stacks up surface cues — first result, the purple
+          logo, a lab photo, the word "space." He never checks if
+          Sophie's field actually studies squirrels.
+      by_option:
+        opt_b: >
+          Cam is not really building a chain of steps. He is pointing
+          at one page and treating the look of it as the answer. The
+          move here is about the source, not a long jump.
+        opt_c: >
+          He does have a source — it just does not fit the question.
+          The problem is not that he has nothing. It is that he
+          trusts what he has before checking the fit.
+        opt_d: >
+          Cam is actually sharing the page with them. He turns the
+          screen so they can see it. This is not about leaving
+          people out.
+    takeaway: >
+      A page that looks official is not the same as a source that
+      fits your question.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t39
+    title: One line, one nod
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: Why is this not yet a good reason to trust Sophie's page?
+    hint: >
+      Cam is leaning on one phrase from the page. What would he still
+      need to check before the phrase counts as evidence?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          One phrase from a page is not enough. Cam has not checked
+          what "unexplained observations" means in her field.
+        kind: best
+      - option_id: opt_b
+        text: Cam has zero evidence and is just guessing out loud.
+        kind: distractor
+      - option_id: opt_c
+        text: Cam is making a joke about aliens like James is.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          Cam is skipping steps from red eyes all the way to a huge
+          conclusion in one breath.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. One line on a page plus "so that's not nothing, right?"
+          is not a fit check. "Unexplained" on a space page probably
+          means unexplained in space, not unexplained squirrels.
+      by_option:
+        opt_b: >
+          He does have something — a real quote from a real page.
+          The problem is not zero evidence. The problem is that the
+          quote does not answer a squirrel question.
+        opt_c: >
+          James is the one riffing on aliens. Cam is trying to point
+          at the page as if it settles things. He is being serious,
+          not joking.
+        opt_d: >
+          That is a different move. Here Cam is not chaining steps.
+          He is pointing at one quote and nodding at it. The flaw is
+          about the source, not a chain.
+    takeaway: >
+      One quote plus a nod is not a fit check. Ask what the words on
+      the page really mean.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t47
+    title: Slipping past as normal
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: What mistake is Cam still making about Sophie?
+    hint: >
+      Cam sounds calm and sure. But he has not answered one question
+      about Sophie's page. Which one?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          He is acting like Sophie is the right expert without
+          checking that her field fits a squirrel question.
+        kind: best
+      - option_id: opt_b
+        text: He is ignoring Leela, who just pulled out her own phone.
+        kind: distractor
+      - option_id: opt_c
+        text: He is making a wild jump from one clue to a huge idea.
+        kind: distractor
+      - option_id: opt_d
+        text: He has no source at all and is only guessing.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. "She literally works on this kind of thing" sounds
+          normal and sure. But Cam has still not checked if Sophie's
+          field is about squirrels. He is trusting the title, not the
+          fit.
+      by_option:
+        opt_b: >
+          Leela is reading too, and Cam is okay with that. The flaw
+          here is not about shutting her out. It is about Cam still
+          trusting Sophie's page without checking the fit.
+        opt_c: >
+          Cam is not stacking a big chain here. He is speaking
+          softly and sounding sure. The move is trusting a source
+          without checking it, not a long jump.
+        opt_d: >
+          He does have a source — Sophie's page. The problem is not
+          that he has nothing. It is that he has not checked whether
+          her field fits the question.
+    takeaway: >
+      A calm, sure voice is not a fit check. A real expert still
+      needs to match your question.

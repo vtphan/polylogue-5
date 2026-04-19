@@ -1,0 +1,186 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 2
+  schema_version: simplified_v2
+
+episode:
+  title: The Water
+  summary: >
+    The three kids are back at Overton Park. The white squirrel replays
+    in their heads, but now it looks wrong, not magical. Cam plays a
+    TikTok about a polluted river. In one breath, James chains from
+    red eyes to "it has to be the water." Does his big idea hold up?
+  previously: >
+    Last time, the kids saw a white squirrel with red eyes. Cam found
+    Sophie's page and read it like an answer. When Leela checked her
+    field, the alien story started to wobble.
+  flaws:
+    - jumping_to_a_conclusion
+    - trusting_a_source_too_quickly
+  final_takeaway: >
+    A big conclusion in one breath is usually a chain with a step missing.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t23
+    title: Chaining in one breath
+    focus_flaw: jumping_to_a_conclusion
+    prompt: What is James doing in this turn?
+    hint: >
+      Count the "and" and "so" words in his line. How many little
+      steps does he stack before the big ending?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          Stacking a lot of small steps in one breath to land a huge
+          conclusion about the water.
+        kind: best
+      - option_id: opt_b
+        text: >
+          Trusting a TikTok he just saw without checking the person
+          who posted it.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          Saying a big thing from only one clip, when he needs more
+          examples first.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          Talking over Leela, who is still checking something on her
+          own phone.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. Count the links — red eyes, irritated, chemical, that
+          river, our park, the squirrel drinks water, so the water.
+          That is a stack of small jumps ending in "it has to be."
+      by_option:
+        opt_b: >
+          Trusting the TikTok is part of the setup, but it is not the
+          move in this line. Here James is the one building a chain
+          out loud, one "and" at a time.
+        opt_c: >
+          The problem is not just one example. It is how he leaps
+          from one clip all the way to the water at this park in a
+          single breath.
+        opt_d: >
+          Leela is quietly checking something, not being shut out.
+          The move in this turn is the long chain, not cutting her
+          off.
+    takeaway: >
+      A chain of "and… and… so" can hide a big jump at the end.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t32
+    title: One bridge, one leap
+    focus_flaw: jumping_to_a_conclusion
+    prompt: >
+      What step did James skip when he moved from "the ducks are in
+      the pond" to "the ducks are next"?
+    hint: >
+      Find the word "so" in his line. What would he need to show
+      before "so the ducks are next" makes sense?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          He never showed that the pond water is bad. He jumps over
+          that step and lands on "the ducks are next."
+        kind: best
+      - option_id: opt_b
+        text: >
+          He has not seen enough sick ducks yet to say anything is
+          wrong.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          He is still leaning on the TikTok without checking who
+          posted it.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          He is not listening to Leela, who is reading on her phone.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. "Ducks are in the pond, so the ducks are next" skips
+          the step in the middle — is the pond water even bad? The
+          "so" is a bridge to nothing.
+      by_option:
+        opt_b: >
+          The move here is not really about how many ducks. It is
+          that one "so" in his sentence skips over a step he never
+          showed.
+        opt_c: >
+          The TikTok started the idea, but in this line James is
+          building past it. The flaw in this turn is the leap, not
+          the source.
+        opt_d: >
+          Leela has not said the aquifer part yet, so he is not
+          ignoring her here. The move is the quick jump from pond to
+          ducks.
+    takeaway: >
+      One "so" can hide a whole step. Name the step before you cross.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t55
+    title: The quiet re-run
+    focus_flaw: jumping_to_a_conclusion
+    prompt: >
+      Even after Leela explained the aquifer, what is James still
+      doing in his last line?
+    hint: >
+      Leela just showed the water is clean. Read his line again —
+      is he really letting that land, or running the same idea at
+      a lower volume?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          Running the same leap quietly — "fur looks wrong, so
+          something is getting into it" — without any new steps.
+        kind: best
+      - option_id: opt_b
+        text: >
+          Ignoring Leela, who just shared new facts about the
+          aquifer.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          Trusting the TikTok again as if it were proof about
+          Memphis.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          Missing a side effect his idea could cause at the park
+          later.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. He sounds calm, not wound up. But "fur looks wrong,
+          so something is getting into it" is the same leap the
+          whole scene just took apart — just quieter.
+      by_option:
+        opt_b: >
+          He did hear Leela — he even sat down. The move is not
+          tuning her out. It is running his old idea again in a
+          softer voice.
+        opt_c: >
+          He is not leaning on the TikTok in this line. He drops the
+          river part. He keeps the jump, just without the source
+          behind it.
+        opt_d: >
+          He is not thinking about side effects here. He is making
+          the same old leap from "looks wrong" straight to "something
+          is in it."
+    takeaway: >
+      A calm voice can still run a jump. Listen for the same leap,
+      quieter.

@@ -1,0 +1,209 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+characters:
+  - cam
+  - james
+  - leela
+scenes:
+  - scene_id: scene_01
+    summary: Three sixth graders at Overton Park spot a white squirrel with red eyes that freezes on a branch and disappears.
+    turns:
+      - turn_id: t01
+        speaker: james
+        text: It is ridiculously bright out here. I can hear, like, three kickball games at once.
+      - turn_id: t02
+        speaker: james
+        text: Okay but check this out — I can hit that trash can from here. Watch. Watch me.
+      - turn_id: t03
+        speaker: james
+        text: Off the rim still counts. That was basically a make.
+      - turn_id: t04
+        speaker: cam
+        text: That was not in. That was so not in.
+      - turn_id: t05
+        speaker: leela
+        text: Rim's the rim.
+      - turn_id: t06
+        speaker: cam
+        text: Why'd you stop.
+      - turn_id: t07
+        speaker: leela
+        text: Guys.
+      - turn_id: t08
+        speaker: leela
+        text: On that branch. Right there. That squirrel is white-white. Like printer paper white. And its eyes are pink-red.
+      - turn_id: t09
+        speaker: james
+        text: What. What. What is that.
+      - turn_id: t10
+        speaker: cam
+        text: Don't move, don't move, don't move —
+      - turn_id: t11
+        speaker: cam
+        text: It looked fake for a second. Like somebody wired a plastic squirrel to the branch. And now it's gone. It is literally gone.
+      - turn_id: t12
+        speaker: james
+        text: Did you see its EYES.
+      - turn_id: t13
+        speaker: cam
+        text: That was not a normal squirrel. That was not a normal squirrel, dude.
+      - turn_id: t14
+        speaker: leela
+        text: It looked fake for a second.
+      - turn_id: t15
+        speaker: james
+        text: Are we really still standing here waiting for it to come back and explain itself.
+
+  - scene_id: scene_02
+    summary: On a park bench, Cam pulls up a college webpage about Sophie and reads her title out loud like it answers everything.
+    turns:
+      - turn_id: t16
+        speaker: cam
+        text: Sit down. Green bench. Phone out. I am looking this up right now.
+      - turn_id: t17
+        speaker: cam
+        text: Okay. Okay. I'm searching. White squirrel red eyes Memphis.
+      - turn_id: t18
+        speaker: james
+        text: Bro type faster.
+      - turn_id: t19
+        speaker: cam
+        text: I am typing as fast as a human can type, James.
+      - turn_id: t20
+        speaker: leela
+        text: You are typing like your thumbs are scared.
+      - turn_id: t21
+        speaker: cam
+        text: Wait. Wait wait wait. Look at this.
+      - turn_id: t22
+        speaker: cam
+        text: University of Memphis page. Purple bar at the top. Lab photo. Headshot. This looks extremely official.
+      - turn_id: t23
+        speaker: cam
+        text: Okay okay okay — this is the first thing that came up, and it's the U of M page, look, purple bar and everything. Sophie Alvarez. There's the lab photo, the headshot, the whole thing. Undergraduate, Astrophysics. She literally studies space stuff, guys. First result, real university, real scientist — that basically settles it.
+      - turn_id: t24
+        speaker: james
+        text: Astro-what.
+      - turn_id: t25
+        speaker: cam
+        text: Astrophysics. Space science.
+      - turn_id: t26
+        speaker: james
+        text: Wait hold on hold on hold on. Space science. Space. You think that squirrel was from —
+      - turn_id: t27
+        speaker: leela
+        text: First doesn't mean right, Cam.
+      - turn_id: t28
+        speaker: cam
+        text: It means something though.
+
+  - scene_id: scene_03
+    summary: James chains out loud from red eyes to aliens and tries bad nicknames until one half-sticks. Cam quotes Sophie's page again.
+    turns:
+      - turn_id: t29
+        speaker: james
+        text: Okay, I need to stand up for this because the thought is too big to sit down with.
+      - turn_id: t30
+        speaker: james
+        text: Okay but check this out. Red eyes, right? So it's not a normal squirrel, so something made it like that, so somebody had to put it there, so it's watching us — that basically proves it's aliens.
+      - turn_id: t31
+        speaker: cam
+        text: Right? Right.
+      - turn_id: t32
+        speaker: leela
+        text: Or albino.
+      - turn_id: t33
+        speaker: james
+        text: Or ALIEN. We should name it. We have to name it. Okay — Sparkle. No. Ghost Nut. No wait — Red-Eye. Too obvious. Uh. Zorp.
+      - turn_id: t34
+        speaker: cam
+        text: Zorp?
+      - turn_id: t35
+        speaker: james
+        text: Zorp. Like, alien. Zorp the Squirrel.
+      - turn_id: t36
+        speaker: leela
+        text: That's so bad.
+      - turn_id: t37
+        speaker: james
+        text: That's why it works. Zorp. Zorp is here. Zorp sees all.
+      - turn_id: t38
+        speaker: cam
+        text: I am laughing at you, but I am also still reading Sophie's page, so keep being ridiculous quietly for one second.
+      - turn_id: t39
+        speaker: cam
+        text: Okay look, it says here she researches unexplained observations. So that's not nothing, right?
+      - turn_id: t40
+        speaker: james
+        text: See? See? Zorp is unexplained. Zorp is high energy.
+      - turn_id: t41
+        speaker: leela
+        text: Don't call it Zorp.
+      - turn_id: t42
+        speaker: james
+        text: Too late. Zorp is canon.
+      - turn_id: t43
+        speaker: leela
+        text: I hate that I almost laughed at that.
+
+  - scene_id: scene_04
+    summary: Leela finally reads Sophie's page herself. She says one flat line that cracks the alien idea without replacing it.
+    turns:
+      - turn_id: t44
+        speaker: leela
+        text: Move over. I am reading her page myself.
+      - turn_id: t45
+        speaker: cam
+        text: What are you doing.
+      - turn_id: t46
+        speaker: leela
+        text: Reading her page.
+      - turn_id: t47
+        speaker: cam
+        text: Oh. Good. Yeah. I mean, she literally works on this kind of thing.
+      - turn_id: t48
+        speaker: james
+        text: I am Zorp. I have come for your bread.
+      - turn_id: t49
+        speaker: leela
+        text: James, please be quiet for one second.
+      - turn_id: t50
+        speaker: leela
+        text: Cam.
+      - turn_id: t51
+        speaker: cam
+        text: What.
+      - turn_id: t52
+        speaker: leela
+        text: Astrophysics is stars. It's not squirrels.
+      - turn_id: t53
+        speaker: cam
+        text: I mean. Okay. I mean.
+      - turn_id: t54
+        speaker: cam
+        text: I mean — unexplained is unexplained though.
+      - turn_id: t55
+        speaker: leela
+        text: Of stars.
+      - turn_id: t56
+        speaker: james
+        text: So Zorp is NOT from space?
+      - turn_id: t57
+        speaker: leela
+        text: I didn't say that. I said she doesn't study squirrels.
+      - turn_id: t58
+        speaker: cam
+        text: Okay. That sounded better before you said it out loud.
+      - turn_id: t59
+        speaker: james
+        text: Okay but it was still weird, right? Like. It was weird.
+      - turn_id: t60
+        speaker: cam
+        text: It was weird.
+      - turn_id: t61
+        speaker: leela
+        text: Yeah. It was weird.
+      - turn_id: t62
+        speaker: james
+        text: Fine. We are leaving with fewer space answers and the same squirrel.

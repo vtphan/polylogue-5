@@ -50,7 +50,7 @@ def load_flaw_ids() -> set[str]:
     return ids
 
 
-def load_transcript_turn_map(package_path: str) -> dict[str, tuple[str, str]]:
+def load_transcript_turn_map(package_path: str) -> dict[str, str]:
     transcript_path = Path(package_path).with_name("transcript.yaml")
     transcript = load_yaml(str(transcript_path))
     if not isinstance(transcript, dict):
@@ -58,7 +58,7 @@ def load_transcript_turn_map(package_path: str) -> dict[str, tuple[str, str]]:
     scenes = transcript.get("scenes")
     if not isinstance(scenes, list):
         raise ValueError("paired transcript.yaml must contain scenes[]")
-    turn_map: dict[str, tuple[str, str]] = {}
+    turn_map: dict[str, str] = {}
     for scene in scenes:
         if not isinstance(scene, dict):
             continue
@@ -71,7 +71,7 @@ def load_transcript_turn_map(package_path: str) -> dict[str, tuple[str, str]]:
                 continue
             turn_id = turn.get("turn_id")
             if isinstance(turn_id, str) and turn_id.strip():
-                turn_map[turn_id.strip()] = (scene_id.strip(), str(turn.get("kind", "dialog")))
+                turn_map[turn_id.strip()] = scene_id.strip()
     return turn_map
 
 
@@ -287,9 +287,7 @@ def validate_lesson_package(path: str) -> int:
         if turn_id not in turn_map:
             errors.append(f"{label} references unknown turn_id '{turn_id}' in paired transcript")
             continue
-        scene_id, kind = turn_map[turn_id]
-        if kind == "action":
-            errors.append(f"{label} references action turn '{turn_id}'; levels must target dialog turns")
+        scene_id = turn_map[turn_id]
         if scene_id in seen_scene_ids:
             errors.append(
                 f"levels may not target two turns in the same scene; {seen_scene_ids[scene_id]} and levels[{index}] both resolve to scene_id '{scene_id}'"

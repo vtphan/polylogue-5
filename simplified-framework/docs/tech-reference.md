@@ -93,13 +93,12 @@ Rules:
 - `scenes[]` length is at least 3
 - each scene has `scene_id`, `summary`, `turns[]`
 - turn ids are globally unique and strictly increasing
-- turns may be `kind: dialog` or `kind: action`
+- turns are dialog-only
 
 Readability contract:
 
 - `scenes[].summary` is in hard-error scope
 - scene-level dialog readability is warning-only
-- action turns are excluded from transcript FK aggregation
 
 ### 5.3 `lesson_package.yaml`
 

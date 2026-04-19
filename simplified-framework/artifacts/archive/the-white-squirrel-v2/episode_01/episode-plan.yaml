@@ -1,0 +1,170 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+
+episode_goal: >
+  Introduce the sighting image (white squirrel, red eyes catching light,
+  frozen on a low branch, fake-for-a-second reaction, quick disappearance)
+  as the memory the group keeps arguing from, and let Cam anchor the
+  alien hypothesis by pulling up Sophie's university page and reading a
+  credentialed-adjacent astrophysics student as if her title alone
+  answered the question they are actually asking. James' alien-nickname
+  riffs make the framing sticky; Leela eventually checks what Sophie
+  actually studies and the framing wobbles. The kids never speak to
+  Sophie directly in this episode. The lesson the student practices is
+  the move of checking who a source is and whether their field fits the
+  question before letting them carry the answer.
+
+student_takeaway: >
+  A source that sounds important is not the same as a source that fits
+  the question you are asking.
+
+flaws:
+  # Primary flaw: trusting_a_source_too_quickly (first appearance → spans u/s/h)
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      Cam pulls up Sophie's university page on his phone and reads it
+      aloud as if her being listed there settles the question. Stack
+      the cues on the source: "it's the U of M page", the lab photo,
+      "she literally studies space stuff", popularity-adjacent framing
+      ("this is the first thing that came up"). The bad reasoning sits
+      on the source, not on Cam; he should sound enthusiastic, not
+      gullible.
+
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      Second citation round, single cue, single frame. Cam quotes
+      something Sophie's page says about her research interests and
+      lets one phrase like "so that's not nothing, right?" carry the
+      move. One weak source citation, one acceptance frame. No stacking.
+
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      Cam's line should pass for normal talk. Use the credentialed-
+      adjacent texture: a grad student in astrophysics quoted as if she
+      is the right expert for a squirrel question. One elevated phrase
+      doing the lifting ("she literally works on this kind of thing").
+      A trained student should catch the move; an untrained one should
+      not feel mocked by it.
+
+  # Supporting flaw: jumping_to_a_conclusion (first appearance in the story → unmistakable)
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_id: scene_03
+    scene_note: >
+      James' alien-nickname chain. "Red eyes, so it's not a normal
+      squirrel, so somebody put it here, so it's a scout, so that
+      basically proves it's aliens." Four or more so-so links in one
+      breath, a quotable signal phrase, the conclusion many steps
+      removed from the base sighting. Each link almost-reasonable on
+      its own; the wrongness is only visible across the whole chain.
+      Lands as bit-energy, not as a serious claim — the lesson is how
+      the bit becomes the group's working theory.
+
+scene_design:
+  opening: >
+    scene_01 — The sighting. Open on the three of them at Overton Park
+    on a Saturday afternoon. The white squirrel freezes on a low
+    branch, the light catches its red eyes, one of them thinks for
+    half a second that somebody stuck a fake squirrel in the tree,
+    James says something stupid about alien surveillance, and then it
+    is gone. The freeze, the red eyes, the fake-for-a-second reaction,
+    and the quick disappearance should all be on the page as concrete
+    images. No phones yet. No flaws yet — this is the memory that
+    every later argument runs from.
+
+  turn: >
+    scene_02 — Cam reaches for his phone. Google-image-hunting on the
+    bench turns up a University of Memphis page for "Sophie," an
+    undergraduate astrophysics major. Cam reads the title aloud and
+    treats the hit as the answer. (Primary flaw: unmistakable.) Then
+    scene_03 — the group riffs. James starts chaining "red eyes → not
+    normal → put there → scout → aliens" while trying out increasingly
+    ridiculous nicknames for the squirrel. One bad nickname half-sticks
+    and will keep resurfacing through the arc. (Support flaw:
+    unmistakable. Primary flaw: showcased on Cam's next citation round.)
+
+  close: >
+    scene_04 — Leela, on her own phone, actually scrolls Sophie's page
+    and reads what astrophysics is. Cam, still trying to hold the
+    frame, makes one more confident citation of Sophie — "she literally
+    works on this kind of thing." (Primary flaw: heightened.) Leela's
+    dry flat line pops the frame: astrophysics is not squirrel biology.
+    The alien theory wobbles without being demolished. They leave the
+    park with the theory cracked but not replaced; the nickname is
+    still in the air; the sighting image is still unexplained.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Ep-1 lead. Phone-native, enthusiastic, the one who brings
+      outside material in. Voice: quick, excitable, reads headlines
+      aloud. Prop: his phone, almost always in his hand; a university
+      page open in a browser tab. Physicality: leans in over the
+      screen, turns it toward the others. Arc note: Cam anchors the
+      alien frame because Sophie's title sounds like the right kind
+      of expert. By the end of the episode the framing wobbles, but
+      he is not yet ready to let it go — he is the one who will bring
+      the next piece of outside material in ep 2.
+
+  - character_id: james
+    beat: >
+      The chainer and the comic. Voice: opener plus stacked links
+      plus closer ("okay but check this out… and then… so… it has to
+      be…"). Prop: no phone yet in this episode; his hands and his
+      mouth do the work. Physicality: gets wound up, gestures big,
+      keeps trying out nicknames. Arc note: James' nickname game is
+      how the alien theory becomes sticky. One ridiculous nickname
+      should half-stick and come back in later episodes as a running
+      joke.
+
+  - character_id: leela
+    beat: >
+      The one with the sharp gut. Voice: quiet, dry, one flat line
+      at a time. Prop: her own phone, used late and deliberately.
+      Physicality: watches the others longer than she talks. Arc note:
+      she is the one who actually reads Sophie's page in scene_04 and
+      lets one flat line crack the alien frame. She does not replace
+      the theory; she just declines to sign off on it. This seeds her
+      ep-3 role as the one who eventually names the missing condition.
+
+flaw_embedding_guidance:
+  must_include:
+    - >
+      The exact sighting image — white squirrel, red eyes catching
+      light, frozen on low branch, fake-for-a-second reaction, quick
+      disappearance — must land in scene_01 as concrete, not summarized.
+    - >
+      Cam cites Sophie's University of Memphis page by title and field
+      (astrophysics / "space stuff") without checking whether her field
+      fits a squirrel question. The page is read, not Sophie herself.
+    - >
+      James runs an alien chain out loud with a quotable signal phrase
+      and tries out at least one ridiculous nickname that half-sticks.
+    - >
+      Leela actually reads what astrophysics is and pops the frame with
+      one dry flat line in scene_04.
+
+  avoid:
+    - >
+      Any direct on-stage dialogue with Sophie. In ep 1 the kids only
+      read her page. Do not let her appear, text, email, or phone in.
+    - >
+      Any adult (parent, teacher, ranger) explaining the flaw to the
+      kids. The alien frame should wobble because Leela reads the
+      page, not because a grown-up corrects anyone.
+    - >
+      Treating the flaw as the character. Cam is not stupid and Sophie
+      is not fake. The move being practiced is trusting the title
+      before checking the fit.
+    - >
+      Resolving the mystery. The squirrel stays unexplained at the
+      end of ep 1.
+
+target_teachable_moments: 4

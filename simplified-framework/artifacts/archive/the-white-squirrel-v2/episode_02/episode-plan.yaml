@@ -1,0 +1,179 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+
+episode_goal: >
+  The same sighting image returns, but re-read as alarm instead of
+  uncanny — the red eyes look irritated, the white fur looks washed
+  out, the quick disappearance feels like something is off. Cam shows
+  the group a TikTok about a polluted river in Louisiana where animals
+  looked sick, and James chains, in one breath, "red eyes, and
+  mutations, and that river, and our squirrel, so it has to be the
+  water." The disproof is local and visible: Memphis tap water comes
+  from the Memphis Sand Aquifer, famously clean, and the TikTok was
+  a different place under different conditions. The lesson the student
+  practices is slowing down a big conclusion built out of fast little
+  jumps and naming the step that is missing.
+
+student_takeaway: >
+  A big conclusion in one breath is usually a chain with a step missing.
+
+flaws:
+  # Primary flaw: jumping_to_a_conclusion (second episode it appears → u/s/h spread)
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      James' signature shape — "okay but check this out… red eyes… and
+      mutations… and that river… and our squirrel… so it has to be the
+      water." Four or more so-so links in one breath, a quotable
+      closer ("it has to be"), the conclusion many steps removed from
+      the base observation (a TikTok about a different river). Each
+      link should feel almost-reasonable on its own; the wrongness is
+      visible when the whole chain is read at once.
+
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      A single visible leap. James widens the claim from the squirrel
+      to the people at the park: "the ducks at the pond drink this
+      water, so the ducks are next." One bridge missing (ducks at the
+      pond are not drinking tap water from the aquifer), one signal
+      phrase ("it has to be" / "so that means"). Resist stacking a
+      second jump.
+
+  - focus_flaw: jumping_to_a_conclusion
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      After the disproof lands, James is quieter but still leans in
+      with a casual confident line that skips one identifiable step —
+      e.g., "I mean the squirrel's fur still looks wrong, so something
+      is getting into it somewhere." Reads as reasonable until
+      paraphrased back. No overt signal phrase; the confidence carries
+      the move. The flaw is in what step was skipped, not in the line
+      being absurd.
+
+  # Supporting flaw: trusting_a_source_too_quickly (re-appearance; primary at u/s/h in ep 1 → support here at heightened)
+  - focus_flaw: trusting_a_source_too_quickly
+    amplification: heightened
+    scene_id: scene_02
+    scene_note: >
+      Keep this brief — one line, do not compete with the primary.
+      Cam frames the TikTok with credentialed-adjacent texture ("the
+      guy in the video is an environmental reporter" or "his bio says
+      he covers pollution"). One elevated phrase doing the lifting.
+      Passes for normal talk; a trained student catches the move. Do
+      not let Cam stack popularity cues here — that would drift into
+      showcased or unmistakable and take oxygen from the primary.
+
+scene_design:
+  opening: >
+    scene_01 — Back at the park, or on the way to it. The sighting
+    image returns in memory, but the texture shifts: the red eyes
+    read as irritated now, the white fur looks washed out, the quick
+    disappearance feels like something is off. Reuse the exact same
+    details that landed in ep 1 scene_01 — only the valence changes.
+    Set this up before any TikTok appears so the chain has somewhere
+    to land.
+
+  turn: >
+    scene_02 — Cam plays the TikTok. It is a short clip about a
+    polluted river in Louisiana; animals in the footage look sick.
+    Cam frames the poster with one credentialed-adjacent line
+    (supporting flaw: heightened). James takes the phone, then does
+    not even need the phone — he runs the chain out loud in one
+    breath: "red eyes, and mutations, and that river, and our
+    squirrel, so it has to be the water." (Primary flaw: unmistakable.)
+    The theory lands with real weight because it sounds like it could
+    affect real people now.
+    scene_03 — The scare widens. James pushes the chain one step
+    further to the ducks at the pond and the little kids at the
+    playground. (Primary flaw: showcased.) Leela starts checking
+    something on her phone.
+
+  close: >
+    scene_04 — The disproof, local and visible. Leela surfaces the
+    Memphis Sand Aquifer — Memphis tap water is famously clean, and
+    the TikTok was a different place under different conditions. The
+    pollution theory wobbles. James, not quite done, lands a quieter
+    casual-confident line about the squirrel's fur still looking
+    wrong. (Primary flaw: heightened.) The group does not yet have
+    the real explanation, but the water theory does not survive the
+    scene. The sighting image is still unexplained, still strange,
+    but now stranger in a way that needs a better frame, not a bigger
+    one.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Supporting role this episode. Voice: still quick, still
+      enthusiastic, but the phone is starting to feel like a pile of
+      sources rather than one source — he just cannot quite name it
+      yet. Prop: the phone, playing the TikTok, then quiet for most
+      of the disproof scene. Physicality: hands the phone to James,
+      which is the small visible handoff of narrative momentum from
+      ep-1 lead to ep-2 lead. Arc note: Cam learns, implicitly, that
+      a credentialed-adjacent-looking poster is not automatically the
+      right source for the question.
+
+  - character_id: james
+    beat: >
+      Ep-2 lead. Voice: the chainer in full flight — opener, stacked
+      links, closer — then quieter after the disproof but still
+      leaning. Prop: briefly Cam's phone, then his own hands. Physicality:
+      wound up, gesturing big in the chain scenes; leans back, quieter,
+      in the disproof. Arc note: his chains do not disappear when the
+      water theory dies — his ep-3 arc is letting someone finish a
+      thought before he jumps, but that growth is later. The
+      half-stuck alien nickname from ep 1 should resurface at least
+      once as a running joke, aimed at himself now.
+
+  - character_id: leela
+    beat: >
+      The one who quietly checks. Voice: dry, flat, one line at a
+      time, and the one line that surfaces the aquifer is the hinge
+      of the scene. Prop: her own phone — the search that turns up
+      the aquifer. Physicality: head down in her phone while James
+      is chaining; looks up only when she has something. Arc note:
+      this episode sets up her ep-3 role. She is the one who finds
+      the disproof here; in ep 3 she will be the one who names the
+      missing condition. Same instinct, bigger reach.
+
+flaw_embedding_guidance:
+  must_include:
+    - >
+      The sighting image returns in scene_01 with the alarm re-read —
+      red eyes read as irritated, white fur as washed out, quick
+      disappearance as something being off. Reuse the exact ep-1
+      details.
+    - >
+      James runs the signature chain in one breath with at least four
+      "so/and" links and a quotable closer like "it has to be."
+    - >
+      Cam frames the TikTok with one credentialed-adjacent line — one
+      line only, not a stacked pitch.
+    - >
+      The disproof is local and concrete: the Memphis Sand Aquifer is
+      named in plain language and the TikTok's different place /
+      different conditions is surfaced by the kids, not by a grown-up.
+    - >
+      The half-stuck alien nickname from ep 1 resurfaces at least once.
+
+  avoid:
+    - >
+      Any on-stage teacher, parent, or ranger explaining the aquifer.
+      Leela surfaces it from her phone; the kids do the work.
+    - >
+      Stacking popularity or million-view cues on the TikTok. The
+      supporting flaw is heightened, not showcased. Keep it to one
+      credentialed-adjacent line.
+    - >
+      Resolving the mystery. The real answer is for ep 3. Ep 2 ends
+      with the water theory dead and the squirrel still unexplained.
+    - >
+      Talking to Sophie directly. The kids still have not contacted
+      her on stage; that beat is earned in ep 3.
+
+target_teachable_moments: 4

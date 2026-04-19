@@ -1,29 +1,10 @@
 import { z } from "zod";
 
-const transcriptTurnSchema = z
-  .object({
-    turn_id: z.string().min(1),
-    speaker: z.string().min(1).optional(),
-    text: z.string().min(1),
-    kind: z.enum(["dialog", "action"]).default("dialog"),
-  })
-  .superRefine((turn, ctx) => {
-    if (turn.kind === "dialog" && !turn.speaker) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["speaker"],
-        message: "dialog turns must include speaker",
-      });
-    }
-
-    if (turn.kind === "action" && turn.speaker) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        path: ["speaker"],
-        message: "action turns must omit speaker",
-      });
-    }
-  });
+const transcriptTurnSchema = z.object({
+  turn_id: z.string().min(1),
+  speaker: z.string().min(1),
+  text: z.string().min(1),
+});
 
 const transcriptSceneSchema = z.object({
   scene_id: z.string().min(1),

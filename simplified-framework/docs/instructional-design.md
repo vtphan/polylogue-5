@@ -136,7 +136,7 @@ The transcript is source story text only.
 - `scenes[]` length is 3+
 - each scene has `scene_id`, `summary`, `turns[]`
 - turns use globally unique, increasing `turn_id`s
-- turns may be `kind: dialog` or `kind: action`
+- turns are dialog-only
 
 The transcript does not contain analytic labels, answer keys, or packaged teaching text.
 
@@ -183,7 +183,6 @@ Validator-backed readability rule:
 
 - scaffolding prose hard-fails above grade 6
 - dialog text is warning-only
-- action turns are exempt from transcript FK aggregation
 - FK scoring uses a fixed 30-word minimum sample
 
 ## 8. Pipeline Roles

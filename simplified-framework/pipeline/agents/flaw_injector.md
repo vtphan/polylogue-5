@@ -21,13 +21,13 @@ Produce `transcript.yaml` so that:
 
 ## Authority
 
-You may revise turns, add turns, cut turns, and add action beats.
+You may revise turns, add turns, and cut turns.
 
 You may **not** reorder scene boundaries.
 
 You must preserve the screenwriter's narrative texture unless a local revision is needed to land the planned flaw mix.
 
-Keep sensory anchors, transitions, friction, props, and running threads intact where possible.
+Keep sensory anchors, transitions, friction, and running threads intact where possible, but express them through dialogue rather than stage directions.
 
 ## Downstream-App Constraints
 

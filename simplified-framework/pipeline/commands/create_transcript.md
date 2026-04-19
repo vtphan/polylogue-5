@@ -94,7 +94,7 @@ Responsibilities:
 
 - draft a natural narrative transcript from the story and the screenwriter-safe projection of the episode plan
 - preserve character voice
-- build strong scenes with clear transitions, sensory grounding, and action beats where useful
+- build strong scenes with clear transitions and sensory grounding carried through dialogue
 - create scenes that can later support inline quizzes without sounding instructional
 
 Required file output:

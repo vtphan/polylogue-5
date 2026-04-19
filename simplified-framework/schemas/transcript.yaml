@@ -7,8 +7,7 @@
 # has a plain-language summary and 1+ turns; turn_id is globally unique
 # across the whole transcript so lesson_package.yaml references keep working.
 # FK readability hard-fails scene summaries and only warns on aggregated
-# dialog prose once a scene has at least 30 dialog words; action turns are
-# exempt from that dialog aggregate.
+# scene dialogue once a scene has at least 30 words.
 
 type: object
 required:
@@ -46,14 +45,11 @@ properties:
           type: array
           items:
             type: object
-            required: [turn_id, text]
+            required: [turn_id, speaker, text]
             properties:
               turn_id:
                 type: string
                 description: tNN; unique across the whole transcript, strictly increasing.
-              kind:
-                type: string
-                enum: [dialog, action]
               speaker:
                 type: string
               text:

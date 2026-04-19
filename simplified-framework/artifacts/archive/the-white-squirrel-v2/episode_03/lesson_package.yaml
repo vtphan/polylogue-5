@@ -1,0 +1,183 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 3
+  schema_version: simplified_v2
+
+episode:
+  title: The Walk
+  summary: >
+    Leela asks Ms. Reyes about the squirrel. Ms. Reyes will not give
+    the answer. She asks if the kids have walked the whole park. So
+    the kids map every sighting, notice all their pins are on one
+    side, and head north to see for themselves.
+  previously: >
+    Last time, the kids blamed the water. James stacked a fast chain
+    from a TikTok to "it has to be the water." Leela checked the
+    aquifer, and the chain fell apart.
+  flaws:
+    - missing_important_conditions_or_consequences
+    - ignoring_another_perspective
+  final_takeaway: >
+    A pattern in what you have walked is not a pattern in the whole place.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t29
+    title: Walked vs. lived
+    focus_flaw: missing_important_conditions_or_consequences
+    prompt: What big condition is James leaving out when he says where the squirrels live?
+    hint: >
+      Cam just said it one turn before. They have only walked one
+      side of the park. What does that do to the map?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          That they only ever walked the south side. Every pin is
+          there because that is where they looked, not where the
+          squirrels live.
+        kind: best
+      - option_id: opt_b
+        text: >
+          That Leela thinks they are skipping a step, and he cuts
+          her off when she says it.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          That five sightings is not many. He needs way more pins
+          before he can say anything.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          That Sophie studies stars, not squirrels, so her page
+          cannot really answer this.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. The pins are on the south side because the kids only
+          walked the south side. "Where we walked" is not the same
+          as "where they live." That is the condition he skipped.
+      by_option:
+        opt_b: >
+          James does brush past Leela, but that is a different move.
+          This turn is about a missing condition — the north half of
+          the park is blank because they never went there.
+        opt_c: >
+          Five pins is actually a lot for three kids. The problem is
+          not how many, it is where they looked. They only walked one
+          side, so of course every pin is on one side.
+        opt_d: >
+          Sophie is not in this turn. The gap here is about the park,
+          not the source. He forgot that they only walked half of it.
+    takeaway: >
+      Where you walked is not where they live. Name that gap out loud.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t36
+    title: The quiet-enough rule
+    focus_flaw: missing_important_conditions_or_consequences
+    prompt: What does James quietly assume when he blames the noise?
+    hint: >
+      He turns "we have not seen any yet" into a rule about quiet.
+      What would have to be true for that rule to actually work?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          That quiet is really what makes the white squirrels come
+          out. He never checked if quiet is the reason at all.
+        kind: best
+      - option_id: opt_b
+        text: >
+          That the group has not walked long enough yet, so they
+          need to keep going for another hour.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          That Leela is wrong about the north side, so there must be
+          white squirrels here somewhere.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          That the TikTok about the polluted water was right all
+          along, and the squirrels are hiding from it.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. "You only see them when it is quiet" sounds like a
+          rule, but it is a guess. He never checked that quiet is
+          the reason. He turns a guess into a condition.
+      by_option:
+        opt_b: >
+          Time is not his claim here. He is saying quiet is the
+          rule. The gap is that he never checked if quiet is
+          actually doing any of that work.
+        opt_c: >
+          He is not arguing with Leela in this turn. He is making up
+          a rule about noise. The flaw is the hidden "if quiet" that
+          he never tested.
+        opt_d: >
+          The water idea is from last week. This turn is a new
+          guess about noise that he slips in as if it were a known
+          rule.
+    takeaway: >
+      "You only see them when…" hides a rule nobody has checked yet.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t53
+    title: The brave ones
+    focus_flaw: missing_important_conditions_or_consequences
+    prompt: What is James quietly turning into a personality trait?
+    hint: >
+      He only sees the squirrels that show up. Which squirrels are
+      missing from that list, and what is he calling the ones he
+      does see?
+    answer_options:
+      - option_id: opt_a
+        text: >
+          The squirrels he happens to see. He calls them "brave,"
+          but he is really just describing the ones that come close
+          enough to be spotted.
+        kind: best
+      - option_id: opt_b
+        text: >
+          The mutation Sophie just confirmed. He is saying the gene
+          is what makes them brave.
+        kind: distractor
+      - option_id: opt_c
+        text: >
+          Leela's highway idea. He is hinting that the bridge is
+          what makes the squirrels bold.
+        kind: distractor
+      - option_id: opt_d
+        text: >
+          The north-side squirrels. He is calling the gray ones
+          shy because they stayed hidden.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >
+          Yes. He only ever sees the squirrels that come out. The
+          shy ones are invisible to him. Calling the visible ones
+          "brave" sneaks in a condition he never checked.
+      by_option:
+        opt_b: >
+          Sophie talked about a rare trait, not a brave gene. James
+          is adding a personality on top of the squirrels he happens
+          to see.
+        opt_c: >
+          The highways are why the group is cut off, not why any
+          one squirrel is brave. He is labeling the ones he can
+          see, not the bridge.
+        opt_d: >
+          He is not really talking about the north side here. He is
+          giving a trait to the ones he keeps running into, and
+          missing the ones that hide.
+    takeaway: >
+      "The brave ones" can quietly mean "the ones I happened to see."

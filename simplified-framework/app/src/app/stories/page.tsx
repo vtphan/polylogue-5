@@ -55,7 +55,8 @@ export default async function StoriesPage() {
     Array<{
       storyId: string;
       episodeId: string;
-      storyTitle: string;
+      storyHeading: string;
+      premise: string;
       episodeTitle: string;
       summary: string;
       previously: string | null;
@@ -70,18 +71,19 @@ export default async function StoriesPage() {
     const stateLabel = run ? "Resume" : "Read";
     const blurb = blurbByKey.get(key);
 
-    const bucket = grouped.get(episode.storyTitle) ?? [];
+    const bucket = grouped.get(episode.storyId) ?? [];
     bucket.push({
       storyId: episode.storyId,
       episodeId: episode.episodeId,
-      storyTitle: episode.storyTitle,
+      storyHeading: episode.story.title,
+      premise: episode.story.premise,
       episodeTitle: episode.episodeTitle,
       summary: blurb?.summary ?? "",
       previously: blurb?.previously ?? null,
       stateLabel,
       starsEarned: run?.starsEarned ?? 0,
     });
-    grouped.set(episode.storyTitle, bucket);
+    grouped.set(episode.storyId, bucket);
   }
 
   return (
@@ -95,12 +97,13 @@ export default async function StoriesPage() {
       </header>
 
       <div className="stack">
-        {Array.from(grouped.entries()).map(([storyTitle, storyEpisodes]) => (
-          <section key={storyTitle} className="panel stack">
+        {Array.from(grouped.entries()).map(([storyId, storyEpisodes]) => (
+          <section key={storyId} className="panel stack">
             <div className="home-section-heading">
               <div>
                 <p className="eyebrow">Story</p>
-                <h2>{storyTitle}</h2>
+                <h2>{storyEpisodes[0]?.storyHeading}</h2>
+                {storyEpisodes[0]?.premise ? <p>{storyEpisodes[0].premise}</p> : null}
               </div>
             </div>
 

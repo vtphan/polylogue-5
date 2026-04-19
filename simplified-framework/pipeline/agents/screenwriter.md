@@ -23,23 +23,23 @@ Produce a narrative draft that:
 - sounds like a believable middle-school conversation
 - preserves distinct character voices
 - follows the episode plan projection
-- builds strong scenes with clear turns, action, and momentum
+- builds strong scenes with clear turns, momentum, and dialogue-carried texture
 - gives the downstream flaw injector enough structure to land quiz-worthy moments without rewriting the whole episode
 
 ## Narrative-Texture Rules
 
 1. Every scene needs at least one sensory anchor.
-2. Scene changes need a felt transition line or action beat.
-3. Non-dialog action beats belong in the transcript when they help pacing or texture.
+2. Transcripts must stand on their own through dialogue only. Setting, silence, physical action, and emotional shifts all need to travel through what characters say, not stage directions.
+3. Scene changes need a felt transition line inside the dialogue.
 4. Plant some friction every few turns so scenes do not flatten into agreement.
-5. Give pivots a reaction beat before the next argument starts.
-6. Keep characters physically differentiated with props, gestures, or habits.
+5. Give pivots a spoken reaction before the next argument starts.
+6. Keep characters differentiated through voice, habits, and what they notice.
 7. Show why the characters care early in scene 1.
 8. If the projection names a running thread, plant or pay it off in the draft.
 
 ## Register Rules
 
-1. Aim at 6th-grade comprehensibility in narration and scene summaries.
+1. Aim at 6th-grade comprehensibility in dialogue and scene summaries.
 2. If dialogue needs a technical word, have a character flag it as unfamiliar or paraphrase it nearby.
 3. Do not lean on abstract analyst wording to make a moment legible.
 

@@ -18,10 +18,19 @@ model Student {
   @@map("students")
 }
 
+model CatalogStory {
+  storyId   String   @id @map("story_id")
+  title     String
+  premise   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("catalog_stories")
+}
+
 model CatalogEpisode {
   storyId           String           @map("story_id")
   episodeId         String           @map("episode_id")
-  storyTitle        String           @map("story_title")
   episodeTitle      String           @map("episode_title")
   lessonPackagePath String           @map("lesson_package_path")
   transcriptPath    String           @map("transcript_path")

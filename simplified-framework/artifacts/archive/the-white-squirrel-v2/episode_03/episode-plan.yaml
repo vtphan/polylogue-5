@@ -1,0 +1,212 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+title: The Walk
+
+episode_goal: >
+  The kids find the real answer themselves. Leela catches Ms. Reyes
+  after class; Ms. Reyes nudges without explaining ("are you sure you
+  have looked at the whole park, are you sure the squirrels you saw
+  are one big group?"). The group maps their sightings, realizes they
+  have only ever walked the south side of Overton Park, walks the
+  north side, and finds no red-eyed squirrels there. Leela names what
+  has been sitting next to them the whole time: the highways cut this
+  forest patch off from the rest of Memphis. Then they go back to
+  Sophie with plainer questions. She admits her field is not mammal
+  biology, but agrees a rare mutation in a small cut-off group fits
+  what the kids found. The final joke beat lands only AFTER the real
+  explanation — hair / mutation / allele / anagram / "agree to
+  disagree." This episode circles back to the opening sighting image
+  and shows why it felt impossible before the kids had the right frame.
+  The lesson the student practices is noticing the missing condition
+  behind a pattern — that a pattern in what you have walked is not a
+  pattern in the whole place.
+
+student_takeaway: >
+  A pattern in what you have walked is not a pattern in the whole place.
+
+flaws:
+  # Primary flaw: missing_important_conditions_or_consequences (first appearance at this level → u/s/h spread, kid-surfaced, not teacher-explained)
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      Set up the missing condition visibly in one turn, then let the
+      flaw land in the very next turn. Cam or James laminates the map
+      in front of them — "we've only ever walked the south loop" —
+      and then the next line lands the universal claim: "so the
+      red-eyed ones only live here" or "so they're only on this side
+      of the park." The contradiction between "we've only walked" and
+      "they only live" should be sayable by a 6th grader in one short
+      sentence. This is the kid-surfaced version; Ms. Reyes does not
+      appear in this turn.
+
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: showcased
+    scene_id: scene_03
+    scene_note: >
+      On the north-side walk. One casual generalization that quietly
+      assumes a condition a careful listener notices — e.g., "you only
+      ever see them when it's quiet enough, that's when they come
+      out." Small generalizer, one short sentence to name the missed
+      condition (time of day / side of park / how they sample). No
+      adjacent setup turn this time; the condition is catchable by a
+      careful student.
+
+  - focus_flaw: missing_important_conditions_or_consequences
+    amplification: heightened
+    scene_id: scene_04
+    scene_note: >
+      After Leela names the highways-as-barrier, and after the real
+      explanation has landed, one of the kids — ideally James — drops
+      a casual confident line whose limiting condition does hidden
+      load-bearing work. Something like "these ones are just the most
+      curious squirrels I've ever met" or "these ones are the ones
+      who'll come out for people." Genuinely subtle; catchable on a
+      reread. Do not over-signal — at this level the flaw is in the
+      casualness.
+
+  # Supporting flaw: ignoring_another_perspective (first appearance → unmistakable, one planned moment only)
+  - focus_flaw: ignoring_another_perspective
+    amplification: unmistakable
+    scene_id: scene_02
+    scene_note: >
+      Leela or Cam floats an alternative out loud — "or maybe we just
+      walk the same paths" or "or maybe we've only ever looked here"
+      — in the immediately preceding turn, and James talks over it
+      with a hard signal phrase: "no, no, it's the whole park, that's
+      the thing." The alternative has to be visible to the reader.
+      The dismissal has to happen in the same exchange. This is the
+      story's first planned ignoring-another-perspective moment, so
+      keep it clean: one alternative offered, one brush-past, same
+      scene.
+
+scene_design:
+  opening: >
+    scene_01 — Leela catches Ms. Reyes after class. Ms. Reyes does
+    NOT explain the squirrel. She asks two nudging questions: "are
+    you sure you have looked at the whole park" and "are you sure
+    the squirrels you saw are one big group." Then she goes back to
+    whatever she was doing. The episode should make it obvious that
+    the teacher withholds the answer on purpose. Open scene_01 on
+    this nudge so the rest of the episode is the kids doing the work.
+
+  turn: >
+    scene_02 — The map. The three of them at the park with a park
+    map, laminated or on a phone, marking every sighting they can
+    remember. It becomes visible on the map that every pin is on the
+    south side. One of them offers the alternative ("or maybe we just
+    walk the same paths") — supporting flaw lands here. James
+    overtalks the alternative with a hard signal phrase. Then the
+    base observation ("we've only ever walked the south loop") sits
+    next to the universal claim ("so they only live here") — primary
+    flaw: unmistakable.
+    scene_03 — The north-side walk. They actually walk the north
+    side. No red-eyed squirrels there. Leela names it: the highways
+    cut this forest patch off. Along the walk, one of them drops the
+    primary flaw at showcased — a casual "you only ever see them when
+    it's quiet" kind of line.
+
+  close: >
+    scene_04 — Back to Sophie, this time with plainer questions.
+    Sophie (off-stage — texts, emails, or one-sided phone) admits her
+    field is not mammal biology, but agrees that a rare mutation in a
+    small cut-off group fits what the kids found. The kids assemble
+    the plain-language answer themselves: a rare mutation, a forest
+    patch cut off by highways, a small cut-off group where rare
+    things show up more often over time. AFTER that lands cleanly,
+    the final joke beat: Leela says maybe Cam's hair is a mutation
+    too, Cam shoots back that her name is a mutation of "allele,"
+    Leela says it is an anagram, James ends with "agree to disagree."
+    Somewhere inside this scene, a casual confident line lands the
+    primary flaw at heightened. Then circle back to the opening
+    sighting image from ep 1 scene_01 — same freeze, same red eyes,
+    same fake-for-a-second reaction, same quick disappearance — and
+    show why it felt impossible before the kids had the right frame.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Still phone-native, but the phone is now a tool of triangulation
+      — the park map, the sighting pins, the plain-question text to
+      Sophie. Voice: still quick and enthusiastic, but less certain,
+      more checking. Prop: phone, but now used to zoom in on the park
+      map and to draft a shorter message to Sophie. Physicality:
+      less leaning-forward-over-the-screen, more head-up-checking.
+      Arc note: Cam has ended the arc understanding the phone is a
+      pile of sources, not a source. He does not announce this; it
+      shows in the plainness of the message he sends Sophie.
+
+  - character_id: james
+    beat: >
+      His chains are not gone, but he lets other people finish a
+      thought more often. Voice: still the comic, still the chainer,
+      but the stacked "so→so→so" deflates into one-jump shapes and
+      casual-confident shapes. Prop: the laminated or screen map he
+      keeps pointing at. Physicality: big gestures, but more pauses
+      between them. Arc note: he is the one who talks over the
+      alternative in scene_02 (supporting flaw) and the one who lands
+      the heightened primary flaw in scene_04. The half-stuck alien
+      nickname from ep 1 resurfaces as a self-deprecating callback
+      after the real explanation has landed. He closes the story
+      with "agree to disagree."
+
+  - character_id: leela
+    beat: >
+      Ep-3 lead. Voice: still dry, still flat, but she is the one who
+      names the highways-as-barrier, which is the hinge of the
+      episode. Prop: none, really — her voice is the prop. Physicality:
+      she is the quietest; the others stop to listen when she talks.
+      Arc note: the virtue and the flaw share a root — the same sharp
+      gut that catches other people's reasoning is the thing that let
+      her walk only the south loop for years. She is the one who
+      sees the missing condition precisely because she is the one who
+      was inside it.
+
+flaw_embedding_guidance:
+  must_include:
+    - >
+      Ms. Reyes appears only in scene_01 and only nudges with two
+      questions. She does not explain the squirrel, and she does not
+      reappear to validate the kids' answer later.
+    - >
+      The kids map their sightings visibly and see on the map that
+      every pin is on the south side. The missing condition is
+      something a 6th grader can name in plain language.
+    - >
+      Leela names the highways-as-barrier. That sentence has to land
+      on-stage and from her mouth.
+    - >
+      Sophie reappears off-stage with plainer questions from the kids
+      and admits her field is not mammal biology, then agrees that a
+      rare mutation in a small cut-off group fits.
+    - >
+      The final joke beat — hair / mutation / allele / anagram /
+      "agree to disagree" — lands ONLY after the real explanation has
+      landed cleanly.
+    - >
+      The opening sighting image is revisited at the end: the freeze,
+      the red eyes catching light, the fake-for-a-second reaction,
+      the quick disappearance — re-read as a real rare trait in a
+      small cut-off group.
+
+  avoid:
+    - >
+      Any scene in which Ms. Reyes explains the answer. Her role is
+      to nudge and leave.
+    - >
+      Adults arriving to confirm the kids' conclusion. Sophie's
+      off-stage confirmation is specific and bounded ("fits what you
+      found"), not a blessing on everything the kids said.
+    - >
+      Letting the primary-flaw heightened moment become a
+      teacher-style aside. The casualness is the whole point.
+    - >
+      Stacking the supporting flaw. Exactly one planned ignoring-
+      another-perspective moment, in scene_02, same exchange, visible
+      alternative, hard brush-past.
+    - >
+      Relitigating the water theory or the alien theory at length.
+      One light callback each is fine; they are not the subject of
+      this episode.
+
+target_teachable_moments: 4

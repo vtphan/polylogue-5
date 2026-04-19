@@ -33,14 +33,14 @@ ALLOWED_TRANSCRIPT_KEYS = {
 
 ALLOWED_SCENE_KEYS = {"scene_id", "summary", "turns"}
 
-ALLOWED_TURN_KEYS = {"turn_id", "kind", "speaker", "text"}
+ALLOWED_TURN_KEYS = {"turn_id", "speaker", "text"}
 
 SCENE_SUMMARY_WORD_CAP = 30
 
 MIN_SCENES = 3
 
-# Per-scene dialog readability stays warning-only in v2. Aggregate only dialog
-# turns, and only once the scene has at least the shared 30-word minimum sample.
+# Per-scene dialog readability stays warning-only in v2, and only once the
+# scene has at least the shared 30-word minimum sample.
 FK_MIN_DIALOG_WORDS_PER_SCENE = 30
 
 TAXONOMY_PATH = (
@@ -159,30 +159,21 @@ def validate_transcript(path: str) -> int:
                 f"scenes[{scene_index}].turns[{turn_index}].turn_id",
                 errors,
             )
-            kind = turn_entry.get("kind", "dialog")
-            if kind not in {"dialog", "action"}:
+            if "kind" in turn_entry:
                 errors.append(
-                    f"scenes[{scene_index}].turns[{turn_index}].kind must be 'dialog' or 'action'"
+                    f"scenes[{scene_index}].turns[{turn_index}].kind is not allowed; turns are dialog-only"
                 )
-                kind = "dialog"
             text = require_nonempty_string(
                 turn_entry.get("text"),
                 f"scenes[{scene_index}].turns[{turn_index}].text",
                 errors,
             )
 
-            speaker_value = turn_entry.get("speaker")
-            speaker = ""
-            if kind == "dialog":
-                speaker = require_nonempty_string(
-                    speaker_value,
-                    f"scenes[{scene_index}].turns[{turn_index}].speaker",
-                    errors,
-                )
-            elif speaker_value not in (None, ""):
-                errors.append(
-                    f"scenes[{scene_index}].turns[{turn_index}].speaker must be omitted for action turns"
-                )
+            speaker = require_nonempty_string(
+                turn_entry.get("speaker"),
+                f"scenes[{scene_index}].turns[{turn_index}].speaker",
+                errors,
+            )
 
             if text and flaw_ids:
                 for flaw_id in flaw_ids:
@@ -192,7 +183,7 @@ def validate_transcript(path: str) -> int:
                             f"framework flaw id '{flaw_id}'"
                         )
 
-            if text and kind == "dialog":
+            if text:
                 scene_dialog_parts.append(text)
 
             if turn_id:
@@ -225,8 +216,8 @@ def validate_transcript(path: str) -> int:
                 # kept permissive: speaker may render as display name vs. id
                 pass
 
-        # Dialog stays warning-only in v2. Action turns are exempt from the
-        # aggregate, but scene summaries remain hard-error checked above.
+        # Dialog stays warning-only in v2, but scene summaries remain
+        # hard-error checked above.
         scene_dialog_text = " ".join(scene_dialog_parts)
         if word_count(scene_dialog_text) >= FK_MIN_DIALOG_WORDS_PER_SCENE:
             warn_readability(

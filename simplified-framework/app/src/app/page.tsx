@@ -135,7 +135,7 @@ export default async function HomePage() {
             return (
               <li key={`${episode.storyId}-${episode.episodeId}`} className="episode-card">
                 <div className="episode-card__copy">
-                  <p className="episode-card__story">{episode.storyTitle}</p>
+                  <p className="episode-card__story">{episode.story.title}</p>
                   <h3>{episode.episodeTitle}</h3>
                   <p className="episode-card__episode-id">{episode.episodeId}</p>
                 </div>
