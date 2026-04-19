@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { openStoryAction } from "@/app/actions";
 import { StarRow } from "@/app/_components/StarRow";
 import { listCatalogEpisodes } from "@/lib/catalog";
+import { loadReaderLessonPackageByPaths } from "@/lib/content";
 import { listStudentRuns } from "@/lib/runs";
 import {
   getActiveStudentFromCookies,
@@ -28,6 +29,24 @@ export default async function StoriesPage() {
     runs.map((run) => [`${run.storyId}::${run.episodeId}`, run]),
   );
 
+  // Read each episode's lesson package so the card can surface `previously`
+  // as decision-time context. Catalog stays path-only; this is a /stories
+  // render-time read (infrequent surface, ~5 episodes max in v3).
+  const previouslyByKey = new Map<string, string | null>();
+  await Promise.all(
+    episodes.map(async (episode) => {
+      try {
+        const lessonPackage = await loadReaderLessonPackageByPaths(episode.lessonPackagePath);
+        previouslyByKey.set(
+          `${episode.storyId}::${episode.episodeId}`,
+          lessonPackage.previously ?? null,
+        );
+      } catch {
+        previouslyByKey.set(`${episode.storyId}::${episode.episodeId}`, null);
+      }
+    }),
+  );
+
   const grouped = new Map<
     string,
     Array<{
@@ -35,13 +54,15 @@ export default async function StoriesPage() {
       episodeId: string;
       storyTitle: string;
       episodeTitle: string;
+      previously: string | null;
       stateLabel: string;
       starsEarned: number;
     }>
   >();
 
   for (const episode of episodes) {
-    const run = runsByEpisode.get(`${episode.storyId}::${episode.episodeId}`);
+    const key = `${episode.storyId}::${episode.episodeId}`;
+    const run = runsByEpisode.get(key);
     const stateLabel = run
       ? run.readingFinishedAt
         ? "Open recap"
@@ -54,6 +75,7 @@ export default async function StoriesPage() {
       episodeId: episode.episodeId,
       storyTitle: episode.storyTitle,
       episodeTitle: episode.episodeTitle,
+      previously: previouslyByKey.get(key) ?? null,
       stateLabel,
       starsEarned: run?.starsEarned ?? 0,
     });
@@ -95,6 +117,12 @@ export default async function StoriesPage() {
                         </div>
                         <div className="story-picker-card__state">{episode.stateLabel}</div>
                       </div>
+                      {episode.previously ? (
+                        <p className="story-picker-card__previously">
+                          <span className="story-picker-card__previously-label">Previously</span>{" "}
+                          {episode.previously}
+                        </p>
+                      ) : null}
                       <StarRow earned={episode.starsEarned} />
                     </button>
                   </form>

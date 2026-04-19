@@ -209,6 +209,21 @@ p {
   white-space: nowrap;
 }
 
+.story-picker-card__previously {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.story-picker-card__previously-label {
+  color: var(--accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
 .orientation-card {
   gap: 1.2rem;
 }
@@ -268,6 +283,63 @@ p {
   font-size: clamp(1.3rem, 2.4vw, 1.7rem);
   line-height: 1.2;
   margin: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* About-this-episode: small ⓘ affordance next to the title that expands a
+   native <details> popover with episode.summary. Sits in the header so the
+   right rail can stay focused on scene-level scaffolds. */
+.episode-about {
+  position: relative;
+  display: inline-block;
+  font-size: 0.85rem;
+}
+
+.episode-about__toggle {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1;
+  user-select: none;
+}
+
+.episode-about__toggle::-webkit-details-marker {
+  display: none;
+}
+
+.episode-about[open] .episode-about__toggle {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-color: rgba(184, 92, 46, 0.35);
+}
+
+.episode-about__popover {
+  position: absolute;
+  top: calc(100% + 0.4rem);
+  right: 0;
+  width: min(22rem, 80vw);
+  padding: 0.85rem 1rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  box-shadow: var(--shadow);
+  z-index: 30;
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.94rem;
+  line-height: 1.55;
+  font-family: inherit;
+  font-weight: normal;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: normal;
 }
 
 .scene-shell__characters {
@@ -307,6 +379,22 @@ p {
   padding: 1.4rem 1.6rem;
 }
 
+/* Continuous-scroll transcript: all scenes stacked inside .scene-left.
+   Scene boundaries are invisible to the student; the IntersectionObserver
+   watches .scene-anchor elements to update the right-rail scene label. */
+.scene-scroll {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 42rem;
+  margin-inline: auto;
+}
+
+.scene-anchor {
+  display: grid;
+  gap: 0.9rem;
+  scroll-margin-top: 0.5rem;
+}
+
 /* Dialog turns — tight bordered boxes with the speaker label sitting on
    the top border (fieldset/legend style). Reduces vertical footprint while
    keeping each utterance clearly separated. */
@@ -316,8 +404,6 @@ p {
   list-style: none;
   display: grid;
   gap: 0.9rem;
-  max-width: 42rem;
-  margin-inline: auto;
 }
 
 .scene-turn {
@@ -419,11 +505,6 @@ p {
   align-content: start;
 }
 
-.scaffold-panel--quiz {
-  border-top: 3px solid var(--accent);
-  padding-top: 1.1rem;
-}
-
 .scaffold-block {
   display: grid;
   gap: 0.4rem;
@@ -440,51 +521,6 @@ p {
   color: var(--ink);
   font-size: 0.96rem;
   line-height: 1.55;
-}
-
-.scaffold-block__heading {
-  margin: 0;
-  font-size: 0.92rem;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.scaffold-block--collapsible .scaffold-block__body {
-  margin-top: 0.3rem;
-  display: grid;
-  gap: 0.4rem;
-}
-
-.scaffold-block__toggle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  padding: 0.45rem 0.2rem;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-weight: 700;
-  font-size: 0.8rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  cursor: pointer;
-  border-bottom: 1px dashed transparent;
-}
-
-.scaffold-block__toggle:hover {
-  color: var(--ink);
-  border-bottom-color: var(--line);
-}
-
-.scaffold-block__chevron {
-  font-size: 1rem;
-  line-height: 1;
-  color: var(--subdued);
-}
-
-.scaffold-block.is-open .scaffold-block__toggle {
-  color: var(--ink);
 }
 
 /* Quiz panel — rendered inside the scaffold rail when a quiz is open */

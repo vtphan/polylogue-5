@@ -20,9 +20,10 @@
 3. [Instructional-design principles driving v3](#instructional-design-principles-driving-v3)
 4. [Upstream: reading-scaffold authoring surface](#upstream-reading-scaffold-authoring-surface)
 5. [Upstream: remove `kind: action` turns from the pipeline](#upstream-remove-kind-action-turns-from-the-pipeline)
-6. [Runtime: follow-on UI refinements](#runtime-follow-on-ui-refinements)
-7. [Open questions](#open-questions)
-8. [Explicitly out of scope](#explicitly-out-of-scope)
+6. [Runtime: continuous-scroll scene reader](#runtime-continuous-scroll-scene-reader)
+7. [Runtime: follow-on UI refinements](#runtime-follow-on-ui-refinements)
+8. [Open questions](#open-questions)
+9. [Explicitly out of scope](#explicitly-out-of-scope)
 
 ---
 
@@ -41,17 +42,21 @@ In parallel, the in-episode action beats currently drift long (25–45 word narr
 
 Committed in the codebase ahead of locking this doc:
 
-- **Two-column fixed-viewport scene reader.** `simplified-framework/app/src/app/runs/[runId]/scene/[n]/page.tsx` renders `.scene-shell` with a capped reading column on the left (~42rem / ≈68ch, the prose-optimal line length) and a `.scaffold-panel` rail on the right.
-- **Quiz renders in the right rail**, not inline. New `ScaffoldPanel.tsx` swaps between reading mode (scene summary + collapsible About/Previously + character chips) and quiz mode (`QuizPanel.tsx`).
-- **Flagged-turn visual tether.** Flagged turn gets a left-edge accent band; when the quiz opens, `.scaffold-panel--quiz` gets a matching top accent band. Flagged turn in the left column toggles between an **Open question →** chip (closed) and a **Question is open →** indicator (open) via a server-action URL param (`?open=<level_id>`).
-- **Action turns removed from the reader.** Initially re-styled as inline italic narration (2026-04-18 AM); operator review concluded they were more distractive than useful and the reader now filters them out entirely (2026-04-18 PM). See §[Upstream: remove `kind: action` turns from the pipeline](#upstream-remove-kind-action-turns-from-the-pipeline) for the pipeline follow-up.
-- **Quoted-turn line in Quiz Reveal.** Lock state surfaces the flagged turn as a `.quiz-quote` inside the panel so the student doesn't scan back to the left column to remember what they were judging (Mayer spatial contiguity).
+- **Two-column fixed-viewport scene reader.** `simplified-framework/app/src/app/runs/[runId]/scene/[n]/page.tsx` renders `.scene-shell` with a capped reading column on the left (~42rem / ≈68ch, the prose-optimal line length) and a scaffold rail on the right.
+- **Quiz renders in the right rail**, not inline.
+- **Bordered turn boxes** with the speaker label overflowing the top border (fieldset/legend pattern). Tight vertical footprint.
+- **Flagged turn is visually identical to other turns** — the only signal is a small circular `?` icon in the top-right corner, with three variants (unanswered / open / locked). The earlier accent-band + text-chip treatment (AM) was flagged as "too distinguishing to the point of distractive" and replaced (PM).
+- **Action turns filtered out of the reader** (2026-04-18 PM). See §[Upstream: remove `kind: action` turns from the pipeline](#upstream-remove-kind-action-turns-from-the-pipeline) for the pipeline follow-up.
+- **Quoted-turn line in Quiz Reveal** for spatial contiguity.
 - **Persistent character chip row** in the scene-shell header.
-- **Collapsible "About this episode" + "Previously"** blocks in the scaffold rail — open by default on scene 1, collapsed on scene ≥2.
-- **Fixed bottom nav** (`.scene-bottom-bar`) carries Prev / stars / Recap · Next, matches the cda9e6f session-bar footprint.
 - **Dead styles removed** from `globals.css` (~500 lines of lesson-workspace / work-drawer / session-bar / warmup / reveal-stages / reading-workspace / etc.).
 
-These are locked-in code. v3's upstream work extends the artifact contract to fill the scaffold rail with richer content; v3's runtime work refines the reader around the shell.
+Subsequently superseded by the continuous-scroll pass (same day PM, see §[Runtime: continuous-scroll scene reader](#runtime-continuous-scroll-scene-reader)):
+
+- **Per-scene paging** — replaced with a single scrolling transcript. `Prev` / `Next` bottom-nav buttons removed.
+- **`ScaffoldPanel.tsx` + `CollapsibleBlock.tsx`** — deleted; the simpler right-rail content is inlined into the new `ContinuousSceneReader` client component.
+- **Collapsible About / Previously blocks in the rail** — removed. `Previously` moves to `/stories` cards; `About this episode` moves to a header affordance. Scene 0 orientation splash drops `Previously`.
+- **"Open question" / "Review question" / "Question is open" text chips on the flagged turn** — replaced by the single `?` icon with three state variants.
 
 ---
 
@@ -60,8 +65,8 @@ These are locked-in code. v3's upstream work extends the artifact contract to fi
 Cognitive-load theory (Sweller) + Mayer multimedia principles, applied to the reader:
 
 1. **Spatial contiguity.** Related items live close in space. Flagged-turn band ↔ quiz-panel band; flagged-turn quote embedded in the Reveal state.
-2. **Coherence.** Cut what isn't load-bearing right now. Collapse `Previously` and `About this episode` after the orientation scene; reveal on demand.
-3. **Single mode of attention.** When the quiz is open, dim the reading column slightly (~0.82 opacity, restored on hover/focus) so the right column carries focal weight without hard-gating re-read.
+2. **Coherence.** Cut what isn't load-bearing right now. `Previously` and `About this episode` are removed from the reader entirely (decision-time context goes to `/stories` and a header affordance respectively); the reader itself only carries what's needed for *this* scene.
+3. **Single mode of attention.** When the quiz is open, sibling (non-flagged) turns dim to 0.6 so the flagged turn stays the bright anchor. The right rail's scene header stays fully visible — "things disappearing" is a distraction cost to avoid.
 4. **Pre-training.** Orientation card introduces framing before the reading task. v3 candidate: add an explicit "question to hold" line so orientation plants a reading lens, not just a summary.
 5. **Persistent identity anchor.** Character chip row in the header stays visible across the episode so "who is this?" never enters working memory.
 6. **Signaling without alarms.** Flagged turn is subtle but unmistakable (left band + inline chip). No motion, no saturated color — preserves the calm-engagement invariant from `CLAUDE.md`.
@@ -161,16 +166,82 @@ The v2 §8 narrative-texture guidelines (sensory anchors, transitions, pivot bea
 
 ---
 
+## Runtime: continuous-scroll scene reader
+
+Supersedes the per-scene paging landed in the 2026-04-18 AM UI pass. Student reviewed it same day PM and asked for continuous scroll; this section captures the locked-in design before code.
+
+### Why continuous scroll
+
+- **Matches the written-message-thread mental model** that the pipeline is now authoring against (see §[Upstream: remove `kind: action` turns](#upstream-remove-kind-action-turns-from-the-pipeline) → *New screenwriter mandate*). Scrolling is the native grammar for chat-like dialog; "Next scene →" is a foreign gesture for it.
+- **Re-read context is one gesture.** When a student hits a flagged turn mid-episode and needs to recall an earlier scene, scrolling up is cheaper and lower-disruption than navigating pages.
+- **The pacing tradeoff is self-mitigated by the pipeline direction.** Paging's one pedagogical win is the "Next" click as a forced pause. The screenwriter mandate already builds transition pacing *into the dialog itself* ("scene transitions are dialog transitions"), so we don't need a button to enforce pace.
+- **Finished-run browsing is natural.** Re-reading a completed episode is scrolling; no terminal state to re-exit.
+
+### Left column (reading surface)
+
+- **Single transcript stack.** All scenes rendered in one vertical column. No "Next" click, no per-scene page, no page transitions.
+- **No visible scene dividers.** No sticky header, no horizontal rule, no "Scene 2" banner inside the dialog stream. The transcript reads as one uninterrupted message thread. Scene boundaries live in the DOM (as invisible anchors the observer watches) and in dialog content (per the screenwriter mandate).
+- **Turn shape unchanged.** Bordered turn boxes with overflow-speaker-chip from the 2026-04-18 AM pass stay. Flagged-turn `?` icon stays.
+
+### Right rail (always-visible scaffold)
+
+- **Top line:** `Scene X of Y` where `X` is scroll-tracked via `IntersectionObserver`.
+- **Second line:** the current scene's `scene.summary`.
+- **Both stay visible at all times — including when the quiz is open.** Nothing in the rail disappears on quiz open; the quiz panel stacks *below* the scene header. Rationale: "things disappearing" is a distraction cost the student explicitly flagged.
+- **Quiz freezes the scene label.** While a quiz is open, the `Scene X of Y` label and summary freeze on the scene that owns the flagged turn — not the student's current scroll position. This keeps the label matched to "the scene this quiz is about," which is more useful than "the scene you happen to be scrolled to." When the quiz closes, the observer resumes and the label re-syncs to scroll position.
+- **No About-this-episode in the rail.** Moved (see below).
+- **No Previously in the rail.** Moved (see below).
+
+### IntersectionObserver config (draft)
+
+- Each scene's container gets `data-scene-index={n}` and a top scroll-margin for trigger stability.
+- Observer `rootMargin`: `"-35% 0px -35% 0px"` — "current scene" = whichever scene occupies the middle 30% of the scroll viewport. Narrower band = more responsive; wider = more stable. Tune after first usability pass.
+- On intersection change, client state updates and an async server action (`recordSceneViewAction`) persists `run.currentSceneIndex` / `sceneHighWaterMark` / `readingFinishedAt` for resume. Fire-and-forget (no redirect).
+
+### Initial scroll on mount
+
+- URL `/runs/[runId]/scene/[n]` where `n>=1` is the continuous reader; `n` is the *initial scroll target*, not a page index.
+- Client component calls `scrollIntoView` on the scene-n anchor on mount so a resuming student lands where they left off.
+- `n=0` stays as the orientation splash (single-column foyer), unchanged except `Previously` is removed (see below).
+
+### Bottom nav
+
+- Drops `Prev` and `Next` buttons — scrolling replaces them.
+- Keeps `StarRow` (live-updating as quizzes lock) and `Recap` (appears when `readingFinishedAt` is set).
+
+### Episode-level context relocation
+
+- **`episode.previously` moves to `/stories`.** It's decision-time context (a student hovering over episode 2 wants to know what episode 1 wrapped up with), not reading-time scaffold. Each episode card on `/stories` gets a muted `Previously` line under the title when the field is present; absent on episode 1 of any story (nothing to recap). Drops from the scene reader entirely.
+- **`episode.summary` moves to the header.** A small ⓘ button (or "About" affordance) next to the episode title in the scene-shell header opens a lightweight popover / native `<details>` with the summary for mid-read reference. Out of the right rail.
+- **Scene 0 orientation splash** keeps only `episode.summary` + "Start reading" — `Previously` is now on the picker, so the splash doesn't re-show it.
+
+### Stories-page implications
+
+- Each `/stories` episode card renders:
+  - Story heading (grouped, as today).
+  - Episode title + episode ID (as today).
+  - **New:** `previously` line if present (≤ ~2 visible lines, muted).
+  - State label (Resume / Open / Open recap, as today).
+  - Star row (as today).
+- Data source: read `lesson_package.yaml` inline at render time (cheap, `/stories` is infrequent). A later optimization can push `previously` into the `CatalogEpisode` Prisma table via the catalog sync step, but not now — keep the schema surface small during the v3 shakeout.
+
+### Accessibility notes
+
+- Focus management: when a quiz opens via the `?` icon, focus moves into the quiz panel; `Esc` / "Back to reading" restores focus to the originating `?` icon in the left column.
+- Observer mechanism falls back gracefully: if `IntersectionObserver` is unavailable (extremely rare in 2026), the rail shows the last-known scene or scene 1 — the reader still works, just without scroll-tracked label updates.
+
+---
+
 ## Runtime: follow-on UI refinements
 
 Lower priority than the upstream work, but scoped and cheap once the fields land:
 
-1. **Scroll flagged turn into center view** when `?open=<level_id>` loads the quiz. Reinforces the spatial-contiguity tether.
-2. **Back-to-reading preserves scroll position** in the left column (not a browser-default scroll reset).
-3. **Keyboard shortcuts** — Tab opens the flagged-turn chip when the chip has focus; Esc from the quiz panel returns to reading mode.
-4. **"Watch for" banner** — once `scene.watch_for` lands, render a small banner at the top of the left column on scene entry (dismissible; remembered per scene).
-5. **Character chip popover** — once `characters[]` carries `one_liner`, tapping a chip reveals the one-liner. No modal; use a lightweight popover.
-6. **Words-in-this-scene tab** — once `scene.vocabulary[]` lands, surface it as a collapsible block in the scaffold rail. Deferred with the field.
+1. **Scroll flagged turn into center view** when the `?` icon opens the quiz. Reinforces the spatial-contiguity tether now that the rail carries the quiz but the left column is continuous-scroll.
+2. **Keyboard shortcuts** — `Esc` from the quiz panel closes back to reading; `?` key focuses the next flagged-turn icon below the current scroll position.
+3. **"Watch for" banner** — once `scene.watch_for` lands, render a small banner at the top of the left column on scene entry (dismissible; remembered per scene).
+4. **Character chip popover** — once `characters[]` carries `one_liner`, tapping a chip reveals the one-liner. No modal; use a lightweight popover.
+5. **Words-in-this-scene tab** — once `scene.vocabulary[]` lands, surface it as a collapsible block in the scaffold rail. Deferred with the field.
+6. **Catalog optimization** — push `episode.previously` into the `CatalogEpisode` Prisma table via the sync step so `/stories` doesn't re-parse lesson packages at render.
 
 ---
 

@@ -5,8 +5,14 @@ import {
 } from "@/app/actions";
 import type { ReaderLevel } from "@/lib/content";
 import type { TranscriptTurn } from "@/lib/domain";
-import { feedbackTextForOption } from "@/lib/quiz";
 import type { QuizAttempt } from "@prisma/client";
+
+function feedbackTextForOption(level: ReaderLevel, optionId: string): string {
+  if (level.feedback.correct.option_ids.includes(optionId)) {
+    return level.feedback.correct.text;
+  }
+  return level.feedback.by_option[optionId] ?? "";
+}
 
 type QuizPanelProps = {
   runId: string;

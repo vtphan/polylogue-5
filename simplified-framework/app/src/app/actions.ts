@@ -199,6 +199,35 @@ export async function goToSceneAction(formData: FormData): Promise<void> {
   redirect(`/runs/${runId}/scene/${boundedTarget}`);
 }
 
+export async function recordSceneViewAction(formData: FormData): Promise<void> {
+  const runId = String(formData.get("run_id") ?? "");
+  const sceneIndex = Number(formData.get("scene_index") ?? "");
+
+  if (!runId) {
+    throw new Error("Missing run id");
+  }
+  if (!Number.isInteger(sceneIndex) || sceneIndex < 1) {
+    throw new Error("Invalid scene index");
+  }
+
+  const { run } = await requireOwnedRun(runId);
+  const catalogEpisode = await getCatalogEpisodeForRun(run);
+  const transcript = await loadReaderTranscriptByPaths(catalogEpisode.transcriptPath);
+  const sceneCount = transcript.scenes.length;
+  const boundedTarget = Math.min(sceneIndex, sceneCount);
+
+  await prisma.run.update({
+    where: { runId },
+    data: {
+      currentSceneIndex: boundedTarget,
+      sceneHighWaterMark: Math.max(run.sceneHighWaterMark, boundedTarget),
+      ...(boundedTarget === sceneCount && !run.readingFinishedAt
+        ? { readingFinishedAt: new Date() }
+        : {}),
+    },
+  });
+}
+
 export async function openQuizPanelAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
   const sceneIndex = Number(formData.get("scene_index") ?? "");
