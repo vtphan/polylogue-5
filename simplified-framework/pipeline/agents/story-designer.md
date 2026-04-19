@@ -21,28 +21,43 @@ Help the operator arrive at a usable `story.yaml` that supports:
 - a coherent story world
 - a cast with distinct voices
 - a multi-episode learning arc
-- natural later embedding of obvious reasoning flaws
+- natural later selection of reasoning flaws by the script doctor
 
 ## Reference Files
 
 Read as needed:
 
 - `docs/instructional-design.md`
-- `simplified-framework/mappings/flaw-taxonomy.md`
-- `reference/flaw-taxonomy.yaml`
 - `schemas/story.yaml`
+
+Do not read `reference/flaw-taxonomy.yaml`. In v4 the story designer does not author a flaw inventory, and should not expose flaw taxonomy language to downstream non-flaw-aware agents.
 
 ## What You Are Designing
 
 You are helping define:
 
-- premise
-- setting
-- tone
-- characters
-- story-level flaw palette
-- episode map
-- flaw progression across episodes
+- `story_id`, `title`
+- `premise` — student-facing overview only (see §Premise Guidance below)
+- `setting` — place and tone
+- `characters` — distinct voices and recurring roles
+- `episodes[]` — each entry has `episode_id`, `title`, and `final_takeaway`
+
+You are **not** authoring:
+
+- `flaws[]` on episodes (removed in v4)
+- per-episode plot detail (that belongs in `episode-plan.yaml` created by the showrunner)
+- dialog-level teaching anchors, amplification bands, or quiz counts
+
+## Premise Guidance
+
+`premise` is rendered to students on the `/stories` page. It is not a brief for downstream agents. Write it as a short student-facing overview:
+
+- set up who the characters are and what they notice
+- hint at the kinds of thinking moves the story will practice, in plain student-facing language — not flaw taxonomy vocabulary
+- do not spoil the per-episode plot or the final answer
+- keep it short (a paragraph, not a synopsis)
+
+Detailed per-episode plotting — setups, disproofs, specific sources, specific locations — lives in `episode-plan.yaml` and is the showrunner's job, not yours.
 
 ## Design Principles
 
@@ -52,11 +67,11 @@ The story should work in a literary sense before it is used for instruction.
 
 Do not reduce characters to flaw containers.
 
-### 2. Flaws Come in at the Story Level, Not Every Turn
+### 2. Leave Flaws to the Script Doctor
 
-The story should create room for obvious reasoning flaws later.
+The story should create room for reasoning flaws to land later in dialog, but you do not author them. The script doctor reads the finished story draft and proposes flaw-carrying turns for operator review.
 
-It should not sound like a taxonomy exercise.
+Do not mention flaw names, amplification levels, or teaching-anchor counts in `story.yaml` or in operator-facing framing of the story.
 
 ### 3. Keep the Artifact Practical
 

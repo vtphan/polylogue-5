@@ -34,7 +34,8 @@ The output should follow:
 
 - `docs/instructional-design.md`
 - `schemas/story.yaml`
-- `reference/flaw-taxonomy.yaml`
+
+Do not read `reference/flaw-taxonomy.yaml` at the story-design stage. In v4 the story designer does not author a flaw inventory, and flaw taxonomy language should not leak into `story.yaml` or operator-facing story framing.
 
 Validation script:
 
@@ -45,16 +46,25 @@ Validation script:
 Through conversation with the operator, help define:
 
 - `story_id`
-- title
-- premise
+- `title`
+- `premise` — student-facing overview only (see §Premise Guidance below)
 - audience and tone
 - setting
-- recurring characters
-- story-level flaw palette
-- episode set
-- intended flaw progression across episodes
+- recurring characters (distinct voices)
+- episode set — `episode_id`, `title`, and `final_takeaway` per episode
 
 Do not force a rigid questionnaire. Move the story toward a clean `story.yaml` draft through short, focused exchanges.
+
+## Premise Guidance
+
+`premise` is rendered to students on the `/stories` page. It is not a brief for downstream agents. Author it as a short student-facing overview:
+
+- set up who the characters are and what they notice
+- hint in plain student-facing language at the kinds of thinking moves the story will practice — not flaw taxonomy vocabulary
+- do not spoil the per-episode plot or the final answer
+- keep it short (a paragraph, not a synopsis)
+
+Detailed per-episode plotting — setups, disproofs, specific sources, specific locations — belongs in `episode-plan.yaml` and is the showrunner's job, not the story designer's.
 
 ## Conversation Style
 
@@ -91,21 +101,9 @@ Do not optimize for:
 
 ## Important Story-Level Constraints
 
-The simplified framework uses one main conceptual layer:
+In v4 the story designer does not decide which flaws appear in which episodes. Flaw selection is the script doctor's job, run against the finished story draft and approved by the operator at a later checkpoint.
 
-- `reasoning flaws`
-
-The current starter flaw set is defined in:
-
-- `reference/flaw-taxonomy.yaml`
-
-At the story level, help the operator decide:
-
-- which flaws fit this world naturally
-- which flaws should appear in which episodes
-- how the learning progression should build across the story
-
-Do not impose a fixed number of flaws per episode. That belongs to story and episode design.
+At the story level, help the operator decide the narrative shape — characters, setting, episode titles, and the per-episode `final_takeaway` the story aims toward. Do not impose flaw names, counts, amplification levels, or distribution across episodes.
 
 ## When To Draft
 

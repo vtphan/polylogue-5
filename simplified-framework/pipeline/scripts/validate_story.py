@@ -38,13 +38,12 @@ def validate_story(path: str) -> int:
         entry = require_mapping(episode, f"episodes[{index}]", errors)
         require_nonempty_string(entry.get("episode_id"), f"episodes[{index}].episode_id", errors)
         require_nonempty_string(entry.get("title"), f"episodes[{index}].title", errors)
-        flaws = require_list(entry.get("flaws"), f"episodes[{index}].flaws", errors)
-        if not flaws:
-            errors.append(f"episodes[{index}].flaws must contain at least one flaw")
-        for flaw_index, flaw in enumerate(flaws, start=1):
-            require_nonempty_string(flaw, f"episodes[{index}].flaws[{flaw_index}]", errors)
         if "final_takeaway" in entry:
             require_nonempty_string(entry.get("final_takeaway"), f"episodes[{index}].final_takeaway", errors)
+        if "flaws" in entry:
+            errors.append(
+                f"episodes[{index}].flaws is not allowed in v4; flaw inventories are no longer authored in story.yaml"
+            )
 
     return print_result(errors)
 

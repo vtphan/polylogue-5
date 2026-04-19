@@ -1,5 +1,7 @@
 # TODO v4
 
+> **Status (2026-04-19):** Phase 0 landed (v3 `story.yaml` archived inline as `story.v3.yaml`; `story.yaml` rewritten with student-facing premise and no episode flaws; `validate_story.py`, `create_story.md`, and `story-designer.md` updated). Batch 1 (Tasks 1–3 + initializer re-run) is next. Update this line when a batch fully lands; batches are: (0) Phase 0 story-layer migration, (1) renames + agent rewrites, (2) pipeline wiring (Tasks 4–5), (3) contract sweep (Tasks 6–7 + migration), (4) regeneration + qualitative check.
+
 > **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
 
 Agent file naming in this doc uses kebab-case for markdown filenames, even when an agent role is written with underscores in prompt text or schema fields.
@@ -409,6 +411,46 @@ What the operator does not need the app or validators to do:
 
 ## Implementation Tasks
 
+## Phase 0 — Archive v3 And Prepare `story.yaml` For v4
+
+Phase 0 is a preparatory pass on the story layer, executed before the agent/pipeline/contract tasks below. It is not a new design — it only migrates `story.yaml` and its authoring surfaces to match v4's "story designer does not author a flaw inventory" principle, and it establishes the v3 archive used later by the Ordering regeneration step.
+
+### Scope
+
+1. Archive the current v3 `story.yaml` inline as `stories/{story_id}/story.v3.yaml`. The live file at `stories/{story_id}/story.yaml` is overwritten by the v4 rewrite in the same batch.
+2. Rewrite `story.yaml` to the v4 shape:
+   - `premise` becomes a short student-facing overview (see §Premise Guidance in `create_story.md` / `story-designer.md`). No spoilers, no flaw taxonomy language, no per-episode plot detail.
+   - Strip `episodes[].flaws`. This field is removed from `story.yaml` in v4.
+   - Keep `episodes[].final_takeaway` required end-to-end; it remains authored in `story.yaml` and carried downstream into `lesson_package.yaml` by `lesson-package-builder`.
+   - Keep `characters[]` (with `voice_notes`) unchanged. Character voice remains showrunner/staff-writer fuel and is not student-facing.
+3. Update `validate_story.py`:
+   - Drop the `episodes[].flaws` required-check.
+   - Reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). This is the enforcement point that prevents silent reuse of v3 `story.yaml` files.
+4. Update `pipeline/commands/create_story.md` and `pipeline/agents/story-designer.md`:
+   - Remove flaw-authoring instructions and any directive to read `reference/flaw-taxonomy.yaml` during story design.
+   - Add premise guidance: student-facing, no spoilers, no taxonomy, short.
+   - Reframe episode-level decisions as `episode_id`, `title`, and `final_takeaway` only — no flaws, no amplification, no anchor counts.
+5. No schema-sketch change: `schemas/story.yaml` already omits `flaws` from its properties list.
+
+### Artifact policy for archived `story.v3.yaml`
+
+The archived file is retained as a qualitative-regression baseline alongside the v2 artifact archive. It is not a supported pipeline input under v4:
+
+- the v4 validator hard-rejects it (because `episodes[].flaws` is present).
+- `listCatalogEpisodes` and other runtime reads are filename-matched against `story.yaml`, not `story.v3.yaml`, so catalog loading is unaffected.
+- do not edit `story.v3.yaml` after Phase 0 lands. If the v3 artifact needs correcting, correct the archive via a fresh commit and explain the reason.
+
+### Notes on `./artifacts/`
+
+As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no live episode directories. The Ordering step that archives `artifacts/the-white-squirrel/ep0{1..3}/` to `artifacts/archive/the-white-squirrel-v3-prev/` reduces to a no-op on Phase 0 entry. If live v3 episode directories reappear before Phase 0 lands, archive them in the same batch.
+
+### Success criteria
+
+- `python3 pipeline/scripts/validate_story.py stories/the-white-squirrel/story.yaml` → `OK`.
+- `python3 pipeline/scripts/validate_story.py stories/the-white-squirrel/story.v3.yaml` → rejects with the v4 `flaws is not allowed` message.
+- `/stories` rendering shows the new thin premise (not the v3 synopsis wall).
+- No downstream agent is instructed to read `reference/flaw-taxonomy.yaml` at the story-design stage.
+
 ## Task 1 — Rename And Rewrite `episode-planner` As `showrunner`
 
 ### File changes
@@ -588,7 +630,7 @@ The command remains human-in-the-loop. It must not silently continue from transc
 - keep per-quiz scoring at `3 / 2 / 1 / 0`, but make total available stars dynamic as `3 * levels.length`
 - explicitly allow `levels: []` when the operator approved zero anchors; the package is still considered complete for runtime ingestion
 - remove `episode.flaws` from `lesson_package.yaml` entirely in v4 rather than deriving or backfilling it from `approved_anchors`
-- keep `episode.final_takeaway` optional; it may be omitted when the operator intentionally approved a zero-anchor episode or when no clean episode-level takeaway is warranted
+- keep `episode.final_takeaway` required end-to-end, authored once in `story.yaml` and carried into `lesson_package.yaml` by `lesson-package-builder`. v4 does not relax this contract. This field survives the zero-anchor case (an episode may have no lesson levels and still have a narrative final takeaway)
 - remove the fixed 10th bonus star from the v2 contract rather than redefining it for variable-length episodes
 - update `syncRunStars` in `app/src/lib/quiz.ts:39-60` to drop the +1 bonus and stop writing `bonusEarnedAt`; `starsEarned` becomes the simple sum of quiz stars and total possible is computed in the recap UI as `3 * levels.length`, not stored on `Run`
 - retain the `bonusEarnedAt` column on `Run` in Prisma as a deprecated, no-write, no-read field in v4. Removal is deferred to a follow-up cleanup. Pre-v4 rows may carry stale bonus-inflated `starsEarned` values; recap UI behavior is to re-sync `Run.starsEarned` from `QuizAttempt.starsEarned` sums on next interaction so inflated values self-correct on touch, and to derive total possible from `levels.length` regardless of stored values
@@ -658,6 +700,7 @@ Implementation note: the reader model must no longer collapse scene quiz state t
 - update docs so scenes are described as reading scaffolds and teaching anchors are described as turn-anchored and variable-length
 - update app scoring and recap logic to derive total possible stars from `levels.length` and to drop the fixed bonus-star assumption
 - update every star-rendering surface, not only recap logic, so card rows, in-reader star displays, and any hero/summary star rows all use the same dynamic total and omit star UI entirely for zero-level episodes
+- surface each episode's `final_takeaway` on the `/stories` page inside its story section when every episode in that story has a completed run; takeaways stay hidden until story completion so they read as a closing narrative beat rather than a spoiler. Render all takeaways together (one per episode, in episode order) inside the existing per-story `<section>`. This is a net-new reader-visible surface and requires UI-freeze sign-off before implementation
 
 ## Required Migration Sweep
 
@@ -690,11 +733,13 @@ At minimum, sweep:
 - `pipeline/commands/create_episodes.md`
 - `pipeline/commands/create_transcript.md`
 - `pipeline/commands/create_lesson_package.md`
-- `pipeline/commands/create_story.md`
+- `pipeline/commands/create_story.md` *(Phase 0)*
+- `pipeline/agents/story-designer.md` *(Phase 0)*
 - `pipeline/agents/lesson-package-builder.md`
 - `pipeline/agents/README.md`
 - `pipeline/reference/language-guide.md`
 - `pipeline/scripts/_intermediate_guards.py` (new helper, not a validator; see Artifact policy)
+- `pipeline/scripts/validate_story.py` *(Phase 0)*
 - `pipeline/scripts/validate_episode_plan.py`
 - `pipeline/scripts/validate_transcript.py`
 - `pipeline/scripts/validate_lesson_package.py`
@@ -721,12 +766,14 @@ At minimum, sweep:
 
 To make the sweep actionable rather than a checklist:
 
-- `pipeline/commands/create_*.md` — rewrite around the showrunner→staff_writer→script_doctor→transcript_structurer chain plus the two checkpoints; remove screenwriter-projection language
+- `pipeline/commands/create_*.md` — rewrite around the showrunner→staff_writer→script_doctor→transcript_structurer chain plus the two checkpoints; remove screenwriter-projection language. `create_story.md` (Phase 0) drops `reference/flaw-taxonomy.yaml` as an input, removes flaw-inventory authoring, and adds student-facing premise guidance
+- `pipeline/agents/story-designer.md` (Phase 0) — drop the "story-level flaw palette" and "flaw progression" responsibilities; rename what the designer authors to `story_id`, `title`, `premise` (student-facing), `setting`, `characters`, and `episodes[]` with only `episode_id`, `title`, `final_takeaway`
 - `pipeline/agents/lesson-package-builder.md` — drop `flaw-review.md` input, source approved anchors from `flaw-proposals.yaml` `approved_anchors`, allow zero-level packages
 - `pipeline/agents/README.md` — re-enumerate the agent set
 - `pipeline/reference/language-guide.md` — drop amplification vocabulary; keep only `expression_strength` strong/moderate language
 - `pipeline/scripts/_intermediate_guards.py` — new shape-check helper for the four intermediate artifacts; verifies presence/parseability of required top-level keys only, no semantic rules
 - `schemas/transcript.yaml`, `schemas/lesson_package.yaml`, `schemas/episode-plan.yaml` — see Task 7 §Descriptive schemas
+- `pipeline/scripts/validate_story.py` (Phase 0) — drop the `episodes[].flaws` required-check; reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). Keep `final_takeaway` optional-but-validated; it is authored per-episode and required at the `lesson_package.yaml` stage
 - `pipeline/scripts/validate_*.py` — see Task 7 §Validator and schema surgery for line-level edits
 - `docs/instructional-design.md` — update student-journey wording so scenes are reading scaffolds and teaching anchors are turn-based
 - `docs/operator-workflow.md` — replace the screenwriter→flaw_injector→flaw_reviewer narrative with the four-stage v4 chain plus the two checkpoints; retain human-judgment final-quality language
@@ -737,6 +784,7 @@ To make the sweep actionable rather than a checklist:
 - `app/src/lib/content.ts` and reader/page call sites — propagate `levels.length`-derived star totals into every `StarRow` use so the UI does not keep the old fixed 10-star presentation by default
 - `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx` and `QuizPanel.tsx` — see Task 7 §Reader interaction model with multi-anchor scenes
 - `app/src/app/runs/[runId]/scene/[n]/page.tsx` — surface multiple anchors per scene without changing the route shape
+- `app/src/app/stories/page.tsx` — when every episode in a story has a completed run, render each episode's `final_takeaway` inside that story's section (ordered by episode). Needs a completion check against student runs and a per-episode takeaway read from `lesson_package.yaml`; extend the existing render-time blurb read or add a takeaway to the same read path. Hidden until full-story completion
 - `app/src/lib/catalog.ts:108-134` — drop the same-scene rejection in `isEligibleEpisodePair`
 - `pipeline/scripts/initialize_polylogue.py` — typically no edits needed; the agent/command globs auto-pick up renames. Re-run after the rename sweep.
 
