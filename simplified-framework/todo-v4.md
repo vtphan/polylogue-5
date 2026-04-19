@@ -159,7 +159,9 @@ The new intermediate artifacts are pipeline-only, but their minimum shapes must 
 - `plot_obligations`
 - `scene_count_target`
 
-For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a human-editable planning artifact, but `create_transcript` must not merge content from both files at write time, and a missing projection is a hard restart from `create_episodes` rather than a silent regeneration from the plan.
+For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a human-editable planning artifact, but `create_transcript` must not merge story content from both files at write time, and a missing projection is a hard restart from `create_episodes` rather than a silent regeneration from the plan.
+
+In v4, `create_transcript` may still read `story.yaml` and `episode-plan.yaml` for identity checks, operator-facing context, artifact existence checks, and resume branching, but only `showrunner-projection.yaml` may be passed downstream as narrative brief content to `staff_writer`. This preserves deterministic recovery and prevents silent prompt drift from hidden plan fields.
 
 `transcript.raw.yaml` must be a mapping with:
 
@@ -228,7 +230,9 @@ Each `candidate_turns` entry should minimally include:
 
 Allowed `proposal_type` values are `tweak`, `replace`, and `add_beat`. There is no explicit `keep` proposal type in v4. A candidate with no matching `proposals[]` entry is kept as-is if and only if the operator places it in `approved_anchors[]`; otherwise it is rejected. Each `proposals[]` entry must reference a `turn_id` that either appears in `candidate_turns[]` (for `proposal_type` of `tweak` or `replace`) or is a fresh validator-compatible id allocated by `script_doctor` for `add_beat`. `candidate_turns[]` and `proposals[]` are not required to be 1:1: a candidate may appear in `approved_anchors[]` with no matching edit proposal, and an `add_beat` proposal has no preceding candidate.
 
-`approved_anchors[]` is the authoritative kept set. Any `candidate_turns[]` or `proposals[]` entry whose `turn_id` is absent from `approved_anchors[]` at approval time is rejected, even if it was proposed.
+In v4, approved transcript edits and approved lesson anchors are separate decisions. `approved_anchors[]` is the authoritative kept set for lesson-package generation only; it does not decide whether a transcript edit is applied. `create_transcript` applies the approved proposal set from `proposals[]` after checkpoint-2 approval, while `create_lesson_package` reads only `approved_anchors[]` when deciding which turns become lesson levels.
+
+As a result, a proposal may be approved as a transcript edit without its `turn_id` becoming a lesson anchor. This is especially important for supporting `add_beat` or `replace` edits that improve the surrounding story pressure, setup, or payoff around an anchor without introducing an additional quiz-bearing turn. `approved_anchors[]` must therefore be read as "selected for lesson" rather than "all proposed edits that survived."
 
 Structural proposals must also persist enough placement information to be re-applied deterministically. In particular:
 
@@ -236,6 +240,29 @@ Structural proposals must also persist enough placement information to be re-app
 - `add_beat` must include exactly one placement key: `insert_after_turn_id` or `insert_before_turn_id`
 
 v4 does not permit a free-form "insert somewhere around here" application contract. The saved proposal must be specific enough that operator review and later re-application both point to the same location in the dialog.
+
+Each `proposals[]` entry must minimally include:
+
+- `proposal_id`
+- `proposal_type`
+- `turn_id`
+- `rationale`
+
+Additional required fields by `proposal_type`:
+
+- `tweak` or `replace`:
+  - `focus_flaw`
+  - `expression_strength`
+  - `replacement_text`
+- `add_beat`:
+  - `focus_flaw`
+  - `expression_strength`
+  - exactly one placement key: `insert_after_turn_id` or `insert_before_turn_id`
+  - `new_turn` mapping with:
+    - `speaker`
+    - `text`
+
+Optional fields such as `before_text`, `operator_note`, or provenance metadata may be included, but these minimum fields are the application contract different implementations must share.
 
 Required top-level keys must always be present as YAML keys, with `candidate_turns: []`, `recommended_turn_ids: []`, `approved_anchors: []`, `proposals: []`, and `revision_history: []` allowed empty before approval.
 
@@ -502,15 +529,17 @@ Move scene segmentation and scene-summary writing to a later scaffold pass so st
 This pass is a reader-scaffolding step, not a story-rewriting step.
 If the operator wants a scene-summary adjustment after reviewing `transcript.yaml`, the workflow may send the transcript structurer back for a summary-only revision pass without reopening story-draft or flaw-proposal approval.
 
+That summary-only revision path is an explicit rerun from the latest approved `transcript.post-doctor.yaml`, not a resumable pending-review state on `transcript.yaml`. The rerun overwrites `transcript.yaml` after the structurer finishes. v4 does not add review-state fields to the app-facing transcript artifact.
+
 ## Task 5 — Rewrite `create_transcript.md` Around Two Operator Checkpoints Plus Structuring
 
 ### Checkpoint 1 — raw story draft
 
 `create_transcript` should:
 
-1. read `story.yaml`
-2. read `episode-plan.yaml`
-3. read `showrunner-projection.yaml`
+1. read `story.yaml` for identity and operator context only
+2. read `episode-plan.yaml` for identity and operator context only
+3. read `showrunner-projection.yaml` as the sole content-bearing brief for `staff_writer`
 4. invoke the `staff_writer`
 5. save `transcript.raw.yaml` with `status: pending_review`
 6. alert the operator in CLI chat to review it
@@ -529,7 +558,7 @@ After raw-draft approval, `create_transcript` should:
 6. iterate until the operator approves the proposals
 7. on approval, persist the operator-approved teaching anchors in `flaw-proposals.yaml` as `approved_anchors`
 8. set `status` on `flaw-proposals.yaml` to `approved` when the operator approves the proposal set, even if `approved_anchors` is empty
-9. ask the script doctor to apply only the latest approved proposal set and save `transcript.post-doctor.yaml`, including its proposal provenance fields; when `approved_anchors` is empty and no `tweak`/`replace`/`add_beat` proposals are attached, the apply step still emits `transcript.post-doctor.yaml` as a dialog-identical copy of `transcript.raw.yaml` with provenance fields set and `applied_turn_ids: []`, so the spot-check remains a uniform pro-forma checkpoint
+9. ask the script doctor to apply only the latest approved proposal set from `proposals[]` and save `transcript.post-doctor.yaml`, including its proposal provenance fields; `approved_anchors[]` controls lesson selection later, not whether an approved transcript edit is applied
 10. set `status` on `transcript.post-doctor.yaml` to `pending_review`
 11. alert the operator in CLI chat with a concise post-application summary so they can spot-check `transcript.post-doctor.yaml` for faithful application before structuring continues
 12. if that spot-check fails, the operator's chat feedback indicates one of two cases: (a) proposal-set issue — set `flaw-proposals.yaml` `status` back to `needs_revision`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and reopen checkpoint 2; or (b) application-quality issue — leave `flaw-proposals.yaml` `status` as `approved`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and re-invoke `script_doctor` to re-apply only. Either way, require the operator to explicitly re-approve the relevant artifact state in chat before proceeding to structuring.
@@ -569,6 +598,8 @@ The command remains human-in-the-loop. It must not silently continue from transc
 
 This is not a lesson-package redesign. It is a simplification of the authoring chain.
 
+For avoidance of doubt, the star-layout migration is app-wide, not recap-only. Any UI surface that renders stars must receive the dynamic total derived from the current episode's `levels.length`, and star UI should render nothing when `levels.length === 0`.
+
 ## Task 7 — Revise The App And Validator Contract So Quiz Anchoring Is Turn-Based
 
 ### Goal
@@ -588,6 +619,7 @@ Separate reader scenes from teaching-anchor selection without redesigning the re
 
 ### Validator and schema surgery
 
+- choose an explicit app-facing schema-version strategy for v4 and apply it uniformly across validators, Zod runtime parsing, catalog ingestion, and generated artifacts in the same sweep; mixed old/new episode directories must fail cleanly rather than being partially accepted under one label
 - drop `REQUIRED_LEVEL_COUNT` in `validate_lesson_package.py:24,174-178`; accept `len(levels) >= 0`
 - drop the same-scene rejection in `validate_lesson_package.py:284-296`
 - remove `episode.flaws` requirements from `validate_lesson_package.py` and `schemas/lesson_package.yaml`
@@ -625,12 +657,15 @@ Implementation note: the reader model must no longer collapse scene quiz state t
 - update episode-plan validation and authoring guidance to stop requiring flaw inventories, band mixes, or distinct-scene quiz moments
 - update docs so scenes are described as reading scaffolds and teaching anchors are described as turn-anchored and variable-length
 - update app scoring and recap logic to derive total possible stars from `levels.length` and to drop the fixed bonus-star assumption
+- update every star-rendering surface, not only recap logic, so card rows, in-reader star displays, and any hero/summary star rows all use the same dynamic total and omit star UI entirely for zero-level episodes
 
 ## Required Migration Sweep
 
 The implementation should explicitly update all surfaces that still describe the old flow, not just the agent files.
 
 The scoring migration follows Task 6: `bonusEarnedAt` is retained in Prisma as a deprecated, no-write, no-read column during v4 and is scheduled for removal in a follow-up cleanup. Schema, docs, and code changes in this sweep must match that decision rather than re-litigate it.
+
+The artifact-version migration must also be decided and carried through this same sweep. If v4 keeps the existing app-facing schema version label, then validators, Zod parsers, and docs must all explicitly accept the new variable-length semantics under that label together. If v4 uses a new app-facing schema version label, artifact generation, validators, runtime parsing, and catalog eligibility checks must all switch in the same rollout so partial upgrades fail loudly rather than misloading content.
 
 At minimum, sweep:
 
@@ -658,6 +693,7 @@ At minimum, sweep:
 - `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx`
 - `app/src/app/runs/[runId]/_components/QuizPanel.tsx`
 - `app/src/app/runs/[runId]/scene/[n]/page.tsx`
+- `app/src/lib/content.ts`
 - `app/prisma/schema.prisma`
 - `docs/tech-reference.md`
 - `docs/instructional-design.md`
@@ -680,6 +716,7 @@ To make the sweep actionable rather than a checklist:
 - `app/src/lib/domain.ts` — drop `levels.length(3)`; runtime contract changes per Task 7 §Validator and schema surgery
 - `app/src/lib/quiz.ts` — see Task 6 `syncRunStars` change
 - `app/src/app/_components/StarRow.tsx` — render variable-length stars; render nothing when `levels.length === 0`
+- `app/src/lib/content.ts` and reader/page call sites — propagate `levels.length`-derived star totals into every `StarRow` use so the UI does not keep the old fixed 10-star presentation by default
 - `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx` and `QuizPanel.tsx` — see Task 7 §Reader interaction model with multi-anchor scenes
 - `app/src/app/runs/[runId]/scene/[n]/page.tsx` — surface multiple anchors per scene without changing the route shape
 - `app/src/lib/catalog.ts:108-134` — drop the same-scene rejection in `isEligibleEpisodePair`
