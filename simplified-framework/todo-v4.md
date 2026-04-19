@@ -92,7 +92,9 @@ Resuming a stopped run should be artifact-driven rather than chat-state-driven:
 - else if `transcript.post-doctor.yaml` exists and is parseable YAML with the required top-level keys for a post-doctor draft, branch on its `status` field:
   - if `status` is `approved`, resume by invoking the transcript-structuring pass directly without re-prompting
   - if `status` is `pending_review`, resume at the post-application operator spot-check
-  - if `status` is `needs_revision`, resume at script-doctor revision work
+  - if `status` is `needs_revision`, consult `flaw-proposals.yaml` `status` to pick the revision mode:
+    - if `flaw-proposals.yaml` is missing or its `status` is `needs_revision`, resume at checkpoint-2 proposal review
+    - if `flaw-proposals.yaml` `status` is `approved`, resume at re-application only (do not re-open proposal drafting)
 - else if `flaw-proposals.yaml` exists and is parseable YAML with the required top-level keys for a proposal set, then:
   - if `status` is `approved`, resume at the apply-approved-proposals step, even if `approved_anchors` is empty
   - else resume at checkpoint 2 proposal review
@@ -100,8 +102,9 @@ Resuming a stopped run should be artifact-driven rather than chat-state-driven:
   - if `status` is `approved`, resume by invoking `script_doctor` to write `flaw-proposals.yaml`
   - else resume at checkpoint 1 raw-draft review
 - else if `showrunner-projection.yaml` exists and is parseable YAML with the required top-level keys for a showrunner brief, resume by invoking the staff writer from that saved brief
-- else if `episode-plan.yaml` exists, regenerate only `showrunner-projection.yaml` from the saved plan and then continue
 - else restart the episode flow from `create_episodes`
+
+A missing `showrunner-projection.yaml` is a hard restart from `create_episodes`, not a silent regeneration from `episode-plan.yaml`. The projection carries content fields (`narrative_synopsis`, `hypothesis_pursued`, `disproof_event`, `scene_count_target`) that `episode-plan.yaml` is not guaranteed to carry, so regeneration would invent content and diverge from the brief the staff writer actually received. The plan remains a human-editable planning artifact; it is not a recovery source.
 
 Artifact presence alone is not approval state, except where v4 explicitly persists operator approval outcomes in artifact fields. In v4, review artifacts must persist operator review state separately from the selected turn set so an operator-approved zero-anchor outcome can still resume deterministically. Resume from the latest saved artifact and its persisted approval fields, then require explicit operator approval in chat for any later checkpoint not already captured in those fields.
 
@@ -133,7 +136,9 @@ These are pipeline-only orchestration surfaces. The app continues to care only a
 - No persisted `flaw-review.md`
 - No new schemas
 - No new validator files
-- A shared shape-check helper (e.g. `pipeline/scripts/_intermediate_guards.py`) is acceptable to keep the resumability ladder honest across implementations; it is not a validator file and may only verify that the required top-level keys named in this doc are present and parseable. It must not encode semantic rules.
+- A shared shape-check helper (e.g. `pipeline/scripts/_intermediate_guards.py`) is acceptable to keep the resumability ladder honest across implementations; it is not a validator file and may only verify that the required top-level keys named in this doc are present and parseable, plus the `tNN` format on `turn_id`s in raw and post-doctor drafts since the stability rule depends on pre-validation id shape. It must not encode semantic rules.
+- Commands invoke the helper via bash the same way they invoke validators (e.g. `python3 pipeline/scripts/_intermediate_guards.py <path>`); the initializer does not need to distribute it.
+- Only Task 5's pipeline steps flip `status` fields on `transcript.raw.yaml`, `flaw-proposals.yaml`, and `transcript.post-doctor.yaml`. Operator chat feedback does not directly edit status fields; the command writes them in tandem with the artifact update that earned the status. This keeps the cross-artifact branches of the resumability ladder coherent.
 - Existing validators may be amended to remove fixed-count, fixed-band, and scene-distinctness constraints that conflict with the v4 variable-length teaching-anchor contract
 
 ### Raw-draft and proposal-file shape
@@ -154,7 +159,7 @@ The new intermediate artifacts are pipeline-only, but their minimum shapes must 
 - `plot_obligations`
 - `scene_count_target`
 
-For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a planning and regeneration artifact, but `create_transcript` must not merge content from both files at write time. If the projection is regenerated from the saved plan, the regenerated projection wholly replaces the prior brief before any further transcript work proceeds.
+For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a human-editable planning artifact, but `create_transcript` must not merge content from both files at write time, and a missing projection is a hard restart from `create_episodes` rather than a silent regeneration from the plan.
 
 `transcript.raw.yaml` must be a mapping with:
 
@@ -221,7 +226,9 @@ Each `candidate_turns` entry should minimally include:
 - `expression_strength`
 - `rationale`
 
-Each `proposals[]` entry must reference a `turn_id` that either appears in `candidate_turns[]` (for `proposal_type` of `keep`, `tweak`, or `replace`) or is a fresh validator-compatible id allocated by `script_doctor` for `add_beat`. `proposal_type` operates on the referenced candidate or new beat. `candidate_turns[]` and `proposals[]` are not required to be 1:1: a candidate may have no associated edit proposal (when `keep` is implicit), and an `add_beat` proposal has no preceding candidate.
+Allowed `proposal_type` values are `tweak`, `replace`, and `add_beat`. There is no explicit `keep` proposal type in v4. A candidate with no matching `proposals[]` entry is kept as-is if and only if the operator places it in `approved_anchors[]`; otherwise it is rejected. Each `proposals[]` entry must reference a `turn_id` that either appears in `candidate_turns[]` (for `proposal_type` of `tweak` or `replace`) or is a fresh validator-compatible id allocated by `script_doctor` for `add_beat`. `candidate_turns[]` and `proposals[]` are not required to be 1:1: a candidate may appear in `approved_anchors[]` with no matching edit proposal, and an `add_beat` proposal has no preceding candidate.
+
+`approved_anchors[]` is the authoritative kept set. Any `candidate_turns[]` or `proposals[]` entry whose `turn_id` is absent from `approved_anchors[]` at approval time is rejected, even if it was proposed.
 
 Structural proposals must also persist enough placement information to be re-applied deterministically. In particular:
 
@@ -452,7 +459,7 @@ That file should capture:
 - candidate flawed turns
 - suggested flaw labels and expression strengths
 - an optional recommended subset when useful, without forcing a fixed count
-- proposed changes with `proposal_type` such as `keep`, `tweak`, `replace`, `add_beat`
+- proposed changes with `proposal_type` drawn from `tweak`, `replace`, `add_beat` (there is no `keep` proposal type; unproposed candidates are kept only if placed in `approved_anchors[]`)
 - before/after text when applicable
 - a one-sentence reason for each proposal
 - escalation notes when a new beat is needed
@@ -522,7 +529,7 @@ After raw-draft approval, `create_transcript` should:
 6. iterate until the operator approves the proposals
 7. on approval, persist the operator-approved teaching anchors in `flaw-proposals.yaml` as `approved_anchors`
 8. set `status` on `flaw-proposals.yaml` to `approved` when the operator approves the proposal set, even if `approved_anchors` is empty
-9. ask the script doctor to apply only the latest approved proposal set and save `transcript.post-doctor.yaml`, including its proposal provenance fields
+9. ask the script doctor to apply only the latest approved proposal set and save `transcript.post-doctor.yaml`, including its proposal provenance fields; when `approved_anchors` is empty and no `tweak`/`replace`/`add_beat` proposals are attached, the apply step still emits `transcript.post-doctor.yaml` as a dialog-identical copy of `transcript.raw.yaml` with provenance fields set and `applied_turn_ids: []`, so the spot-check remains a uniform pro-forma checkpoint
 10. set `status` on `transcript.post-doctor.yaml` to `pending_review`
 11. alert the operator in CLI chat with a concise post-application summary so they can spot-check `transcript.post-doctor.yaml` for faithful application before structuring continues
 12. if that spot-check fails, the operator's chat feedback indicates one of two cases: (a) proposal-set issue — set `flaw-proposals.yaml` `status` back to `needs_revision`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and reopen checkpoint 2; or (b) application-quality issue — leave `flaw-proposals.yaml` `status` as `approved`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and re-invoke `script_doctor` to re-apply only. Either way, require the operator to explicitly re-approve the relevant artifact state in chat before proceeding to structuring.
@@ -555,6 +562,8 @@ The command remains human-in-the-loop. It must not silently continue from transc
 - keep `episode.final_takeaway` optional; it may be omitted when the operator intentionally approved a zero-anchor episode or when no clean episode-level takeaway is warranted
 - remove the fixed 10th bonus star from the v2 contract rather than redefining it for variable-length episodes
 - update `syncRunStars` in `app/src/lib/quiz.ts:39-60` to drop the +1 bonus and stop writing `bonusEarnedAt`; `starsEarned` becomes the simple sum of quiz stars and total possible is computed in the recap UI as `3 * levels.length`, not stored on `Run`
+- retain the `bonusEarnedAt` column on `Run` in Prisma as a deprecated, no-write, no-read field in v4. Removal is deferred to a follow-up cleanup. Pre-v4 rows may carry stale bonus-inflated `starsEarned` values; recap UI behavior is to re-sync `Run.starsEarned` from `QuizAttempt.starsEarned` sums on next interaction so inflated values self-correct on touch, and to derive total possible from `levels.length` regardless of stored values
+- `expression_strength` on `approved_anchors` is authoring guidance for prompt/feedback tone and does not propagate into `lesson_package.yaml`; the app-facing package carries `focus_flaw`, prompt text, and scaffolding only
 - keep episode completion tied to reaching the end of the transcript; quiz count no longer determines completion semantics
 - emit canonical `focus_flaw`, direct prompts, and short scaffolding for each approved anchor
 
@@ -621,7 +630,7 @@ Implementation note: the reader model must no longer collapse scene quiz state t
 
 The implementation should explicitly update all surfaces that still describe the old flow, not just the agent files.
 
-For the scoring migration, decide explicitly whether `bonusEarnedAt` is removed from Prisma now or retained as a deprecated unused column during the transition. Either approach is acceptable, but the implementation must choose one and update schema/docs/code consistently rather than dropping writes while leaving the field semantically ambiguous.
+The scoring migration follows Task 6: `bonusEarnedAt` is retained in Prisma as a deprecated, no-write, no-read column during v4 and is scheduled for removal in a follow-up cleanup. Schema, docs, and code changes in this sweep must match that decision rather than re-litigate it.
 
 At minimum, sweep:
 
@@ -636,6 +645,7 @@ At minimum, sweep:
 - `pipeline/scripts/validate_episode_plan.py`
 - `pipeline/scripts/validate_transcript.py`
 - `pipeline/scripts/validate_lesson_package.py`
+- `pipeline/scripts/initialize_polylogue.py`
 - `schemas/transcript.yaml`
 - `schemas/lesson_package.yaml`
 - `schemas/episode-plan.yaml`
@@ -646,22 +656,12 @@ At minimum, sweep:
 - `app/src/app/page.tsx`
 - `app/src/app/stories/page.tsx`
 - `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx`
+- `app/src/app/runs/[runId]/_components/QuizPanel.tsx`
+- `app/src/app/runs/[runId]/scene/[n]/page.tsx`
 - `app/prisma/schema.prisma`
 - `docs/tech-reference.md`
 - `docs/instructional-design.md`
-- `docs/instructional-design.md`
 - `docs/operator-workflow.md`
-- `docs/tech-reference.md`
-- `app/src/lib/domain.ts`
-- `app/src/lib/quiz.ts`
-- `app/src/app/_components/StarRow.tsx`
-- `app/src/app/page.tsx`
-- `app/src/app/stories/page.tsx`
-- `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx`
-- `app/src/app/runs/[runId]/_components/QuizPanel.tsx`
-- `app/src/app/runs/[runId]/scene/[n]/page.tsx`
-- `app/src/lib/catalog.ts`
-- `pipeline/scripts/initialize_polylogue.py`
 
 ### Per-file scope notes
 
@@ -712,7 +712,7 @@ App/runtime impact is no longer purely prompt-level. v4 now includes a contained
 - when `levels.length === 0`, the recap omits the star summary, no in-line quiz indicators are rendered, and `QuizPanel` is never mounted; completion is purely transcript-finished
 - runtime scoring must stay per-quiz but derive total possible stars from the actual number of lesson levels, with no fixed bonus-star rule
 - completion remains tied to finishing the transcript reader rather than to any fixed quiz cardinality
-- `bonusEarnedAt` may remain in the database as a tolerated legacy field, but v4 runtime logic must stop using it
+- `bonusEarnedAt` is retained in Prisma as a deprecated no-write, no-read column per Task 6; v4 runtime logic must neither write nor read it. Pre-v4 rows with inflated `Run.starsEarned` self-correct on next `syncRunStars` touch.
 - catalog eligibility (`syncCatalogFromFilesystem` / `isEligibleEpisodePair` in `app/src/lib/catalog.ts:108-134`) drops the same-scene rejection; an empty `levels[]` returns vacuously eligible
 - "pipeline-only" means consumed by other pipeline commands and operator review surfaces, not by the runtime app or its catalog. Intermediate artifacts must not become runtime inputs.
 - the Zod runtime contract in `app/src/lib/domain.ts` must be updated in the same sweep as the validators and prose docs
