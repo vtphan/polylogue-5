@@ -188,15 +188,17 @@ Supersedes the per-scene paging landed in the 2026-04-18 AM UI pass. Student rev
 - **Top line:** `Scene X of Y` where `X` is scroll-tracked via `IntersectionObserver`.
 - **Second line:** the current scene's `scene.summary`.
 - **Both stay visible at all times — including when the quiz is open.** Nothing in the rail disappears on quiz open; the quiz panel stacks *below* the scene header. Rationale: "things disappearing" is a distraction cost the student explicitly flagged.
-- **Quiz freezes the scene label.** While a quiz is open, the `Scene X of Y` label and summary freeze on the scene that owns the flagged turn — not the student's current scroll position. This keeps the label matched to "the scene this quiz is about," which is more useful than "the scene you happen to be scrolled to." When the quiz closes, the observer resumes and the label re-syncs to scroll position.
+- **Observer stays live during quiz open.** The `Scene X of Y` label and summary follow the student's scroll regardless of quiz state. An earlier "freeze on the flagged turn's scene during quiz" variant was tried and reverted — the QuizPanel carries its own scene context (level title + flagged-turn quote), so the rail header is free to reflect where the student is actually reading.
 - **No About-this-episode in the rail.** Moved (see below).
 - **No Previously in the rail.** Moved (see below).
 
-### IntersectionObserver config (draft)
+### IntersectionObserver config
 
 - Each scene's container gets `data-scene-index={n}` and a top scroll-margin for trigger stability.
-- Observer `rootMargin`: `"-35% 0px -35% 0px"` — "current scene" = whichever scene occupies the middle 30% of the scroll viewport. Narrower band = more responsive; wider = more stable. Tune after first usability pass.
-- On intersection change, client state updates and an async server action (`recordSceneViewAction`) persists `run.currentSceneIndex` / `sceneHighWaterMark` / `readingFinishedAt` for resume. Fire-and-forget (no redirect).
+- Observer watches the **full scroll container** (`rootMargin: "0px"`) — "current scene" = whichever scene has the highest overlap with the viewport at any given moment.
+- **Per-scene ratio cache.** The observer callback batches changes, so a fast scroll can report "scene 1 left, scene 3 entered" in a single batch without ever firing a callback while scene 2 was current. The handler caches each scene's most recent `intersectionRatio` in a ref and recomputes the current scene from the *complete* cache on every callback — this eliminates the 1→3 skip pattern that occurred when only the in-batch entries were considered.
+- `threshold: [0, 0.1, 0.25, 0.5, 0.75, 1]` for smooth ratio updates.
+- On current-scene change, client state updates and an async server action (`recordSceneViewAction`) persists `run.currentSceneIndex` / `sceneHighWaterMark` / `readingFinishedAt` for resume. Fire-and-forget (no redirect), debounced 600ms, runs regardless of quiz-open state.
 
 ### Initial scroll on mount
 

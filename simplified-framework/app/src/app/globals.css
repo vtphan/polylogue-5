@@ -303,11 +303,17 @@ p {
   padding: 0.15rem 0.55rem;
   border: 1px solid var(--line);
   border-radius: 999px;
-  background: var(--surface);
+  background: transparent;
   color: var(--muted);
   font-weight: 700;
   line-height: 1;
   user-select: none;
+  transition: background 140ms ease, border-color 140ms ease;
+}
+
+.episode-about__toggle:hover {
+  background: rgba(255, 251, 244, 0.55);
+  border-color: rgba(184, 92, 46, 0.28);
 }
 
 .episode-about__toggle::-webkit-details-marker {
@@ -323,8 +329,9 @@ p {
 .episode-about__popover {
   position: absolute;
   top: calc(100% + 0.4rem);
-  right: 0;
-  width: min(22rem, 80vw);
+  left: 0;
+  right: auto;
+  width: min(22rem, calc(100vw - 2.5rem));
   padding: 0.85rem 1rem;
   background: var(--panel);
   border: 1px solid var(--line);
@@ -422,6 +429,14 @@ p {
   padding-right: 2.6rem;
 }
 
+/* Flagged turn is the subject of an OPEN quiz in the right rail — loud
+   red border makes the tether unmistakable without repeating the quote. */
+.scene-turn--flagged-open {
+  border-color: #c1432c;
+  border-width: 2px;
+  padding: calc(0.75rem - 1px) calc(2.6rem - 1px) calc(0.7rem - 1px) calc(0.95rem - 1px);
+}
+
 /* Speaker label "breaks" the top border by matching the .scene-left
    background color (--surface-strong). */
 .scene-turn__speaker {
@@ -448,17 +463,14 @@ p {
 
 /* Discreet quiz icon — visually identical turn shape, only the icon
    signals a quiz is attached. */
-.flagged-turn__form {
+.flagged-turn__chip {
   position: absolute;
   top: 0.5rem;
   right: 0.55rem;
-  margin: 0;
-}
-
-.flagged-turn__chip {
   width: 1.6rem;
   height: 1.6rem;
   padding: 0;
+  margin: 0;
   border: 1px solid var(--accent);
   border-radius: 999px;
   background: white;
@@ -476,18 +488,30 @@ p {
   background: var(--accent-soft);
 }
 
-.flagged-turn__chip--open {
-  background: var(--accent);
+.flagged-turn__chip--correct {
+  border-color: var(--moss);
+  background: var(--moss);
   color: white;
 }
 
-.flagged-turn__chip--locked {
-  border-color: var(--moss);
-  color: var(--moss);
+.flagged-turn__chip--correct:hover {
+  background: #566846;
 }
 
-.flagged-turn__chip--locked:hover {
-  background: rgba(106, 123, 88, 0.08);
+.flagged-turn__chip--wrong {
+  border-color: #c1432c;
+  background: #c1432c;
+  color: white;
+}
+
+.flagged-turn__chip--wrong:hover {
+  background: #a2391f;
+}
+
+/* Open overrides any state — thicker ring signals "live". Layered with the
+   correct/wrong color so the student still sees their result. */
+.flagged-turn__chip--open {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #c1432c;
 }
 
 /* Scaffold panel — right rail. Swaps between reading scaffolds and the
@@ -534,61 +558,76 @@ p {
 .quiz-panel__header {
   display: flex;
   justify-content: space-between;
-  gap: 0.75rem;
   align-items: start;
+  gap: 0.75rem;
+}
+
+.quiz-panel__titles {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .quiz-panel__header h3 {
-  margin: 0.15rem 0 0;
+  margin: 0;
   font-size: 1.02rem;
   line-height: 1.25;
 }
 
-.quiz-back-form {
+.quiz-hint-form {
   margin: 0;
+  flex-shrink: 0;
 }
 
-.quiz-back {
-  padding: 0.35rem 0.6rem;
-  font-size: 0.85rem;
+.quiz-hint-button {
+  width: 1.9rem;
+  height: 1.9rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
-.quiz-quote {
-  margin: 0;
-  padding: 0.6rem 0.8rem;
-  border-left: 3px solid var(--accent);
-  background: rgba(184, 92, 46, 0.05);
-  border-radius: 0 0.5rem 0.5rem 0;
-  display: grid;
-  gap: 0.2rem;
+.quiz-hint-button:hover {
+  background: var(--accent-soft);
+  border-color: rgba(184, 92, 46, 0.35);
 }
 
-.quiz-quote__text {
-  margin: 0;
-  color: var(--ink);
-  font-style: italic;
-  font-size: 0.92rem;
-  line-height: 1.5;
+.quiz-close-row {
+  display: flex;
+  justify-content: center;
+  padding-top: 0.4rem;
 }
 
-.quiz-quote__attrib {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+.quiz-close {
+  padding-inline: 1.6rem;
+  font-size: 0.9rem;
 }
 
+/* Prompt = focal element. First thing the student reads in the panel. */
 .quiz-prompt {
   margin: 0;
-  font-size: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.7rem;
+  background: var(--accent-soft);
+  border-left: 4px solid var(--accent);
+  color: var(--ink);
+  font-size: 1.05rem;
+  font-weight: 600;
   line-height: 1.5;
 }
 
 .quiz-status {
   margin: 0;
   font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
 }
 
 .quiz-status--correct {
@@ -596,7 +635,7 @@ p {
 }
 
 .quiz-status--wrong {
-  color: var(--accent);
+  color: #c1432c;
 }
 
 .quiz-options {
@@ -604,44 +643,102 @@ p {
   gap: 0.55rem;
 }
 
-.quiz-option {
+/* Base option — interactive button or readonly div share the shape. */
+.quiz-option,
+.quiz-option--readonly {
+  display: grid;
+  gap: 0.4rem;
   width: 100%;
-  padding: 0.75rem 0.9rem;
+  padding: 0.8rem 0.95rem;
   border: 1px solid var(--line);
   border-radius: 0.8rem;
   background: var(--surface);
   color: var(--ink);
   text-align: left;
-  cursor: pointer;
+  font: inherit;
   font-size: 0.95rem;
   line-height: 1.45;
+}
+
+.quiz-option {
+  cursor: pointer;
 }
 
 .quiz-option:hover:not(:disabled) {
   border-color: rgba(184, 92, 46, 0.4);
 }
 
-.quiz-option--disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+.quiz-option--readonly {
+  cursor: default;
+}
+
+.quiz-option__text {
+  display: block;
+}
+
+.quiz-option__feedback {
+  display: block;
+  margin-top: 0.35rem;
+  padding-top: 0.4rem;
+  border-top: 1px dashed rgba(31, 37, 34, 0.14);
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  font-weight: normal;
+}
+
+/* Reveal highlights: solid colored backgrounds so the picked and correct
+   options pop — no opacity dimming of other options. */
+.quiz-option--correct {
+  background: rgba(106, 123, 88, 0.14);
+  border-color: var(--moss);
+  color: #3f4b30;
+}
+
+.quiz-option--correct .quiz-option__feedback {
+  color: #3f4b30;
+  border-top-color: rgba(106, 123, 88, 0.3);
+}
+
+.quiz-option--best::before {
+  content: "Best answer · ";
+  font-weight: 700;
+  color: var(--moss);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.quiz-option--wrong {
+  background: rgba(193, 67, 44, 0.1);
+  border-color: #c1432c;
+  color: #7f2815;
+}
+
+.quiz-option--wrong .quiz-option__feedback {
+  color: #7f2815;
+  border-top-color: rgba(193, 67, 44, 0.28);
+}
+
+/* Takeaway — hangs below the options after lock. */
+.quiz-takeaway {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.7rem;
+  background: rgba(255, 251, 244, 0.9);
+  border: 1px solid var(--line);
+  font-size: 0.92rem;
+  line-height: 1.45;
 }
 
 .quiz-answer-review__label {
   margin: 0;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.quiz-answer-review__card {
-  padding: 0.75rem 0.85rem;
-  border: 1px solid var(--line);
-  border-radius: 0.8rem;
-  background: white;
-  font-size: 0.92rem;
-  line-height: 1.45;
+  letter-spacing: 0.08em;
 }
 
 .hint-card {
@@ -722,16 +819,9 @@ p {
     align-self: stretch;
   }
 
-  /* When the quiz is open, dim sibling turns so the flagged turn stays
-     the bright anchor that connects to the right-column question. */
-  .scene-shell--quiz-open .scene-turn:not(.scene-turn--flagged) {
-    opacity: 0.6;
-    transition: opacity 200ms ease;
-  }
-
-  .scene-shell--quiz-open .scene-turn:not(.scene-turn--flagged):hover {
-    opacity: 1;
-  }
+  /* The flagged turn's red border is the tether to the right-column
+     question; sibling dialog stays at full opacity so students can read
+     surrounding context without friction. */
 }
 
 @media (max-width: 899px) {

@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { openQuizPanelAction, recordSceneViewAction } from "@/app/actions";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { recordSceneViewAction } from "@/app/actions";
 import { StarRow } from "@/app/_components/StarRow";
 import { QuizPanel } from "@/app/runs/[runId]/_components/QuizPanel";
 import type { ReaderLevel } from "@/lib/content";
@@ -15,7 +16,6 @@ type SceneSummary = {
   summary: string;
   turns: TranscriptTurn[];
   level: ReaderLevel | null;
-  flaggedTurn: TranscriptTurn | null;
 };
 
 type ContinuousSceneReaderProps = {
@@ -52,21 +52,30 @@ export function ContinuousSceneReader({
   readingFinished,
   runHref,
 }: ContinuousSceneReaderProps) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const openQuiz = useCallback(
+    (levelId: string) => {
+      router.replace(`${pathname}?open=${encodeURIComponent(levelId)}`, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const closeQuiz = useCallback(() => {
+    router.replace(pathname, { scroll: false });
+  }, [pathname, router]);
   const sceneSummaries = useMemo<SceneSummary[]>(
     () =>
       scenes.map((scene, index) => {
         const sceneTurnIds = new Set(scene.turns.map((turn) => turn.turn_id));
         const level = levels.find((entry) => sceneTurnIds.has(entry.turn_id)) ?? null;
-        const flaggedTurn = level
-          ? scene.turns.find((turn) => turn.turn_id === level.turn_id) ?? null
-          : null;
         return {
           scene_id: scene.scene_id,
           index: index + 1,
           summary: scene.summary,
           turns: scene.turns.filter((turn) => turn.kind !== "action"),
           level,
-          flaggedTurn,
         };
       }),
     [scenes, levels],
@@ -77,28 +86,16 @@ export function ContinuousSceneReader({
     [attempts],
   );
 
-  const levelSceneIndex = useMemo(() => {
-    const map = new Map<string, number>();
-    for (const scene of sceneSummaries) {
-      if (scene.level) {
-        map.set(scene.level.level_id, scene.index);
-      }
-    }
-    return map;
-  }, [sceneSummaries]);
-
-  // The scene whose quiz is open (if any). Freezes the rail label during
-  // quiz mode so the student sees "Scene N of M" matched to the question.
-  const frozenSceneIndex = openLevelId ? levelSceneIndex.get(openLevelId) ?? null : null;
-
   const [currentSceneIndex, setCurrentSceneIndex] = useState<number>(
     Math.min(Math.max(initialSceneIndex, 1), sceneSummaries.length),
   );
 
-  const displayedScene = useMemo(() => {
-    const targetIndex = frozenSceneIndex ?? currentSceneIndex;
-    return sceneSummaries.find((scene) => scene.index === targetIndex) ?? sceneSummaries[0];
-  }, [sceneSummaries, frozenSceneIndex, currentSceneIndex]);
+  const displayedScene = useMemo(
+    () =>
+      sceneSummaries.find((scene) => scene.index === currentSceneIndex) ??
+      sceneSummaries[0],
+    [sceneSummaries, currentSceneIndex],
+  );
 
   const scrollContainerRef = useRef<HTMLElement | null>(null);
   const sceneRefs = useRef<Map<number, HTMLElement>>(new Map());
@@ -119,31 +116,44 @@ export function ContinuousSceneReader({
     }
   }, [initialSceneIndex, sceneSummaries.length]);
 
-  // Intersection-driven current-scene tracking. Middle 30% of the scroll
-  // container is the trigger band.
+  // Intersection-driven current-scene tracking. Observes the full viewport
+  // (no rootMargin band) and caches each scene's most recent ratio in a ref
+  // so every callback reasons over the *complete* set of scenes, not just
+  // the ones that changed in this batch. Without the cache, fast scrolls
+  // that move two scenes across the trigger boundary in one callback would
+  // skip intermediate scenes in the label ("Scene 1 → Scene 3").
+  const sceneRatioCacheRef = useRef<Map<number, number>>(new Map());
+
   useEffect(() => {
     const container = scrollContainerRef.current;
     if (!container || typeof IntersectionObserver === "undefined") return;
 
+    const cache = sceneRatioCacheRef.current;
+    cache.clear();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .map((entry) => ({
-            index: Number((entry.target as HTMLElement).dataset.sceneIndex ?? 0),
-            ratio: entry.intersectionRatio,
-          }))
-          .filter((hit) => hit.index >= 1);
+        for (const entry of entries) {
+          const idx = Number((entry.target as HTMLElement).dataset.sceneIndex ?? 0);
+          if (idx < 1) continue;
+          cache.set(idx, entry.isIntersecting ? entry.intersectionRatio : 0);
+        }
 
-        if (visible.length === 0) return;
-
-        visible.sort((a, b) => b.ratio - a.ratio);
-        setCurrentSceneIndex((prev) => (prev === visible[0].index ? prev : visible[0].index));
+        let bestIdx = 0;
+        let bestRatio = -1;
+        for (const [idx, ratio] of cache) {
+          if (ratio > bestRatio) {
+            bestIdx = idx;
+            bestRatio = ratio;
+          }
+        }
+        if (bestIdx > 0) {
+          setCurrentSceneIndex((prev) => (prev === bestIdx ? prev : bestIdx));
+        }
       },
       {
         root: container,
-        rootMargin: "-35% 0px -35% 0px",
-        threshold: [0, 0.25, 0.5, 0.75, 1],
+        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
       },
     );
 
@@ -155,9 +165,8 @@ export function ContinuousSceneReader({
   }, [sceneSummaries.length]);
 
   // Persist current scene to the run record (fire-and-forget, debounced).
-  // Skipped while the quiz is open so closing doesn't snap the rail.
+  // Runs regardless of quiz state so the observer stays authoritative.
   useEffect(() => {
-    if (frozenSceneIndex !== null) return;
     if (lastPersistedSceneRef.current === currentSceneIndex) return;
 
     const timeout = window.setTimeout(() => {
@@ -169,16 +178,12 @@ export function ContinuousSceneReader({
     }, 600);
 
     return () => window.clearTimeout(timeout);
-  }, [currentSceneIndex, frozenSceneIndex, runId]);
+  }, [currentSceneIndex, runId]);
 
   const activeLevel = openLevelId
     ? levels.find((level) => level.level_id === openLevelId) ?? null
     : null;
   const activeAttempt = activeLevel ? attemptsByLevelId.get(activeLevel.level_id) ?? null : null;
-  const activeFlaggedTurn = activeLevel
-    ? sceneSummaries.find((scene) => scene.level?.level_id === activeLevel.level_id)?.flaggedTurn ??
-      null
-    : null;
 
   return (
     <div className={`scene-shell${openLevelId ? " scene-shell--quiz-open" : ""}`}>
@@ -230,22 +235,24 @@ export function ContinuousSceneReader({
                   {scene.turns.map((turn) => {
                     const isFlagged =
                       scene.level !== null && scene.level.turn_id === turn.turn_id;
+                    const flaggedOpen =
+                      isFlagged && scene.level !== null && openLevelId === scene.level.level_id;
                     return (
                       <li
                         key={turn.turn_id}
                         className={`scene-turn scene-turn--dialog${
                           isFlagged ? " scene-turn--flagged" : ""
-                        }`}
+                        }${flaggedOpen ? " scene-turn--flagged-open" : ""}`}
                       >
                         <p className="scene-turn__speaker">{turn.speaker}</p>
                         <p className="scene-turn__text">{turn.text}</p>
                         {isFlagged && scene.level ? (
                           <FlaggedTurnIcon
-                            runId={runId}
-                            sceneIndex={scene.index}
                             levelId={scene.level.level_id}
                             attempt={attemptsByLevelId.get(scene.level.level_id) ?? null}
+                            correctOptionIds={scene.level.feedback.correct.option_ids}
                             isOpen={openLevelId === scene.level.level_id}
+                            onOpen={openQuiz}
                           />
                         ) : null}
                       </li>
@@ -268,10 +275,10 @@ export function ContinuousSceneReader({
           {activeLevel ? (
             <QuizPanel
               runId={runId}
-              sceneIndex={frozenSceneIndex ?? displayedScene.index}
+              sceneIndex={currentSceneIndex}
               level={activeLevel}
               attempt={activeAttempt}
-              flaggedTurn={activeFlaggedTurn}
+              onClose={closeQuiz}
             />
           ) : null}
         </aside>
@@ -295,43 +302,52 @@ export function ContinuousSceneReader({
 }
 
 function FlaggedTurnIcon({
-  runId,
-  sceneIndex,
   levelId,
   attempt,
+  correctOptionIds,
   isOpen,
+  onOpen,
 }: {
-  runId: string;
-  sceneIndex: number;
   levelId: string;
   attempt: QuizAttempt | null;
+  correctOptionIds: string[];
   isOpen: boolean;
+  onOpen: (levelId: string) => void;
 }) {
   const locked = Boolean(attempt?.lockedAt);
-  const variant = isOpen
-    ? " flagged-turn__chip--open"
-    : locked
-      ? " flagged-turn__chip--locked"
-      : "";
-  const label = isOpen
-    ? "Question is open in the right column"
-    : locked
-      ? "Review this question"
-      : "Open the question for this turn";
+  const finalOptionId = attempt?.finalOptionId ?? attempt?.firstOptionId ?? null;
+  const wasCorrect = locked && finalOptionId ? correctOptionIds.includes(finalOptionId) : false;
+
+  let icon = "?";
+  let variant = "";
+  let label = "Open the question for this turn";
+
+  if (locked) {
+    if (wasCorrect) {
+      icon = "✓";
+      variant = " flagged-turn__chip--correct";
+      label = "Review this question — you answered correctly";
+    } else {
+      icon = "✗";
+      variant = " flagged-turn__chip--wrong";
+      label = "Review this question — your answer was off";
+    }
+  }
+
+  if (isOpen) {
+    variant += " flagged-turn__chip--open";
+    label = "Question is open in the right column";
+  }
 
   return (
-    <form action={openQuizPanelAction} className="flagged-turn__form">
-      <input type="hidden" name="run_id" value={runId} />
-      <input type="hidden" name="scene_index" value={sceneIndex} />
-      <input type="hidden" name="level_id" value={levelId} />
-      <button
-        type="submit"
-        className={`flagged-turn__chip${variant}`}
-        title={label}
-        aria-label={label}
-      >
-        ?
-      </button>
-    </form>
+    <button
+      type="button"
+      className={`flagged-turn__chip${variant}`}
+      title={label}
+      aria-label={label}
+      onClick={() => onOpen(levelId)}
+    >
+      {icon}
+    </button>
   );
 }

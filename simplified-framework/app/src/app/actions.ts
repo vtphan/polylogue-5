@@ -263,7 +263,7 @@ export async function openQuizHintAction(formData: FormData): Promise<void> {
   const level = await getReaderLevelForRun(run, levelId);
   const existing = await getQuizAttempt(runId, levelId);
   if (!level.hint || existing?.lockedAt) {
-    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+    return;
   }
 
   if (existing) {
@@ -283,9 +283,6 @@ export async function openQuizHintAction(formData: FormData): Promise<void> {
   }
 
   revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
-  redirect(
-    `/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}&hint=open`,
-  );
 }
 
 export async function submitQuizAnswerAction(formData: FormData): Promise<void> {
@@ -301,7 +298,7 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
   const level = await getReaderLevelForRun(run, levelId);
   const existing = await getQuizAttempt(runId, levelId);
   if (existing?.lockedAt) {
-    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+    return;
   }
 
   const validOptionIds = new Set(level.answer_options.map((option) => option.option_id));
@@ -351,7 +348,7 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
       }
       await syncRunStars(run);
       revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
-      redirect(`/runs/${runId}/scene/${sceneIndex}`);
+      return;
     }
 
     if (existing) {
@@ -371,7 +368,7 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
     }
 
     revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
-    redirect(`/runs/${runId}/scene/${sceneIndex}?open=${encodeURIComponent(levelId)}`);
+    return;
   }
 
   await prisma.quizAttempt.update({
@@ -389,5 +386,4 @@ export async function submitQuizAnswerAction(formData: FormData): Promise<void> 
 
   await syncRunStars(run);
   revalidatePath(`/runs/${runId}/scene/${sceneIndex}`);
-  redirect(`/runs/${runId}/scene/${sceneIndex}`);
 }
