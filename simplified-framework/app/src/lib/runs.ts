@@ -33,8 +33,8 @@ export async function createOrResumeRun(params: {
       studentId: params.studentId,
       storyId: params.storyId,
       episodeId: params.episodeId,
-      currentSceneIndex: 0,
-      sceneHighWaterMark: 0,
+      currentSceneIndex: 1,
+      sceneHighWaterMark: 1,
       starsEarned: 0,
     },
   });

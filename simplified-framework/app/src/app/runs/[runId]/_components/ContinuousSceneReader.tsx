@@ -29,8 +29,6 @@ type ContinuousSceneReaderProps = {
   initialSceneIndex: number;
   openLevelId: string | null;
   runStarsEarned: number;
-  readingFinished: boolean;
-  runHref: string;
 };
 
 function capitalize(id: string): string {
@@ -49,8 +47,6 @@ export function ContinuousSceneReader({
   initialSceneIndex,
   openLevelId,
   runStarsEarned,
-  readingFinished,
-  runHref,
 }: ContinuousSceneReaderProps) {
   const router = useRouter();
   const pathname = usePathname();
@@ -285,17 +281,15 @@ export function ContinuousSceneReader({
       </div>
 
       <nav className="scene-bottom-bar" aria-label="Episode navigation">
-        <div className="scene-bottom-bar__side scene-bottom-bar__side--left" />
+        <div className="scene-bottom-bar__side scene-bottom-bar__side--left">
+          <Link href="/stories" className="ghost">
+            ← Episodes
+          </Link>
+        </div>
         <div className="scene-bottom-bar__center">
           <StarRow earned={runStarsEarned} />
         </div>
-        <div className="scene-bottom-bar__side scene-bottom-bar__side--right">
-          {readingFinished ? (
-            <Link href={`${runHref}/complete`} className="primary">
-              Recap →
-            </Link>
-          ) : null}
-        </div>
+        <div className="scene-bottom-bar__side scene-bottom-bar__side--right" />
       </nav>
     </div>
   );

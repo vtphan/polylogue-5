@@ -167,38 +167,6 @@ export async function submitPracticeExerciseAction(formData: FormData): Promise<
   redirect(`/practice/${flawId}?choice=${encodeURIComponent(optionId)}`);
 }
 
-export async function goToSceneAction(formData: FormData): Promise<void> {
-  const runId = String(formData.get("run_id") ?? "");
-  const targetSceneIndex = Number(formData.get("target_scene_index") ?? "");
-
-  if (!runId) {
-    throw new Error("Missing run id");
-  }
-  if (!Number.isInteger(targetSceneIndex) || targetSceneIndex < 0) {
-    throw new Error("Invalid target scene index");
-  }
-
-  const { run } = await requireOwnedRun(runId);
-  const catalogEpisode = await getCatalogEpisodeForRun(run);
-  const transcript = await loadReaderTranscriptByPaths(catalogEpisode.transcriptPath);
-  const sceneCount = transcript.scenes.length;
-  const boundedTarget = Math.min(targetSceneIndex, sceneCount);
-
-  await prisma.run.update({
-    where: { runId },
-    data: {
-      currentSceneIndex: boundedTarget,
-      sceneHighWaterMark: Math.max(run.sceneHighWaterMark, boundedTarget),
-      ...(boundedTarget === sceneCount && !run.readingFinishedAt
-        ? { readingFinishedAt: new Date() }
-        : {}),
-    },
-  });
-
-  revalidatePath(`/runs/${runId}/scene/${boundedTarget}`);
-  redirect(`/runs/${runId}/scene/${boundedTarget}`);
-}
-
 export async function recordSceneViewAction(formData: FormData): Promise<void> {
   const runId = String(formData.get("run_id") ?? "");
   const sceneIndex = Number(formData.get("scene_index") ?? "");

@@ -102,6 +102,12 @@ The lesson package and transcript currently carry very little for the right colu
 
 5. **Deferred to later pass: `scene.vocabulary[]`** — per-scene list of above-grade terms paired with plain paraphrases, surfaced as a "Words in this scene" tab. Defer; higher authoring cost; §8 register guidelines already require in-dialog paraphrase.
 
+6. **Story-level `premise`** — surfaced via a new artifact at `simplified-framework/artifacts/{story_id}/story-info.yaml` (exact filename TBD; could also be `story.yaml` co-located with episode dirs or folded into an expanded catalog row).
+   - Plain-language premise describing what the whole story is about, ≤ ~30 words. Example: *"Four seventh-graders launch a wildlife-spotting club after swearing they saw a white squirrel — and start disagreeing about what actually counts as proof."*
+   - Authored upstream in `simplified-framework/stories/{story_id}/story.yaml` (the `story_designer` agent already has a natural home for it); emitted into the artifact tree at build/catalog time so the app can read it without round-tripping through the authoring directory.
+   - **Rendered on `/stories`** as a subtitle or lead-in under each story's heading (above the episode list) so students have story-level framing before deciding which episode to open. Cards can also surface a trimmed version; primary placement is the story section header.
+   - Validator work: `validate_story.py` requires `premise` (grade-6 readability, ≤ 30 words). Catalog sync copies it to `story-info.yaml` (or equivalent) alongside the existing per-episode artifacts.
+
 ### Validator work (draft)
 
 - `validate_transcript.py` accepts new `characters[]` object shape (with string-fallback warning), `scene.setting` (required once released; optional during migration), `scene.watch_for` (required once released).
@@ -219,13 +225,16 @@ Supersedes the per-scene paging landed in the 2026-04-18 AM UI pass. Student rev
 
 ### Stories-page implications
 
-- Each `/stories` episode card renders:
+- Each `/stories` story section renders:
   - Story heading (grouped, as today).
+  - **New (pending `story.premise` field — see Candidate new field #6):** story-level premise as a subtitle under the heading, giving students framing before they pick an episode.
+- Each `/stories` episode card renders:
   - Episode title + episode ID (as today).
-  - **New:** `previously` line if present (≤ ~2 visible lines, muted).
-  - State label (Resume / Open / Open recap, as today).
+  - **New:** `previously` line if present, styled as a subtly distinct block (dashed border, muted background) placed *above* the summary so it reads as prior-context before the episode's own blurb.
+  - **New:** `episode.summary` as the card's primary body so a student can choose an episode without the old Scene-0 splash (the splash has been removed from the flow — see Runtime section on continuous-scroll reader).
+  - State label (Resume / Read, as today).
   - Star row (as today).
-- Data source: read `lesson_package.yaml` inline at render time (cheap, `/stories` is infrequent). A later optimization can push `previously` into the `CatalogEpisode` Prisma table via the catalog sync step, but not now — keep the schema surface small during the v3 shakeout.
+- Data source: read `lesson_package.yaml` inline at render time (cheap, `/stories` is infrequent). A later optimization can push `previously` + `summary` (and the new `story.premise`) into Prisma tables via the catalog sync step, but not now — keep the schema surface small during the v3 shakeout.
 
 ### Accessibility notes
 

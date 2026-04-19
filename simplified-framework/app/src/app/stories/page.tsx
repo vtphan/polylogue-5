@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { openStoryAction } from "@/app/actions";
 import { StarRow } from "@/app/_components/StarRow";
@@ -29,20 +30,22 @@ export default async function StoriesPage() {
     runs.map((run) => [`${run.storyId}::${run.episodeId}`, run]),
   );
 
-  // Read each episode's lesson package so the card can surface `previously`
-  // as decision-time context. Catalog stays path-only; this is a /stories
-  // render-time read (infrequent surface, ~5 episodes max in v3).
-  const previouslyByKey = new Map<string, string | null>();
+  // Read each episode's lesson package so the card can surface its summary
+  // (and `previously` continuity blurb) as decision-time context. Catalog
+  // stays path-only; this is a /stories render-time read.
+  type EpisodeBlurb = { summary: string; previously: string | null };
+  const blurbByKey = new Map<string, EpisodeBlurb>();
   await Promise.all(
     episodes.map(async (episode) => {
+      const key = `${episode.storyId}::${episode.episodeId}`;
       try {
         const lessonPackage = await loadReaderLessonPackageByPaths(episode.lessonPackagePath);
-        previouslyByKey.set(
-          `${episode.storyId}::${episode.episodeId}`,
-          lessonPackage.previously ?? null,
-        );
+        blurbByKey.set(key, {
+          summary: lessonPackage.summary,
+          previously: lessonPackage.previously ?? null,
+        });
       } catch {
-        previouslyByKey.set(`${episode.storyId}::${episode.episodeId}`, null);
+        blurbByKey.set(key, { summary: "", previously: null });
       }
     }),
   );
@@ -54,6 +57,7 @@ export default async function StoriesPage() {
       episodeId: string;
       storyTitle: string;
       episodeTitle: string;
+      summary: string;
       previously: string | null;
       stateLabel: string;
       starsEarned: number;
@@ -63,11 +67,8 @@ export default async function StoriesPage() {
   for (const episode of episodes) {
     const key = `${episode.storyId}::${episode.episodeId}`;
     const run = runsByEpisode.get(key);
-    const stateLabel = run
-      ? run.readingFinishedAt
-        ? "Open recap"
-        : "Resume"
-      : "Open";
+    const stateLabel = run ? "Resume" : "Read";
+    const blurb = blurbByKey.get(key);
 
     const bucket = grouped.get(episode.storyTitle) ?? [];
     bucket.push({
@@ -75,7 +76,8 @@ export default async function StoriesPage() {
       episodeId: episode.episodeId,
       storyTitle: episode.storyTitle,
       episodeTitle: episode.episodeTitle,
-      previously: previouslyByKey.get(key) ?? null,
+      summary: blurb?.summary ?? "",
+      previously: blurb?.previously ?? null,
       stateLabel,
       starsEarned: run?.starsEarned ?? 0,
     });
@@ -88,8 +90,7 @@ export default async function StoriesPage() {
         <p className="eyebrow">Read a story</p>
         <h1>Pick an episode for {student.name}.</h1>
         <p>
-          Episodes stay in a fixed order. Finished runs reopen on the recap screen;
-          unfinished runs resume from their saved spot.
+          Episodes stay in a fixed order. Tap a card to open the episode and start reading.
         </p>
       </header>
 
@@ -123,6 +124,9 @@ export default async function StoriesPage() {
                           {episode.previously}
                         </p>
                       ) : null}
+                      {episode.summary ? (
+                        <p className="story-picker-card__summary">{episode.summary}</p>
+                      ) : null}
                       <StarRow earned={episode.starsEarned} />
                     </button>
                   </form>
@@ -131,6 +135,13 @@ export default async function StoriesPage() {
             </ul>
           </section>
         ))}
+      </div>
+
+      <div className="stories-home-row">
+        <Link href="/" className="stories-home-link" aria-label="Back to home — switch profile">
+          <span className="stories-home-link__icon" aria-hidden="true">⌂</span>
+          <span>Home</span>
+        </Link>
       </div>
     </div>
   );

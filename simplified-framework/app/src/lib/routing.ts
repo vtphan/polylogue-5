@@ -1,9 +1,6 @@
 import type { Run } from "@prisma/client";
 
 export function routeForRun(run: Run): string {
-  if (run.readingFinishedAt) {
-    return `/runs/${run.runId}/complete`;
-  }
-
-  return `/runs/${run.runId}/scene/${run.currentSceneIndex}`;
+  const sceneIndex = Math.max(1, run.currentSceneIndex);
+  return `/runs/${run.runId}/scene/${sceneIndex}`;
 }

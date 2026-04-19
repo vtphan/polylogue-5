@@ -209,11 +209,22 @@ p {
   white-space: nowrap;
 }
 
+.story-picker-card__summary {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .story-picker-card__previously {
   margin: 0;
+  padding: 0.6rem 0.8rem;
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.5;
+  border: 1px dashed rgba(31, 37, 34, 0.2);
+  border-radius: 0.5rem;
+  background: rgba(31, 37, 34, 0.03);
 }
 
 .story-picker-card__previously-label {
@@ -224,28 +235,32 @@ p {
   text-transform: uppercase;
 }
 
-.orientation-card {
-  gap: 1.2rem;
-}
-
-.orientation-block {
-  display: grid;
-  gap: 0.4rem;
-}
-
-.orientation-block .eyebrow {
-  color: var(--accent);
-}
-
-.scene-nav {
+.stories-home-row {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  align-items: center;
+  justify-content: center;
+  padding: 0.5rem 0 0;
 }
 
-.scene-nav-form {
-  margin: 0;
+.stories-home-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+}
+
+.stories-home-link:hover,
+.stories-home-link:focus-visible {
+  color: var(--accent);
+  background: rgba(31, 37, 34, 0.06);
+}
+
+.stories-home-link__icon {
+  font-size: 1.15rem;
+  line-height: 1;
 }
 
 /* =========================================================================
@@ -1030,21 +1045,6 @@ a.ghost:hover {
 .stack {
   display: grid;
   gap: 0.9rem;
-}
-
-.complete-page {
-  justify-items: center;
-  text-align: center;
-}
-
-.complete-page .page-header {
-  justify-items: center;
-}
-
-.complete-panel {
-  width: min(36rem, 100%);
-  padding-block: 2rem;
-  gap: 1.4rem;
 }
 
 .muted {
