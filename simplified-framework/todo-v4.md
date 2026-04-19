@@ -1,6 +1,6 @@
 # TODO v4
 
-> **DRAFT — 2026-04-19.** Supersedes `todo-v3.md` once v3 verification is signed off. v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
+> **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
 
 Agent file naming in this doc uses kebab-case for markdown filenames, even when an agent role is written with underscores in prompt text or schema fields.
 
@@ -619,7 +619,7 @@ Separate reader scenes from teaching-anchor selection without redesigning the re
 
 ### Validator and schema surgery
 
-- choose an explicit app-facing schema-version strategy for v4 and apply it uniformly across validators, Zod runtime parsing, catalog ingestion, and generated artifacts in the same sweep; mixed old/new episode directories must fail cleanly rather than being partially accepted under one label
+- bump `package_meta.schema_version` from `simplified_v2` to `simplified_v4` and apply it uniformly across validators, Zod runtime parsing, catalog ingestion, and generated artifacts in the same sweep; see §Schema-Version Migration for the full touchpoint list and the archived-artifact policy. Mixed old/new episode directories must fail cleanly rather than being partially accepted under one label.
 - drop `REQUIRED_LEVEL_COUNT` in `validate_lesson_package.py:24,174-178`; accept `len(levels) >= 0`
 - drop the same-scene rejection in `validate_lesson_package.py:284-296`
 - remove `episode.flaws` requirements from `validate_lesson_package.py` and `schemas/lesson_package.yaml`
@@ -665,7 +665,25 @@ The implementation should explicitly update all surfaces that still describe the
 
 The scoring migration follows Task 6: `bonusEarnedAt` is retained in Prisma as a deprecated, no-write, no-read column during v4 and is scheduled for removal in a follow-up cleanup. Schema, docs, and code changes in this sweep must match that decision rather than re-litigate it.
 
-The artifact-version migration must also be decided and carried through this same sweep. If v4 keeps the existing app-facing schema version label, then validators, Zod parsers, and docs must all explicitly accept the new variable-length semantics under that label together. If v4 uses a new app-facing schema version label, artifact generation, validators, runtime parsing, and catalog eligibility checks must all switch in the same rollout so partial upgrades fail loudly rather than misloading content.
+The artifact-version migration is carried through this same sweep per §Schema-Version Migration below. Validators, Zod runtime parsing, catalog eligibility checks, docs, and artifact generation all flip in the same rollout so partial upgrades fail loudly rather than misloading content.
+
+### Schema-Version Migration
+
+In v4 the lesson-package label moves from `simplified_v2` to `simplified_v4`. The decision skips `simplified_v3` intentionally — v3 was a narrow shape cleanup (removing `kind: action` turns) that did not alter the lesson-package contract, and bumping the label only now, when variable-length `levels[]`, turn-based anchoring, removal of `episode.flaws`, and the bonus-star retirement all break the old contract, keeps label changes aligned with real contract breaks.
+
+**Label bump applies to `lesson_package.yaml` only.** Three independent decisions govern the sweep:
+
+1. **Label.** `package_meta.schema_version` on `lesson_package.yaml` becomes `simplified_v4`. All of the following must flip together in the same rollout:
+   - `SCHEMA_VERSION` constant in `pipeline/scripts/validate_lesson_package.py`
+   - `z.literal("simplified_v2")` in `app/src/lib/domain.ts:95` → `z.literal("simplified_v4")`
+   - every newly generated `artifacts/{story_id}/{episode_id}/lesson_package.yaml`
+   - authoring guidance in `pipeline/agents/lesson-package-builder.md`
+   - label references in `docs/tech-reference.md` and any doc describing the package contract
+   - the descriptive schema in `schemas/lesson_package.yaml`
+2. **Archived `simplified_v2` packages → hard reject.** Existing archived packages under `artifacts/archive/**` are not migrated, not re-labeled, and not accepted by the new validator. `syncCatalogFromFilesystem` already scopes to `artifacts/{story_id}/` excluding the archive, so rejection does not affect catalog loading. The archive remains a human-readable qualitative-regression baseline; it does not need to validate under v4.
+3. **Practice package stays at `simplified_v2`.** `practice_package.yaml`, `validate_practice_package.py`, and `schemas/practice_package.yaml` are untouched by v4. Practice is explicitly out of scope, practice and lesson validators are independent, and the labels live in separate `package_meta` fields on separate artifacts, so no conflict arises from the lesson bump alone.
+
+Half-applied migrations are a hard failure mode: a v4-era `lesson_package.yaml` still labeled `simplified_v2`, or a `simplified_v4` package that still carries `episode.flaws` or exactly 3 levels, must be rejected by the validator rather than silently accepted. The Task 7 validator and Zod edits are the enforcement point for this.
 
 At minimum, sweep:
 

@@ -1,6 +1,6 @@
 # TODO v3
 
-> **Status — 2026-04-19: implementation complete, verification pending.** All Task 1 and Task 2 changes have landed; end-to-end verification against the active corpus and a fresh app boot has not yet been performed. Supersedes `todo-v2.md` (frozen). Two tasks only. Earlier drafts carried scaffold-field speculation, reader redesign prose, and design-record material; those are out of scope now and have been removed. Git history has the expanded draft if any prior prose is needed.
+> **Status — 2026-04-19: verification signed off.** Implementation complete and operator-verified; v4 now supersedes this plan. Supersedes `todo-v2.md` (frozen). Two tasks only. Earlier drafts carried scaffold-field speculation, reader redesign prose, and design-record material; those are out of scope now and have been removed. Git history has the expanded draft if any prior prose is needed.
 
 > **UI freeze (in effect).** The app's interface is frozen. No changes to layout, navigation, page structure, component styling, color / spacing tokens, typography, or existing-surface CSS — including incidental changes made while landing these tasks — without **explicit operator approval**. Operator approval is granted for Task 2's narrow `/stories` change: render `story.premise` as a subtitle / lead-in under each story heading, with no other interface changes. Everything else in the app — scene reader, quiz panel, bottom nav, practice mode, profile flow — is settled.
 
