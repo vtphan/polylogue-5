@@ -107,6 +107,8 @@ Artifact presence alone is not approval state, except where v4 explicitly persis
 
 Intermediate pipeline-only artifacts do not need dedicated validator files, but they do need a minimal resumability guard. A file counts as present for resume purposes only if it parses as YAML and contains the required top-level keys named in this doc. A half-written, empty, or structurally incomplete intermediate artifact must be treated as missing and regenerated from the prior checkpoint.
 
+`transcript.yaml` does not gain pipeline-only review-state fields in v4. Once `transcript.yaml` exists and validates, the transcript stage is treated as complete for resumability. If the operator later wants scene-summary-only adjustments, that is an explicit rerun of the transcript-structuring pass rather than a resumable pending-review checkpoint on the app-facing artifact.
+
 In v4, this resumability ladder is defined per episode. Cross-episode orchestration rules are out of scope for this plan and may be handled independently by the calling workflow.
 
 Files are the working review surfaces. CLI chat is the approval channel.
@@ -151,6 +153,8 @@ The new intermediate artifacts are pipeline-only, but their minimum shapes must 
 - `running_threads`
 - `plot_obligations`
 - `scene_count_target`
+
+For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a planning and regeneration artifact, but `create_transcript` must not merge content from both files at write time. If the projection is regenerated from the saved plan, the regenerated projection wholly replaces the prior brief before any further transcript work proceeds.
 
 `transcript.raw.yaml` must be a mapping with:
 
@@ -218,6 +222,13 @@ Each `candidate_turns` entry should minimally include:
 - `rationale`
 
 Each `proposals[]` entry must reference a `turn_id` that either appears in `candidate_turns[]` (for `proposal_type` of `keep`, `tweak`, or `replace`) or is a fresh validator-compatible id allocated by `script_doctor` for `add_beat`. `proposal_type` operates on the referenced candidate or new beat. `candidate_turns[]` and `proposals[]` are not required to be 1:1: a candidate may have no associated edit proposal (when `keep` is implicit), and an `add_beat` proposal has no preceding candidate.
+
+Structural proposals must also persist enough placement information to be re-applied deterministically. In particular:
+
+- `tweak` and `replace` operate on an existing `turn_id`
+- `add_beat` must include exactly one placement key: `insert_after_turn_id` or `insert_before_turn_id`
+
+v4 does not permit a free-form "insert somewhere around here" application contract. The saved proposal must be specific enough that operator review and later re-application both point to the same location in the dialog.
 
 Required top-level keys must always be present as YAML keys, with `candidate_turns: []`, `recommended_turn_ids: []`, `approved_anchors: []`, `proposals: []`, and `revision_history: []` allowed empty before approval.
 
@@ -540,6 +551,8 @@ The command remains human-in-the-loop. It must not silently continue from transc
 - preserve the runtime's deterministic rendering and grading contract, but remove fixed-count assumptions from package generation
 - keep per-quiz scoring at `3 / 2 / 1 / 0`, but make total available stars dynamic as `3 * levels.length`
 - explicitly allow `levels: []` when the operator approved zero anchors; the package is still considered complete for runtime ingestion
+- remove `episode.flaws` from `lesson_package.yaml` entirely in v4 rather than deriving or backfilling it from `approved_anchors`
+- keep `episode.final_takeaway` optional; it may be omitted when the operator intentionally approved a zero-anchor episode or when no clean episode-level takeaway is warranted
 - remove the fixed 10th bonus star from the v2 contract rather than redefining it for variable-length episodes
 - update `syncRunStars` in `app/src/lib/quiz.ts:39-60` to drop the +1 bonus and stop writing `bonusEarnedAt`; `starsEarned` becomes the simple sum of quiz stars and total possible is computed in the recap UI as `3 * levels.length`, not stored on `Run`
 - keep episode completion tied to reaching the end of the transcript; quiz count no longer determines completion semantics
@@ -568,6 +581,7 @@ Separate reader scenes from teaching-anchor selection without redesigning the re
 
 - drop `REQUIRED_LEVEL_COUNT` in `validate_lesson_package.py:24,174-178`; accept `len(levels) >= 0`
 - drop the same-scene rejection in `validate_lesson_package.py:284-296`
+- remove `episode.flaws` requirements from `validate_lesson_package.py` and `schemas/lesson_package.yaml`
 - drop the strictly-increasing-id check in `validate_transcript.py:202-211`; preserve the `tNN` format and uniqueness checks
 - delete `flaws[]` validation from `validate_episode_plan.py:60-142`; tolerate a stray `flaws[]` on archived plans by ignoring it rather than rejecting it
 - change `app/src/lib/domain.ts:103` `lessonPackageSchema.levels` from `.length(3)` to an unconstrained `z.array(...)`; the existing uniqueness / sequence-index superRefine stays
@@ -591,6 +605,8 @@ When a scene contains two or more flagged turns:
 
 Per the 2026-04-18 UI freeze approval gate, any visible reader change still requires explicit operator sign-off before edits land.
 
+Implementation note: the reader model must no longer collapse scene quiz state to a single per-scene level. The safe v4 contract is a per-turn lookup keyed by `turn_id` (or an equivalent `flaggedLevels[]` collection resolved per scene) so multiple anchors in one scene remain representable without changing the single-active-panel behavior.
+
 ### Required surfaces
 
 - update the reader so it can surface multiple flagged turns within the same scene without assuming one quiz per scene
@@ -605,6 +621,8 @@ Per the 2026-04-18 UI freeze approval gate, any visible reader change still requ
 
 The implementation should explicitly update all surfaces that still describe the old flow, not just the agent files.
 
+For the scoring migration, decide explicitly whether `bonusEarnedAt` is removed from Prisma now or retained as a deprecated unused column during the transition. Either approach is acceptable, but the implementation must choose one and update schema/docs/code consistently rather than dropping writes while leaving the field semantically ambiguous.
+
 At minimum, sweep:
 
 - `pipeline/commands/create_episodes.md`
@@ -615,12 +633,22 @@ At minimum, sweep:
 - `pipeline/agents/README.md`
 - `pipeline/reference/language-guide.md`
 - `pipeline/scripts/_intermediate_guards.py` (new helper, not a validator; see Artifact policy)
+- `pipeline/scripts/validate_episode_plan.py`
+- `pipeline/scripts/validate_transcript.py`
+- `pipeline/scripts/validate_lesson_package.py`
 - `schemas/transcript.yaml`
 - `schemas/lesson_package.yaml`
 - `schemas/episode-plan.yaml`
-- `pipeline/scripts/validate_lesson_package.py`
-- `pipeline/scripts/validate_episode_plan.py`
-- `pipeline/scripts/validate_transcript.py`
+- `app/src/lib/domain.ts`
+- `app/src/lib/catalog.ts`
+- `app/src/lib/quiz.ts`
+- `app/src/app/_components/StarRow.tsx`
+- `app/src/app/page.tsx`
+- `app/src/app/stories/page.tsx`
+- `app/src/app/runs/[runId]/_components/ContinuousSceneReader.tsx`
+- `app/prisma/schema.prisma`
+- `docs/tech-reference.md`
+- `docs/instructional-design.md`
 - `docs/instructional-design.md`
 - `docs/operator-workflow.md`
 - `docs/tech-reference.md`
