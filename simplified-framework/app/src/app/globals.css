@@ -442,6 +442,14 @@ p {
 
 .scene-turn--flagged {
   padding-right: 2.6rem;
+  cursor: pointer;
+}
+
+/* Subtle hover tint when the quiz is closed, to signal that the whole
+   box is the toggle target. When the quiz is open, the red border
+   already carries the state — don't layer a hover tint on top of it. */
+.scene-turn--flagged:not(.scene-turn--flagged-open):hover {
+  background: rgba(31, 37, 34, 0.03);
 }
 
 /* Flagged turn is the subject of an OPEN quiz in the right rail — loud

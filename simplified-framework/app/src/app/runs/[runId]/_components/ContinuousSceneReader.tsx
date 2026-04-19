@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react";
 import { recordSceneViewAction } from "@/app/actions";
 import { StarRow } from "@/app/_components/StarRow";
 import { QuizPanel } from "@/app/runs/[runId]/_components/QuizPanel";
@@ -229,26 +236,56 @@ export function ContinuousSceneReader({
               >
                 <ol className="scene-turns">
                   {scene.turns.map((turn) => {
-                    const isFlagged =
-                      scene.level !== null && scene.level.turn_id === turn.turn_id;
+                    const flaggedLevel =
+                      scene.level !== null && scene.level.turn_id === turn.turn_id
+                        ? scene.level
+                        : null;
+                    const flaggedAttempt = flaggedLevel
+                      ? attemptsByLevelId.get(flaggedLevel.level_id) ?? null
+                      : null;
                     const flaggedOpen =
-                      isFlagged && scene.level !== null && openLevelId === scene.level.level_id;
+                      flaggedLevel !== null && openLevelId === flaggedLevel.level_id;
+                    // Whole flagged-turn box toggles the quiz on/off. Text
+                    // selection suppresses the toggle so students can highlight
+                    // the turn while reading. The inner `?` icon stays clickable
+                    // (and keyboard-focusable) as the accessible primary target;
+                    // it stops propagation to avoid double-toggling.
+                    const toggleQuiz = flaggedLevel
+                      ? () => {
+                          if (window.getSelection()?.toString()) return;
+                          if (flaggedOpen) {
+                            closeQuiz();
+                          } else {
+                            openQuiz(flaggedLevel.level_id);
+                          }
+                        }
+                      : undefined;
+                    const handleIconClick = flaggedLevel
+                      ? (event: MouseEvent<HTMLButtonElement>) => {
+                          event.stopPropagation();
+                          if (flaggedOpen) {
+                            closeQuiz();
+                          } else {
+                            openQuiz(flaggedLevel.level_id);
+                          }
+                        }
+                      : undefined;
                     return (
                       <li
                         key={turn.turn_id}
                         className={`scene-turn scene-turn--dialog${
-                          isFlagged ? " scene-turn--flagged" : ""
+                          flaggedLevel ? " scene-turn--flagged" : ""
                         }${flaggedOpen ? " scene-turn--flagged-open" : ""}`}
+                        onClick={toggleQuiz}
                       >
                         <p className="scene-turn__speaker">{turn.speaker}</p>
                         <p className="scene-turn__text">{turn.text}</p>
-                        {isFlagged && scene.level ? (
+                        {flaggedLevel && handleIconClick ? (
                           <FlaggedTurnIcon
-                            levelId={scene.level.level_id}
-                            attempt={attemptsByLevelId.get(scene.level.level_id) ?? null}
-                            correctOptionIds={scene.level.feedback.correct.option_ids}
-                            isOpen={openLevelId === scene.level.level_id}
-                            onOpen={openQuiz}
+                            attempt={flaggedAttempt}
+                            correctOptionIds={flaggedLevel.feedback.correct.option_ids}
+                            isOpen={flaggedOpen}
+                            onClick={handleIconClick}
                           />
                         ) : null}
                       </li>
@@ -296,17 +333,15 @@ export function ContinuousSceneReader({
 }
 
 function FlaggedTurnIcon({
-  levelId,
   attempt,
   correctOptionIds,
   isOpen,
-  onOpen,
+  onClick,
 }: {
-  levelId: string;
   attempt: QuizAttempt | null;
   correctOptionIds: string[];
   isOpen: boolean;
-  onOpen: (levelId: string) => void;
+  onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 }) {
   const locked = Boolean(attempt?.lockedAt);
   const finalOptionId = attempt?.finalOptionId ?? attempt?.firstOptionId ?? null;
@@ -314,23 +349,21 @@ function FlaggedTurnIcon({
 
   let icon = "?";
   let variant = "";
-  let label = "Open the question for this turn";
+  let label = locked ? "Re-open this question" : "Open the question for this turn";
 
   if (locked) {
     if (wasCorrect) {
       icon = "✓";
       variant = " flagged-turn__chip--correct";
-      label = "Review this question — you answered correctly";
     } else {
       icon = "✗";
       variant = " flagged-turn__chip--wrong";
-      label = "Review this question — your answer was off";
     }
   }
 
   if (isOpen) {
     variant += " flagged-turn__chip--open";
-    label = "Question is open in the right column";
+    label = "Close the question";
   }
 
   return (
@@ -339,7 +372,7 @@ function FlaggedTurnIcon({
       className={`flagged-turn__chip${variant}`}
       title={label}
       aria-label={label}
-      onClick={() => onOpen(levelId)}
+      onClick={onClick}
     >
       {icon}
     </button>
