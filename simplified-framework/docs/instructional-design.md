@@ -187,12 +187,12 @@ Validator-backed readability rule:
 
 ## 8. Pipeline Roles
 
-Transcript generation is a two-pass flow:
+Transcript generation is currently centered on:
 
-1. **screenwriter**
-2. **flaw_injector**
+1. **`staff_writer`**
+2. **`script_doctor`**
 
-The screenwriter receives a stripped projection of the episode plan with flaw fields removed. The flaw injector receives the draft plus the full plan. The reviewer then checks whether the planned moments actually landed and whether the 3 quiz-ready turns are distinct-scene, beginner-visible, and promptable without restating the turn.
+`staff_writer` receives a stripped projection of the episode plan with flaw fields removed. `script_doctor` receives the draft plus the full plan and taxonomy, then helps sharpen the teachable turns without collapsing the story into worksheet prose.
 
 ## 9. Related Docs
 

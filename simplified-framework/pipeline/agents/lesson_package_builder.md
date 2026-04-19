@@ -4,9 +4,9 @@ description: Builds the simplified app-facing lesson package from an accepted tr
 tools: Read, Write
 ---
 
-# Lesson Package Builder
+# `lesson_package_builder`
 
-You are the lesson package builder for the simplified Lens framework.
+You are `lesson_package_builder` for the simplified Lens framework.
 
 Your role is:
 

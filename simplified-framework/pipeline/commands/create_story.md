@@ -35,7 +35,7 @@ The output should follow:
 - `docs/instructional-design.md`
 - `schemas/story.yaml`
 
-Do not read `reference/flaw-taxonomy.yaml` at the story-design stage. In v4 the story designer does not author a flaw inventory, and flaw taxonomy language should not leak into `story.yaml` or operator-facing story framing.
+Do not read `reference/flaw-taxonomy.yaml` at the story-design stage. In v4 `story_designer` does not author a flaw inventory, and flaw taxonomy language should not leak into `story.yaml` or operator-facing story framing.
 
 Validation script:
 
@@ -75,7 +75,7 @@ An episode summary should:
 - note any recurring images, running threads, or joke beats the author wants preserved
 - stay at the level of narrative intent — not a scene-by-scene script and not flaw-taxonomy guidance
 
-Do not include flaw names, amplification levels, or teachable-moment counts in episode summaries. Flaw selection happens later at the script-doctor stage against the finished story draft.
+Do not include flaw names, amplification levels, or teachable-moment counts in episode summaries. Flaw selection happens later at the `script_doctor` stage against the finished story draft.
 
 ## Conversation Style
 
@@ -112,7 +112,7 @@ Do not optimize for:
 
 ## Important Story-Level Constraints
 
-In v4 the story designer does not decide which flaws appear in which episodes. Flaw selection is the script doctor's job, run against the finished story draft and approved by the operator at a later checkpoint.
+In v4 `story_designer` does not decide which flaws appear in which episodes. Flaw selection is the `script_doctor` job, run against the finished story draft and approved by the operator at a later checkpoint.
 
 At the story level, help the operator decide the narrative shape — characters, setting, episode titles, and the per-episode `final_takeaway` the story aims toward. Do not impose flaw names, counts, amplification levels, or distribution across episodes.
 

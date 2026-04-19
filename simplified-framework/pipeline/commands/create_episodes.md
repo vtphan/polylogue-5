@@ -1,5 +1,5 @@
 ---
-description: Draft the full episode set for a simplified Lens story, including episode-level flaw progression and planning artifacts
+description: Draft the full episode set for a simplified Lens story, including episode plans and saved showrunner briefs
 ---
 
 # Create Episodes
@@ -8,7 +8,7 @@ Help the operator create the full episode set for a simplified Lens story.
 
 This command is story-level planning, not transcript generation.
 
-Its job is to translate a completed or mostly completed `story.yaml` into a set of simplified `episode-plan.yaml` artifacts, one per episode, with a coherent learning arc across the whole story.
+Its job is to translate a completed or mostly completed `story.yaml` into a set of simplified `episode-plan.yaml` artifacts, one per episode, with a coherent narrative arc across the whole story.
 
 The output of this command is the **full episode-plan set for the story in one run**. Do not reinterpret this as a per-episode planning command.
 
@@ -20,7 +20,7 @@ The default artifacts are:
 - `artifacts/{story_id}/episode_02/episode-plan.yaml`
 - and so on for the full episode set
 
-This command also prepares an **ephemeral screenwriter projection** for each episode plan. Those projections are in-context handoff material for `create_transcript`, not saved artifacts on disk.
+This command also prepares a saved `showrunner-projection.yaml` for each episode plan. That brief is the later handoff material for `staff_writer`.
 
 These should follow:
 
@@ -39,13 +39,15 @@ For each episode, determine:
 
 - title
 - episode goal
-- flaws — the primary flaw must carry exactly 3 quiz-worthy moments total: one each at `unmistakable`, `showcased`, and `heightened`, distributed across distinct scenes. Supporting flaws optional.
 - student takeaway
 - scene design
 - character beats
-- flaw embedding guidance
+- running threads
+- plot obligations
 
-For each episode, also prepare this exact screenwriter projection shape:
+In v4, this plan is story-facing. Do not author `flaws[]`, amplification bands, or quiz-distribution targets here.
+
+For each episode, also prepare this exact showrunner projection shape:
 
 ```yaml
 story_id: <str>
@@ -80,9 +82,9 @@ That projection withholds:
 - `target_teachable_moments`
 - `reference/flaw-taxonomy.yaml`
 
-`screenwriter` does not receive the full flaw-bearing plan.
+`staff_writer` does not receive the full flaw-bearing plan.
 
-This command should plan all episodes in one shot so the story-level flaw progression is coherent.
+This command should plan all episodes in one shot so the story-level narrative arc is coherent.
 
 ## What This Command Must Not Do
 
@@ -101,23 +103,22 @@ Those belong to later commands.
 
 Episodes should feel like parts of one story, not isolated lesson containers.
 
-### 2. Flaw Progression Should Be Intentional
+### 2. Story Pressure Should Be Intentional
 
 The operator and agent should decide:
 
-- which flaw anchors each episode
-- where earlier flaws are reinforced later
-- where episodes should stay simple
-- where later episodes can become slightly richer
+- which wrong idea or unstable theory drives each episode
+- where private stakes and offscreen life deepen the episode
+- where earlier tensions are reinforced later
+- where episodes should stay simple and where they can become richer
 
 ### 3. Plan For The Downstream Reader
 
 Each episode plan should give the downstream app what it needs:
 
-- 3 quiz-worthy primary-flaw moments
-- one per amplification band
-- no two of those 3 moments in the same scene
-- turns clear enough that later prompts can ask the question directly without repeating the turn
+- a strong narrative spine
+- enough clear obligations that later drafting does not invent the episode from scratch
+- a saved brief that can be handed to `staff_writer` without hidden planning context
 
 ### 4. Preserve Room for Natural Transcript Writing
 
@@ -146,7 +147,6 @@ Primary input:
 Also read as needed:
 
 - `docs/instructional-design.md`
-- `reference/flaw-taxonomy.yaml`
 
 Scope rule for this run:
 
@@ -155,20 +155,22 @@ Scope rule for this run:
 - do not inspect sibling story artifact trees under `artifacts/` unless the operator explicitly asks for comparison or reuse
 - if prior artifacts already exist under `artifacts/{story_id}/`, use only that same-story path as reference context for overwrites or revisions
 
-## Required Validation Step
+## Validation Note
 
-After saving each `episode-plan.yaml`, run:
+The current validator still enforces the older v3 `episode-plan.yaml` contract. Task 7 removes that mismatch.
+
+Until then, author the v4 showrunner plan shape described in `todo-v4.md` even if `validate_episode_plan.py` still expects legacy flaw fields.
+
+If you do run the validator, treat v3-only failures as expected migration debt rather than a reason to reintroduce `flaws[]`.
 
 ```bash
 python3 pipeline/scripts/validate_episode_plan.py artifacts/{story_id}/{episode_id}/episode-plan.yaml
 ```
 
-Each saved episode plan should pass before the episode set is treated as complete.
-
 ## Relationship to Later Commands
 
 - `create_story` creates the story-level source artifact.
-- `create_episodes` turns that into the full episode plan set and the paired in-context projection shape used later by `screenwriter`.
+- `create_episodes` turns that into the full episode plan set and the paired saved projection used later by `staff_writer`.
 - later transcript creation should happen one episode at a time.
 
 Do not move into transcript writing in this command.

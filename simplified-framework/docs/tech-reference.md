@@ -1,6 +1,6 @@
 # Tech Reference
 
-This document is the primary technical reference for the v2 simplified-framework app and pipeline contract.
+This document is the primary technical reference for the simplified-framework app and pipeline contract.
 
 For pedagogy and student-facing design, see `instructional-design.md`.
 
@@ -177,13 +177,13 @@ Authoring flow:
 4. operator review of `flaw-review.md`
 5. `create_lesson_package`
 
-Transcript generation is split:
+Transcript generation currently uses:
 
-1. `screenwriter` writes from a stripped projection of the plan
-2. `flaw_injector` revises the draft against the full flaw-bearing plan
-3. `flaw_reviewer` checks amplification fit, distinct-scene quiz readiness, and promptability
+1. `showrunner` to prepare the episode plan and saved projection
+2. `staff_writer` to draft from the stripped projection
+3. `script_doctor` to diagnose and revise toward teachable flawed turns
 
-The screenwriter projection is ephemeral and not written to disk.
+The showrunner projection is pipeline-facing and not an app input.
 
 ## 9. Validation Commands
 

@@ -1,10 +1,10 @@
 # TODO v4
 
-> **Status (2026-04-19):** Phase 0 landed (v3 `story.yaml` archived inline as `story.v3.yaml`; `story.yaml` rewritten with student-facing `premise`, new per-episode `episodes[].summary` carrying showrunner context, and no episode flaws; `validate_story.py`, `create_story.md`, and `story-designer.md` updated). The `premise` field name is retained so no app/catalog/Prisma changes are required at this layer. Batch 1 (Tasks 1–3 + initializer re-run) is next. Update this line when a batch fully lands; batches are: (0) Phase 0 story-layer migration, (1) renames + agent rewrites, (2) pipeline wiring (Tasks 4–5), (3) contract sweep (Tasks 6–7 + migration), (4) regeneration + qualitative check.
+> **Status (2026-04-19):** Task 0 + Tasks 1–3 landed. Tasks 1–3 renamed `episode_planner` to `showrunner`, `screenwriter` to `staff_writer`, and `flaw_injector` to `script_doctor`; removed `flaw_reviewer`; swept active references; and re-ran `initialize_polylogue.py`. Tasks 4–5 (`transcript_structurer` + `create_transcript.md` rewrite around two checkpoints) are next. Update this line when a grouped task landing fully lands.
 
 > **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
 
-Agent file naming in this doc uses kebab-case for markdown filenames, even when an agent role is written with underscores in prompt text or schema fields.
+Agent identifiers in this doc use snake_case for role names, filenames, and command references.
 
 ## Executive Summary
 
@@ -63,11 +63,11 @@ This is the operational source of truth. Future agents should validate implement
 2. `create_episodes` produces `episode-plan.yaml` and also saves `showrunner-projection.yaml` for each episode.
 3. `create_transcript` invokes the `staff_writer` from `showrunner-projection.yaml` and saves `transcript.raw.yaml`.
 4. The operator reviews `transcript.raw.yaml` as a story draft before any flaw editing.
-5. After story-draft approval, the script doctor becomes the first explicit flaw-aware stage, reads `transcript.raw.yaml` plus `reference/flaw-taxonomy.yaml`, and writes `flaw-proposals.yaml`.
+5. After story-draft approval, `script_doctor` becomes the first explicit flaw-aware stage, reads `transcript.raw.yaml` plus `reference/flaw-taxonomy.yaml`, and writes `flaw-proposals.yaml`.
 6. `flaw-proposals.yaml` contains a candidate set of flawed turns, suggested flaw labels, suggested expression strengths, and any proposed edits or new beats.
 7. By default, the first proposal set contains up to 5 candidate teaching anchors so the operator has a practical review surface rather than a forced full inventory.
 8. The operator chooses which candidates to approve, reject, relabel, tone down, or revise, and may ask for more than the default 5 through CLI chat.
-9. Only then does the script doctor apply the accepted proposals and emit `transcript.post-doctor.yaml`, the final dialog-only story draft.
+9. Only then does `script_doctor` apply the accepted proposals and emit `transcript.post-doctor.yaml`, the final dialog-only story draft.
 10. The operator spot-checks `transcript.post-doctor.yaml` for faithful application before structuring continues.
 11. A later transcript-structuring pass reads `transcript.post-doctor.yaml`, segments the approved story draft into app-facing scenes, and writes scene summaries into `transcript.yaml`.
 12. `create_lesson_package` builds from accepted `transcript.yaml` plus the approved teaching anchors recorded in `flaw-proposals.yaml` and writes `lesson_package.yaml`.
@@ -103,10 +103,10 @@ Resuming a stopped run should be artifact-driven rather than chat-state-driven:
 - else if `transcript.raw.yaml` exists and is parseable YAML with the required top-level keys for a raw draft, branch on its `status` field:
   - if `status` is `approved`, resume by invoking `script_doctor` to write `flaw-proposals.yaml`
   - else resume at checkpoint 1 raw-draft review
-- else if `showrunner-projection.yaml` exists and is parseable YAML with the required top-level keys for a showrunner brief, resume by invoking the staff writer from that saved brief
+- else if `showrunner-projection.yaml` exists and is parseable YAML with the required top-level keys for a showrunner brief, resume by invoking `staff_writer` from that saved brief
 - else restart the episode flow from `create_episodes`
 
-A missing `showrunner-projection.yaml` is a hard restart from `create_episodes`, not a silent regeneration from `episode-plan.yaml`. The projection carries content fields (`narrative_synopsis`, `hypothesis_pursued`, `disproof_event`, `scene_count_target`) that `episode-plan.yaml` is not guaranteed to carry, so regeneration would invent content and diverge from the brief the staff writer actually received. The plan remains a human-editable planning artifact; it is not a recovery source.
+A missing `showrunner-projection.yaml` is a hard restart from `create_episodes`, not a silent regeneration from `episode-plan.yaml`. The projection carries content fields (`narrative_synopsis`, `hypothesis_pursued`, `disproof_event`, `scene_count_target`) that `episode-plan.yaml` is not guaranteed to carry, so regeneration would invent content and diverge from the brief `staff_writer` actually received. The plan remains a human-editable planning artifact; it is not a recovery source.
 
 Artifact presence alone is not approval state, except where v4 explicitly persists operator approval outcomes in artifact fields. In v4, review artifacts must persist operator review state separately from the selected turn set so an operator-approved zero-anchor outcome can still resume deterministically. Resume from the latest saved artifact and its persisted approval fields, then require explicit operator approval in chat for any later checkpoint not already captured in those fields.
 
@@ -122,9 +122,9 @@ Files are the working review surfaces. CLI chat is the approval channel.
 
 Persist these files under `artifacts/{story_id}/{episode_id}/`:
 
-- `showrunner-projection.yaml` — stripped brief passed to the staff writer
+- `showrunner-projection.yaml` — stripped brief passed to `staff_writer`
 - `transcript.raw.yaml` — pre-flaw story draft awaiting operator review
-- `flaw-proposals.yaml` — script-doctor candidate set and edit proposals awaiting operator review
+- `flaw-proposals.yaml` — `script_doctor` candidate set and edit proposals awaiting operator review
 - `transcript.post-doctor.yaml` — post-application dialog-only draft awaiting operator spot-check before transcript structuring
 - `transcript.yaml` — final approved transcript
 
@@ -323,7 +323,7 @@ What it does:
 
 - plans season arc and per-episode obligations;
 - plans private stakes, running threads, and character interior outside the flaw itself;
-- writes a prose brief for the staff writer.
+- writes a prose brief for `staff_writer`.
 
 That brief should encode the story problem through situation design, interpersonal pressure, and episode obligations rather than through direct taxonomy language or explicit quiz-planning instructions.
 
@@ -345,7 +345,7 @@ What it does:
 - assigns stable pre-structuring `turn_id`s in `transcript.raw.yaml` so later proposal review and flaw selection can point to exact dialog turns before app-facing scenes exist;
 - uses the same validator-compatible `turn_id` format in the raw draft that the final structured transcript must keep, so later steps do not need to rewrite turn identifiers.
 
-This is a deliberate tradeoff: the staff writer should not read the flaw taxonomy directly, and should not be told how many flaws, quizzes, or teaching anchors the app might later render.
+This is a deliberate tradeoff: `staff_writer` should not read the flaw taxonomy directly, and should not be told how many flaws, quizzes, or teaching anchors the app might later render.
 
 The raw draft is intentionally not scene-shaped. It should be written as a continuous dialog flow in a flat `turns` list, with sceneing deferred to the later transcript-structuring pass.
 
@@ -411,29 +411,29 @@ What the operator does not need the app or validators to do:
 
 ## Implementation Tasks
 
-## Phase 0 — Archive v3 And Prepare `story.yaml` For v4
+## Task 0 — Archive v3 And Prepare `story.yaml` For v4
 
-Phase 0 is a preparatory pass on the story layer, executed before the agent/pipeline/contract tasks below. It is not a new design — it only migrates `story.yaml` and its authoring surfaces to match v4's "story designer does not author a flaw inventory" principle, and it establishes the v3 archive used later by the Ordering regeneration step.
+Task 0 is a preparatory pass on the story layer, executed before the agent/pipeline/contract tasks below. It is not a new design — it only migrates `story.yaml` and its authoring surfaces to match v4's `story_designer` principle of not authoring a flaw inventory, and it establishes the v3 archive used later by the Ordering regeneration step.
 
 ### Scope
 
 1. Archive the current v3 `story.yaml` inline as `stories/{story_id}/story.v3.yaml`. The live file at `stories/{story_id}/story.yaml` is overwritten by the v4 rewrite in the same batch.
 2. Rewrite `story.yaml` to the v4 shape:
-   - `premise` — field name retained for app/catalog/Prisma continuity. Content becomes a short student-facing overview (see §Premise Guidance in `create_story.md` / `story-designer.md`). No spoilers, no flaw taxonomy language, no per-episode plot detail.
+   - `premise` — field name retained for app/catalog/Prisma continuity. Content becomes a short student-facing overview (see §Premise Guidance in `create_story.md` / `story_designer.md`). No spoilers, no flaw taxonomy language, no per-episode plot detail.
    - `episodes[].summary` — new per-episode field carrying showrunner-facing narrative detail (hypothesis pursued, disproof, episode lead, recurring beats). This is what `create_episodes` reads when it builds `episode-plan.yaml`. Not rendered to students. Required in v4.
    - Strip `episodes[].flaws`. This field is removed from `story.yaml` in v4.
-   - Keep `episodes[].final_takeaway` required end-to-end; it remains authored in `story.yaml` and carried downstream into `lesson_package.yaml` by `lesson-package-builder`.
-   - Keep `characters[]` (with `voice_notes`) unchanged. Character voice remains showrunner/staff-writer fuel and is not student-facing.
+   - Keep `episodes[].final_takeaway` required end-to-end; it remains authored in `story.yaml` and carried downstream into `lesson_package.yaml` by `lesson_package_builder`.
+   - Keep `characters[]` (with `voice_notes`) unchanged. Character voice remains showrunner/`staff_writer` fuel and is not student-facing.
 3. Update `validate_story.py`:
    - Drop the `episodes[].flaws` required-check.
    - Require `episodes[].summary` as a non-empty string (the `create_episodes` contract depends on it).
    - Reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). This is the enforcement point that prevents silent reuse of v3 `story.yaml` files.
-4. Update `pipeline/commands/create_story.md` and `pipeline/agents/story-designer.md`:
+4. Update `pipeline/commands/create_story.md` and `pipeline/agents/story_designer.md`:
    - Remove flaw-authoring instructions and any directive to read `reference/flaw-taxonomy.yaml` during story design.
    - Add premise guidance: student-facing, no spoilers, no taxonomy, short.
    - Add episode-summary guidance: showrunner-facing, per-episode narrative intent, allowed to carry concrete plot detail, not flaw taxonomy.
 5. No schema-sketch change: `schemas/story.yaml` already omits `flaws` from its properties list and treats `episodes` as an unshaped array.
-6. No app-side changes: the `premise` field name is retained, so `catalog.ts`, `stories/page.tsx`, `schema.prisma`, and existing Prisma migrations are unaffected by Phase 0. Any future app surfacing of `episodes[].summary` (e.g., teacher view) would be a separate decision outside Phase 0.
+6. No app-side changes: the `premise` field name is retained, so `catalog.ts`, `stories/page.tsx`, `schema.prisma`, and existing Prisma migrations are unaffected by Task 0. Any future app surfacing of `episodes[].summary` (e.g., teacher view) would be a separate decision outside Task 0.
 
 ### Artifact policy for archived `story.v3.yaml`
 
@@ -441,11 +441,11 @@ The archived file is retained as a qualitative-regression baseline alongside the
 
 - the v4 validator hard-rejects it (because `episodes[].flaws` is present).
 - `listCatalogEpisodes` and other runtime reads are filename-matched against `story.yaml`, not `story.v3.yaml`, so catalog loading is unaffected.
-- do not edit `story.v3.yaml` after Phase 0 lands. If the v3 artifact needs correcting, correct the archive via a fresh commit and explain the reason.
+- do not edit `story.v3.yaml` after Task 0 lands. If the v3 artifact needs correcting, correct the archive via a fresh commit and explain the reason.
 
 ### Notes on `./artifacts/`
 
-As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no live episode directories. The Ordering step that archives `artifacts/the-white-squirrel/ep0{1..3}/` to `artifacts/archive/the-white-squirrel-v3-prev/` reduces to a no-op on Phase 0 entry. If live v3 episode directories reappear before Phase 0 lands, archive them in the same batch.
+As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no live episode directories. The Ordering step that archives `artifacts/the-white-squirrel/ep0{1..3}/` to `artifacts/archive/the-white-squirrel-v3-prev/` reduces to a no-op on Task 0 entry. If live v3 episode directories reappear before Task 0 lands, archive them in the same task.
 
 ### Success criteria
 
@@ -455,9 +455,9 @@ As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no
 - `episodes[].summary` is present for every episode and carries the per-episode authorial intent `create_episodes` needs.
 - No downstream agent is instructed to read `reference/flaw-taxonomy.yaml` at the story-design stage.
 
-### Out of scope for Phase 0
+### Out of scope for Task 0
 
-- `stories/strangers-in-the-old-forest/` is legacy and untouched by Phase 0. It still carries `episodes[].flaws` and lacks `episodes[].summary`, so it fails the v4 validator. That is acceptable: no live pipeline work targets it. If it is ever re-used, it should be migrated as a separate Phase 0-style pass or archived outright.
+- `stories/strangers-in-the-old-forest/` is legacy and untouched by Task 0. It still carries `episodes[].flaws` and lacks `episodes[].summary`, so it fails the v4 validator. That is acceptable: no live pipeline work targets it. If it is ever re-used, it should be migrated as a separate Task 0-style pass or archived outright.
 
 ## Task 1 — Rename And Rewrite `episode-planner` As `showrunner`
 
@@ -479,16 +479,16 @@ As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no
 
 - save `showrunner-projection.yaml` under the episode artifact directory
 
-This file is not app-facing. It exists so operators and external tools can inspect exactly what brief the staff writer received.
+This file is not app-facing. It exists so operators and external tools can inspect exactly what brief `staff_writer` received.
 
 ## Task 2 — Rename And Update `screenwriter.md` As `staff_writer`
 
 ### File changes
 
-- move `pipeline/agents/screenwriter.md` to `pipeline/agents/staff-writer.md`
+- move `pipeline/agents/screenwriter.md` to `pipeline/agents/staff_writer.md`
 - sweep references across command specs, docs, and initializer logic
 
-This task uses `staff_writer` for the role name and `staff-writer.md` for the file name.
+This task uses `staff_writer` for both the role name and the file name (`staff_writer.md`).
 
 ### Behavioral changes
 
@@ -511,11 +511,11 @@ The minimum shape is a flat ordered `turns` list plus top-level metadata, `revis
 
 ### File changes
 
-- move `pipeline/agents/flaw_injector.md` to `pipeline/agents/script-doctor.md`
+- move `pipeline/agents/flaw_injector.md` to `pipeline/agents/script_doctor.md`
 - remove `pipeline/agents/flaw-reviewer.md`
 - sweep references across command specs, docs, and initializer logic
 
-This task uses `script_doctor` for the role name and `script-doctor.md` for the file name.
+This task uses `script_doctor` for both the role name and the file name (`script_doctor.md`).
 
 ### Behavioral changes
 
@@ -565,7 +565,7 @@ Move scene segmentation and scene-summary writing to a later scaffold pass so st
 
 ### Behavioral changes
 
-- read the final approved story draft after script-doctor application
+- read the final approved story draft after `script_doctor` application
 - segment the draft into app-facing scenes for reading support
 - add scene summaries as scaffolding for the reader
 - keep approved teaching anchors attached to selected `turn_id`s rather than to scene planning
@@ -600,7 +600,7 @@ That summary-only revision path is an explicit rerun from the latest approved `t
 
 After raw-draft approval, `create_transcript` should:
 
-1. invoke the script doctor on `transcript.raw.yaml`
+1. invoke `script_doctor` on `transcript.raw.yaml`
 2. save `flaw-proposals.yaml`
 3. alert the operator in CLI chat to review it
 4. let the operator approve, reject, relabel, tone down, or request revisions on the current candidate set
@@ -608,7 +608,7 @@ After raw-draft approval, `create_transcript` should:
 6. iterate until the operator approves the proposals
 7. on approval, persist the operator-approved teaching anchors in `flaw-proposals.yaml` as `approved_anchors`
 8. set `status` on `flaw-proposals.yaml` to `approved` when the operator approves the proposal set, even if `approved_anchors` is empty
-9. ask the script doctor to apply only the latest approved proposal set from `proposals[]` and save `transcript.post-doctor.yaml`, including its proposal provenance fields; `approved_anchors[]` controls lesson selection later, not whether an approved transcript edit is applied
+9. ask `script_doctor` to apply only the latest approved proposal set from `proposals[]` and save `transcript.post-doctor.yaml`, including its proposal provenance fields; `approved_anchors[]` controls lesson selection later, not whether an approved transcript edit is applied
 10. set `status` on `transcript.post-doctor.yaml` to `pending_review`
 11. alert the operator in CLI chat with a concise post-application summary so they can spot-check `transcript.post-doctor.yaml` for faithful application before structuring continues
 12. if that spot-check fails, the operator's chat feedback indicates one of two cases: (a) proposal-set issue — set `flaw-proposals.yaml` `status` back to `needs_revision`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and reopen checkpoint 2; or (b) application-quality issue — leave `flaw-proposals.yaml` `status` as `approved`, set `transcript.post-doctor.yaml` `status` to `needs_revision`, and re-invoke `script_doctor` to re-apply only. Either way, require the operator to explicitly re-approve the relevant artifact state in chat before proceeding to structuring.
@@ -621,12 +621,12 @@ After raw-draft approval, `create_transcript` should:
 
 The command remains human-in-the-loop. It must not silently continue from transcript generation into lesson-package generation.
 
-## Task 6 — Rewrite `create_lesson_package.md` And `lesson-package-builder.md`
+## Task 6 — Rewrite `create_lesson_package.md` And `lesson_package_builder.md`
 
 ### File changes
 
 - remove `flaw-review.md` from `create_lesson_package.md`
-- remove `flaw-review.md` from `lesson-package-builder.md`
+- remove `flaw-review.md` from `lesson_package_builder.md`
 
 ### Behavioral changes
 
@@ -638,7 +638,7 @@ The command remains human-in-the-loop. It must not silently continue from transc
 - keep per-quiz scoring at `3 / 2 / 1 / 0`, but make total available stars dynamic as `3 * levels.length`
 - explicitly allow `levels: []` when the operator approved zero anchors; the package is still considered complete for runtime ingestion
 - remove `episode.flaws` from `lesson_package.yaml` entirely in v4 rather than deriving or backfilling it from `approved_anchors`
-- keep `episode.final_takeaway` required end-to-end, authored once in `story.yaml` and carried into `lesson_package.yaml` by `lesson-package-builder`. v4 does not relax this contract. This field survives the zero-anchor case (an episode may have no lesson levels and still have a narrative final takeaway)
+- keep `episode.final_takeaway` required end-to-end, authored once in `story.yaml` and carried into `lesson_package.yaml` by `lesson_package_builder`. v4 does not relax this contract. This field survives the zero-anchor case (an episode may have no lesson levels and still have a narrative final takeaway)
 - remove the fixed 10th bonus star from the v2 contract rather than redefining it for variable-length episodes
 - update `syncRunStars` in `app/src/lib/quiz.ts:39-60` to drop the +1 bonus and stop writing `bonusEarnedAt`; `starsEarned` becomes the simple sum of quiz stars and total possible is computed in the recap UI as `3 * levels.length`, not stored on `Run`
 - retain the `bonusEarnedAt` column on `Run` in Prisma as a deprecated, no-write, no-read field in v4. Removal is deferred to a follow-up cleanup. Pre-v4 rows may carry stale bonus-inflated `starsEarned` values; recap UI behavior is to re-sync `Run.starsEarned` from `QuizAttempt.starsEarned` sums on next interaction so inflated values self-correct on touch, and to derive total possible from `levels.length` regardless of stored values
@@ -728,7 +728,7 @@ In v4 the lesson-package label moves from `simplified_v2` to `simplified_v4`. Th
    - `SCHEMA_VERSION` constant in `pipeline/scripts/validate_lesson_package.py`
    - `z.literal("simplified_v2")` in `app/src/lib/domain.ts:95` → `z.literal("simplified_v4")`
    - every newly generated `artifacts/{story_id}/{episode_id}/lesson_package.yaml`
-   - authoring guidance in `pipeline/agents/lesson-package-builder.md`
+   - authoring guidance in `pipeline/agents/lesson_package_builder.md`
    - label references in `docs/tech-reference.md` and any doc describing the package contract
    - the descriptive schema in `schemas/lesson_package.yaml`
 2. **Archived `simplified_v2` packages → hard reject.** Existing archived packages under `artifacts/archive/**` are not migrated, not re-labeled, and not accepted by the new validator. `syncCatalogFromFilesystem` already scopes to `artifacts/{story_id}/` excluding the archive, so rejection does not affect catalog loading. The archive remains a human-readable qualitative-regression baseline; it does not need to validate under v4.
@@ -741,13 +741,13 @@ At minimum, sweep:
 - `pipeline/commands/create_episodes.md`
 - `pipeline/commands/create_transcript.md`
 - `pipeline/commands/create_lesson_package.md`
-- `pipeline/commands/create_story.md` *(Phase 0)*
-- `pipeline/agents/story-designer.md` *(Phase 0)*
-- `pipeline/agents/lesson-package-builder.md`
+- `pipeline/commands/create_story.md` *(Task 0)*
+- `pipeline/agents/story_designer.md` *(Task 0)*
+- `pipeline/agents/lesson_package_builder.md`
 - `pipeline/agents/README.md`
 - `pipeline/reference/language-guide.md`
 - `pipeline/scripts/_intermediate_guards.py` (new helper, not a validator; see Artifact policy)
-- `pipeline/scripts/validate_story.py` *(Phase 0)*
+- `pipeline/scripts/validate_story.py` *(Task 0)*
 - `pipeline/scripts/validate_episode_plan.py`
 - `pipeline/scripts/validate_transcript.py`
 - `pipeline/scripts/validate_lesson_package.py`
@@ -774,14 +774,14 @@ At minimum, sweep:
 
 To make the sweep actionable rather than a checklist:
 
-- `pipeline/commands/create_*.md` — rewrite around the showrunner→staff_writer→script_doctor→transcript_structurer chain plus the two checkpoints; remove screenwriter-projection language. `create_story.md` (Phase 0) drops `reference/flaw-taxonomy.yaml` as an input, removes flaw-inventory authoring, and adds student-facing premise guidance
-- `pipeline/agents/story-designer.md` (Phase 0) — drop the "story-level flaw palette" and "flaw progression" responsibilities; rename what the designer authors to `story_id`, `title`, `premise` (student-facing), `setting`, `characters`, and `episodes[]` with only `episode_id`, `title`, `final_takeaway`
-- `pipeline/agents/lesson-package-builder.md` — drop `flaw-review.md` input, source approved anchors from `flaw-proposals.yaml` `approved_anchors`, allow zero-level packages
+- `pipeline/commands/create_*.md` — rewrite around the showrunner→`staff_writer`→`script_doctor`→`transcript_structurer` chain plus the two checkpoints; remove screenwriter-projection language. `create_story.md` (Task 0) drops `reference/flaw-taxonomy.yaml` as an input, removes flaw-inventory authoring, and adds student-facing premise guidance
+- `pipeline/agents/story_designer.md` (Task 0) — drop the "story-level flaw palette" and "flaw progression" responsibilities; rename what the designer authors to `story_id`, `title`, `premise` (student-facing), `setting`, `characters`, and `episodes[]` with only `episode_id`, `title`, `final_takeaway`
+- `pipeline/agents/lesson_package_builder.md` — drop `flaw-review.md` input, source approved anchors from `flaw-proposals.yaml` `approved_anchors`, allow zero-level packages
 - `pipeline/agents/README.md` — re-enumerate the agent set
 - `pipeline/reference/language-guide.md` — drop amplification vocabulary; keep only `expression_strength` strong/moderate language
 - `pipeline/scripts/_intermediate_guards.py` — new shape-check helper for the four intermediate artifacts; verifies presence/parseability of required top-level keys only, no semantic rules
 - `schemas/transcript.yaml`, `schemas/lesson_package.yaml`, `schemas/episode-plan.yaml` — see Task 7 §Descriptive schemas
-- `pipeline/scripts/validate_story.py` (Phase 0) — drop the `episodes[].flaws` required-check; reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). Keep `final_takeaway` optional-but-validated; it is authored per-episode and required at the `lesson_package.yaml` stage
+- `pipeline/scripts/validate_story.py` (Task 0) — drop the `episodes[].flaws` required-check; reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). Keep `final_takeaway` optional-but-validated; it is authored per-episode and required at the `lesson_package.yaml` stage
 - `pipeline/scripts/validate_*.py` — see Task 7 §Validator and schema surgery for line-level edits
 - `docs/instructional-design.md` — update student-journey wording so scenes are reading scaffolds and teaching anchors are turn-based
 - `docs/operator-workflow.md` — replace the screenwriter→flaw_injector→flaw_reviewer narrative with the four-stage v4 chain plus the two checkpoints; retain human-judgment final-quality language
@@ -850,7 +850,7 @@ Qualitative regression against the v2 archive remains a human judgment step rath
 4. re-run `python3 simplified-framework/pipeline/scripts/initialize_polylogue.py` so `.claude/agents/` and `.claude/commands/` pick up the renames before any further task uses them
 5. add the transcript-structuring pass that scenes the approved draft for the reader
 6. rewrite `create_transcript.md` around the two operator checkpoints plus structuring
-7. rewrite `create_lesson_package.md` and `lesson-package-builder.md` to stop depending on `flaw-review.md`
+7. rewrite `create_lesson_package.md` and `lesson_package_builder.md` to stop depending on `flaw-review.md`
 8. revise the app and validator contract so quizzes are anchored by turn, not constrained by scenes
 9. sweep docs and initializer references
 10. archive existing `flaw-review.md` files under `artifacts/archive/` (they retain historical reviewer notes useful for the qualitative comparison) and move current `artifacts/the-white-squirrel/ep0{1..3}/` into `artifacts/archive/the-white-squirrel-v3-prev/` before regenerating, so the v2 archive stays untouched and the v3 baseline is preserved

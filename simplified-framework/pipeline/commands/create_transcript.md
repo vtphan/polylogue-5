@@ -1,17 +1,19 @@
 ---
-description: Generate one episode transcript through the v2 two-pass writing flow, review quiz readiness, and present the result to the operator for approval
+description: Generate one episode transcript through the current `staff_writer` and `script_doctor` flow, then present the result to the operator for approval
 ---
 
 # Create Transcript
 
-Generate one transcript at a time for the simplified Lens v2 framework.
+Generate one transcript at a time for the simplified Lens pipeline.
+
+Task note: Tasks 4–5 rewire this command around explicit raw-draft and proposal checkpoints. In Tasks 1–3, this file is updated for the renamed roles and saved showrunner brief, while the full command-flow rewrite remains deferred.
 
 This command should:
 
 1. load the story artifact
 2. load the selected `episode-plan.yaml`
 3. draft a narrative transcript
-4. inject the planned flaw moments
+4. sharpen the strongest teachable turns
 5. review whether the transcript is strong enough for the downstream inline-quiz app
 6. report to the operator whether the transcript seems good enough for package generation
 
@@ -24,10 +26,6 @@ It should not silently move from transcript generation into package generation.
 The default transcript artifact is:
 
 - `artifacts/{story_id}/{episode_id}/transcript.yaml`
-
-The default flaw-review artifact is:
-
-- `artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 This should follow:
 
@@ -46,13 +44,13 @@ Validation script:
 - `artifacts/{story_id}/{episode_id}/episode-plan.yaml`
 - `reference/flaw-taxonomy.yaml`
 
-## Screenwriter Barrier
+## Writer Barrier
 
-Before invoking `screenwriter`, this command must prepare the stripped screenwriter-safe projection described in `todo-v2.md` § 8.
+Before invoking `staff_writer`, this command must use the stripped writer-safe projection described in the planning flow.
 
-- `screenwriter` receives the projection, not the full flaw-bearing `episode-plan.yaml`
-- `screenwriter` must not be given `reference/flaw-taxonomy.yaml`
-- the full `episode-plan.yaml` and taxonomy remain available to `flaw_injector` and `flaw_reviewer`
+- `staff_writer` receives the projection, not the full flaw-bearing `episode-plan.yaml`
+- `staff_writer` must not be given `reference/flaw-taxonomy.yaml`
+- the full `episode-plan.yaml` and taxonomy remain available to `script_doctor`
 
 The projection shape is:
 
@@ -82,17 +80,17 @@ scene_count_target: { min: 3, max: 5 }
 
 Do not substitute a looser summary of the plan. `create_transcript` must prepare and pass this stripped projection shape specifically.
 
-This barrier is part of the v2 contract. Do not collapse it into a generic "read the plan and start writing" handoff.
+This barrier remains in force during Tasks 1–3. Do not collapse it into a generic "read the plan and start writing" handoff.
 
 ## Subagent Roles
 
-This command should use three specialized subagents:
+This command should use two specialized subagents:
 
-### 1. `screenwriter`
+### 1. `staff_writer`
 
 Responsibilities:
 
-- draft a natural narrative transcript from the story and the screenwriter-safe projection of the episode plan
+- draft a natural narrative transcript from the story and the saved showrunner projection
 - preserve character voice
 - build strong scenes with clear transitions and sensory grounding carried through dialogue
 - create scenes that can later support inline quizzes without sounding instructional
@@ -101,33 +99,19 @@ Required file output:
 
 - none; this draft is ephemeral working context, not a saved artifact
 
-### 2. `flaw_injector`
+### 2. `script_doctor`
 
 Responsibilities:
 
-- revise the screenwriter draft into the final `transcript.yaml`
-- land the planned primary-flaw moments at the requested amplifications
-- preserve scene boundaries while adjusting turns inside scenes
-- ensure quiz-target turns are clear enough to support short direct prompts later, without the package builder needing to restate the turn text
+- review the `staff_writer` draft against the taxonomy
+- identify the strongest candidate flaw-carrying turns
+- make the smallest viable revisions needed to sharpen teachable turns
+- keep the story recognizable and scene-driven
+- give the operator a concise summary of the strongest candidates and the main caution, if any
 
 Required file output:
 
 - `artifacts/{story_id}/{episode_id}/transcript.yaml`
-
-### 3. `flaw_reviewer`
-
-Responsibilities:
-
-- review the saved transcript
-- identify the 3 strongest quiz candidates for the primary flaw
-- verify that those quiz candidates live in distinct scenes
-- explain why the flaws are obvious enough, or not obvious enough, for 6th graders
-- judge whether each quiz candidate can support a short direct prompt without quoting or paraphrasing the highlighted turn
-- recommend revision if the flaw moments are too weak, too subtle, or too dependent on restating the turn
-
-Required file output:
-
-- `artifacts/{story_id}/{episode_id}/flaw-review.md`
 
 ## Review Standard
 
@@ -135,8 +119,7 @@ The standard is:
 
 - natural dialogue
 - clear enough flaw moments
-- exactly 3 strong quiz-ready primary-flaw moments, one per amplification band
-- those 3 quiz-ready moments occurring in distinct scenes
+- strong enough flaw moments for downstream lesson packaging
 - obvious enough for beginner instruction
 - strong enough that the later package builder will not need to compensate with long prompts or verbose scaffolds
 
@@ -146,15 +129,13 @@ The standard is:
 
 1. read `story.yaml`
 2. read the selected `episode-plan.yaml`
-3. prepare the stripped screenwriter projection from the episode plan
-4. invoke `screenwriter` with that projection only
-5. invoke `flaw_injector` with the screenwriter draft plus the full flaw-bearing plan
+3. load or prepare the stripped showrunner projection from the episode plan
+4. invoke `staff_writer` with that projection only
+5. invoke `script_doctor` with the `staff_writer` draft plus the full flaw-bearing plan
 6. save `transcript.yaml`
 7. run transcript validation
-8. invoke `flaw_reviewer`
-9. save `flaw-review.md`
-10. present a concise summary to the operator
-11. stop and wait for operator judgment
+8. present a concise summary to the operator
+9. stop and wait for operator judgment
 
 The validation step is:
 
@@ -167,7 +148,7 @@ If validation fails:
 - revise the transcript
 - save it again
 - rerun validation
-- only then continue to flaw review
+- only then continue to operator review
 
 ## Operator Decision
 
@@ -186,8 +167,7 @@ Do not:
 
 - force every turn to contain a flaw
 - silently collapse back to the old single-pass `dialog_writer` flow
-- pass the full flaw-bearing plan or taxonomy straight through to `screenwriter`
+- pass the full flaw-bearing plan or taxonomy straight through to `staff_writer`
 - build the lesson package automatically after drafting
-- leave the review only in chat without saving the file artifact
 
 The human operator is the judge of whether the transcript is good enough.

@@ -2,9 +2,8 @@
 
 This directory contains the specialized prompt specs used by the simplified workflow:
 
-- story designer
-- episode planner
-- screenwriter
-- flaw injector
-- flaw reviewer
-- lesson package builder
+- story_designer
+- showrunner
+- staff_writer
+- script_doctor
+- lesson_package_builder

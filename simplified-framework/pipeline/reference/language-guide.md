@@ -1,8 +1,8 @@
 # Language Guide (P10 Tier 2)
 
 > Reviewer reference for authoring dialog + scaffolding in the simplified
-> framework. Complements the shorter prompt-level guidance in the screenwriter,
-> flaw_injector, and lesson-package-builder agent specs. Examples are drawn from
+> framework. Complements the shorter prompt-level guidance in the staff_writer,
+> script_doctor, and lesson-package-builder agent specs. Examples are drawn from
 > `the-white-squirrel` / `episode_01 (The Sighting)`.
 
 There are three blocks: a **shared core** that applies to everything
@@ -47,8 +47,8 @@ including the closer punctuation.
 verbatim:
 > "Anya's literally a grad student at U of M, this is what she works on, if she says biosignature about our squirrel that's not nothing."
 
-"That's not nothing" is the credentialed-adjacent signal phrase from the
-taxonomy's `heightened` cue for `trusting_a_source_too_quickly`. Keeping
+"That's not nothing" is the credentialed-adjacent signal phrase that makes
+the source-trusting move directly teachable. Keeping
 it verbatim lets the student catch the phrase. A paraphrase like "she
 knows about this" would dissolve the teaching handle.
 
@@ -123,7 +123,7 @@ keep the stacking in one breath. Do not split the moment across two
 turns or reflow it into shorter sentences — the stacking **is** the
 flaw, and the student needs to see it land as a single motion.
 
-**Worked example — ep 1 turn t04 (unmistakable source-quickness).** Cam
+**Worked example — ep 1 turn t04 (strong source-quickness example).** Cam
 stacks four cues in one breath:
 
 > "I saw a TikTok about this a few months ago. Some account,
@@ -135,8 +135,7 @@ stacks four cues in one breath:
 The four cues (no-name account / popularity / comment corroboration /
 certainty escalator) land together. If you split this into two turns —
 "Cam: there's a TikTok." / "Cam: it had a million views." — the
-stacking dissolves and the `unmistakable` amplification slips to
-`showcased`. Keep it whole.
+stacking dissolves and the move becomes less overt. Keep it whole.
 
 ---
 
@@ -226,10 +225,9 @@ check sentence length first.
 - **Validators.** The Python validators in
   `simplified-framework/pipeline/scripts/` are authoritative. If a guide
   rule drifts from a validator, the validator wins.
-- **The flaw taxonomy's `amplification_guidance` blocks.** Those are the
-  authoritative cue lists for dialog writing and flaw review. This guide
-  covers *register and readability*, not *when a flaw moment lands at
-  which amplification*.
+- **The flaw taxonomy's dialog-writing guidance.** That remains the
+  authoritative source for flaw labels, cue patterns, and expression-strength
+  judgments. This guide covers *register and readability*, not flaw selection.
 - **The linguistic guidance inside each agent spec.** Those are the
   short in-prompt versions that every authoring agent sees. This guide
   is the longer reviewer-facing companion with worked examples.
