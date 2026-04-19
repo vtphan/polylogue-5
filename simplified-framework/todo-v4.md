@@ -1,6 +1,6 @@
 # TODO v4
 
-> **Status (2026-04-19):** Phase 0 landed (v3 `story.yaml` archived inline as `story.v3.yaml`; `story.yaml` rewritten with student-facing premise and no episode flaws; `validate_story.py`, `create_story.md`, and `story-designer.md` updated). Batch 1 (Tasks 1–3 + initializer re-run) is next. Update this line when a batch fully lands; batches are: (0) Phase 0 story-layer migration, (1) renames + agent rewrites, (2) pipeline wiring (Tasks 4–5), (3) contract sweep (Tasks 6–7 + migration), (4) regeneration + qualitative check.
+> **Status (2026-04-19):** Phase 0 landed (v3 `story.yaml` archived inline as `story.v3.yaml`; `story.yaml` rewritten with student-facing `premise`, new per-episode `episodes[].summary` carrying showrunner context, and no episode flaws; `validate_story.py`, `create_story.md`, and `story-designer.md` updated). The `premise` field name is retained so no app/catalog/Prisma changes are required at this layer. Batch 1 (Tasks 1–3 + initializer re-run) is next. Update this line when a batch fully lands; batches are: (0) Phase 0 story-layer migration, (1) renames + agent rewrites, (2) pipeline wiring (Tasks 4–5), (3) contract sweep (Tasks 6–7 + migration), (4) regeneration + qualitative check.
 
 > **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
 
@@ -419,18 +419,21 @@ Phase 0 is a preparatory pass on the story layer, executed before the agent/pipe
 
 1. Archive the current v3 `story.yaml` inline as `stories/{story_id}/story.v3.yaml`. The live file at `stories/{story_id}/story.yaml` is overwritten by the v4 rewrite in the same batch.
 2. Rewrite `story.yaml` to the v4 shape:
-   - `premise` becomes a short student-facing overview (see §Premise Guidance in `create_story.md` / `story-designer.md`). No spoilers, no flaw taxonomy language, no per-episode plot detail.
+   - `premise` — field name retained for app/catalog/Prisma continuity. Content becomes a short student-facing overview (see §Premise Guidance in `create_story.md` / `story-designer.md`). No spoilers, no flaw taxonomy language, no per-episode plot detail.
+   - `episodes[].summary` — new per-episode field carrying showrunner-facing narrative detail (hypothesis pursued, disproof, episode lead, recurring beats). This is what `create_episodes` reads when it builds `episode-plan.yaml`. Not rendered to students. Required in v4.
    - Strip `episodes[].flaws`. This field is removed from `story.yaml` in v4.
    - Keep `episodes[].final_takeaway` required end-to-end; it remains authored in `story.yaml` and carried downstream into `lesson_package.yaml` by `lesson-package-builder`.
    - Keep `characters[]` (with `voice_notes`) unchanged. Character voice remains showrunner/staff-writer fuel and is not student-facing.
 3. Update `validate_story.py`:
    - Drop the `episodes[].flaws` required-check.
+   - Require `episodes[].summary` as a non-empty string (the `create_episodes` contract depends on it).
    - Reject a stray `flaws` key on any episode with a v4-specific error ("flaw inventories are no longer authored in story.yaml"). This is the enforcement point that prevents silent reuse of v3 `story.yaml` files.
 4. Update `pipeline/commands/create_story.md` and `pipeline/agents/story-designer.md`:
    - Remove flaw-authoring instructions and any directive to read `reference/flaw-taxonomy.yaml` during story design.
    - Add premise guidance: student-facing, no spoilers, no taxonomy, short.
-   - Reframe episode-level decisions as `episode_id`, `title`, and `final_takeaway` only — no flaws, no amplification, no anchor counts.
-5. No schema-sketch change: `schemas/story.yaml` already omits `flaws` from its properties list.
+   - Add episode-summary guidance: showrunner-facing, per-episode narrative intent, allowed to carry concrete plot detail, not flaw taxonomy.
+5. No schema-sketch change: `schemas/story.yaml` already omits `flaws` from its properties list and treats `episodes` as an unshaped array.
+6. No app-side changes: the `premise` field name is retained, so `catalog.ts`, `stories/page.tsx`, `schema.prisma`, and existing Prisma migrations are unaffected by Phase 0. Any future app surfacing of `episodes[].summary` (e.g., teacher view) would be a separate decision outside Phase 0.
 
 ### Artifact policy for archived `story.v3.yaml`
 
@@ -447,9 +450,14 @@ As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no
 ### Success criteria
 
 - `python3 pipeline/scripts/validate_story.py stories/the-white-squirrel/story.yaml` → `OK`.
-- `python3 pipeline/scripts/validate_story.py stories/the-white-squirrel/story.v3.yaml` → rejects with the v4 `flaws is not allowed` message.
-- `/stories` rendering shows the new thin premise (not the v3 synopsis wall).
+- `python3 pipeline/scripts/validate_story.py stories/the-white-squirrel/story.v3.yaml` → rejects with the v4 errors (`episodes[].summary` missing and `flaws is not allowed`).
+- `/stories` rendering shows the new student-facing premise (not the v3 synopsis wall), without any app code changes.
+- `episodes[].summary` is present for every episode and carries the per-episode authorial intent `create_episodes` needs.
 - No downstream agent is instructed to read `reference/flaw-taxonomy.yaml` at the story-design stage.
+
+### Out of scope for Phase 0
+
+- `stories/strangers-in-the-old-forest/` is legacy and untouched by Phase 0. It still carries `episodes[].flaws` and lacks `episodes[].summary`, so it fails the v4 validator. That is acceptable: no live pipeline work targets it. If it is ever re-used, it should be migrated as a separate Phase 0-style pass or archived outright.
 
 ## Task 1 — Rename And Rewrite `episode-planner` As `showrunner`
 

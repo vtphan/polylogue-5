@@ -2,15 +2,19 @@ story_id: the-white-squirrel
 title: The White Squirrel
 
 premise: >
-  Three Memphis sixth-graders — Cam, James, and Leela — see a white
+  Three sixth graders in Memphis — Cam, James, and Leela — spot a white
   squirrel with red eyes at Overton Park one Saturday afternoon. For
-  half a second it does not look real, and none of them can let it go.
-  Across three episodes they chase different explanations for what
-  they saw, and the story follows how their thinking helps or gets in
-  the way. Along the way you will practice noticing when a source
-  sounds more convincing than it is, when a big conclusion is really a
-  fast chain with a step missing, and when a pattern in what you have
-  seen might not be a pattern in the whole place.
+  one second it does not look real. It freezes on a low branch, the
+  light catches its eyes, one of them thinks for half a second that
+  somebody stuck a fake squirrel in the tree, James says something
+  stupid about alien surveillance, and then it is gone. None of them
+  can let it go. Across three episodes they chase different
+  explanations for what they saw, and the story follows how their
+  thinking helps and gets in the way. Along the way you will practice
+  noticing when a source sounds more convincing than it actually is,
+  when a big conclusion is really a fast chain with a step missing,
+  and when a pattern in what you have seen might not be a pattern in
+  the whole place.
 
 setting:
   place: Overton Park, Memphis, Tennessee
@@ -63,12 +67,82 @@ characters:
 episodes:
   - episode_id: episode_01
     title: The Sighting
+    summary: >
+      Episode 1 pursues an alien hypothesis. Cam finds a university
+      page for Sophie, a college student majoring in astrophysics.
+      James hears "space science" and starts running with it. Soon the
+      group is joking about alien squirrels, secret park experiments,
+      and whether this is the first scout from another planet. James
+      keeps trying to give the squirrel a ridiculous alien nickname,
+      and one bad nickname half-sticks across the story. The jokes
+      make the theory stick. In this episode the kids do not talk to
+      Sophie directly. They only read her page and talk about what
+      they think it means. Cam reads Sophie's page like it is the
+      answer, not just a source. The point is not that Sophie is
+      foolish or fake. The point is that the kids trust the title, the
+      tone, and the near-enough fit before checking whether her field
+      actually answers the question they are asking. When Leela
+      finally checks what Sophie really studies, the alien framing
+      wobbles. In this episode the sighting image should feed the
+      mystery: the red eyes, the fake-for-a-second look, and the
+      vanishing act all get treated like evidence that something
+      impossible happened. Episode 1 planning should either open on
+      this sighting or return to it immediately as the memory all
+      three kids are arguing from.
     final_takeaway: A source that sounds important is not the same as a source that fits the question.
 
   - episode_id: episode_02
     title: The Water
+    summary: >
+      Episode 2 pursues an environmental hypothesis. Cam shows the
+      group a TikTok about a polluted river in Louisiana where animals
+      looked sick, and James chains from "red eyes, and mutations, and
+      that river, and our squirrel" to "it has to be the water" in one
+      breath. The disproof is local and visible — Memphis tap water
+      comes from the Memphis Sand Aquifer and is famously clean, and
+      the TikTok was about a different place with different conditions.
+      This theory feels scarier than the alien one because it sounds
+      like it could affect real people now. The kids start asking
+      whether they have been drinking bad water, whether little kids
+      at the park are okay, whether the ducks and dogs there are okay,
+      and whether something is wrong in their own city. In this
+      episode the same sighting image gets re-read as warning signs:
+      the red eyes look irritated, the white fur looks wrong or washed
+      out, and the quick disappearance feels like something is off.
+      Episode 2 should explicitly reuse those same details as the
+      evidence James stacks into the pollution claim.
     final_takeaway: A big conclusion in one breath is usually a chain with a step missing.
 
   - episode_id: episode_03
     title: The Walk
+    summary: >
+      Episode 3 pursues the right answer. Leela catches their science
+      teacher, Ms. Reyes, after class, but Ms. Reyes does not explain
+      the squirrel. She only nudges: are you sure you have looked at
+      the whole park, and are you sure the squirrels you saw are one
+      big group? The group maps their sightings, realizes they have
+      only ever walked the south side of Overton Park, walks the north
+      side, and finds no red-eyed squirrels there. Leela names the
+      thing that had been sitting next to them the whole time: the
+      highways cut this forest patch off from the rest of Memphis.
+      Then they go back to Sophie with plainer questions. She admits
+      her field is not mammal biology, but agrees that a rare mutation
+      in a small cut-off group fits what the kids found. The kids
+      assemble the plain-language answer themselves: a rare mutation,
+      a forest patch cut off by highways, a small cut-off group where
+      rare things show up more often over time. By the end, the answer
+      is real, local, and earned — and the squirrel is still genuinely
+      strange, just in a way that actually holds together. The final
+      joke beat should come only after the real explanation has landed
+      cleanly. Then the story can relax again: Leela says maybe Cam's
+      hair is a mutation too, Cam shoots back that her name is a
+      mutation of "allele," Leela says it is an anagram, and James
+      ends with "agree to disagree." In this episode the same sighting
+      image gets grounded instead of thrown away: the white fur and
+      red eyes become part of a real rare trait, and the quick
+      disappearance reads as normal squirrel behavior that looked
+      impossible only because the kids had never seen anything like it
+      before. Episode 3 should explicitly circle back to the opening
+      image and show why it felt impossible before the kids knew what
+      they were looking at.
     final_takeaway: A pattern in what you have walked is not a pattern in the whole place.

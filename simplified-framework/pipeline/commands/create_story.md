@@ -47,11 +47,11 @@ Through conversation with the operator, help define:
 
 - `story_id`
 - `title`
-- `premise` — student-facing overview only (see §Premise Guidance below)
+- `premise` — student-facing overview (see §Premise Guidance below)
 - audience and tone
 - setting
 - recurring characters (distinct voices)
-- episode set — `episode_id`, `title`, and `final_takeaway` per episode
+- episode set — each episode has `episode_id`, `title`, `summary` (showrunner-facing; see §Episode Summary Guidance), and `final_takeaway` (student-facing closing line)
 
 Do not force a rigid questionnaire. Move the story toward a clean `story.yaml` draft through short, focused exchanges.
 
@@ -64,7 +64,18 @@ Do not force a rigid questionnaire. Move the story toward a clean `story.yaml` d
 - do not spoil the per-episode plot or the final answer
 - keep it short (a paragraph, not a synopsis)
 
-Detailed per-episode plotting — setups, disproofs, specific sources, specific locations — belongs in `episode-plan.yaml` and is the showrunner's job, not the story designer's.
+## Episode Summary Guidance
+
+Each `episodes[].summary` is a showrunner-facing paragraph. It gives `create_episodes` enough authorial intent to plan that episode without inventing the story from scratch. It is not rendered to students, so it may carry per-episode plot detail, specific sources, specific locations, and concrete setups/disproofs.
+
+An episode summary should:
+
+- name the hypothesis the episode pursues and what disproves or complicates it
+- identify which character leads the episode and why
+- note any recurring images, running threads, or joke beats the author wants preserved
+- stay at the level of narrative intent — not a scene-by-scene script and not flaw-taxonomy guidance
+
+Do not include flaw names, amplification levels, or teachable-moment counts in episode summaries. Flaw selection happens later at the script-doctor stage against the finished story draft.
 
 ## Conversation Style
 

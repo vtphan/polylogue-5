@@ -38,6 +38,7 @@ def validate_story(path: str) -> int:
         entry = require_mapping(episode, f"episodes[{index}]", errors)
         require_nonempty_string(entry.get("episode_id"), f"episodes[{index}].episode_id", errors)
         require_nonempty_string(entry.get("title"), f"episodes[{index}].title", errors)
+        require_nonempty_string(entry.get("summary"), f"episodes[{index}].summary", errors)
         if "final_takeaway" in entry:
             require_nonempty_string(entry.get("final_takeaway"), f"episodes[{index}].final_takeaway", errors)
         if "flaws" in entry:
