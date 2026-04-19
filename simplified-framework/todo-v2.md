@@ -1,6 +1,8 @@
 # TODO v2 — Two Modes (Practice + Read-a-Story), Inline Quizzes, Star Scoring
 
-> **ACTIVE — opened 2026-04-17.** Supersedes `todo.md` (frozen). Design locked in discussion on 2026-04-17; work items below drive implementation.
+> **FROZEN — 2026-04-18.** Superseded by `todo-v3.md`. The v2 plan shipped: practice mode, read-a-story catalog, scene reader, `kind: action` turn affordance, simplified-v2 lesson and practice packages, star scoring, screenwriter/flaw-injector split, grade-6 scaffolding readability. Follow-on UI review (2026-04-18) redirected the reader away from v2's **inline** quiz panel toward a fixed-viewport **two-column** shell with the quiz rendered in a right-rail scaffold panel; that redirection and the remaining upstream reading-scaffold work is tracked in `todo-v3.md`. Do not implement new items from this file; continue work in `todo-v3.md`.
+
+> **Originally opened 2026-04-17.** Design locked in discussion on 2026-04-17; work items below drove implementation through 2026-04-18.
 
 ## Contents
 

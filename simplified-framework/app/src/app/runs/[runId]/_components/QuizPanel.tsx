@@ -1,10 +1,10 @@
 import {
   closeQuizPanelAction,
   openQuizHintAction,
-  openQuizPanelAction,
   submitQuizAnswerAction,
 } from "@/app/actions";
 import type { ReaderLevel } from "@/lib/content";
+import type { TranscriptTurn } from "@/lib/domain";
 import { feedbackTextForOption } from "@/lib/quiz";
 import type { QuizAttempt } from "@prisma/client";
 
@@ -13,15 +13,43 @@ type QuizPanelProps = {
   sceneIndex: number;
   level: ReaderLevel;
   attempt: QuizAttempt | null;
-  open: boolean;
+  flaggedTurn: TranscriptTurn | null;
 };
+
+function FlaggedTurnQuote({ turn }: { turn: TranscriptTurn | null }) {
+  if (!turn || turn.kind !== "dialog" || !turn.speaker) return null;
+  return (
+    <blockquote className="quiz-quote">
+      <p className="quiz-quote__text">&ldquo;{turn.text}&rdquo;</p>
+      <p className="quiz-quote__attrib">— {turn.speaker}</p>
+    </blockquote>
+  );
+}
+
+function BackToReadingButton({
+  runId,
+  sceneIndex,
+}: {
+  runId: string;
+  sceneIndex: number;
+}) {
+  return (
+    <form action={closeQuizPanelAction} className="quiz-back-form">
+      <input type="hidden" name="run_id" value={runId} />
+      <input type="hidden" name="scene_index" value={sceneIndex} />
+      <button type="submit" className="ghost quiz-back">
+        ← Back to reading
+      </button>
+    </form>
+  );
+}
 
 export function QuizPanel({
   runId,
   sceneIndex,
   level,
   attempt,
-  open,
+  flaggedTurn,
 }: QuizPanelProps) {
   const isLocked = Boolean(attempt?.lockedAt);
   const isRetry = Boolean(attempt?.firstOptionId) && !isLocked;
@@ -31,41 +59,6 @@ export function QuizPanel({
     correctOptionIds.has(option.option_id),
   );
 
-  if (!open && isLocked) {
-    const selected = level.answer_options.find((option) => option.option_id === selectedOptionId);
-    const wasCorrect = selectedOptionId
-      ? level.feedback.correct.option_ids.includes(selectedOptionId)
-      : false;
-
-    return (
-      <form action={openQuizPanelAction} className="quiz-chip-form">
-        <input type="hidden" name="run_id" value={runId} />
-        <input type="hidden" name="scene_index" value={sceneIndex} />
-        <input type="hidden" name="level_id" value={level.level_id} />
-        <button type="submit" className="quiz-chip">
-          <span>{wasCorrect ? "Answered ✓" : "Answered"}</span>
-          <span className="quiz-chip__meta">
-            {selected ? selected.text : "Tap to review"}
-          </span>
-        </button>
-      </form>
-    );
-  }
-
-  if (!open) {
-    return (
-      <form action={openQuizPanelAction} className="quiz-chip-form">
-        <input type="hidden" name="run_id" value={runId} />
-        <input type="hidden" name="scene_index" value={sceneIndex} />
-        <input type="hidden" name="level_id" value={level.level_id} />
-        <button type="submit" className="quiz-chip quiz-chip--prompt">
-          <span>Open question</span>
-          <span className="quiz-chip__meta">{level.title}</span>
-        </button>
-      </form>
-    );
-  }
-
   if (isLocked) {
     const selected = level.answer_options.find((option) => option.option_id === selectedOptionId);
     const wasCorrect = selectedOptionId
@@ -74,20 +67,16 @@ export function QuizPanel({
     const feedback = selectedOptionId ? feedbackTextForOption(level, selectedOptionId) : "";
 
     return (
-      <div className="quiz-panel stack">
+      <div className="quiz-panel quiz-panel--reveal stack">
         <div className="quiz-panel__header">
           <div>
             <p className="eyebrow">Answered</p>
             <h3>{level.title}</h3>
           </div>
-          <form action={closeQuizPanelAction}>
-            <input type="hidden" name="run_id" value={runId} />
-            <input type="hidden" name="scene_index" value={sceneIndex} />
-            <button type="submit" className="ghost">
-              Close
-            </button>
-          </form>
+          <BackToReadingButton runId={runId} sceneIndex={sceneIndex} />
         </div>
+
+        <FlaggedTurnQuote turn={flaggedTurn} />
 
         <p className={`quiz-status ${wasCorrect ? "quiz-status--correct" : "quiz-status--wrong"}`}>
           {wasCorrect ? `Correct · ${attempt?.starsEarned ?? 0} stars` : "Not quite right"}
@@ -128,16 +117,12 @@ export function QuizPanel({
           <p className="eyebrow">{isRetry ? "Try once more" : "Question"}</p>
           <h3>{level.title}</h3>
         </div>
-        <form action={closeQuizPanelAction}>
-          <input type="hidden" name="run_id" value={runId} />
-          <input type="hidden" name="scene_index" value={sceneIndex} />
-          <button type="submit" className="ghost">
-            Close
-          </button>
-        </form>
+        <BackToReadingButton runId={runId} sceneIndex={sceneIndex} />
       </div>
 
-      <p>{level.prompt}</p>
+      <FlaggedTurnQuote turn={flaggedTurn} />
+
+      <p className="quiz-prompt">{level.prompt}</p>
 
       {attempt?.firstOptionId && !isLocked ? (
         <div className="quiz-answer-review stack">
