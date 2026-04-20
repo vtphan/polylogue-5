@@ -77,7 +77,7 @@ Notes on the shape:
 - `hypothesis_pursued` names the wrong idea or unstable theory the group anchors on this episode, phrased as a story belief (e.g. "it has to be the water").
 - `disproof_event` names the visible beat that wobbles or disproves that belief in-world.
 - The projection should help `staff_writer` write a compact, engaging story rather than a storyboard or scene outline.
-- Each episode should be planned as a short 10-15 minute reading exercise for 6th graders: plain language, readable scope, and enough narrative movement to feel like a real story without sprawl.
+- Each episode should be planned as a short 8-10 minute reading exercise for 6th graders: plain language, readable scope, and enough narrative movement to feel like a real story without sprawl.
 - The projection deliberately omits `student_takeaway` because `staff_writer` drafts from story pressure, not from the lesson line.
 
 This command should plan all episodes in one shot so the story-level narrative arc is coherent.
@@ -119,7 +119,7 @@ Each episode plan should give the downstream writer:
 
 ### 4. Write For A Short Middle-Grade Read
 
-Each episode should be plan-worthy as a short 10-15 minute reading exercise for 6th graders.
+Each episode should be plan-worthy as a short 8-10 minute reading exercise for 6th graders.
 
 That means:
 

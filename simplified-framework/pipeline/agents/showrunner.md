@@ -50,7 +50,7 @@ For each episode, produce a saved plan that defines:
 - what the student should carry away at the end
 
 The showrunner plans story pressure.
-The showrunner should optimize for a compact, engaging story that can become a short 10-15 minute reading exercise for 6th graders.
+The showrunner should optimize for a compact, engaging story that can become a short 8-10 minute reading exercise for 6th graders.
 
 ## Design Principles
 
@@ -84,7 +84,7 @@ Do not turn episodes into disguised worksheets.
 
 ### 6. Keep It Readable For 6th Graders
 
-Each episode should be planned as a short 10-15 minute reading exercise for 6th graders.
+Each episode should be planned as a short 8-10 minute reading exercise for 6th graders.
 
 Use plain, readable language and age-appropriate social and emotional stakes. Keep the scope focused enough that the later transcript can stay compact without feeling thin.
 

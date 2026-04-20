@@ -134,7 +134,7 @@ The standard is:
 - clear enough flaw moments after operator-approved proposal work
 - faithful post-doctor application before structuring
 - reader-supportive scene scaffolding without rewriting the approved story
-- suitable for a short 10-15 minute reading exercise for 6th graders
+- suitable for a short 8-10 minute reading exercise for 6th graders
 
 ## Artifact Contracts
 

@@ -93,7 +93,7 @@ When a scaffold or feedback string cites a count of words, links, or instances, 
 ### 6. Scaffolding Copy: Short and Plain
 
 Scaffolding prose is narrator voice, not character voice. Direct and explanatory.
-Keep scaffolding brief because the full episode is a short 10-15 minute reading exercise for 6th graders.
+Keep scaffolding brief because the full episode is a short 8-10 minute reading exercise for 6th graders.
 
 Respect these soft word caps:
 

@@ -26,7 +26,7 @@ The framework assumes:
 
 - the flaw taxonomy is the canonical reasoning reference
 - the audience is primarily 6th graders
-- each episode should function as a short 10-15 minute exercise
+- each episode should function as a short 8-10 minute reading exercise
 - student-time delivery is deterministic and non-LLM
 
 These assumptions shape both the authoring pipeline and the runtime app.

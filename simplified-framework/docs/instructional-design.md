@@ -24,7 +24,7 @@ The intended learner is a middle school student, with 6th grade as the default d
 The instructional design assumes:
 
 - the audience is primarily 6th graders
-- each episode should work as a short 10-15 minute reading exercise
+- each episode should work as a short 8-10 minute reading exercise
 - student-facing language should be plain, direct, and readable
 - the app experience should feel like guided reading and reflection, not a worksheet or test-prep drill
 
