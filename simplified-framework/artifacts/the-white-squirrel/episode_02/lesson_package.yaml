@@ -1,0 +1,232 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 2
+  schema_version: simplified_v4
+
+episode:
+  title: The Water
+  summary: >-
+    Cam shows his friends a TikTok from a river in Louisiana where a
+    raccoon looks sick. James ties it to the white squirrel and blames
+    the water. Cam worries about his little cousin at the park. The
+    kids talk fast and get scared. Leela says wait and looks up where
+    Memphis tap water really comes from.
+  previously: >-
+    Last time the kids saw a white squirrel with red eyes at the park.
+    Cam found a college page for a space student named Sophie. They
+    joked about aliens. Leela checked her page and the alien story
+    started to wobble.
+  final_takeaway: A big conclusion in one breath is usually a chain with a step missing.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t07
+    title: What is Cam leaning on?
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: What is Cam using to back up the video?
+    hint: >-
+      Look at who Cam is quoting. He is not counting things or
+      testing water. He is pointing at the people in the comments.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: Strangers in the comments that he has not checked.
+      - option_id: opt_b
+        kind: distractor
+        text: A small number of clues he found himself.
+      - option_id: opt_c
+        kind: distractor
+        text: A point of view the other kids have not heard.
+      - option_id: opt_d
+        kind: distractor
+        text: A rule about what might go wrong later.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. Cam is leaning on the top comment and one reply. He has
+          not checked who those people are or how they would know.
+          That is trusting a source too quickly.
+      by_option:
+        opt_b: >-
+          This sounds like not enough evidence. Close, but the real
+          problem here is who Cam is quoting. He is trusting random
+          commenters, not weighing how much proof he has.
+        opt_c: >-
+          No one is being shut out here. Cam is not ignoring another
+          point of view. He is leaning on a source he has not
+          checked.
+        opt_d: >-
+          Cam is not missing a what-if. He is trusting the comment
+          section. Think about the source, not the consequences.
+    takeaway: Check who a source is before you trust what they say.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t13
+    title: How did James get there?
+    focus_flaw: jumping_to_a_conclusion
+    prompt: How did James get to his big claim?
+    hint: >-
+      Count the steps he took. He names a few small things, then lands
+      on one huge claim in the same breath. Watch the leap.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He stacked small things and jumped to a big claim in one breath.
+      - option_id: opt_b
+        kind: distractor
+        text: He trusted a source without checking who posted it.
+      - option_id: opt_c
+        kind: distractor
+        text: He ignored what Cam and Leela thought.
+      - option_id: opt_d
+        kind: distractor
+        text: He tested the park water and wrote down the results.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. James chained red eyes, fur, and "water is water" into
+          one huge claim. The step that ties a Louisiana river to our
+          park is missing. That is jumping to a conclusion.
+      by_option:
+        opt_b: >-
+          That flaw fits Cam earlier with the comments. Here James is
+          not quoting a source. He is stacking his own ideas and
+          leaping to the end too fast.
+        opt_c: >-
+          James is not shutting his friends out. They are right there
+          with him. The real move is the fast leap from small clues
+          to a huge claim.
+        opt_d: >-
+          He did not test anything. That is the point. He jumped
+          straight to the answer without checking a step in the
+          middle.
+    takeaway: Watch for a big claim that lands in one breath.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t20
+    title: Rewriting what he saw
+    focus_flaw: jumping_to_a_conclusion
+    prompt: What is James doing to his older memory of the squirrel?
+    hint: >-
+      Look at how the white fur and red eyes sounded last week, and
+      how he is describing them now. His new theory is changing what
+      he remembers.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He is repainting what he saw to fit the new theory.
+      - option_id: opt_b
+        kind: distractor
+        text: He is quoting a source he has not checked.
+      - option_id: opt_c
+        kind: distractor
+        text: He is listing fresh clues he just found at the park.
+      - option_id: opt_d
+        kind: distractor
+        text: He is asking what might happen if he is wrong.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. White becomes bleached. Red eyes become irritated. The
+          quick exit becomes booking it. The answer he picked is
+          pulling the old memory into its shape.
+      by_option:
+        opt_b: >-
+          No source here. James is not quoting anyone. He is
+          redrawing his own memory to match the story he likes.
+        opt_c: >-
+          These are not new clues. He saw the squirrel last week.
+          He is retelling what he saw, not finding something new.
+        opt_d: >-
+          He is not thinking about being wrong. He is doing the
+          opposite. He is making old clues fit his new answer.
+    takeaway: A picked answer can change how you remember things.
+
+  - level_id: level_04
+    sequence_index: 4
+    turn_id: t34
+    title: One dog, big claim
+    focus_flaw: not_enough_evidence
+    prompt: Why is Cam's dog story not strong proof?
+    hint: >-
+      Count how many animals, people, or tests Cam is pointing at.
+      Then count how big the claim is. Do they match?
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: One dog is too small to prove the water is bad.
+      - option_id: opt_b
+        kind: distractor
+        text: Cam is quoting a source he has not checked.
+      - option_id: opt_c
+        kind: distractor
+        text: Cam is ignoring what James thinks about the dog.
+      - option_id: opt_d
+        kind: distractor
+        text: Cam forgot to think about what might go wrong.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. One dog is one case. Cam is asking that one dog to
+          prove the water is safe or bad for every animal and every
+          kid. That is not enough evidence for a claim that big.
+      by_option:
+        opt_b: >-
+          Cam is not quoting a stranger here. He saw the dog
+          himself. The problem is that one dog cannot carry a claim
+          about a whole park.
+        opt_c: >-
+          James is not being shut out. They agree about the dog.
+          The real issue is how much proof one dog can give.
+        opt_d: >-
+          He is worried about bad things happening. The gap is
+          not a missing what-if. It is just not enough proof.
+    takeaway: One case is not enough to carry a big claim.
+
+  - level_id: level_05
+    sequence_index: 5
+    turn_id: t38
+    title: Water is water?
+    focus_flaw: not_enough_evidence
+    prompt: What problem hides in Cam's "water is water" line?
+    hint: >-
+      List the kinds of water Cam is talking about. Then ask if he
+      checked any one of them before lumping them together.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He lumped many kinds of water together without checking them.
+      - option_id: opt_b
+        kind: distractor
+        text: He is trusting a comment from a stranger online.
+      - option_id: opt_c
+        kind: distractor
+        text: He is ignoring Leela's point of view on purpose.
+      - option_id: opt_d
+        kind: distractor
+        text: He is making a joke and does not mean it.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. A Louisiana river, a park fountain, and the kitchen
+          tap are all different water. Cam did not check any one of
+          them. That is not enough evidence for a big claim.
+      by_option:
+        opt_b: >-
+          He is not quoting a comment right now. He is making his
+          own sweeping claim. The gap is proof, not the source.
+        opt_c: >-
+          Leela is right there and he is not shutting her out.
+          The real problem is treating all water as one thing.
+        opt_d: >-
+          He sounds serious. He is worried about his cousin. The
+          flaw is the sweeping claim, not the tone.
+    takeaway: Different kinds of water need to be checked on their own.

@@ -1,0 +1,465 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+status: approved
+applied_from_proposal_round: 2
+applied_turn_ids: [t39, t60, t87]
+characters:
+  - character_id: cam
+    display_name: Cam
+  - character_id: james
+    display_name: James
+  - character_id: leela
+    display_name: Leela
+revision_history:
+  - round: 1
+    note: Applied approved round-2 proposal set (p01, p02, p03) to the approved raw draft.
+turns:
+  - turn_id: t01
+    speaker: narrator
+    text: >-
+      Saturday afternoon, Overton Park. Cam, James, and Leela are
+      cutting through the trees on the south side.
+  - turn_id: t02
+    speaker: james
+    text: >-
+      If I have to walk one more step I am lying down right here and
+      somebody else can carry me home.
+  - turn_id: t03
+    speaker: leela
+    text: >-
+      We've been walking for nine minutes.
+  - turn_id: t04
+    speaker: james
+    text: >-
+      Nine hard minutes, Leela.
+  - turn_id: t05
+    speaker: cam
+    text: >-
+      Wait. Wait wait wait. Stop.
+  - turn_id: t06
+    speaker: james
+    text: >-
+      What.
+  - turn_id: t07
+    speaker: cam
+    text: >-
+      On the branch. Low branch. Right there.
+  - turn_id: t09
+    speaker: james
+    text: >-
+      That's — that squirrel is white.
+  - turn_id: t10
+    speaker: cam
+    text: >-
+      Like, all the way white. Like snow white.
+  - turn_id: t11
+    speaker: leela
+    text: >-
+      Its eyes are red.
+  - turn_id: t12
+    speaker: james
+    text: >-
+      Its eyes are red?
+  - turn_id: t13
+    speaker: cam
+    text: >-
+      Bro. Bro. Don't move.
+  - turn_id: t14
+    speaker: james
+    text: >-
+      That's not — okay, is that real? That looks fake. Somebody stuck
+      a fake squirrel up there.
+  - turn_id: t15
+    speaker: leela
+    text: >-
+      It's breathing.
+  - turn_id: t16
+    speaker: james
+    text: >-
+      Fake squirrels don't breathe, James, I know, I heard myself.
+  - turn_id: t17
+    speaker: cam
+    text: >-
+      Phone phone phone phone —
+  - turn_id: t18
+    speaker: narrator
+    text: >-
+      The squirrel flicks once along the branch and is gone.
+  - turn_id: t19
+    speaker: cam
+    text: >-
+      No.
+  - turn_id: t21
+    speaker: leela
+    text: >-
+      That was maybe two seconds.
+  - turn_id: t22
+    speaker: cam
+    text: >-
+      That was not two seconds of a normal squirrel. That was two
+      seconds of whatever that was.
+  - turn_id: t23
+    speaker: james
+    text: >-
+      Did you see its eyes though. Red. Red eyes.
+  - turn_id: t24
+    speaker: leela
+    text: >-
+      I said that.
+  - turn_id: t26
+    speaker: cam
+    text: >-
+      For a second I thought it wasn't breathing, like somebody stuck
+      it up there on purpose.
+  - turn_id: t27
+    speaker: james
+    text: >-
+      Alien surveillance squirrel. I'm calling it.
+  - turn_id: t28
+    speaker: leela
+    text: >-
+      Please don't.
+  - turn_id: t30
+    speaker: cam
+    text: >-
+      Hold on, I'm searching.
+  - turn_id: t31
+    speaker: leela
+    text: >-
+      Searching for what.
+  - turn_id: t32
+    speaker: cam
+    text: >-
+      White squirrel Memphis red eyes. That's the search. That is the
+      whole search.
+  - turn_id: t35
+    speaker: cam
+    text: >-
+      Okay, okay, first hit is — huh.
+  - turn_id: t36
+    speaker: james
+    text: >-
+      Huh what. I don't like huh. Huh means something.
+  - turn_id: t37
+    speaker: cam
+    text: >-
+      There's this girl. College student. Memphis. Her name is Sophie.
+  - turn_id: t38
+    speaker: leela
+    text: >-
+      Why is a college student the first hit for a squirrel.
+  - turn_id: t39
+    speaker: cam
+    text: >-
+      Because look at her major. Look. That's our answer right there.
+  - turn_id: t41
+    speaker: cam
+    text: >-
+      Astrophysics.
+  - turn_id: t42
+    speaker: james
+    text: >-
+      Astro what.
+  - turn_id: t43
+    speaker: cam
+    text: >-
+      Astrophysics. Space science. It's like — space. It's the space
+      one.
+  - turn_id: t44
+    speaker: james
+    text: >-
+      Bro.
+  - turn_id: t47
+    speaker: leela
+    text: >-
+      You are both just saying bro.
+  - turn_id: t48
+    speaker: james
+    text: >-
+      Okay but check this out. Check this out. She's in Memphis. And
+      her page says astrophysics. And astrophysics is space. So she
+      studies space. So — so it has to be connected. It has to be.
+  - turn_id: t49
+    speaker: cam
+    text: >-
+      It has to be.
+  - turn_id: t50
+    speaker: leela
+    text: >-
+      Connected to what.
+  - turn_id: t51
+    speaker: james
+    text: >-
+      The squirrel!
+  - turn_id: t52
+    speaker: leela
+    text: >-
+      Oh. Obviously. Silly me.
+  - turn_id: t55
+    speaker: cam
+    text: >-
+      The header of the page has, like, a galaxy on it.
+  - turn_id: t59
+    speaker: leela
+    text: >-
+      It's a university website. They all look like that. My cousin's
+      school has a whale on it, she is not studying whales.
+  - turn_id: t60
+    speaker: james
+    text: >-
+      Nah, that doesn't count. Whale energy is not galaxy energy. Not
+      the same thing.
+  - turn_id: t61
+    speaker: cam
+    text: >-
+      Wait, should this — should this be on the news? Like an albino
+      squirrel with red eyes, is that a thing we should tell somebody?
+  - turn_id: t62
+    speaker: james
+    text: >-
+      The news? The news is gonna come to Overton Park because Cam saw
+      a squirrel.
+  - turn_id: t63
+    speaker: cam
+    text: >-
+      Forget it.
+  - turn_id: t64
+    speaker: james
+    text: >-
+      I'm calling him Whitey Red-Eye.
+  - turn_id: t65
+    speaker: leela
+    text: >-
+      No.
+  - turn_id: t66
+    speaker: james
+    text: >-
+      Okay okay, Agent Fluffnik.
+  - turn_id: t67
+    speaker: cam
+    text: >-
+      Agent what.
+  - turn_id: t68
+    speaker: james
+    text: >-
+      Fluffnik. Like Sputnik. But fluffy. Because he is a space
+      squirrel.
+  - turn_id: t69
+    speaker: leela
+    text: >-
+      I hate that so much.
+  - turn_id: t76
+    speaker: cam
+    text: >-
+      Think about it though. Fluffnik freezes on the branch. Doesn't
+      run. Just stares. That is scout behavior.
+  - turn_id: t78
+    speaker: leela
+    text: >-
+      It's squirrel behavior. Squirrels freeze. That's like their
+      whole personality.
+  - turn_id: t80
+    speaker: cam
+    text: >-
+      And then gone. One flick and gone. Down the branch and just —
+      nothing.
+  - turn_id: t81
+    speaker: james
+    text: >-
+      That was a signal. That was Fluffnik sending the signal. Okay
+      but — okay but check this out. She studies space. And space has
+      signals. And the squirrel vanished right when Cam pulled out his
+      phone. So — so it has to be a signal. It has to be.
+  - turn_id: t82
+    speaker: cam
+    text: >-
+      The phone. The phone triggered it.
+  - turn_id: t83
+    speaker: leela
+    text: >-
+      The phone did not trigger a squirrel.
+  - turn_id: t86
+    speaker: cam
+    text: >-
+      Look, her page is still up. It says right here, research
+      interests. I'm reading the headline. "Research interests —
+      astrophysics."
+  - turn_id: t87
+    speaker: james
+    text: >-
+      Boom. Done. Don't even scroll, Cam, that's the whole answer.
+      Fluffnik is hers.
+  - turn_id: t88
+    speaker: cam
+    text: >-
+      Secret park experiment. That's what this is. She's running
+      something out here and the squirrel is part of it.
+  - turn_id: t91
+    speaker: leela
+    text: >-
+      Give me the phone.
+  - turn_id: t92
+    speaker: cam
+    text: >-
+      What.
+  - turn_id: t93
+    speaker: leela
+    text: >-
+      Give me the phone. I want to actually look.
+  - turn_id: t95
+    speaker: cam
+    text: >-
+      Fine. But you're gonna see what I saw.
+  - turn_id: t97
+    speaker: james
+    text: >-
+      She's reading it.
+  - turn_id: t100
+    speaker: leela
+    text: >-
+      Okay. Her page says she studies stars. Galaxies. Something
+      called stellar formation. That's it. That's the whole thing.
+  - turn_id: t101
+    speaker: james
+    text: >-
+      Right. Space.
+  - turn_id: t102
+    speaker: leela
+    text: >-
+      Stars are not squirrels, James.
+  - turn_id: t103
+    speaker: james
+    text: >-
+      I — okay —
+  - turn_id: t104
+    speaker: leela
+    text: >-
+      The page doesn't mention animals. At all. Not one animal. Not a
+      mouse, not a bird, not a squirrel.
+  - turn_id: t106
+    speaker: leela
+    text: >-
+      It is literally a page about things that are extremely far
+      away.
+  - turn_id: t111
+    speaker: cam
+    text: >-
+      Okay but she could still — I mean — she could be interested in
+      the squirrel as a side thing.
+  - turn_id: t112
+    speaker: leela
+    text: >-
+      Cam. The page is about stars.
+  - turn_id: t114
+    speaker: james
+    text: >-
+      Are we sure it's the right Sophie.
+  - turn_id: t115
+    speaker: cam
+    text: >-
+      What do you mean.
+  - turn_id: t116
+    speaker: james
+    text: >-
+      Like. Sophie is not — there's gotta be more than one Sophie in
+      Memphis. In college. Right?
+  - turn_id: t117
+    speaker: leela
+    text: >-
+      Probably a lot of them.
+  - turn_id: t118
+    speaker: cam
+    text: >-
+      I just clicked the first one.
+  - turn_id: t119
+    speaker: james
+    text: >-
+      You clicked the first one.
+  - turn_id: t120
+    speaker: cam
+    text: >-
+      It was the first one!
+  - turn_id: t121
+    speaker: leela
+    text: >-
+      So we don't even know if this is a person connected to anything.
+      We just know she exists and she has a page.
+  - turn_id: t124
+    speaker: cam
+    text: >-
+      Fluffnik is still real though.
+  - turn_id: t125
+    speaker: leela
+    text: >-
+      The squirrel is real. Yes. The squirrel definitely happened.
+  - turn_id: t128
+    speaker: leela
+    text: >-
+      I'm not saying nothing happened. I'm saying her page is about
+      stars.
+  - turn_id: t129
+    speaker: james
+    text: >-
+      So the squirrel is weird but the Sophie thing is —
+  - turn_id: t130
+    speaker: cam
+    text: >-
+      Wobbly.
+  - turn_id: t132
+    speaker: leela
+    text: >-
+      Very wobbly.
+  - turn_id: t133
+    speaker: james
+    text: >-
+      Should we, like — should we message her?
+  - turn_id: t134
+    speaker: cam
+    text: >-
+      Message who, Sophie?
+  - turn_id: t135
+    speaker: james
+    text: >-
+      Yeah.
+  - turn_id: t136
+    speaker: cam
+    text: >-
+      And say what. Hi, did your squirrel run away.
+  - turn_id: t137
+    speaker: leela
+    text: >-
+      Please do not message a college student you do not know about a
+      squirrel.
+  - turn_id: t138
+    speaker: james
+    text: >-
+      Fine. Fine. I'm just saying, at some point, someone.
+  - turn_id: t139
+    speaker: cam
+    text: >-
+      Not today.
+  - turn_id: t141
+    speaker: cam
+    text: >-
+      I'm gonna walk back past that tree on the way out. Just to look.
+  - turn_id: t142
+    speaker: james
+    text: >-
+      Fluffnik might be back.
+  - turn_id: t143
+    speaker: leela
+    text: >-
+      Stop saying Fluffnik.
+  - turn_id: t148
+    speaker: leela
+    text: >-
+      It was still a weird squirrel.
+  - turn_id: t149
+    speaker: cam
+    text: >-
+      Yeah. It was.
+  - turn_id: t150
+    speaker: james
+    text: >-
+      Yeah.

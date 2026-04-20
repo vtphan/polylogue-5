@@ -1,0 +1,91 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+
+narrative_synopsis: >-
+  A few days after the sighting. The three of them are somewhere low-key
+  — a kitchen counter, a porch, the back of the bus, somewhere ordinary.
+  Cam pulls up a TikTok he has been sitting on: a polluted river in
+  Louisiana, washed-out fur on a raccoon, a comment saying the animals
+  there are getting sick. He shows it with weight. James watches it,
+  watches it again, and then goes. "Okay but check this out, and the
+  squirrel had red eyes, and red eyes can be irritation, and that river
+  had animals with messed-up fur, and our squirrel had messed-up fur,
+  and we drink from the same kind of water — it has to be the water."
+  The same sighting image from Episode 1 gets re-narrated as warning
+  signs. The red eyes are irritation. The white fur is bleached or sick.
+  The vanish is the animal being in a hurry to get away from something.
+  The mood tips. Cam starts worrying about his younger cousin who was
+  at the park. They think about the ducks, the dogs drinking from the
+  fountain. They think about their own drinking water. The wobble lands
+  when Leela actually checks — Memphis tap water is sourced from the
+  Memphis Sand Aquifer, which is famously clean, and the TikTok was
+  about a place with different geology and different contamination. The
+  group is relieved, not smug. The squirrel is still strange.
+
+hypothesis_pursued: >-
+  The white squirrel with red eyes is a warning sign that Memphis
+  drinking water is polluted the same way the Louisiana river in the
+  TikTok is, and this is a public health problem they have just
+  stumbled into.
+
+disproof_event: >-
+  Leela looks up where Memphis tap water actually comes from, reads that
+  it comes from the Memphis Sand Aquifer, and names out loud that the
+  TikTok was about Louisiana — a different place with different water
+  and different conditions. The chain from "squirrel" to "our water is
+  poisoned" loses the step that was doing the work.
+
+character_beats:
+  - character_id: cam
+    beat: >-
+      Brings the TikTok, holds the phone close while playing it, replays
+      the worst second of it. Same flattening habit from Episode 1 — the
+      TikTok carries the same authority Sophie's page did. Emotionally,
+      he is the one who turns the scare civic. He names a real person
+      he is worried about (a younger cousin at the park, a neighbor's
+      dog, a little kid near the fountain). He also lands a real "should
+      this be on the news?" — and this time the others do not laugh it
+      off for a second.
+  - character_id: james
+    beat: >-
+      Delivers the defining chain of the episode in one unbroken breath.
+      Use the signature shape: opener, "and", "and", "so", "it has to
+      be." He is re-reading every sighting detail as pollution evidence
+      in real time. He should still try a squirrel nickname here —
+      something with a poison or chemical flavor — but it should land
+      flat because the room has gone serious.
+  - character_id: leela
+    beat: >-
+      Quiet listener again, but this time the quiet is not bit-energy,
+      it is weight. She is the one who picks up a phone or laptop and
+      actually looks up where Memphis tap water comes from. She says
+      "Memphis Sand Aquifer" out loud. She names the Louisiana / Memphis
+      mismatch in one flat line. She does not make James feel dumb. She
+      is careful with him here.
+
+running_threads:
+  - Re-read the Episode 1 sighting image (red eyes, white fur,
+    fake-for-a-second, quick vanish) as if every detail is a pollution
+    warning sign. The re-reading is the point — same image, new frame.
+  - Carry James's half-stuck alien nickname from Episode 1 as a small
+    aside or callback that nobody bothers to argue with. Friendship
+    texture, not plot.
+  - Seed the idea that the group has only been walking one part of the
+    park, so Episode 3's "we only walked the south side" reveal has
+    something to pay off.
+
+plot_obligations:
+  - Cam shows a real-feeling TikTok about a polluted Louisiana river
+    and treats it as evidence about Memphis.
+  - James runs the episode's central chain in one breath and lands "it
+    has to be the water."
+  - The same sighting details from Episode 1 are explicitly re-narrated
+    as environmental warning signs (red eyes = irritation, white fur =
+    wrong/washed out, vanish = something off).
+  - The worry turns civic — name at least one real person or animal
+    (a younger cousin, a little kid at the park, a neighbor's dog, the
+    ducks at the fountain) the group is suddenly worried about.
+  - Leela grounds the disproof locally — Memphis Sand Aquifer, Memphis
+    tap water is famously clean, the TikTok was Louisiana not Memphis.
+  - End on relief, not triumph. The squirrel is still unexplained.

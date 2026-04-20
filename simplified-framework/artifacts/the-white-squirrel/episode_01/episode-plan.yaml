@@ -1,0 +1,44 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+
+episode_goal: >
+  Open on the sighting that will anchor the whole story — the white squirrel
+  with red eyes at Overton Park, the fake-for-a-second look, the quick
+  vanishing on a low branch — and let the group chase an alien explanation
+  that sounds exciting because the source sounds important. Cam pulls up
+  Sophie's university page (astrophysics), James hears "space science" and
+  starts running with it, and the three of them build an alien-scout theory
+  without ever contacting Sophie or checking whether astrophysics is the
+  field that answers a question about a weird squirrel. The episode wobbles
+  when Leela actually reads what Sophie studies. The goal is to make the
+  trust in the near-fitting title feel natural, fun, and a little silly —
+  not foolish — so the student can feel why it happens.
+
+student_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Cam is the one who produces Sophie's page on his phone and treats it
+      like an answer instead of a source. He reads the title and the tone
+      with equal weight, scrolls past the part that would narrow her field,
+      and flips the screen around like he is showing receipts. Enthusiasm
+      is his signature — he is the one who keeps the energy up when the
+      group should be slowing down. One brief half-beat of "wait, should
+      this be on the news?" shows up and is swallowed by the next joke.
+  - character_id: james
+    beat: >
+      James runs the chaining. Opener, stacked links, closer — "okay but
+      check this out, and her page says astrophysics, and astrophysics is
+      space, so she studies space, so this squirrel is from space, it has
+      to be a scout." He also keeps trying ridiculous alien nicknames for
+      the squirrel. One of them half-sticks. He is funniest when he is
+      most wound up, which is exactly when his reasoning is weakest.
+  - character_id: leela
+    beat: >
+      Leela is quiet for most of the episode, listening, letting the bit
+      run. She is the one who eventually actually clicks through Sophie's
+      page, reads the line about what she studies, and lands the flat
+      one-liner that pops the theory. Her private habit: she trusts her
+      own careful reading, and the group tends to stop when she speaks.

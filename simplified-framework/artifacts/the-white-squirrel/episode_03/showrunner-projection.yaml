@@ -1,0 +1,120 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+title: The Walk
+
+narrative_synopsis: >-
+  Monday or Tuesday after school. Leela stays back after science class
+  and asks Ms. Reyes what she thinks about the squirrel. Ms. Reyes does
+  not explain anything. She asks Leela two plain questions: have you
+  looked at the whole park, and are you sure the squirrels you saw are
+  one big group? Leela brings those questions back to Cam and James.
+  They map where they have actually walked in Overton Park and realize
+  every single sighting has been on the south side — the side closest
+  to their usual way in. They walk the north side together. No white
+  squirrels. No red eyes. Plain gray squirrels doing plain gray squirrel
+  things. Leela names the thing that was sitting next to them the whole
+  time: the highways cut the south-side forest patch off from the rest
+  of the park and from the rest of Memphis. Then they go back to Sophie
+  — this time actually asking her, not reading past her. Sophie admits
+  mammal biology is not her field, but says yes, a rare mutation showing
+  up more often in a small cut-off group of squirrels fits what the
+  kids are describing. The three of them say the plain-language answer
+  to each other out loud: rare trait, forest patch cut off by highways,
+  small cut-off group, rare thing shows up more often over time. Circle
+  back to the opening image: the white fur and red eyes are a real rare
+  trait, the quick vanish is how squirrels always move — it only felt
+  impossible because they had never seen anything like it before. Only
+  after that lands cleanly does the final joke beat unroll: Leela says
+  maybe Cam's hair is a mutation too, Cam says her name is a mutation
+  of "allele," Leela says it is an anagram, James closes with "agree to
+  disagree." Ending is warm.
+
+hypothesis_pursued: >-
+  The real answer the story has been chasing all along — the white
+  squirrel is a rare genetic trait (likely leucistic, functionally a
+  mutation) that shows up more often in a small population of squirrels
+  that has been cut off from the rest of Memphis by highways around
+  Overton Park. The kids do not need the word "leucistic"; "rare
+  mutation in a cut-off group" is enough.
+
+disproof_event: >-
+  The wobble this episode is the wobble of the kids' own sampling, not
+  a new theory being knocked down. When they finally walk the north
+  side of the park and do not see a single red-eyed squirrel, the
+  "white squirrels are everywhere in Overton Park" pattern they had
+  assumed collapses. That collapse is what lets the real answer — a
+  small cut-off group — click into place.
+
+character_beats:
+  - character_id: cam
+    beat: >-
+      Less phone this episode. He is the one who sketches or lists
+      where they have actually walked in the park, and the one who is a
+      little sheepish when they circle back to Sophie — he is the one
+      who originally treated her page as the answer. He carries most of
+      the earned-discovery energy when the pieces click. Let him be the
+      one who says "so it was real but not the way we thought."
+  - character_id: james
+    beat: >-
+      One last chain attempt — "and then mutation, and then highways,
+      and then it has to be —" and somebody gently stops him so the
+      group can build the answer slowly together instead. His closing
+      "agree to disagree" is the series' last line. Bring his
+      ridiculous squirrel nickname back once for warmth.
+  - character_id: leela
+    beat: >-
+      Leela leads. She is the one who talks to Ms. Reyes, carries the
+      nudging questions back, insists they walk the north side, names
+      the highway cutoff, and later jokes that Cam's hair is a mutation.
+      She is also a little quiet at the moment the answer clicks —
+      earned quiet, not dry quiet. She has been right all series by
+      checking. This time she has also done the walking.
+
+running_threads:
+  - >-
+    Pay off the Episode 1 sighting image. Circle back to red eyes,
+    white fur, fake-for-a-second, vanishing on a low branch, and
+    re-read every one of those details inside the real explanation:
+    rare trait, normal squirrel behavior, first time they had seen it.
+  - >-
+    Pay off the Sophie thread. This time the kids actually talk to her
+    with a plainer question. Her admitting mammals aren't her field is
+    important — she is a real person, not a headline.
+  - >-
+    Close out James's alien-flavored nickname from Episode 1 as a last
+    friendship echo, not as plot.
+  - >-
+    Honor Ms. Reyes as a teacher who nudges rather than explains; her
+    two questions do the real instructional work in the episode.
+
+plot_obligations:
+  - >-
+    Leela catches Ms. Reyes after class. Ms. Reyes asks two nudging
+    questions instead of giving the answer: have you looked at the
+    whole park, and are the squirrels you saw one big group?
+  - >-
+    The kids map their sightings and realize they have only walked the
+    south side of Overton Park.
+  - >-
+    They walk the north side together. They find no red-eyed squirrels.
+  - >-
+    Leela names the highway cutoff out loud — the forest patch is cut
+    off from the rest of Memphis by highways.
+  - >-
+    They go back to Sophie with plainer questions. Sophie admits
+    mammals are not her field but agrees that a rare mutation in a
+    small cut-off group fits what they saw.
+  - >-
+    The three of them say the plain-language answer to each other: rare
+    trait, small cut-off group, rare things show up more often over
+    time. The kids assemble it, not an adult.
+  - >-
+    Circle back explicitly to the opening sighting image. Ground it:
+    white fur and red eyes are a real rare trait, the quick vanish is
+    how squirrels always move, the "impossible" feeling came from never
+    having seen one before.
+  - >-
+    Only after the real explanation lands cleanly, run the final joke
+    beat: Leela on Cam's hair being a mutation, Cam on "Leela" being a
+    mutation of "allele," Leela saying it is an anagram, James closing
+    with "agree to disagree."

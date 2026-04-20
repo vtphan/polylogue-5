@@ -1,0 +1,211 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 1
+  schema_version: simplified_v4
+
+episode:
+  title: The Sighting
+  summary: >-
+    Cam, James, and Leela see a white squirrel with red eyes at Overton
+    Park. It vanishes in a flash. Cam searches online and finds a page
+    for Sophie, a college student who studies space. The boys decide
+    she must know the squirrel. Leela is not so sure.
+  final_takeaway: A source that sounds important is not the same as a source that fits the question.
+
+levels:
+  - level_id: lvl_01
+    sequence_index: 1
+    turn_id: t39
+    title: Her major is the answer?
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: What is weak about the way Cam is using Sophie's page?
+    hint: Cam saw one word. Ask if that word answers the real question about a squirrel.
+    answer_options:
+      - option_id: opt_a
+        text: He treats her major as proof before checking if her work fits a squirrel question.
+        kind: best
+      - option_id: opt_b
+        text: He should not look things up on his phone at the park.
+        kind: distractor
+      - option_id: opt_c
+        text: He is wrong because college students cannot know about animals.
+        kind: distractor
+      - option_id: opt_d
+        text: He should have asked James to search instead.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. Cam saw one word and called it the answer. He did not
+          check if her field is about animals at all. A title can sound
+          important and still not fit the question.
+      by_option:
+        opt_b: >-
+          Looking things up is fine. The problem is that Cam stopped at
+          one word and treated it as proof.
+        opt_c: >-
+          College students can know lots of things. Her field, not her
+          age, is what has to fit the question.
+        opt_d: >-
+          Who does the search is not the issue. Cam never checked
+          whether her page fits a squirrel question at all.
+    takeaway: A title can sound important and still not fit the question.
+
+  - level_id: lvl_02
+    sequence_index: 2
+    turn_id: t48
+    title: One breath, big jump
+    focus_flaw: jumping_to_a_conclusion
+    prompt: What is the problem with the way James builds his claim?
+    hint: List the steps James ties together. Look for a step he never actually shows.
+    answer_options:
+      - option_id: opt_a
+        text: He stacks small facts fast and then jumps to a link he never shows.
+        kind: best
+      - option_id: opt_b
+        text: He should not be excited when he is talking.
+        kind: distractor
+      - option_id: opt_c
+        text: He is wrong because Sophie does not live in Memphis.
+        kind: distractor
+      - option_id: opt_d
+        text: He forgot to mention the red eyes in his chain.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. Each small step sounds okay on its own. But the last
+          leap, that she is tied to the squirrel, has nothing holding
+          it up. A chain can sound strong and still skip a step.
+      by_option:
+        opt_b: >-
+          Being excited is fine. The real problem is that his chain
+          skips a step. He never shows how space science connects to a
+          squirrel.
+        opt_c: >-
+          Sophie does live in Memphis in the story. The real problem is
+          the last jump, not the facts he starts with.
+        opt_d: >-
+          Adding red eyes would not fix the chain. The missing piece is
+          how space science connects to any squirrel at all.
+    takeaway: A chain that feels like proof can still skip the step that matters.
+
+  - level_id: lvl_03
+    sequence_index: 3
+    turn_id: t60
+    title: Waving off the whale
+    focus_flaw: ignoring_another_perspective
+    prompt: What does James do wrong when Leela brings up her cousin's school?
+    hint: Leela gave a clear example that pokes a hole in the theory. Watch how James treats it.
+    answer_options:
+      - option_id: opt_a
+        text: He brushes off a fair counter-example instead of taking it seriously.
+        kind: best
+      - option_id: opt_b
+        text: He says something mean about Leela's cousin.
+        kind: distractor
+      - option_id: opt_c
+        text: He brings up a topic that has nothing to do with the squirrel.
+        kind: distractor
+      - option_id: opt_d
+        text: He agrees with Leela too fast without thinking.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. Leela's whale example pokes a hole in the galaxy clue.
+          James waves it off with a joke instead of answering it.
+          Ignoring a fair point does not make the point go away.
+      by_option:
+        opt_b: >-
+          He is not mean to her cousin. The real issue is that he will
+          not deal with her point. A joke is not a reason.
+        opt_c: >-
+          The whale example is on topic. It tests whether a header
+          image counts as a clue at all, which is what they are
+          arguing about.
+        opt_d: >-
+          He does the opposite. He rejects her point without answering
+          it, which is not the same as agreeing too fast.
+    takeaway: Waving off a counter-example is not the same as answering it.
+
+  - level_id: lvl_04
+    sequence_index: 4
+    turn_id: t87
+    title: Don't even scroll
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: What is wrong with the way James uses the page here?
+    hint: James tells Cam to stop reading after one line. Think about what scrolling more might show.
+    answer_options:
+      - option_id: opt_a
+        text: He locks in the answer after one line instead of reading the rest of the page.
+        kind: best
+      - option_id: opt_b
+        text: He should have read the page out loud in a louder voice.
+        kind: distractor
+      - option_id: opt_c
+        text: He is wrong because you should never read research pages.
+        kind: distractor
+      - option_id: opt_d
+        text: He trusts a TikTok more than a university page.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. One headline is not the whole page. By telling Cam not
+          to scroll, James blocks the part that might show whether her
+          work even fits the question.
+      by_option:
+        opt_b: >-
+          How loud he reads does not matter. The issue is that one line
+          is not enough of the page to know what her work is about.
+        opt_c: >-
+          Reading research pages is fine. The problem is stopping at
+          one line instead of looking at the whole page.
+        opt_d: >-
+          There is no TikTok in this moment. The issue is that he
+          trusts one line of the page and will not read more.
+    takeaway: One line of a source is almost never the whole answer.
+
+  - level_id: lvl_05
+    sequence_index: 5
+    turn_id: t118
+    title: Just the first hit
+    focus_flaw: not_enough_evidence
+    prompt: What does Cam's admission show about the theory they built?
+    hint: Count what the whole theory rests on. How many pages, how many people, how many sightings?
+    answer_options:
+      - option_id: opt_a
+        text: The whole theory rests on one search result they never checked was the right person.
+        kind: best
+      - option_id: opt_b
+        text: Cam is wrong because you should never click the first search result.
+        kind: distractor
+      - option_id: opt_c
+        text: The theory is fine because Sophie is a real person with a real page.
+        kind: distractor
+      - option_id: opt_d
+        text: They need more squirrel photos before they can say anything.
+        kind: distractor
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. One page about one person they never confirmed is a
+          thin base for a big claim. A real theory needs more than one
+          search hit to stand on.
+      by_option:
+        opt_b: >-
+          Clicking the first result is not the real problem. The real
+          problem is that they never checked it was the right Sophie.
+        opt_c: >-
+          Sophie being real does not make her the right Sophie. The
+          theory still rests on one page they never confirmed fits.
+        opt_d: >-
+          More photos of the same squirrel would not help. The weak
+          spot is the Sophie page, not the sighting.
+    takeaway: One page about one person is a thin base for a big claim.

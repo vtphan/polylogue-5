@@ -1,0 +1,171 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+source_draft: transcript.raw.yaml
+status: approved
+
+candidate_turns:
+  - turn_id: t32
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >
+      James answers Ms. Reyes's first question ("have we looked at the whole
+      park") with an immediate "Yes. Obviously." He treats "we have been in
+      that park a weird amount" as if it proved full coverage. This is the
+      cleanest, most recognizable instance of the episode's main teaching
+      flaw: a pattern in the walks they have taken is not a pattern in the
+      whole park. A 6th grader can feel the flaw on first read because the
+      next twenty turns are exactly the group discovering that "a weird
+      amount" and "the whole park" are not the same thing.
+
+  - turn_id: t39
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >
+      When Cam asks "where have we actually walked," James answers
+      "Everywhere." Same flaw as t32, one beat later: the kids' felt sense
+      of coverage is treated as actual coverage. Useful as a secondary or
+      alternate anchor because the contrast with the south-only list that
+      follows is mechanically visible to a student reader.
+
+  - turn_id: t86
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >
+      After thirty minutes on the north side with zero white squirrels,
+      James tries "maybe they're just — hiding." He is reaching for a
+      rescue explanation to keep the original everywhere-claim alive. This
+      is a smaller jumping_to_a_conclusion moment and it teaches the same
+      lesson from the opposite direction: when the evidence you walked
+      does not match your claim, the claim moves, not the park.
+
+  - turn_id: t109
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >
+      "Small group, cut off, white fur, red eyes, and then mutation, and
+      then highways, and then it has to be —" James sprints from a handful
+      of observations to a closed conclusion in a single breath. Leela
+      names it out loud at t112 ("You're doing the thing. You're
+      chaining."), which makes this turn unusually teachable: the flaw and
+      its label sit side by side on the page.
+
+  - turn_id: t122
+    suggested_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    rationale: >
+      Cam's self-correction — "I treated her website like the answer. She
+      wasn't the answer. She's a person." — is a reflective diagnosis of
+      trusting_a_source_too_quickly from earlier in the series. It is not
+      a live flaw in this episode, but it is a clean teachable callback a
+      student can recognize as the same shape as the main lesson: a
+      pattern in one source is not the whole answer, just like a pattern
+      in one side of the park is not the whole park. Supporting anchor
+      only; use sparingly.
+
+recommended_turn_ids:
+  - t32
+  - t109
+  - t86
+
+approved_anchors:
+  - turn_id: t32
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t39
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t86
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t109
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t122
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+
+proposals:
+  - proposal_id: p01
+    proposal_type: tweak
+    turn_id: t39
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    replacement_text: "Everywhere. All of it. We've been all over that park."
+    rationale: >
+      Current text is a single word ("Everywhere.") which reads as a casual
+      aside and can feel moderate on the page. Adding two short confident
+      beats in James's voice — "All of it." and "We've been all over that
+      park." — doubles down on the unearned certainty so the flaw is
+      unmistakable on first read, and sets up the south-only list at t41–t46
+      as a sharper contrast. Still chatty and over-sure, still James; no
+      lecturing, no new vocabulary.
+
+  - proposal_id: p02
+    proposal_type: tweak
+    turn_id: t86
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    replacement_text: "Okay, but maybe they're just — hiding. The white ones. Today. They're probably hiding today."
+    rationale: >
+      Current text trails off on the dash ("maybe they're just — hiding.")
+      which reads as a half-formed guess and can feel moderate. Adding
+      "The white ones. Today. They're probably hiding today." makes the
+      rescue-explanation shape visible: James is now explicitly protecting
+      the original everywhere-claim by patching it with a new excuse. The
+      fragmentary repetition stays in his chain-happy voice without turning
+      analytic.
+
+  - proposal_id: p03
+    proposal_type: tweak
+    turn_id: t122
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    replacement_text: "I know. I know, okay. I just — I read her page once and I was like, cool, that's the answer. I didn't even check. She wasn't the answer. She's a person."
+    rationale: >
+      Current text names the self-correction ("I treated her website like
+      the answer") but the trusting_a_source_too_quickly shape is implicit.
+      Adding "I read her page once and I was like, cool, that's the answer.
+      I didn't even check." makes the too-quickly part explicit without
+      turning Cam into a classroom voice: it's still his self-talk, still
+      the same I-treated-her-website-like-the-answer arc, just with the
+      speed and the not-checking surfaced so a student reader can feel the
+      flaw being described.
+
+revision_history:
+  - round: 1
+    feedback_summary: >-
+      Operator requested that all five candidate anchors be marked
+      strongly_expressed.
+    revision_note: >-
+      Set expression_strength to strongly_expressed on t32, t39, t86, t109,
+      and t122. Turn selections and rationales unchanged.
+  - round: 2
+    feedback_summary: >-
+      Operator noted that t39, t86, and t122 currently read as only
+      moderately expressed on the page; the strongly_expressed label was
+      applied in round 1 without the dialog being sharpened, so the label
+      overstates the text. This round must draft minimal sharpening edits
+      so the strong label becomes honest for those three turns, while
+      leaving t32 and t109 untouched (already strong as-written).
+    revision_note: >-
+      Added three sharpening proposals: p01 (tweak of t39) layers two
+      confident beats onto James's "Everywhere." so the unearned certainty
+      is unmistakable; p02 (tweak of t86) extends James's rescue
+      explanation so the patch-the-original-claim shape is visible; p03
+      (tweak of t122) surfaces the too-quickly aspect of Cam's
+      self-correction while preserving his I-treated-her-website-like-the-
+      answer self-talk. candidate_turns, recommended_turn_ids,
+      approved_anchors, source_draft, story_id, episode_id, and existing
+      rationales unchanged.
+  - round: 3
+    feedback_summary: >-
+      Operator approved the proposal set as-written and chose to populate
+      approved_anchors with all five candidate turns (t32, t39, t86, t109
+      as jumping_to_a_conclusion and t122 as trusting_a_source_too_quickly),
+      so the lesson package has the full set of strongly_expressed anchors
+      available.
+    revision_note: >-
+      Set status to approved. Populated approved_anchors with all five
+      candidates, carrying over each turn's focus_flaw and expression_strength
+      from candidate_turns. No edits to candidate_turns, recommended_turn_ids,
+      proposals, source_draft, story_id, or episode_id.

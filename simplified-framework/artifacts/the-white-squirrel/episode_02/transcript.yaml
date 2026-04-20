@@ -1,0 +1,291 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+characters:
+  - cam
+  - james
+  - leela
+scenes:
+  - scene_id: s1
+    summary: Cam shows a TikTok from Louisiana. A raccoon climbs out of a river and its fur looks wrong. James goes quiet and asks to see it again.
+    turns:
+      - turn_id: t01
+        speaker: cam
+        text: "Okay. Okay, I need you guys to actually watch this. Not half-watch. Watch."
+      - turn_id: t02
+        speaker: james
+        text: "I'm literally eating a granola bar, Cam, relax."
+      - turn_id: t03
+        speaker: cam
+        text: "Put the granola bar down."
+      - turn_id: t04
+        speaker: leela
+        text: "He put it down. Play it."
+      - turn_id: t05
+        speaker: cam
+        text: "So this is from like a week ago, a girl in Louisiana, her dad fishes this river, and watch the raccoon — watch its fur when it climbs up."
+      - turn_id: t06
+        speaker: james
+        text: "Ew. Ew, why is it that color."
+      - turn_id: t07
+        speaker: cam
+        text: >-
+          Right? And look, the comments back it up — the top one has
+          like thousands of likes, it says the animals down there are
+          getting sick. And this guy says his dog drank from it and
+          threw up for two days. People are saying it. That's a lot of
+          people saying the same thing, so it's real.
+      - turn_id: t08
+        speaker: leela
+        text: "Play the raccoon part again."
+      - turn_id: t09
+        speaker: cam
+        text: "Yeah. Watch. Watch its fur. That is not normal raccoon fur. That is washed-out."
+      - turn_id: t10
+        speaker: james
+        text: "..."
+      - turn_id: t11
+        speaker: james
+        text: "Play it one more time."
+      - turn_id: t12
+        speaker: cam
+        text: "Okay."
+  - scene_id: s2
+    summary: James links the raccoon to the white squirrel and blames the water. Cam worries about his little cousin at the park. Leela looks up Memphis tap water.
+    turns:
+      - turn_id: t13
+        speaker: james
+        text: >-
+          Okay wait — the squirrel had red eyes, and red eyes mean
+          irritation, and that raccoon in the video had messed-up fur,
+          and our squirrel had messed-up fur, and that river is water,
+          and our park has water, so it's the same kind of water — it
+          has to be the water. It has to be.
+      - turn_id: t14
+        speaker: cam
+        text: "Wait."
+      - turn_id: t15
+        speaker: leela
+        text: "Say that again."
+      - turn_id: t16
+        speaker: james
+        text: "The squirrel. The red eyes. That's not albino vibes, that's irritation. That's stuff getting in its eyes."
+      - turn_id: t17
+        speaker: cam
+        text: "Okay yeah, yeah."
+      - turn_id: t18
+        speaker: james
+        text: "And the white fur? We were calling it white like cool-white, like snow-white. What if it's not white. What if it's bleached. Like, wrong."
+      - turn_id: t19
+        speaker: leela
+        text: "Washed out."
+      - turn_id: t20
+        speaker: james
+        text: >-
+          Washed out. Exactly. Like the raccoon. No wait — see, that's
+          what I'm saying, I was calling it snow-white this whole time
+          but that wasn't white, that was bleached, and the red eyes
+          weren't cute-weird-eyes, they were irritated eyes, and it
+          didn't vanish, it was booking it out of there — so it's the
+          same thing as the raccoon, it's been the same thing the whole
+          time, I was literally looking right at it.
+      - turn_id: t21
+        speaker: cam
+        text: "And it vanished, right? We kept saying it vanished like it was spooky. But maybe it just — it was trying to get out of there. It was in a hurry."
+      - turn_id: t22
+        speaker: james
+        text: "It was booking it away from something."
+      - turn_id: t23
+        speaker: leela
+        text: "Hm."
+      - turn_id: t24
+        speaker: james
+        text: "Guys. Guys. Toxic Todd."
+      - turn_id: t25
+        speaker: cam
+        text: "...what."
+      - turn_id: t26
+        speaker: james
+        text: "The squirrel. Toxic Todd. Like, as a name."
+      - turn_id: t27
+        speaker: leela
+        text: "James."
+      - turn_id: t28
+        speaker: james
+        text: "Okay, not the moment. Fine. Shelving it. Also I still think Astro-Rodent is on the table from last week, just for the record."
+      - turn_id: t29
+        speaker: cam
+        text: "Nobody is arguing with you about Astro-Rodent, dude. That one lives."
+      - turn_id: t30
+        speaker: cam
+        text: "But wait. Wait. If it's the water — my cousin was at that park on Saturday. Like, my little cousin. He's seven. He was climbing on the fountain thing."
+      - turn_id: t31
+        speaker: james
+        text: "The stone fountain by the benches?"
+      - turn_id: t32
+        speaker: cam
+        text: "Yeah. And he was putting his hands in it and then eating chips. With those hands."
+      - turn_id: t33
+        speaker: leela
+        text: "Oh."
+      - turn_id: t34
+        speaker: cam
+        text: >-
+          And Mrs. Alvarez walks her dog through there every single
+          morning. That dog drinks out of the fountain. I've seen it
+          drink out of it. Like — that dog is basically proof, right?
+          That's an animal drinking that water every day. If the water
+          was fine, the dog would be fine, and if the water's bad, the
+          dog tells us. That's one whole animal. That counts.
+      - turn_id: t35
+        speaker: james
+        text: "The ducks. The ducks live in that water."
+      - turn_id: t36
+        speaker: cam
+        text: "The ducks live in it, James."
+      - turn_id: t37
+        speaker: leela
+        text: "Okay, hold on."
+      - turn_id: t38
+        speaker: cam
+        text: >-
+          And it's not just the park — water is water, right? If it's
+          bad in that park fountain, it's bad in our pipes too, because
+          the water has to come from somewhere. I drink from the tap.
+          My mom cooks pasta in the tap. My cousin brushes his teeth
+          with the tap. That's the same water.
+      - turn_id: t39
+        speaker: james
+        text: "Bro."
+      - turn_id: t40
+        speaker: cam
+        text: "I'm saying, should this be on the news? Like actually. Because if a kid gets sick —"
+      - turn_id: t41
+        speaker: james
+        text: "Yeah, no, I'm not laughing. I'm not laughing this time."
+      - turn_id: t42
+        speaker: leela
+        text: "Me either."
+      - turn_id: t43
+        speaker: cam
+        text: "Because last time I said news you both looked at me like I was twelve."
+      - turn_id: t44
+        speaker: james
+        text: "You are twelve."
+      - turn_id: t45
+        speaker: cam
+        text: "You know what I mean."
+      - turn_id: t46
+        speaker: leela
+        text: "Give me a second. I'm looking something up."
+      - turn_id: t47
+        speaker: james
+        text: "What are you searching?"
+      - turn_id: t48
+        speaker: leela
+        text: "Where our water comes from. Like, actually. Memphis tap water."
+      - turn_id: t49
+        speaker: cam
+        text: "Okay, yeah. Good. Good call."
+      - turn_id: t50
+        speaker: james
+        text: "While she does that — we only ever walk the south side of that park, right? Like the benches, the fountain, the little loop. We've never actually gone past the bridge."
+      - turn_id: t51
+        speaker: cam
+        text: "The north side is like, trees. I've never been over there."
+      - turn_id: t52
+        speaker: james
+        text: "Me either. Could be a whole different thing over there. Just saying."
+  - scene_id: s3
+    summary: Leela finds out Memphis tap water comes from a deep sand layer, not the Louisiana river. Cam relaxes about his cousin. The white squirrel is still a mystery though.
+    turns:
+      - turn_id: t53
+        speaker: leela
+        text: "Okay."
+      - turn_id: t54
+        speaker: leela
+        text: "So. Memphis tap water comes from something called the Memphis Sand Aquifer."
+      - turn_id: t55
+        speaker: james
+        text: "The what."
+      - turn_id: t56
+        speaker: leela
+        text: "Memphis Sand Aquifer. It's underground. It's like this huge layer of sand really deep down, and the water sits in it, and apparently it's filtered by the sand for a really long time before we ever pump it up. The city page literally calls it some of the cleanest tap water in the country."
+      - turn_id: t57
+        speaker: cam
+        text: "Wait, seriously?"
+      - turn_id: t58
+        speaker: leela
+        text: "Seriously. And — okay, this is the part. The TikTok was Louisiana. That river was Louisiana. That's a different place, with different ground, with different water. They don't drink from our aquifer. We don't drink from their river."
+      - turn_id: t59
+        speaker: james
+        text: "..."
+      - turn_id: t60
+        speaker: leela
+        text: "I'm not saying you were wrong to notice stuff, James. You noticed a lot of stuff. The eyes, the fur, all of it. That was real noticing."
+      - turn_id: t61
+        speaker: james
+        text: "But the 'same kind of water' part was doing a lot of work, huh."
+      - turn_id: t62
+        speaker: leela
+        text: "Yeah. That was the piece."
+      - turn_id: t63
+        speaker: cam
+        text: "So my cousin is — my cousin's fine."
+      - turn_id: t64
+        speaker: leela
+        text: "Your cousin is fine."
+      - turn_id: t65
+        speaker: cam
+        text: "Okay. Okay. Good."
+      - turn_id: t66
+        speaker: cam
+        text: "I was about to call my aunt, dude. I had my phone out."
+      - turn_id: t67
+        speaker: james
+        text: "I was about to not drink water ever again."
+      - turn_id: t68
+        speaker: leela
+        text: "I know."
+      - turn_id: t69
+        speaker: james
+        text: "That TikTok was wild though."
+      - turn_id: t70
+        speaker: cam
+        text: "That raccoon was not okay. I stand by that. That raccoon specifically."
+      - turn_id: t71
+        speaker: leela
+        text: "That raccoon, yes. Our water, no."
+      - turn_id: t72
+        speaker: james
+        text: "Okay but then — what is up with the squirrel."
+      - turn_id: t73
+        speaker: cam
+        text: "Yeah."
+      - turn_id: t74
+        speaker: james
+        text: "Because I still saw what I saw. It had red eyes. It was white. It booked it."
+      - turn_id: t75
+        speaker: leela
+        text: "I know."
+      - turn_id: t76
+        speaker: james
+        text: "So it's not the water. Fine. But it's still something."
+      - turn_id: t77
+        speaker: cam
+        text: "It's still something."
+      - turn_id: t78
+        speaker: leela
+        text: "Yeah. It's still something."
+      - turn_id: t79
+        speaker: james
+        text: "Astro-Rodent lives to fight another day."
+      - turn_id: t80
+        speaker: cam
+        text: "Shut up, James."
+      - turn_id: t81
+        speaker: james
+        text: "You said it lives."
+      - turn_id: t82
+        speaker: cam
+        text: "I regret it."

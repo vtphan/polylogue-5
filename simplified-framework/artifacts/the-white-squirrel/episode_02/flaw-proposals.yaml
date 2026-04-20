@@ -1,0 +1,246 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+source_draft: artifacts/the-white-squirrel/episode_02/transcript.raw.yaml
+status: approved
+
+candidate_turns:
+  - turn_id: t13
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >-
+      James strings together red eyes, washed-out fur, the Louisiana
+      raccoon, and "we drink from the same kind of water" into one
+      breathless chain that ends at "it has to be the water." The leap
+      is clean on the page: several smaller noticings collapsed into a
+      single big conclusion without any check in between. This is the
+      episode's main teaching beat for the one-breath chain with a step
+      missing.
+
+  - turn_id: t07
+    suggested_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    rationale: >-
+      Cam backs up the TikTok by reading top comments — "the animals
+      down there are getting sick" and "somebody said their dog drank
+      from it and threw up for two days" — and treats those strangers
+      as if they confirm the video. He never asks who posted, how they
+      would know, or whether random commenters are reliable. A
+      recognizable "I saw it online and the replies agree" move.
+
+  - turn_id: t38
+    suggested_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+    rationale: >-
+      Cam stretches one Louisiana river to Memphis tap water in a
+      single step — park fountain, then "our water comes from
+      somewhere," then pasta and toothbrushes. He treats "water" as
+      one big category, so one bad river becomes evidence about our
+      tap. Leela's later aquifer check is the corrective; this turn is
+      where the evidence gap is most visible.
+
+  - turn_id: t20
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >-
+      James re-reads the Episode 1 squirrel sighting through the
+      Louisiana raccoon lens: the white fur he had been calling
+      "snow-white" becomes "bleached" and "washed out. Exactly. Like
+      the raccoon." This is a confirmation-biased re-read — the new
+      theory is pulling old memories into its shape, turning a neutral
+      observation into more evidence for the same conclusion. A good
+      secondary anchor for how a conclusion, once picked, starts
+      rewriting what you already saw.
+
+  - turn_id: t34
+    suggested_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+    rationale: >-
+      Cam points to Mrs. Alvarez's dog drinking from the fountain as
+      more proof the park water is dangerous. But one dog drinking
+      from a fountain does not show the water is bad — the dog is
+      fine in the story, and one observation is being asked to carry
+      a big claim. This pairs naturally with t38 as a "piling up
+      little things that aren't actually evidence" beat.
+
+recommended_turn_ids:
+  - t13
+  - t07
+  - t38
+  - t20
+  - t34
+
+approved_anchors:
+  - turn_id: t13
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t07
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+  - turn_id: t38
+    focus_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+  - turn_id: t20
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t34
+    focus_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+
+proposals:
+  - proposal_id: p01
+    proposal_type: replace
+    turn_id: t13
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >-
+      Sharpen the one-breath chain so the missing step is visible to a
+      6th-grade reader. Keep James's signature shape — opener, and,
+      and, and, so, it has to be — but tighten each link so the jump
+      from "same kind of water" to "it has to be the water" lands as
+      one clean leap instead of reading as a reasonable build.
+    replacement_text: >-
+      Okay wait — the squirrel had red eyes, and red eyes mean
+      irritation, and that raccoon in the video had messed-up fur,
+      and our squirrel had messed-up fur, and that river is water,
+      and our park has water, so it's the same kind of water — it
+      has to be the water. It has to be.
+
+  - proposal_id: p02
+    proposal_type: replace
+    turn_id: t07
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    rationale: >-
+      Amplify Cam treating anonymous commenters as if they confirm
+      the video. Make him explicitly lean on the comments as proof
+      and name them as a source — "people are saying," "the top
+      comment" — so the flaw (taking strangers online at their word
+      without asking who they are or how they'd know) is named on
+      the page rather than implied.
+    replacement_text: >-
+      Right? And look, the comments back it up — the top one has
+      like thousands of likes, it says the animals down there are
+      getting sick. And this guy says his dog drank from it and
+      threw up for two days. People are saying it. That's a lot of
+      people saying the same thing, so it's real.
+
+  - proposal_id: p03
+    proposal_type: replace
+    turn_id: t38
+    focus_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+    rationale: >-
+      Make the one-river-to-our-tap stretch explicit. Cam should
+      collapse "water" into one big category out loud — "water is
+      water" — so the evidence gap is visible. Keep his phone-native
+      pile-on voice (pasta, toothbrush, the tap) but push the leap
+      from local fountain to city tap water into one sentence a
+      6th grader can point at.
+    replacement_text: >-
+      And it's not just the park — water is water, right? If it's
+      bad in that park fountain, it's bad in our pipes too, because
+      the water has to come from somewhere. I drink from the tap.
+      My mom cooks pasta in the tap. My cousin brushes his teeth
+      with the tap. That's the same water.
+
+  - proposal_id: p04
+    proposal_type: replace
+    turn_id: t20
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >-
+      Push the confirmation-biased re-read all the way. James should
+      audibly rewrite the Episode 1 memory on the page: he was
+      calling it white, now he sees it was bleached the whole time,
+      and the red eyes and the "booking it" slot into the raccoon
+      theory too. Keep his excited and/and/so cadence so the flaw
+      reads as one breathless leap — a conclusion reaching back and
+      repainting older observations until they all point the same way.
+    replacement_text: >-
+      Washed out. Exactly. Like the raccoon. No wait — see, that's
+      what I'm saying, I was calling it snow-white this whole time
+      but that wasn't white, that was bleached, and the red eyes
+      weren't cute-weird-eyes, they were irritated eyes, and it
+      didn't vanish, it was booking it out of there — so it's the
+      same thing as the raccoon, it's been the same thing the whole
+      time, I was literally looking right at it.
+
+  - proposal_id: p05
+    proposal_type: replace
+    turn_id: t34
+    focus_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+    rationale: >-
+      Upgrade from tweak to replace so Cam can build a full
+      single-case-as-proof beat. One dog doing the whole evidentiary
+      job: he names the dog, promotes it to "proof," and treats that
+      one animal's daily drink as settled evidence the water is
+      dangerous. Keep his phone-native civic-worry tone — the dog
+      becomes a witness, a data point, a case — so a 6th grader can
+      point at exactly one animal being asked to carry a big claim.
+    replacement_text: >-
+      And Mrs. Alvarez walks her dog through there every single
+      morning. That dog drinks out of the fountain. I've seen it
+      drink out of it. Like — that dog is basically proof, right?
+      That's an animal drinking that water every day. If the water
+      was fine, the dog would be fine, and if the water's bad, the
+      dog tells us. That's one whole animal. That counts.
+
+revision_history:
+  - round: 1
+    feedback_summary: initial proposals
+    revision_note: >-
+      First script_doctor pass on the approved raw draft. Three
+      candidate anchors identified; t13 is the main teaching anchor
+      for the one-breath chain, with t07 and t38 as lighter supporting
+      moments. No sharpening edits proposed — the draft already lands
+      the main flaw turn cleanly.
+  - round: 2
+    feedback_summary: >-
+      "Please add 1 or 2 more turns with potential flaws. Revise the
+      turns to amplify the flaws strongly."
+    revision_note: >-
+      Added two candidate turns: t20 (James re-reading the Episode 1
+      squirrel as "bleached / washed out. Exactly. Like the raccoon."
+      — a confirmation-biased re-read → jumping_to_a_conclusion) and
+      t34 (Cam citing Mrs. Alvarez's dog drinking from the fountain
+      as more proof → not_enough_evidence). Raised expression_strength
+      on t07 and t38 to strongly_expressed to reflect the amplified
+      dialog. Added five sharpening proposals (p01–p05): replace on
+      t13 to tighten the one-breath chain; replace on t07 to have Cam
+      explicitly lean on anonymous commenters as a source; replace on
+      t38 to surface the "water is water" collapse; replace on t20 to
+      make the re-read of the older memory explicit; tweak on t34 to
+      push the single-dog observation into a stated claim. All edits
+      preserve character voice (Cam phone-native and
+      source-flattening; James signature and/and/so/it-has-to-be
+      chain; Leela left untouched). No turn_ids renumbered;
+      approved_anchors remains empty pending operator review.
+  - round: 3
+    feedback_summary: >-
+      "pump t20 and t34 to strong"
+    revision_note: >-
+      Raised expression_strength on candidate_turns t20 and t34 from
+      moderately_expressed to strongly_expressed, and matched the
+      same lift on proposals p04 (t20) and p05 (t34). Amplified
+      replacement_text on p04 so James's confirmation-biased re-read
+      of Episode 1 is unmistakable — he audibly rewrites the
+      snow-white fur into bleached, the red eyes into irritation,
+      and the vanishing into "booking it," all pulled into the
+      raccoon theory in one breathless and/and/so chain. Upgraded
+      p05 from tweak to replace so Cam can build a fuller
+      single-case-as-proof beat around Mrs. Alvarez's dog: he names
+      the dog as proof, treats the daily drink as settled evidence,
+      and lets one animal do the whole evidentiary job in his
+      phone-native civic-worry voice. p01, p02, p03 left untouched.
+      No turn_ids renumbered; candidate set unchanged;
+      approved_anchors remains empty pending operator review.
+  - round: 4
+    feedback_summary: >-
+      "approve all"
+    revision_note: >-
+      Operator approved the full round-3 proposal set. Populated
+      approved_anchors with all five anchors (t13, t07, t38, t20, t34),
+      each at strongly_expressed with its focus_flaw. Status moved to
+      approved. Proposals p01–p05 remain the authoritative set for
+      the post-doctor apply pass.

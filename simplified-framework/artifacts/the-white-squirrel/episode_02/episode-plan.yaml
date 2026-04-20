@@ -1,0 +1,48 @@
+story_id: the-white-squirrel
+episode_id: episode_02
+title: The Water
+
+episode_goal: >
+  Shift the mood from bit-energy to civic worry. Cam shows the group a
+  TikTok about a polluted Louisiana river with sick animals, and James
+  chains from "red eyes, and mutations, and that river, and our squirrel"
+  to "it has to be the water" in one breath. The same sighting details
+  from Episode 1 get re-read as warning signs — the red eyes look
+  irritated, the white fur looks wrong, the quick vanish feels like
+  something is off. The theory scares them because it sounds like it
+  could affect real people now: little kids at the park, the ducks, the
+  dogs, the water they themselves drink. The wobble is local and visible:
+  Memphis tap water comes from the Memphis Sand Aquifer and is famously
+  clean, and the TikTok was about a different place with different
+  conditions. The goal is to let the student feel how one fast chain
+  with a missing step can turn a single TikTok into a whole-city fear.
+
+student_takeaway: A big conclusion in one breath is usually a chain with a step missing.
+
+character_beats:
+  - character_id: cam
+    beat: >
+      Cam brings the TikTok and treats it the same way he treated
+      Sophie's page — as an answer, not a source. Same flattening
+      instinct, new content. He should also be the one who voices the
+      most human worry: he starts thinking about his little cousin who
+      was at the park last weekend, or the dogs drinking from a fountain.
+      The bit-energy from Episode 1 drains out of him as the stakes go
+      up. Brief half-beat of "should this be on the news?" — this time
+      he actually means it for longer than half a second.
+  - character_id: james
+    beat: >
+      James runs the defining chain of the episode in one breath and
+      lands the "it has to be the water" closer. He is still funny, but
+      the chaining is scarier here because the content is scarier. He
+      should also still try a squirrel nickname, maybe a poison-flavored
+      one, but it does not land the same — the room has changed.
+  - character_id: leela
+    beat: >
+      Leela is the one who finally says she is going to check. She looks
+      up where Memphis tap water actually comes from, says "Memphis Sand
+      Aquifer" out loud, and reads enough of a plain source to ground
+      the group. She is also the one who names, dryly, that the TikTok
+      was about Louisiana, not Memphis — different river, different
+      conditions. Her flat one-liner pops the theory without making
+      James feel stupid.

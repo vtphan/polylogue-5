@@ -1,0 +1,89 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+title: The Sighting
+
+narrative_synopsis: >-
+  Saturday afternoon at Overton Park. Cam, James, and Leela are under the
+  trees on the south side when a squirrel freezes on a low branch about
+  ten feet away — white fur, red eyes, the light catching them weirdly.
+  For one second it does not look real. One of them thinks somebody stuck
+  a fake squirrel up there. James says something stupid about alien
+  surveillance. Then it is gone. They cannot let it go. Cam starts
+  searching on his phone, finds a university page for a Memphis college
+  student named Sophie who is majoring in astrophysics, and flips the
+  screen around like that is the end of the question. James hears "space
+  science" and starts chaining — scout, signal, secret park experiment.
+  The group never messages Sophie. They just read her page out loud to
+  each other and build on top of it. The sighting details (red eyes,
+  fake-for-a-second look, quick vanish) keep getting re-told in ways that
+  fit the alien frame. The theory sticks because the jokes stick. When
+  Leela finally clicks through and reads what Sophie actually studies,
+  the alien framing does not explode — it just wobbles, and the three of
+  them are suddenly not sure they were looking at the right person's
+  page at all. The episode should feel excited, a little uncanny, and
+  fun — bit-energy, not dread.
+
+hypothesis_pursued: >-
+  The white squirrel with red eyes is not a normal animal — it is a scout
+  or experiment connected to space somehow, and the proof is that a real
+  college student at a real university studies space and her page is
+  right there on Cam's phone.
+
+disproof_event: >-
+  Leela actually reads past the headline on Sophie's page. Astrophysics
+  is not the study of weird animals — it is the study of stars, galaxies,
+  things that are nowhere near a squirrel in a Memphis park. The page
+  never said anything about mammals. The alien theory does not get
+  destroyed; it just loses the thing that was holding it up, and the
+  group feels the wobble.
+
+character_beats:
+  - character_id: cam
+    beat: >-
+      Phone-forward the whole episode. He holds the phone like it is a
+      flashlight on the answer, flips it around to show Sophie's page,
+      reads the title out loud with weight, and treats the university
+      header image as if it confirms something. He is the one making the
+      group laugh, the one running the bit, and briefly the one who
+      murmurs "should this be on the news?" and then drops it when James
+      cracks the next joke.
+  - character_id: james
+    beat: >-
+      Signature chaining shape should show up at least twice. "Okay but
+      check this out, and her page says astrophysics, and astrophysics
+      is space, so she studies space, so — it has to be a scout." He
+      keeps trying nicknames for the squirrel: something dumb and
+      alien-flavored. Land one of them as a half-stuck nickname the
+      others groan at but keep using.
+  - character_id: leela
+    beat: >-
+      Mostly quiet, eating something small, letting them run. Dry
+      one-liners that puncture without killing the fun. She is the one
+      who eventually takes Cam's phone, scrolls the page properly, and
+      reads aloud the sentence that says what Sophie actually studies.
+      Her flat delivery of that line is the wobble.
+
+running_threads:
+  - The exact sighting image — white fur, red eyes, fake-for-a-second,
+    vanishing on a low branch — must be planted in Episode 1 in enough
+    detail that Episodes 2 and 3 can re-read it later.
+  - James's ridiculous alien-flavored nickname for the squirrel should
+    half-stick and recur in later episodes as a friendship echo.
+  - Sophie exists as a real person behind a page; the group has not
+    actually talked to her. Set that up so Episode 3 can pay it off when
+    they finally do.
+
+plot_obligations:
+  - Open on the sighting (or return to it inside the first beat). Red
+    eyes, the fake-for-a-second feeling, the quick vanish — all concrete.
+  - Cam finds Sophie's university page on his phone and presents it as
+    the answer, not as a source to check.
+  - The group does not message, email, or talk to Sophie in this episode.
+    They only read her page and build on top of it.
+  - James runs at least two stacked "and / so / it has to be" chains that
+    lean on the alien framing.
+  - Let the alien jokes escalate enough that they feel like evidence
+    before Leela's check lands.
+  - Leela is the one who actually reads what Sophie studies and names
+    the mismatch in plain language. The alien framing wobbles, but the
+    squirrel stays strange — no tidy resolution yet.

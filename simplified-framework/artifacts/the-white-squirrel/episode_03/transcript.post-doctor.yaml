@@ -1,0 +1,653 @@
+story_id: the-white-squirrel
+episode_id: episode_03
+title: The Walk
+characters:
+  - character_id: leela
+    display_name: Leela
+  - character_id: cam
+    display_name: Cam
+  - character_id: james
+    display_name: James
+  - character_id: ms_reyes
+    display_name: Ms. Reyes
+  - character_id: sophie
+    display_name: Sophie Alvarez
+applied_from_proposal_round: 3
+applied_turn_ids:
+  - t39
+  - t86
+  - t122
+applied_proposals:
+  - proposal_id: p01
+    turn_id: t39
+    original_text: "Everywhere."
+    applied_text: "Everywhere. All of it. We've been all over that park."
+  - proposal_id: p02
+    turn_id: t86
+    original_text: "Okay, but maybe they're just — hiding."
+    applied_text: "Okay, but maybe they're just — hiding. The white ones. Today. They're probably hiding today."
+  - proposal_id: p03
+    turn_id: t122
+    original_text: "I know. I know, okay. I just — I treated her website like the answer. She wasn't the answer. She's a person."
+    applied_text: "I know. I know, okay. I just — I read her page once and I was like, cool, that's the answer. I didn't even check. She wasn't the answer. She's a person."
+turns:
+  - turn_id: t01
+    speaker: leela
+    text: "Ms. Reyes? Can I ask you something really quick before you erase the board?"
+  - turn_id: t02
+    speaker: ms_reyes
+    text: "You can ask me something really quick while I erase the board. Go."
+  - turn_id: t03
+    speaker: leela
+    text: "Okay. So. We've been looking at these white squirrels in Overton Park. The ones with the red eyes."
+  - turn_id: t04
+    speaker: ms_reyes
+    text: "Mm. I've heard."
+  - turn_id: t05
+    speaker: leela
+    text: "You've heard? From who?"
+  - turn_id: t06
+    speaker: ms_reyes
+    text: "James. Loudly. Over by the pencil sharpener. For a week."
+  - turn_id: t07
+    speaker: leela
+    text: "Right. Okay. So — we've been trying to figure out what they actually are. And I keep getting stuck. Can you just tell me what you think?"
+  - turn_id: t08
+    speaker: ms_reyes
+    text: "No."
+  - turn_id: t09
+    speaker: leela
+    text: "That was fast."
+  - turn_id: t10
+    speaker: ms_reyes
+    text: "I'm not going to tell you the answer, Leela. I'm going to ask you two questions. And then you're going to go."
+  - turn_id: t11
+    speaker: leela
+    text: "Okay."
+  - turn_id: t12
+    speaker: ms_reyes
+    text: "One. Have you looked at the whole park?"
+  - turn_id: t13
+    speaker: leela
+    text: "…Define whole."
+  - turn_id: t14
+    speaker: ms_reyes
+    text: "All of it. The whole park. Have you walked all of it."
+  - turn_id: t15
+    speaker: leela
+    text: "I mean — we've walked a lot of it."
+  - turn_id: t16
+    speaker: ms_reyes
+    text: "Okay. Two. Are you sure the squirrels you saw are one big group?"
+  - turn_id: t17
+    speaker: leela
+    text: "What do you mean one big group?"
+  - turn_id: t18
+    speaker: ms_reyes
+    text: "That was the question, Leela. That's it. Those are the two."
+  - turn_id: t19
+    speaker: leela
+    text: "You're not going to give me anything else."
+  - turn_id: t20
+    speaker: ms_reyes
+    text: "I gave you two things. Go. I have a staff meeting and I'm already the late teacher."
+  - turn_id: t21
+    speaker: leela
+    text: "Okay. Okay. Thank you. I think."
+  - turn_id: t22
+    speaker: ms_reyes
+    text: "You're welcome. I think."
+  - turn_id: t23
+    speaker: cam
+    text: "What took you so long? We were about to leave without you."
+  - turn_id: t24
+    speaker: james
+    text: "We were not about to leave without you. I was about to leave without you. Cam was being loyal."
+  - turn_id: t25
+    speaker: leela
+    text: "I talked to Ms. Reyes."
+  - turn_id: t26
+    speaker: cam
+    text: "And?"
+  - turn_id: t27
+    speaker: leela
+    text: "And she wouldn't tell me anything."
+  - turn_id: t28
+    speaker: james
+    text: "Classic."
+  - turn_id: t29
+    speaker: leela
+    text: "But she asked me two questions. And I think the questions are kind of — I don't know. I can't stop thinking about them."
+  - turn_id: t30
+    speaker: cam
+    text: "Okay, hit me."
+  - turn_id: t31
+    speaker: leela
+    text: "One. Have we looked at the whole park."
+  - turn_id: t32
+    speaker: james
+    text: "Yes. Obviously. We have been in that park a weird amount."
+  - turn_id: t33
+    speaker: leela
+    text: "Two. Are we sure the squirrels we saw are one big group."
+  - turn_id: t34
+    speaker: cam
+    text: "Wait."
+  - turn_id: t35
+    speaker: james
+    text: "Wait what."
+  - turn_id: t36
+    speaker: cam
+    text: "Wait, hold on. Hold on."
+  - turn_id: t37
+    speaker: leela
+    text: "What."
+  - turn_id: t38
+    speaker: cam
+    text: "Where have we actually walked? Like — where have we actually seen them."
+  - turn_id: t39
+    speaker: james
+    text: "Everywhere. All of it. We've been all over that park."
+  - turn_id: t40
+    speaker: cam
+    text: "No, like — list it. Where."
+  - turn_id: t41
+    speaker: james
+    text: "The path by the duck pond."
+  - turn_id: t42
+    speaker: cam
+    text: "South of the parking lot."
+  - turn_id: t43
+    speaker: leela
+    text: "The big tree near the bench that's always wet."
+  - turn_id: t44
+    speaker: cam
+    text: "Also south."
+  - turn_id: t45
+    speaker: james
+    text: "The little shortcut by the playground."
+  - turn_id: t46
+    speaker: cam
+    text: "Also south."
+  - turn_id: t47
+    speaker: leela
+    text: "Cam."
+  - turn_id: t48
+    speaker: cam
+    text: "Every spot. Every single spot. We have only ever walked the south side."
+  - turn_id: t49
+    speaker: james
+    text: "That can't be right."
+  - turn_id: t50
+    speaker: cam
+    text: "Name one time we've been on the north side. One."
+  - turn_id: t51
+    speaker: james
+    text: "…The — no, that was still south."
+  - turn_id: t52
+    speaker: cam
+    text: "Yeah."
+  - turn_id: t53
+    speaker: james
+    text: "Okay but that's because we come in from our side. That's just the side we walk in on."
+  - turn_id: t54
+    speaker: leela
+    text: "Right. That's the whole thing. That's her first question."
+  - turn_id: t55
+    speaker: james
+    text: "Oh."
+  - turn_id: t56
+    speaker: cam
+    text: "We haven't looked at the whole park. We've looked at our side of the park."
+  - turn_id: t57
+    speaker: leela
+    text: "So we have to go walk the north side."
+  - turn_id: t58
+    speaker: james
+    text: "Now?"
+  - turn_id: t59
+    speaker: leela
+    text: "Now."
+  - turn_id: t60
+    speaker: james
+    text: "My mom is gonna kill me."
+  - turn_id: t61
+    speaker: cam
+    text: "Text her."
+  - turn_id: t62
+    speaker: james
+    text: "I am texting her. I am texting her right now. I'm walking and texting. Look at me multitasking."
+  - turn_id: t63
+    speaker: leela
+    text: "Don't walk into the crosswalk pole again."
+  - turn_id: t64
+    speaker: james
+    text: "That was one time."
+  - turn_id: t65
+    speaker: cam
+    text: "Okay. This is the north entrance. I think. I've never actually come in this way."
+  - turn_id: t66
+    speaker: james
+    text: "Feels like a different park."
+  - turn_id: t67
+    speaker: leela
+    text: "It kind of is."
+  - turn_id: t68
+    speaker: cam
+    text: "There's a squirrel."
+  - turn_id: t69
+    speaker: james
+    text: "Where."
+  - turn_id: t70
+    speaker: cam
+    text: "On the trash can. Right there."
+  - turn_id: t71
+    speaker: james
+    text: "…That is an extremely normal squirrel."
+  - turn_id: t72
+    speaker: leela
+    text: "Gray."
+  - turn_id: t73
+    speaker: cam
+    text: "Normal eyes."
+  - turn_id: t74
+    speaker: james
+    text: "Gross little hands. Yep."
+  - turn_id: t75
+    speaker: leela
+    text: "Keep walking."
+  - turn_id: t76
+    speaker: cam
+    text: "Another one. Two of them. Three. That one just jumped."
+  - turn_id: t77
+    speaker: james
+    text: "All gray."
+  - turn_id: t78
+    speaker: leela
+    text: "All gray."
+  - turn_id: t79
+    speaker: cam
+    text: "We've been walking for like twenty minutes."
+  - turn_id: t80
+    speaker: james
+    text: "Closer to thirty."
+  - turn_id: t81
+    speaker: leela
+    text: "How many squirrels."
+  - turn_id: t82
+    speaker: cam
+    text: "I stopped counting at twelve."
+  - turn_id: t83
+    speaker: james
+    text: "Zero white ones."
+  - turn_id: t84
+    speaker: cam
+    text: "Zero red eyes."
+  - turn_id: t85
+    speaker: leela
+    text: "Not one."
+  - turn_id: t86
+    speaker: james
+    text: "Okay, but maybe they're just — hiding. The white ones. Today. They're probably hiding today."
+  - turn_id: t87
+    speaker: cam
+    text: "James."
+  - turn_id: t88
+    speaker: james
+    text: "What! They could be."
+  - turn_id: t89
+    speaker: leela
+    text: "The gray ones aren't hiding."
+  - turn_id: t90
+    speaker: james
+    text: "…Fair."
+  - turn_id: t91
+    speaker: cam
+    text: "So the white squirrels aren't everywhere in Overton Park."
+  - turn_id: t92
+    speaker: leela
+    text: "They're on one side."
+  - turn_id: t93
+    speaker: cam
+    text: "Our side."
+  - turn_id: t94
+    speaker: james
+    text: "Weird."
+  - turn_id: t95
+    speaker: leela
+    text: "Guys. Listen."
+  - turn_id: t96
+    speaker: cam
+    text: "I don't hear anything — oh. Yeah I do."
+  - turn_id: t97
+    speaker: leela
+    text: "That's the highway."
+  - turn_id: t98
+    speaker: james
+    text: "That's always the highway. That's Memphis."
+  - turn_id: t99
+    speaker: leela
+    text: "No, I mean — look. It's right there. And over there. And the other one goes along the top."
+  - turn_id: t100
+    speaker: cam
+    text: "Three sides."
+  - turn_id: t101
+    speaker: leela
+    text: "The south side of the park is basically an island. The forest part. It's cut off."
+  - turn_id: t102
+    speaker: james
+    text: "Cut off from what?"
+  - turn_id: t103
+    speaker: leela
+    text: "From the north side. From the rest of Memphis. A squirrel can't cross four lanes of highway, James."
+  - turn_id: t104
+    speaker: james
+    text: "Some of them could."
+  - turn_id: t105
+    speaker: cam
+    text: "None of them could."
+  - turn_id: t106
+    speaker: james
+    text: "Okay none of them could."
+  - turn_id: t107
+    speaker: leela
+    text: "So the squirrels on our side are kind of — stuck with each other. They've been stuck with each other for a long time."
+  - turn_id: t108
+    speaker: cam
+    text: "Huh."
+  - turn_id: t109
+    speaker: james
+    text: "Okay okay okay — so small group, cut off, white fur, red eyes, and then mutation, and then highways, and then it has to be —"
+  - turn_id: t110
+    speaker: leela
+    text: "James. Slow down. Slow down."
+  - turn_id: t111
+    speaker: james
+    text: "I am slowing down."
+  - turn_id: t112
+    speaker: leela
+    text: "You're not. You're doing the thing. You're chaining."
+  - turn_id: t113
+    speaker: james
+    text: "…Okay. I'm chaining."
+  - turn_id: t114
+    speaker: cam
+    text: "Let's actually go ask somebody who knows mammals."
+  - turn_id: t115
+    speaker: leela
+    text: "Sophie."
+  - turn_id: t116
+    speaker: cam
+    text: "Sophie."
+  - turn_id: t117
+    speaker: james
+    text: "Wait, Sophie who you guys already read about online? Sophie the page Sophie?"
+  - turn_id: t118
+    speaker: cam
+    text: "Yeah."
+  - turn_id: t119
+    speaker: james
+    text: "Oh, now we actually talk to her?"
+  - turn_id: t120
+    speaker: cam
+    text: "…Yeah."
+  - turn_id: t121
+    speaker: james
+    text: "Just checking."
+  - turn_id: t122
+    speaker: cam
+    text: "I know. I know, okay. I just — I read her page once and I was like, cool, that's the answer. I didn't even check. She wasn't the answer. She's a person."
+  - turn_id: t123
+    speaker: leela
+    text: "Let's ask her plainly. Not like we already know."
+  - turn_id: t124
+    speaker: sophie
+    text: "Hi — yes? Sorry, is this — are you the kids who emailed? The squirrel kids?"
+  - turn_id: t125
+    speaker: cam
+    text: "That's us. The squirrel kids. That's our name now."
+  - turn_id: t126
+    speaker: sophie
+    text: "Okay, hi. Walk me through what you actually saw. Not what you think it is. What you saw."
+  - turn_id: t127
+    speaker: leela
+    text: "White fur. Red eyes. Only on the south side of Overton Park. Gray squirrels on the north side. The south side is boxed in by highways on three sides."
+  - turn_id: t128
+    speaker: sophie
+    text: "Okay. Okay. So — full disclosure, mammals aren't actually my field. I work on birds. I only wrote about the squirrels because a reporter called me and I was the closest thing to an expert they could find in a hurry."
+  - turn_id: t129
+    speaker: cam
+    text: "…Oh."
+  - turn_id: t130
+    speaker: sophie
+    text: "Which is a thing I should probably say out loud more often. Anyway."
+  - turn_id: t131
+    speaker: james
+    text: "So — can you still help us?"
+  - turn_id: t132
+    speaker: sophie
+    text: "I can tell you what fits, based on what you're describing. I can't tell you for sure without someone actually looking at the squirrels."
+  - turn_id: t133
+    speaker: leela
+    text: "That's fine. What fits?"
+  - turn_id: t134
+    speaker: sophie
+    text: "White fur plus red or pink eyes is a real trait. It's rare. It shows up sometimes in a population."
+  - turn_id: t135
+    speaker: cam
+    text: "Like — a mutation?"
+  - turn_id: t136
+    speaker: sophie
+    text: "Basically, yeah. A rare version of a gene. Normally you'd see it in maybe one squirrel out of a lot of squirrels."
+  - turn_id: t137
+    speaker: leela
+    text: "But if the group is small. And they can't leave. And they keep having babies with each other —"
+  - turn_id: t138
+    speaker: sophie
+    text: "Then the rare thing isn't as rare anymore. Yeah. That fits."
+  - turn_id: t139
+    speaker: james
+    text: "That actually fits?"
+  - turn_id: t140
+    speaker: sophie
+    text: "That actually fits. I can't swear it's the exact explanation. But what you described — trait shows up more often in a small cut-off group — that's a real thing that happens. In lots of animals. Not just squirrels."
+  - turn_id: t141
+    speaker: cam
+    text: "Huh."
+  - turn_id: t142
+    speaker: sophie
+    text: "Does that help?"
+  - turn_id: t143
+    speaker: leela
+    text: "Yeah. That helps a lot. Thank you. Really."
+  - turn_id: t144
+    speaker: sophie
+    text: "If you ever want to count them for real, I know a person who would love that data. Email me."
+  - turn_id: t145
+    speaker: james
+    text: "We can count squirrels for science?"
+  - turn_id: t146
+    speaker: sophie
+    text: "You can count squirrels for science."
+  - turn_id: t147
+    speaker: james
+    text: "Best day."
+  - turn_id: t148
+    speaker: cam
+    text: "Okay. Okay. Let's say it out loud. Just so we've actually said it."
+  - turn_id: t149
+    speaker: leela
+    text: "Say what?"
+  - turn_id: t150
+    speaker: cam
+    text: "The whole thing. What we think is going on. In plain words."
+  - turn_id: t151
+    speaker: leela
+    text: "Okay. You start."
+  - turn_id: t152
+    speaker: cam
+    text: "There's a rare trait. White fur, red eyes. In squirrels it almost never shows up."
+  - turn_id: t153
+    speaker: leela
+    text: "There's a patch of forest on the south side of the park. It's cut off by highways on three sides. The squirrels in that patch can't really leave."
+  - turn_id: t154
+    speaker: james
+    text: "So it's a small group. And they're stuck with each other. For — a long time."
+  - turn_id: t155
+    speaker: cam
+    text: "And when the group is small and stuck, rare traits show up more often than they normally would."
+  - turn_id: t156
+    speaker: leela
+    text: "So we see white squirrels on the south side. And only on the south side."
+  - turn_id: t157
+    speaker: james
+    text: "Because the north side has the whole rest of the squirrel world. The rare thing gets watered down."
+  - turn_id: t158
+    speaker: cam
+    text: "Yeah."
+  - turn_id: t159
+    speaker: leela
+    text: "…Yeah."
+  - turn_id: t160
+    speaker: james
+    text: "Is anyone else feeling kind of weird right now?"
+  - turn_id: t161
+    speaker: cam
+    text: "A little, yeah."
+  - turn_id: t162
+    speaker: leela
+    text: "In a good way."
+  - turn_id: t163
+    speaker: james
+    text: "In a good way."
+  - turn_id: t164
+    speaker: cam
+    text: "Remember the first one?"
+  - turn_id: t165
+    speaker: james
+    text: "The first what."
+  - turn_id: t166
+    speaker: cam
+    text: "The first squirrel. The one you saw. The fence. The low branch."
+  - turn_id: t167
+    speaker: james
+    text: "Oh. Yeah. White. Red eyes. And then it just — poof. Gone."
+  - turn_id: t168
+    speaker: leela
+    text: "It looked fake for a second."
+  - turn_id: t169
+    speaker: james
+    text: "It looked extremely fake. I thought it was a prank for about four seconds."
+  - turn_id: t170
+    speaker: cam
+    text: "But it wasn't fake."
+  - turn_id: t171
+    speaker: leela
+    text: "No."
+  - turn_id: t172
+    speaker: cam
+    text: "The white fur is real. The red eyes are real. That's the rare trait. That part is actually real."
+  - turn_id: t173
+    speaker: james
+    text: "And the vanishing?"
+  - turn_id: t174
+    speaker: leela
+    text: "That's just how squirrels move. They always do that. Gray squirrels do that on my porch."
+  - turn_id: t175
+    speaker: james
+    text: "Huh."
+  - turn_id: t176
+    speaker: cam
+    text: "So it was real but not the way we thought."
+  - turn_id: t177
+    speaker: leela
+    text: "Yeah."
+  - turn_id: t178
+    speaker: cam
+    text: "It felt impossible because we'd never seen one before. Not because it was impossible."
+  - turn_id: t179
+    speaker: james
+    text: "That's — kind of a nicer version honestly."
+  - turn_id: t180
+    speaker: leela
+    text: "Yeah."
+  - turn_id: t181
+    speaker: james
+    text: "I'm a little sad Fluffnik isn't real though."
+  - turn_id: t182
+    speaker: leela
+    text: "James."
+  - turn_id: t183
+    speaker: james
+    text: "What. He was Fluffnik for like a week. He's retired. I'm mourning."
+  - turn_id: t184
+    speaker: leela
+    text: "You can mourn for exactly one more block and then we stop."
+  - turn_id: t185
+    speaker: james
+    text: "Deal."
+  - turn_id: t186
+    speaker: cam
+    text: "My mom's picking me up at the corner. I have to go."
+  - turn_id: t187
+    speaker: leela
+    text: "Hey, Cam."
+  - turn_id: t188
+    speaker: cam
+    text: "Yeah."
+  - turn_id: t189
+    speaker: leela
+    text: "Has anyone ever told you your hair might be a mutation."
+  - turn_id: t190
+    speaker: cam
+    text: "Excuse me?"
+  - turn_id: t191
+    speaker: leela
+    text: "The curl pattern. The weird gold bit in the front. Statistically. Unusual."
+  - turn_id: t192
+    speaker: cam
+    text: "Okay first of all, rude. Second of all — you know what your name is, right?"
+  - turn_id: t193
+    speaker: leela
+    text: "My name?"
+  - turn_id: t194
+    speaker: cam
+    text: "Leela. L, E, E, L, A."
+  - turn_id: t195
+    speaker: leela
+    text: "Yes. I'm aware."
+  - turn_id: t196
+    speaker: cam
+    text: "That's a mutation of allele."
+  - turn_id: t197
+    speaker: leela
+    text: "What?"
+  - turn_id: t198
+    speaker: cam
+    text: "Allele. A, L, L, E, L, E. The gene word. Same letters. You're basically a mutated allele."
+  - turn_id: t199
+    speaker: leela
+    text: "…That's an anagram, Cam."
+  - turn_id: t200
+    speaker: cam
+    text: "Mutation. Anagram. Close enough."
+  - turn_id: t201
+    speaker: leela
+    text: "Those are extremely different words."
+  - turn_id: t202
+    speaker: cam
+    text: "Agree to disagree."
+  - turn_id: t203
+    speaker: james
+    text: "No. No. That one's mine. That line is mine. I've been saving it all week."
+  - turn_id: t204
+    speaker: cam
+    text: "Fine. Take it."
+  - turn_id: t205
+    speaker: james
+    text: "Agree to disagree."
+revision_history:
+  - >-
+    Operator spot-check passed on first pass. No revisions requested.
+    Status set to approved.
+status: approved

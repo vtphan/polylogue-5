@@ -1,0 +1,127 @@
+story_id: the-white-squirrel
+episode_id: episode_01
+source_draft: transcript.raw.yaml
+status: approved
+candidate_turns:
+  - turn_id: t39
+    suggested_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    rationale: >-
+      Cam flips the screen around and presents Sophie's major as if it
+      answers the question. With the sharpening tweak, the line names
+      the title as the answer ("that's our answer right there") so the
+      title-as-evidence move is unmistakable instead of implied by the
+      gesture. This is the episode's clearest title-as-answer moment
+      and aligns with the student takeaway about source fit.
+  - turn_id: t48
+    suggested_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+    rationale: >-
+      James stacks "she's in Memphis, and her page says astrophysics, and
+      astrophysics is space, so she studies space, so it has to be
+      connected." Each link sounds fine on its own, but the leap to
+      "connected to the squirrel" skips several steps. A clean showing
+      of a chain that feels like proof because the final step has
+      nothing holding it up. Left untouched - already strongly
+      expressed in the raw draft.
+  - turn_id: t60
+    suggested_flaw: ignoring_another_perspective
+    expression_strength: strongly_expressed
+    rationale: >-
+      Leela has just offered a clean counter-example - her cousin's
+      school has a whale in the header image and she does not study
+      whales. With the sharpening tweak, James openly refuses to
+      engage with the counter-example ("that doesn't count") rather
+      than riffing past it, so the brush-off reads as ignoring her
+      point rather than a playful bit.
+  - turn_id: t87
+    suggested_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    rationale: >-
+      Cam reads "research interests - astrophysics" straight off the
+      headline. With the sharpening tweak, James explicitly names that
+      he is not going to scroll or read further ("don't even scroll,
+      that's the whole answer"), so the one-line-then-stop pattern is
+      stated in the line itself rather than inferred from the
+      surrounding beat.
+  - turn_id: t118
+    suggested_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+    rationale: >-
+      After an entire theory has been built on Sophie's page, Cam admits
+      he just clicked the first search result. The group has been
+      reasoning from one page about one person they never confirmed
+      was the right person. One search result, one page, one sighting
+      is a thin base for a big claim. Left untouched - the admission
+      is already bluntly stated and lands the flaw cleanly.
+recommended_turn_ids: [t39, t48, t60, t87, t118]
+approved_anchors:
+  - turn_id: t39
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+  - turn_id: t48
+    focus_flaw: jumping_to_a_conclusion
+    expression_strength: strongly_expressed
+  - turn_id: t60
+    focus_flaw: ignoring_another_perspective
+    expression_strength: strongly_expressed
+  - turn_id: t87
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+  - turn_id: t118
+    focus_flaw: not_enough_evidence
+    expression_strength: strongly_expressed
+proposals:
+  - proposal_id: p01
+    proposal_type: tweak
+    turn_id: t39
+    rationale: >-
+      Sharpen Cam's title-as-answer move so the line itself names the
+      major as the answer, not just a thing to look at.
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    replacement_text: >-
+      Because look at her major. Look. That's our answer right there.
+  - proposal_id: p02
+    proposal_type: tweak
+    turn_id: t60
+    rationale: >-
+      Make James's wave-off land as refusing to engage with Leela's
+      counter-example rather than reading as a playful riff.
+    focus_flaw: ignoring_another_perspective
+    expression_strength: strongly_expressed
+    replacement_text: >-
+      Nah, that doesn't count. Whale energy is not galaxy energy. Not
+      the same thing.
+  - proposal_id: p03
+    proposal_type: tweak
+    turn_id: t87
+    rationale: >-
+      Make the one-line-then-stop flaw explicit by having James name
+      that he is not going to scroll or read further.
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    replacement_text: >-
+      Boom. Done. Don't even scroll, Cam, that's the whole answer.
+      Fluffnik is hers.
+revision_history:
+  - round: 1
+    feedback_summary: Initial candidate identification from approved raw draft.
+    revision_note: >-
+      Five candidate turns identified across four flaw ids. The approved
+      raw draft reads teachable on first reread without sharpening edits,
+      so proposals is empty; candidate_turns carries the anchor
+      identification work for operator review.
+  - round: 2
+    feedback_summary: Operator asked that all anchor turns carry their flaw as strongly expressed.
+    revision_note: >-
+      Added tweak proposals p01 (t39), p02 (t60), and p03 (t87) to
+      sharpen each line so the flaw is named in the turn itself; t48
+      and t118 were already strongly expressed and left untouched.
+      All five candidate_turns entries now carry
+      expression_strength strongly_expressed.
+  - round: 3
+    feedback_summary: Operator approved the round 2 proposal set.
+    revision_note: >-
+      Status set to approved; approved_anchors populated with all five
+      recommended turns and their focus flaws.

@@ -1,0 +1,241 @@
+package_meta:
+  story_id: the-white-squirrel
+  episode_number: 3
+  schema_version: simplified_v4
+
+episode:
+  title: The Walk
+  summary: >-
+    Leela asks their science teacher for the answer. Ms. Reyes will
+    not give it. She asks two questions instead. The kids list
+    where they have actually walked in the park and notice
+    something odd. They try a new side. What they find there
+    changes how sure they were the whole time.
+  previously: >-
+    In Episode 1, the kids trusted Sophie's page as the answer.
+    In Episode 2, James blamed bad water. Leela kept asking them
+    to slow down.
+  final_takeaway: A pattern in what you have walked is not a pattern in the whole place.
+
+levels:
+  - level_id: level_01
+    sequence_index: 1
+    turn_id: t32
+    title: Have we seen the whole park?
+    focus_flaw: jumping_to_a_conclusion
+    prompt: Why is James's fast yes a problem?
+    hint: >-
+      Ms. Reyes asked about the whole park. Think about what
+      James is using to answer her question.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He is treating how it feels into the park as the same as seeing all of it.
+      - option_id: opt_b
+        kind: distractor
+        text: He is quoting a source he never checked.
+      - option_id: opt_c
+        kind: distractor
+        text: He is shutting Leela out of the talk.
+      - option_id: opt_d
+        kind: distractor
+        text: He is making a joke and does not mean it.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. Going a lot is not the same as going everywhere. James
+          trusts the feeling of being at the park often, and he skips
+          the step where he checks if they have walked all of it.
+      by_option:
+        opt_b: >-
+          No source here. James is not quoting anyone. He is leaning
+          on his own sense of how much time they spent at the park.
+        opt_c: >-
+          He is not shutting Leela out. She asked the question and he
+          answered fast. The gap is in his answer, not in how he
+          treats her.
+        opt_d: >-
+          He sounds sure, not joking. The problem is that he is sure
+          for the wrong reason. Feeling like you went a lot is not
+          proof.
+    takeaway: Going a lot is not the same as going everywhere.
+
+  - level_id: level_02
+    sequence_index: 2
+    turn_id: t39
+    title: Everywhere?
+    focus_flaw: jumping_to_a_conclusion
+    prompt: What makes James's big word land too fast?
+    hint: >-
+      Watch what happens in the next few lines. The kids start
+      naming real spots. Compare that list to the word James just used.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He picks one huge word before anyone has listed where they really went.
+      - option_id: opt_b
+        kind: distractor
+        text: He needs to use bigger words to sound sure.
+      - option_id: opt_c
+        kind: distractor
+        text: He is ignoring a point Leela made earlier.
+      - option_id: opt_d
+        kind: distractor
+        text: He forgot the name of one spot in the park.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. He says a word that covers the whole park before
+          the list even starts. The list that comes next is all on
+          one side. The big word was way ahead of the real spots.
+      by_option:
+        opt_b: >-
+          He does not need bigger words. He needs a real list. The
+          problem is that his word is stronger than the places he
+          can actually name.
+        opt_c: >-
+          Leela is not being cut off here. Cam is the one asking
+          for a list. The gap is between James's word and the
+          spots that come next.
+        opt_d: >-
+          No spot is missing from the list. The issue is bigger.
+          His word already covered the whole park before the kids
+          checked.
+    takeaway: A huge word lands too fast when no list has been made yet.
+
+  - level_id: level_03
+    sequence_index: 3
+    turn_id: t86
+    title: Hiding today?
+    focus_flaw: jumping_to_a_conclusion
+    prompt: Why is this new guess a weak move?
+    hint: >-
+      The walk showed many gray squirrels and zero white ones.
+      Ask what James is doing with his first idea instead of
+      letting it go.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He is adding a new excuse to save his old claim instead of changing it.
+      - option_id: opt_b
+        kind: distractor
+        text: He is trusting a page he read online too fast.
+      - option_id: opt_c
+        kind: distractor
+        text: He is ignoring what Cam saw on the walk.
+      - option_id: opt_d
+        kind: distractor
+        text: He is asking what could go wrong next time.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. The walk shows gray squirrels and no white ones.
+          James keeps his old everywhere claim and glues a hiding
+          story on top. The patch saves the claim, not the facts.
+      by_option:
+        opt_b: >-
+          No page here. He is not quoting anyone. He is making up
+          a quick reason on the spot so his first idea can still
+          stand.
+        opt_c: >-
+          Cam saw the same thing he did. Gray squirrels, no white
+          ones. James is not shutting Cam out. He is propping up
+          his own claim.
+        opt_d: >-
+          He is not thinking about being wrong. He is doing the
+          opposite. He is pasting a new excuse onto his first
+          idea so he does not have to be wrong.
+    takeaway: Adding an excuse to save a claim is not the same as fixing it.
+
+  - level_id: level_04
+    sequence_index: 4
+    turn_id: t109
+    title: One-breath answer
+    focus_flaw: jumping_to_a_conclusion
+    prompt: What is James doing in one breath here?
+    hint: >-
+      Look at how fast he stacks facts and lands on "it has to
+      be." Leela names it for him two lines later.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: He is stacking small facts fast and racing to a locked answer.
+      - option_id: opt_b
+        kind: distractor
+        text: He is reading from a source he did not check.
+      - option_id: opt_c
+        kind: distractor
+        text: He is shutting out Leela and Cam on purpose.
+      - option_id: opt_d
+        kind: distractor
+        text: He is slowing down and testing each step.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Right. He lines up small group, cut off, white fur, red
+          eyes, and tries to land on an answer in one breath.
+          Leela calls it chaining. The last step is not earned
+          yet.
+      by_option:
+        opt_b: >-
+          He is not quoting anyone. He is stacking his own notes
+          from the walk. The issue is the speed of the chain, not
+          the source.
+        opt_c: >-
+          They are all walking and talking together. Leela is the
+          one who pulls him back. The real move is how fast he
+          stacks his own steps.
+        opt_d: >-
+          He is doing the opposite. He is speeding up. Leela has
+          to ask him to slow down. The flaw is the rush, not a
+          careful check.
+    takeaway: A one-breath answer is the signal to slow down and check the steps.
+
+  - level_id: level_05
+    sequence_index: 5
+    turn_id: t122
+    title: Cam names it
+    focus_flaw: trusting_a_source_too_quickly
+    prompt: Which flaw is Cam naming in himself?
+    hint: >-
+      Cam is looking back at what he did with Sophie's page last
+      time. Think about the part where he says he did not check.
+    answer_options:
+      - option_id: opt_a
+        kind: correct
+        text: Reading a page one time and treating it as the answer.
+      - option_id: opt_b
+        kind: distractor
+        text: Stacking small facts into a big claim in one breath.
+      - option_id: opt_c
+        kind: distractor
+        text: Leaving out how the story could go wrong.
+      - option_id: opt_d
+        kind: distractor
+        text: Shutting out the other kids on purpose.
+    feedback:
+      correct:
+        option_ids: [opt_a]
+        text: >-
+          Yes. That is trusting a source too quickly. Cam read her
+          page once, called it the answer, and did not check. He
+          is naming the same flaw the kids walked into in Episode
+          1.
+      by_option:
+        opt_b: >-
+          That is the chaining flaw James keeps doing. Cam is
+          pointing at something else. He is pointing at treating
+          one page like the whole answer.
+        opt_c: >-
+          He is not talking about a missing what-if. He is
+          talking about a source. He skipped the part where he
+          checked who Sophie is.
+        opt_d: >-
+          He is not shutting anyone out. He is looking at himself.
+          The flaw he names is about how he used a page, not how
+          he treated his friends.
+    takeaway: Reading a page once is not the same as checking if it fits.
