@@ -1,208 +1,180 @@
 # Tech Reference
 
-This document is the primary technical reference for the simplified-framework app and pipeline contract.
+This document is the stable technical reference for `simplified-framework/`.
 
-For pedagogy and student-facing design, see `instructional-design.md`.
+It describes the system at the level of architecture, durable artifact roles, and major operational boundaries.
 
-## 1. Stack
+It should explain how the system works without freezing temporary implementation choices, migration notes, or line-level mechanics that may change.
 
-- Next.js App Router + React + TypeScript
-- SQLite via Prisma
-- Zod for runtime schema validation
-- YAML artifacts for authored content
+For instructional purpose and learner assumptions, see `instructional-design.md`.
 
-Runtime constraint: no student-time LLM calls. Rendering and grading are deterministic from artifacts plus database state.
+## System Model
 
-## 2. Directory Map
+The system has three layers:
 
-```text
-simplified-framework/
-  app/
-    prisma/schema.prisma
-    src/
-      app/
-      lib/
-  stories/{story_id}/story.yaml
-  artifacts/
-    practice/practice_package.yaml
-    {story_id}/{episode_id}/
-      episode-plan.yaml
-      transcript.yaml
-      flaw-review.md
-      lesson_package.yaml
-  reference/flaw-taxonomy.yaml
-  schemas/*.yaml
-  pipeline/commands/*.md
-  pipeline/agents/*.md
-  pipeline/scripts/validate_*.py
-```
+1. A human-in-the-loop authoring pipeline.
+2. Authored artifacts produced by that pipeline.
+3. A non-LLM student-facing app that renders those artifacts deterministically.
 
-## 3. Runtime Model
+The pipeline uses LLMs to help generate and refine content, but the system is not fully automatic. A human operator reviews important outputs and approves what moves forward.
 
-The v2 app has two student-facing modes:
+The app is delivery-only at student time. It does not generate new lesson content on demand. It reads authored artifacts and app state, then renders a stable intervention experience.
 
-1. `practice`
-2. `read a story`
+## Core Technical Assumptions
 
-Identity is device-local and selected before the home screen. Story mode stays locked until the active student has completed all 5 practice exercises once.
+The framework assumes:
 
-## 4. Prisma Direction
+- the flaw taxonomy is the canonical reasoning reference
+- the audience is primarily 6th graders
+- each episode should function as a short 10-15 minute exercise
+- student-time delivery is deterministic and non-LLM
 
-The v2 data model is centered on student-local progress rather than v1 phase progression.
+These assumptions shape both the authoring pipeline and the runtime app.
 
-Key entities:
+## Major Components
 
-- `Student`
-- catalog rows for story/episode discovery
-- `Run` for one persistent `(student, episode)` reader run
-- `PracticeAttempt` for per-flaw practice completion
+### 1. Flaw Taxonomy
 
-Load-bearing v2 run fields:
+`reference/flaw-taxonomy.yaml` is the canonical reasoning reference used by the system.
 
-- scene position
-- per-quiz attempt state
-- per-quiz hint state
-- earned stars
-- `reading_finished_at`
-- `bonus_earned_at`
+It defines the flaw language that anchors lesson authoring and evaluation. Other surfaces may restate that language in student-friendly ways, but the taxonomy remains the reference backbone.
 
-The old terminal-completion latch is retired. A finished run is still open for untried quizzes and review.
+### 2. Artifact-Generation Pipeline
 
-## 5. Artifact → Runtime Contract
+The pipeline generates the authored content that the app later serves.
 
-### 5.1 `practice_package.yaml`
+At a high level, it moves through:
 
-Shared tutorial artifact.
+1. story design
+2. episode planning
+3. transcript drafting and review
+4. teachable-turn proposal and approval
+5. transcript structuring for reading
+6. lesson package generation
 
-- one exercise per canonical flaw
-- validated by `validate_practice_package.py`
-- not tied to any story
+The pipeline is orchestrated through commands and specialized agents. The exact command flow may evolve, but the stable pattern is:
 
-### 5.2 `transcript.yaml`
+- upstream agents generate draft artifacts
+- a human operator reviews key checkpoints
+- downstream stages build on approved artifacts rather than hidden chat state
 
-Required top-level fields:
+### 3. Authored Artifacts
 
-- `story_id`
-- `episode_id`
-- `title`
-- `characters`
-- `scenes`
+The system uses YAML artifacts as the durable interface between authoring and runtime.
 
-Rules:
+At a durable conceptual level:
 
-- `scenes[]` length is at least 3
-- each scene has `scene_id`, `summary`, `turns[]`
-- turn ids are globally unique and strictly increasing
-- turns are dialog-only
+- `story.yaml` defines the story-level source material
+- episode-planning artifacts support writing and orchestration
+- transcript artifacts capture the approved reading text
+- lesson artifacts capture the approved teaching prompts and feedback
+- practice artifacts support reusable tutorial-style instruction outside the story flow
 
-Readability contract:
+Some artifacts are pipeline-facing only and exist for review, resumability, and orchestration. Others are runtime-facing and are read directly by the app.
 
-- `scenes[].summary` is in hard-error scope
-- scene-level dialog readability is warning-only
+### 4. Student-Facing App
 
-### 5.3 `lesson_package.yaml`
+The app serves the authored intervention to students.
 
-Required top-level fields:
+At a stable level, the app provides:
 
-- `package_meta`
-- `episode`
-- `levels`
+- scaffolded reading
+- embedded thinking quizzes tied to teachable moments
+- lightweight achievement signaling
 
-Rules:
+The app is designed to support reading, reflection, and response with low friction. It is not intended to feel like an open-ended tutor, a content generator, or a procedurally complex assessment engine.
 
-- `package_meta.schema_version = simplified_v2`
-- `episode.summary` required
-- `episode.previously` required on episode 2+, forbidden on episode 1
-- `levels[]` length is exactly 3
-- every level carries canonical `focus_flaw`
-- no `warmups`
-- no `student_intro`
-- no two levels may resolve to turns in the same scene
-- levels must target dialog turns, not action turns
+## Durable Artifact Roles
 
-The runtime grades with `feedback.correct.option_ids`, not `best_answer_id`.
-`feedback.correct.text` is a plain string, and `feedback.by_option.{option_id}` maps each wrong option id directly to a plain string.
+### Runtime-Facing Artifacts
 
-### 5.4 `episode-plan.yaml`
+The app depends on authored artifacts that are ready to render without runtime invention.
 
-Planning artifact only.
+At a stable conceptual level:
 
-Rules:
+- the transcript artifact supplies the student-facing reading text and reading scaffold
+- the lesson package supplies the student-facing quiz prompts, options, feedback, and episode framing
+- the practice package supplies reusable non-story practice content
 
-- every `flaws[]` entry carries `focus_flaw`, `amplification`, and `scene_id`
-- the primary flaw has exactly 3 quiz-worthy moments
-- exactly one each at `unmistakable`, `showcased`, `heightened`
-- those 3 moments occupy distinct scenes
+### Pipeline-Facing Artifacts
 
-## 6. Reader Flow
+The pipeline also produces intermediate artifacts that support:
 
-The v2 reader is scene-based.
+- human review
+- resumability
+- separation of responsibilities across stages
+- durable operator approval state
 
-Routes conceptually map to:
+These pipeline-facing artifacts are part of the authoring system, not part of the student runtime contract.
 
-1. home
-2. practice picker / exercise
-3. story picker
-4. `/runs/[runId]/scene/0` for orientation
-5. `/runs/[runId]/scene/[n]` for scenes
-6. `/runs/[runId]/complete` for recap
+## Human Operator Role
 
-There is no v2 `read`, `warmup`, or `level` phase machine.
+The human operator is part of the technical system, not an external afterthought.
 
-## 7. Quiz Mechanics
+The operator is responsible for:
 
-Each story episode has exactly 3 inline quizzes.
+- reviewing draft quality
+- approving or rejecting important artifact states
+- deciding which proposed teaching anchors should be used
+- ensuring the generated materials are good enough for the intended learner experience
 
-Rules:
+This role is technically important because the pipeline is designed around approved artifacts, not around unchecked automatic continuation.
 
-- one flagged quiz turn per scene maximum
-- 2 attempts maximum per quiz
-- 1 optional hint before final submission
-- attempted quizzes lock and become reviewable
-- untried quizzes remain live on re-entry
+## Agent Roles
 
-Star scoring:
+The system uses specialized agents with distinct responsibilities.
 
-- 3 / 2 / 1 / 0 by hint-use and extra-attempt cost
-- 9 stars across the 3 quizzes
-- 10th bonus star on reaching 9/9
+At a durable high level:
 
-## 8. Pipeline Contract
+- story-design agents shape story world and episode intent
+- planning agents prepare episode-level writing briefs
+- writing agents draft the story text
+- diagnostic/editing agents identify teachable moments and propose targeted revisions
+- structuring agents convert approved story text into reader-facing scaffolded form
+- lesson-building agents convert approved transcript moments into deterministic app-facing quizzes and feedback
 
-Authoring flow:
+The exact prompt wording may change, but the separation of concerns is intentional: story writing, flaw diagnosis, reading scaffold, and lesson packaging are different jobs.
 
-1. `create_story`
-2. `create_episodes`
-3. `create_transcript`
-4. operator review of `flaw-review.md`
-5. `create_lesson_package`
+## Student Experience Model
 
-Transcript generation currently uses:
+The student-facing app combines reading support and thinking practice.
 
-1. `showrunner` to prepare the episode plan and saved projection
-2. `staff_writer` to draft from the stripped projection
-3. `script_doctor` to diagnose and revise toward teachable flawed turns
+The stable model is:
 
-The showrunner projection is pipeline-facing and not an app input.
+- students read short story episodes
+- the reading is scaffolded for clarity and pacing
+- quizzes appear at selected teachable moments
+- feedback is immediate and plain-language
+- achievement is lightly gamified rather than heavily systematized
 
-## 9. Validation Commands
+The point of gamification is motivation and recognition, not competition or score maximization.
 
-```bash
-python3 simplified-framework/pipeline/scripts/validate_story.py <story.yaml>
-python3 simplified-framework/pipeline/scripts/validate_episode_plan.py <episode-plan.yaml>
-python3 simplified-framework/pipeline/scripts/validate_transcript.py <transcript.yaml>
-python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <lesson_package.yaml>
-python3 simplified-framework/pipeline/scripts/validate_practice_package.py <practice_package.yaml>
-```
+## What "Deterministic App" Means Here
 
-Validators are the authoritative source of truth when prose drifts.
+The app may track state, progress, and results, but it does not invent lesson content at runtime.
 
-## 10. Migration Notes
+Deterministic delivery means:
 
-v2 is not additive on top of v1.
+- prompts and feedback come from authored artifacts
+- grading logic follows authored answer structure
+- student progress is derived from stored state plus authored content
+- the instructional experience is reviewable because runtime behavior is grounded in saved artifacts
 
-- v1 warm-up surfaces are retired
-- v1 completion-state assumptions are retired
-- the database is reset on the v2 branch rather than migrated from old student data
+## Boundaries
 
-Use `todo-v2.md` as the implementation checklist for remaining app work.
+This document does not attempt to freeze:
+
+- prompt wording
+- exact command syntax
+- validator internals
+- database field inventories
+- route structures
+- temporary migration constraints
+
+Those may change as the system evolves. This document should remain useful even as those details are refined.
+
+## Related Docs
+
+- `simplified-framework/docs/instructional-design.md`
+- `simplified-framework/docs/operator-workflow.md`
+- `simplified-framework/reference/flaw-taxonomy.yaml`

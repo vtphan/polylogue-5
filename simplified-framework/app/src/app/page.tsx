@@ -3,6 +3,7 @@ import { createStudentAction, selectStudentAction } from "@/app/actions";
 import { ProfileChip } from "@/app/_components/ProfileChip";
 import { StarRow } from "@/app/_components/StarRow";
 import { listCatalogEpisodes } from "@/lib/catalog";
+import { loadReaderLessonPackageByPaths } from "@/lib/content";
 import { prisma } from "@/lib/db";
 import {
   getActiveStudentFromCookies,
@@ -72,6 +73,18 @@ export default async function HomePage() {
   const runsByEpisode = new Map(
     runs.map((run) => [`${run.storyId}::${run.episodeId}`, run]),
   );
+  const levelCountByEpisode = new Map<string, number>();
+  await Promise.all(
+    episodes.map(async (episode) => {
+      const key = `${episode.storyId}::${episode.episodeId}`;
+      try {
+        const lessonPackage = await loadReaderLessonPackageByPaths(episode.lessonPackagePath);
+        levelCountByEpisode.set(key, lessonPackage.levels.length);
+      } catch {
+        levelCountByEpisode.set(key, 0);
+      }
+    }),
+  );
 
   return (
     <div className="page-wide home-shell">
@@ -124,13 +137,16 @@ export default async function HomePage() {
             <h2>Story progress</h2>
           </div>
           <p className="subdued">
-            Ordered by story and episode id. Each row always shows the same 10-star layout.
+            Ordered by story and episode id. Star totals follow the episode&apos;s current lesson count.
           </p>
         </div>
         <ul className="episode-grid">
           {episodes.map((episode) => {
             const run = runsByEpisode.get(`${episode.storyId}::${episode.episodeId}`);
             const starsEarned = run?.starsEarned ?? 0;
+            const levelCount =
+              levelCountByEpisode.get(`${episode.storyId}::${episode.episodeId}`) ?? 0;
+            const totalStars = levelCount * 3;
 
             return (
               <li key={`${episode.storyId}-${episode.episodeId}`} className="episode-card">
@@ -139,7 +155,7 @@ export default async function HomePage() {
                   <h3>{episode.episodeTitle}</h3>
                   <p className="episode-card__episode-id">{episode.episodeId}</p>
                 </div>
-                <StarRow earned={starsEarned} />
+                <StarRow earned={starsEarned} total={totalStars} />
               </li>
             );
           })}

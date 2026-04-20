@@ -1,6 +1,6 @@
 # TODO v4
 
-> **Status (2026-04-19):** Task 0 + Tasks 1–3 landed. Tasks 1–3 renamed `episode_planner` to `showrunner`, `screenwriter` to `staff_writer`, and `flaw_injector` to `script_doctor`; removed `flaw_reviewer`; swept active references; and re-ran `initialize_polylogue.py`. Tasks 4–5 (`transcript_structurer` + `create_transcript.md` rewrite around two checkpoints) are next. Update this line when a grouped task landing fully lands.
+> **Status (2026-04-19):** Task 0 + Tasks 1–7 landed. Tasks 1–3 renamed `episode_planner` to `showrunner`, `screenwriter` to `staff_writer`, and `flaw_injector` to `script_doctor`; removed `flaw_reviewer`; swept active references; and re-ran `initialize_polylogue.py`. Tasks 4–5 added `transcript_structurer`, rewrote `create_transcript.md` around the raw-draft and flaw-proposal checkpoints plus the post-doctor spot-check, and introduced the pipeline-only intermediate artifact flow. Tasks 6–7 rewrote lesson-package generation around `flaw-proposals.yaml` `approved_anchors`, bumped the lesson-package contract to `simplified_v4`, and updated the app and validator surfaces for variable-length turn-anchored quizzes and dynamic star totals.
 
 > **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
 
@@ -106,7 +106,7 @@ Resuming a stopped run should be artifact-driven rather than chat-state-driven:
 - else if `showrunner-projection.yaml` exists and is parseable YAML with the required top-level keys for a showrunner brief, resume by invoking `staff_writer` from that saved brief
 - else restart the episode flow from `create_episodes`
 
-A missing `showrunner-projection.yaml` is a hard restart from `create_episodes`, not a silent regeneration from `episode-plan.yaml`. The projection carries content fields (`narrative_synopsis`, `hypothesis_pursued`, `disproof_event`, `scene_count_target`) that `episode-plan.yaml` is not guaranteed to carry, so regeneration would invent content and diverge from the brief `staff_writer` actually received. The plan remains a human-editable planning artifact; it is not a recovery source.
+A missing `showrunner-projection.yaml` is a hard restart from `create_episodes`, not a silent regeneration from `episode-plan.yaml`. The projection carries content fields (`narrative_synopsis`, `hypothesis_pursued`, `disproof_event`) that `episode-plan.yaml` is not guaranteed to carry, so regeneration would invent content and diverge from the brief `staff_writer` actually received. The plan remains a human-editable planning artifact; it is not a recovery source.
 
 Artifact presence alone is not approval state, except where v4 explicitly persists operator approval outcomes in artifact fields. In v4, review artifacts must persist operator review state separately from the selected turn set so an operator-approved zero-anchor outcome can still resume deterministically. Resume from the latest saved artifact and its persisted approval fields, then require explicit operator approval in chat for any later checkpoint not already captured in those fields.
 
@@ -155,11 +155,9 @@ The new intermediate artifacts are pipeline-only, but their minimum shapes must 
 - `narrative_synopsis`
 - `hypothesis_pursued`
 - `disproof_event`
-- `scene_design`
 - `character_beats`
 - `running_threads`
 - `plot_obligations`
-- `scene_count_target`
 
 For transcript generation, `showrunner-projection.yaml` is the sole content-bearing brief for `staff_writer`. `episode-plan.yaml` may still exist as a human-editable planning artifact, but `create_transcript` must not merge story content from both files at write time, and a missing projection is a hard restart from `create_episodes` rather than a silent regeneration from the plan.
 
@@ -326,6 +324,7 @@ What it does:
 - writes a prose brief for `staff_writer`.
 
 That brief should encode the story problem through situation design, interpersonal pressure, and episode obligations rather than through direct taxonomy language or explicit quiz-planning instructions.
+That brief should encode the story problem through situation design, interpersonal pressure, and episode obligations rather than through direct taxonomy language, explicit quiz-planning instructions, or reader-facing scene scaffolds. It should leave room for `staff_writer` to write a compact, engaging story rather than write toward app-shaped structure.
 
 What it does not do:
 
@@ -471,9 +470,10 @@ As of 2026-04-19, `./artifacts/` contains only `archive/` and `practice/` — no
 - keep the existing writer barrier
 - delete `flaws[]` (and its child `amplification` field) from `episode-plan.yaml` entirely; the showrunner does not author a flaw inventory in v4. Validator and schema surgery is tracked in Task 7.
 - make the projection more prose-forward and less choreographic
-- treat `scene_design` as obligation-shaping, not beat-scripting
+- remove scene-based planning requirements from the showrunner stage so the brief can focus on story quality rather than reader scaffolding
 - use `narrative_synopsis` and `character_beats` to encourage private stakes, offscreen life, and non-mystery life where they strengthen the episode
 - keep the plan focused on storyline design rather than flaw inventory
+- make "short reading exercise for 6th graders" an explicit guidance target for episode scope, clarity, and language
 
 ### New artifact
 

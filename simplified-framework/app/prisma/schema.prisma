@@ -52,6 +52,7 @@ model Run {
   sceneHighWaterMark Int            @default(0) @map("scene_high_water_mark")
   starsEarned        Int            @default(0) @map("stars_earned")
   readingFinishedAt  DateTime?      @map("reading_finished_at")
+  // Deprecated in v4. Retained temporarily for compatibility with pre-v4 rows.
   bonusEarnedAt      DateTime?      @map("bonus_earned_at")
   startedAt          DateTime       @default(now()) @map("started_at")
   updatedAt          DateTime       @updatedAt @map("updated_at")

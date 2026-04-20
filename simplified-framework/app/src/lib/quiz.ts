@@ -43,18 +43,11 @@ export async function syncRunStars(run: Run): Promise<void> {
   });
 
   const quizStars = attempts.reduce((sum, attempt) => sum + attempt.starsEarned, 0);
-  const earnsBonus = quizStars >= 9;
 
   await prisma.run.update({
     where: { runId: run.runId },
     data: {
-      starsEarned: quizStars + (earnsBonus ? 1 : 0),
-      bonusEarnedAt:
-        earnsBonus && !run.bonusEarnedAt
-          ? new Date()
-          : earnsBonus
-            ? run.bonusEarnedAt
-            : null,
+      starsEarned: quizStars,
     },
   });
 }

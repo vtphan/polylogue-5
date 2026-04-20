@@ -27,6 +27,7 @@ export type ReaderLessonPackage = {
   title: string;
   summary: string;
   previously?: string;
+  finalTakeaway: string;
   levels: ReaderLevel[];
 };
 
@@ -35,6 +36,7 @@ function toReaderLessonPackage(lessonPackage: LessonPackage): ReaderLessonPackag
     title: lessonPackage.episode.title,
     summary: lessonPackage.episode.summary,
     previously: lessonPackage.episode.previously,
+    finalTakeaway: lessonPackage.episode.final_takeaway,
     levels: lessonPackage.levels,
   };
 }

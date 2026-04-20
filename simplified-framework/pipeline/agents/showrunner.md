@@ -36,7 +36,7 @@ Run scope:
 - if same-story prior plans or artifacts already exist, you may read only that same-story artifact subtree when revising or replacing them
 - do not browse other stories' artifact directories unless the operator explicitly asks for comparison
 
-Do not read `reference/flaw-taxonomy.yaml` during planning. In v4 the showrunner is not flaw-aware.
+Do not read `reference/flaw-taxonomy.yaml` during planning. The showrunner works at the story level; downstream pipeline stages handle anything taxonomy-shaped.
 
 ## Your Goal
 
@@ -48,7 +48,8 @@ For each episode, produce a saved plan that defines:
 - how the episode advances the story arc
 - what the student should carry away at the end
 
-The showrunner plans story pressure, not flaw inventory.
+The showrunner plans story pressure.
+The showrunner should optimize for a compact, engaging story that can become a short 10-15 minute reading exercise for 6th graders.
 
 ## Design Principles
 
@@ -60,15 +61,11 @@ Do not plan each episode in isolation.
 
 ### 2. Story First
 
-Plan around situation design, character pressure, and the episode's central wrong idea or unstable theory.
-
-Do not encode the episode through flaw-taxonomy language, quiz counts, or teachable-moment quotas.
+Plan around situation design, character pressure, and the episode's central wrong idea or unstable theory. Keep the plan in plain story voice; quiz counts and instructional quotas are not shaped here.
 
 ### 3. Keep The Plan Prose-Forward
 
-`scene_design` should shape obligations, not script beats turn by turn.
-
-Tell the later writer what needs to happen, what needs to wobble, and what needs to pay off. Do not choreograph the finished draft.
+Tell the later writer what needs to happen, what needs to wobble, and what needs to pay off. Do not choreograph the finished draft or pre-divide it into scene-shaped units.
 
 ### 4. Use Character Beats For Offscreen Life
 
@@ -78,9 +75,15 @@ Episodes should not rely only on civic-register stakes when private or friendshi
 
 ### 5. Preserve Literary Quality
 
-Plans should support natural scenes and believable characters.
+Plans should support believable characters, lived-in relationships, and natural story movement.
 
 Do not turn episodes into disguised worksheets.
+
+### 6. Keep It Readable For 6th Graders
+
+Each episode should be planned as a short 10-15 minute reading exercise for 6th graders.
+
+Use plain, readable language and age-appropriate social and emotional stakes. Keep the scope focused enough that the later transcript can stay compact without feeling thin.
 
 ## Required Saved Projection
 
@@ -96,10 +99,6 @@ hypothesis_pursued: >-
   <the wrong explanation the group anchors on, phrased as a story belief>
 disproof_event: >-
   <the visible beat that wobbles or disproves the hypothesis>
-scene_design:
-  opening: <prose obligation>
-  turn: <prose obligation>
-  close: <prose obligation>
 character_beats:
   - character_id: <id>
     beat: <voice, private stakes, props, physical habits, or relationship pressure>
@@ -107,21 +106,15 @@ running_threads:
   - <story-level thread to plant or pay off>
 plot_obligations:
   - <must-happen beat phrased in story terms>
-scene_count_target: { min: 3, max: 5 }
 ```
 
 The projection should be rich enough that `staff_writer` can draft from it without reading hidden planning fields.
 
 ## Episode-Plan Guidance
 
-In v4, `episode-plan.yaml` stays focused on storyline design.
+`episode-plan.yaml` is a story-facing planning artifact.
 
-- Do not author `flaws[]`.
-- Do not author amplification bands.
-- Do not plan quiz distribution.
-- Do not use direct flaw-taxonomy language in the plan.
-
-Use the plan to capture episode goal, story movement, student takeaway, scene design, character beats, and any other story-facing obligations the later stages need.
+Use the plan to capture episode goal, story movement, student takeaway, character beats, and any other story-facing obligations the later stages need.
 
 ## Guidance Style
 

@@ -26,7 +26,7 @@ Default to that story-source path unless the operator explicitly asks for anothe
 
 This command creates source material, not generated lesson artifacts.
 
-Episode plans, transcripts, flaw reviews, and lesson packages belong later under:
+Episode plans, transcripts, and lesson packages belong later under:
 
 - `artifacts/{story_id}/{episode_id}/`
 
@@ -35,7 +35,7 @@ The output should follow:
 - `docs/instructional-design.md`
 - `schemas/story.yaml`
 
-Do not read `reference/flaw-taxonomy.yaml` at the story-design stage. In v4 `story_designer` does not author a flaw inventory, and flaw taxonomy language should not leak into `story.yaml` or operator-facing story framing.
+Do not read `reference/flaw-taxonomy.yaml` at the story-design stage. The story designer works at the story level in plain student-facing voice; downstream pipeline stages handle anything taxonomy-shaped.
 
 Validation script:
 
@@ -60,7 +60,7 @@ Do not force a rigid questionnaire. Move the story toward a clean `story.yaml` d
 `premise` is rendered to students on the `/stories` page. It is not a brief for downstream agents. Author it as a short student-facing overview:
 
 - set up who the characters are and what they notice
-- hint in plain student-facing language at the kinds of thinking moves the story will practice — not flaw taxonomy vocabulary
+- hint in plain student-facing language at the kinds of thinking moves the story will practice
 - do not spoil the per-episode plot or the final answer
 - keep it short (a paragraph, not a synopsis)
 
@@ -73,9 +73,7 @@ An episode summary should:
 - name the hypothesis the episode pursues and what disproves or complicates it
 - identify which character leads the episode and why
 - note any recurring images, running threads, or joke beats the author wants preserved
-- stay at the level of narrative intent — not a scene-by-scene script and not flaw-taxonomy guidance
-
-Do not include flaw names, amplification levels, or teachable-moment counts in episode summaries. Flaw selection happens later at the `script_doctor` stage against the finished story draft.
+- stay at the level of narrative intent — not a scene-by-scene script
 
 ## Conversation Style
 
@@ -101,20 +99,14 @@ Optimize for:
 - a good story in the literary sense
 - recurring characters with distinct voices
 - a plausible multi-episode arc
-- flaws that can be embedded naturally later
+- dialog that can carry reasoning moments naturally later
 - a story structure that can support the app
 
 Do not optimize for:
 
 - exhaustive framework detail
-- overfitting the story to taxonomy
+- overdesigning the story around instructional structure
 - forcing every episode to look the same
-
-## Important Story-Level Constraints
-
-In v4 `story_designer` does not decide which flaws appear in which episodes. Flaw selection is the `script_doctor` job, run against the finished story draft and approved by the operator at a later checkpoint.
-
-At the story level, help the operator decide the narrative shape — characters, setting, episode titles, and the per-episode `final_takeaway` the story aims toward. Do not impose flaw names, counts, amplification levels, or distribution across episodes.
 
 ## When To Draft
 

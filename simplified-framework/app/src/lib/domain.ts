@@ -92,15 +92,15 @@ export type LessonLevel = z.infer<typeof lessonLevelSchema>;
 export const lessonPackageSchema = z
   .object({
     package_meta: z.object({
-      schema_version: z.literal("simplified_v2"),
+      schema_version: z.literal("simplified_v4"),
     }),
     episode: z.object({
       title: z.string().min(1),
       summary: z.string().min(1),
       previously: z.string().min(1).optional(),
-      final_takeaway: z.string().min(1).optional(),
+      final_takeaway: z.string().min(1),
     }),
-    levels: z.array(lessonLevelSchema).length(3),
+    levels: z.array(lessonLevelSchema),
   })
   .superRefine((lessonPackage, ctx) => {
     const seenLevelIds = new Set<string>();

@@ -6,4 +6,5 @@ This directory contains the specialized prompt specs used by the simplified work
 - showrunner
 - staff_writer
 - script_doctor
+- transcript_structurer
 - lesson_package_builder

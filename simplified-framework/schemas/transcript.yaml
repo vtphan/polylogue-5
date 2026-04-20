@@ -4,7 +4,8 @@
 # simplified-framework/pipeline/scripts/validate_transcript.py.
 #
 # The transcript is source dialogue organized into 3+ scenes. Each scene
-# has a plain-language summary and 1+ turns; turn_id is globally unique
+# has a plain-language summary and 1+ turns; the scenes are reader-facing
+# scaffolds rather than quiz containers. turn_id is globally unique
 # across the whole transcript so lesson_package.yaml references keep working.
 # FK readability hard-fails scene summaries and only warns on aggregated
 # scene dialogue once a scene has at least 30 words.
@@ -49,7 +50,7 @@ properties:
             properties:
               turn_id:
                 type: string
-                description: tNN; unique across the whole transcript, strictly increasing.
+                description: tNN; unique across the whole transcript.
               speaker:
                 type: string
               text:

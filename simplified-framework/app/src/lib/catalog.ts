@@ -109,25 +109,18 @@ function isEligibleEpisodePair(
   lessonPackage: LessonPackage,
   transcript: Transcript,
 ): boolean {
-  const turnMap = new Map<string, string>();
+  const turnIds = new Set<string>();
 
   for (const scene of transcript.scenes) {
     for (const turn of scene.turns) {
-      turnMap.set(turn.turn_id, scene.scene_id);
+      turnIds.add(turn.turn_id);
     }
   }
 
-  const seenSceneIds = new Set<string>();
-
   for (const level of lessonPackage.levels) {
-    const sceneId = turnMap.get(level.turn_id);
-    if (!sceneId) {
+    if (!turnIds.has(level.turn_id)) {
       return false;
     }
-    if (seenSceneIds.has(sceneId)) {
-      return false;
-    }
-    seenSceneIds.add(sceneId);
   }
 
   return true;

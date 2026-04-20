@@ -15,7 +15,7 @@ properties:
     required: [story_id, episode_number, schema_version]
   episode:
     type: object
-    required: [title, summary, flaws, final_takeaway]
+    required: [title, summary, final_takeaway]
     # `previously` is required when package_meta.episode_number > 1 and
     # forbidden on episode 1 (enforced by the Python validator, not Zod).
     properties:
@@ -31,16 +31,13 @@ properties:
         description: >
           Short recap carrying the arc into this episode (ep 2+ only).
           Soft cap ~40 words; warned by validator.
-      flaws:
-        type: array
       final_takeaway:
         type: string
   levels:
     type: array
-    minItems: 3
-    maxItems: 3
     description: >
-      Exactly 3 levels. No two levels may target turns in the same scene.
+      Variable-length lesson levels keyed to approved transcript turn ids.
+      Zero levels is allowed when the operator approved zero anchors.
     items:
       type: object
       required:

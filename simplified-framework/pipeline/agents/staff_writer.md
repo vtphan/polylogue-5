@@ -49,6 +49,7 @@ The raw draft is intentionally not scene-shaped. Write a continuous story flow i
 1. Aim at 6th-grade comprehensibility in dialogue.
 2. If dialogue needs a technical word, have a character flag it as unfamiliar or paraphrase it nearby.
 3. Do not lean on analyst wording to make a moment legible.
+4. Keep the draft within a scope that fits a short 10-15 minute episode.
 
 ## Turn-ID Contract
 

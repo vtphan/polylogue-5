@@ -102,7 +102,6 @@ def validate_transcript(path: str) -> int:
 
     seen_scene_ids: set[str] = set()
     seen_turn_ids: set[str] = set()
-    previous_turn_number = 0
 
     for scene_index, scene in enumerate(scenes, start=1):
         entry = require_mapping(scene, f"scenes[{scene_index}]", errors)
@@ -199,18 +198,6 @@ def validate_transcript(path: str) -> int:
                         f"be unique across the whole transcript"
                     )
                 seen_turn_ids.add(turn_id)
-                try:
-                    number = int(turn_id[1:])
-                    if number <= previous_turn_number:
-                        errors.append(
-                            f"turn_id '{turn_id}' at scenes[{scene_index}]."
-                            f"turns[{turn_index}] must be strictly greater than "
-                            f"the previous turn_id; turn_ids must increase "
-                            f"monotonically across the transcript"
-                        )
-                    previous_turn_number = number
-                except ValueError:
-                    pass
 
             if speaker and character_ids:
                 # kept permissive: speaker may render as display name vs. id

@@ -1,10 +1,14 @@
 type StarRowProps = {
   earned: number;
-  total?: number;
+  total: number;
   size?: "default" | "hero";
 };
 
-export function StarRow({ earned, total = 10, size = "default" }: StarRowProps) {
+export function StarRow({ earned, total, size = "default" }: StarRowProps) {
+  if (total <= 0) {
+    return null;
+  }
+
   const safeEarned = Math.max(0, Math.min(earned, total));
   const stars = Array.from({ length: total }, (_, index) => index < safeEarned);
 
@@ -14,8 +18,7 @@ export function StarRow({ earned, total = 10, size = "default" }: StarRowProps) 
       aria-label={`${safeEarned} of ${total} stars earned`}
     >
       {stars.map((filled, index) => {
-        const isBonus = index === total - 1;
-        const groupBreak = index === 2 || index === 5 || index === 8;
+        const groupBreak = index > 0 && (index + 1) % 3 === 0 && index !== total - 1;
 
         return (
           <span
@@ -23,7 +26,6 @@ export function StarRow({ earned, total = 10, size = "default" }: StarRowProps) 
             className={[
               "star-row__star",
               filled ? "star-row__star--filled" : "star-row__star--empty",
-              isBonus ? "star-row__star--bonus" : "",
               groupBreak ? "star-row__star--break" : "",
             ]
               .filter(Boolean)

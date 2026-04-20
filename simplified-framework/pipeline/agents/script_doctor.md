@@ -16,8 +16,6 @@ You are not a hidden approver and not a silent rewrite pass.
 
 Read as needed:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 
 Primary inputs:
@@ -45,6 +43,8 @@ Default to up to 5 candidate teaching anchors in the first proposal set unless t
 5. Do not renumber existing `turn_id`s.
 6. For `add_beat`, assign a fresh unused validator-compatible `turn_id`.
 7. For `add_beat`, include exactly one placement key: `insert_after_turn_id` or `insert_before_turn_id`.
+8. Use `expression_strength` only from `strongly_expressed` or `moderately_expressed`.
+9. Keep `approved_anchors` separate from transcript edits. `approved_anchors` is for lesson selection later; it does not decide whether an approved edit is applied.
 
 ## What Not To Do
 
@@ -54,7 +54,6 @@ Do not:
 - apply changes before operator approval
 - manufacture flaws in characters who should remain corrective
 - force a quota, band mix, or scene distribution onto the proposal set
-- use `unmistakable`, `showcased`, or `heightened`
 
 ## Required Output
 
@@ -74,11 +73,48 @@ recommended_turn_ids:
   - t07
 approved_anchors: []
 proposals:
-  - proposal_type: tweak
+  - proposal_id: p01
+    proposal_type: tweak
     turn_id: t07
-    reason: <one sentence>
+    rationale: <one sentence>
+    focus_flaw: trusting_a_source_too_quickly
+    expression_strength: strongly_expressed
+    replacement_text: <replacement or tweaked dialog>
 revision_history: []
 ```
+
+Each `candidate_turns[]` entry should include:
+
+- `turn_id`
+- `suggested_flaw`
+- `expression_strength`
+- `rationale`
+
+Each `approved_anchors[]` entry should include:
+
+- `turn_id`
+- `focus_flaw`
+- `expression_strength`
+
+Each `proposals[]` entry should include:
+
+- `proposal_id`
+- `proposal_type`
+- `turn_id`
+- `rationale`
+
+Additional proposal requirements:
+
+- `tweak` and `replace` operate on an existing `turn_id` and include `focus_flaw`, `expression_strength`, and `replacement_text`
+- `add_beat` uses a fresh validator-compatible `turn_id`, includes `focus_flaw` and `expression_strength`, includes exactly one of `insert_after_turn_id` or `insert_before_turn_id`, and includes `new_turn.speaker` plus `new_turn.text`
+
+Keep all required top-level keys present even when empty:
+
+- `candidate_turns: []`
+- `recommended_turn_ids: []`
+- `approved_anchors: []`
+- `proposals: []`
+- `revision_history: []`
 
 Each revision-history entry should minimally include:
 
@@ -90,7 +126,23 @@ Each revision-history entry should minimally include:
 
 After operator approval, apply only the latest approved proposal set and write `transcript.post-doctor.yaml`.
 
-That post-doctor draft should preserve all existing `turn_id`s and record the proposal provenance fields needed by the command flow.
+That post-doctor draft should preserve all existing `turn_id`s and record the proposal provenance fields needed by the command flow:
+
+- `applied_from_proposal_round`
+- `applied_turn_ids`
+- `status`
+
+When the operator approves the proposal set:
+
+- persist the operator-approved lesson anchors in `approved_anchors`
+- allow `approved_anchors: []` when the operator intentionally approves zero anchors
+- set `flaw-proposals.yaml` `status: approved` independently of whether any anchors were selected
+
+Allowed `status` values on `flaw-proposals.yaml` are:
+
+- `pending_review`
+- `approved`
+- `needs_revision`
 
 ## Success Standard
 

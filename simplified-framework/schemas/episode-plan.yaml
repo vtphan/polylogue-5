@@ -3,10 +3,9 @@
 # Canonical structural rules live in
 # simplified-framework/pipeline/scripts/validate_episode_plan.py.
 #
-# The plan's primary flaw must carry exactly 3 quiz-worthy moments: one each
-# at unmistakable, showcased, and heightened, with those moments distributed
-# across distinct scenes so the downstream app can render exactly 3 inline
-# quizzes with at most one quiz per scene.
+# The plan is a story-facing planning artifact. It does not author flaw
+# inventories, amplification bands, quiz-distribution targets, or
+# reader-facing scene structure.
 
 type: object
 required:
@@ -14,7 +13,6 @@ required:
   - episode_id
   - title
   - episode_goal
-  - flaws
   - student_takeaway
 
 properties:
@@ -29,42 +27,11 @@ properties:
     description: >
       Planning-only — the narrative/learning aim for this episode. Not
       student-facing; not present in lesson_package.yaml.
-  flaws:
-    type: array
-    description: >
-      One entry per intended flaw moment (not per (focus_flaw, amplification) pair).
-      Most entries should share the primary flaw's focus_flaw; a smaller number may
-      carry supporting flaws.
-    items:
-      type: object
-      required: [focus_flaw, amplification, scene_id]
-      properties:
-        focus_flaw:
-          type: string
-          description: Canonical flaw id from reference/flaw-taxonomy.yaml.
-        amplification:
-          type: string
-          enum: [unmistakable, showcased, heightened]
-        scene_id:
-          type: string
-          description: >
-            Required normalized scene locator for this planned moment. The
-            primary flaw's three quiz-worthy moments must resolve to three
-            distinct scene_ids.
-        scene_note:
-          type: string
   student_takeaway:
     type: string
-  scene_design:
-    type: object
-  flaw_embedding_guidance:
-    type: object
-  target_teachable_moments:
-    type: integer
-    description: Optional authoring hint; not gated.
   character_beats:
     type: array
     description: >
-      Per-character arc notes for the transcript writer. Unrelated to the
-      banned narrative "beats" vocabulary — these are character shaping
-      notes, not scene-structure beats.
+      Optional per-character voice, relationship, and private-stakes notes
+      for the downstream writer. These are story-shaping notes, not a scene
+      plan or quiz-planning surface.

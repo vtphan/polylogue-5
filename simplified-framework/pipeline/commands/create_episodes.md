@@ -24,7 +24,6 @@ This command also prepares a saved `showrunner-projection.yaml` for each episode
 
 These should follow:
 
-- `docs/instructional-design.md`
 - `schemas/episode-plan.yaml`
 
 Validation script:
@@ -33,19 +32,21 @@ Validation script:
 
 ## What This Command Must Do
 
-Using the story artifact and operator input, define the episode set at the planning level.
+Using the story artifact and operator input, define the episode set at the planning level. Each episode yields two artifacts: a human-editable `episode-plan.yaml` and a paired `showrunner-projection.yaml` that is the sole content-bearing brief passed later to `staff_writer`.
 
-For each episode, determine:
+For each episode plan (`episode-plan.yaml`), author at minimum:
 
-- title
-- episode goal
-- student takeaway
-- scene design
-- character beats
-- running threads
-- plot obligations
+- `story_id`, `episode_id`, `title`
+- `episode_goal` — planning-only narrative/learning aim for this episode
+- `student_takeaway` — the line the student should carry away
 
-In v4, this plan is story-facing. Do not author `flaws[]`, amplification bands, or quiz-distribution targets here.
+Optional planning aids allowed in the plan:
+
+- `character_beats` — per-character voice, private stakes, and arc notes
+
+The plan is story-facing. It captures episode goal, story movement, student takeaway, and story-level obligations. Teaching-anchor selection happens later in the pipeline from the actual approved draft; it is not planned here. Reader-facing scene segmentation also happens later, in the transcript structurer. `staff_writer` writes continuous dialog flow in a flat turn list, so this stage should not plan around scene count, scene boundaries, or app-facing segmentation.
+
+For each projection (`showrunner-projection.yaml`), author the full shape described below. The projection is richer than the plan because it is what `staff_writer` actually reads.
 
 For each episode, also prepare this exact showrunner projection shape:
 
@@ -54,35 +55,28 @@ story_id: <str>
 episode_id: <str>
 title: <str>
 narrative_synopsis: >-
-  <episode_goal rewritten in plot and texture terms only, no flaw vocabulary>
+  <episode_goal rewritten in plot and texture terms only>
 hypothesis_pursued: >-
   <the wrong explanation the group anchors on this episode, phrased as a plot anchor>
 disproof_event: >-
   <the visible beat that wobbles or disproves the hypothesis>
-scene_design:
-  opening: <prose>
-  turn: <prose>
-  close: <prose>
 character_beats:
   - character_id: <id>
-    beat: <voice, prop, physicality, and arc notes; flaw references removed>
+    beat: <voice, prop, physicality, and arc notes in story terms>
 running_threads:
   - <story-level thread this episode must plant or pay off, in plot terms>
 plot_obligations:
   - <vocabulary-flagging obligation or must-happen beat, in story terms>
-scene_count_target: { min: 3, max: 5 }
 ```
 
-That projection withholds:
+Notes on the shape:
 
-- `flaws[]`
-- `student_takeaway`
-- `flaw_embedding_guidance.must_include`
-- `flaw_embedding_guidance.avoid`
-- `target_teachable_moments`
-- `reference/flaw-taxonomy.yaml`
-
-`staff_writer` does not receive the full flaw-bearing plan.
+- `narrative_synopsis` should encode the episode's story problem through situation design, interpersonal pressure, and episode obligations. Plain story voice only.
+- `hypothesis_pursued` names the wrong idea or unstable theory the group anchors on this episode, phrased as a story belief (e.g. "it has to be the water").
+- `disproof_event` names the visible beat that wobbles or disproves that belief in-world.
+- The projection should help `staff_writer` write a compact, engaging story rather than a storyboard or scene outline.
+- Each episode should be planned as a short 10-15 minute reading exercise for 6th graders: plain language, readable scope, and enough narrative movement to feel like a real story without sprawl.
+- The projection deliberately omits `student_takeaway` because `staff_writer` drafts from story pressure, not from the lesson line.
 
 This command should plan all episodes in one shot so the story-level narrative arc is coherent.
 
@@ -91,11 +85,11 @@ This command should plan all episodes in one shot so the story-level narrative a
 Do not:
 
 - generate final transcripts
-- assign flaws to every turn
-- force a rigid flaw count across all episodes
+- plan around scene count or scene boundaries
+- select teaching anchors or label reasoning moves
 - generate lesson package answer choices
 
-Those belong to later commands.
+Those belong to later commands (`create_transcript`, `create_lesson_package`).
 
 ## Design Principles
 
@@ -112,15 +106,26 @@ The operator and agent should decide:
 - where earlier tensions are reinforced later
 - where episodes should stay simple and where they can become richer
 
-### 3. Plan For The Downstream Reader
+### 3. Give The Writer A Real Story To Draft
 
-Each episode plan should give the downstream app what it needs:
+Each episode plan should give the downstream writer:
 
 - a strong narrative spine
 - enough clear obligations that later drafting does not invent the episode from scratch
 - a saved brief that can be handed to `staff_writer` without hidden planning context
 
-### 4. Preserve Room for Natural Transcript Writing
+### 4. Write For A Short Middle-Grade Read
+
+Each episode should be plan-worthy as a short 10-15 minute reading exercise for 6th graders.
+
+That means:
+
+- plain, readable language
+- age-appropriate social and emotional stakes
+- enough focus that the later draft stays compact
+- enough texture that the story still feels alive
+
+### 5. Preserve Room for Natural Transcript Writing
 
 The episode plan should guide transcript generation without scripting it too tightly.
 
@@ -146,8 +151,6 @@ Primary input:
 
 Also read as needed:
 
-- `docs/instructional-design.md`
-
 Scope rule for this run:
 
 - treat `stories/{story_id}/story.yaml` as the only story source
@@ -155,17 +158,15 @@ Scope rule for this run:
 - do not inspect sibling story artifact trees under `artifacts/` unless the operator explicitly asks for comparison or reuse
 - if prior artifacts already exist under `artifacts/{story_id}/`, use only that same-story path as reference context for overwrites or revisions
 
-## Validation Note
+## Validation
 
-The current validator still enforces the older v3 `episode-plan.yaml` contract. Task 7 removes that mismatch.
-
-Until then, author the v4 showrunner plan shape described in `todo-v4.md` even if `validate_episode_plan.py` still expects legacy flaw fields.
-
-If you do run the validator, treat v3-only failures as expected migration debt rather than a reason to reintroduce `flaws[]`.
+`validate_episode_plan.py` requires `story_id`, `episode_id`, `title`, `episode_goal`, `student_takeaway`, with `character_beats` as an optional planning aid. A well-authored v4 plan should pass cleanly.
 
 ```bash
 python3 pipeline/scripts/validate_episode_plan.py artifacts/{story_id}/{episode_id}/episode-plan.yaml
 ```
+
+The `showrunner-projection.yaml` has no dedicated validator. A shared helper (`pipeline/scripts/_intermediate_guards.py`) spot-checks that the required top-level keys are present if invoked; it does not enforce semantics.
 
 ## Relationship to Later Commands
 

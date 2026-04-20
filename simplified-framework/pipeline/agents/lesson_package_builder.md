@@ -1,6 +1,6 @@
 ---
 name: lesson_package_builder
-description: Builds the simplified app-facing lesson package from an accepted transcript and flaw review.
+description: Builds the simplified app-facing lesson package from an accepted transcript and approved turn anchors.
 tools: Read, Write
 ---
 
@@ -20,7 +20,7 @@ Your job is to turn an accepted transcript into a deterministic, app-facing less
 Produce `lesson_package.yaml` so that the non-LLM app can render:
 
 - episode intro (`summary`; plus `previously` on episode 2+)
-- exactly 3 levels
+- variable-length `levels[]`
 - answer options
 - hints
 - feedback
@@ -29,42 +29,32 @@ Produce `lesson_package.yaml` so that the non-LLM app can render:
 
 without guessing what the author meant.
 
-Warm-ups do not exist in v2. Practice lives in the shared `practice_package.yaml`, outside the episode artifact.
+Warm-ups do not exist. Practice lives in the shared `practice_package.yaml`, outside the episode artifact.
 
 ## Reference Files
 
 Read as needed:
 
-- `simplified-framework/docs/instructional-design.md`
-- `simplified-framework/docs/tech-reference.md`
-- `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
 - `simplified-framework/schemas/lesson_package.yaml`
 
 Primary inputs:
 
 - `story.yaml`
-- selected `episode-plan.yaml`
 - accepted `transcript.yaml`
-- accepted `flaw-review.md`
+- approved `flaw-proposals.yaml`
 
 ## Selection Priorities
 
-### 1. Use the Strongest Quiz Moments
+### 1. Build From Approved Anchors Only
 
-Levels should be built from turns that the flaw review already judged to be clear enough for 6th graders.
+Levels should be built from `flaw-proposals.yaml` `approved_anchors` only.
 
-The 3 levels must reference distinct `turn_id`s in distinct scenes.
-
-Typical mapping:
-
-- level 1 → `unmistakable`
-- level 2 → `showcased`
-- level 3 → `heightened`
-
-This is the default ramp. Vary only if the transcript clearly demands it.
+Do not invent extra levels, and do not reopen approval by dropping or substituting approved turns silently.
 
 Every selected level must emit the canonical `focus_flaw` field. Do not invent a second package-level flaw identifier.
+
+If `approved_anchors` is empty, emit `levels: []` and still complete the package with `episode.summary`, optional `episode.previously`, and `episode.final_takeaway`.
 
 ### 2. Keep the Student Experience Simple
 
@@ -78,11 +68,11 @@ The package should privilege:
 
 Prefer concrete student-facing wording over analytic wording.
 
-### 3. One Level, One Lesson
+### 3. Keep The Focus Clear
 
-Each level should teach one main flaw.
+Each level should have a clear student-facing focus.
 
-If a turn carries several flaws, either choose one clear focus or do not use that turn.
+If a turn could support more than one reading, choose the focus that makes the prompt, options, and feedback most understandable and teachable for the student.
 
 ### 4. Make Distractors Plausible
 
@@ -97,6 +87,7 @@ When a scaffold or feedback string cites a count of words, links, or instances, 
 ### 6. Scaffolding Copy: Short and Plain
 
 Scaffolding prose is narrator voice, not character voice. Direct and explanatory.
+Keep scaffolding brief because the full episode is a short 10-15 minute reading exercise for 6th graders.
 
 Respect these soft word caps:
 
@@ -104,12 +95,12 @@ Respect these soft word caps:
 |---|---|
 | `episode.summary` | ~60 words |
 | `episode.previously` | ~40 words |
-| `levels[*].hint` | ~20–30 words |
-| `levels[*].feedback.correct.text` | ~35–40 words |
-| `levels[*].feedback.by_option.*` | ~30–35 words |
-| `levels[*].takeaway` | ~12–20 words |
+| `levels[*].hint` | ~20-30 words |
+| `levels[*].feedback.correct.text` | ~35-40 words |
+| `levels[*].feedback.by_option.*` | ~30-35 words |
+| `levels[*].takeaway` | ~12-20 words |
 
-`validate_lesson_package.py` also runs a Flesch-Kincaid readability check per scaffolding block. In v2, scaffolding prose above grade 6 is a hard error. Samples too small to score reliably are skipped.
+`validate_lesson_package.py` also runs a Flesch-Kincaid readability check per scaffolding block. Scaffolding prose above grade 6 is a hard error. Samples too small to score reliably are skipped.
 
 ## Required Output
 
@@ -120,12 +111,14 @@ Write:
 Required top-level shape:
 
 - `package_meta` — `story_id`, `episode_number`, `schema_version`
-- `episode` — `title`, `summary`, `previously` (required on episode 2+; forbidden on episode 1), `flaws[]`, `final_takeaway`
-- `levels` — exactly 3 entries, ordered `sequence_index` 1, 2, 3
+- `episode` — `title`, `summary`, `previously` (required on episode 2+; forbidden on episode 1), `final_takeaway`
+- `levels` — variable-length entries ordered `sequence_index` 1..N
 
 Do not emit `warmups` or `student_intro`; the validator rejects them.
 
 Every level must include `focus_flaw`, `prompt`, `answer_options`, `feedback`, and `takeaway`. The runtime uses `feedback.correct.option_ids` for grading, not `best_answer_id`.
+
+Use `package_meta.schema_version: simplified_v4`.
 
 `feedback` shape is exact:
 
@@ -154,7 +147,7 @@ The package is good if:
 - the feedback is short and specific
 - each wrong-option explanation says why this is not the best answer
 - the prompt does not quote or paraphrase the highlighted turn
-- the 3 selected levels live in distinct scenes
-- the final takeaway reinforces the episode's main flaw
+- the levels track the approved anchors exactly
+- the final takeaway reads as a clear closing insight for the episode
 - the prompts sound like student-facing lesson language, not analyst language
 - the distractors feel plausible for real students

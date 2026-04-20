@@ -19,16 +19,12 @@ from _common import (
 )
 
 
-# P1: levels are capped at exactly 3 per episode. No transition period; existing
-# artifacts with a different count are being archived.
-REQUIRED_LEVEL_COUNT = 3
-
 # v2 soft word caps for scaffolding prose.
 EPISODE_SUMMARY_CAP = 60
 EPISODE_PREVIOUSLY_CAP = 40
 LEVEL_TAKEAWAY_CAP = 20
 
-SCHEMA_VERSION = "simplified_v2"
+SCHEMA_VERSION = "simplified_v4"
 
 TAXONOMY_PATH = (
     Path(__file__).resolve().parent.parent.parent / "reference" / "flaw-taxonomy.yaml"
@@ -152,11 +148,6 @@ def validate_episode_block(episode: dict, episode_number: int | None, errors: li
             "episode.student_intro is no longer a valid field; rename to episode.summary"
         )
 
-    flaws = require_list(episode.get("flaws"), "episode.flaws", errors)
-    if not flaws:
-        errors.append("episode.flaws must contain at least one flaw")
-    for index, flaw in enumerate(flaws, start=1):
-        require_nonempty_string(flaw, f"episode.flaws[{index}]", errors)
     final_takeaway = require_nonempty_string(
         episode.get("final_takeaway"), "episode.final_takeaway", errors
     )
@@ -170,12 +161,6 @@ def validate_levels(
     allowed_flaw_ids: set[str],
 ) -> list[str]:
     """Validate levels[]; return turn_ids in order."""
-    # P1: hard equality on level count.
-    if len(levels) != REQUIRED_LEVEL_COUNT:
-        errors.append(
-            f"levels must contain exactly {REQUIRED_LEVEL_COUNT} entries (got {len(levels)})"
-        )
-
     seen_level_ids: set[str] = set()
     level_turn_ids: list[str] = []
     expected_sequence = 1
@@ -262,14 +247,14 @@ def validate_lesson_package(path: str) -> int:
     )
     if schema_version and schema_version != SCHEMA_VERSION:
         errors.append(
-            f"package_meta.schema_version must be '{SCHEMA_VERSION}'; v1 -> v2 migration required"
+            f"package_meta.schema_version must be '{SCHEMA_VERSION}'; v4 lesson-package migration required"
         )
 
     episode = require_mapping(package.get("episode"), "episode", errors)
     validate_episode_block(episode, episode_number, errors)
 
     if "warmups" in package:
-        errors.append("warmups is not allowed in simplified_v2; practice lives in practice_package.yaml")
+        errors.append("warmups is not allowed in simplified_v4; practice lives in practice_package.yaml")
 
     allowed_flaw_ids = load_flaw_ids()
     levels = require_list(package.get("levels"), "levels", errors)
@@ -281,19 +266,10 @@ def validate_lesson_package(path: str) -> int:
         errors.append(f"paired transcript lookup failed: {exc}")
         turn_map = {}
 
-    seen_scene_ids: dict[str, str] = {}
     for index, turn_id in enumerate(level_turn_ids, start=1):
         label = f"levels[{index}].turn_id"
         if turn_id not in turn_map:
             errors.append(f"{label} references unknown turn_id '{turn_id}' in paired transcript")
-            continue
-        scene_id = turn_map[turn_id]
-        if scene_id in seen_scene_ids:
-            errors.append(
-                f"levels may not target two turns in the same scene; {seen_scene_ids[scene_id]} and levels[{index}] both resolve to scene_id '{scene_id}'"
-            )
-        else:
-            seen_scene_ids[scene_id] = f"levels[{index}]"
 
     return print_result(errors)
 

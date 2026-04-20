@@ -30,10 +30,15 @@ export default async function StoriesPage() {
     runs.map((run) => [`${run.storyId}::${run.episodeId}`, run]),
   );
 
-  // Read each episode's lesson package so the card can surface its summary
-  // (and `previously` continuity blurb) as decision-time context. Catalog
-  // stays path-only; this is a /stories render-time read.
-  type EpisodeBlurb = { summary: string; previously: string | null };
+  // Read each episode's lesson package so the card can surface decision-time
+  // context and story-completion takeaways. Catalog stays path-only; this is a
+  // /stories render-time read.
+  type EpisodeBlurb = {
+    summary: string;
+    previously: string | null;
+    finalTakeaway: string;
+    levelCount: number;
+  };
   const blurbByKey = new Map<string, EpisodeBlurb>();
   await Promise.all(
     episodes.map(async (episode) => {
@@ -43,9 +48,16 @@ export default async function StoriesPage() {
         blurbByKey.set(key, {
           summary: lessonPackage.summary,
           previously: lessonPackage.previously ?? null,
+          finalTakeaway: lessonPackage.finalTakeaway,
+          levelCount: lessonPackage.levels.length,
         });
       } catch {
-        blurbByKey.set(key, { summary: "", previously: null });
+        blurbByKey.set(key, {
+          summary: "",
+          previously: null,
+          finalTakeaway: "",
+          levelCount: 0,
+        });
       }
     }),
   );
@@ -60,8 +72,11 @@ export default async function StoriesPage() {
       episodeTitle: string;
       summary: string;
       previously: string | null;
+      finalTakeaway: string;
       stateLabel: string;
       starsEarned: number;
+      totalStars: number;
+      completed: boolean;
     }>
   >();
 
@@ -80,8 +95,11 @@ export default async function StoriesPage() {
       episodeTitle: episode.episodeTitle,
       summary: blurb?.summary ?? "",
       previously: blurb?.previously ?? null,
+      finalTakeaway: blurb?.finalTakeaway ?? "",
       stateLabel,
       starsEarned: run?.starsEarned ?? 0,
+      totalStars: (blurb?.levelCount ?? 0) * 3,
+      completed: Boolean(run?.readingFinishedAt),
     });
     grouped.set(episode.storyId, bucket);
   }
@@ -130,12 +148,34 @@ export default async function StoriesPage() {
                       {episode.summary ? (
                         <p className="story-picker-card__summary">{episode.summary}</p>
                       ) : null}
-                      <StarRow earned={episode.starsEarned} />
+                      <StarRow earned={episode.starsEarned} total={episode.totalStars} />
                     </button>
                   </form>
                 </li>
               ))}
             </ul>
+            {storyEpisodes.every((episode) => episode.completed) ? (
+              <div className="stack">
+                <div>
+                  <p className="eyebrow">Takeaways</p>
+                  <h3>After the whole story</h3>
+                </div>
+                <ul className="selector-list">
+                  {storyEpisodes.map((episode) => (
+                    <li
+                      key={`${episode.storyId}-${episode.episodeId}-takeaway`}
+                      className="selector-item"
+                    >
+                      <div className="selector-target">
+                        <div className="selector-title">{episode.episodeTitle}</div>
+                        <div className="selector-hint">{episode.episodeId}</div>
+                        <p className="story-picker-card__summary">{episode.finalTakeaway}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
           </section>
         ))}
       </div>

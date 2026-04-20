@@ -9,8 +9,10 @@ This document defines the current human-in-the-loop workflow for the simplified 
 1. Create or revise `story.yaml`.
 2. Create the episode-plan set.
 3. Generate one transcript at a time.
-4. Review the transcript result and decide whether to accept, revise, or regenerate it.
-5. Build `lesson_package.yaml` only after transcript acceptance.
+4. Review `transcript.raw.yaml` as a story draft and iterate until approval.
+5. Review `flaw-proposals.yaml` and approve the proposal set plus `approved_anchors`.
+6. Spot-check `transcript.post-doctor.yaml` after approved proposal application.
+7. Build `lesson_package.yaml` only after `transcript.yaml` is accepted and `flaw-proposals.yaml` is approved.
 
 ## Review Standard
 
@@ -20,18 +22,18 @@ For the current scope, "good enough for the app" means good enough for the prese
 
 Core review questions:
 
-1. Does the transcript sound natural?
-2. Are the flaw moments clear enough for the intended difficulty?
-3. Is the main flaw clear across the episode?
-4. Can the package be built without guesswork and with short direct prompts?
+1. Does the raw draft sound like a believable story?
+2. Are the proposed teaching anchors genuinely teachable for the learner context?
+3. Were the approved `script_doctor` changes applied faithfully before structuring?
+4. Can the package be built from the approved anchors without guesswork and with short direct prompts?
 
 ## Guideline Counts
 
 Use these as targets, not hard gates:
 
 - 3+ scenes in the final reader-facing transcript
-- enough strong teaching-anchor candidates for the lesson package to be built cleanly
+- enough approved teaching anchors for the intended lesson scope, which may be zero, few, or many
 
 ## Packaging Rule
 
-Do not generate the lesson package until the transcript has been accepted.
+Do not generate the lesson package until the transcript has been accepted and `flaw-proposals.yaml` carries the approved anchor set.

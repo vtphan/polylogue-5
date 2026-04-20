@@ -1,14 +1,56 @@
 # Instructional Design
 
-This document defines the v2 instructional model for `simplified-framework/`.
+This document describes the instructional approach for `simplified-framework/` at a high level.
 
-For stack, persistence, and runtime contracts, see `tech-reference.md`.
+It is intentionally stable and conceptual. It defines the educational model, the learner assumptions, and the role of the system in instruction.
 
-## 1. Conceptual Model
+It does not define pipeline implementation details, app mechanics, artifact schemas, or temporary migration choices. Those belong in technical and operational documents.
 
-The framework teaches one student-facing layer: **reasoning flaws**, named in plain language.
+## Purpose
 
-Canonical flaw set:
+The system is an intervention for helping middle school students strengthen critical-thinking habits through short story-based reading experiences.
+
+The student is not being asked to memorize formal logic vocabulary. The instructional goal is more practical:
+
+- notice weak reasoning in context
+- slow down before accepting a claim
+- look for evidence, missing conditions, and alternative perspectives
+- practice naming what is wrong in plain language
+
+The intended learner is a middle school student, with 6th grade as the default design point.
+
+## Core Assumptions
+
+The instructional design assumes:
+
+- the audience is primarily 6th graders
+- each episode should work as a short 10-15 minute reading exercise
+- student-facing language should be plain, direct, and readable
+- the app experience should feel like guided reading and reflection, not a worksheet or test-prep drill
+
+These assumptions should shape tone, scope, vocabulary, and cognitive load across the system.
+
+## Model of Instruction
+
+The instructional model has three parts:
+
+1. A flaw taxonomy that defines the reasoning moves the system is trying to teach.
+2. LLM-based authoring that generates the learning artifacts.
+3. A non-LLM app that delivers those artifacts as a deterministic student intervention.
+
+The taxonomy is the conceptual teaching backbone. It provides a shared language for identifying flawed reasoning and for authoring explanations, prompts, and feedback.
+
+The authoring pipeline uses LLMs to generate stories, transcripts, and lesson materials that embody the instructional approach.
+
+The system is also human in the loop. LLMs generate and revise instructional artifacts, but a human operator reviews key outputs and decides what is approved for downstream use. This preserves instructional judgment, keeps the system externally reviewable, and prevents the teaching intervention from becoming a fully automatic black box.
+
+The runtime app does not generate instruction on the fly. It delivers pre-authored artifacts deterministically so that the student experience is stable, reviewable, and consistent.
+
+## What The Student Is Learning
+
+The student-facing layer is reasoning flaws named in plain language.
+
+The canonical flaw set is:
 
 - jumping to a conclusion
 - not enough evidence
@@ -16,187 +58,60 @@ Canonical flaw set:
 - trusting a source too quickly
 - missing important conditions or consequences
 
-Each episode primarily teaches one main flaw. Supporting flaws may appear, but the lesson package and inline quiz flow stay centered on one clear `focus_flaw` at a time.
+The learner should encounter these flaws in context, inside believable social and narrative situations, rather than as isolated definitions.
 
-## 2. Student Modes
+## Why Story-Based Instruction
 
-The app has two student-facing modes:
+Stories provide a practical setting for reasoning.
 
-1. **Practice**
-2. **Read a story**
+In narrative context, students can:
 
-Identity selection is a precondition to both modes. The student chooses or creates a local profile first, then lands on the home screen.
+- see how a flawed conclusion arises from pressure, confusion, habit, or emotion
+- compare stronger and weaker interpretations of the same situation
+- practice reflection without being asked to reason in the abstract first
 
-### 2.1 Practice
+The story is not decoration around the lesson. It is the teaching environment.
 
-Practice is a shared tutorial library, not a per-episode warm-up surface.
+For that reason, story quality matters instructionally. Episodes should feel coherent, readable, and emotionally legible enough that students can follow what characters believe, why they believe it, and where that reasoning breaks down.
 
-- one shared `practice_package.yaml`
-- one exercise per canonical flaw
-- completion-tracked only
-- re-enterable at any time
-- required once for all 5 flaws before story mode unlocks
+## Role of the App
 
-Practice uses a lighter two-click flow:
+The app is the delivery surface for the intervention, not the author of the intervention.
 
-1. tap an option to submit
-2. tap `Done` to return to the picker
+Its job is to:
 
-Hints are free in practice. There are no stars, retries, or bonus mechanics here.
+- present short reading experiences
+- surface teachable moments inside those readings
+- ask clear, direct questions
+- provide feedback in plain language
 
-### 2.2 Read a Story
+The app should reduce friction around practice and reflection. It should not require the student to decode dense instructions, hold too many moving parts in working memory, or navigate an experience that feels procedurally complex.
 
-Story mode is a scene-based reader with inline quizzes.
+## Design Priorities
 
-- the reader is organized into `scene_00` orientation plus `scene_01..scene_N`
-- scene 0 shows `episode.previously` when present, then `episode.summary`
-- each episode has exactly 3 authored quizzes
-- each quiz is attached to one flagged turn
-- at most one authored quiz may live in a scene
+The instructional approach prioritizes:
 
-Students may move forward and backward freely between scenes. Re-reading is always allowed.
+- clarity over cleverness
+- plain language over academic performance language
+- short, focused episodes over sprawling content
+- believable social situations over contrived lesson setups
+- teachable reasoning moments over exhaustive analysis
+- consistency and determinism in delivery over runtime improvisation
 
-## 3. Story-Mode Loop
+## Boundaries
 
-The old `read → warmup → level → complete` runtime is retired in v2.
+This document does not specify:
 
-The active loop is:
+- pipeline stages or agent responsibilities
+- artifact field definitions
+- validator rules
+- UI mechanics
+- database or runtime implementation
 
-1. orientation card
-2. scene reader
-3. optional inline quiz interaction on flagged turns
-4. completion recap view once the final scene has been reached
+Those details may evolve. The instructional approach above should remain stable even when the implementation changes.
 
-`/complete` is a recap surface, not a terminal phase. A finished run remains writable for untried quizzes and late-earned stars.
-
-## 4. Inline Quiz Mechanic
-
-Each episode has exactly 3 inline quizzes, typically mapped to:
-
-- `unmistakable`
-- `showcased`
-- `heightened`
-
-Each quiz:
-
-- opens below the flagged turn
-- allows up to 2 attempts
-- offers 1 optional hint before final submission
-- becomes review-only after submission
-
-The prompt asks the question directly. It does not quote or paraphrase the highlighted turn, because the student can already see that turn in the reader.
-
-Reveal copy should be direct:
-
-- best answer explanations say why this is the best answer
-- wrong answer explanations say why this is not the best answer
-
-## 5. Stars
-
-Story mode uses per-quiz stars, scoped to one episode.
-
-Per quiz:
-
-- correct first try, no hint: 3 stars
-- correct first try, hint used: 2 stars
-- wrong first try, correct second try, no hint: 2 stars
-- wrong first try, correct second try, hint used: 1 star
-- wrong twice: 0 stars
-
-Per episode:
-
-- 9 stars available across the 3 quizzes
-- 1 bonus star awarded when the student reaches 9/9
-- maximum total: 10 stars
-
-Stars are episode-local recognition only. There are no cumulative totals, streaks, timers, leaderboards, or public rankings.
-
-## 6. Authoring Surface
-
-### 6.1 `episode-plan.yaml`
-
-The plan is a planning artifact, not a runtime artifact.
-
-Required planning shape:
-
-- `story_id`, `episode_id`, `title`, `episode_goal`, `student_takeaway`
-- `flaws[]` with one entry per intended planned moment
-- each planned moment carries `focus_flaw`, `amplification`, and `scene_id`
-
-Hard gate:
-
-- the primary flaw must have exactly 3 planned quiz-worthy moments
-- exactly one each at `unmistakable`, `showcased`, and `heightened`
-- those 3 moments must land in distinct scenes
-
-### 6.2 `transcript.yaml`
-
-The transcript is source story text only.
-
-- `scenes[]` length is 3+
-- each scene has `scene_id`, `summary`, `turns[]`
-- turns use globally unique, increasing `turn_id`s
-- turns are dialog-only
-
-The transcript does not contain analytic labels, answer keys, or packaged teaching text.
-
-### 6.3 `lesson_package.yaml`
-
-The lesson package is the deterministic app-facing teaching artifact.
-
-Top-level:
-
-- `package_meta`
-- `episode`
-- `levels`
-
-Episode frame:
-
-- `episode.title`
-- `episode.summary`
-- `episode.previously` on episode 2+
-- `episode.final_takeaway`
-
-Levels:
-
-- exactly 3 entries
-- each with `level_id`, `sequence_index`, `turn_id`, `title`, `focus_flaw`, `prompt`, `answer_options`, `feedback`, `takeaway`
-- no `warmups`
-- no `student_intro`
-
-The runtime grades with `feedback.correct.option_ids`, never `best_answer_id`.
-`feedback.correct.text` is a plain string, and `feedback.by_option.{option_id}` values are also plain strings, not nested objects.
-
-### 6.4 `practice_package.yaml`
-
-This is the shared tutorial artifact for practice mode.
-
-- exactly 5 exercises keyed by canonical `flaw_id`
-- each exercise includes a short scenario, prompt, options, hint, feedback, worked explanation, and takeaway
-- shared across stories
-
-## 7. Language and Readability
-
-Student-facing language should be plain, direct, and beginner-teachable.
-
-Validator-backed readability rule:
-
-- scaffolding prose hard-fails above grade 6
-- dialog text is warning-only
-- FK scoring uses a fixed 30-word minimum sample
-
-## 8. Pipeline Roles
-
-Transcript generation is currently centered on:
-
-1. **`staff_writer`**
-2. **`script_doctor`**
-
-`staff_writer` receives a stripped projection of the episode plan with flaw fields removed. `script_doctor` receives the draft plus the full plan and taxonomy, then helps sharpen the teachable turns without collapsing the story into worksheet prose.
-
-## 9. Related Docs
+## Related Docs
 
 - `simplified-framework/docs/tech-reference.md`
 - `simplified-framework/docs/operator-workflow.md`
 - `simplified-framework/reference/flaw-taxonomy.yaml`
-- `simplified-framework/todo-v2.md`

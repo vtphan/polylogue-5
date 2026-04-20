@@ -22,7 +22,6 @@ type SceneSummary = {
   index: number;
   summary: string;
   turns: TranscriptTurn[];
-  level: ReaderLevel | null;
 };
 
 type ContinuousSceneReaderProps = {
@@ -68,20 +67,20 @@ export function ContinuousSceneReader({
   const closeQuiz = useCallback(() => {
     router.replace(pathname, { scroll: false });
   }, [pathname, router]);
+  const levelsByTurnId = useMemo(
+    () => new Map(levels.map((level) => [level.turn_id, level])),
+    [levels],
+  );
+
   const sceneSummaries = useMemo<SceneSummary[]>(
     () =>
-      scenes.map((scene, index) => {
-        const sceneTurnIds = new Set(scene.turns.map((turn) => turn.turn_id));
-        const level = levels.find((entry) => sceneTurnIds.has(entry.turn_id)) ?? null;
-        return {
-          scene_id: scene.scene_id,
-          index: index + 1,
-          summary: scene.summary,
-          turns: scene.turns,
-          level,
-        };
-      }),
-    [scenes, levels],
+      scenes.map((scene, index) => ({
+        scene_id: scene.scene_id,
+        index: index + 1,
+        summary: scene.summary,
+        turns: scene.turns,
+      })),
+    [scenes],
   );
 
   const attemptsByLevelId = useMemo(
@@ -237,9 +236,7 @@ export function ContinuousSceneReader({
                 <ol className="scene-turns">
                   {scene.turns.map((turn) => {
                     const flaggedLevel =
-                      scene.level !== null && scene.level.turn_id === turn.turn_id
-                        ? scene.level
-                        : null;
+                      levelsByTurnId.get(turn.turn_id) ?? null;
                     const flaggedAttempt = flaggedLevel
                       ? attemptsByLevelId.get(flaggedLevel.level_id) ?? null
                       : null;
@@ -324,7 +321,7 @@ export function ContinuousSceneReader({
           </Link>
         </div>
         <div className="scene-bottom-bar__center">
-          <StarRow earned={runStarsEarned} />
+          <StarRow earned={runStarsEarned} total={levels.length * 3} />
         </div>
         <div className="scene-bottom-bar__side scene-bottom-bar__side--right" />
       </nav>
