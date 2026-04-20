@@ -1,5 +1,7 @@
 # TODO v4
 
+> **Status (2026-04-20):** Complete. Closed in favor of `todo-v5.md` for the next phase of design work.
+
 > **Status (2026-04-19):** Task 0 + Tasks 1–7 landed. Tasks 1–3 renamed `episode_planner` to `showrunner`, `screenwriter` to `staff_writer`, and `flaw_injector` to `script_doctor`; removed `flaw_reviewer`; swept active references; and re-ran `initialize_polylogue.py`. Tasks 4–5 added `transcript_structurer`, rewrote `create_transcript.md` around the raw-draft and flaw-proposal checkpoints plus the post-doctor spot-check, and introduced the pipeline-only intermediate artifact flow. Tasks 6–7 rewrote lesson-package generation around `flaw-proposals.yaml` `approved_anchors`, bumped the lesson-package contract to `simplified_v4`, and updated the app and validator surfaces for variable-length turn-anchored quizzes and dynamic star totals.
 
 > **2026-04-19.** Supersedes `todo-v3.md` (verification signed off 2026-04-19). v4 reshapes the simplified pipeline that turns `story.yaml` + `episode-plan.yaml` into `transcript.yaml`. The main changes are prompt-level and workflow-level, plus a small set of new **pipeline-only intermediate artifacts** used for operator review and external orchestration. v4 also includes a contained app and validator contract revision so approved teaching anchors are turn-based, variable-length, and operator-controlled rather than scene-constrained or count-constrained.
