@@ -184,6 +184,8 @@ Artifact presence alone is not approval state. `status` fields on `transcript.ra
 4. run `_intermediate_guards.py` against whichever saved intermediate artifact is the latest candidate resume point
 5. follow the resumability ladder above
 
+When resuming from any saved artifact, tell the operator explicitly which checkpoint the command resumed from and which artifact path triggered that branch.
+
 ### Checkpoint 1: Raw Story Draft
 
 1. invoke `staff_writer` using `showrunner-projection.yaml` only

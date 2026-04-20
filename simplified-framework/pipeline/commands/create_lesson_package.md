@@ -51,7 +51,7 @@ Responsibilities:
 - author `episode.summary` (<= 60 words) and, on episode 2+, `episode.previously` (<= 40 words)
 - build `levels[]` from the approved anchors in `flaw-proposals.yaml`
 - allow `levels: []` when the operator approved zero anchors
-- preserve the approved-anchor order unless a clearer student-facing sequence is needed
+- order levels by the approved anchors' appearance in `transcript.yaml`
 - emit canonical `focus_flaw` on every level
 - write short direct prompts that do **not** quote or paraphrase the highlighted turn
 - write answer options

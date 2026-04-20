@@ -44,6 +44,8 @@ Primary inputs:
 - accepted `transcript.yaml`
 - approved `flaw-proposals.yaml`
 
+Use `story.yaml` as the source of truth for the episode's authored `final_takeaway`. Carry that line downstream into `lesson_package.yaml`; do not silently replace it with a newly invented closing insight.
+
 ## Selection Priorities
 
 ### 1. Build From Approved Anchors Only
@@ -55,6 +57,8 @@ Do not invent extra levels, and do not reopen approval by dropping or substituti
 Every selected level must emit the canonical `focus_flaw` field. Do not invent a second package-level flaw identifier.
 
 If `approved_anchors` is empty, emit `levels: []` and still complete the package with `episode.summary`, optional `episode.previously`, and `episode.final_takeaway`.
+
+When `approved_anchors` is non-empty, order `levels[]` by the anchors' appearance in `transcript.yaml`, then assign `sequence_index` as `1..N`. Do not reorder levels by proposal order or by perceived instructional difficulty.
 
 ### 2. Keep the Student Experience Simple
 
@@ -79,6 +83,8 @@ If a turn could support more than one reading, choose the focus that makes the p
 Wrong answers should feel like real student mistakes.
 
 Avoid distractors that are obviously silly or easy to reject in one glance.
+
+Keep distractors distinct enough that each wrong option can be rejected for its own reason in feedback, not just because it is vaguely weaker than the best answer.
 
 ### 5. Verify Numerical Claims Against the Transcript Directly
 

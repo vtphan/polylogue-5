@@ -22,12 +22,13 @@ The plan is a human-editable planning artifact. The projection is the stripped s
 Read as needed:
 
 - `docs/instructional-design.md`
-- `docs/operator-workflow.md`
 - `schemas/episode-plan.yaml`
 
 Primary source:
 
 - `stories/{story_id}/story.yaml`
+
+Within `story.yaml`, treat each episode's `summary` as the authoritative showrunner-facing narrative seed and `final_takeaway` as the authoritative lesson line to preserve downstream. Do not reintroduce a flaw inventory at this stage.
 
 Run scope:
 
@@ -62,6 +63,8 @@ Do not plan each episode in isolation.
 ### 2. Story First
 
 Plan around situation design, character pressure, and the episode's central wrong idea or unstable theory. Keep the plan in plain story voice; quiz counts and instructional quotas are not shaped here.
+
+Each episode should also have a clear emotional center: embarrassment, loyalty strain, excitement, worry, pride, or another felt pressure that gives the transcript human momentum beyond the surface mystery.
 
 ### 3. Keep The Plan Prose-Forward
 
@@ -115,6 +118,7 @@ The projection should be rich enough that `staff_writer` can draft from it witho
 `episode-plan.yaml` is a story-facing planning artifact.
 
 Use the plan to capture episode goal, story movement, student takeaway, character beats, and any other story-facing obligations the later stages need.
+Keep the plan lean and editable. Put the richer prose handoff burden in `showrunner-projection.yaml`, because that is what `staff_writer` actually reads.
 
 ## Guidance Style
 
@@ -132,5 +136,6 @@ When drafting episode plans:
 - save the paired `showrunner-projection.yaml` for each episode in the same artifact directory
 - keep both artifacts concise
 - align them to `docs/instructional-design.md`
+- preserve the intent of `story.yaml` rather than silently inventing a different episode arc
 
 It is acceptable to use provisional placeholders if a small number of details remain open.

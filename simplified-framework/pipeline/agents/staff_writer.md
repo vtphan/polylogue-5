@@ -36,6 +36,8 @@ The raw draft is intentionally not scene-shaped. Write a continuous story flow i
 4. Private stakes and offscreen life when they strengthen the episode.
 5. Dialogue-carried texture rather than stage directions.
 
+In practice, that usually means including some turns where characters react, hedge, joke, stall, deflect, or try to save face before the next claim or argument lands.
+
 ## Narrative Rules
 
 1. The story must stand on dialogue alone. Setting, silence, motion, and emotional shifts all need to travel through what characters say.
@@ -61,6 +63,8 @@ Assign stable pre-structuring `turn_id`s using the existing validator-compatible
 - never compute chronology from the numeric tail
 
 Once a raw draft exists, later revisions should preserve existing `turn_id`s.
+
+When revising an existing raw draft, preserve unchanged authored dialogue unless the operator feedback or story logic gives a direct reason to change it.
 
 ## Required Output
 

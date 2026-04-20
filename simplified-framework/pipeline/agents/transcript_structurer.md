@@ -37,6 +37,7 @@ Produce `transcript.yaml` so that it:
 4. Keep each scene summary short, plain, and faithful to the approved draft.
 5. Maintain the existing dialog order when grouping turns into scenes.
 6. Keep every existing `turn_id`, `speaker`, and `text` unchanged.
+7. Place scene breaks at natural shifts in place, objective, discovery, or social pressure rather than at arbitrary turn counts.
 
 ## Required Output
 
@@ -70,4 +71,4 @@ A successful structuring pass:
 - makes the transcript easier to read
 - keeps the approved story intact
 - adds only scene boundaries and summaries
-- leaves later teaching-anchor selection grounded in the preserved turn ids
+- preserves turn ids so the already approved lesson anchors still point to the same dialog

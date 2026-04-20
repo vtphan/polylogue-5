@@ -34,6 +34,8 @@ Validation script:
 
 Using the story artifact and operator input, define the episode set at the planning level. Each episode yields two artifacts: a human-editable `episode-plan.yaml` and a paired `showrunner-projection.yaml` that is the sole content-bearing brief passed later to `staff_writer`.
 
+Preserve the intent of `story.yaml` while planning. Clarify or tighten weak episode summaries when needed, but do not silently invent a different episode arc than the one the story artifact establishes.
+
 For each episode plan (`episode-plan.yaml`), author at minimum:
 
 - `story_id`, `episode_id`, `title`
@@ -102,6 +104,7 @@ Episodes should feel like parts of one story, not isolated lesson containers.
 The operator and agent should decide:
 
 - which wrong idea or unstable theory drives each episode
+- what emotional center gives the episode human pressure
 - where private stakes and offscreen life deepen the episode
 - where earlier tensions are reinforced later
 - where episodes should stay simple and where they can become richer

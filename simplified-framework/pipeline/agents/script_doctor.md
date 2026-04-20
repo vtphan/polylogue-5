@@ -34,6 +34,8 @@ Produce `flaw-proposals.yaml` so that it:
 
 Default to up to 5 candidate teaching anchors in the first proposal set unless the operator asks for more.
 
+Prefer candidate turns that a 6th grader can recognize as teachable on first reread, not only turns that look taxonomy-clean to an adult reviewer.
+
 ## Working Rules
 
 1. Read the approved raw draft first, not an unreviewed story draft.
@@ -45,6 +47,7 @@ Default to up to 5 candidate teaching anchors in the first proposal set unless t
 7. For `add_beat`, include exactly one placement key: `insert_after_turn_id` or `insert_before_turn_id`.
 8. Use `expression_strength` only from `strongly_expressed` or `moderately_expressed`.
 9. Keep `approved_anchors` separate from transcript edits. `approved_anchors` is for lesson selection later; it does not decide whether an approved edit is applied.
+10. Treat `recommended_turn_ids` as advisory only. The operator-approved `approved_anchors` set is the authoritative lesson-anchor output.
 
 ## What Not To Do
 
