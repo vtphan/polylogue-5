@@ -4,6 +4,8 @@
 
 > **Scope note.** v5 is not primarily a pipeline-mechanics revision. It is a design pass on how the system creates teachable reasoning episodes, detects strong and weak reasoning turns, and teaches students to recognize reasoning quality.
 
+> **Relationship to CLAUDE.md.** CLAUDE.md describes the current (v4) version. This document describes v5 as the next version. Where v5 conflicts with current CLAUDE.md invariants — notably "transcripts are source dialogue, not analytic containers" and "v2 lesson packages carry exactly 3 inline quizzes" — v5 supersedes them once shipped. CLAUDE.md will be updated as part of v5 implementation.
+
 ## Executive Summary
 
 v4 improved workflow, artifact boundaries, and operator approval surfaces.
@@ -54,12 +56,15 @@ That thread creates the conditions for reasoning to become visible and teachable
 
 The emerging episode-design frame is:
 
-- `context`: what the episode is generally about, including mood, theme, and social situation
-- `argument`: what one character is trying to get others to believe or do
-- `logical_lens`: whether the reasoning path is strong enough to support the point
-- `evidence_lens`: whether the speaker has enough relevant evidence for the point
-- `scope_lens`: whether the claim is framed at the right size and under the right conditions
-- `description`: a creative episode concept that satisfies the instructional conditions above
+- `context` (required): what the episode is generally about, including mood, theme, and social situation
+- `argument` (required): what one character is trying to get others to believe or do
+- `description` (required): a creative episode concept that satisfies the instructional conditions above
+- one or more lenses (optional, at least one recommended):
+  - `logical_lens`: whether the reasoning path is strong enough to support the point
+  - `evidence_lens`: whether the speaker has enough relevant evidence for the point
+  - `scope_lens`: whether the claim is framed at the right size and under the right conditions
+
+The three lenses are a shared vocabulary available to episode design, not a checklist every episode must fill. An episode may foreground one lens, combine two, or use all three — the choice is driven by what the `argument` naturally exposes.
 
 ### Working Hypothesis
 
@@ -72,7 +77,10 @@ The operator should approve the episode design before transcript drafting.
 - Where should this structure live canonically: `story.yaml`, `episode-plan.yaml`, or a new episode-design shape inside existing artifacts?
 - How explicit should the argument and lens fields be in operator-facing files?
 - How much freedom should the creative-writing agent have inside `description` before the plot stops matching the instructional design?
-- Should every episode activate all three lenses, or only one primary lens with optional overlap?
+
+### Resolved
+
+- **Lens obligation.** An episode specifies one or more lenses. The three-lens vocabulary is available but not required per episode.
 
 ## Section 2: Detection Of Strong And Weak Reasoning
 
@@ -113,6 +121,20 @@ The system should not require speakers to state every premise out loud. The ques
 Primary lesson anchors should usually be turns that perform weak reasoning in real time. Nearby stronger reasoning is still useful as contrast, resistance, or a better alternative.
 
 Unlike `todo-v4.md`, v5 should prefer strongly expressed reasoning turns. It is not enough that a flaw or strong move can be inferred after explanation. For primary anchors, the reasoning weakness or strength should be audible in the line itself, or made audible through revision.
+
+### Dialogue Revision Policy
+
+v5 explicitly allows reasoning-motivated dialogue edits. `script_doctor` may revise the wording of a candidate anchor turn so its reasoning move becomes audible in the line itself.
+
+This is a deliberate departure from v4 and from the current CLAUDE.md rule that "transcripts are source dialogue, not analytic containers." That rule is relaxed *only* for selected anchor turns, and *only* to make reasoning quality perceptible.
+
+Guardrails:
+
+- the revised line must still sound like a believable middle school character in the episode, not a didactic narrator
+- revisions must preserve the speaker's voice, stance, and social position in the scene
+- revisions may sharpen the claim or the support, but must not invent new plot or new information
+- non-anchor turns remain source dialogue and are not subject to reasoning-motivated revision
+- the operator reviews revised anchor turns as part of acceptance; revisions that read as scripted should be rejected
 
 In compact form:
 
@@ -163,6 +185,8 @@ This first step should help students:
 - answer the later reasoning-quality question with less guessing
 
 ### Proposed Quiz Flow
+
+The same three-step structure applies to both weak-reasoning anchors and strong-reasoning anchors. In the strong case, Step 2 resolves to "Yes, this is a strong argument," and Step 3 asks what makes it strong. In the weak case, Step 2 resolves to "No, I am not completely convinced," and Step 3 asks why it falls short.
 
 The canonical flow should be a compact three-step quiz inside one anchor panel:
 
@@ -285,8 +309,11 @@ That strengthens anchor quality because turns should only be selected when the i
   - "Do you believe this character?"
   - "Is this a strong argument?"
 - Should the claim, judgment, and branch question each have their own scoring, or should the panel score only once at the end?
-- Should weak-reasoning and strong-reasoning anchors use the same three-step structure?
 - What is the minimum lesson-package shape change needed to support this without overcomplicating the app?
+
+### Resolved
+
+- **Anchor parity.** Weak-reasoning and strong-reasoning anchors use the same three-step structure (claim → judgment → why). Branches differ; the scaffold does not.
 
 ## Proposed v5 Outcome
 
@@ -313,11 +340,14 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
 - require each episode design to carry:
   - `context`
   - `argument`
+  - `description`
+- allow each episode design to specify one or more of (optional, at least one recommended):
   - `logical_lens`
   - `evidence_lens`
   - `scope_lens`
-  - `description`
-- define how the operator reviews and approves episode design before transcript drafting
+- add an operator approval gate for episode design before transcript drafting, analogous to `flaw-review.md`
+  - define the review artifact (e.g. `episode-design-review.md`) and its acceptance contract
+  - transcript drafting must not start until the episode design is accepted
 
 ### Phase 2: Reasoning Detection
 
