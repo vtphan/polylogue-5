@@ -50,8 +50,6 @@ Canonical IDs from `simplified-framework/reference/flaw-taxonomy.yaml`:
 - `trusting_a_source_too_quickly` ("trusting a source too quickly")
 - `missing_important_conditions_or_consequences` ("missing important conditions or consequences")
 
-Amplification levels per flaw moment: `unmistakable`, `showcased`, `heightened`.
-
 ### Pipeline Flow
 
 ```
@@ -126,6 +124,7 @@ python3 pipeline/scripts/initialize_polylogue.py --project-root ~/Development/po
 python3 simplified-framework/pipeline/scripts/validate_story.py          <path-to-story.yaml>
 python3 simplified-framework/pipeline/scripts/validate_episode_plan.py   <path-to-episode-plan.yaml>
 python3 simplified-framework/pipeline/scripts/validate_transcript.py     <path-to-transcript.yaml>
+python3 simplified-framework/pipeline/scripts/validate_flaw_proposals.py <path-to-flaw-proposals.yaml>
 python3 simplified-framework/pipeline/scripts/validate_lesson_package.py <path-to-lesson_package.yaml>
 python3 simplified-framework/pipeline/scripts/validate_practice_package.py <path-to-practice_package.yaml>
 ```

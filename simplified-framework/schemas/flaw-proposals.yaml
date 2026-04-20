@@ -1,0 +1,171 @@
+# Simplified flaw-proposals.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# simplified-framework/pipeline/scripts/validate_flaw_proposals.py.
+#
+# flaw-proposals.yaml is the review surface produced by the `script_doctor`
+# subagent after an operator-approved raw draft. It holds three things:
+#
+#   1. candidate_turns[]  — the turns the doctor identified as carrying a
+#                           teachable flaw, with a suggested flaw id and
+#                           expression_strength
+#   2. proposals[]        — optional sharpening edits (tweak | replace |
+#                           add_beat) the doctor proposes so the flaw
+#                           reads cleanly on the page
+#   3. approved_anchors[] — the operator-approved lesson anchor set, used
+#                           later by create_lesson_package; may be empty
+#
+# `status` drives the resumability ladder in /create_transcript.
+# `revision_history` records each operator feedback round.
+#
+# flaw_ids must come from reference/flaw-taxonomy.yaml.
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - source_draft
+  - status
+  - candidate_turns
+  - recommended_turn_ids
+  - approved_anchors
+  - proposals
+  - revision_history
+
+properties:
+  story_id:
+    type: string
+  episode_id:
+    type: string
+  source_draft:
+    type: string
+    description: >
+      Path to the approved raw draft this proposal set was produced from
+      (e.g., "transcript.raw.yaml" or a repo-relative path).
+  status:
+    type: string
+    enum: [pending_review, approved, needs_revision]
+    description: >
+      Operator-review state. Artifact presence alone is not approval —
+      the status field is the persisted review signal.
+
+  candidate_turns:
+    type: array
+    description: >
+      Turns the doctor identified as carrying a teachable flaw. These are
+      not edits; they are the identification layer.
+    items:
+      type: object
+      required: [turn_id, suggested_flaw, expression_strength, rationale]
+      properties:
+        turn_id:
+          type: string
+          description: tNN; must reference a turn in source_draft.
+        suggested_flaw:
+          type: string
+          description: Canonical flaw id from reference/flaw-taxonomy.yaml.
+        expression_strength:
+          type: string
+          enum: [strongly_expressed, moderately_expressed]
+        rationale:
+          type: string
+          description: Plain-language reason this turn carries the flaw.
+
+  recommended_turn_ids:
+    type: array
+    description: Advisory subset of candidate turn_ids the doctor recommends.
+    items:
+      type: string
+
+  approved_anchors:
+    type: array
+    description: >
+      Operator-approved lesson anchor set. Consumed later by
+      create_lesson_package. May be empty when the operator intentionally
+      approves zero anchors.
+    items:
+      type: object
+      required: [turn_id, focus_flaw, expression_strength]
+      properties:
+        turn_id:
+          type: string
+        focus_flaw:
+          type: string
+          description: Canonical flaw id from reference/flaw-taxonomy.yaml.
+        expression_strength:
+          type: string
+          enum: [strongly_expressed, moderately_expressed]
+
+  proposals:
+    type: array
+    description: >
+      Optional sharpening edits. proposal_type is one of tweak, replace,
+      or add_beat. There is no `keep` proposal type — if no sharpening
+      is needed, proposals stays []. The doctor applies only the latest
+      operator-approved proposal set.
+    items:
+      type: object
+      required: [proposal_id, proposal_type, turn_id, rationale]
+      properties:
+        proposal_id:
+          type: string
+          description: Stable id within the proposal set (e.g., p01).
+        proposal_type:
+          type: string
+          enum: [tweak, replace, add_beat]
+        turn_id:
+          type: string
+          description: >
+            For tweak/replace, the existing turn_id being edited. For
+            add_beat, a fresh validator-compatible turn_id not already
+            used in source_draft.
+        rationale:
+          type: string
+        focus_flaw:
+          type: string
+          description: >
+            Required for all three proposal_types. Canonical flaw id from
+            reference/flaw-taxonomy.yaml.
+        expression_strength:
+          type: string
+          enum: [strongly_expressed, moderately_expressed]
+          description: Required for all three proposal_types.
+        replacement_text:
+          type: string
+          description: Required for tweak and replace. Disallowed for add_beat.
+        insert_after_turn_id:
+          type: string
+          description: >
+            add_beat only. Exactly one of insert_after_turn_id or
+            insert_before_turn_id must be present.
+        insert_before_turn_id:
+          type: string
+          description: >
+            add_beat only. Exactly one of insert_after_turn_id or
+            insert_before_turn_id must be present.
+        new_turn:
+          type: object
+          description: Required for add_beat. Disallowed for tweak/replace.
+          required: [speaker, text]
+          properties:
+            speaker:
+              type: string
+            text:
+              type: string
+
+  revision_history:
+    type: array
+    description: >
+      One entry per operator-review round. Each entry records the feedback
+      summary and the revision note in plain language.
+    items:
+      type: object
+      required: [round, feedback_summary, revision_note]
+      properties:
+        round:
+          type: integer
+          minimum: 1
+        feedback_summary:
+          type: string
+        revision_note:
+          type: string

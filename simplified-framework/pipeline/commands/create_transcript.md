@@ -144,7 +144,7 @@ This command only needs the following artifact rules in prompt scope:
 
 - `transcript.raw.yaml` is a flat ordered turn list with top-level metadata, `revision_history`, and `status`
 - `transcript.post-doctor.yaml` keeps the same draft shape and adds proposal provenance plus `status`
-- `flaw-proposals.yaml` stores proposal-review state, approved lesson anchors in `approved_anchors`, and the latest proposal set to apply
+- `flaw-proposals.yaml` stores proposal-review state, approved lesson anchors in `approved_anchors`, and the latest proposal set to apply. Its shape contract is `schemas/flaw-proposals.yaml`, enforced by `pipeline/scripts/validate_flaw_proposals.py`. Run the validator after every write to this artifact.
 - `turn_id`s stay validator-compatible (`tNN`) and must be preserved once written
 - `showrunner-projection.yaml` must carry the stripped brief fields documented above
 
@@ -199,13 +199,13 @@ When resuming from any saved artifact, tell the operator explicitly which checkp
 ### Checkpoint 2: Flaw Proposals
 
 1. invoke `script_doctor` on approved `transcript.raw.yaml`
-2. save `flaw-proposals.yaml` with `status: pending_review`
+2. save `flaw-proposals.yaml` with `status: pending_review`, then run `python3 pipeline/scripts/validate_flaw_proposals.py` on the saved artifact; fix any validator errors before proceeding
 3. alert the operator in CLI chat with a concise summary and the artifact path
 4. let the operator approve, reject, relabel, tone down, or request revisions on the candidate set
-5. on each revision round, update `flaw-proposals.yaml` so `revision_history` records a concise summary of the latest operator feedback
+5. on each revision round, update `flaw-proposals.yaml` so `revision_history` records a concise summary of the latest operator feedback, then rerun `validate_flaw_proposals.py` before alerting the operator
 6. iterate until the operator approves the proposal set
 7. on approval, persist the operator-approved lesson anchors in `approved_anchors`
-8. set `flaw-proposals.yaml` `status: approved` when the operator approves the proposal set, even if `approved_anchors` is empty
+8. set `flaw-proposals.yaml` `status: approved` when the operator approves the proposal set, even if `approved_anchors` is empty; rerun `validate_flaw_proposals.py` after this final write
 
 ### Post-Doctor Spot-Check
 
@@ -215,7 +215,7 @@ When resuming from any saved artifact, tell the operator explicitly which checkp
    - proposal provenance fields
 3. alert the operator in CLI chat with a concise post-application summary and the artifact path
 4. if the spot-check fails because the proposal set needs revision:
-   - set `flaw-proposals.yaml` to `status: needs_revision`
+   - set `flaw-proposals.yaml` to `status: needs_revision` (and rerun `validate_flaw_proposals.py`)
    - set `transcript.post-doctor.yaml` to `status: needs_revision`
    - reopen checkpoint 2 proposal review
 5. if the spot-check fails because application quality is poor but the approved proposal set stands:

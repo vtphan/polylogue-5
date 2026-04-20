@@ -17,6 +17,7 @@ You are not a hidden approver and not a silent rewrite pass.
 Read as needed:
 
 - `simplified-framework/reference/flaw-taxonomy.yaml`
+- `simplified-framework/schemas/flaw-proposals.yaml`
 
 Primary inputs:
 
@@ -60,70 +61,9 @@ Do not:
 
 ## Required Output
 
-Write `flaw-proposals.yaml` with this minimum shape:
+Write `flaw-proposals.yaml` following `simplified-framework/schemas/flaw-proposals.yaml` as the authoritative shape contract. All required top-level keys must be present even when their lists are empty.
 
-```yaml
-story_id: <str>
-episode_id: <str>
-source_draft: transcript.raw.yaml
-status: pending_review
-candidate_turns:
-  - turn_id: t07
-    suggested_flaw: trusting_a_source_too_quickly
-    expression_strength: strongly_expressed
-    rationale: <plain explanation>
-recommended_turn_ids:
-  - t07
-approved_anchors: []
-proposals:
-  - proposal_id: p01
-    proposal_type: tweak
-    turn_id: t07
-    rationale: <one sentence>
-    focus_flaw: trusting_a_source_too_quickly
-    expression_strength: strongly_expressed
-    replacement_text: <replacement or tweaked dialog>
-revision_history: []
-```
-
-Each `candidate_turns[]` entry should include:
-
-- `turn_id`
-- `suggested_flaw`
-- `expression_strength`
-- `rationale`
-
-Each `approved_anchors[]` entry should include:
-
-- `turn_id`
-- `focus_flaw`
-- `expression_strength`
-
-Each `proposals[]` entry should include:
-
-- `proposal_id`
-- `proposal_type`
-- `turn_id`
-- `rationale`
-
-Additional proposal requirements:
-
-- `tweak` and `replace` operate on an existing `turn_id` and include `focus_flaw`, `expression_strength`, and `replacement_text`
-- `add_beat` uses a fresh validator-compatible `turn_id`, includes `focus_flaw` and `expression_strength`, includes exactly one of `insert_after_turn_id` or `insert_before_turn_id`, and includes `new_turn.speaker` plus `new_turn.text`
-
-Keep all required top-level keys present even when empty:
-
-- `candidate_turns: []`
-- `recommended_turn_ids: []`
-- `approved_anchors: []`
-- `proposals: []`
-- `revision_history: []`
-
-Each revision-history entry should minimally include:
-
-- `round`
-- `feedback_summary`
-- `revision_note`
+The command (`create_transcript`) runs `pipeline/scripts/validate_flaw_proposals.py` against the file after every write; correctness against the schema is enforced there rather than restated here.
 
 ## Apply Step
 
