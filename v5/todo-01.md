@@ -1,14 +1,12 @@
-# TODO v1
+# TODO v5-01
 
-> **Status (2026-04-20):** Draft. Open planning document for the next phase after `todo-v4.md`.
+> **Scope note.** v5 is the next version of simplified-framework, which can be considered as v4.  This is the first todo list of this v5, hence named v5/todo-01.md
 
-> **Scope note.** v5 is not primarily a pipeline-mechanics revision. It is a design pass on how the system creates teachable reasoning episodes, detects strong and weak reasoning turns, and teaches students to recognize reasoning quality.
-
-> **Relationship to CLAUDE.md.** CLAUDE.md describes the current (v4) version. This document describes v5 as the next version. Where v5 conflicts with current CLAUDE.md invariants — notably "transcripts are source dialogue, not analytic containers" and "v2 lesson packages carry exactly 3 inline quizzes" — v5 supersedes them once shipped. CLAUDE.md will be updated as part of v5 implementation.
+> **Relationship to CLAUDE.md.** CLAUDE.md describes the current (simplified-framework or v4) version. This document describes v5 as the next version.  CLAUDE.md should not be viewed as holding ground truths and requirements that this document has to subscribe to.
 
 ## Executive Summary
 
-v4 improved workflow, artifact boundaries, and operator approval surfaces.
+v4 (simplified-framework) improved workflow, artifact boundaries, and operator approval surfaces.
 
 v5 should improve the quality of what the system authors and teaches.
 
@@ -21,7 +19,7 @@ The next phase has three linked concerns:
 These are related but distinct design layers.
 
 - story design determines whether episodes naturally generate teachable argument
-- reasoning detection determines whether the pipeline identifies the right turns as weak anchors and strong contrasts
+- reasoning detection determines whether the pipeline identifies the right turns as teaching anchors — weak or strong, treated as peers
 - teaching design determines whether those turns become clear and useful lessons for students
 
 ## Why v5 Exists
@@ -30,8 +28,8 @@ The current system can now save, review, revise, and approve artifacts in a clea
 
 But the recent review surfaced a deeper instructional issue:
 
-- not every line that sounds broad, forceful, or imprecise is actually a good reasoning-flaw example
-- some selected anchor turns are weak because they depend too heavily on context or on adult interpretation
+- not every line that sounds broad, forceful, or imprecise is actually a good example of weak reasoning — nor does articulate, confident phrasing automatically indicate strong reasoning
+- some selected anchor turns were inadequate because they depend too heavily on context or on adult interpretation
 
 The next phase should focus less on orchestration and more on instructional design quality.
 
@@ -39,7 +37,7 @@ The next phase should focus less on orchestration and more on instructional desi
 
 ### Goal
 
-Episodes should be designed so flawed reasoning emerges naturally from believable social interaction, rather than from post hoc extraction from dialogue that was never built to teach.
+Episodes should be designed so reasoning worth teaching about — weak or strong — emerges naturally from believable social interaction, rather than being extracted post hoc from dialogue that was never built to teach.
 
 ### Current Direction
 
@@ -59,16 +57,40 @@ The emerging episode-design frame is:
 - `context` (required): what the episode is generally about, including mood, theme, and social situation
 - `argument` (required): what one character is trying to get others to believe or do
 - `description` (required): a creative episode concept that satisfies the instructional conditions above
-- one or more lenses (optional, at least one recommended):
-  - `logical_lens`: whether the reasoning path is strong enough to support the point
-  - `evidence_lens`: whether the speaker has enough relevant evidence for the point
-  - `scope_lens`: whether the claim is framed at the right size and under the right conditions
+- `lenses` (required, one or more):
+  - `logic`: whether the reasoning path is strong enough to support the point
+  - `evidence`: whether the speaker has enough relevant evidence for the point
+  - `scope`: whether the claim is framed at the right size and under the right conditions
 
-The three lenses are a shared vocabulary available to episode design, not a checklist every episode must fill. An episode may foreground one lens, combine two, or use all three — the choice is driven by what the `argument` naturally exposes.
+An episode may foreground one lens, combine two, or use all three — the choice is driven by what the `argument` naturally exposes. Lens names match the `lens` tags in `v5/reference/reasoning-taxonomy.yaml`.
+
+### Audience Appropriateness
+
+All three text fields (`context`, `argument`, `description`) must be pitched to a 6th-grade reader. Subject matter should be inside a middle schooler's direct experience or routine media exposure — school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate, academic jargon) are out of bounds unless the story introduces them explicitly in-scene.
+
+Enforcing audience appropriateness at story-design time means downstream stages (`script_doctor`, lesson authoring) do not need to re-check it per turn. Every anchor inside a well-scoped episode inherits the episode's audience fit.
+
+### Lens ↔ Reasoning-Item Relationship
+
+The reasoning taxonomy organizes teaching content in three levels:
+
+- **Lens** — the broad family of reasoning concern (`logic`, `evidence`, `scope`).
+- **Reasoning item** — a specific reasoning dimension within a lens (e.g. `conclusion_support`, `evidence_sufficiency`).
+- **Polarity** — which side of the dimension an anchor is on (`weak` or `strong`).
+
+Each reasoning item carries both a weak face and a strong face of the same dimension. The taxonomy replaces v4's flaw-only vocabulary so that strong-reasoning anchors have a genuine classification rather than being defined as "not a flaw."
+
+Mapping (authoritative source: `v5/reference/reasoning-taxonomy.yaml`):
+
+- `logic`: `conclusion_support`, `correlation_vs_causation`
+- `evidence`: `evidence_sufficiency`, `source_credibility`
+- `scope`: `perspective_consideration`, `conditions_and_consequences`
+
+An episode declares one or more lenses at design time. Downstream reasoning detection and anchor selection resolve each anchor to a `(reasoning_item_id, polarity)` pair from the taxonomy. Lenses narrow the search space; items name the dimension; polarity names which side of the dimension the anchor is on.
 
 ### Working Hypothesis
 
-This structure should likely live inside `story_design` so the creative-writing stage begins from explicit instructional constraints rather than vague hopes that flaws will emerge later.
+This structure should likely live inside `story_design` so the creative-writing stage begins from explicit instructional constraints rather than vague hopes that teachable reasoning will emerge later.
 
 The operator should approve the episode design before transcript drafting.
 
@@ -80,13 +102,15 @@ The operator should approve the episode design before transcript drafting.
 
 ### Resolved
 
-- **Lens obligation.** An episode specifies one or more lenses. The three-lens vocabulary is available but not required per episode.
+- **Lens obligation.** An episode specifies one or more lenses. Lens names (`logic`, `evidence`, `scope`) match `v5/reference/reasoning-taxonomy.yaml`.
+- **Taxonomy shape.** Reasoning is modeled as a flat list of reasoning items, each with a `weak` aspect and a `strong` aspect. This replaces v4's flaw-only taxonomy.
+- **Anchor resolution.** Every anchor resolves to a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`, where `polarity` is `weak` or `strong`. Weak and strong anchors are peers in the schema.
 
 ## Section 2: Detection Of Strong And Weak Reasoning
 
 ### Goal
 
-`script_doctor` should identify turns that genuinely perform meaningful reasoning, distinguish stronger from weaker moves, and select the best weak-reasoning turns as teaching anchors.
+`script_doctor` should identify turns that genuinely perform meaningful reasoning, distinguish stronger from weaker moves, and select the best reasoning turns as teaching anchors. Weak-polarity and strong-polarity anchors are peers at the detection level; neither is privileged.
 
 ### Selection Criteria
 
@@ -98,14 +122,16 @@ The speaker is trying to support, justify, persuade, reject, or conclude somethi
 2. The turn is not merely expressive language.
 It is not just hype, emotion, humor, or conversational exaggeration.
 
-3. The speaker's intended claim is clear.
-A reviewer and downstream artifact should be able to state what the speaker is trying to get others to believe.
+3. The speaker's claim or intention is clear.
+A reviewer and downstream artifact should be able to state what the speaker is trying to get others to believe — whether the claim is stated directly in the turn, or the turn is driving toward it through setup, invitation, or implication. If the intention can't be articulated as a specific claim, the turn fails this criterion.
 
 4. The reasoning quality is clear and strongly expressed in the line itself.
 The turn shows meaningfully strong or weak reasoning without heavy reconstruction or interpretation. If it does not, `script_doctor` should revise the turn so it does.
 
-5. The turn is instructionally usable.
-A middle school student should be able to understand the claim and discuss why the reasoning is strong or weak.
+5. The turn maps to a specific `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`.
+The reasoning move in the turn matches one reasoning item clearly enough to name it without speculation. If multiple items apply, `script_doctor` selects the primary one; secondary items may be recorded but do not drive the lesson.
+
+Audience appropriateness (6th-grade accessibility) is not a detection-stage criterion — it is a story-design constraint enforced upstream in Section 1. If the episode's context and argument are pitched correctly, any turn that passes the five criteria will be usable with the target audience.
 
 ### Detection Notes
 
@@ -116,11 +142,18 @@ Weakness should be in the reasoning move, not merely in:
 - ordinary exaggeration
 - lack of courtroom-level explicitness
 
-The system should not require speakers to state every premise out loud. The question is whether the support offered is meaningfully stronger or weaker than the conclusion drawn.
+Strength should likewise be in the reasoning move, not merely in:
 
-Primary lesson anchors should usually be turns that perform weak reasoning in real time. Nearby stronger reasoning is still useful as contrast, resistance, or a better alternative.
+- formal-sounding vocabulary
+- articulate or confident delivery
+- conventional politeness or caution
+- invoking sources or terms without actually using them to reason
 
-Unlike `todo-v4.md`, v5 should prefer strongly expressed reasoning turns. It is not enough that a flaw or strong move can be inferred after explanation. For primary anchors, the reasoning weakness or strength should be audible in the line itself, or made audible through revision.
+The system should not require speakers to state every premise out loud. The question is whether the support offered fits the conclusion drawn — strong enough to justify it, or weak relative to it.
+
+Anchor selection treats weak-reasoning and strong-reasoning turns as peers. A story built around a character making careful, well-supported arguments is as legitimate a source of anchors as one built around a character making shaky ones. Individual episodes may lean one way or the other by design, but that lean is a story-level choice, not a pipeline-level default.
+
+Unlike `todo-v4.md`, v5 should prefer candidate turns where the reasoning move is explicitly expressed in the line itself. It is not enough that a reasoning move can be inferred after explanation. For primary anchors, the reasoning quality — weak or strong — should be audible in the line itself, or made audible through revision.
 
 ### Dialogue Revision Policy
 
@@ -140,9 +173,10 @@ In compact form:
 
 - analyze lines as reasoning when they are trying to function as reasons
 - do not confuse figure of speech with weak reasoning
-- only anchor turns where the intended claim and reasoning quality are both clear and strongly expressed
+- do not confuse articulate or formal delivery with strong reasoning
+- only anchor turns where the intended claim and reasoning quality are both clear and explicitly expressed in the line itself
 
-Absolute language and superlatives are not flaw triggers by themselves. Terms like `best`, `always`, `never`, `everywhere`, and `all of it` can be figure of speech, emphasis, or shorthand. They become reasoning-relevant when they are being used to support or close off an argument.
+Absolute language and superlatives are not weakness triggers by themselves. Terms like `best`, `always`, `never`, `everywhere`, and `all of it` can be figure of speech, emphasis, or shorthand. They become reasoning-relevant when they are being used to support or close off an argument.
 
 ### Implications For `script_doctor`
 
@@ -150,20 +184,24 @@ Absolute language and superlatives are not flaw triggers by themselves. Terms li
 
 - detect turns that are actually making or defending a claim
 - avoid false positives from superlatives, hyperbole, or ordinary shorthand
+- avoid false positives from articulate delivery or formal-sounding vocabulary that doesn't reflect real reasoning strength
 - articulate what the speaker is trying to get others to believe
 - identify whether those turns are stronger or weaker reasoning moves
-- focus primary anchor selection on turns that perform weak reasoning in real time
-- notice nearby stronger reasoning turns that can serve as contrast or support
+- select anchors across both polarities, treating weak-reasoning and strong-reasoning turns as peers
 - prefer candidate turns where the reasoning move is audible in the line itself
-- revise candidate turns so weak or strong reasoning is more explicit when those turns are intended as lesson anchors
+- revise candidate turns so the reasoning move — weak or strong — is more explicit when those turns are intended as lesson anchors
 
 ### Open Questions
 
-- Should `script_doctor` score candidates on "argumentativeness" before evaluating reasoning strength?
+- Should `script_doctor` score candidates on "argumentativeness" before evaluating reasoning quality?
 - Should `script_doctor` explicitly classify a turn as expressive, descriptive, reflective, or argumentative before proposing it as an anchor?
 - How should the intended claim be persisted so downstream lesson generation can use it directly?
-- Should `script_doctor` also persist nearby stronger counter-turns or only the primary weak anchors?
+- What is the target mix of weak-polarity and strong-polarity anchors per episode — fixed, story-declared, or emergent from detection?
 - How aggressive should revision be when a turn is story-natural but its reasoning quality is not strongly expressed?
+
+### Resolved
+
+- **Anchor polarity parity.** Weak-reasoning and strong-reasoning anchors are peers at the detection level. `script_doctor` selects across both polarities; neither is privileged. A story may lean one way or the other by design, but that lean is a story-level choice, not a pipeline-level default.
 
 ## Section 3: Redesigning Reasoning Quizzes
 
@@ -257,6 +295,7 @@ To support this flow deterministically, the lesson package should carry enough a
 
 At minimum, each selected anchor may need:
 
+- a `reasoning_item_id` and `polarity` from `v5/reference/reasoning-taxonomy.yaml`
 - the speaker's intended claim
 - a claim-identification question with answer options
 - a judgment question with the buy / not-buy choices
@@ -314,6 +353,7 @@ That strengthens anchor quality because turns should only be selected when the i
 ### Resolved
 
 - **Anchor parity.** Weak-reasoning and strong-reasoning anchors use the same three-step structure (claim → judgment → why). Branches differ; the scaffold does not.
+- **Strong-anchor identity.** Strong anchors are not "not-flaws" — they carry a real classification. Both weak and strong anchors resolve to a `(reasoning_item_id, polarity)` pair in `v5/reference/reasoning-taxonomy.yaml`, and each reasoning item supplies both faces (`weak` and `strong`) of the same dimension.
 
 ## Proposed v5 Outcome
 
@@ -341,11 +381,11 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
   - `context`
   - `argument`
   - `description`
-- allow each episode design to specify one or more of (optional, at least one recommended):
-  - `logical_lens`
-  - `evidence_lens`
-  - `scope_lens`
-- add an operator approval gate for episode design before transcript drafting, analogous to `flaw-review.md`
+- require each episode design to declare one or more lenses (names must match `v5/reference/reasoning-taxonomy.yaml`):
+  - `logic`
+  - `evidence`
+  - `scope`
+- add an operator approval gate for episode design before transcript drafting, mirroring the acceptance-gate pattern that will apply to `reasoning-proposals.yaml` downstream (see Phase 2)
   - define the review artifact (e.g. `episode-design-review.md`) and its acceptance contract
   - transcript drafting must not start until the episode design is accepted
 
@@ -356,8 +396,13 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
   - detect strong and weak reasoning
   - enforce the five anchor criteria
   - articulate the intended claim
+  - classify each anchor as a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`
   - revise turns until reasoning quality is strongly expressed
-- decide whether `flaw-proposals.yaml` needs a shape update to persist this reasoning scaffold
+- update the upstream proposals artifact (currently `flaw-proposals.yaml`; likely renamed `reasoning-proposals.yaml`) to persist, per anchor:
+  - `reasoning_item_id` and `polarity`
+  - intended claim
+  - any revised wording
+  - the source turn reference
 
 ### Phase 3: Lesson-Package Redesign
 
