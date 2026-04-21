@@ -1,0 +1,75 @@
+# v5 transcript.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# pipeline/scripts/validate_transcript.py (to be implemented).
+#
+# transcript.yaml is the final app-facing transcript: source dialogue
+# organized into 3+ scenes, each with a plain-language summary and an
+# ordered list of turns. Scenes are reader-facing scaffolds, not quiz
+# containers.
+#
+# turn_id is globally unique across the whole transcript so that
+# reasoning-proposals.yaml and lesson_package.yaml references keep
+# working. Turn ids follow the pattern tNN (t01, t02, ...).
+#
+# Invariant: transcript.yaml is polarity-free. It carries no reasoning
+# labels and no per-turn classification. Reasoning classification and
+# any revised anchor wording live on reasoning-proposals.yaml;
+# revised wording is present in the turn text of transcript.post-
+# doctor.yaml and flows unchanged into transcript.yaml.
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - title
+  - characters
+  - scenes
+
+properties:
+  story_id:
+    type: string
+
+  episode_id:
+    type: string
+
+  title:
+    type: string
+
+  characters:
+    type: array
+    description: Characters appearing in this transcript.
+
+  scenes:
+    type: array
+    minItems: 3
+    description: >
+      Reader-facing scene scaffolds. Each scene groups turns and
+      provides a plain-language summary.
+    items:
+      type: object
+      required: [scene_id, summary, turns]
+      properties:
+        scene_id:
+          type: string
+          description: Unique within transcript (e.g., s1, s2).
+        summary:
+          type: string
+          description: >
+            Plain-language scene summary, 6th-grade vocabulary.
+            Soft cap ~30 words; validator warns past the cap.
+        turns:
+          type: array
+          items:
+            type: object
+            required: [turn_id, speaker, text]
+            properties:
+              turn_id:
+                type: string
+                description: >
+                  tNN; globally unique across the whole transcript.
+                  Preserved across raw → post-doctor → final passes.
+              speaker:
+                type: string
+              text:
+                type: string

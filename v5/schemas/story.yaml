@@ -1,0 +1,80 @@
+# v5 story.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# pipeline/scripts/validate_story.py (to be implemented).
+#
+# story.yaml is the story-level source artifact. It defines the world,
+# recurring characters, and the episode map. It is the single source of
+# truth consumed by /create_episodes and preserved untouched by all
+# downstream commands.
+#
+# The premise is student-facing and rendered to students on a story-
+# selection page. Episode summaries are showrunner-facing and give
+# /create_episodes enough authorial intent to plan per-episode arcs.
+
+type: object
+required:
+  - story_id
+  - title
+  - premise
+  - characters
+  - episodes
+
+properties:
+  story_id:
+    type: string
+    description: snake_case identifier used across the pipeline.
+
+  title:
+    type: string
+
+  premise:
+    type: string
+    description: >
+      Student-facing story overview shown on the story page. Short —
+      one paragraph. Hints at the kinds of reasoning the story will
+      practice without spoiling per-episode plots.
+
+  audience:
+    type: object
+    description: Optional audience metadata (e.g., grade band, tone).
+
+  setting:
+    type: object
+    description: Optional setting metadata (place, time, world rules).
+
+  characters:
+    type: array
+    description: Recurring characters with distinct voices.
+    items:
+      type: object
+      required: [character_id, name]
+      properties:
+        character_id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+
+  episodes:
+    type: array
+    description: Ordered episode map for the full story.
+    items:
+      type: object
+      required: [episode_id, title, summary, final_takeaway]
+      properties:
+        episode_id:
+          type: string
+          description: snake_case (e.g., episode_01).
+        title:
+          type: string
+        summary:
+          type: string
+          description: >
+            Showrunner-facing narrative seed. Not rendered to students.
+            Names the hypothesis or unstable theory the episode pursues
+            and what disproves or complicates it.
+        final_takeaway:
+          type: string
+          description: Student-facing closing line for this episode.

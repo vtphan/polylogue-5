@@ -1,0 +1,234 @@
+# v5 lesson_package.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# pipeline/scripts/validate_lesson_package.py (to be implemented).
+#
+# The lesson package is the deterministic, app-facing teaching
+# artifact. It authors everything the quiz panel renders; the app does
+# no runtime inference.
+#
+# Each level corresponds to one approved anchor and carries the full
+# three-step quiz content (claim → judgment → why), with both
+# why_yes and why_no branches fully authored.
+#
+# Invariants:
+#   - levels are ordered by approved-anchor appearance in transcript.yaml
+#   - every level references a turn_id in transcript.yaml
+#   - anchor text is rendered by the app via turn_id → transcript.yaml
+#     lookup; the lesson package does not duplicate turn text
+#   - reasoning_item_id and polarity come from reference/
+#     reasoning-taxonomy.yaml via the approved anchor
+#   - levels: [] is allowed when the operator approved zero anchors
+#   - feedback.by_option values are plain strings keyed by wrong
+#     option_id; not nested objects
+
+type: object
+required:
+  - package_meta
+  - episode
+  - levels
+
+properties:
+  package_meta:
+    type: object
+    required: [story_id, episode_id, episode_number, schema_version]
+    properties:
+      story_id:
+        type: string
+      episode_id:
+        type: string
+      episode_number:
+        type: integer
+        minimum: 1
+      schema_version:
+        type: string
+
+  episode:
+    type: object
+    required: [title, summary, final_takeaway]
+    description: >
+      Episode-level chrome rendered before and after the transcript.
+      `previously` is required when episode_number > 1 and forbidden
+      on episode 1.
+    properties:
+      title:
+        type: string
+      summary:
+        type: string
+        description: >
+          Plain-language episode orientation shown before the
+          transcript. Soft cap ~60 words.
+      previously:
+        type: string
+        description: >
+          Short recap for episode 2+. Soft cap ~40 words.
+      final_takeaway:
+        type: string
+        description: Student-facing closing line shown after the transcript.
+
+  levels:
+    type: array
+    description: >
+      Variable-length teaching levels keyed to approved transcript
+      turn ids. One level per approved anchor. Order matches anchor
+      appearance in transcript.yaml. May be empty.
+    items:
+      type: object
+      required:
+        - level_id
+        - sequence_index
+        - turn_id
+        - reasoning_item_id
+        - polarity
+        - intended_claim
+        - step_1_claim
+        - step_2_judgment
+        - step_3
+        - takeaway
+      properties:
+        level_id:
+          type: string
+          description: Stable id within the package (e.g., l01).
+        sequence_index:
+          type: integer
+          minimum: 1
+
+        turn_id:
+          type: string
+          description: tNN; references a turn in transcript.yaml.
+
+        reasoning_item_id:
+          type: string
+          description: From reference/reasoning-taxonomy.yaml.
+        polarity:
+          type: string
+          enum: [weak, strong]
+        intended_claim:
+          type: string
+          description: >
+            Authored in reasoning-proposals.yaml; carried forward here
+            so the lesson package is self-contained for the app.
+
+        step_1_claim:
+          type: object
+          required: [prompt, options, feedback]
+          description: >
+            Claim-identification step. Per-choice feedback is required
+            because wrong readings of the claim are where most
+            student confusion compounds.
+          properties:
+            prompt:
+              type: string
+              description: >
+                Question wording, e.g., "What is this character trying
+                to get the others to believe?"
+            options:
+              type: array
+              items:
+                type: object
+                required: [option_id, text]
+                properties:
+                  option_id:
+                    type: string
+                  text:
+                    type: string
+            feedback:
+              $ref: "#/definitions/feedback"
+
+        step_2_judgment:
+          type: object
+          required: [prompt, options]
+          description: >
+            Buy / not-buy reflection. Two options with stable ids the
+            Step 3 branch switch relies on. No per-choice feedback by
+            default (light routing text allowed).
+          properties:
+            prompt:
+              type: string
+              description: >
+                Question wording, e.g., "Do you buy this character's
+                argument?"
+            options:
+              type: array
+              minItems: 2
+              maxItems: 2
+              items:
+                type: object
+                required: [option_id, text]
+                properties:
+                  option_id:
+                    type: string
+                    enum: [yes_strong, no_unsure]
+                  text:
+                    type: string
+            routing_text:
+              type: string
+              description: Optional light text shown on either choice.
+
+        step_3:
+          type: object
+          required: [why_yes, why_no]
+          description: >
+            Branch-specific reasoning step. Both branches are fully
+            authored; the app selects the matching branch from the
+            Step 2 answer (yes_strong → why_yes, no_unsure → why_no).
+          properties:
+            why_yes:
+              $ref: "#/definitions/branch"
+            why_no:
+              $ref: "#/definitions/branch"
+
+        hint:
+          type: string
+          description: Optional hint shown on demand at any step.
+
+        takeaway:
+          type: string
+          description: >
+            Level-level closing line shown after Step 3 feedback.
+            Reinforces the reasoning item being taught.
+
+definitions:
+  branch:
+    type: object
+    required: [prompt, options, feedback]
+    properties:
+      prompt:
+        type: string
+      options:
+        type: array
+        items:
+          type: object
+          required: [option_id, text]
+          properties:
+            option_id:
+              type: string
+            text:
+              type: string
+      feedback:
+        $ref: "#/definitions/feedback"
+
+  feedback:
+    type: object
+    required: [correct, by_option]
+    description: >
+      Grading contract used by the app. `correct.option_ids` lists
+      the valid correct answer(s) for this step. `by_option` maps
+      each wrong option_id to a plain-string feedback message.
+    properties:
+      correct:
+        type: object
+        required: [option_ids, text]
+        properties:
+          option_ids:
+            type: array
+            items:
+              type: string
+          text:
+            type: string
+      by_option:
+        type: object
+        description: >
+          Plain string per wrong option_id. Not nested objects.
+        additionalProperties:
+          type: string

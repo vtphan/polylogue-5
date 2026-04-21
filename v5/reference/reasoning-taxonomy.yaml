@@ -1,0 +1,76 @@
+# v5 reasoning taxonomy.
+#
+# Six reasoning items across three lenses. Each item carries a weak face and a
+# strong face of the same dimension. Every anchor in the pipeline resolves to
+# a (reasoning_item_id, polarity) pair from this file.
+#
+# Canonical IDs are snake_case. Student labels are middle-school readable
+# (grades 6-8). Definitions are one sentence each, phrased from the speaker's
+# perspective.
+#
+# Weak and strong faces are peers: strong reasoning is a recognizable move a
+# speaker can make, not the absence of a flaw.
+
+lenses:
+  - id: logic
+    description: Does the reasoning path hold up?
+  - id: evidence
+    description: Is the support offered enough and trustworthy?
+  - id: scope
+    description: Is the claim framed at the right size and under the right conditions?
+
+reasoning_items:
+
+  - id: conclusion_support
+    lens: logic
+    weak:
+      student_label: jumping to a conclusion
+      definition: The speaker moves from one observation or reason to a much bigger conclusion too quickly.
+    strong:
+      student_label: drawing a careful conclusion
+      definition: The speaker draws a conclusion that fits the size of the reasons they gave.
+
+  - id: correlation_vs_causation
+    lens: logic
+    weak:
+      student_label: treating a coincidence as a cause
+      definition: The speaker treats two things that happened together as if one must have caused the other, without checking.
+    strong:
+      student_label: telling a coincidence from a cause
+      definition: The speaker notices that two things can happen together without one causing the other, and checks before claiming a cause.
+
+  - id: evidence_sufficiency
+    lens: evidence
+    weak:
+      student_label: not enough evidence
+      definition: The speaker makes a claim without enough support for it.
+    strong:
+      student_label: enough relevant evidence
+      definition: The speaker brings enough support that actually fits the claim.
+
+  - id: source_credibility
+    lens: evidence
+    weak:
+      student_label: trusting a source too quickly
+      definition: The speaker treats a source as reliable without checking who it is or whether they would really know.
+    strong:
+      student_label: checking the source
+      definition: The speaker considers who is saying it and whether they have a good reason to know.
+
+  - id: perspective_consideration
+    lens: scope
+    weak:
+      student_label: ignoring another perspective
+      definition: The speaker does not consider another person's point of view, another explanation, or another possibility that matters.
+    strong:
+      student_label: considering another perspective
+      definition: The speaker brings in another person's point of view, another explanation, or another possibility that matters.
+
+  - id: conditions_and_consequences
+    lens: scope
+    weak:
+      student_label: missing important conditions or consequences
+      definition: The speaker leaves out when the claim would hold, or what might happen if they are wrong.
+    strong:
+      student_label: naming conditions or consequences
+      definition: The speaker notes when the claim holds, what it depends on, or what might follow from being wrong.

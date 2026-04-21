@@ -4,6 +4,21 @@
 
 > **Relationship to CLAUDE.md.** CLAUDE.md describes the current (simplified-framework or v4) version. This document describes v5 as the next version.  CLAUDE.md should not be viewed as holding ground truths and requirements that this document has to subscribe to.
 
+## Current Status (2026-04-20)
+
+v5 is in **design lock**. Phase 0 design decisions are substantially complete. No implementation (commands, agents, scripts, app) has started.
+
+**Design docs in place:**
+
+- [`README.md`](README.md) — orientation and doc index
+- [`docs/architecture.md`](docs/architecture.md) — five-layer data model, four-command / six-agent pipeline, invariants
+- [`docs/instructional-design.md`](docs/instructional-design.md) — pedagogy: story-design frame, detection, three-step quiz, student journey
+- [`docs/operator-workflow.md`](docs/operator-workflow.md) — operator-facing workflow and approval gates
+- [`reference/reasoning-taxonomy.yaml`](reference/reasoning-taxonomy.yaml) — six items × {weak, strong} across three lenses
+- [`schemas/`](schemas/) — six artifact shape contracts
+
+**Next implementation step:** translate the design into `pipeline/commands/*.md`, `pipeline/agents/*.md`, `pipeline/scripts/*.py`, and the `app/` runtime. See §Implementation Phases below.
+
 ## Executive Summary
 
 v4 (simplified-framework) improved workflow, artifact boundaries, and operator approval surfaces.
@@ -445,7 +460,19 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
 
 ## Immediate Next Steps
 
-1. Finish Phase 0 design decisions inside this document.
-2. Decide the minimum lesson-package shape change needed for the three-step quiz flow.
-3. Translate Section 1 and Section 2 into prompt-level guidance for upstream authoring and `script_doctor`.
-4. Decide which v5 outputs are docs-only and which require prompt, artifact, validator, or app changes.
+Phase 0 (design lock) is substantially complete. The remaining design-level items are minor and can be resolved during implementation drafting:
+
+- Finalize the precise relationship between `argument` (episode-plan.yaml) and `hypothesis_pursued` (showrunner-projection.yaml). Both are present in the schemas; the prompt for `showrunner` will need to say when they overlap and when they diverge.
+- Finalize the exact wording of Step 1 and Step 2 quiz prompts (open question in §3 below); final wording lives in the `lesson_package_builder` prompt.
+- Decide anchor-polarity mix per episode (§2 open questions): optional hint on episode-plan, or fully emergent from detection.
+
+Next is implementation, in this order:
+
+1. **Command prompts** — draft `/create_story`, `/create_episodes`, `/create_transcript`, `/create_lesson_package` under `pipeline/commands/`.
+2. **Agent prompts** — draft the six agents under `pipeline/agents/`. Each agent prompt derives its contract from the schemas, its pedagogy from `instructional-design.md`, and its pipeline role from `architecture.md`.
+3. **Validators** — port and rewrite `pipeline/scripts/validate_*.py` for the five artifact types.
+4. **Bootstrap** — port `initialize_polylogue.py` to sync v5 commands/agents into repo-root `.claude/`.
+5. **Pilot regeneration** — run the pipeline end-to-end on one pilot story (likely `the-white-squirrel`).
+6. **App updates** — adapt the simplified-framework Next.js app to render the three-step quiz with progressive reveal.
+
+Validation and tightening happen against the pilot, not against hypothetical coverage.

@@ -36,6 +36,10 @@ showrunner                         script_doctor     builder            reveal q
                                    structurer
 ```
 
+### Path convention
+
+All paths in this document are relative to the `v5/` directory at the repository root unless otherwise qualified. For example, `stories/{story_id}/story.yaml` refers to `v5/stories/{story_id}/story.yaml`. The six top-level subdirectories under `v5/` are `docs/`, `reference/`, `schemas/`, `pipeline/`, `stories/`, `artifacts/`, and `app/`. The full directory map is in §5.4.
+
 ### Glossary
 
 - **Lens** — broad family of reasoning concern: `logic`, `evidence`, `scope`.
@@ -75,7 +79,7 @@ Establishes what an episode is *about* and what reasoning opportunity it creates
 
 ### 2.2 Reference Layer
 
-**Artifact:** `v5/reference/reasoning-taxonomy.yaml` (to be drafted; forward contract below).
+**Artifact:** `reference/reasoning-taxonomy.yaml` (to be drafted; forward contract below).
 
 **Shape:** six reasoning items organized under three lenses. Each item carries a `weak` face and a `strong` face of the same dimension.
 
@@ -122,7 +126,7 @@ Identifies transcript turns that genuinely perform meaningful reasoning — weak
 **Per-anchor level shape (three-step quiz):**
 
 ```
-anchor_turn:          { speaker, text }    # final text (revised or original)
+turn_id                                    # references a turn in transcript.yaml
 reasoning_item_id, polarity
 intended_claim
 step_1_claim:         { prompt, options, feedback (correct + per-choice) }
@@ -133,6 +137,8 @@ step_3:
 hint:                 (optional)
 takeaway
 ```
+
+**Anchor text rendering.** The lesson package references the anchor by `turn_id`; the app resolves speaker and text via `transcript.yaml` lookup. Revised anchor wording (if any) lives in the transcript as applied text, so a single lookup returns the final form.
 
 **Authoring principle.** The app does no runtime inference. Every option, branch, and feedback string is pre-authored. Step 3's branch is selected by Step 2's answer — a constant lookup, not a decision.
 
@@ -264,7 +270,7 @@ Six specialized agents. Each has a narrow scope and explicit reference-file acce
 
 These properties hold across all stages of v5. They are load-bearing.
 
-1. **The taxonomy is the single pivot.** Every anchor in the system — proposal, post-doctor application, lesson level — resolves to a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`. No ad-hoc labels.
+1. **The taxonomy is the single pivot.** Every anchor in the system — proposal, post-doctor application, lesson level — resolves to a `(reasoning_item_id, polarity)` pair from `reference/reasoning-taxonomy.yaml`. No ad-hoc labels.
 
 2. **Transcript stays polarity-free.** `transcript.yaml` is source dialogue for reader-facing rendering. Reasoning classification and revised anchor wording live on `reasoning-proposals.yaml`. The lesson package is what binds them.
 
@@ -286,7 +292,7 @@ These properties hold across all stages of v5. They are load-bearing.
 
 ### 5.1 Validators
 
-All under `v5/pipeline/scripts/`. Pure Python + PyYAML, no external deps.
+All under `pipeline/scripts/`. Pure Python + PyYAML, no external deps.
 
 | Script | Validates |
 |---|---|
@@ -298,7 +304,7 @@ All under `v5/pipeline/scripts/`. Pure Python + PyYAML, no external deps.
 
 ### 5.2 Schemas
 
-All under `v5/schemas/`. Descriptive YAML contracts.
+All under `schemas/`. Descriptive YAML contracts.
 
 - `story.yaml`
 - `episode-plan.yaml`
@@ -309,7 +315,7 @@ All under `v5/schemas/`. Descriptive YAML contracts.
 
 ### 5.3 Bootstrap
 
-`v5/pipeline/scripts/initialize_polylogue.py` syncs `v5/pipeline/commands/` and `v5/pipeline/agents/` into repo-root `.claude/commands/` and `.claude/agents/`. Clears and replaces — does not merge. Operators run this once after checking out a v5 version that changed command or agent definitions.
+`pipeline/scripts/initialize_polylogue.py` syncs `pipeline/commands/` and `pipeline/agents/` into repo-root `.claude/commands/` and `.claude/agents/`. Clears and replaces — does not merge. Operators run this once after checking out a v5 version that changed command or agent definitions.
 
 ### 5.4 Directory Map
 
@@ -368,7 +374,7 @@ v5/
 
 ## 6. Phasing and Open Questions
 
-Phasing, immediate next steps, and open design questions live in `v5/todo-01.md`. This document describes what v5 *is*; `todo-01.md` describes how the team gets there.
+Phasing, immediate next steps, and open design questions live in `todo-01.md` (sibling to this file's parent — `v5/todo-01.md`). This document describes what v5 *is*; `todo-01.md` describes how the team gets there.
 
 Cross-references:
 

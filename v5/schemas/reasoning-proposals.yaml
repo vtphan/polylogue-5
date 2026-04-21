@@ -1,0 +1,182 @@
+# v5 reasoning-proposals.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# pipeline/scripts/validate_reasoning_proposals.py (to be implemented).
+#
+# reasoning-proposals.yaml is the review surface produced by
+# script_doctor after an operator-approved raw draft. It replaces
+# v4's flaw-proposals.yaml with a unified per-anchor record and a
+# peer-parity polarity model (weak / strong).
+#
+# Per proposal, script_doctor persists:
+#
+#   - a pointer to the source turn in the raw draft
+#   - a (reasoning_item_id, polarity) classification from
+#     reference/reasoning-taxonomy.yaml
+#   - the speaker's intended claim (articulated, not inferred at render)
+#   - optional revised_text when the anchor turn needed sharpening so
+#     reasoning quality is audible in the line itself
+#   - a five-criterion justification confirming the turn satisfies the
+#     selection rules in instructional-design.md §4.1
+#
+# approved_anchors[] is the operator-approved subset that becomes
+# lesson levels. It may be empty if the operator approves zero anchors.
+#
+# Invariants:
+#   - transcript.yaml stays polarity-free; this file carries the
+#     reasoning classification
+#   - revised_text, when present, is applied into transcript.post-
+#     doctor.yaml and flows into transcript.yaml; the transcript file
+#     itself never carries polarity labels
+#   - script_doctor only revises turns it selects as anchors
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - source_draft
+  - status
+  - proposals
+  - approved_anchors
+  - revision_history
+
+properties:
+  story_id:
+    type: string
+
+  episode_id:
+    type: string
+
+  source_draft:
+    type: string
+    description: >
+      Path to the approved raw draft this proposal set was produced from
+      (e.g., "transcript.raw.yaml" or a repo-relative path).
+
+  status:
+    type: string
+    enum: [pending_review, approved, needs_revision]
+    description: >
+      Operator-review state within the current run. Used as an in-run
+      audit marker; v5 does not dispatch on it across sessions.
+
+  proposals:
+    type: array
+    description: >
+      Anchor candidates identified by script_doctor. Each candidate is
+      self-contained: it names its source turn, classifies the reasoning
+      move, articulates the intended claim, optionally provides revised
+      wording, and records the five-criterion justification.
+    items:
+      type: object
+      required:
+        - proposal_id
+        - source_turn_id
+        - reasoning_item_id
+        - polarity
+        - intended_claim
+        - criteria_justification
+      properties:
+        proposal_id:
+          type: string
+          description: Stable id within the proposal set (e.g., p01).
+        source_turn_id:
+          type: string
+          description: tNN; must reference a turn in source_draft.
+        reasoning_item_id:
+          type: string
+          description: >
+            Canonical reasoning item id from
+            reference/reasoning-taxonomy.yaml.
+        polarity:
+          type: string
+          enum: [weak, strong]
+        intended_claim:
+          type: string
+          description: >
+            What the speaker is trying to get others to believe or do,
+            as articulated by script_doctor. Must be specific enough
+            to author into the Step 1 quiz.
+        revised_text:
+          type: string
+          description: >
+            Optional. Sharpened wording for the anchor turn so reasoning
+            quality is audible in the line itself. When present, the
+            operator reviews the revision as part of proposal approval.
+            Non-anchor turns are never revised.
+        criteria_justification:
+          type: object
+          required:
+            - argumentative
+            - not_expressive
+            - claim_clear
+            - reasoning_audible
+            - taxonomy_fit
+          description: >
+            One short justification string per selection criterion from
+            instructional-design.md §4.1.
+          properties:
+            argumentative:
+              type: string
+              description: Why the turn is doing argumentative work.
+            not_expressive:
+              type: string
+              description: Why it is not merely expressive language.
+            claim_clear:
+              type: string
+              description: What the speaker's claim is.
+            reasoning_audible:
+              type: string
+              description: >
+                Why the reasoning quality is audible in the line — or,
+                if revised_text is present, why the revision makes it so.
+            taxonomy_fit:
+              type: string
+              description: Why this turn maps to reasoning_item_id/polarity.
+        rationale:
+          type: string
+          description: Optional plain-language explanatory note.
+
+  approved_anchors:
+    type: array
+    description: >
+      Operator-approved lesson-anchor set. Consumed later by
+      /create_lesson_package. May be empty when the operator approves
+      zero anchors.
+    items:
+      type: object
+      required:
+        - turn_id
+        - reasoning_item_id
+        - polarity
+        - intended_claim
+      properties:
+        turn_id:
+          type: string
+        reasoning_item_id:
+          type: string
+        polarity:
+          type: string
+          enum: [weak, strong]
+        intended_claim:
+          type: string
+        source_proposal_id:
+          type: string
+          description: Optional provenance pointer into proposals[].
+
+  revision_history:
+    type: array
+    description: >
+      One entry per operator-review round. Records feedback and
+      revision note in plain language.
+    items:
+      type: object
+      required: [round, feedback_summary, revision_note]
+      properties:
+        round:
+          type: integer
+          minimum: 1
+        feedback_summary:
+          type: string
+        revision_note:
+          type: string

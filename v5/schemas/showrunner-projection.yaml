@@ -1,0 +1,88 @@
+# v5 showrunner-projection.yaml schema sketch — human reference only.
+#
+# The projection is an intermediate brief produced by the showrunner
+# alongside each episode plan. It is the sole content-bearing brief
+# passed to staff_writer for raw-transcript drafting.
+#
+# The projection differs from episode-plan.yaml by being writer-facing:
+# - it omits instructional vocabulary (lenses, episode_goal,
+#   student_takeaway) that the writer does not need
+# - it carries plot mechanics (hypothesis_pursued, disproof_event,
+#   running threads, plot obligations)
+# - it carries the persuasive argument thread so the writer can build
+#   the scene around it
+#
+# There is no dedicated validator for this file; shape is checked
+# structurally by a shared helper when needed.
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - title
+  - narrative_synopsis
+  - argument
+  - hypothesis_pursued
+  - disproof_event
+  - character_beats
+  - running_threads
+  - plot_obligations
+
+properties:
+  story_id:
+    type: string
+
+  episode_id:
+    type: string
+
+  title:
+    type: string
+
+  narrative_synopsis:
+    type: string
+    description: >
+      Episode goal rewritten in plot and texture terms only. Plain
+      story voice — no flaw/lens vocabulary.
+
+  argument:
+    type: string
+    description: >
+      The persuasive thread: what one character is trying to get
+      others to believe or do. Carried forward from episode-plan.yaml
+      so staff_writer can build the scene around it.
+
+  hypothesis_pursued:
+    type: string
+    description: >
+      The wrong explanation the group anchors on in this episode,
+      phrased as a story belief (e.g., "it has to be the water").
+
+  disproof_event:
+    type: string
+    description: The visible beat that wobbles or disproves the hypothesis.
+
+  character_beats:
+    type: array
+    description: >
+      Voice, prop, physicality, and arc notes per character — in
+      story terms, not flaw terms.
+    items:
+      type: object
+      required: [character_id, beat]
+      properties:
+        character_id:
+          type: string
+        beat:
+          type: string
+
+  running_threads:
+    type: array
+    description: Story-level threads this episode must plant or pay off.
+    items:
+      type: string
+
+  plot_obligations:
+    type: array
+    description: Must-happen beats phrased in story terms.
+    items:
+      type: string
