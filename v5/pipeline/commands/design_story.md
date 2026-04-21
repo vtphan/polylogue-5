@@ -56,12 +56,26 @@ All student-facing text — `premise`, `episode_synopsis`, `final_takeaway` — 
 
 ### Reading-time heuristic
 
-6th-grade silent reading averages ~150 words per minute. A useful target for staff_writer later:
+6th-grade silent reading averages ~150 words per minute. At Phase D serialize time, each episode's `reading_time_minutes` is converted into a `word_count_range` stored in the episode block as a drafting guideline for staff_writer:
 
-- 8 minutes ≈ 1200 words → ~40 turns at ~30 words each
-- 10 minutes ≈ 1500 words → ~50 turns at ~30 words each
+```
+word_count_range.min = (reading_time_minutes - 1) × 150
+word_count_range.max = (reading_time_minutes + 1) × 150
+```
 
-Roughly **4–5 turns per target minute**. Help the operator set `reading_time_minutes` values that make sense for the scope of each episode's synopsis.
+±1 minute tolerance, so ~300 words of slack on either side of the minute target.
+
+Examples:
+
+- 7-minute episode → `word_count_range: { min: 900, max: 1200 }`
+- 8-minute episode → `word_count_range: { min: 1050, max: 1350 }`
+- 10-minute episode → `word_count_range: { min: 1350, max: 1650 }`
+
+Word count sums the `text` field of every turn (narrator + character dialogue). Chrome like speaker names, turn ids, and scene summaries is not counted.
+
+**The range is a guideline, not a hard constraint.** Validators do not enforce actual transcript word counts against the range. Good dialogue with strong story momentum takes precedence over landing exactly in range — staff_writer targets the range, but operator review at the raw-draft gate is where length is judged.
+
+Rough turn-count intuition: ~30 words per turn means roughly **4–5 turns per target minute**, so an 8-minute episode is around 40 turns. Use this when helping the operator set `reading_time_minutes` values that make sense for the scope of each episode's synopsis.
 
 ### Narrator convention
 
@@ -121,10 +135,11 @@ Present the findings. Let the operator accept, revise, or override.
 
 Once approved:
 
-1. Write `v5/stories/{story_id}/story.yaml`.
-2. Run `python3 v5/pipeline/scripts/validate_story.py <path>`.
-3. If validation fails, report and loop back — do not write the review artifact on an invalid story.
-4. If validation passes, write `v5/stories/{story_id}/story-design-review.md` with the Phase D findings and operator sign-off.
+1. For each episode, compute `word_count_range` from `reading_time_minutes` per the heuristic above and include it in the serialized episode block.
+2. Write `v5/stories/{story_id}/story.yaml`.
+3. Run `python3 v5/pipeline/scripts/validate_story.py <path>`.
+4. If validation fails, report and loop back — do not write the review artifact on an invalid story.
+5. If validation passes, write `v5/stories/{story_id}/story-design-review.md` with the Phase D findings and operator sign-off.
 
 ### Story-design-review.md format
 

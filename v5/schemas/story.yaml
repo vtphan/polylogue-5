@@ -79,6 +79,7 @@ properties:
         - title
         - episode_synopsis
         - reading_time_minutes
+        - word_count_range
         - final_takeaway
       properties:
         episode_id:
@@ -104,9 +105,32 @@ properties:
           maximum: 12
           description: >
             Operator-set target read length for an average 6th-grader.
-            Heuristic: ~4–5 turns per target minute at ~30 words per
-            turn. Treat as a target for staff_writer, not a hard
-            contract; validators may warn on large drift.
+            Operator commits to a scalar here; /design_story derives
+            word_count_range from it at serialize time and stores that
+            range as staff_writer's drafting guideline.
+        word_count_range:
+          type: object
+          required: [min, max]
+          description: >
+            Drafting guideline for staff_writer, derived from
+            reading_time_minutes at /design_story serialize time
+            using 150 WPM silent reading and ±1 minute tolerance:
+            min = (reading_time_minutes - 1) × 150,
+            max = (reading_time_minutes + 1) × 150.
+            Guideline only — validators do not enforce actual
+            transcript word counts against this range. Good dialogue
+            with strong story momentum takes precedence over landing
+            exactly in range. Word count for the eventual transcript
+            sums the `text` field of every turn (narrator + character
+            dialogue) — chrome like speaker names and turn ids is not
+            counted.
+          properties:
+            min:
+              type: integer
+              minimum: 1
+            max:
+              type: integer
+              minimum: 1
         final_takeaway:
           type: string
           description: >

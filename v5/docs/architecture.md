@@ -66,20 +66,20 @@ Establishes the world, the characters, and what each episode is *about*. Authori
 
 **Artifacts:**
 
-- `stories/{story_id}/story.yaml` — the sole story-design artifact. Carries story-level design (premise, characters with voice hooks) and an ordered list of per-episode blocks. Each episode block holds the operator's commitments: `episode_id`, `title`, `episode_synopsis`, `reading_time_minutes`, `final_takeaway`. See `schemas/story.yaml`.
+- `stories/{story_id}/story.yaml` — the sole story-design artifact. Carries story-level design (premise, characters with voice hooks) and an ordered list of per-episode blocks. Each episode block holds the operator's commitments: `episode_id`, `title`, `episode_synopsis`, `reading_time_minutes`, `final_takeaway`, plus `word_count_range` (derived from `reading_time_minutes` at serialize time; see below). See `schemas/story.yaml`.
 - `stories/{story_id}/story-design-review.md` — Phase D operator approval artifact. Transcript drafting may not start until `Status: approved` is present.
 
 There is no separate episode-plan.yaml and no showrunner-projection.yaml. Episode design is authored into the `episodes[]` array of `story.yaml` during `/design_story` Phase C; `/create_transcript` reads `story.yaml` and selects the target episode block by id.
 
-**Lean-schema discipline.** Each episode block holds four required fields (plus `episode_id` and `title`). Fields that tempted mechanical checklist authoring in v4 — per-episode flaw labels, lens declarations, plot-obligation lists, hypothesis labels, character beats — were intentionally trimmed. The discipline those fields once enforced now lives in the `/design_story` command doctrine and in the interactive conversation with the operator.
+**Lean-schema discipline.** Each episode block holds three operator-authored fields (`episode_synopsis`, `reading_time_minutes`, `final_takeaway`) in addition to `episode_id` and `title`. `word_count_range` is derived from `reading_time_minutes` by the orchestrator at serialize time (150 WPM × ±1 minute tolerance) and stored as staff_writer's drafting guideline — the operator does not author it directly. Fields that tempted mechanical checklist authoring in v4 — per-episode flaw labels, lens declarations, plot-obligation lists, hypothesis labels, character beats — were intentionally trimmed. The discipline those fields once enforced now lives in the `/design_story` command doctrine and in the interactive conversation with the operator.
 
-**Audience-fit constraint.** Student-facing text in `story.yaml` — `premise` and `final_takeaway` — is authored at 6th-grade reading level and rendered directly in the app. The `episode_synopsis`, though staff_writer-facing and never shown to students, is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Scene summaries in `transcript.yaml` (authored by `transcript_structurer`) and the episode summary and `previously` recap in `lesson_package.yaml` (authored by `lesson_package_builder`) are also student-facing and inherit the 6th-grade pitch. Enforcement is upstream at `/design_story` Phase D; downstream stages do not re-check per turn.
+**Audience-fit constraint.** Student-facing text in `story.yaml` — `premise` and `final_takeaway` — is authored at 6th-grade reading level and rendered directly in the app. Story `title` and per-episode `title` are also student-facing (they render on selection screens and in scene chrome) and are held to a lighter bar: no adult-specialized vocabulary and no curriculum-label wording (for example, "Confirmation bias, pt. 1") — creative flair and in-world references are permitted. The `episode_synopsis`, though staff_writer-facing and never shown to students, is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Scene summaries in `transcript.yaml` (authored by `transcript_structurer`) and the episode summary and `previously` recap in `lesson_package.yaml` (authored by `lesson_package_builder`) are also student-facing and inherit the 6th-grade pitch. Enforcement is upstream at `/design_story` Phase D; downstream stages do not re-check per turn.
 
 **Persuasive-thread discipline.** Every `episode_synopsis` must embed a persuasive thread — one character actively promoting an argument, intention, or position that others can examine, push back on, or extend. Without this pressure, reasoning stays latent and teaching anchors have to be manufactured after the fact. This is enforced conversationally during Phase C; it is not a schema field.
 
 ### 2.2 Reference Layer
 
-**Artifact:** `reference/reasoning-taxonomy.yaml` (to be drafted; forward contract below).
+**Artifact:** `reference/reasoning-taxonomy.yaml`.
 
 **Shape:** six reasoning items organized under three lenses. Each item carries a `weak` face and a `strong` face of the same dimension.
 
@@ -97,14 +97,14 @@ Identifies transcript turns that genuinely perform meaningful reasoning — weak
 
 **Artifacts (in stage order):**
 
-- `artifacts/{sid}/{eid}/transcript.raw.yaml` — flat ordered turn list drafted by `staff_writer` from `story.yaml`. Source dialogue; no reasoning labels. Turns may use the literal string `narrator` as speaker for scene-setting and cohesion; most turns are character dialogue.
+- `artifacts/{sid}/{eid}/transcript.raw.yaml` — flat ordered turn list drafted by `staff_writer` from `story.yaml`, targeting the target episode's `word_count_range` as a soft length guideline. Source dialogue; no reasoning labels. Turns may use the literal string `narrator` as speaker for scene-setting and cohesion; most turns are character dialogue.
 - `artifacts/{sid}/{eid}/reasoning-proposals.yaml` — anchor proposals from `script_doctor`. Per proposal:
   - `source_turn_ref` — pointer into the raw draft
   - `reasoning_item_id` and `polarity`
   - `intended_claim` — articulated by `script_doctor`
   - `revised_text` (optional) — sharpened wording when the anchor turn needs revision
   - five-criterion justification (argumentative / not-expressive / claim-clear / reasoning-audible / taxonomy-fit)
-- `artifacts/{sid}/{eid}/transcript.post-doctor.yaml` — raw draft with operator-approved revisions applied in-place (still flat turn list, with proposal provenance).
+- `artifacts/{sid}/{eid}/transcript.post-doctor.yaml` — raw draft with operator-approved revisions applied in-place. Same flat-turn-list shape as the raw draft; turns whose text was revised additionally carry `original_text` (the pre-revision wording from the raw draft) and `source_proposal_id` (pointer into `reasoning-proposals.yaml`). Non-revised turns are byte-identical to their raw counterparts. Shape contract: `schemas/transcript-intermediate.yaml`, shared with the raw draft.
 - `artifacts/{sid}/{eid}/transcript.yaml` — final app-facing transcript: segmented into 3+ scenes with summaries, produced by `transcript_structurer`.
 
 **Speaker convention.** Character turns use the `character_id` from `story.yaml`'s `characters[]` roster as the `speaker` field. Narrator turns use the literal string `narrator`, which is not registered in the `characters[]` roster — the narrator is a voice, not a character. Turn ids follow the pattern `tNN` (`t01`, `t02`, ...) and are preserved verbatim across raw → post-doctor → final passes.
@@ -115,7 +115,7 @@ Identifies transcript turns that genuinely perform meaningful reasoning — weak
 
 1. The turn is doing argumentative work.
 2. The turn is not merely expressive language (hype, humor, exaggeration).
-3. The speaker's claim or intention is clear enough to state.
+3. The speaker's claim or intention is clear enough to state — it may be implied rather than literally stated in the line.
 4. The reasoning quality is strongly expressed in the line itself — or `script_doctor` revises it until it is.
 5. The turn maps to a specific `(reasoning_item_id, polarity)` pair.
 
@@ -146,6 +146,8 @@ takeaway
 
 **Authoring principle.** The app does no runtime inference. Every option, branch, and feedback string is pre-authored. Step 3's branch is selected by Step 2's answer — a constant lookup, not a decision. Step 2 may carry light `routing_text` (one sentence framing either choice) but does not have correctness feedback; the judgment is a reflection prompt, not a right/wrong test.
 
+**Claim-identification binding.** Step 1's correct option is a close paraphrase of the anchor's `intended_claim`; distractors are plausible but distinct readings of the turn. This binds detection's claim articulation to the student-facing quiz — see Invariant §4.11.
+
 ### 2.5 App Layer
 
 The student-facing app is a Next.js + React + TypeScript runtime with SQLite + Prisma. v5 changes only the quiz panel's internal behavior; the scene-reader flow, progress model, and engagement rules are otherwise unchanged.
@@ -168,7 +170,7 @@ show anchor turn
 - **Grading uses `feedback.correct.option_ids`**, not a scalar `best_answer_id`.
 - **Finished is not frozen.** `reading_finished_at` marks the milestone, but a finished run remains open for untried quizzes and review. There is no "locked" state after completion.
 
-**Engagement rules.** Episode-local stars plus a single bonus star. No streaks, timers, leaderboards, cumulative totals, or public rankings.
+**Engagement rules.** Episode-local stars only. No bonus stars, streaks, timers, leaderboards, cumulative totals, or public rankings.
 
 ---
 
@@ -184,7 +186,7 @@ Three commands. Each is human-in-the-loop. On entry, each command identifies the
 - **Reads:** operator conversation, `reference/reasoning-taxonomy.yaml`, `schemas/story.yaml`, `docs/instructional-design.md`
 - **Handled by:** main orchestrator directly (no subagent)
 - **Output:** a single story.yaml carrying story-level design and all per-episode blocks, plus a story-design-review.md capturing Phase D findings and operator sign-off.
-- **Approval gate (Phase D):** operator approves lens coverage, persuasive threads per episode, audience fit, and reading-time sanity. `Status: approved` in the review file is the load-bearing signal `/create_transcript` checks.
+- **Approval gate (Phase D):** operator approves lens coverage, persuasive threads per episode, audience fit, reading-time sanity, and the revisited premise wording. `Status: approved` in the review file is the load-bearing signal `/create_transcript` checks.
 - **Validator:** `validate_story.py`
 
 Phases (see `pipeline/commands/design_story.md` for the full doctrine):
@@ -192,7 +194,7 @@ Phases (see `pipeline/commands/design_story.md` for the full doctrine):
 - **Phase A** — world and voice: premise, characters with voice hooks
 - **Phase B** — arc: episode map with narrative seeds
 - **Phase C** — per-episode co-design: synopsis, reading time, final takeaway (with persuasive-thread and audience-fit discipline)
-- **Phase D** — review and serialize: lens-coverage check, persuasive-thread check, audience-fit check, reading-time sanity, validator pass, sign-off
+- **Phase D** — review and serialize: lens-coverage check, persuasive-thread check, audience-fit check, reading-time sanity, premise revisit (tighten the Phase A premise now that the episode arc is known), validator pass, sign-off
 
 #### `/create_transcript`
 
@@ -235,7 +237,7 @@ Four specialized subagents. The main orchestrator handles `/design_story` direct
 
 **Key responsibilities:**
 
-- **`staff_writer`** — drafts raw dialogue from the target episode block in `story.yaml`, with the full story available for cross-episode context (character voice, earlier plants, later payoffs). Picks up the persuasive thread from the episode_synopsis prose. Never reads the taxonomy. Permitted to use a lightweight `narrator` speaker for scene-setting and cohesion; most turns are character dialogue.
+- **`staff_writer`** — drafts raw dialogue from the target episode block in `story.yaml`, with the full story available for cross-episode context (character voice, earlier plants, later payoffs). Picks up the persuasive thread from the episode_synopsis prose. Drafts toward the target episode's `word_count_range` as a soft guideline — strong story momentum takes precedence over exact length. Never reads the taxonomy. Permitted to use a lightweight `narrator` speaker for scene-setting and cohesion; most turns are character dialogue.
 - **`script_doctor`** — identifies anchor candidates via the five criteria, articulates the `intended_claim`, classifies each as `(reasoning_item_id, polarity)`, and may revise anchor wording when reasoning quality is not audible in the line itself. Applies approved proposals to produce the post-doctor draft.
 - **`transcript_structurer`** — segments the post-doctor draft into scenes with summaries. Preserves all `turn_id`s and revised anchor wording without modification.
 - **`lesson_package_builder`** — authors the three-step quiz per approved anchor: claim question, judgment question, both why branches, per-choice feedback, optional hint, takeaway.
@@ -292,7 +294,9 @@ These properties hold across all stages of v5. They are load-bearing.
 
 9. **Finished is not frozen.** A finished episode run remains open for retry of untried quizzes and review. No locked state after completion.
 
-10. **Engagement is restrained.** Episode-local stars plus one bonus star. No streaks, timers, leaderboards, cumulative totals, or public rankings.
+10. **Engagement is restrained.** Episode-local stars only. No bonus stars, streaks, timers, leaderboards, cumulative totals, or public rankings.
+
+11. **Claim-identification binding.** On every teaching level, Step 1's correct option is a close paraphrase of the anchor's `intended_claim` as approved in `reasoning-proposals.yaml`; distractors are plausible but distinct readings of the turn. This is the load-bearing link between detection's claim articulation and the student-facing quiz — without it, `intended_claim` becomes decorative and Step 1 drifts away from the reading the operator approved.
 
 ---
 
@@ -316,6 +320,7 @@ All under `pipeline/scripts/`. Pure Python + PyYAML, no external deps.
 All under `schemas/`. Descriptive YAML contracts.
 
 - `story.yaml`
+- `transcript-intermediate.yaml` (shared by `transcript.raw.yaml` and `transcript.post-doctor.yaml`)
 - `transcript.yaml`
 - `reasoning-proposals.yaml`
 - `lesson_package.yaml`
@@ -336,6 +341,7 @@ v5/
     reasoning-taxonomy.yaml
   schemas/
     story.yaml
+    transcript-intermediate.yaml
     transcript.yaml
     reasoning-proposals.yaml
     lesson_package.yaml
@@ -379,5 +385,4 @@ Phasing, immediate next steps, and open design questions live in `todo-01.md` (s
 
 Cross-references:
 
-- §2.2 Reference Layer — `reasoning-taxonomy.yaml` drafting is deferred; the file shape sketched here is the forward contract.
 - §2.4 Teaching Layer — per-step vs. per-panel scoring for the three-step quiz is deferred to pilot regeneration.

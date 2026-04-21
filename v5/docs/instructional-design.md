@@ -54,12 +54,13 @@ Episodes should be designed so reasoning worth teaching about emerges naturally 
 
 ### 3.1 The frame
 
-Each episode is authored as a block inside `story.yaml`, with four required fields:
+Each episode is authored as a block inside `story.yaml`. The operator authors three fields per episode:
 
 - **`episode_synopsis`** — one paragraph of story-voice prose describing what the episode is about. Carries the persuasive thread, plot beats, and episode-specific character action.
-- **`reading_time_minutes`** — operator-set target read length for an average 6th-grader.
+- **`reading_time_minutes`** — operator-set target read length for an average 6th-grader. Range 6–12 minutes, with 8–10 minutes as the typical target. `/design_story` converts the minute target into a concrete `word_count_range` (at 150 WPM silent reading with ±1 minute tolerance) and stores that range on the episode block as staff_writer's drafting guideline. The range is a guideline, not a hard rule — strong story momentum takes precedence over exact length.
 - **`final_takeaway`** — the student-facing closing line for this episode.
-- plus `episode_id` and `title`.
+
+Plus `episode_id` and `title` as identifiers.
 
 The `episode_synopsis` is the load-bearing field. It must embed the **persuasive thread** — one character actively trying to get others to believe or do something. Without this pressure, reasoning stays latent and anchors have to be manufactured after the fact.
 
@@ -73,7 +74,7 @@ An episode may foreground one lens, combine two, or use all three. That balance 
 
 ### 3.3 Audience appropriateness
 
-Student-facing text in `story.yaml` — `premise` and `final_takeaway` — is pitched to a 6th-grade reader. The `episode_synopsis`, though staff_writer-facing and never shown to students, is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Subject matter lives inside a middle-schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate jargon, academic framing) are out of bounds unless the story introduces them explicitly in-scene.
+Student-facing text in `story.yaml` — `premise` and `final_takeaway` — is pitched to a 6th-grade reader. Story `title` and per-episode `title` also render to students (selection screens, scene chrome) and are held to a lighter bar: no adult-specialized vocabulary and no curriculum-label wording (for example, "Confirmation bias, pt. 1"); creative flair and in-world references are permitted. The `episode_synopsis`, though staff_writer-facing and never shown to students, is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Subject matter lives inside a middle-schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate jargon, academic framing) are out of bounds unless the story introduces them explicitly in-scene.
 
 Scene summaries in `transcript.yaml` and the episode summary and `previously` recap in `lesson_package.yaml` are also student-facing and inherit the 6th-grade pitch, authored by `transcript_structurer` and `lesson_package_builder` respectively.
 
@@ -175,7 +176,7 @@ Staging the quiz as claim → judgment → why:
 
 ### 5.3 Parity across polarities
 
-The same three-step structure applies to both weak and strong anchors. In the strong case, Step 2 resolves to "Yes, this is a strong argument" and Step 3 asks what makes it strong. In the weak case, Step 2 resolves to "No" and Step 3 asks why it falls short. Branches differ; the scaffold does not.
+The same three-step structure applies to both weak and strong anchors. Step 2 offers the same two options (`yes_strong` / `no_unsure`) regardless of anchor polarity, and the student freely chooses either — the judgment is a reflection prompt, not a correctness test. The chosen option selects the matching Step 3 branch (`yes_strong` → `why_yes`, `no_unsure` → `why_no`). Both branches are fully authored for every anchor, so weak and strong anchors surface the same decision surface; what differs is the reasoning the student is invited to articulate once they commit. Branches differ; the scaffold does not.
 
 ### 5.4 Feedback policy
 
@@ -227,14 +228,13 @@ A student reads an episode in one sitting. The flow is:
 Polylogue uses restrained engagement mechanics only:
 
 - episode-local stars for level completion
-- a single bonus star per episode
-- no streaks, timers, leaderboards, cumulative totals, or public rankings
+- no bonus stars, streaks, timers, leaderboards, cumulative totals, or public rankings
 
 The goal is for the student to feel the story, not to chase points.
 
 ### 6.2 Finished is not frozen
 
-An episode becomes "finished" when the student reaches the final scene, not when they perfect every quiz. Students can return to a finished episode to retry quiz levels they skipped or got wrong. There is no time pressure and no "you failed" state.
+An episode becomes "finished" when the student reaches the final scene, not when they perfect every quiz. Students can return to an episode for reading. They can complete quizzes they have not completed yet. There is no time pressure and no "you failed" state.
 
 ## 7. Authoring Principles
 

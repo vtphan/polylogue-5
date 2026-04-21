@@ -1,0 +1,106 @@
+# v5 transcript-intermediate.yaml schema sketch — human reference only.
+#
+# Canonical structural rules live in
+# pipeline/scripts/validate_transcript.py (to be implemented; may
+# dispatch on the presence of revision fields, or be split into two
+# thin wrappers).
+#
+# Covers the two intermediate transcript forms produced inside
+# /create_transcript:
+#
+#   - transcript.raw.yaml         (staff_writer output)
+#   - transcript.post-doctor.yaml (script_doctor output after applying
+#                                  operator-approved revisions)
+#
+# Both share the same shape: a flat, ordered list of turns at the top
+# level. Neither carries scenes — scene segmentation is
+# transcript_structurer's job and lands in transcript.yaml.
+#
+# Neither carries reasoning labels or polarity. Reasoning
+# classification lives on reasoning-proposals.yaml throughout the
+# pipeline.
+#
+# The only difference between raw and post-doctor is per-turn revision
+# metadata:
+#
+#   - On transcript.raw.yaml, no turn carries `original_text` or
+#     `source_proposal_id`.
+#   - On transcript.post-doctor.yaml, turns whose text was revised by
+#     script_doctor carry both fields: `original_text` preserves the
+#     raw wording, `source_proposal_id` points into
+#     reasoning-proposals.yaml proposals[].proposal_id. Non-revised
+#     turns are byte-identical to their raw counterparts and carry
+#     neither field.
+#
+# This per-turn provenance is what lets the post-doctor spot-check
+# reviewer see each revision in context without cross-referencing
+# reasoning-proposals.yaml.
+#
+# Turn ids follow the tNN pattern (t01, t02, ...) and are preserved
+# verbatim from raw → post-doctor → final transcript. script_doctor
+# may revise the text of a turn it selects as an anchor; it never
+# renumbers, adds, removes, or reorders turns.
+#
+# Narrator convention matches transcript.yaml: `speaker` is a free
+# string; the literal value `narrator` is permitted for scene-setting
+# and cohesion turns.
+
+type: object
+required:
+  - story_id
+  - episode_id
+  - title
+  - turns
+
+properties:
+  story_id:
+    type: string
+
+  episode_id:
+    type: string
+
+  title:
+    type: string
+
+  turns:
+    type: array
+    description: >
+      Flat, ordered list of turns. Order is preserved across raw →
+      post-doctor → final passes.
+    items:
+      type: object
+      required: [turn_id, speaker, text]
+      properties:
+        turn_id:
+          type: string
+          description: >
+            tNN; globally unique within the transcript and preserved
+            verbatim across all intermediate and final forms.
+        speaker:
+          type: string
+          description: >
+            character_id from story.yaml's characters[] roster, or the
+            literal string `narrator` for scene-setting turns.
+        text:
+          type: string
+          description: >
+            Current turn text. On transcript.raw.yaml, this is
+            staff_writer's original wording. On transcript.post-
+            doctor.yaml, this is the revised wording for any anchor
+            turn script_doctor sharpened, or the unchanged raw wording
+            for every other turn.
+        original_text:
+          type: string
+          description: >
+            Present only on revised turns in transcript.post-
+            doctor.yaml. Carries the pre-revision wording from
+            transcript.raw.yaml so the spot-check reviewer can see the
+            diff inline. Absent on non-revised turns; absent throughout
+            transcript.raw.yaml.
+        source_proposal_id:
+          type: string
+          description: >
+            Present only on revised turns in transcript.post-
+            doctor.yaml. Points into reasoning-proposals.yaml
+            proposals[].proposal_id. Absent on non-revised turns;
+            absent throughout transcript.raw.yaml.
