@@ -1,23 +1,38 @@
 # TODO v5-01
 
+> **Status: design-complete (2026-04-21).** All design ideas from this document have been incorporated into the canonical docs under `docs/` and the design_story command prompt under `pipeline/commands/`. Sections 1–3 below are preserved as the reasoning trail; the load-bearing statements now live in the docs listed in the status block. This file remains the home for implementation phasing, open questions, and forward-looking work.
+
 > **Scope note.** v5 is the next version of simplified-framework, which can be considered as v4.  This is the first todo list of this v5, hence named v5/todo-01.md
 
 > **Relationship to CLAUDE.md.** CLAUDE.md describes the current (simplified-framework or v4) version. This document describes v5 as the next version.  CLAUDE.md should not be viewed as holding ground truths and requirements that this document has to subscribe to.
 
-## Current Status (2026-04-20)
+## Current Status (2026-04-21)
 
-v5 is in **design lock**. Phase 0 design decisions are substantially complete. No implementation (commands, agents, scripts, app) has started.
+v5 is in **design lock** with design complete. Every design decision in Sections 1–3 has been incorporated into the canonical docs. Implementation has started: `pipeline/commands/design_story.md` is drafted. Remaining command prompts, agent prompts, validators, and app updates are pending.
+
+**Design-to-doc mapping:**
+
+| Section in this file | Canonical home |
+|---|---|
+| §1 Story Design (persuasive thread, design frame, audience fit) | `docs/architecture.md` §2.1, `docs/instructional-design.md` §3, `pipeline/commands/design_story.md` |
+| §2 Detection (five criteria, weakness/strength notes, revision policy) | `docs/architecture.md` §2.3 + §4 invariants, `docs/instructional-design.md` §4 |
+| §3 Quiz Redesign (three-step flow, feedback policy, progressive reveal) | `docs/architecture.md` §2.4–2.5, `docs/instructional-design.md` §5 |
+| Lens-reasoning-item relationship | `docs/architecture.md` §2.2, `docs/instructional-design.md` §2 |
+| Narrator convention | `docs/instructional-design.md` §3.5, `schemas/transcript.yaml` |
 
 **Design docs in place:**
 
 - [`README.md`](README.md) — orientation and doc index
-- [`docs/architecture.md`](docs/architecture.md) — five-layer data model, four-command / six-agent pipeline, invariants
-- [`docs/instructional-design.md`](docs/instructional-design.md) — pedagogy: story-design frame, detection, three-step quiz, student journey
+- [`docs/architecture.md`](docs/architecture.md) — four-layer data model, three-command / four-agent pipeline, invariants
+- [`docs/instructional-design.md`](docs/instructional-design.md) — pedagogy: story-design frame, detection, three-step quiz, student journey, narrator role
 - [`docs/operator-workflow.md`](docs/operator-workflow.md) — operator-facing workflow and approval gates
-- [`reference/reasoning-taxonomy.yaml`](reference/reasoning-taxonomy.yaml) — six items × {weak, strong} across three lenses
-- [`schemas/`](schemas/) — six artifact shape contracts
+- [`reference/reasoning-taxonomy.yaml`](reference/reasoning-taxonomy.yaml) — six items × {weak, strong} across three lenses (to be drafted)
+- [`schemas/`](schemas/) — four artifact shape contracts (story, transcript, reasoning-proposals, lesson_package)
+- [`pipeline/commands/design_story.md`](pipeline/commands/design_story.md) — interactive multi-phase co-design command
 
-**Next implementation step:** translate the design into `pipeline/commands/*.md`, `pipeline/agents/*.md`, `pipeline/scripts/*.py`, and the `app/` runtime. See §Implementation Phases below.
+**Major architectural shift from earlier drafts:** story design and episode planning are now a single interactive command (`/design_story`) handled by the main orchestrator, producing a single `story.yaml` that carries per-episode blocks. The separate `episode-plan.yaml` and `showrunner-projection.yaml` artifacts, the `showrunner` and `story_designer` subagents, and `/create_episodes` as a distinct command are all removed.
+
+**Next implementation step:** remaining command prompts (`create_transcript`, `create_lesson_package`), four agent prompts, validators, bootstrap script, and app updates. See §Implementation Phases below.
 
 ## Executive Summary
 
@@ -67,25 +82,26 @@ That thread creates the conditions for reasoning to become visible and teachable
 
 ### Design Frame
 
-The emerging episode-design frame is:
+Story and episode design live in a single artifact, `stories/{story_id}/story.yaml`, authored interactively via `/design_story`. Each episode is a block with four required fields:
 
-- `context` (required): what the episode is generally about, including mood, theme, and social situation
-- `argument` (required): what one character is trying to get others to believe or do
-- `description` (required): a creative episode concept that satisfies the instructional conditions above
-- `lenses` (required, one or more):
-  - `logic`: whether the reasoning path is strong enough to support the point
-  - `evidence`: whether the speaker has enough relevant evidence for the point
-  - `scope`: whether the claim is framed at the right size and under the right conditions
+- `episode_synopsis` (required): one paragraph of story-voice prose. Carries the persuasive thread, plot beats, and episode-specific character action. This is the load-bearing field — it must embed a character actively promoting an argument, intention, or position.
+- `reading_time_minutes` (required): operator-set target read length for an average 6th-grader (~4–5 turns per minute heuristic).
+- `final_takeaway` (required): student-facing closing line.
+- plus `episode_id` and `title`.
 
-An episode may foreground one lens, combine two, or use all three — the choice is driven by what the `argument` naturally exposes. Lens names match the `lens` tags in `v5/reference/reasoning-taxonomy.yaml`.
+Persuasive-thread discipline and lens-coverage awareness are enforced conversationally during `/design_story` Phases C and D, not via schema fields. The earlier drafts of this section required `context`, `argument`, `description`, and `lenses[]` as labeled fields; those were dropped because labeled design fields push toward mechanical checklist authoring and duplicate signal that a rich synopsis already carries.
+
+### Reasoning items are detected, not declared
+
+`story.yaml` carries no per-episode reasoning-item targets, no lens declarations, no flaw labels, no density hints. The operator and main orchestrator hold taxonomy *awareness* during `/design_story` — enough to recognize whether a proposed synopsis will surface genuine reasoning opportunities and to check lens coverage across the story at Phase D. They do not commit specific reasoning items upfront. Reasoning items are chosen by `script_doctor` against the raw transcript.
 
 ### Audience Appropriateness
 
-All three text fields (`context`, `argument`, `description`) must be pitched to a 6th-grade reader. Subject matter should be inside a middle schooler's direct experience or routine media exposure — school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate, academic jargon) are out of bounds unless the story introduces them explicitly in-scene.
+All student-facing text in `story.yaml` — `premise`, `episode_synopsis`, `final_takeaway` — is pitched at a 6th-grade reader. Subject matter stays inside a middle schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate, academic jargon) are out of bounds unless the story introduces them explicitly in-scene.
 
-Enforcing audience appropriateness at story-design time means downstream stages (`script_doctor`, lesson authoring) do not need to re-check it per turn. Every anchor inside a well-scoped episode inherits the episode's audience fit.
+Enforcing audience appropriateness at `/design_story` Phase D means downstream stages do not re-check it per turn.
 
-### Lens ↔ Reasoning-Item Relationship
+### Lens ↔ Reasoning-Item Relationship (reference)
 
 The reasoning taxonomy organizes teaching content in three levels:
 
@@ -101,25 +117,15 @@ Mapping (authoritative source: `v5/reference/reasoning-taxonomy.yaml`):
 - `evidence`: `evidence_sufficiency`, `source_credibility`
 - `scope`: `perspective_consideration`, `conditions_and_consequences`
 
-An episode declares one or more lenses at design time. Downstream reasoning detection and anchor selection resolve each anchor to a `(reasoning_item_id, polarity)` pair from the taxonomy. Lenses narrow the search space; items name the dimension; polarity names which side of the dimension the anchor is on.
-
-### Working Hypothesis
-
-This structure should likely live inside `story_design` so the creative-writing stage begins from explicit instructional constraints rather than vague hopes that teachable reasoning will emerge later.
-
-The operator should approve the episode design before transcript drafting.
-
-### Open Questions
-
-- Where should this structure live canonically: `story.yaml`, `episode-plan.yaml`, or a new episode-design shape inside existing artifacts?
-- How explicit should the argument and lens fields be in operator-facing files?
-- How much freedom should the creative-writing agent have inside `description` before the plot stops matching the instructional design?
-
 ### Resolved
 
-- **Lens obligation.** An episode specifies one or more lenses. Lens names (`logic`, `evidence`, `scope`) match `v5/reference/reasoning-taxonomy.yaml`.
-- **Taxonomy shape.** Reasoning is modeled as a flat list of reasoning items, each with a `weak` aspect and a `strong` aspect. This replaces v4's flaw-only taxonomy.
-- **Anchor resolution.** Every anchor resolves to a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`, where `polarity` is `weak` or `strong`. Weak and strong anchors are peers in the schema.
+- **Single planning artifact.** `story.yaml` carries both story-level design and per-episode blocks. There is no separate `episode-plan.yaml` and no `showrunner-projection.yaml`.
+- **Single interactive design command.** `/design_story` handles world, arc, per-episode co-design, and review in one multi-phase session driven by the main orchestrator. `showrunner` and `story_designer` subagents are retired.
+- **Lean per-episode fields.** Four required (episode_id, title, episode_synopsis, reading_time_minutes, final_takeaway). No labeled argument, no lens_hints, no reasoning-item targets, no plot obligations, no running threads, no character beats.
+- **Reasoning items detected, not declared.** Load-bearing invariant: the operator commits to persuasive threads during design; `script_doctor` chooses reasoning items at detection.
+- **Taxonomy shape.** Reasoning is modeled as six items × {weak, strong} across three lenses. This replaces v4's flaw-only taxonomy.
+- **Anchor resolution.** Every anchor resolves to a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`. Weak and strong anchors are peers.
+- **Narrator convention.** Transcripts may use the literal string `narrator` as a speaker for lightweight scene-setting and cohesion. The narrator does not define vocabulary, explain reasoning, or moralize.
 
 ## Section 2: Detection Of Strong And Weak Reasoning
 
@@ -391,18 +397,10 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
 
 ### Phase 1: Story-Design Inputs
 
-- update upstream story-design prompts or artifacts
-- require each episode design to carry:
-  - `context`
-  - `argument`
-  - `description`
-- require each episode design to declare one or more lenses (names must match `v5/reference/reasoning-taxonomy.yaml`):
-  - `logic`
-  - `evidence`
-  - `scope`
-- add an operator approval gate for episode design before transcript drafting, mirroring the acceptance-gate pattern that will apply to `reasoning-proposals.yaml` downstream (see Phase 2)
-  - define the review artifact (e.g. `episode-design-review.md`) and its acceptance contract
-  - transcript drafting must not start until the episode design is accepted
+- author `/design_story` command file (done: `pipeline/commands/design_story.md`)
+- ensure `story.yaml` schema carries per-episode blocks with four required fields (done: `schemas/story.yaml`)
+- operator approval gate lives in `story-design-review.md` at end of Phase D; transcript drafting must not start until `Status: approved` is set
+- no separate episode-plan or projection artifact; no `showrunner` / `story_designer` subagents
 
 ### Phase 2: Reasoning Detection
 
@@ -462,17 +460,17 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
 
 Phase 0 (design lock) is substantially complete. The remaining design-level items are minor and can be resolved during implementation drafting:
 
-- Finalize the precise relationship between `argument` (episode-plan.yaml) and `hypothesis_pursued` (showrunner-projection.yaml). Both are present in the schemas; the prompt for `showrunner` will need to say when they overlap and when they diverge.
 - Finalize the exact wording of Step 1 and Step 2 quiz prompts (open question in §3 below); final wording lives in the `lesson_package_builder` prompt.
-- Decide anchor-polarity mix per episode (§2 open questions): optional hint on episode-plan, or fully emergent from detection.
+- Decide anchor-polarity mix per episode (§2 open questions): fully emergent from detection, or lightly guided in the `/design_story` Phase D review.
 
 Next is implementation, in this order:
 
-1. **Command prompts** — draft `/create_story`, `/create_episodes`, `/create_transcript`, `/create_lesson_package` under `pipeline/commands/`.
-2. **Agent prompts** — draft the six agents under `pipeline/agents/`. Each agent prompt derives its contract from the schemas, its pedagogy from `instructional-design.md`, and its pipeline role from `architecture.md`.
-3. **Validators** — port and rewrite `pipeline/scripts/validate_*.py` for the five artifact types.
-4. **Bootstrap** — port `initialize_polylogue.py` to sync v5 commands/agents into repo-root `.claude/`.
-5. **Pilot regeneration** — run the pipeline end-to-end on one pilot story (likely `the-white-squirrel`).
-6. **App updates** — adapt the simplified-framework Next.js app to render the three-step quiz with progressive reveal.
+1. **Remaining command prompts** — draft `/create_transcript` and `/create_lesson_package` under `pipeline/commands/` (`/design_story` is done).
+2. **Agent prompts** — draft the four agents under `pipeline/agents/`: `staff_writer`, `script_doctor`, `transcript_structurer`, `lesson_package_builder`. Each agent prompt derives its contract from the schemas, its pedagogy from `instructional-design.md`, and its pipeline role from `architecture.md`.
+3. **Validators** — write `pipeline/scripts/validate_*.py` for the four artifact types (story, transcript, reasoning-proposals, lesson_package).
+4. **Reasoning taxonomy** — draft `reference/reasoning-taxonomy.yaml` with the six items × {weak, strong}.
+5. **Bootstrap** — write `initialize_polylogue.py` to sync v5 commands/agents into repo-root `.claude/`.
+6. **Pilot regeneration** — run the pipeline end-to-end on one pilot story (likely `the-white-squirrel`).
+7. **App updates** — adapt the simplified-framework Next.js app to render the three-step quiz with progressive reveal.
 
 Validation and tightening happen against the pilot, not against hypothetical coverage.

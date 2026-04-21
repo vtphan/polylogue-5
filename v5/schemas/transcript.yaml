@@ -13,10 +13,16 @@
 # working. Turn ids follow the pattern tNN (t01, t02, ...).
 #
 # Invariant: transcript.yaml is polarity-free. It carries no reasoning
-# labels and no per-turn classification. Reasoning classification and
-# any revised anchor wording live on reasoning-proposals.yaml;
-# revised wording is present in the turn text of transcript.post-
-# doctor.yaml and flows unchanged into transcript.yaml.
+# labels and no per-turn classification. Reasoning classification
+# lives on reasoning-proposals.yaml; revised anchor wording is
+# applied into transcript.post-doctor.yaml and flows unchanged into
+# transcript.yaml.
+#
+# Narrator convention: `speaker` is a free string. Character-voice
+# turns use the `character_id` from story.yaml. Scene-setting or
+# connective-tissue turns may use the literal string `narrator`. The
+# narrator role is light: establishing place/time or marking a beat
+# transition, never defining vocabulary or moralizing.
 
 type: object
 required:

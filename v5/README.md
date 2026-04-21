@@ -1,25 +1,27 @@
 # Polylogue v5
 
-v5 is the next iteration of the simplified framework for teaching critical thinking to middle-school students. It inherits v4's human-in-the-loop pipeline shape (four commands, six agents, deterministic student-facing app) and improves instructional quality in three specific ways:
+v5 is the next iteration of the simplified framework for teaching critical thinking to middle-school students. It inherits v4's human-in-the-loop pipeline shape (deterministic student-facing app, subagent-based authoring, operator approval gates) and improves instructional quality in four specific ways:
 
 1. A new reasoning taxonomy where weak and strong reasoning are peers.
 2. Grade-level audience fit enforced once, upstream, at story design.
 3. A three-step quiz flow (claim → judgment → why) replacing the flat single-question format.
+4. Story design and episode planning merged into one interactive command (`/design_story`) driven by the main orchestrator. Three commands, four subagents.
 
 ## Current phase
 
-v5 is currently in **design lock**. The goal of this phase is to stabilize the design, specs, and contracts before any command, agent, validator, or app code is written. No implementation has started.
+v5 is in **design lock** with early implementation underway. `/design_story` command file is drafted. Remaining commands, agents, validators, and app updates are next.
 
 ## Design docs
 
 | Document | Purpose |
 |---|---|
 | [`todo-01.md`](todo-01.md) | Scope, motivation, phasing, open questions. The reasoning trail. |
-| [`docs/architecture.md`](docs/architecture.md) | System architecture: five-layer data model, four-command / six-agent pipeline, invariants. |
-| [`docs/instructional-design.md`](docs/instructional-design.md) | Pedagogy: story-design frame, detection principles, three-step quiz, student journey. |
+| [`docs/architecture.md`](docs/architecture.md) | System architecture: four-layer data model, three-command / four-agent pipeline, invariants. |
+| [`docs/instructional-design.md`](docs/instructional-design.md) | Pedagogy: story-design frame, detection principles, three-step quiz, student journey, narrator role. |
 | [`docs/operator-workflow.md`](docs/operator-workflow.md) | Operator-facing workflow: running commands, review cadence, what each approval gate expects. |
-| [`reference/reasoning-taxonomy.yaml`](reference/reasoning-taxonomy.yaml) | Six reasoning items × {weak, strong} faces across three lenses. |
-| [`schemas/`](schemas/) | Descriptive YAML shape contracts for every artifact in the pipeline. |
+| [`reference/reasoning-taxonomy.yaml`](reference/reasoning-taxonomy.yaml) | Six reasoning items × {weak, strong} faces across three lenses (to be drafted). |
+| [`schemas/`](schemas/) | Descriptive YAML shape contracts for every artifact in the pipeline (story, transcript, reasoning-proposals, lesson_package). |
+| [`pipeline/commands/design_story.md`](pipeline/commands/design_story.md) | Interactive multi-phase co-design command handled by the main orchestrator. |
 
 ## Directory layout
 

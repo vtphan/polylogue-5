@@ -6,7 +6,7 @@ This document describes the pedagogy of v5 — what the system teaches, how epis
 
 Polylogue teaches critical-thinking recognition to middle-school students (grades 6-8). Students do not write arguments; they read short story transcripts and learn to recognize what reasoning is doing — when it is strong, when it is weak, and why.
 
-The instructional unit is the **episode**. Each episode is a short 8–10 minute read in dialogue form, followed by a small number of quiz-style checkpoints on specific turns of that dialogue.
+The instructional unit is the **episode**. Each episode is a short read in dialogue form — typically 8–10 minutes, permitted in a 6–12 minute range to accommodate shorter cold opens or longer finales by design — followed by a small number of quiz-style checkpoints on specific turns of that dialogue.
 
 The learning target is *reasoning literacy*: students should leave able to articulate what someone is trying to argue, decide whether the argument holds up, and say why.
 
@@ -54,34 +54,38 @@ Episodes should be designed so reasoning worth teaching about emerges naturally 
 
 ### 3.1 The frame
 
-Each episode is designed around four fields in `episode-plan.yaml`:
+Each episode is authored as a block inside `story.yaml`, with four required fields:
 
-- **`context`** — what the episode is generally about: mood, theme, social situation.
-- **`argument`** — what one character is trying to get others to believe or do.
-- **`description`** — a creative episode concept that satisfies the instructional conditions.
-- **`lenses[]`** — one or more of `logic`, `evidence`, `scope`, naming which lens(es) the episode will expose.
+- **`episode_synopsis`** — one paragraph of story-voice prose describing what the episode is about. Carries the persuasive thread, plot beats, and episode-specific character action.
+- **`reading_time_minutes`** — operator-set target read length for an average 6th-grader.
+- **`final_takeaway`** — the student-facing closing line for this episode.
+- plus `episode_id` and `title`.
 
-`argument` is the load-bearing field. It creates the **persuasive thread** in which reasoning becomes visible and teachable. Without a character actively trying to convince another character of something, reasoning stays latent and anchors have to be manufactured after the fact.
+The `episode_synopsis` is the load-bearing field. It must embed the **persuasive thread** — one character actively trying to get others to believe or do something. Without this pressure, reasoning stays latent and anchors have to be manufactured after the fact.
 
-### 3.2 Lens choice
+### 3.2 Awareness, not checklist
 
-Each episode declares one or more lenses at design time. The choice is driven by what the `argument` naturally exposes:
+The operator and the main orchestrator (`/design_story`) are both taxonomy-aware during authoring. This awareness is for recognizing whether a proposed synopsis will surface genuine reasoning opportunities — it is not for prescribing specific reasoning items.
 
-- an argument that moves too fast from observation to conclusion → `logic`
-- an argument that leans on a single shaky source → `evidence`
-- an argument that ignores other possibilities or conditions → `scope`
+Specifically, `story.yaml` does **not** carry per-episode lens declarations, reasoning-item targets, flaw labels, density hints, or plot-obligation lists. The discipline those fields once enforced in earlier iterations now lives in the `/design_story` command doctrine and in the interactive conversation with the operator. Reasoning items are detected downstream by `script_doctor` against the raw transcript, not declared at design time.
 
-An episode may foreground one lens, combine two, or use all three. Lens choice is a story-level decision, not a pipeline-level quota.
+An episode may foreground one lens, combine two, or use all three. That balance emerges from the synopsis; it is not a pipeline-level quota. Lens coverage across the story as a whole is a Phase D review check, not a per-episode commitment.
 
 ### 3.3 Audience appropriateness
 
-All three story-design text fields (`context`, `argument`, `description`) are pitched to a 6th-grade reader. Subject matter lives inside a middle-schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate jargon, academic framing) are out of bounds unless the story introduces them explicitly in-scene.
+Student-facing text in `story.yaml` — `premise` and `final_takeaway` — is pitched to a 6th-grade reader. The `episode_synopsis`, though staff_writer-facing and never shown to students, is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Subject matter lives inside a middle-schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate jargon, academic framing) are out of bounds unless the story introduces them explicitly in-scene.
 
-Enforcing audience appropriateness at story-design time means downstream stages do not re-check it per turn. Every anchor inside a well-scoped episode inherits the episode's audience fit.
+Scene summaries in `transcript.yaml` and the episode summary and `previously` recap in `lesson_package.yaml` are also student-facing and inherit the 6th-grade pitch, authored by `transcript_structurer` and `lesson_package_builder` respectively.
+
+Enforcing audience appropriateness at `/design_story` Phase D means downstream stages do not re-check it per turn. Every anchor inside a well-scoped episode inherits the episode's audience fit.
 
 ### 3.4 What the episode is not
 
-An episode plan is not a scene outline, not a worksheet, and not a vehicle for instructional vocabulary. Story pressure, private stakes, character voice, and momentum come first; teaching anchors emerge from that pressure. An episode that reads like a disguised lesson plan will produce anchors that feel like disguised lesson plans.
+An episode synopsis is not a scene outline, not a worksheet, and not a vehicle for instructional vocabulary. Story pressure, private stakes, character voice, and momentum come first; teaching anchors emerge from that pressure. An episode that reads like a disguised lesson plan will produce anchors that feel like disguised lesson plans.
+
+### 3.5 Narrator role
+
+A lightweight narrator voice is permitted in the transcript for scene-setting and cohesion. Narrator turns are sparing, short, and plain — establishing place/time or marking a beat transition. The narrator does **not** define vocabulary, explain reasoning to the student, or moralize. Most turns are character dialogue; narrator turns are connective tissue, not exposition. The narrator is a voice, not a character, and does not appear in the `characters[]` roster in `story.yaml`.
 
 ## 4. Detection
 
@@ -156,6 +160,8 @@ Step 3 — Why
   If student chose No  → "Why is the argument not convincing?"
   → student selects from authored options
 ```
+
+**Intended-claim lifecycle.** The intended claim for each anchor is first articulated by `script_doctor` during detection and stored in `reasoning-proposals.yaml`. `lesson_package_builder` carries it forward into the anchor's level in `lesson_package.yaml` and uses it as the basis for Step 1 options: the correct option is a close paraphrase of the intended claim; distractors are plausible but distinct readings. The student never sees the raw `intended_claim` string — they see the authored Step 1 options and pick the one that matches. This forward propagation is what keeps Step 1 anchored to detection's claim framing rather than drifting in re-derivation.
 
 ### 5.2 Why this order
 
@@ -237,8 +243,10 @@ These hold regardless of who or what writes the pipeline:
 1. **Teaching content is fully authored, never inferred at runtime.** Every quiz option, branch, and feedback string is authored upstream. The app is a renderer, not a teacher.
 2. **Transcripts are source dialogue for most turns.** Only selected anchor turns may be revised for reasoning clarity, and only with operator approval.
 3. **The taxonomy is the single pivot.** Every anchor in the system resolves to a `(reasoning_item_id, polarity)` pair. No ad-hoc labels, no "other," no freeform tags.
-4. **Audience fit is an upstream constraint, not a per-turn check.** Downstream agents and the app do not re-verify grade-level appropriateness.
-5. **Weak and strong anchors use the same scaffold.** Branches differ; the quiz structure does not.
+4. **Reasoning items are detected, not declared.** The operator commits to persuasive threads and story design; `script_doctor` picks reasoning items against the raw transcript. `story.yaml` carries no per-episode lens or item targets.
+5. **Audience fit is an upstream constraint, not a per-turn check.** Downstream agents and the app do not re-verify grade-level appropriateness.
+6. **Weak and strong anchors use the same scaffold.** Branches differ; the quiz structure does not.
+7. **Awareness, not checklist.** Taxonomy-aware authoring means knowing what kinds of reasoning moves exist so episodes can be designed with room for them. It does not mean labeling turns, filling item quotas, or constructing scenes as reasoning exercises.
 
 ## 8. Cross-references
 

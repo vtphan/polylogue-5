@@ -3,14 +3,21 @@
 # Canonical structural rules live in
 # pipeline/scripts/validate_story.py (to be implemented).
 #
-# story.yaml is the story-level source artifact. It defines the world,
-# recurring characters, and the episode map. It is the single source of
-# truth consumed by /create_episodes and preserved untouched by all
-# downstream commands.
+# story.yaml is the single story-level source artifact. It carries
+# both story-level design (world, characters, premise) and per-episode
+# design (synopsis, reading-time target, final takeaway). Episode
+# planning is authored here; there is no separate episode-plan.yaml.
 #
-# The premise is student-facing and rendered to students on a story-
-# selection page. Episode summaries are showrunner-facing and give
-# /create_episodes enough authorial intent to plan per-episode arcs.
+# story.yaml is the only planning artifact read by /create_transcript
+# and /create_lesson_package. Downstream commands read the whole
+# story for cross-episode context and select the target episode block
+# by episode_id.
+#
+# Authoring is interactive. /design_story is handled by the main
+# orchestrator in co-design with the operator (Phases A–D). Doctrine
+# — persuasive-thread discipline, lens-coverage awareness, reading-
+# time heuristic, narrator convention — lives in the design_story
+# command prompt.
 
 type: object
 required:
@@ -31,50 +38,78 @@ properties:
   premise:
     type: string
     description: >
-      Student-facing story overview shown on the story page. Short —
-      one paragraph. Hints at the kinds of reasoning the story will
-      practice without spoiling per-episode plots.
-
-  audience:
-    type: object
-    description: Optional audience metadata (e.g., grade band, tone).
-
-  setting:
-    type: object
-    description: Optional setting metadata (place, time, world rules).
+      Student-facing story overview shown on the story-selection page.
+      Short — one paragraph. A hook, not a curriculum teaser. Pitched
+      to a 6th-grade reader. Setting and world texture live here as
+      prose; there is no separate setting field.
 
   characters:
     type: array
-    description: Recurring characters with distinct voices.
+    description: >
+      Recurring characters with a baseline voice hook rich enough that
+      a writer can derive episode-specific behavior without a separate
+      per-episode character_beats field.
     items:
       type: object
-      required: [character_id, name]
+      required: [character_id, name, voice_hook]
       properties:
         character_id:
           type: string
+          description: snake_case id used as `speaker` in transcripts.
         name:
           type: string
-        description:
+        voice_hook:
           type: string
+          description: >
+            2–3 sentences on voice, delivery, recurring props, and
+            relational posture. Baseline voice — episode-specific
+            adjustments show up inside episode_synopsis prose.
 
   episodes:
     type: array
-    description: Ordered episode map for the full story.
+    minItems: 1
+    description: >
+      Ordered episode blocks. Each block carries the operator's
+      commitments for that episode. Staff_writer reads the whole
+      story and selects the target block by episode_id.
     items:
       type: object
-      required: [episode_id, title, summary, final_takeaway]
+      required:
+        - episode_id
+        - title
+        - episode_synopsis
+        - reading_time_minutes
+        - final_takeaway
       properties:
         episode_id:
           type: string
           description: snake_case (e.g., episode_01).
         title:
           type: string
-        summary:
+        episode_synopsis:
           type: string
           description: >
-            Showrunner-facing narrative seed. Not rendered to students.
-            Names the hypothesis or unstable theory the episode pursues
-            and what disproves or complicates it.
+            One paragraph of story-voice prose describing what the
+            episode is about. Carries the persuasive thread (one
+            character trying to get others to believe or do
+            something), plot beats, and episode-specific character
+            action. This is the primary brief staff_writer works
+            from. Authoring doctrine: the synopsis must name a
+            persuasive pressure point; episodes where no one is
+            pushing anything do not generate natural teaching
+            anchors. Pitched to a 6th-grade reader.
+        reading_time_minutes:
+          type: integer
+          minimum: 6
+          maximum: 12
+          description: >
+            Operator-set target read length for an average 6th-grader.
+            Heuristic: ~4–5 turns per target minute at ~30 words per
+            turn. Treat as a target for staff_writer, not a hard
+            contract; validators may warn on large drift.
         final_takeaway:
           type: string
-          description: Student-facing closing line for this episode.
+          description: >
+            Student-facing closing line rendered after the transcript.
+            One sentence. The operator's commitment on what thought
+            to leave the student with at episode close.
