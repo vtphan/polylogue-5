@@ -201,7 +201,7 @@ Phases (see `pipeline/commands/design_story.md` for the full doctrine):
 - **Owns:** `transcript.raw.yaml`, `reasoning-proposals.yaml`, `transcript.post-doctor.yaml`, `transcript.yaml`
 - **Reads:** `story.yaml` (whole), `story-design-review.md` (verifies approval), `reasoning-taxonomy.yaml`
 - **Agents:** `staff_writer`, `script_doctor`, `transcript_structurer`
-- **Arguments:** `{episode_id}` — the target episode block inside `story.yaml`
+- **Arguments:** `{story_id} {episode_id}` — the story directory under `stories/` and the target episode block inside that story's `story.yaml`. Both required; episode ids are not globally unique across stories.
 - **Output:** final app-facing transcript for that episode with approved reasoning anchors recorded in proposals.
 
 Internal flow with three operator approval gates:
@@ -252,7 +252,7 @@ Four specialized subagents. The main orchestrator handles `/design_story` direct
   ├─ stories/{sid}/story.yaml                              ✓ validate_story
   └─ GATE: story-design-review.md (Phase D)                ← operator approval
 
-/create_transcript {eid}
+/create_transcript {sid} {eid}
   ├─ staff_writer
   │     └─ transcript.raw.yaml
   │        GATE: raw-draft review                          ← operator approval

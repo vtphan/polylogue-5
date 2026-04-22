@@ -5,7 +5,7 @@ description: Produce one episode's final transcript through staff_writer → scr
 
 # /create_transcript
 
-`/create_transcript {episode_id}` drives one episode of the v5 pipeline through three specialized subagents and three operator approval gates. It owns four artifacts under `v5/artifacts/{story_id}/{episode_id}/`:
+`/create_transcript {story_id} {episode_id}` drives one episode of the v5 pipeline through three specialized subagents and three operator approval gates. It owns four artifacts under `v5/artifacts/{story_id}/{episode_id}/`:
 
 - `transcript.raw.yaml`
 - `reasoning-proposals.yaml`
@@ -14,17 +14,22 @@ description: Produce one episode's final transcript through staff_writer → scr
 
 It reads but never modifies `v5/stories/{story_id}/story.yaml` or `v5/stories/{story_id}/story-design-review.md`.
 
-## Argument
+## Arguments
 
 ```
-/create_transcript {episode_id}
+/create_transcript {story_id} {episode_id}
 ```
 
-`{episode_id}` must exist in the `episodes[]` array of the story's `story.yaml`. The story itself is discovered by scanning `v5/stories/*/story.yaml` for a match. If the episode id is ambiguous across stories, ask the operator which story is in scope.
+Both arguments are required and positional.
+
+- `{story_id}` must match a directory under `v5/stories/` containing a `story.yaml` whose top-level `story_id` field equals `{story_id}`. If no match, stop and list available stories.
+- `{episode_id}` must exist in that story's `episodes[]` array. If no match, stop and list available episode ids for that story.
+
+Episode ids (`episode_01`, `episode_02`, …) are not globally unique across stories — that's why `{story_id}` is required.
 
 ## Reads at session start
 
-- `v5/stories/{story_id}/story.yaml` — selected by locating the `{episode_id}`. Whole story is read; agents decide what they need.
+- `v5/stories/{story_id}/story.yaml` — the whole story is read; agents decide what they need.
 - `v5/stories/{story_id}/story-design-review.md` — must contain `Status: approved`.
 - `v5/reference/reasoning-taxonomy.yaml` — passed through to `script_doctor` only.
 
@@ -41,9 +46,10 @@ All under `v5/artifacts/{story_id}/{episode_id}/`:
 
 Run these in order on invocation; stop at the first failure.
 
-1. **Episode exists.** `{episode_id}` is present in the resolved `story.yaml` `episodes[]` array. If not, report and stop.
-2. **Upstream approval.** The story's `story-design-review.md` exists and contains a line `Status: approved` (leading/trailing whitespace permitted). If not, refuse to run — direct the operator to complete `/design_story` Phase D.
-3. **Owned-artifact rerun check.** If any of the four owned artifacts already exist for this `{episode_id}`:
+1. **Story exists.** `v5/stories/{story_id}/story.yaml` exists and its top-level `story_id` equals `{story_id}`. If not, report and list directories under `v5/stories/` whose `story.yaml` parses cleanly.
+2. **Episode exists.** `{episode_id}` is present in that `story.yaml`'s `episodes[]` array. If not, report and list that story's available `episode_id`s.
+3. **Upstream approval.** `v5/stories/{story_id}/story-design-review.md` exists and contains a line `Status: approved` (leading/trailing whitespace permitted). If not, refuse to run — direct the operator to complete `/design_story` Phase D.
+4. **Owned-artifact rerun check.** If any of the four owned artifacts already exist for this `{story_id}/{episode_id}`:
    - report which exist
    - warn that `v5/artifacts/{story_id}/{episode_id}/lesson_package.yaml`, if present, may become stale
    - ask the operator to confirm a fresh run
@@ -56,7 +62,7 @@ Within a single run, the operator may loop at any gate as many times as they lik
 
 ### Checkpoint 1 — Raw draft
 
-1. Invoke `staff_writer` with `{episode_id}` and the path to the resolved `story.yaml`. The agent reads the whole story, selects the target episode block by id, and drafts `transcript.raw.yaml`.
+1. Invoke `staff_writer` with `{story_id}`, `{episode_id}`, and the path `v5/stories/{story_id}/story.yaml`. The agent reads the whole story, selects the target episode block by id, and drafts `transcript.raw.yaml`.
 2. Report path and a brief summary to the operator (number of turns, rough word count, whether narrator is used).
 3. Operator reviews and either approves, asks for a targeted revision, or asks for a full redraft.
 4. On revision: re-invoke `staff_writer` with a condensed operator feedback summary; preserve unchanged `turn_id`s across drafts. Loop until the operator approves.

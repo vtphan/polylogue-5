@@ -62,7 +62,7 @@ Authoring a new story is a three-command sequence. Each command is run interacti
   └─ stories/{story_id}/story.yaml
   └─ stories/{story_id}/story-design-review.md
 
-/create_transcript {episode_id}               (per episode, after story approved)
+/create_transcript {story_id} {episode_id}    (per episode, after story approved)
   └─ artifacts/{story_id}/{episode_id}/transcript.raw.yaml
   └─ artifacts/{story_id}/{episode_id}/reasoning-proposals.yaml
   └─ artifacts/{story_id}/{episode_id}/transcript.post-doctor.yaml
@@ -104,8 +104,10 @@ An extended interactive session driven by the main orchestrator (no subagent). T
 ### Step 2 — Draft one transcript
 
 ```
-/create_transcript episode_01
+/create_transcript the_trip_committee episode_01
 ```
+
+Both arguments are required. `{story_id}` matches a directory under `v5/stories/`; `{episode_id}` matches an entry in that story's `episodes[]`. Episode ids are not globally unique across stories, which is why both are passed.
 
 `/create_transcript` is the longest command. It reads the full `story.yaml` (for cross-episode context) plus the target episode block, verifies `story-design-review.md` is approved, and runs three internal gates:
 
