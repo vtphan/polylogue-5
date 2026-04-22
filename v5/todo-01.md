@@ -409,16 +409,17 @@ Both implementations of the doctrine are live:
 
 Shared doctrine lives in `docs/story-design-doctrine.md`. Validator (`pipeline/scripts/validate_story.py`) and bootstrap (`pipeline/scripts/initialize_polylogue.py`) shipped. Two stories produced end-to-end: `stories/the_trip_committee/` (Claude Code) and `stories/white_squirrel_overton/` (webapp).
 
-### Phase 2: Reasoning Detection 🟡 infrastructure complete (2026-04-21) — awaiting pilot
+### Phase 2: Reasoning Detection ✅ complete (2026-04-21)
 
 Artifacts shipped:
 
-- `pipeline/commands/create_transcript.md` — thin orchestrator, three operator gates
+- `pipeline/commands/create_transcript.md` — thin orchestrator, three operator gates; `{story_id} {episode_id}` signature (fixed mid-phase after recognizing episode ids aren't globally unique)
 - `pipeline/agents/staff_writer.md` — drafts `transcript.raw.yaml`; reads story.yaml (whole + target episode block), no taxonomy, narrator-aware, word_count_range as soft guideline
-- `pipeline/agents/script_doctor.md` — propose + apply modes; reads raw draft + taxonomy **only** (no episode_synopsis); five-criterion justification per proposal; default cap 5; `intended_claim` articulation; revised_text on anchor turns only
+- `pipeline/agents/script_doctor.md` — propose + apply modes; reads raw draft + taxonomy **only** (no episode_synopsis); five-criterion justification per proposal; default cap 5; `intended_claim` articulation; revised_text on anchor turns only; apply-mode attaches `original_text` + `source_proposal_id` **iff** `revised_text` was approved (not iff anchor-hood)
 - `pipeline/agents/transcript_structurer.md` — 3+ scenes, preserves turn ids/text verbatim, polarity-free output
 - `pipeline/scripts/validate_reasoning_proposals.py`
 - `pipeline/scripts/validate_transcript.py`
+- `pipeline/scripts/validate_transcript_post_doctor.py` — revision-provenance invariants (added after pilot surfaced that anchors without `revised_text` were still getting provenance fields)
 
 Key v5 design decisions (ratified during Phase 2 drafting):
 
@@ -427,19 +428,29 @@ Key v5 design decisions (ratified during Phase 2 drafting):
 - **Default proposal cap = 5.** Operator can lift per-run.
 - **No separate `transcript-doctrine.md`.** The five criteria, revision policy, and narrator convention live authoritatively in `docs/instructional-design.md` §3.5 and §4. Revisit if a webapp twin appears or the criteria get revised.
 
-Pending to close Phase 2:
+Pilot: `/create_transcript the_trip_committee episode_01` produced all four artifacts; 68-turn transcript, 3 scenes, 5 approved anchors (2 weak / 3 strong spanning all three lenses); all four validators clean.
 
-- Pilot-run `/create_transcript episode_01` against `stories/the_trip_committee/` and review the four produced artifacts end-to-end. Tighten agent prompts and validators based on what the pilot surfaces.
+### Phase 3: Lesson-Package Redesign ✅ complete (2026-04-21)
 
-### Phase 3: Lesson-Package Redesign
+Artifacts shipped:
 
-- redesign level internals around the three-step quiz flow
-- preserve:
-  - anchored turn
-  - optional hinting
-  - per-choice feedback for Step 1 and Step 3
-  - takeaway
-- remove the assumption that a level is one flat prompt with one flat option set
+- `pipeline/commands/create_lesson_package.md` — thin orchestrator, single review gate, `{story_id} {episode_id}` signature from the start
+- `pipeline/agents/lesson_package_builder.md` — reads story.yaml (whole, for chrome + `previously`), transcript.yaml, reasoning-proposals.yaml (`approved_anchors[]`), reasoning-taxonomy.yaml; authors `package_meta` (derived `episode_number`, `schema_version: v5`), episode chrome (summary 60-word soft cap, `previously` required iff episode_number > 1), one level per approved anchor in transcript-appearance order
+- `pipeline/scripts/validate_lesson_package.py` — schema + cross-refs against sibling `transcript.yaml` and `reasoning-proposals.yaml` (turn-id existence, approved-anchor identity match, anchor-appearance ordering), plus Step 2 fixed-option enforcement, feedback integrity (correct.option_ids valid; by_option wrong-only)
+
+Key v5 design decisions (ratified during Phase 3 drafting):
+
+- **One review gate with intra-run revision by `level_id`.** Quiz authoring is a single conceptual pass; per-level gates would be overkill.
+- **Zero-anchor episodes produce chrome-only packages** (`levels: []`). The app renders transcript + `final_takeaway` without quiz panels.
+- **Step 1 default prompt:** *"What is this character trying to get the others to believe?"* — overridable per level; pilot builder personalized to the speaker name on all five levels.
+- **Step 2 default prompt:** *"Do you buy this character's argument?"* — fixed option ids `yes_strong` / `no_unsure`; `routing_text` optional, no feedback permitted.
+- **3 options per Step 1 and each Step 3 branch** (1 correct + 2 distractors). Schema fixes Step 2 at exactly 2. Convention enforced via validator warnings on deviation.
+- **`schema_version: "v5"`** — validator hard-fails on mismatch so a drifted future package is caught immediately.
+- **Step 1 correct option is a tightened paraphrase of `intended_claim`.** The raw intended_claim lives in the level as machine metadata; students see only the paraphrased option.
+
+Pilot: `/create_lesson_package the_trip_committee episode_01` produced the 5-level package cleanly — validator passes with no warnings, all cross-refs match, distractor quality consistently high, per-level takeaways anchored to their reasoning item (not duplicates of the episode's `final_takeaway`). No invariant or doctrine gaps surfaced.
+
+**Phases 1–3 together deliver the full v5 authoring pipeline** (`/design_story` → `/create_transcript` → `/create_lesson_package`) with all five canonical validators available and a fully-authored end-to-end pilot committed under `stories/the_trip_committee/` + `artifacts/the_trip_committee/episode_01/`.
 
 ### Phase 4: App Implementation
 

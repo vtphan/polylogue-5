@@ -1,7 +1,7 @@
 # v5 transcript.yaml schema sketch — human reference only.
 #
 # Canonical structural rules live in
-# pipeline/scripts/validate_transcript.py (to be implemented).
+# pipeline/scripts/validate_transcript.py.
 #
 # transcript.yaml is the final app-facing transcript: source dialogue
 # organized into 3+ scenes, each with a plain-language summary and an

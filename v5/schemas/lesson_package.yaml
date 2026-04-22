@@ -1,7 +1,7 @@
 # v5 lesson_package.yaml schema sketch — human reference only.
 #
 # Canonical structural rules live in
-# pipeline/scripts/validate_lesson_package.py (to be implemented).
+# pipeline/scripts/validate_lesson_package.py.
 #
 # The lesson package is the deterministic, app-facing teaching
 # artifact. It authors everything the quiz panel renders; the app does

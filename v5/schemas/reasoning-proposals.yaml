@@ -1,7 +1,7 @@
 # v5 reasoning-proposals.yaml schema sketch — human reference only.
 #
 # Canonical structural rules live in
-# pipeline/scripts/validate_reasoning_proposals.py (to be implemented).
+# pipeline/scripts/validate_reasoning_proposals.py.
 #
 # reasoning-proposals.yaml is the review surface produced by
 # script_doctor after an operator-approved raw draft. It replaces

@@ -1,9 +1,9 @@
 # v5 transcript-intermediate.yaml schema sketch — human reference only.
 #
-# Canonical structural rules live in
-# pipeline/scripts/validate_transcript.py (to be implemented; may
-# dispatch on the presence of revision fields, or be split into two
-# thin wrappers).
+# Canonical structural rules for transcript.post-doctor.yaml live in
+# pipeline/scripts/validate_transcript_post_doctor.py.
+# transcript.raw.yaml is an operator-review surface — the command flow
+# enforces it at the raw-draft gate; no standalone validator.
 #
 # Covers the two intermediate transcript forms produced inside
 # /create_transcript:

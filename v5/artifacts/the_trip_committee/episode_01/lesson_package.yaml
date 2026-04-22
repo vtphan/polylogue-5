@@ -1,0 +1,535 @@
+package_meta:
+  story_id: the_trip_committee
+  episode_id: episode_01
+  episode_number: 1
+  schema_version: v5
+
+episode:
+  title: Maya's Big Idea
+  summary: >-
+    It's day two of the trip committee. Maya walks in already certain: the
+    class should go to Adventure Park — ziplines, ropes courses, the whole
+    thing. Ethan keeps asking why, and Maya keeps answering with how fun it
+    will be. Jordan mostly watches, until Jordan doesn't. Listen for the
+    difference between selling an idea and giving a reason.
+  final_takeaway: >-
+    Being excited about an idea isn't the same as having a reason it's the
+    right one.
+
+levels:
+  - level_id: l01
+    sequence_index: 1
+    turn_id: t11
+    reasoning_item_id: conclusion_support
+    polarity: weak
+    intended_claim: >-
+      The committee should pick Adventure Park for the sixth-grade field trip
+      because everyone will love it.
+    step_1_claim:
+      prompt: What is Maya trying to get the others to believe?
+      options:
+        - option_id: o1
+          text: Adventure Park is the trip the class should pick, because everyone will love it.
+        - option_id: o2
+          text: Everyone in the sixth grade is going to love Adventure Park.
+        - option_id: o3
+          text: Ethan should stop being so serious about the decision.
+      feedback:
+        correct:
+          option_ids: [o1]
+          text: >-
+            Ethan just asked her why this is the trip they should pick, and
+            Maya's answer — "because everyone will love it" — is meant to
+            settle that question. That's the claim she's making.
+        by_option:
+          o2: >-
+            "Everyone will love it" is the reason Maya is offering, not the
+            thing she's trying to get the group to decide. She's trying to
+            close the trip question, not just predict the vibe.
+          o3: >-
+            Maya does sound annoyed with Ethan, but she isn't arguing about his
+            attitude — she's arguing that Adventure Park is the right choice.
+    step_2_judgment:
+      prompt: Do you buy Maya's argument?
+      options:
+        - option_id: yes_strong
+          text: Yes, this is a strong argument.
+        - option_id: no_unsure
+          text: "No, I'm not completely convinced."
+      routing_text: >-
+        Think about what reason Maya actually gave, and whether that reason
+        answers the question Ethan asked.
+    step_3:
+      why_yes:
+        prompt: What makes Maya's argument strong?
+        options:
+          - option_id: o1
+            text: If everyone on the trip would enjoy it, that's a real reason to pick it.
+          - option_id: o2
+            text: Maya is the loudest person in the room, so her pick should win.
+          - option_id: o3
+            text: Adventure Park is a real place nearby, so it would obviously work.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              It's fair to care whether a trip is one the class would enjoy —
+              that does matter. But Ethan's question was why this is the right
+              field trip, not whether kids would have fun there, and Maya
+              jumped from "they'd like it" straight to "so we're going." That's
+              a bigger conclusion than "everyone will love it" can carry on
+              its own.
+          by_option:
+            o2: >-
+              How confidently someone talks isn't the same as giving a good
+              reason. Volume is not a reason.
+            o3: >-
+              Adventure Park being real and nearby only says the trip is
+              possible, not that it's the right one. Maya never got to why it's
+              the right pick.
+      why_no:
+        prompt: Why is Maya's argument not convincing?
+        options:
+          - option_id: o1
+            text: She jumped from "everyone will love it" to "so this is the trip" — that's a bigger claim than her reason supports.
+          - option_id: o2
+            text: Adventure Park probably isn't actually fun for most sixth graders.
+          - option_id: o3
+            text: Maya didn't bring any printouts or numbers to back up her pitch.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's exactly the gap Ethan hears. "People will enjoy it" is a
+              small claim about fun. "This is the field trip our class should
+              take" is a much bigger claim. Maya's reason doesn't stretch far
+              enough to reach the conclusion she wants.
+          by_option:
+            o2: >-
+              The problem isn't whether kids would enjoy Adventure Park —
+              probably they would. The problem is that "they'd enjoy it"
+              doesn't by itself tell you it's the right trip.
+            o3: >-
+              Printouts would have helped Ethan's side later, but Maya's issue
+              here isn't missing paperwork — it's that the reason she gave is
+              smaller than the conclusion she drew.
+    takeaway: >-
+      When someone jumps from "people will like this" straight to "so we
+      should do it," the reason is smaller than the decision.
+
+  - level_id: l02
+    sequence_index: 2
+    turn_id: t22
+    reasoning_item_id: evidence_sufficiency
+    polarity: weak
+    intended_claim: >-
+      Adventure Park will make the whole sixth grade bond, because putting two
+      kids who never talk on a zipline platform together will turn them into
+      friends by the end of the day.
+    step_1_claim:
+      prompt: What is Maya trying to get the others to believe?
+      options:
+        - option_id: o1
+          text: A day at Adventure Park will make the whole grade bond, and her Kayla-and-Deshawn example proves it.
+        - option_id: o2
+          text: Kayla and Deshawn specifically need to become friends this year.
+        - option_id: o3
+          text: Ziplines are the most fun part of Adventure Park.
+      feedback:
+        correct:
+          option_ids: [o1]
+          text: >-
+            Maya is making a claim about the whole grade — that Adventure Park
+            will make them bond — and she's offering one imagined pair of
+            classmates on a zipline platform as the proof.
+        by_option:
+          o2: >-
+            Kayla and Deshawn are just Maya's example. The claim she's pushing
+            is bigger — she's saying the whole grade will bond, not just those
+            two.
+          o3: >-
+            Maya isn't ranking activities here. She's trying to prove that the
+            trip will make the class bond, using the zipline story as her
+            evidence.
+    step_2_judgment:
+      prompt: Do you buy Maya's argument?
+      options:
+        - option_id: yes_strong
+          text: Yes, this is a strong argument.
+        - option_id: no_unsure
+          text: "No, I'm not completely convinced."
+      routing_text: >-
+        Notice what Maya is claiming, and then notice how much evidence she
+        actually gave for it.
+    step_3:
+      why_yes:
+        prompt: What makes Maya's argument strong?
+        options:
+          - option_id: o1
+            text: She gave a concrete example (Kayla and Deshawn) instead of staying vague about bonding.
+          - option_id: o2
+            text: Adventure Park has ziplines, so teamwork is guaranteed.
+          - option_id: o3
+            text: Maya knows Kayla and Deshawn personally, so she must be right about the grade.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              Giving a real example is better than arguing in vague language,
+              so Maya is doing something right. But one imagined pair of
+              classmates is a thin stack of evidence for a claim about the
+              entire grade. She'd need more than a single hypothetical to
+              carry a grade-wide promise.
+          by_option:
+            o2: >-
+              A zipline exists; that doesn't mean teamwork or bonding
+              automatically happens. The activity isn't the proof.
+            o3: >-
+              Knowing two classmates doesn't give you a picture of what an
+              entire grade will do on a field trip. The sample is too small
+              for the claim.
+      why_no:
+        prompt: Why is Maya's argument not convincing?
+        options:
+          - option_id: o1
+            text: She's leaning one imagined pair of kids on a zipline against a claim about the whole grade — that's not enough evidence.
+          - option_id: o2
+            text: Kayla and Deshawn don't actually go to their school.
+          - option_id: o3
+            text: Maya doesn't really care whether the grade bonds; she just wants to win the argument.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's the size mismatch Ethan keeps catching. The claim is
+              grade-wide ("the grade will bond"), and the support is a single
+              made-up example. One pair of kids on a zipline can't carry a
+              promise about everyone.
+          by_option:
+            o2: >-
+              Whether Kayla and Deshawn are real isn't the point. Even taking
+              Maya's example at face value, one pair can't prove a claim about
+              the whole grade.
+            o3: >-
+              Maya means what she's saying — she really does want the grade to
+              bond. Her problem isn't dishonesty; it's that her evidence is
+              too small for the claim she's making.
+    takeaway: >-
+      One story about two kids can't stand in for a claim about a whole
+      grade — the evidence has to match the size of what you're claiming.
+
+  - level_id: l03
+    sequence_index: 3
+    turn_id: t23
+    reasoning_item_id: perspective_consideration
+    polarity: strong
+    intended_claim: >-
+      Maya's claim that shared teamwork activities reliably produce bonding
+      should be doubted, because we already tried that in gym with the
+      trust-fall unit and nobody bonded.
+    step_1_claim:
+      prompt: What is Ethan trying to get the others to believe?
+      options:
+        - option_id: o1
+          text: Maya's "teamwork = bonding" reason doesn't hold up, because they already tried a teamwork unit in gym and nobody bonded.
+        - option_id: o2
+          text: Coach Barnes did a bad job running the trust-fall unit in September.
+        - option_id: o3
+          text: Gym class is a better field-trip option than Adventure Park.
+      feedback:
+        correct:
+          option_ids: [o1]
+          text: >-
+            Ethan is reaching for a case Maya hadn't considered — the
+            trust-fall unit — to cut against her teamwork reason. His point is
+            that they already ran a teamwork activity and bonding did not
+            follow.
+        by_option:
+          o2: >-
+            Ethan isn't grading Coach Barnes; he's using the trust-fall unit
+            as an example that teamwork activities don't automatically make
+            kids bond.
+          o3: >-
+            Ethan isn't pitching gym as the trip. He's pointing out that
+            gym already tested Maya's teamwork idea and it didn't play out
+            the way she's promising.
+    step_2_judgment:
+      prompt: Do you buy Ethan's argument?
+      options:
+        - option_id: yes_strong
+          text: Yes, this is a strong argument.
+        - option_id: no_unsure
+          text: "No, I'm not completely convinced."
+      routing_text: >-
+        Think about what Maya was claiming, and whether the trust-fall unit
+        actually lines up with her claim closely enough to speak to it.
+    step_3:
+      why_yes:
+        prompt: What makes Ethan's argument strong?
+        options:
+          - option_id: o1
+            text: He brings in a real case Maya didn't consider — the trust-fall unit — that directly tests her "teamwork makes kids bond" claim.
+          - option_id: o2
+            text: He's good at reminding people of embarrassing moments from gym.
+          - option_id: o3
+            text: He talks like he's read more books than Maya, so his point must be right.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's the move. Maya was arguing a teamwork day would make
+              kids bond; Ethan names another situation she'd skipped — the
+              gym trust-fall unit — where exactly that was tried and didn't
+              work. Bringing in a case she hadn't considered is what makes
+              his pushback land.
+          by_option:
+            o2: >-
+              The Malik-and-Priya bit is funny, but the strength of Ethan's
+              argument isn't the joke — it's that he found a case that
+              actually tests Maya's claim.
+            o3: >-
+              Ethan sounds bookish, but how someone sounds isn't a reason.
+              What makes his point strong is the example, not his voice.
+      why_no:
+        prompt: Why is Ethan's argument not convincing?
+        options:
+          - option_id: o1
+            text: Forty minutes of gym isn't the same as a whole day out — his comparison might not really fit Maya's claim.
+          - option_id: o2
+            text: Ethan hasn't pitched his own trip yet, so he has no right to criticize Maya's.
+          - option_id: o3
+            text: Trust falls are for little kids, so they don't count as teamwork at all.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's a fair thing to push on — Maya makes exactly that point
+              in the next turn. But Ethan's move is still doing real work:
+              he brought in a specific case Maya hadn't considered, which
+              forces her to explain how a day-long trip would be different.
+              The comparison isn't perfect, but naming it is still a strong
+              reasoning move.
+          by_option:
+            o2: >-
+              You don't need your own plan to question someone else's. Ethan's
+              job right now is to test Maya's reasons, and that's what he's
+              doing.
+            o3: >-
+              Trust falls were a real teamwork activity their grade actually
+              did. Ethan's whole point is that the closest thing to Maya's
+              idea already happened — waving that away dodges his question.
+    takeaway: >-
+      Bringing in another case someone didn't think about can test a claim
+      they were sure of.
+
+  - level_id: l04
+    sequence_index: 4
+    turn_id: t33
+    reasoning_item_id: evidence_sufficiency
+    polarity: strong
+    intended_claim: >-
+      "It will be memorable" is not by itself enough support for "this is the
+      right field trip," because lots of things are memorable (like chicken
+      nugget day) without being worth a school day.
+    step_1_claim:
+      prompt: What is Ethan trying to get the others to believe?
+      options:
+        - option_id: o1
+          text: "\"It will be memorable\" isn't by itself a good enough reason to pick a trip — chicken nugget day was memorable too."
+        - option_id: o2
+          text: Maya's brother's sixth grade was a better sixth grade than theirs.
+        - option_id: o3
+          text: Field trips shouldn't be fun at all.
+      feedback:
+        correct:
+          option_ids: [o1]
+          text: >-
+            Ethan pairs Maya's reason ("it'll be memorable") with something
+            that's just as memorable but obviously trip-unworthy — nugget day
+            — to show that "memorable" alone can't do the work her claim
+            needs.
+        by_option:
+          o2: >-
+            Ethan isn't comparing the two grades. He's using chicken nugget
+            day as an example to show what kind of "memorable" doesn't
+            deserve a school day.
+          o3: >-
+            Ethan isn't against fun. He's saying that "it'll be fun and
+            memorable" isn't, on its own, enough reason to pick a trip.
+    step_2_judgment:
+      prompt: Do you buy Ethan's argument?
+      options:
+        - option_id: yes_strong
+          text: Yes, this is a strong argument.
+        - option_id: no_unsure
+          text: "No, I'm not completely convinced."
+      routing_text: >-
+        Ask yourself whether "memorable" is doing enough work to support the
+        claim Maya is making.
+    step_3:
+      why_yes:
+        prompt: What makes Ethan's argument strong?
+        options:
+          - option_id: o1
+            text: He matches Maya's reason against a case that's just as memorable but clearly not trip-worthy, showing "memorable" alone isn't enough support.
+          - option_id: o2
+            text: He made Maya laugh, so the argument worked.
+          - option_id: o3
+            text: Chicken nugget day happened more recently than the stingray, so it's better evidence.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's the move. Maya's reason was "they'll remember it." Ethan
+              finds a thing that's equally memorable — nugget day — and
+              clearly not a field trip. That matching shows her evidence
+              type can't carry the weight of her claim. It doesn't mean the
+              trip's bad; it means "memorable" by itself isn't enough.
+          by_option:
+            o2: >-
+              Making someone laugh doesn't make an argument strong. The
+              strength here is the comparison — nugget day is just as
+              memorable and just as obviously not field-trip material.
+            o3: >-
+              It's not about how recent the memory is. The point is that
+              "memorable" can be true about lots of things that aren't worth
+              a school day.
+      why_no:
+        prompt: Why is Ethan's argument not convincing?
+        options:
+          - option_id: o1
+            text: Maya was talking about class-wide memories like the stingray, not lunch — so comparing those to nugget day might be unfair.
+          - option_id: o2
+            text: Ethan is just trying to win the argument instead of helping plan a trip.
+          - option_id: o3
+            text: Chicken nugget day is not a real thing that actually happens in schools.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              Fair push — Maya's example (the stingray) was a real shared
+              school-day memory, and Ethan's (nugget day) is cafeteria food.
+              Still, his point holds: the word "memorable" covers both, and
+              if both are memorable, then "it'll be memorable" alone can't
+              tell you which one is worth a school day. That's the gap he's
+              naming.
+          by_option:
+            o2: >-
+              Ethan's still trying to land on a good pick; he just doesn't
+              want to lock in a trip on a reason that doesn't actually hold
+              it up.
+            o3: >-
+              Nugget day is a stand-in for any ordinary school thing people
+              remember. Whether a specific school has it isn't the point —
+              the comparison still works.
+    takeaway: >-
+      Matching a reason against another case it also fits is a way to show the
+      reason isn't strong enough for the claim.
+
+  - level_id: l05
+    sequence_index: 5
+    turn_id: t48
+    reasoning_item_id: conclusion_support
+    polarity: strong
+    intended_claim: >-
+      Maya has supported the claim that people would enjoy Adventure Park, but
+      that is a different and smaller claim than "this is the trip our class
+      should go on," so her reasons don't yet support the decision in front
+      of the committee.
+    step_1_claim:
+      prompt: What is Jordan trying to get the others to believe?
+      options:
+        - option_id: o1
+          text: Maya has shown people would enjoy Adventure Park, but not that it's the trip the class should pick — those are two different claims.
+        - option_id: o2
+          text: Maya is wrong that people would enjoy Adventure Park.
+        - option_id: o3
+          text: Ethan is the one making sense, and Maya should give up.
+      feedback:
+        correct:
+          option_ids: [o1]
+          text: >-
+            Jordan splits Maya's argument into two claims. Jordan agrees with
+            the smaller one ("people would enjoy it") and points out she
+            hasn't supported the bigger one ("this is the trip our class
+            should go on").
+        by_option:
+          o2: >-
+            Jordan actually grants Maya's "people would enjoy it" point —
+            Jordan says "I would pack a lunch." The issue is that that's a
+            smaller claim than the decision they're being asked to make.
+          o3: >-
+            Jordan isn't picking Ethan's side. Jordan is naming a specific
+            gap in Maya's argument — the one between enjoying a trip and
+            picking it as the class trip.
+    step_2_judgment:
+      prompt: Do you buy Jordan's argument?
+      options:
+        - option_id: yes_strong
+          text: Yes, this is a strong argument.
+        - option_id: no_unsure
+          text: "No, I'm not completely convinced."
+      routing_text: >-
+        Notice what Jordan gives Maya and what Jordan doesn't — and whether
+        the split between the two claims actually holds.
+    step_3:
+      why_yes:
+        prompt: What makes Jordan's argument strong?
+        options:
+          - option_id: o1
+            text: Jordan separates two claims that had been blurring together — "people would enjoy it" and "this is the right trip" — and shows Maya only supported the smaller one.
+          - option_id: o2
+            text: Jordan finally takes a side in the argument.
+          - option_id: o3
+            text: Jordan says "I would pack a lunch," which means Jordan supports Adventure Park.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              That's the move. Maya had been answering "people will love it"
+              like it settled the trip question. Jordan draws a line between
+              the two: the enjoyment claim is one size, the "this is the
+              right trip" claim is bigger, and the reason Maya gave only
+              covers the smaller one. Keeping the conclusion the same size
+              as the reasons is careful reasoning.
+          by_option:
+            o2: >-
+              Jordan isn't really picking a team. Jordan is naming the
+              specific mismatch between Maya's reason and Maya's conclusion.
+              That's the point, not siding with Ethan.
+            o3: >-
+              The "pack a lunch" line is Jordan granting that people would
+              enjoy it — but the whole next sentence is about how enjoyment
+              isn't the same thing as the right trip. That contrast is the
+              argument.
+      why_no:
+        prompt: Why is Jordan's argument not convincing?
+        options:
+          - option_id: o1
+            text: If everyone in the class would enjoy a trip, maybe that really is enough reason to pick it, and Jordan is splitting hairs.
+          - option_id: o2
+            text: Jordan has been quiet most of the episode, so Jordan doesn't have the right to weigh in now.
+          - option_id: o3
+            text: Jordan also wants to go to Adventure Park, so Jordan isn't being fair.
+        feedback:
+          correct:
+            option_ids: [o1]
+            text: >-
+              Fair thing to push on — enjoyment isn't nothing, and for some
+              trips it might really be enough. But Ms. Alvarez didn't ask
+              "what would people enjoy?" She asked them to pick a trip, and
+              that's a bigger question. Jordan's point is that Maya's reason
+              only answers the smaller one. Even Maya admits that in her
+              next big turn.
+          by_option:
+            o2: >-
+              Being quiet earlier doesn't make a point less true. Jordan
+              waited until having something specific to say, and then said
+              it.
+            o3: >-
+              Jordan does say the trip sounds fun, but the argument isn't
+              about what Jordan would like — it's about whether Maya's
+              reasons match the decision the committee actually has to make.
+    takeaway: >-
+      Keeping a conclusion the same size as the reasons that support it is
+      what careful reasoning looks like.

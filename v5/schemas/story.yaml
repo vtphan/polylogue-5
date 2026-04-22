@@ -1,7 +1,7 @@
 # v5 story.yaml schema sketch — human reference only.
 #
 # Canonical structural rules live in
-# pipeline/scripts/validate_story.py (to be implemented).
+# pipeline/scripts/validate_story.py.
 #
 # story.yaml is the single story-level source artifact. It carries
 # both story-level design (world, characters, premise) and per-episode
