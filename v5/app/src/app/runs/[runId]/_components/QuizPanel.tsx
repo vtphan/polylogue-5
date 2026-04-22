@@ -35,14 +35,7 @@ export function QuizPanel({
   onClose,
 }: QuizPanelProps) {
   const step1Locked = Boolean(attempt?.step1LockedAt);
-  const step2Option = attempt?.step2Option ?? null;
   const levelLocked = Boolean(attempt?.lockedAt);
-
-  // Polarity alignment determines whether "Actually" fires in completed mode.
-  // Misalignment surfaces the opposite branch's reasoning so the student sees
-  // the authored reading.
-  const isMisaligned =
-    step2Option !== null && !polarityMatched(level.polarity, step2Option);
 
   return (
     <div className={`quiz-panel stack${levelLocked ? " quiz-panel--locked" : ""}`}>
@@ -70,10 +63,6 @@ export function QuizPanel({
           attempt={attempt}
           anchorSpeaker={anchorSpeaker}
         />
-      ) : null}
-
-      {levelLocked && isMisaligned && step2Option ? (
-        <ActuallyCard level={level} step2Option={step2Option} />
       ) : null}
 
       {levelLocked ? <TakeawayCard takeaway={level.takeaway} /> : null}
@@ -110,12 +99,13 @@ function PanelHeader({
   const showHintButton = !levelLocked && Boolean(level.hint) && !attempt?.usedHint;
   const showHintCard = !levelLocked && Boolean(level.hint) && Boolean(attempt?.usedHint);
 
+  if (!showHintButton && !showHintCard) {
+    return null;
+  }
+
   return (
     <>
       <div className="quiz-panel__header">
-        <div className="quiz-panel__titles">
-          <p className="eyebrow">{levelLocked ? "Answered" : "Reasoning check"}</p>
-        </div>
         {showHintButton ? (
           <form action={openQuizHintAction} className="quiz-hint-form">
             <input type="hidden" name="run_id" value={runId} />
@@ -161,36 +151,23 @@ function ClaimCard({
 
   if (locked) {
     const step1 = level.step_1_claim;
-    const correctIds = step1.feedback.correct.option_ids;
-    const correctOption = findCorrectOption(step1.options, step1.feedback);
+    const firstOptionId = attempt?.step1FirstOption ?? null;
     const finalOptionId = attempt?.step1FinalOption ?? null;
-    const claimStarEarned = Boolean(finalOptionId && correctIds.includes(finalOptionId));
-    const wrongPick =
-      !claimStarEarned && finalOptionId
-        ? step1.options.find((o) => o.option_id === finalOptionId) ?? null
-        : null;
 
     return (
-      <NarrativeCard eyebrow={`What ${anchorSpeaker} is arguing`}>
-        {correctOption ? (
-          <p className="narrative-card__claim">
-            {correctOption.text}
-            {claimStarEarned ? <EarnedMark /> : null}
-          </p>
-        ) : null}
-        <p className="narrative-card__body">{step1.feedback.correct.text}</p>
-        {wrongPick ? (
-          <p className="narrative-card__your-pick">
-            You picked: &ldquo;{wrongPick.text}&rdquo;
-          </p>
-        ) : null}
+      <NarrativeCard title={`What ${anchorSpeaker} is arguing`}>
+        <ClaimReviewOptionsList
+          options={step1.options}
+          feedback={step1.feedback}
+          firstOptionId={firstOptionId}
+          finalOptionId={finalOptionId}
+        />
       </NarrativeCard>
     );
   }
 
   return (
     <section className="quiz-step stack">
-      <p className="eyebrow">Claim</p>
       <p className="quiz-prompt">{level.step_1_claim.prompt}</p>
       <OptionsPicker
         runId={runId}
@@ -225,7 +202,10 @@ function YourTakeCard({
 
   if (levelLocked && step2Option && attempt) {
     return (
-      <YourTakeNarrative level={level} step2Option={step2Option} attempt={attempt} />
+      <>
+        <YourTakeNarrative level={level} step2Option={step2Option} attempt={attempt} />
+        <YourTakeReframe level={level} step2Option={step2Option} />
+      </>
     );
   }
 
@@ -261,9 +241,8 @@ type Step2PickerProps = {
 function Step2Picker({ runId, sceneIndex, level, anchorSpeaker }: Step2PickerProps) {
   return (
     <section className="quiz-step stack">
-      <p className="eyebrow">Your take</p>
-      <p className="quiz-prompt">Do you buy {anchorSpeaker}&apos;s argument?</p>
-      <div className="quiz-options">
+      <p className="quiz-prompt">Was {anchorSpeaker}&apos;s argument convincing?</p>
+      <div className="quiz-options quiz-options--binary">
         {level.step_2_judgment.options.map((option) => (
           <form key={option.option_id} action={submitStep2Action}>
             <input type="hidden" name="run_id" value={runId} />
@@ -271,7 +250,9 @@ function Step2Picker({ runId, sceneIndex, level, anchorSpeaker }: Step2PickerPro
             <input type="hidden" name="level_id" value={level.level_id} />
             <input type="hidden" name="option_id" value={option.option_id} />
             <button type="submit" className="quiz-option">
-              <span className="quiz-option__text">{option.text}</span>
+              <span className="quiz-option__text">
+                {option.option_id === "yes_strong" ? "Yes" : "No"}
+              </span>
             </button>
           </form>
         ))}
@@ -296,12 +277,9 @@ function Step3Picker({
   step2Option,
 }: Step3PickerProps) {
   const branch = level.step_3[step3BranchKeyForStep2(step2Option)];
-  const routing = level.step_2_judgment.routing_text;
 
   return (
     <section className="quiz-step stack">
-      <p className="eyebrow">Your take</p>
-      {routing ? <p className="quiz-routing">{routing}</p> : null}
       <p className="quiz-prompt">{branch.prompt}</p>
       <OptionsPicker
         runId={runId}
@@ -329,66 +307,46 @@ function YourTakeNarrative({
 }: YourTakeNarrativeProps) {
   const branchKey = step3BranchKeyForStep2(step2Option);
   const branch = level.step_3[branchKey];
-  const polarityStarEarned = polarityMatched(level.polarity, step2Option);
-
   const step3FinalOption = attempt.step3FinalOption ?? null;
-  const step3Correct =
-    step3FinalOption !== null &&
-    branch.feedback.correct.option_ids.includes(step3FinalOption);
-  // Reasoning star is conditional on polarity match.
-  const reasoningStarEarned = polarityStarEarned && step3Correct;
-
-  const framing =
+  const title =
     step2Option === "yes_strong"
-      ? "You thought it was strong."
-      : "You weren't convinced.";
-
-  const wrongStep3Pick =
-    !step3Correct && step3FinalOption
-      ? branch.options.find((o) => o.option_id === step3FinalOption) ?? null
-      : null;
+      ? "What makes the argument strong?"
+      : "What makes the argument weak?";
 
   return (
-    <NarrativeCard eyebrow="Your take">
-      <p className="narrative-card__claim">
-        {framing}
-        {polarityStarEarned ? <EarnedMark /> : null}
-      </p>
-      <p className="narrative-card__body">
-        {branch.feedback.correct.text}
-        {reasoningStarEarned ? <EarnedMark /> : null}
-      </p>
-      {wrongStep3Pick ? (
-        <p className="narrative-card__your-pick">
-          You picked: &ldquo;{wrongStep3Pick.text}&rdquo;
-        </p>
-      ) : null}
+    <NarrativeCard title={title}>
+      <ReviewOptionsList
+        options={branch.options}
+        feedback={branch.feedback}
+        selectedOptionId={step3FinalOption}
+      />
     </NarrativeCard>
   );
 }
 
-function EarnedMark() {
-  return (
-    <span className="earned-mark" aria-label="earned">
-      ✓
-    </span>
-  );
-}
-
-type ActuallyCardProps = {
+function YourTakeReframe({
+  level,
+  step2Option,
+}: {
   level: ReaderLevel;
   step2Option: string;
-};
+}) {
+  if (polarityMatched(level.polarity, step2Option)) {
+    return null;
+  }
 
-function ActuallyCard({ level, step2Option }: ActuallyCardProps) {
-  // Opposite branch from the student's Step 2 pick — the authored reasoning
-  // they would otherwise never see.
-  const studentBranch = step3BranchKeyForStep2(step2Option);
+  const branchKey = step3BranchKeyForStep2(step2Option);
   const oppositeBranch =
-    studentBranch === "why_yes" ? level.step_3.why_no : level.step_3.why_yes;
+    branchKey === "why_yes" ? level.step_3.why_no : level.step_3.why_yes;
 
   return (
-    <NarrativeCard eyebrow="Actually" variant="actually">
+    <NarrativeCard
+      title={
+        step2Option === "yes_strong"
+          ? "You thought the argument was strong, but actually it isn't convincing."
+          : "You weren't convinced by the argument, but actually it is strong."
+      }
+    >
       <p className="narrative-card__body">{oppositeBranch.feedback.correct.text}</p>
     </NarrativeCard>
   );
@@ -396,19 +354,19 @@ function ActuallyCard({ level, step2Option }: ActuallyCardProps) {
 
 function TakeawayCard({ takeaway }: { takeaway: string }) {
   return (
-    <NarrativeCard eyebrow="Takeaway" variant="takeaway">
+    <NarrativeCard title="Takeaway" variant="takeaway">
       <p className="narrative-card__body">{takeaway}</p>
     </NarrativeCard>
   );
 }
 
 type NarrativeCardProps = {
-  eyebrow: string;
+  title: string;
   variant?: "default" | "actually" | "takeaway";
   children: React.ReactNode;
 };
 
-function NarrativeCard({ eyebrow, variant = "default", children }: NarrativeCardProps) {
+function NarrativeCard({ title, variant = "default", children }: NarrativeCardProps) {
   const variantClass =
     variant === "actually"
       ? " narrative-card--actually"
@@ -417,9 +375,102 @@ function NarrativeCard({ eyebrow, variant = "default", children }: NarrativeCard
         : "";
   return (
     <section className={`narrative-card${variantClass}`}>
-      <p className="eyebrow">{eyebrow}</p>
+      <h3 className="narrative-card__title">{title}</h3>
       {children}
     </section>
+  );
+}
+
+type ReviewOptionsListProps = {
+  options: AnswerOption[];
+  feedback: StepFeedback;
+  selectedOptionId: string | null;
+};
+
+type ClaimReviewOptionsListProps = {
+  options: AnswerOption[];
+  feedback: StepFeedback;
+  firstOptionId: string | null;
+  finalOptionId: string | null;
+};
+
+function ClaimReviewOptionsList({
+  options,
+  feedback,
+  firstOptionId,
+  finalOptionId,
+}: ClaimReviewOptionsListProps) {
+  const correctIds = new Set(feedback.correct.option_ids);
+  const wrongAttemptIds = new Set<string>();
+
+  if (firstOptionId && !correctIds.has(firstOptionId)) {
+    wrongAttemptIds.add(firstOptionId);
+  }
+  if (finalOptionId && !correctIds.has(finalOptionId)) {
+    wrongAttemptIds.add(finalOptionId);
+  }
+
+  return (
+    <div className="quiz-options">
+      {options.map((option) => {
+        const isCorrect = correctIds.has(option.option_id);
+        const isWrongAttempt = wrongAttemptIds.has(option.option_id);
+        const isDimmed = !isCorrect;
+        const feedbackText = isCorrect
+          ? feedback.correct.text
+          : feedback.by_option[option.option_id] ?? "";
+
+        return (
+          <div
+            key={option.option_id}
+            className={`quiz-option-stack${isDimmed ? " quiz-option-stack--dimmed" : ""}`}
+          >
+            <ReadonlyOptionCard
+              text={option.text}
+              tone={isCorrect ? "correct" : isWrongAttempt ? "wrong" : "neutral"}
+            />
+            {isCorrect ? (
+              <FeedbackCard tone="correct">{feedbackText}</FeedbackCard>
+            ) : isWrongAttempt ? (
+              <FeedbackCard tone="wrong">{feedbackText}</FeedbackCard>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function ReviewOptionsList({
+  options,
+  feedback,
+  selectedOptionId,
+}: ReviewOptionsListProps) {
+  return (
+    <div className="quiz-options">
+      {options.map((option) => {
+        const isSelected = option.option_id === selectedOptionId;
+        const isCorrect = feedback.correct.option_ids.includes(option.option_id);
+        const feedbackText = isCorrect
+          ? feedback.correct.text
+          : feedback.by_option[option.option_id] ?? "";
+
+        return (
+          <div
+            key={option.option_id}
+            className={`quiz-option-stack${isSelected ? "" : " quiz-option-stack--dimmed"}`}
+          >
+            <ReadonlyOptionCard
+              text={option.text}
+              tone={isSelected ? (isCorrect ? "correct" : "wrong") : "neutral"}
+            />
+            {isSelected ? (
+              <FeedbackCard tone={isCorrect ? "correct" : "wrong"}>{feedbackText}</FeedbackCard>
+            ) : null}
+          </div>
+        );
+      })}
+    </div>
   );
 }
 
@@ -455,15 +506,11 @@ function OptionsPicker({
 
         if (isFirstWrongPick) {
           return (
-            <div
-              key={option.option_id}
-              className="quiz-option quiz-option--readonly quiz-option--wrong"
-              aria-disabled="true"
-            >
-              <span className="quiz-option__text">{option.text}</span>
-              <span className="quiz-option__feedback">
+            <div key={option.option_id} className="quiz-option-stack">
+              <ReadonlyOptionCard text={option.text} tone="wrong" />
+              <FeedbackCard tone="wrong" live="polite">
                 {feedback.by_option[option.option_id] ?? ""}
-              </span>
+              </FeedbackCard>
             </div>
           );
         }
@@ -484,11 +531,42 @@ function OptionsPicker({
   );
 }
 
-function findCorrectOption(
-  options: AnswerOption[],
-  feedback: StepFeedback,
-): AnswerOption | undefined {
-  return options.find((option) =>
-    feedback.correct.option_ids.includes(option.option_id),
+function ReadonlyOptionCard({
+  text,
+  tone,
+}: {
+  text: string;
+  tone: "neutral" | "correct" | "wrong";
+}) {
+  const toneClass =
+    tone === "correct"
+      ? " quiz-option--correct"
+      : tone === "wrong"
+        ? " quiz-option--wrong"
+        : " quiz-option--dimmed";
+
+  return (
+    <div className={`quiz-option quiz-option--readonly${toneClass}`} aria-disabled="true">
+      <span className="quiz-option__text">{text}</span>
+    </div>
+  );
+}
+
+function FeedbackCard({
+  tone,
+  live,
+  children,
+}: {
+  tone: "correct" | "wrong";
+  live?: "off" | "polite" | "assertive";
+  children: React.ReactNode;
+}) {
+  const toneClass =
+    tone === "correct" ? " quiz-feedback-card--correct" : " quiz-feedback-card--wrong";
+
+  return (
+    <div className={`quiz-feedback-card${toneClass}`} aria-live={live}>
+      {children}
+    </div>
   );
 }

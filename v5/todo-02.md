@@ -1,11 +1,11 @@
 # TODO v5-02
 
-> **Status: open (2026-04-22).** Phase 4 skeleton is committed (`v5/app/`);
-> this document tracks the cohesion / cognitive-load refinement of the
-> student-facing quiz panel. The three-step quiz is the load-bearing
-> teaching surface. How a student experiences it end-to-end — what they
-> hold in mind, what they read, what pulls their attention where — is
-> the single most important UX question in the app.
+> **Status: outdated (superseded, 2026-04-22).** Do not use this document
+> as current product direction for quiz layout or quiz UX review. It is
+> preserved as historical design thinking only.
+>
+> Current work should evaluate and improve the implementation in `v5/app/`
+> directly rather than treating the guidance below as authoritative.
 
 > **Scope note.** The three-step quiz panel internals are the only app
 > surface explicitly permitted to evolve in v5 (see

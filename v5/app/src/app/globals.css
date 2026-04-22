@@ -662,17 +662,19 @@ p {
   font-size: 0.9rem;
 }
 
-/* Prompt = focal element. First thing the student reads in the panel. */
-.quiz-prompt {
+/* Block title / prompt = first thing the student reads, but should stay
+   lighter than an alert/callout treatment. */
+.quiz-prompt,
+.narrative-card__title {
   margin: 0;
-  padding: 0.9rem 1rem;
-  border-radius: 0.7rem;
-  background: var(--accent-soft);
-  border-left: 4px solid var(--accent);
+  padding: 0 0 0.2rem;
+  border-radius: 0;
+  background: none;
+  border-left: 0;
   color: var(--ink);
-  font-size: 1.05rem;
+  font-size: 1rem;
   font-weight: 600;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
 .quiz-status {
@@ -693,6 +695,29 @@ p {
 .quiz-options {
   display: grid;
   gap: 0.55rem;
+}
+
+.quiz-options--binary {
+  grid-template-columns: repeat(2, minmax(0, 8rem));
+  justify-content: start;
+}
+
+.quiz-options--binary form {
+  min-width: 0;
+}
+
+.quiz-options--binary .quiz-option {
+  justify-items: center;
+  text-align: center;
+}
+
+.quiz-option-stack {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.quiz-option-stack--dimmed {
+  opacity: 0.58;
 }
 
 /* Base option — interactive button or readonly div share the shape. */
@@ -724,32 +749,36 @@ p {
   cursor: default;
 }
 
+.quiz-option--dimmed {
+  border-color: rgba(31, 37, 34, 0.14);
+}
+
 .quiz-option__text {
   display: block;
 }
 
-.quiz-option__feedback {
-  display: block;
-  margin-top: 0.35rem;
-  padding-top: 0.4rem;
-  border-top: 1px dashed rgba(31, 37, 34, 0.14);
+.quiz-feedback-card {
+  margin-left: 0.7rem;
+  padding: 0.6rem 0.8rem 0.65rem;
+  border: 1px solid var(--line);
+  border-left-width: 3px;
+  border-radius: 0.72rem;
+  background: var(--surface-strong);
   color: var(--muted);
   font-size: 0.88rem;
   line-height: 1.45;
-  font-weight: normal;
 }
 
-/* Reveal highlights: solid colored backgrounds so the picked and correct
-   options pop — no opacity dimming of other options. */
+/* Reveal highlights split the correctness signal across the pair:
+   option card gets the border; feedback card gets the tinted background. */
 .quiz-option--correct {
-  background: rgba(106, 123, 88, 0.14);
   border-color: var(--moss);
-  color: #3f4b30;
 }
 
-.quiz-option--correct .quiz-option__feedback {
+.quiz-feedback-card--correct {
+  background: rgba(106, 123, 88, 0.14);
+  border-color: rgba(106, 123, 88, 0.3);
   color: #3f4b30;
-  border-top-color: rgba(106, 123, 88, 0.3);
 }
 
 .quiz-option--best::before {
@@ -762,14 +791,13 @@ p {
 }
 
 .quiz-option--wrong {
-  background: rgba(193, 67, 44, 0.1);
   border-color: #c1432c;
-  color: #7f2815;
 }
 
-.quiz-option--wrong .quiz-option__feedback {
+.quiz-feedback-card--wrong {
+  background: rgba(193, 67, 44, 0.1);
+  border-color: rgba(193, 67, 44, 0.28);
   color: #7f2815;
-  border-top-color: rgba(193, 67, 44, 0.28);
 }
 
 /* Takeaway — hangs below the options after lock. */
@@ -1341,13 +1369,11 @@ a.ghost:hover {
   line-height: 1.55;
 }
 
-.narrative-card--actually {
-  border-color: rgba(184, 92, 46, 0.35);
-  background: var(--accent-soft);
-}
-
-.narrative-card--actually .eyebrow {
-  color: var(--accent);
+.narrative-card__branch-note {
+  margin: 0.15rem 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.45;
 }
 
 .narrative-card--takeaway {
