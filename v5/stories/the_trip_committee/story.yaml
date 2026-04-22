@@ -1,0 +1,48 @@
+story_id: the_trip_committee
+title: The Trip Committee
+premise: |
+  Principal Alvarez has a problem: the sixth grade at their Memphis middle school needs a field trip, and nobody on staff has time to plan one. So she hands the job to three students — Maya, Ethan, and Jordan — and gives them one week to pick a destination the whole grade will actually live with. Maya has a place in mind that sounds like the best day ever. Ethan thinks a trip that doesn't teach you anything is a waste. Jordan keeps noticing the stuff nobody wants to talk about — like price tags, and what twenty-four other sixth graders are going to say. Three kids. One trip. A lot harder than it looked when the principal handed them the folder.
+characters:
+  - character_id: maya_chen
+    name: Maya Chen
+    voice_hook: |
+      Warm, loud, connector of the group. She measures a trip by how much of it she'll still be talking about in eighth grade. Talks with her hands, gets excited first and thinks second; tends to sell her ideas as if they're already decided. Strong loyalty to her friends — she'll argue hard, but she's not in it to win, she's in it to share the moment with them.
+  - character_id: ethan_park
+    name: Ethan Park
+    voice_hook: |
+      Careful, well-read, carries a clipboard with actual notes on it. Treats every decision like there's a correct answer waiting to be found, and gets visibly annoyed when people skip the reasoning. Means well, but can come across as lecturing when he thinks someone's being sloppy. Secretly admires Maya's ease and resents that he doesn't have it.
+  - character_id: jordan_rivera
+    name: Jordan Rivera
+    voice_hook: |
+      The one who says "wait — what about…" after everyone else thinks a decision is done. Quieter than Maya, less bookish than Ethan, but the one with the sharpest eye for what's actually being skipped over (cost, fairness, consequences). Doesn't push hard, but doesn't back down either; people end up listening to Jordan because they figure out, usually too late, that Jordan was already right.
+episodes:
+  - episode_id: episode_01
+    title: Maya's Big Idea
+    episode_synopsis: |
+      Day two of the trip-committee assignment. Maya comes in already sold on Adventure Park at Shelby Farms — the ropes courses, the ziplines, the group photos, the whole thing. She treats the pitch like a formality ("so we're doing Adventure Park, right?") and sells it on vibes: everyone will love it, everyone will still be talking about it in eighth grade, it's the obvious pick. Ethan doesn't bite. He wants to know what anyone would come back knowing. Maya pivots to "teamwork" and "we'll bond" and can't quite explain how ziplines give you anything you couldn't get from a good gym class. Every time Ethan presses for a specific reason this is the right field trip, Maya reaches for how much fun it will be, and Ethan points out — politely at first, then less politely — that she's answering a different question. Jordan stays mostly quiet but lands one well-placed observation late in the scene: Maya has made the case that people would enjoy Adventure Park, not that it's the trip the class should take. Maya doesn't surrender, but by the end she has to admit she's been selling enthusiasm where a reason needed to be. Ethan says he'll come back tomorrow with his own pitch.
+    reading_time_minutes: 8
+    word_count_range:
+      min: 1050
+      max: 1350
+    final_takeaway: |
+      Being excited about an idea isn't the same as having a reason it's the right one.
+  - episode_id: episode_02
+    title: Ethan's Big Idea
+    episode_synopsis: |
+      Ethan comes in the next day with actual printouts. He pitches the Smithsonian in Washington, DC — admission is free, you could split the day between the National Museum of American History and the Air and Space Museum, and kids would come back having stood in front of the actual Wright Flyer and the actual Star-Spangled Banner. It lands well at first. Maya says it sounds cool. Jordan asks a small question: "It's in DC, right?" Ethan confirms. Jordan: "How are we getting there?" Ethan says flights are cheap if you book early, and he's read about schools that do DC trips. Jordan keeps going — what does that cost for forty kids plus chaperones, what about hotels, what happens to kids whose families can't pay that on top of a field-trip fee? Ethan pushes back, insists it's doable, insists the principal will figure it out. Jordan holds the line: Ms. Alvarez asked us to pick a trip, not to fundraise for one — and if this only works for kids whose families can swing the extra money, then it doesn't actually work for the whole grade. Maya, who had been on Ethan's side, quietly says her own family couldn't cover a DC trip either. Ethan is visibly thrown. He'd built the whole pitch around how good the content was and hadn't tested it against whether the class could actually go. By the end of the scene nobody has a plan. The Smithsonian stays on the whiteboard with a line drawn through it.
+    reading_time_minutes: 9
+    word_count_range:
+      min: 1200
+      max: 1500
+    final_takeaway: |
+      Before you commit to a plan, it's worth asking who it works for — and who it leaves out.
+  - episode_id: episode_03
+    title: A Trip That Works
+    episode_synopsis: |
+      Third meeting. Both top picks are dead and the deadline is closing. Everyone is a little frustrated. Jordan is the one who changes the question — stops asking "what trip do we want" and starts asking "what do we actually need a field trip to do?" Slowly they list it out. Maya: it has to be something they'll still be talking about later. Ethan: it has to teach something they couldn't get in a classroom. Jordan: it has to be affordable, and nobody can be shut out of going. They start listing local places against those criteria, and the National Civil Rights Museum comes up. Maya's first reaction is that it doesn't sound fun. Ethan, to his own surprise, lights up — it's national-scale content, the Lorraine Motel, the Freedom Rides bus, the same tier of primary sources he wanted from the Smithsonian. Jordan has already checked: school-group rates, a bus ride away, no flights. Maya holds out for a beat, then mentions her aunt told her once she cried there, and admits — maybe "fun" isn't what she actually wanted from the trip; maybe it was a day the whole grade would remember together, and this might be that. None of the three would have picked the Civil Rights Museum on day one; all three can defend it by the end. They don't high-five. They just stop arguing and start writing the proposal for Ms. Alvarez.
+    reading_time_minutes: 9
+    word_count_range:
+      min: 1200
+      max: 1500
+    final_takeaway: |
+      Sometimes the best answer isn't anyone's first idea — it's the one that holds up after everyone's been heard.

@@ -7,6 +7,10 @@ cleared first — this is a clean replace, not a merge. Operators run this
 once after checking out a v5 version that changed command or agent
 definitions.
 
+Current v5 inventory:
+  commands/ — design_story, create_transcript
+  agents/   — staff_writer, script_doctor, transcript_structurer
+
 Usage:
   python3 v5/pipeline/scripts/initialize_polylogue.py
   python3 v5/pipeline/scripts/initialize_polylogue.py --project-root /path
@@ -89,7 +93,7 @@ def main(argv: list[str] | None = None) -> int:
 
     print(f"[agents]   source: {AGENTS_SRC}")
     if not AGENTS_SRC.exists():
-        print(f"  (skipped — {AGENTS_SRC} does not exist yet)")
+        print(f"  (skipped — {AGENTS_SRC} is missing)")
     else:
         agents_cleared, agents_copied, agents_detail = sync_dir(
             AGENTS_SRC, claude_dir / "agents", args.dry_run
@@ -103,8 +107,25 @@ def main(argv: list[str] | None = None) -> int:
         print("Dry run — no files changed.")
     else:
         print("Sync complete.")
+        _print_inventory(claude_dir)
 
     return 0
+
+
+def _print_inventory(claude_dir: Path) -> None:
+    """Report the post-sync inventory of .claude/commands/ and .claude/agents/."""
+    print()
+    print("Installed:")
+    for sub in ("commands", "agents"):
+        d = claude_dir / sub
+        if not d.exists():
+            print(f"  .claude/{sub}/ — (missing)")
+            continue
+        names = sorted(p.stem for p in d.iterdir() if p.is_file() and p.suffix == ".md")
+        if not names:
+            print(f"  .claude/{sub}/ — (empty)")
+        else:
+            print(f"  .claude/{sub}/ — {', '.join(names)}")
 
 
 if __name__ == "__main__":

@@ -395,27 +395,41 @@ If successful, v5 should reduce false positives, improve anchor quality, and mak
 - finalize the three-step quiz model in Section 3
 - decide the minimum `lesson_package.yaml` shape change needed for v5
 
-### Phase 1: Story-Design Inputs
+### Phase 1: Story-Design Inputs ✅ complete (2026-04-21)
 
 - author `/design_story` command file (done: `pipeline/commands/design_story.md`)
 - ensure `story.yaml` schema carries per-episode blocks with four required fields (done: `schemas/story.yaml`)
 - operator approval gate lives in `story-design-review.md` at end of Phase D; transcript drafting must not start until `Status: approved` is set
 - no separate episode-plan or projection artifact; no `showrunner` / `story_designer` subagents
 
-### Phase 2: Reasoning Detection
+Both implementations of the doctrine are live:
 
-- update `script_doctor` and related review stages
-- require them to:
-  - detect strong and weak reasoning
-  - enforce the five anchor criteria
-  - articulate the intended claim
-  - classify each anchor as a `(reasoning_item_id, polarity)` pair from `v5/reference/reasoning-taxonomy.yaml`
-  - revise turns until reasoning quality is strongly expressed
-- update the upstream proposals artifact (currently `flaw-proposals.yaml`; likely renamed `reasoning-proposals.yaml`) to persist, per anchor:
-  - `reasoning_item_id` and `polarity`
-  - intended claim
-  - any revised wording
-  - the source turn reference
+- `pipeline/commands/design_story.md` (Claude Code slash command)
+- `design_story/orchestrator-prompt.md` (webapp Agent SDK orchestrator)
+
+Shared doctrine lives in `docs/story-design-doctrine.md`. Validator (`pipeline/scripts/validate_story.py`) and bootstrap (`pipeline/scripts/initialize_polylogue.py`) shipped. Two stories produced end-to-end: `stories/the_trip_committee/` (Claude Code) and `stories/white_squirrel_overton/` (webapp).
+
+### Phase 2: Reasoning Detection 🟡 infrastructure complete (2026-04-21) — awaiting pilot
+
+Artifacts shipped:
+
+- `pipeline/commands/create_transcript.md` — thin orchestrator, three operator gates
+- `pipeline/agents/staff_writer.md` — drafts `transcript.raw.yaml`; reads story.yaml (whole + target episode block), no taxonomy, narrator-aware, word_count_range as soft guideline
+- `pipeline/agents/script_doctor.md` — propose + apply modes; reads raw draft + taxonomy **only** (no episode_synopsis); five-criterion justification per proposal; default cap 5; `intended_claim` articulation; revised_text on anchor turns only
+- `pipeline/agents/transcript_structurer.md` — 3+ scenes, preserves turn ids/text verbatim, polarity-free output
+- `pipeline/scripts/validate_reasoning_proposals.py`
+- `pipeline/scripts/validate_transcript.py`
+
+Key v5 design decisions (ratified during Phase 2 drafting):
+
+- **No cross-session resumability ladder.** A command runs to completion in one session or is rerun fresh after operator confirmation clears owned artifacts. In-session iteration at any gate is unbounded; it is not "resume."
+- **`script_doctor` is dialogue-only.** It does not read `story.yaml` or `episode_synopsis`. Detection must be a fresh pass against the transcript so the system can report honestly on whether the dialogue actually delivered the synopsis's commitments.
+- **Default proposal cap = 5.** Operator can lift per-run.
+- **No separate `transcript-doctrine.md`.** The five criteria, revision policy, and narrator convention live authoritatively in `docs/instructional-design.md` §3.5 and §4. Revisit if a webapp twin appears or the criteria get revised.
+
+Pending to close Phase 2:
+
+- Pilot-run `/create_transcript episode_01` against `stories/the_trip_committee/` and review the four produced artifacts end-to-end. Tighten agent prompts and validators based on what the pilot surfaces.
 
 ### Phase 3: Lesson-Package Redesign
 
