@@ -1,0 +1,92 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Student {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  runs      Run[]
+
+  @@map("students")
+}
+
+model CatalogStory {
+  storyId   String   @id @map("story_id")
+  title     String
+  premise   String
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("catalog_stories")
+}
+
+model CatalogEpisode {
+  storyId           String   @map("story_id")
+  episodeId         String   @map("episode_id")
+  episodeTitle      String   @map("episode_title")
+  lessonPackagePath String   @map("lesson_package_path")
+  transcriptPath    String   @map("transcript_path")
+  isAvailable       Boolean  @default(true) @map("is_available")
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
+  runs              Run[]
+
+  @@id([storyId, episodeId])
+  @@map("catalog_episodes")
+}
+
+model Run {
+  runId              String         @id @default(cuid()) @map("run_id")
+  studentId          String         @map("student_id")
+  storyId            String         @map("story_id")
+  episodeId          String         @map("episode_id")
+  currentSceneIndex  Int            @default(0) @map("current_scene_index")
+  sceneHighWaterMark Int            @default(0) @map("scene_high_water_mark")
+  starsEarned        Int            @default(0) @map("stars_earned")
+  readingFinishedAt  DateTime?      @map("reading_finished_at")
+  startedAt          DateTime       @default(now()) @map("started_at")
+  updatedAt          DateTime       @updatedAt @map("updated_at")
+  student            Student        @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  catalogEpisode     CatalogEpisode @relation(fields: [storyId, episodeId], references: [storyId, episodeId], onDelete: Cascade)
+  quizAttempts       QuizAttempt[]
+
+  @@unique([studentId, storyId, episodeId], name: "unique_student_episode_run")
+  @@index([studentId])
+  @@index([storyId, episodeId])
+  @@map("runs")
+}
+
+// v5 three-step quiz attempt. One row per (run, level).
+// Each step carries its own first/final option + lock timestamp, which
+// drives progressive reveal deterministically off persisted state.
+// Step 2 is a reflection step — one choice, no correctness, no retry.
+model QuizAttempt {
+  id               String    @id @default(cuid())
+  runId            String    @map("run_id")
+  levelId          String    @map("level_id")
+  turnId           String    @map("turn_id")
+  step1FirstOption String?   @map("step1_first_option")
+  step1FinalOption String?   @map("step1_final_option")
+  step1LockedAt    DateTime? @map("step1_locked_at")
+  step2Option      String?   @map("step2_option")
+  step3FirstOption String?   @map("step3_first_option")
+  step3FinalOption String?   @map("step3_final_option")
+  step3LockedAt    DateTime? @map("step3_locked_at")
+  usedHint         Boolean   @default(false) @map("used_hint")
+  starsEarned      Int       @default(0) @map("stars_earned")
+  lockedAt         DateTime? @map("locked_at")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime  @updatedAt @map("updated_at")
+  run              Run       @relation(fields: [runId], references: [runId], onDelete: Cascade)
+
+  @@unique([runId, levelId], name: "unique_run_level_quiz_attempt")
+  @@index([runId])
+  @@map("quiz_attempts")
+}

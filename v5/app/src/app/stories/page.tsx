@@ -1,0 +1,180 @@
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import { openStoryAction } from "@/app/actions";
+import { StarRow } from "@/app/_components/StarRow";
+import { listCatalogEpisodes } from "@/lib/catalog";
+import { loadReaderLessonPackageByPaths } from "@/lib/content";
+import { listStudentRuns } from "@/lib/runs";
+import { getActiveStudentFromCookies } from "@/lib/students";
+
+export default async function StoriesPage() {
+  const student = await getActiveStudentFromCookies();
+  if (!student) {
+    redirect("/");
+  }
+
+  const [episodes, runs] = await Promise.all([
+    listCatalogEpisodes(),
+    listStudentRuns(student.id),
+  ]);
+
+  const runsByEpisode = new Map(
+    runs.map((run) => [`${run.storyId}::${run.episodeId}`, run]),
+  );
+
+  type EpisodeBlurb = {
+    summary: string;
+    previously: string | null;
+    finalTakeaway: string;
+    levelCount: number;
+  };
+  const blurbByKey = new Map<string, EpisodeBlurb>();
+  await Promise.all(
+    episodes.map(async (episode) => {
+      const key = `${episode.storyId}::${episode.episodeId}`;
+      try {
+        const lessonPackage = await loadReaderLessonPackageByPaths(episode.lessonPackagePath);
+        blurbByKey.set(key, {
+          summary: lessonPackage.summary,
+          previously: lessonPackage.previously ?? null,
+          finalTakeaway: lessonPackage.finalTakeaway,
+          levelCount: lessonPackage.levels.length,
+        });
+      } catch {
+        blurbByKey.set(key, {
+          summary: "",
+          previously: null,
+          finalTakeaway: "",
+          levelCount: 0,
+        });
+      }
+    }),
+  );
+
+  const grouped = new Map<
+    string,
+    Array<{
+      storyId: string;
+      episodeId: string;
+      storyHeading: string;
+      premise: string;
+      episodeTitle: string;
+      summary: string;
+      previously: string | null;
+      finalTakeaway: string;
+      stateLabel: string;
+      starsEarned: number;
+      totalStars: number;
+      completed: boolean;
+    }>
+  >();
+
+  for (const episode of episodes) {
+    const key = `${episode.storyId}::${episode.episodeId}`;
+    const run = runsByEpisode.get(key);
+    const stateLabel = run ? "Resume" : "Read";
+    const blurb = blurbByKey.get(key);
+
+    const bucket = grouped.get(episode.storyId) ?? [];
+    bucket.push({
+      storyId: episode.storyId,
+      episodeId: episode.episodeId,
+      storyHeading: episode.story.title,
+      premise: episode.story.premise,
+      episodeTitle: episode.episodeTitle,
+      summary: blurb?.summary ?? "",
+      previously: blurb?.previously ?? null,
+      finalTakeaway: blurb?.finalTakeaway ?? "",
+      stateLabel,
+      starsEarned: run?.starsEarned ?? 0,
+      totalStars: (blurb?.levelCount ?? 0) * 3,
+      completed: Boolean(run?.readingFinishedAt),
+    });
+    grouped.set(episode.storyId, bucket);
+  }
+
+  return (
+    <div className="page-wide">
+      <header className="page-header">
+        <p className="eyebrow">Read a story</p>
+        <h1>Pick an episode for {student.name}.</h1>
+        <p>
+          Episodes stay in a fixed order. Tap a card to open the episode and start reading.
+        </p>
+      </header>
+
+      <div className="stack">
+        {Array.from(grouped.entries()).map(([storyId, storyEpisodes]) => (
+          <section key={storyId} className="panel stack">
+            <div className="home-section-heading">
+              <div>
+                <p className="eyebrow">Story</p>
+                <h2>{storyEpisodes[0]?.storyHeading}</h2>
+                {storyEpisodes[0]?.premise ? <p>{storyEpisodes[0].premise}</p> : null}
+              </div>
+            </div>
+
+            <ul className="selector-list">
+              {storyEpisodes.map((episode) => (
+                <li key={`${episode.storyId}-${episode.episodeId}`} className="selector-item">
+                  <form action={openStoryAction}>
+                    <input type="hidden" name="story_id" value={episode.storyId} />
+                    <input type="hidden" name="episode_id" value={episode.episodeId} />
+                    <button type="submit" className="selector-target story-picker-card">
+                      <div className="story-picker-card__copy">
+                        <div>
+                          <div className="selector-title">{episode.episodeTitle}</div>
+                          <div className="selector-hint">{episode.episodeId}</div>
+                        </div>
+                        <div className="story-picker-card__state">{episode.stateLabel}</div>
+                      </div>
+                      {episode.previously ? (
+                        <p className="story-picker-card__previously">
+                          <span className="story-picker-card__previously-label">Previously</span>{" "}
+                          {episode.previously}
+                        </p>
+                      ) : null}
+                      {episode.summary ? (
+                        <p className="story-picker-card__summary">{episode.summary}</p>
+                      ) : null}
+                      <StarRow earned={episode.starsEarned} total={episode.totalStars} />
+                    </button>
+                  </form>
+                </li>
+              ))}
+            </ul>
+            {storyEpisodes.every((episode) => episode.completed) ? (
+              <div className="stack">
+                <div>
+                  <p className="eyebrow">Takeaways</p>
+                  <h3>After the whole story</h3>
+                </div>
+                <ul className="selector-list">
+                  {storyEpisodes.map((episode) => (
+                    <li
+                      key={`${episode.storyId}-${episode.episodeId}-takeaway`}
+                      className="selector-item"
+                    >
+                      <div className="selector-target">
+                        <div className="selector-title">{episode.episodeTitle}</div>
+                        <div className="selector-hint">{episode.episodeId}</div>
+                        <p className="story-picker-card__summary">{episode.finalTakeaway}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </section>
+        ))}
+      </div>
+
+      <div className="stories-home-row">
+        <Link href="/" className="stories-home-link" aria-label="Back to home — switch profile">
+          <span className="stories-home-link__icon" aria-hidden="true">⌂</span>
+          <span>Home</span>
+        </Link>
+      </div>
+    </div>
+  );
+}
