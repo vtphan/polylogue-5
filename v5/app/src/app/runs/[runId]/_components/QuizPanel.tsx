@@ -8,6 +8,10 @@ import {
 } from "@/app/actions";
 import type { ReaderLevel } from "@/lib/content";
 import type { AnswerOption, StepFeedback } from "@/lib/domain";
+import {
+  polarityMatched,
+  step3BranchKeyForStep2,
+} from "@/lib/grading";
 import type { QuizAttempt } from "@prisma/client";
 
 type QuizPanelProps = {
@@ -35,12 +39,10 @@ export function QuizPanel({
   const levelLocked = Boolean(attempt?.lockedAt);
 
   // Polarity alignment determines whether "Actually" fires in completed mode.
-  // For a weak anchor the author-canonical Step 2 pick is "no_unsure"; for a
-  // strong anchor it is "yes_strong." Misalignment surfaces the opposite
-  // branch's reasoning so the student sees the authored reading.
-  const alignedStep2 = level.polarity === "weak" ? "no_unsure" : "yes_strong";
+  // Misalignment surfaces the opposite branch's reasoning so the student sees
+  // the authored reading.
   const isMisaligned =
-    step2Option !== null && step2Option !== alignedStep2;
+    step2Option !== null && !polarityMatched(level.polarity, step2Option);
 
   return (
     <div className={`quiz-panel stack${levelLocked ? " quiz-panel--locked" : ""}`}>
@@ -158,18 +160,30 @@ function ClaimCard({
   const locked = Boolean(attempt?.step1LockedAt);
 
   if (locked) {
-    const correctOption = findCorrectOption(
-      level.step_1_claim.options,
-      level.step_1_claim.feedback,
-    );
+    const step1 = level.step_1_claim;
+    const correctIds = step1.feedback.correct.option_ids;
+    const correctOption = findCorrectOption(step1.options, step1.feedback);
+    const finalOptionId = attempt?.step1FinalOption ?? null;
+    const claimStarEarned = Boolean(finalOptionId && correctIds.includes(finalOptionId));
+    const wrongPick =
+      !claimStarEarned && finalOptionId
+        ? step1.options.find((o) => o.option_id === finalOptionId) ?? null
+        : null;
+
     return (
       <NarrativeCard eyebrow={`What ${anchorSpeaker} is arguing`}>
         {correctOption ? (
-          <p className="narrative-card__claim">{correctOption.text}</p>
+          <p className="narrative-card__claim">
+            {correctOption.text}
+            {claimStarEarned ? <EarnedMark /> : null}
+          </p>
         ) : null}
-        <p className="narrative-card__body">
-          {level.step_1_claim.feedback.correct.text}
-        </p>
+        <p className="narrative-card__body">{step1.feedback.correct.text}</p>
+        {wrongPick ? (
+          <p className="narrative-card__your-pick">
+            You picked: &ldquo;{wrongPick.text}&rdquo;
+          </p>
+        ) : null}
       </NarrativeCard>
     );
   }
@@ -209,8 +223,10 @@ function YourTakeCard({
   const step2Option = attempt?.step2Option ?? null;
   const levelLocked = Boolean(attempt?.lockedAt);
 
-  if (levelLocked && step2Option) {
-    return <YourTakeNarrative level={level} step2Option={step2Option} />;
+  if (levelLocked && step2Option && attempt) {
+    return (
+      <YourTakeNarrative level={level} step2Option={step2Option} attempt={attempt} />
+    );
   }
 
   if (!step2Option) {
@@ -279,8 +295,7 @@ function Step3Picker({
   attempt,
   step2Option,
 }: Step3PickerProps) {
-  const branchKey = step2Option === "yes_strong" ? "why_yes" : "why_no";
-  const branch = level.step_3[branchKey];
+  const branch = level.step_3[step3BranchKeyForStep2(step2Option)];
   const routing = level.step_2_judgment.routing_text;
 
   return (
@@ -304,21 +319,59 @@ function Step3Picker({
 type YourTakeNarrativeProps = {
   level: ReaderLevel;
   step2Option: string;
+  attempt: QuizAttempt;
 };
 
-function YourTakeNarrative({ level, step2Option }: YourTakeNarrativeProps) {
-  const branchKey = step2Option === "yes_strong" ? "why_yes" : "why_no";
+function YourTakeNarrative({
+  level,
+  step2Option,
+  attempt,
+}: YourTakeNarrativeProps) {
+  const branchKey = step3BranchKeyForStep2(step2Option);
   const branch = level.step_3[branchKey];
+  const polarityStarEarned = polarityMatched(level.polarity, step2Option);
+
+  const step3FinalOption = attempt.step3FinalOption ?? null;
+  const step3Correct =
+    step3FinalOption !== null &&
+    branch.feedback.correct.option_ids.includes(step3FinalOption);
+  // Reasoning star is conditional on polarity match.
+  const reasoningStarEarned = polarityStarEarned && step3Correct;
+
   const framing =
     step2Option === "yes_strong"
       ? "You thought it was strong."
       : "You weren't convinced.";
 
+  const wrongStep3Pick =
+    !step3Correct && step3FinalOption
+      ? branch.options.find((o) => o.option_id === step3FinalOption) ?? null
+      : null;
+
   return (
     <NarrativeCard eyebrow="Your take">
-      <p className="narrative-card__claim">{framing}</p>
-      <p className="narrative-card__body">{branch.feedback.correct.text}</p>
+      <p className="narrative-card__claim">
+        {framing}
+        {polarityStarEarned ? <EarnedMark /> : null}
+      </p>
+      <p className="narrative-card__body">
+        {branch.feedback.correct.text}
+        {reasoningStarEarned ? <EarnedMark /> : null}
+      </p>
+      {wrongStep3Pick ? (
+        <p className="narrative-card__your-pick">
+          You picked: &ldquo;{wrongStep3Pick.text}&rdquo;
+        </p>
+      ) : null}
     </NarrativeCard>
+  );
+}
+
+function EarnedMark() {
+  return (
+    <span className="earned-mark" aria-label="earned">
+      ✓
+    </span>
   );
 }
 
@@ -330,8 +383,9 @@ type ActuallyCardProps = {
 function ActuallyCard({ level, step2Option }: ActuallyCardProps) {
   // Opposite branch from the student's Step 2 pick — the authored reasoning
   // they would otherwise never see.
-  const oppositeBranchKey = step2Option === "yes_strong" ? "why_no" : "why_yes";
-  const oppositeBranch = level.step_3[oppositeBranchKey];
+  const studentBranch = step3BranchKeyForStep2(step2Option);
+  const oppositeBranch =
+    studentBranch === "why_yes" ? level.step_3.why_no : level.step_3.why_yes;
 
   return (
     <NarrativeCard eyebrow="Actually" variant="actually">

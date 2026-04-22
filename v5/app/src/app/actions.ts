@@ -7,12 +7,8 @@ import {
   loadReaderLessonPackageByPaths,
   loadReaderTranscriptByPaths,
 } from "@/lib/content";
-import {
-  getQuizAttempt,
-  starsForLockedLevel,
-  step3BranchKeyForStep2,
-  syncRunStars,
-} from "@/lib/quiz";
+import { getQuizAttempt, syncRunStars } from "@/lib/quiz";
+import { computeLevelStars, step3BranchKeyForStep2 } from "@/lib/grading";
 import {
   createStudent,
   getActiveStudentFromCookies,
@@ -399,43 +395,17 @@ async function finalizeLevelLock(params: {
 
   const level = await getReaderLevelForRun(params.run, params.levelId);
 
-  const step1FirstCorrect = Boolean(
-    attempt.step1FirstOption &&
-      level.step_1_claim.feedback.correct.option_ids.includes(attempt.step1FirstOption),
-  );
-  const step1FinalCorrect = Boolean(
-    attempt.step1FinalOption &&
-      level.step_1_claim.feedback.correct.option_ids.includes(attempt.step1FinalOption),
-  );
-
-  const step2Option = attempt.step2Option;
-  const branch = step2Option
-    ? level.step_3[step3BranchKeyForStep2(step2Option)]
-    : null;
-
-  const step3FirstCorrect = Boolean(
-    branch &&
-      attempt.step3FirstOption &&
-      branch.feedback.correct.option_ids.includes(attempt.step3FirstOption),
-  );
-  const step3FinalCorrect = Boolean(
-    branch &&
-      attempt.step3FinalOption &&
-      branch.feedback.correct.option_ids.includes(attempt.step3FinalOption),
-  );
-
-  const stars = starsForLockedLevel({
-    usedHint: attempt.usedHint,
-    step1FirstWasCorrect: step1FirstCorrect,
-    step1FinalWasCorrect: step1FinalCorrect,
-    step3FirstWasCorrect: step3FirstCorrect,
-    step3FinalWasCorrect: step3FinalCorrect,
+  const stars = computeLevelStars({
+    level,
+    step1FinalOption: attempt.step1FinalOption,
+    step2Option: attempt.step2Option,
+    step3FinalOption: attempt.step3FinalOption,
   });
 
   await prisma.quizAttempt.update({
     where: { id: attempt.id },
     data: {
-      starsEarned: stars,
+      starsEarned: stars.total,
       lockedAt: new Date(),
     },
   });

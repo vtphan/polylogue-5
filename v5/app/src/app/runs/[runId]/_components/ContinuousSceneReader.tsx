@@ -15,6 +15,7 @@ import { StarRow } from "@/app/_components/StarRow";
 import { QuizPanel } from "@/app/runs/[runId]/_components/QuizPanel";
 import type { ReaderLevel } from "@/lib/content";
 import type { TranscriptScene, TranscriptTurn } from "@/lib/domain";
+import { computeLevelStars, type LevelStars } from "@/lib/grading";
 import type { QuizAttempt } from "@prisma/client";
 
 type SceneSummary = {
@@ -280,6 +281,7 @@ export function ContinuousSceneReader({
                         <p className="scene-turn__text">{turn.text}</p>
                         {flaggedLevel && handleIconClick ? (
                           <FlaggedTurnIcon
+                            level={flaggedLevel}
                             attempt={flaggedAttempt}
                             isOpen={flaggedOpen}
                             onClick={handleIconClick}
@@ -331,24 +333,35 @@ export function ContinuousSceneReader({
 }
 
 function FlaggedTurnIcon({
+  level,
   attempt,
   isOpen,
   onClick,
 }: {
+  level: ReaderLevel;
   attempt: QuizAttempt | null;
   isOpen: boolean;
   onClick: (event: MouseEvent<HTMLButtonElement>) => void;
 }) {
   const locked = Boolean(attempt?.lockedAt);
-  const stars = attempt?.starsEarned ?? 0;
-  const wasCorrect = locked && stars > 0;
+  const stars: LevelStars | null = locked && attempt
+    ? computeLevelStars({
+        level,
+        step1FinalOption: attempt.step1FinalOption,
+        step2Option: attempt.step2Option,
+        step3FinalOption: attempt.step3FinalOption,
+      })
+    : null;
 
   let icon = "?";
   let variant = "";
   let label = locked ? "Re-open this question" : "Open the question for this turn";
 
-  if (locked) {
-    if (wasCorrect) {
+  if (stars) {
+    // The chip's ✓/✗ reflects Star 2 (polarity) specifically — the central
+    // critical-thinking call. The three-star row below carries the full
+    // per-star breakdown.
+    if (stars.polarity) {
       icon = "✓";
       variant = " flagged-turn__chip--correct";
     } else {
@@ -363,14 +376,34 @@ function FlaggedTurnIcon({
   }
 
   return (
-    <button
-      type="button"
-      className={`flagged-turn__chip${variant}`}
-      title={label}
-      aria-label={label}
-      onClick={onClick}
+    <div className="flagged-turn__chip-stack">
+      <button
+        type="button"
+        className={`flagged-turn__chip${variant}`}
+        title={label}
+        aria-label={label}
+        onClick={onClick}
+      >
+        {icon}
+      </button>
+      {stars ? (
+        <div className="flagged-turn__stars" aria-label={`${stars.total} of 3 stars`}>
+          <StarPip earned={stars.claim} />
+          <StarPip earned={stars.polarity} />
+          <StarPip earned={stars.reasoning} />
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function StarPip({ earned }: { earned: boolean }) {
+  return (
+    <span
+      className={`flagged-turn__star${earned ? " flagged-turn__star--earned" : " flagged-turn__star--empty"}`}
+      aria-hidden="true"
     >
-      {icon}
-    </button>
+      ★
+    </span>
   );
 }

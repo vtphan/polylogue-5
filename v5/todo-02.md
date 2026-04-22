@@ -194,8 +194,9 @@ Four cards, pure authored content. No options, no controls.
   *"You weren't convinced."* (for `no_unsure`).
 - Body: `step_3[chosen_branch].feedback.correct.text` — the canonical
   reasoning from the branch the student took.
-- The student's specific Step 3 pick text does **not** appear. The
-  active-mode reveal already taught whatever correction was needed.
+- When the student's Step 3 pick was **wrong**, a dim italic one-liner
+  below the canonical surfaces the actual pick: *"You picked: '…'"*.
+  Keeps the canonical at primary weight while making the miss concrete.
 
 **Card 3 · Actually** *(conditional)*
 - Appears **iff** the student's Step 2 pick is misaligned with the
@@ -220,9 +221,52 @@ Four cards, pure authored content. No options, no controls.
 > authored content keyed to the student's Y/N judgment.**
 
 Every beat in the post-lock narrative pulls from authored text that
-already exists in the lesson package. Stars carry the Step 3 performance
-record separately; the narrative itself does not double-book that
-signal.
+already exists in the lesson package. Stars carry per-step performance
+separately; the narrative and the star signals stay independent.
+
+### Grading — 3-star rubric (2026-04-22 revision)
+
+Earlier drafts treated Step 2 as an ungraded reflection. Revised: Step 2
+(polarity detection) **is** graded, and is arguably the load-bearing
+skill — recognizing weak vs. strong reasoning is the point of the
+curriculum. One star per step:
+
+| Star | Earned iff | Skill |
+|---|---|---|
+| 1 · Claim    | Step 1 final pick is correct | Reading comprehension — *"what is the character arguing?"* |
+| 2 · Polarity | Step 2 pick matches the anchor's authored polarity (given the correct claim was revealed at Step 1 lock) | Critical-thinking judgment — *"is this argument weak or strong?"* |
+| 3 · Reasoning | Step 3 final pick is correct **AND** Star 2 was earned | Reasoning articulation — *"why is it weak/strong?"* — conditional because articulating reasoning inside a mis-framed argument is a different skill |
+
+Implementation lives in `src/lib/grading.ts` (`computeLevelStars`). The
+server's `finalizeLevelLock` writes `attempt.starsEarned` as the total
+(0–3). Hint use and retry counts do **not** affect stars — each star is
+binary on final correctness.
+
+### Signals — turn chip + inline checkmarks (2026-04-22 revision)
+
+The turn chip (the small icon on flagged transcript turns) now carries
+two layers of signal:
+
+- **Icon (✓ / ✗)** — reflects **Star 2** specifically. Green ✓ when the
+  student matched polarity; red ✗ when they mismatched. Star 2 is the
+  central call, so the chip headlines it.
+- **Three-star row beneath** — per-star breakdown (`★ ★ ★` filled vs
+  `·` empty), ordered Claim · Polarity · Reasoning.
+
+Inside the panel (both active-mid-quiz narrative Card 1 and completed
+mode), an inline green ✓ marks each earned star:
+
+- Card 1 "What *[speaker]* is arguing" — ✓ after the claim statement
+  when Star 1 earned.
+- Card 2 "Your take" — ✓ after the framing line when Star 2 earned; ✓
+  after the canonical reasoning when Star 3 earned.
+
+Absence of ✓ communicates the miss — no ✗ mark is used inside the panel,
+so the cards don't compete visually with their own teaching content.
+
+When the student's **final pick** on Step 1 or Step 3 was wrong, a dim
+italic one-liner under the card surfaces it: *"You picked: '…'"*. Keeps
+the canonical at primary weight while making the miss concrete.
 
 ### Resolved design questions
 
@@ -238,20 +282,37 @@ signal.
   retains the red wrong-pick styling as the in-the-moment signal.
 - ❓ Card 2 and Card 3 use authored canonical text only — student's
   Step 3 pick text does not appear in the narrative.
-- ❓ `Actually` trigger is polarity-misalignment at Step 2, not Step 3
-  wrong-pick. Step 2's non-graded framing is preserved in stars but the
-  narrative does treat polarity as canonical.
+- ❓ `Actually` trigger is polarity-misalignment at Step 2. With the
+  revised 3-star rubric, Step 2 is now genuinely graded, so "Actually"
+  aligns with a real grading consequence (Star 2 missed) rather than
+  floating orthogonally to the signals.
+- ❓ Stars are per-step binary (1 iff final pick correct on graded
+  steps; Star 3 conditional on Star 2). Hint usage and retry counts do
+  not reduce stars.
+- ❓ Turn chip signal: ✓/✗ tracks Star 2 (the central skill); star row
+  beneath carries the full 3-star breakdown. Inline ✓ marks inside the
+  panel for earned stars; dim "You picked: …" one-liner when the final
+  pick was wrong.
 
 ### Scope of change
 
-- `QuizPanel.tsx` — two-mode render; four new internal components
-  (`ClaimCard`, `YourTakeCard`, `ActuallyCard`, `TakeawayCard`) plus
-  helpers for each state transition.
-- `ContinuousSceneReader.tsx` — resolve anchor speaker display name
-  from the active level's `turn_id` and pass as prop.
-- `globals.css` — additive `.narrative-card` styles.
-- No schema change, no server action change, no Prisma change, no
-  routing change.
+- `src/lib/grading.ts` **(new)** — pure module with `computeLevelStars`,
+  `polarityMatched`, `alignedStep2For`, `step3BranchKeyForStep2`. Shared
+  by the server's `finalizeLevelLock` and the client chip/panel. Does
+  not depend on server-only.
+- `src/lib/quiz.ts` — slimmed to `getQuizAttempt` and `syncRunStars`.
+  Old star ladder removed.
+- `src/app/actions.ts` — `finalizeLevelLock` now calls
+  `computeLevelStars` and writes the total as `attempt.starsEarned`.
+- `src/app/runs/[runId]/_components/QuizPanel.tsx` — inline ✓ marks on
+  Card 1 and Card 2; dim "You picked: …" lines on wrong final picks.
+- `src/app/runs/[runId]/_components/ContinuousSceneReader.tsx` —
+  `FlaggedTurnIcon` rebuilt as a stack: chip button + 3-star row. Now
+  takes `level` prop so it can compute per-star state.
+- `src/app/globals.css` — additive styles for `.flagged-turn__chip-stack`,
+  `.flagged-turn__stars`, `.earned-mark`, `.narrative-card__your-pick`.
+- No schema change, no server action signature change, no Prisma change,
+  no routing change.
 
 ### Needs explicit operator approval (outside this design)
 
