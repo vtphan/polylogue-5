@@ -156,7 +156,7 @@ function ClaimCard({
 
     return (
       <NarrativeCard title={`What ${anchorSpeaker} is arguing`}>
-        <ClaimReviewOptionsList
+        <AttemptReviewOptionsList
           options={step1.options}
           feedback={step1.feedback}
           firstOptionId={firstOptionId}
@@ -307,6 +307,7 @@ function YourTakeNarrative({
 }: YourTakeNarrativeProps) {
   const branchKey = step3BranchKeyForStep2(step2Option);
   const branch = level.step_3[branchKey];
+  const step3FirstOption = attempt.step3FirstOption ?? null;
   const step3FinalOption = attempt.step3FinalOption ?? null;
   const title =
     step2Option === "yes_strong"
@@ -315,10 +316,11 @@ function YourTakeNarrative({
 
   return (
     <NarrativeCard title={title}>
-      <ReviewOptionsList
+      <AttemptReviewOptionsList
         options={branch.options}
         feedback={branch.feedback}
-        selectedOptionId={step3FinalOption}
+        firstOptionId={step3FirstOption}
+        finalOptionId={step3FinalOption}
       />
     </NarrativeCard>
   );
@@ -381,25 +383,19 @@ function NarrativeCard({ title, variant = "default", children }: NarrativeCardPr
   );
 }
 
-type ReviewOptionsListProps = {
-  options: AnswerOption[];
-  feedback: StepFeedback;
-  selectedOptionId: string | null;
-};
-
-type ClaimReviewOptionsListProps = {
+type AttemptReviewOptionsListProps = {
   options: AnswerOption[];
   feedback: StepFeedback;
   firstOptionId: string | null;
   finalOptionId: string | null;
 };
 
-function ClaimReviewOptionsList({
+function AttemptReviewOptionsList({
   options,
   feedback,
   firstOptionId,
   finalOptionId,
-}: ClaimReviewOptionsListProps) {
+}: AttemptReviewOptionsListProps) {
   const correctIds = new Set(feedback.correct.option_ids);
   const wrongAttemptIds = new Set<string>();
 
@@ -433,39 +429,6 @@ function ClaimReviewOptionsList({
               <FeedbackCard tone="correct">{feedbackText}</FeedbackCard>
             ) : isWrongAttempt ? (
               <FeedbackCard tone="wrong">{feedbackText}</FeedbackCard>
-            ) : null}
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function ReviewOptionsList({
-  options,
-  feedback,
-  selectedOptionId,
-}: ReviewOptionsListProps) {
-  return (
-    <div className="quiz-options">
-      {options.map((option) => {
-        const isSelected = option.option_id === selectedOptionId;
-        const isCorrect = feedback.correct.option_ids.includes(option.option_id);
-        const feedbackText = isCorrect
-          ? feedback.correct.text
-          : feedback.by_option[option.option_id] ?? "";
-
-        return (
-          <div
-            key={option.option_id}
-            className={`quiz-option-stack${isSelected ? "" : " quiz-option-stack--dimmed"}`}
-          >
-            <ReadonlyOptionCard
-              text={option.text}
-              tone={isSelected ? (isCorrect ? "correct" : "wrong") : "neutral"}
-            />
-            {isSelected ? (
-              <FeedbackCard tone={isCorrect ? "correct" : "wrong"}>{feedbackText}</FeedbackCard>
             ) : null}
           </div>
         );
