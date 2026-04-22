@@ -312,7 +312,7 @@ All under `pipeline/scripts/`. Pure Python + PyYAML, no external deps.
 | `validate_transcript.py` | `transcript.yaml` — final app-facing transcript; 3+ scenes, global tNN uniqueness, polarity-free (rejects leakage of any reasoning/provenance fields onto turns) |
 | `validate_reasoning_proposals.py` | `reasoning-proposals.yaml` — requires `reasoning_item_id`, `polarity`, `intended_claim`, five-criterion justifications; optional `revised_text` |
 | `validate_transcript_post_doctor.py` | `transcript.post-doctor.yaml` — revision-provenance invariants: `original_text` ⟺ `source_proposal_id`; when both present, `text != original_text`; unrevised turns byte-identical to `transcript.raw.yaml` (raw-compare auto-discovered alongside, overridable via `--raw`) |
-| `validate_lesson_package.py` | `lesson_package.yaml` — three-step quiz shape per level |
+| `validate_lesson_package.py` | `lesson_package.yaml` — schema shape (three-step quiz per level, `schema_version: v5`, `previously` gating on `episode_number`), option/feedback integrity, and cross-refs against sibling `transcript.yaml` and `reasoning-proposals.yaml` (turn-id existence, approved-anchor match, anchor-appearance ordering) |
 
 `story-design-review.md` is operator-authored prose and not a machine-checkable artifact.
 

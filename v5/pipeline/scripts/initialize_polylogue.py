@@ -8,8 +8,8 @@ once after checking out a v5 version that changed command or agent
 definitions.
 
 Current v5 inventory:
-  commands/ — design_story, create_transcript
-  agents/   — staff_writer, script_doctor, transcript_structurer
+  commands/ — design_story, create_transcript, create_lesson_package
+  agents/   — staff_writer, script_doctor, transcript_structurer, lesson_package_builder
 
 Usage:
   python3 v5/pipeline/scripts/initialize_polylogue.py
