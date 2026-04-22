@@ -1,0 +1,48 @@
+story_id: white_squirrel_overton
+title: The White Squirrel
+premise: |
+  A few friends hang out in Overton Park after school, and one of them swears he saw a white squirrel with red eyes darting through the trees at the edge of the Old Forest. He has a blurry photo and a wild idea about where it came from. What starts as a story about a weird sighting turns into bigger conversations about what's actually worth believing, what counts as proof, and whether wanting something to be real changes what you see.
+characters:
+  - character_id: leo
+    name: Leo
+    voice_hook: |
+      The one who saw it, or says he did. Storyteller voice — sets scenes, lingers on what things looked and felt like, adds one detail too many. Believes his own eyes, but also loves a good mystery enough to reach for the more exciting explanation before the boring one. Carries a phone full of half-blurry photos he's weirdly proud of.
+  - character_id: maya
+    name: Maya
+    voice_hook: |
+      The friendly skeptic. Not a killjoy — more like someone who loves a puzzle and really doesn't want to get fooled. Talks fast, asks questions in rapid fire, quotes her older brother (a bio major at U of M) when she wants to sound authoritative. Trusts what she can see more than what she's told.
+  - character_id: jordan
+    name: Jordan
+    voice_hook: |
+      The quieter one who says "wait, what if..." after the others have been going back and forth for a while. Listens more than talks, but when they do speak up, the others usually pause. Keeps a notebook of things they want to look up later.
+episodes:
+  - episode_id: episode_01
+    title: Leo Saw a Movie
+    episode_synopsis: |
+      After school at Overton Park, Leo walks Maya and Jordan to the spot at the edge of the Old Forest where he says he saw it — a white squirrel with red eyes — and tries to convince them it might be from outer space. He just saw a sci-fi movie the night before about animals being changed by something that came down from the sky, and the more he talks, the more the movie's explanation starts to sound like his explanation. He shows them a blurry phone photo. He describes how the squirrel "moved wrong." Maya pushes back hard but mostly on the alien part, not on the sighting itself — she's not saying he didn't see anything, she's saying aliens is a wild place to land after one daylight glimpse and a movie. Jordan mostly listens and writes something down. The episode ends with Leo not backing off the alien theory but agreeing they should come back and look more carefully — and with Maya already forming her own theory she doesn't share yet.
+    reading_time_minutes: 7
+    word_count_range:
+      min: 900
+      max: 1200
+    final_takeaway: |
+      A great story isn't the same as a good explanation — and the more exciting one isn't always the one that fits.
+  - episode_id: episode_02
+    title: Maya's TikTok
+    episode_synopsis: |
+      A day or two later the three are back near the Old Forest, and Maya comes in with a theory of her own: the white squirrel is the product of pollution — toxic water doing something to the wildlife in the park. She's seen a TikTok about it, one of those fast-cut videos with a confident voice-over and footage of deformed fish, and it lines up perfectly with a white squirrel with red eyes. Leo, who has been gently needled about aliens since last time, is more than happy to go along with Maya's theory if it means his sighting is still something. But Jordan asks — carefully, notebook half-open — where Maya saw the pollution claim, and whether the video was specifically about Memphis. It wasn't. Then Jordan mentions, mostly offhand, that Memphis actually has unusually clean water — it comes from the Memphis Sand aquifer, and it's the kind of thing people here are weirdly proud of. Maya, who has a bio-major brother she usually quotes with confidence, realizes she didn't check the TikTok against anything before bringing it here. The argument isn't whether pollution can affect wildlife in general (it can) — it's whether she had any reason to apply it here. The episode ends with Maya not fully conceding but clearly rattled, Leo enjoying the moment a little too much, and Jordan quietly underlining something in the notebook.
+    reading_time_minutes: 8
+    word_count_range:
+      min: 1050
+      max: 1350
+    final_takeaway: |
+      Something can be true in general and still be the wrong answer here — the real question is always whether this evidence points at this claim.
+  - episode_id: episode_03
+    title: Jordan's Notebook
+    episode_synopsis: |
+      Back at the edge of the Old Forest, Jordan finally opens the notebook. While Leo and Maya have been pitching theories, Jordan has been writing things down — the details of Leo's sighting, the questions from last time about Maya's TikTok, and the results of looking things up at home. The page they turn to has one word circled: leucism. Jordan explains it plainly — it's a genetic thing, not super rare, where animals are born with mostly white fur and pinkish-looking eyes, and white squirrels have been documented in towns all over the country (there's a whole park in North Carolina famous for them). The argument Jordan makes isn't "I've proved it's genetics" — it's smaller and more careful than that: we saw a thing that happens sometimes, and this is what it looks like when it happens, and we don't need aliens or pollution to explain it. Leo pushes back a little — he still thinks the way it moved was weird — but the fight has gone out of the alien theory. Maya, who came into this episode still quietly half-defending herself about the TikTok, is the first to name what's bugging everyone: the genetics answer is true but also kind of a letdown. Jordan, who has been the quietest all series, says the thing the episode has been building toward — that a smaller answer that actually fits is worth more than a bigger answer that sort of fits. Leo accepts it. The episode ends with the three of them walking out of the park, Leo taking one more look at the blurry photo on his phone and then putting it away.
+    reading_time_minutes: 8
+    word_count_range:
+      min: 1050
+      max: 1350
+    final_takeaway: |
+      A smaller answer that actually fits is worth more than a bigger answer that sort of fits.

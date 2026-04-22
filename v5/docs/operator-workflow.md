@@ -2,7 +2,58 @@
 
 This document describes how an operator actually drives the v5 pipeline — which commands to run in what order, when human review happens, and what each approval gate expects. Structural and pedagogical context live in `architecture.md` and `instructional-design.md`.
 
-## 1. Command Sequence
+## 1. Bootstrap
+
+Claude Code loads slash commands from `.claude/commands/` and subagents from `.claude/agents/` at the **repo root** — not from `v5/pipeline/`. The v5 pipeline sources live under `v5/pipeline/commands/` and `v5/pipeline/agents/`; a bootstrap script syncs them into the repo-root `.claude/` directory.
+
+### When to run it
+
+- **First time setting up v5** on a machine.
+- **After pulling a commit** that changed any file under `v5/pipeline/commands/` or `v5/pipeline/agents/`.
+- **When switching branches** between v5 and anything else that writes to `.claude/`.
+
+### Running it
+
+```bash
+# Dry run — preview without touching anything
+python3 v5/pipeline/scripts/initialize_polylogue.py --dry-run
+
+# Apply
+python3 v5/pipeline/scripts/initialize_polylogue.py
+```
+
+Options:
+
+- `--project-root <path>` — use a different repo root (default: parent of `v5/`)
+- `--dry-run` — print what would change; make no filesystem modifications
+
+### What it does
+
+Clears `.claude/commands/` and `.claude/agents/` and copies every `*.md` from `v5/pipeline/commands/` and `v5/pipeline/agents/` into them. **It is a clean replace, not a merge.** If you have non-v5 commands or agents in `.claude/` (e.g., leftover v4 definitions), they will be removed. Re-run the originating project's bootstrap if you want them back.
+
+If `v5/pipeline/agents/` does not exist yet, the agents sync is skipped — only commands are affected.
+
+### Environment prerequisites
+
+- **Python 3.8+** for the bootstrap and validator scripts.
+- **PyYAML** for `validate_story.py`:
+  ```bash
+  pip install pyyaml
+  ```
+- **`claude` CLI** installed and authenticated (`claude auth login`) — Claude Code is what loads the synced `.claude/` material.
+
+### Verification
+
+After running the bootstrap, this should succeed from the repo root:
+
+```bash
+ls .claude/commands/design_story.md
+python3 v5/pipeline/scripts/validate_story.py --help 2>&1 | head -1
+```
+
+`/design_story` should now be an available slash command inside Claude Code.
+
+## 2. Command Sequence
 
 Authoring a new story is a three-command sequence. Each command is run interactively in Claude Code and produces artifacts under `stories/` or `artifacts/`.
 
@@ -23,7 +74,7 @@ Authoring a new story is a three-command sequence. Each command is run interacti
 
 `/design_story` is story-scoped and runs once. `/create_transcript` and `/create_lesson_package` are episode-scoped and run once per episode.
 
-## 2. Typical Workflow (Happy Path)
+## 3. Typical Workflow (Happy Path)
 
 ### Step 1 — Design the story
 
@@ -45,7 +96,8 @@ An extended interactive session driven by the main orchestrator (no subagent). T
 **Review target:**
 
 - Each `episode_synopsis` embeds a real persuasive thread (someone trying to convince others of something).
-- `premise`, `episode_synopsis`, and `final_takeaway` fields are pitched at 6th-grade.
+- `premise` and every `final_takeaway` are pitched at 6th-grade (these render directly to students).
+- Every `episode_synopsis` — staff_writer-facing, never rendered to students — is bounded to middle-school subject matter so the dialogue it seeds inherits audience fit.
 - Episode synopses collectively make room for all three lenses (`logic`, `evidence`, `scope`), unless the story leans one way by intent.
 - Reading-time targets are plausible for the synopsis scope (~4–5 turns per minute at ~30 words each).
 
@@ -77,7 +129,7 @@ After all three gates pass, `transcript_structurer` segments the post-doctor dra
 
 **Operator involvement:** medium. Review the authored levels for clarity, claim accuracy, answer distinguishability, and feedback quality. If a level is weak, revise within the same run.
 
-## 3. Approval Gates in Detail
+## 4. Approval Gates in Detail
 
 ### Gate: story-design-review.md
 
@@ -170,7 +222,7 @@ A `Status: approved` line is the load-bearing signal — `/create_transcript` ch
 - **Application quality poor, but proposals still stand** → ask `script_doctor` to re-apply only.
 - **Proposals need revision** → reopen checkpoint 2.
 
-## 4. Rerun Behavior
+## 5. Rerun Behavior
 
 Each command owns a specific set of artifacts (see `architecture.md` §3.1). On entry, the command:
 
@@ -183,7 +235,7 @@ Each command owns a specific set of artifacts (see `architecture.md` §3.1). On 
 
 This means rerunning a command is always a deliberate, confirmed operation — there is no silent auto-resume from a partial state.
 
-## 5. Revision Scenarios
+## 6. Revision Scenarios
 
 ### "The transcript is good but one anchor is wrong"
 
@@ -201,7 +253,7 @@ Rerun `/design_story`. This clears `story.yaml` and `story-design-review.md`. If
 
 Rerun `/design_story`. Same as above. Be aware: downstream artifacts (transcripts, lesson packages) will still exist but may no longer match. Rerunning the downstream commands is recommended.
 
-## 6. Review Cadence Summary
+## 7. Review Cadence Summary
 
 | Stage | Operator role | Time cost |
 |---|---|---|
@@ -211,20 +263,20 @@ Rerun `/design_story`. Same as above. Be aware: downstream artifacts (transcript
 
 The transcript stage is the operator-intensive one by design. Early review effort at `/design_story` Phase D prevents downstream rework.
 
-## 7. Validators
+## 8. Validators
 
-After any artifact is written or revised, the relevant command runs its validator:
+After any artifact is written or revised, the relevant command runs its validator. All paths are repo-relative; operators run them from the repo root:
 
 ```
-pipeline/scripts/validate_story.py                 <path>
-pipeline/scripts/validate_transcript.py            <path>
-pipeline/scripts/validate_reasoning_proposals.py   <path>
-pipeline/scripts/validate_lesson_package.py        <path>
+v5/pipeline/scripts/validate_story.py                 <path>   # available
+v5/pipeline/scripts/validate_transcript.py            <path>   # not yet written
+v5/pipeline/scripts/validate_reasoning_proposals.py   <path>   # not yet written
+v5/pipeline/scripts/validate_lesson_package.py        <path>   # not yet written
 ```
 
-A validator failure blocks the gate it precedes — the operator is not asked to approve an invalid artifact. `story-design-review.md` is operator-authored prose and has no validator; its `Status: approved` line is the gate signal `/create_transcript` reads.
+All validators are pure Python + PyYAML. A validator failure blocks the gate it precedes — the operator is not asked to approve an invalid artifact. `story-design-review.md` is operator-authored prose and has no validator; its `Status: approved` line is the gate signal `/create_transcript` reads.
 
-## 8. Cross-references
+## 9. Cross-references
 
 - System structure and artifact flow: [`architecture.md`](architecture.md)
 - Pedagogy and authoring principles: [`instructional-design.md`](instructional-design.md)

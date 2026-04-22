@@ -98,7 +98,10 @@ properties:
             from. Authoring doctrine: the synopsis must name a
             persuasive pressure point; episodes where no one is
             pushing anything do not generate natural teaching
-            anchors. Pitched to a 6th-grade reader.
+            anchors. Staff_writer-facing and never shown to students;
+            bounded by the same middle-school subject matter as
+            student-facing fields so the dialogue it seeds inherits
+            audience fit.
         reading_time_minutes:
           type: integer
           minimum: 6

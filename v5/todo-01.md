@@ -97,7 +97,7 @@ Persuasive-thread discipline and lens-coverage awareness are enforced conversati
 
 ### Audience Appropriateness
 
-All student-facing text in `story.yaml` — `premise`, `episode_synopsis`, `final_takeaway` — is pitched at a 6th-grade reader. Subject matter stays inside a middle schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate, academic jargon) are out of bounds unless the story introduces them explicitly in-scene.
+Student-facing text in `story.yaml` — `premise` and every `final_takeaway` — is pitched at a 6th-grade reader. Story `title` and per-episode `title` also render to students and are held to a lighter bar (no adult-specialized vocabulary, no curriculum-label wording; creative flair permitted). `episode_synopsis` is staff_writer-facing and never shown to students, but is bounded by the same middle-school subject matter so the resulting dialogue inherits audience fit. Subject matter stays inside a middle schooler's direct experience or routine media exposure: school, friends, family, sports, games, pets, online life, local community. Adult-specialized topics (finance, law, corporate, academic jargon) are out of bounds unless the story introduces them explicitly in-scene.
 
 Enforcing audience appropriateness at `/design_story` Phase D means downstream stages do not re-check it per turn.
 
