@@ -1282,3 +1282,46 @@ a.ghost:hover {
   line-height: 1.5;
   font-style: italic;
 }
+
+/* v5 narrative mode — completed-level reading view. Each card is a short
+   authored beat: the claim as fact, the student's take, the alternate
+   reading (if misaligned), the takeaway. No options, no controls. */
+
+.narrative-card {
+  margin: 0;
+  padding: 1rem 1.15rem 0.95rem;
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: var(--surface);
+  display: grid;
+  gap: 0.45rem;
+}
+
+.narrative-card__claim {
+  margin: 0;
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 600;
+}
+
+.narrative-card__body {
+  margin: 0;
+  color: var(--ink);
+  font-size: 0.93rem;
+  line-height: 1.55;
+}
+
+.narrative-card--actually {
+  border-color: rgba(184, 92, 46, 0.35);
+  background: var(--accent-soft);
+}
+
+.narrative-card--actually .eyebrow {
+  color: var(--accent);
+}
+
+.narrative-card--takeaway {
+  background: rgba(255, 251, 244, 0.9);
+  border-color: rgba(31, 37, 34, 0.2);
+}

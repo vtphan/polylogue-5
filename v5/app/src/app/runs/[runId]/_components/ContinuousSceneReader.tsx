@@ -42,6 +42,12 @@ function capitalize(id: string): string {
   return id.charAt(0).toUpperCase() + id.slice(1);
 }
 
+function speakerDisplayName(id: string): string {
+  const firstToken = id.split("_")[0];
+  if (!firstToken) return id;
+  return firstToken.charAt(0).toUpperCase() + firstToken.slice(1);
+}
+
 export function ContinuousSceneReader({
   runId,
   episodeTitle,
@@ -175,6 +181,17 @@ export function ContinuousSceneReader({
     ? levels.find((level) => level.level_id === openLevelId) ?? null
     : null;
   const activeAttempt = activeLevel ? attemptsByLevelId.get(activeLevel.level_id) ?? null : null;
+  const activeAnchorSpeaker = useMemo(() => {
+    if (!activeLevel) return "";
+    for (const scene of scenes) {
+      for (const turn of scene.turns) {
+        if (turn.turn_id === activeLevel.turn_id) {
+          return speakerDisplayName(turn.speaker);
+        }
+      }
+    }
+    return "";
+  }, [activeLevel, scenes]);
 
   return (
     <div className={`scene-shell${openLevelId ? " scene-shell--quiz-open" : ""}`}>
@@ -291,6 +308,7 @@ export function ContinuousSceneReader({
               sceneIndex={currentSceneIndex}
               level={activeLevel}
               attempt={activeAttempt}
+              anchorSpeaker={activeAnchorSpeaker}
               onClose={closeQuiz}
             />
           ) : null}
