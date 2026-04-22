@@ -270,10 +270,11 @@ The transcript stage is the operator-intensive one by design. Early review effor
 After any artifact is written or revised, the relevant command runs its validator. All paths are repo-relative; operators run them from the repo root:
 
 ```
-v5/pipeline/scripts/validate_story.py                 <path>   # available
-v5/pipeline/scripts/validate_transcript.py            <path>   # not yet written
-v5/pipeline/scripts/validate_reasoning_proposals.py   <path>   # not yet written
-v5/pipeline/scripts/validate_lesson_package.py        <path>   # not yet written
+v5/pipeline/scripts/validate_story.py                  <path>              # available
+v5/pipeline/scripts/validate_transcript.py             <path>              # available
+v5/pipeline/scripts/validate_reasoning_proposals.py    <path>              # available
+v5/pipeline/scripts/validate_transcript_post_doctor.py <path> [--raw <p>]  # available
+v5/pipeline/scripts/validate_lesson_package.py         <path>              # not yet written
 ```
 
 All validators are pure Python + PyYAML. A validator failure blocks the gate it precedes — the operator is not asked to approve an invalid artifact. `story-design-review.md` is operator-authored prose and has no validator; its `Status: approved` line is the gate signal `/create_transcript` reads.

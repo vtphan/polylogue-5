@@ -309,8 +309,9 @@ All under `pipeline/scripts/`. Pure Python + PyYAML, no external deps.
 | Script | Validates |
 |---|---|
 | `validate_story.py` | `story.yaml` — story-level fields plus per-episode blocks (episode_id, title, episode_synopsis, reading_time_minutes, final_takeaway) |
-| `validate_transcript.py` | `transcript.yaml` |
+| `validate_transcript.py` | `transcript.yaml` — final app-facing transcript; 3+ scenes, global tNN uniqueness, polarity-free (rejects leakage of any reasoning/provenance fields onto turns) |
 | `validate_reasoning_proposals.py` | `reasoning-proposals.yaml` — requires `reasoning_item_id`, `polarity`, `intended_claim`, five-criterion justifications; optional `revised_text` |
+| `validate_transcript_post_doctor.py` | `transcript.post-doctor.yaml` — revision-provenance invariants: `original_text` ⟺ `source_proposal_id`; when both present, `text != original_text`; unrevised turns byte-identical to `transcript.raw.yaml` (raw-compare auto-discovered alongside, overridable via `--raw`) |
 | `validate_lesson_package.py` | `lesson_package.yaml` — three-step quiz shape per level |
 
 `story-design-review.md` is operator-authored prose and not a machine-checkable artifact.
@@ -356,11 +357,11 @@ v5/
       transcript_structurer.md
       lesson_package_builder.md
     scripts/
-      _common.py
       initialize_polylogue.py
       validate_story.py
       validate_transcript.py
       validate_reasoning_proposals.py
+      validate_transcript_post_doctor.py
       validate_lesson_package.py
   stories/
     {story_id}/

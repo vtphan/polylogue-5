@@ -1,0 +1,275 @@
+story_id: the_trip_committee
+episode_id: episode_01
+title: Maya's Big Idea
+turns:
+  - turn_id: t01
+    speaker: narrator
+    text: Tuesday after school. Room 204. A whiteboard, three chairs pulled into a triangle, and one folder from Principal Alvarez that says FIELD TRIP — 6TH GRADE in black marker.
+
+  - turn_id: t02
+    speaker: maya_chen
+    text: Okay, okay, okay. I have been thinking about this since literally yesterday and I already know what we're doing. So we're doing Adventure Park, right?
+
+  - turn_id: t03
+    speaker: ethan_park
+    text: We're — what? Maya. It's day two. We haven't even opened the folder.
+
+  - turn_id: t04
+    speaker: maya_chen
+    text: I opened the folder. The folder has, like, a list of phone numbers in it. The folder is not the point. Adventure Park at Shelby Farms. Ziplines, the big ropes course, the tower thing where you climb up and then you jump off — obviously with a harness, Ethan, don't make that face.
+
+  - turn_id: t05
+    speaker: ethan_park
+    text: I didn't make a face.
+
+  - turn_id: t06
+    speaker: jordan_rivera
+    text: You kind of made a face.
+
+  - turn_id: t07
+    speaker: maya_chen
+    text: Listen. Listen. Picture it. Whole grade. Matching shirts maybe. Someone definitely falls in the mud. We take one big group photo at the end and that photo is on somebody's fridge in eighth grade. That is what a field trip is supposed to be.
+
+  - turn_id: t08
+    speaker: ethan_park
+    text: Okay. So. Why?
+
+  - turn_id: t09
+    speaker: maya_chen
+    text: Why what.
+
+  - turn_id: t10
+    speaker: ethan_park
+    text: Why is that the trip we should take. Like — if Ms. Alvarez asks me tomorrow, "Ethan, why Adventure Park," what am I supposed to say?
+
+  - turn_id: t11
+    speaker: maya_chen
+    text: Because everyone will love it. Ethan. Everyone. Will. Love it.
+
+  - turn_id: t12
+    speaker: ethan_park
+    text: That's not a reason, that's a prediction.
+
+  - turn_id: t13
+    speaker: maya_chen
+    text: It's a great prediction.
+
+  - turn_id: t14
+    speaker: jordan_rivera
+    text: She's not wrong that people would love it. I'd love it.
+
+  - turn_id: t15
+    speaker: maya_chen
+    text: Thank you, Jordan.
+
+  - turn_id: t16
+    speaker: jordan_rivera
+    text: I didn't say I was voting yet.
+
+  - turn_id: t17
+    speaker: ethan_park
+    text: Here's what I keep getting stuck on. A field trip is a school day. They're letting us out of school for this. So the question I think we're being asked is, what are kids going to come back knowing that they didn't know when they left.
+
+  - turn_id: t18
+    speaker: maya_chen
+    text: You are making this so much more complicated than it is.
+
+  - turn_id: t19
+    speaker: ethan_park
+    text: I'm making it the thing it already is.
+
+  - turn_id: t20
+    speaker: maya_chen
+    text: Okay, fine, you want a reason? Teamwork. It's a teamwork trip. You can't do the ropes course alone, somebody has to belay you, somebody has to spot you, it's a whole — it's about trust. We'll bond. The grade will bond.
+
+  - turn_id: t21
+    speaker: ethan_park
+    text: Bond.
+
+  - turn_id: t22
+    speaker: maya_chen
+    text: Bond. Yes. Like, right now Kayla and Deshawn have not said one word to each other all year, and I'm telling you, you put them on a zipline platform at the same time, by the end of the day they are friends. That's a real thing.
+
+  - turn_id: t23
+    speaker: ethan_park
+    text: Okay but we do teamwork stuff in gym. Coach Barnes did the whole trust-fall unit in September. Nobody bonded. Malik dropped Priya.
+
+  - turn_id: t24
+    speaker: jordan_rivera
+    text: Malik absolutely dropped Priya.
+
+  - turn_id: t25
+    speaker: maya_chen
+    text: Gym is not the same. Gym is forty minutes and then you go back to pre-algebra. This is a whole day. Outside. Together. That changes things.
+
+  - turn_id: t26
+    speaker: ethan_park
+    text: Does it, though? Like — what specifically does a zipline give somebody that a really good gym class doesn't? Because if the answer is "a whole day of it instead of forty minutes," that's just more of the same thing. That's not a new thing.
+
+  - turn_id: t27
+    speaker: maya_chen
+    text: Ethan.
+
+  - turn_id: t28
+    speaker: ethan_park
+    text: What.
+
+  - turn_id: t29
+    speaker: maya_chen
+    text: You are such a Ethan right now.
+
+  - turn_id: t30
+    speaker: ethan_park
+    text: That's not — that's just my name, that's not an argument.
+
+  - turn_id: t31
+    speaker: jordan_rivera
+    text: It's a little bit an argument.
+
+  - turn_id: t32
+    speaker: maya_chen
+    text: Okay. Okay. Try this. It'll be the thing they remember. When my brother was in sixth grade they went to the aquarium and he still talks about the stingray that jumped. The stingray, Ethan. Not, like, a worksheet. The stingray. That's what I want for us. A stingray.
+
+  - turn_id: t33
+    speaker: ethan_park
+    text: Your brother's sixth grade also had chicken nugget day on Fridays and he still talks about that, and I don't think we should plan a field trip around it.
+
+  - turn_id: t34
+    speaker: maya_chen
+    text: Do not come for the nuggets.
+
+  - turn_id: t35
+    speaker: ethan_park
+    text: I'm just saying. "It'll be memorable" and "it's the right trip" are not the same sentence. People remember all kinds of stuff. Some of it's worth a school day and some of it isn't.
+
+  - turn_id: t36
+    speaker: maya_chen
+    text: So what, we only pick something if it's, like, educational enough for you? That is such a — Ethan, nobody's going to want to go on your trip. You know that, right?
+
+  - turn_id: t37
+    speaker: ethan_park
+    text: I haven't pitched my trip.
+
+  - turn_id: t38
+    speaker: maya_chen
+    text: I can feel it already. It has a museum in it.
+
+  - turn_id: t39
+    speaker: ethan_park
+    text: You don't know that.
+
+  - turn_id: t40
+    speaker: jordan_rivera
+    text: It has a museum in it.
+
+  - turn_id: t41
+    speaker: ethan_park
+    text: Okay, it has a museum in it, but that's not the point. The point is Maya's been talking for fifteen minutes and I still don't have a reason I could write on a piece of paper.
+
+  - turn_id: t42
+    speaker: maya_chen
+    text: The reason is it's going to be amazing.
+
+  - turn_id: t43
+    speaker: ethan_park
+    text: That's the prediction again. You keep giving me the prediction.
+
+  - turn_id: t44
+    speaker: jordan_rivera
+    text: Can I say something.
+
+  - turn_id: t45
+    speaker: maya_chen
+    text: Please. Save me from him.
+
+  - turn_id: t46
+    speaker: jordan_rivera
+    text: I don't think he needs saving from. I think — Maya, everything you've said, I believe you. Like, if you told me tomorrow the whole sixth grade was going to Adventure Park, I would be excited. I would pack a lunch. I would wear the shirt.
+
+  - turn_id: t47
+    speaker: maya_chen
+    text: See. Thank you. That's what I'm —
+
+  - turn_id: t48
+    speaker: jordan_rivera
+    text: But that's a different thing than what we're supposed to be doing here. You've been telling us people would enjoy it. You haven't actually told us it's the trip our class should go on. Those aren't the same.
+
+  - turn_id: t49
+    speaker: narrator
+    text: A pause. Somewhere down the hall, a locker slams.
+
+  - turn_id: t50
+    speaker: maya_chen
+    text: …Okay. That's annoying.
+
+  - turn_id: t51
+    speaker: jordan_rivera
+    text: I know.
+
+  - turn_id: t52
+    speaker: maya_chen
+    text: No, I mean — it's annoying because it's kind of right. I hate when you do that.
+
+  - turn_id: t53
+    speaker: jordan_rivera
+    text: I didn't even do it that hard.
+
+  - turn_id: t54
+    speaker: maya_chen
+    text: You did it a little hard.
+
+  - turn_id: t55
+    speaker: ethan_park
+    text: So — hang on, is that — are you saying you agree with Jordan?
+
+  - turn_id: t56
+    speaker: maya_chen
+    text: I'm saying — ugh. Okay. I'm not un-picking Adventure Park. I still think it would be great. But I guess I've been saying "everyone will love it" over and over like that answers the question, and it's — yeah. It's a different question. I know it's a different question. I was kind of hoping nobody would notice.
+
+  - turn_id: t57
+    speaker: ethan_park
+    text: I noticed.
+
+  - turn_id: t58
+    speaker: maya_chen
+    text: Yeah, Ethan. I clocked that.
+
+  - turn_id: t59
+    speaker: jordan_rivera
+    text: So where does that leave us.
+
+  - turn_id: t60
+    speaker: maya_chen
+    text: It leaves us with me still thinking I'm right and not being able to prove it yet. Which is a bad feeling and I don't love it.
+
+  - turn_id: t61
+    speaker: ethan_park
+    text: Can I bring something tomorrow? I've been working on a thing. I want to actually pitch it, not just poke at yours.
+
+  - turn_id: t62
+    speaker: maya_chen
+    text: Is it the museum.
+
+  - turn_id: t63
+    speaker: ethan_park
+    text: It might involve a museum.
+
+  - turn_id: t64
+    speaker: maya_chen
+    text: Fine. Bring your museum. But I'm not done with Adventure Park. I'm just — regrouping. Coming up with the actual reason. Which exists. Somewhere. In my brain.
+
+  - turn_id: t65
+    speaker: jordan_rivera
+    text: Take your time. We've got, what, five days?
+
+  - turn_id: t66
+    speaker: ethan_park
+    text: Four.
+
+  - turn_id: t67
+    speaker: maya_chen
+    text: Cool. Cool cool cool. Four days to be correct. No pressure.
+
+  - turn_id: t68
+    speaker: narrator
+    text: Nobody erases the words ADVENTURE PARK from the whiteboard. But nobody circles them either.

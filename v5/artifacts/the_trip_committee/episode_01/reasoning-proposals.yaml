@@ -1,0 +1,199 @@
+story_id: the_trip_committee
+episode_id: episode_01
+source_draft: transcript.raw.yaml
+status: approved
+
+proposals:
+  - proposal_id: p01
+    source_turn_id: t11
+    reasoning_item_id: conclusion_support
+    polarity: weak
+    intended_claim: >-
+      The committee should pick Adventure Park for the sixth-grade field trip
+      because everyone will love it.
+    criteria_justification:
+      argumentative: >-
+        Maya is answering Ethan's direct "why" with a reason meant to close the
+        question and lock in Adventure Park.
+      not_expressive: >-
+        Even with the emphatic delivery, this is her actual justification — she
+        offers "everyone will love it" as the reason, not as decoration.
+      claim_clear: >-
+        The claim is that Adventure Park is the trip the committee should pick;
+        the support offered is universal enjoyment.
+      reasoning_audible: >-
+        The line audibly jumps from a prediction about popularity straight to
+        "this is the trip" — Ethan names this exact move in the next turn.
+      taxonomy_fit: >-
+        Moving from "people will enjoy it" to "this is the right trip" is a
+        much bigger conclusion than the reason supports — jumping to a
+        conclusion.
+    rationale: >-
+      This is the spine weak anchor of the episode; "everyone will love it"
+      becomes the refrain Ethan and Jordan both push back on.
+
+  - proposal_id: p02
+    source_turn_id: t22
+    reasoning_item_id: evidence_sufficiency
+    polarity: weak
+    intended_claim: >-
+      Adventure Park will make the whole sixth grade bond, because putting two
+      kids who never talk on a zipline platform together will turn them into
+      friends by the end of the day.
+    criteria_justification:
+      argumentative: >-
+        Maya is trying to support her new "teamwork" reason with a concrete
+        example meant to prove the bonding claim.
+      not_expressive: >-
+        The Kayla/Deshawn story is offered as evidence ("That's a real thing"),
+        not as a joke or a vibe.
+      claim_clear: >-
+        The claim is that a day at Adventure Park reliably produces bonding
+        across the grade.
+      reasoning_audible: >-
+        She leans one hypothetical pair of classmates on a zipline platform
+        against a grade-wide bonding claim — the thinness is audible in the
+        line.
+      taxonomy_fit: >-
+        One imagined anecdote cannot carry a claim about the whole grade —
+        not enough evidence for the size of the claim.
+    rationale: >-
+      Distinct flavor from p01: here the claim is about bonding, and the
+      weakness is about the size of the evidence, not the size of the
+      conclusion.
+
+  - proposal_id: p03
+    source_turn_id: t23
+    reasoning_item_id: perspective_consideration
+    polarity: strong
+    intended_claim: >-
+      Maya's claim that shared teamwork activities reliably produce bonding
+      should be doubted, because we already tried that in gym with the
+      trust-fall unit and nobody bonded.
+    criteria_justification:
+      argumentative: >-
+        Ethan is pushing back on Maya's bonding reason by bringing in a
+        specific case that cuts against it.
+      not_expressive: >-
+        "Malik dropped Priya" is a concrete counter-example, not a quip — it
+        does real argumentative work on the claim.
+      claim_clear: >-
+        Ethan's implied claim is that teamwork activities do not reliably
+        produce bonding, so that reason doesn't support Adventure Park.
+      reasoning_audible: >-
+        In the line itself Ethan names a comparable case (the trust-fall unit)
+        and reports its outcome (nobody bonded) to challenge Maya's claim.
+      taxonomy_fit: >-
+        Bringing in another case that matters — one Maya hadn't considered —
+        is considering another perspective or possibility.
+
+  - proposal_id: p04
+    source_turn_id: t33
+    reasoning_item_id: evidence_sufficiency
+    polarity: strong
+    intended_claim: >-
+      "It will be memorable" is not by itself enough support for "this is the
+      right field trip," because lots of things are memorable (like chicken
+      nugget day) without being worth a school day.
+    criteria_justification:
+      argumentative: >-
+        Ethan is rejecting memorability-alone as sufficient justification for
+        the trip choice.
+      not_expressive: >-
+        The nugget line is a deliberate analogy doing argumentative work, not
+        a throwaway joke.
+      claim_clear: >-
+        The claim is that memorability doesn't, on its own, make a trip the
+        right pick.
+      reasoning_audible: >-
+        The line pairs a matched case (something equally memorable and
+        obviously not trip-worthy) to show Maya's evidence type is too weak
+        for her claim.
+      taxonomy_fit: >-
+        Showing that the support offered doesn't fit the claim — and naming
+        what would be needed — is enough-relevant-evidence reasoning.
+
+  - proposal_id: p05
+    source_turn_id: t48
+    reasoning_item_id: conclusion_support
+    polarity: strong
+    intended_claim: >-
+      Maya has supported the claim that people would enjoy Adventure Park, but
+      that is a different and smaller claim than "this is the trip our class
+      should go on," so her reasons don't yet support the decision in front
+      of the committee.
+    criteria_justification:
+      argumentative: >-
+        Jordan is naming the gap between what Maya's reasons actually support
+        and what the committee is being asked to decide.
+      not_expressive: >-
+        The turn is a careful distinction, not a put-down or a vibe check —
+        Jordan explicitly separates the two claims.
+      claim_clear: >-
+        The claim is that "people would enjoy it" and "this is the right class
+        trip" are two different claims, and Maya has only supported the first.
+      reasoning_audible: >-
+        The distinction between the two claims is stated on the line itself
+        ("Those aren't the same"), with the support-to-claim mismatch shown
+        directly.
+      taxonomy_fit: >-
+        Sizing the conclusion to what the reasons actually fit — refusing to
+        let a smaller claim carry a bigger one — is drawing a careful
+        conclusion.
+    rationale: >-
+      This is the episode's cleanest strong anchor; Maya's own t56
+      self-correction depends on this move landing.
+
+approved_anchors:
+  - turn_id: t11
+    reasoning_item_id: conclusion_support
+    polarity: weak
+    intended_claim: >-
+      The committee should pick Adventure Park for the sixth-grade field trip
+      because everyone will love it.
+    source_proposal_id: p01
+  - turn_id: t22
+    reasoning_item_id: evidence_sufficiency
+    polarity: weak
+    intended_claim: >-
+      Adventure Park will make the whole sixth grade bond, because putting two
+      kids who never talk on a zipline platform together will turn them into
+      friends by the end of the day.
+    source_proposal_id: p02
+  - turn_id: t23
+    reasoning_item_id: perspective_consideration
+    polarity: strong
+    intended_claim: >-
+      Maya's claim that shared teamwork activities reliably produce bonding
+      should be doubted, because we already tried that in gym with the
+      trust-fall unit and nobody bonded.
+    source_proposal_id: p03
+  - turn_id: t33
+    reasoning_item_id: evidence_sufficiency
+    polarity: strong
+    intended_claim: >-
+      "It will be memorable" is not by itself enough support for "this is the
+      right field trip," because lots of things are memorable (like chicken
+      nugget day) without being worth a school day.
+    source_proposal_id: p04
+  - turn_id: t48
+    reasoning_item_id: conclusion_support
+    polarity: strong
+    intended_claim: >-
+      Maya has supported the claim that people would enjoy Adventure Park, but
+      that is a different and smaller claim than "this is the trip our class
+      should go on," so her reasons don't yet support the decision in front
+      of the committee.
+    source_proposal_id: p05
+
+revision_history:
+  - round: 1
+    feedback_summary: >-
+      Initial proposal round; no operator feedback yet.
+    revision_note: >-
+      First pass over the approved raw draft. Selected five anchors spanning
+      Maya's two weak moves (jumping from popularity to pick; one anecdote for
+      a grade-wide bonding claim) and three strong pushbacks (Ethan's gym
+      counter-case, Ethan's memorability-isn't-sufficient analogy, Jordan's
+      support-versus-claim distinction). No revised_text proposed — each
+      anchor's reasoning quality is audible in the line as written.

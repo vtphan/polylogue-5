@@ -129,14 +129,23 @@ revision_history: []
 
 After the operator approves the proposal set (setting `status: approved` and populating `approved_anchors`), write `v5/artifacts/{story_id}/{episode_id}/transcript.post-doctor.yaml` per `v5/schemas/transcript-intermediate.yaml`.
 
+**The attachment trigger is `revised_text`, not anchor-hood.** Being an anchor is not what earns the provenance fields — having approved revised wording is. If an anchor turn was selected but its reasoning was already audible in the raw wording (no `revised_text` in the proposal), the post-doctor turn is byte-identical to the raw turn. No `original_text`, no `source_proposal_id`.
+
 Rules:
 
 - top-level `story_id`, `episode_id`, `title`, and `turns[]` order are identical to the raw draft
 - every `turn_id` is preserved verbatim
-- turns whose `revised_text` was approved carry the new wording in `text`, plus two added fields:
-  - `original_text` — the pre-revision wording from the raw draft
-  - `source_proposal_id` — pointer to the originating `proposal_id`
-- every other turn is byte-identical to its raw counterpart (same `turn_id`, same `speaker`, same `text`, no `original_text`, no `source_proposal_id`)
+- **for every turn where the approved proposal carried a `revised_text`:**
+  - `text` = that approved revised wording
+  - `original_text` = the pre-revision wording from the raw draft
+  - `source_proposal_id` = the originating `proposal_id`
+  - necessarily, `text != original_text`
+- **for every other turn, including anchors whose proposal had no `revised_text`:**
+  - byte-identical to the raw turn (same `turn_id`, same `speaker`, same `text`)
+  - **do not** attach `original_text`
+  - **do not** attach `source_proposal_id`
+
+The presence of `original_text` is load-bearing downstream: it is how the operator spot-check and `lesson_package_builder` tell "this anchor was sharpened" from "this anchor landed as written." Adding the field to an unrevised anchor corrupts that signal.
 
 If the operator rejects the application quality but the approved proposal set still stands, re-apply only — do not re-propose. If the operator asks to reopen the proposal set, that's a return to propose mode; bump the revision round, record a `revision_history` entry on `reasoning-proposals.yaml`, and regenerate from the raw draft.
 

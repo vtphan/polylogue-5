@@ -85,13 +85,14 @@ Review prompts for this gate live in `v5/docs/operator-workflow.md` §4 under "G
 1. Invoke `script_doctor` in apply mode. The agent reads the approved `reasoning-proposals.yaml` plus the raw draft and writes `transcript.post-doctor.yaml`:
    - every `turn_id` preserved
    - every non-anchor turn byte-identical to its raw counterpart (no `original_text`, no `source_proposal_id`)
-   - approved `revised_text` applied in place on anchor turns, with `original_text` and `source_proposal_id` attached
-2. Report path and a summary: total turns, number revised, turn-ids of revised turns so the operator can eyeball the diff.
-3. Operator spot-checks each revised turn in context.
-4. Two possible failure modes:
-   - **Application quality is poor, but the approved proposal set still stands.** Leave `reasoning-proposals.yaml` at `status: approved`. Re-invoke `script_doctor` in apply mode with feedback on what read wrong. Loop until the spot-check passes.
+   - approved `revised_text` applied in place on anchor turns, with `original_text` and `source_proposal_id` attached — only on those turns. Anchors whose proposal carried no `revised_text` stay byte-identical to the raw draft (no provenance fields).
+2. Run `python3 v5/pipeline/scripts/validate_transcript_post_doctor.py <path>`. If validation fails (in particular: spurious `original_text`/`source_proposal_id` on unrevised anchors, text unchanged from raw, or turn order/speaker divergence) re-invoke `script_doctor` in apply mode with the validator output as feedback. Do not show the operator an invariant-broken post-doctor draft.
+3. Report path and a summary: total turns, number revised, turn-ids of revised turns so the operator can eyeball the diff.
+4. Operator spot-checks each revised turn in context.
+5. Two possible failure modes at the operator spot-check:
+   - **Application quality is poor, but the approved proposal set still stands.** Leave `reasoning-proposals.yaml` at `status: approved`. Re-invoke `script_doctor` in apply mode with feedback on what read wrong. Re-run `validate_transcript_post_doctor.py`. Loop until the spot-check passes.
    - **The proposal set itself needs to change** (a proposal that looked fine in isolation reads wrong in applied context, or a revision can't be made believable without changing the proposal). Set `reasoning-proposals.yaml` back to `status: needs_revision`, re-run the proposals validator, and reopen Checkpoint 2.
-5. On spot-check approval: proceed to the structuring pass. `transcript.post-doctor.yaml` carries no `status` field of its own; its acceptance is the conversational signal to proceed.
+6. On spot-check approval: proceed to the structuring pass. `transcript.post-doctor.yaml` carries no `status` field of its own; its acceptance is the conversational signal to proceed.
 
 ### Structuring pass
 
