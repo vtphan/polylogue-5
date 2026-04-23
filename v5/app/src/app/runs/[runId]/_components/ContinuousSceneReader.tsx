@@ -27,6 +27,7 @@ type SceneSummary = {
 
 type ContinuousSceneReaderProps = {
   runId: string;
+  episodeLabel: string;
   episodeTitle: string;
   episodeSummary: string;
   scenes: TranscriptScene[];
@@ -45,6 +46,7 @@ function speakerDisplayName(id: string): string {
 
 export function ContinuousSceneReader({
   runId,
+  episodeLabel,
   episodeTitle,
   episodeSummary,
   scenes,
@@ -191,7 +193,7 @@ export function ContinuousSceneReader({
     <div className={`scene-shell${openLevelId ? " scene-shell--quiz-open" : ""}`}>
       <header className="scene-shell__header">
         <div className="scene-shell__titles">
-          <p className="eyebrow">Episode</p>
+          <p className="eyebrow">{episodeLabel}</p>
           <div className="scene-shell__title-row">
             <h1 className="scene-shell__title">{episodeTitle}</h1>
             <div className="scene-shell__header-actions">
@@ -308,7 +310,7 @@ export function ContinuousSceneReader({
       <nav className="scene-bottom-bar" aria-label="Episode navigation">
         <div className="scene-bottom-bar__side scene-bottom-bar__side--left">
           <Link href="/stories" className="ghost">
-            ← Episodes
+            ← Stories
           </Link>
         </div>
         <div className="scene-bottom-bar__center">

@@ -57,10 +57,15 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
   }
 
   const quizAttempts = await prisma.quizAttempt.findMany({ where: { runId } });
+  const numericEpisodeMatch = run.episodeId.match(/(\d+)$/);
+  const episodeLabel = numericEpisodeMatch
+    ? `Episode ${Number(numericEpisodeMatch[1])}`
+    : run.episodeId;
 
   return (
     <ContinuousSceneReader
       runId={runId}
+      episodeLabel={episodeLabel}
       episodeTitle={lessonPackage.title}
       episodeSummary={lessonPackage.summary}
       scenes={transcript.scenes}
