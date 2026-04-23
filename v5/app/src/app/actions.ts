@@ -65,6 +65,7 @@ async function getReaderLevelForRun(run: SessionRun, levelId: string) {
 
 export async function selectStudentAction(formData: FormData): Promise<void> {
   const studentId = String(formData.get("student_id") ?? "");
+  const redirectTo = String(formData.get("redirect_to") ?? "/") || "/";
 
   if (!studentId) {
     throw new Error("Missing student selection");
@@ -77,15 +78,16 @@ export async function selectStudentAction(formData: FormData): Promise<void> {
 
   await writeStudentCookies(student.id);
   revalidatePath("/");
-  redirect("/");
+  redirect(redirectTo);
 }
 
 export async function createStudentAction(formData: FormData): Promise<void> {
   const name = String(formData.get("name") ?? "");
+  const redirectTo = String(formData.get("redirect_to") ?? "/") || "/";
   const student = await createStudent(name);
   await writeStudentCookies(student.id);
   revalidatePath("/");
-  redirect("/");
+  redirect(redirectTo);
 }
 
 export async function openStoryAction(formData: FormData): Promise<void> {

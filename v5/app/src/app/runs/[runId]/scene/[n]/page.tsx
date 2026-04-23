@@ -63,7 +63,6 @@ export default async function ScenePage({ params, searchParams }: ScenePageProps
       runId={runId}
       episodeTitle={lessonPackage.title}
       episodeSummary={lessonPackage.summary}
-      characters={transcript.characters}
       scenes={transcript.scenes}
       levels={lessonPackage.levels}
       attempts={quizAttempts}

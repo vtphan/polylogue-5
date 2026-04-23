@@ -29,7 +29,6 @@ type ContinuousSceneReaderProps = {
   runId: string;
   episodeTitle: string;
   episodeSummary: string;
-  characters: string[];
   scenes: TranscriptScene[];
   levels: ReaderLevel[];
   attempts: QuizAttempt[];
@@ -37,11 +36,6 @@ type ContinuousSceneReaderProps = {
   openLevelId: string | null;
   runStarsEarned: number;
 };
-
-function capitalize(id: string): string {
-  if (!id) return id;
-  return id.charAt(0).toUpperCase() + id.slice(1);
-}
 
 function speakerDisplayName(id: string): string {
   const firstToken = id.split("_")[0];
@@ -53,7 +47,6 @@ export function ContinuousSceneReader({
   runId,
   episodeTitle,
   episodeSummary,
-  characters,
   scenes,
   levels,
   attempts,
@@ -199,26 +192,21 @@ export function ContinuousSceneReader({
       <header className="scene-shell__header">
         <div className="scene-shell__titles">
           <p className="eyebrow">Episode</p>
-          <h1 className="scene-shell__title">
-            {episodeTitle}{" "}
-            <details className="episode-about">
-              <summary className="episode-about__toggle" aria-label="About this episode">
-                ⓘ
-              </summary>
-              <div className="episode-about__popover" role="note">
-                <p className="eyebrow">About this episode</p>
-                <p>{episodeSummary}</p>
-              </div>
-            </details>
-          </h1>
+          <div className="scene-shell__title-row">
+            <h1 className="scene-shell__title">{episodeTitle}</h1>
+            <div className="scene-shell__header-actions">
+              <details className="episode-about">
+                <summary className="episode-about__toggle" aria-label="Synopsis">
+                  <span>Synopsis</span>
+                </summary>
+                <div className="episode-about__popover" role="note">
+                  <p className="eyebrow">Synopsis</p>
+                  <p>{episodeSummary}</p>
+                </div>
+              </details>
+            </div>
+          </div>
         </div>
-        <ul className="scene-shell__characters" aria-label="Characters in this episode">
-          {characters.map((id) => (
-            <li key={id} className="character-chip">
-              {capitalize(id)}
-            </li>
-          ))}
-        </ul>
       </header>
 
       <div className="scene-shell__columns">

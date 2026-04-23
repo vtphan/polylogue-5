@@ -95,12 +95,8 @@ export default async function StoriesPage() {
 
   return (
     <div className="page-wide">
-      <header className="page-header">
-        <p className="eyebrow">Read a story</p>
-        <h1>Pick an episode for {student.name}.</h1>
-        <p>
-          Episodes stay in a fixed order. Tap a card to open the episode and start reading.
-        </p>
+      <header className="page-header stories-header">
+        <h1>Let&apos;s read, {student.name}</h1>
       </header>
 
       <div className="stack">
@@ -170,9 +166,9 @@ export default async function StoriesPage() {
       </div>
 
       <div className="stories-home-row">
-        <Link href="/" className="stories-home-link" aria-label="Back to home — switch profile">
-          <span className="stories-home-link__icon" aria-hidden="true">⌂</span>
-          <span>Home</span>
+        <Link href="/" className="stories-home-link" aria-label="Back to profiles">
+          <span className="stories-home-link__icon" aria-hidden="true">←</span>
+          <span>Profiles</span>
         </Link>
       </div>
     </div>
