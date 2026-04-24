@@ -142,7 +142,7 @@ Non-anchor turns remain source dialogue and are not subject to reasoning-motivat
 
 ## 5. The Three-Step Quiz
 
-Each anchor becomes one quiz level in the lesson package. The quiz follows the natural order of reasoning analysis: identify the claim, decide whether you buy it, say why.
+Each anchor becomes one quiz level in the lesson package. The quiz follows the natural order of reasoning analysis: identify the claim, judge whether the argument is strong, say why.
 
 ### 5.1 Structure
 
@@ -152,17 +152,19 @@ Step 1 — Claim
   → student selects from authored options
 
 Step 2 — Judgment
-  "Do you buy this character's argument?"
-  → "Yes, this is a strong argument."
-  → "No, I'm not completely convinced."
+  "Do you think this character's argument is strong?"
+  → "Yes"
+  → "No"
 
 Step 3 — Why
-  If student chose Yes → "What makes the argument strong?"
-  If student chose No  → "Why is the argument not convincing?"
+  If student chose Yes → "So, you think the argument is strong. Why?"
+  If student chose No  → "So, you think the argument is weak. Why?"
   → student selects from authored options
 ```
 
 **Intended-claim lifecycle.** The intended claim for each anchor is first articulated by `script_doctor` during detection and stored in `reasoning-proposals.yaml`. `lesson_package_builder` carries it forward into the anchor's level in `lesson_package.yaml` and uses it as the basis for Step 1 options: the correct option is a close paraphrase of the intended claim; distractors are plausible but distinct readings. The student never sees the raw `intended_claim` string — they see the authored Step 1 options and pick the one that matches. This forward propagation is what keeps Step 1 anchored to detection's claim framing rather than drifting in re-derivation.
+
+**Prompt standardization.** In the current app, Step 2 and Step 3 prompt chrome is standardized in the runtime rather than rendered verbatim from authored prompt fields. The lesson package still carries Step 2 and Step 3 prompts for authoring completeness and branch semantics, but the student sees the app's fixed wording for the judgment prompt and its follow-through into Step 3.
 
 ### 5.2 Why this order
 
@@ -183,7 +185,7 @@ The same three-step structure applies to both weak and strong anchors. Step 2 of
 Per-choice feedback is expensive to author and only valuable where it does real instructional work. v5's default:
 
 - **Step 1 (claim)** — per-choice feedback: full. Helps students recalibrate when they pick a wrong reading of the claim.
-- **Step 2 (judgment)** — no per-choice feedback, or only light routing text. The judgment is a reflection prompt, not a correctness test.
+- **Step 2 (judgment)** — no per-choice feedback. The judgment is a reflection prompt, not a correctness test. The current app does not surface `routing_text`.
 - **Step 3 (why)** — per-choice feedback: full. This is where the reasoning lesson lives.
 
 ### 5.5 Progressive reveal
@@ -194,23 +196,38 @@ To minimize extraneous cognitive load, the app shows one step at a time:
 - show Step 1 only
 - after Step 1 is answered, reveal Step 2
 - after Step 2 is answered, reveal only the matching Step 3 branch
-- after Step 3, show feedback and takeaway
+- after Step 3 locks, reveal the answered Step 1 and Step 3 choices with feedback, show any needed "Actually" correction, and then show the takeaway
 
 The panel stays focused. The student never scans irrelevant options.
 
-### 5.6 What the authored level must carry
+### 5.6 Revealed Review State
 
-Because the app does no runtime inference, the lesson package must author everything the quiz renders:
+After the level locks, the app does not simply freeze the quiz. It converts the student’s path through the scaffold into a compact review:
+
+- Step 1 reappears as the answered claim-identification question, with the correct choice and the student's attempt(s) expanded by default
+- Step 2 does not reappear as its own section; its judgment is carried forward into the Step 3 prompt
+- Step 3 reappears with the selected branch only, using the standardized prompt that restates the student's Yes/No judgment
+- revealed choices are labeled to clarify the learning state: `Best Explanation`, `Your Answer`, and, when needed, `Your First Attempt`
+- when the student’s Step 2 judgment does not align with the anchor polarity, the app adds an `Actually` correction block that explicitly redirects the student into the opposite reading and attaches the corrective explanation directly underneath
+- the takeaway is visually separated from the answer review so it reads as the final teaching beat, not just another answer card
+
+This revealed-state UI is part of the pedagogy, not ornamental chrome. It is designed to preserve the student's path, make correction legible, and end on the lesson rather than on point-scoring.
+
+### 5.7 What the Authored Level Must Carry
+
+Because the app does no runtime inference, the lesson package must author the teaching content and branch structure the quiz depends on:
 
 - a `turn_id` reference into `transcript.yaml` (anchor text rendered via lookup)
 - `reasoning_item_id` and `polarity`
 - the intended claim
 - Step 1 question, options, correct option id(s), per-choice feedback
-- Step 2 question, two options
+- Step 2 question and two options
 - Step 3 `why_yes` branch: question, options, correct option id(s), per-choice feedback
 - Step 3 `why_no` branch: question, options, correct option id(s), per-choice feedback
 - optional hint
 - level takeaway
+
+The app may still standardize some prompt chrome and review labels at runtime. What must remain authored upstream is the instructional substance: options, branch content, correct option ids, and explanatory feedback.
 
 ## 6. Student Journey
 
@@ -219,7 +236,7 @@ A student reads an episode in one sitting. The flow is:
 1. **Episode opens.** A short summary sets the scene. On episode 2+, a "previously" line carries forward what happened before.
 2. **Scene-by-scene reading.** Transcript turns appear in order, grouped into 3+ scenes with concise scene summaries.
 3. **Anchor encounter.** When a turn has an anchor attached, the reading pauses and a quiz panel opens on that turn.
-4. **Three-step quiz.** Student answers Step 1, then Step 2, then the matching Step 3 branch, then reads feedback and the level takeaway.
+4. **Three-step quiz.** Student answers Step 1, then Step 2, then the matching Step 3 branch. Once the level locks, the app reveals the answered Step 1 and Step 3 review, any needed `Actually` correction, and the level takeaway.
 5. **Resume reading.** The quiz panel closes; reading continues.
 6. **Episode closes.** Final takeaway appears on the last screen.
 

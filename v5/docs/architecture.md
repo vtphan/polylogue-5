@@ -144,7 +144,7 @@ takeaway
 
 **Anchor text rendering.** The lesson package references the anchor by `turn_id`; the app resolves speaker and text via `transcript.yaml` lookup. Revised anchor wording (if any) lives in the transcript as applied text, so a single lookup returns the final form.
 
-**Authoring principle.** The app does no runtime inference. Every option, branch, and feedback string is pre-authored. Step 3's branch is selected by Step 2's answer — a constant lookup, not a decision. Step 2 may carry light `routing_text` (one sentence framing either choice) but does not have correctness feedback; the judgment is a reflection prompt, not a right/wrong test.
+**Authoring principle.** The app does no runtime inference. Every option, branch, and feedback string is pre-authored. Step 3's branch is selected by Step 2's answer — a constant lookup, not a decision. Step 2 does not have correctness feedback; the judgment is a reflection prompt, not a right/wrong test. The lesson package may carry optional `routing_text`, but the current app does not surface it. The app also standardizes some prompt chrome and revealed-state labels at runtime; what remains load-bearingly authored is the instructional substance: options, branch content, and explanatory feedback.
 
 **Claim-identification binding.** Step 1's correct option is a close paraphrase of the anchor's `intended_claim`; distractors are plausible but distinct readings of the turn. This binds detection's claim articulation to the student-facing quiz — see Invariant §4.11.
 
@@ -159,8 +159,15 @@ show anchor turn
   → reveal Step 1 → answered
   → reveal Step 2 → answered (yes | no)
   → reveal matching Step 3 branch → answered
-  → show feedback and takeaway
+  → lock level
+  → show revealed Step 1 and Step 3 review
+  → show "Actually" correction if Step 2 polarity was misaligned
+  → show takeaway
 ```
+
+In the current runtime, Step 2 is phrased to the student as `Do you think {character}'s argument is strong?`, and Step 3 restates that judgment in standardized form: `So, you think the argument is strong. Why?` / `So, you think the argument is weak. Why?`
+
+**Revealed-state review contract.** Once the level locks, the app preserves the student's path rather than collapsing into a generic answer key. Step 1 and the chosen Step 3 branch are shown with expandable feedback. Step 2 does not reappear as a separate block; its judgment is carried into the Step 3 prompt. Revealed choices are labeled `Best Explanation`, `Your Answer`, and, when needed, `Your First Attempt`. The `Actually` block appears only when the student's Step 2 judgment conflicts with the anchor polarity, and its corrective explanation is visually attached directly under the redirecting prompt.
 
 **Grading.** Per-step, using `feedback.correct.option_ids` on each step.
 

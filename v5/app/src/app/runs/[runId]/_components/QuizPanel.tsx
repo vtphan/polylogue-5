@@ -48,7 +48,7 @@ export function QuizPanel({
         levelLocked={levelLocked}
       />
 
-      <ClaimCard
+      <Step1Section
         runId={runId}
         sceneIndex={sceneIndex}
         level={level}
@@ -57,12 +57,13 @@ export function QuizPanel({
       />
 
       {step1Locked ? (
-        <YourTakeCard
+        <QuizBody
           runId={runId}
           sceneIndex={sceneIndex}
           level={level}
           attempt={attempt}
           anchorSpeaker={anchorSpeaker}
+          levelLocked={levelLocked}
         />
       ) : null}
 
@@ -133,7 +134,7 @@ function PanelHeader({
   );
 }
 
-type ClaimCardProps = {
+type Step1SectionProps = {
   runId: string;
   sceneIndex: number;
   level: ReaderLevel;
@@ -141,13 +142,13 @@ type ClaimCardProps = {
   anchorSpeaker: string;
 };
 
-function ClaimCard({
+function Step1Section({
   runId,
   sceneIndex,
   level,
   attempt,
   anchorSpeaker,
-}: ClaimCardProps) {
+}: Step1SectionProps) {
   const locked = Boolean(attempt?.step1LockedAt);
 
   if (locked) {
@@ -184,36 +185,28 @@ function ClaimCard({
   );
 }
 
-type YourTakeCardProps = {
+type QuizBodyProps = {
   runId: string;
   sceneIndex: number;
   level: ReaderLevel;
   attempt: QuizAttempt | null;
   anchorSpeaker: string;
+  levelLocked: boolean;
 };
 
-function YourTakeCard({
+function QuizBody({
   runId,
   sceneIndex,
   level,
   attempt,
   anchorSpeaker,
-}: YourTakeCardProps) {
+  levelLocked,
+}: QuizBodyProps) {
   const step2Option = attempt?.step2Option ?? null;
-  const levelLocked = Boolean(attempt?.lockedAt);
-
-  if (levelLocked && step2Option && attempt) {
-    return (
-      <>
-        <YourTakeNarrative level={level} step2Option={step2Option} attempt={attempt} />
-        <YourTakeReframe level={level} step2Option={step2Option} />
-      </>
-    );
-  }
 
   if (!step2Option) {
     return (
-      <Step2Picker
+      <Step2Section
         runId={runId}
         sceneIndex={sceneIndex}
         level={level}
@@ -223,24 +216,28 @@ function YourTakeCard({
   }
 
   return (
-    <Step3Picker
-      runId={runId}
-      sceneIndex={sceneIndex}
-      level={level}
-      attempt={attempt}
-      step2Option={step2Option}
-    />
+    <>
+      <Step3Section
+        runId={runId}
+        sceneIndex={sceneIndex}
+        level={level}
+        attempt={attempt}
+        step2Option={step2Option}
+        levelLocked={levelLocked}
+      />
+      {levelLocked ? <ActuallySection level={level} step2Option={step2Option} /> : null}
+    </>
   );
 }
 
-type Step2PickerProps = {
+type Step2SectionProps = {
   runId: string;
   sceneIndex: number;
   level: ReaderLevel;
   anchorSpeaker: string;
 };
 
-function Step2Picker({ runId, sceneIndex, level, anchorSpeaker }: Step2PickerProps) {
+function Step2Section({ runId, sceneIndex, level, anchorSpeaker }: Step2SectionProps) {
   return (
     <section className="quiz-step stack">
       <p className="quiz-prompt">Do you think {anchorSpeaker}&apos;s argument is strong?</p>
@@ -263,77 +260,54 @@ function Step2Picker({ runId, sceneIndex, level, anchorSpeaker }: Step2PickerPro
   );
 }
 
-type Step3PickerProps = {
+type Step3SectionProps = {
   runId: string;
   sceneIndex: number;
   level: ReaderLevel;
   attempt: QuizAttempt | null;
   step2Option: string;
+  levelLocked: boolean;
 };
 
-function Step3Picker({
+function Step3Section({
   runId,
   sceneIndex,
   level,
   attempt,
   step2Option,
-}: Step3PickerProps) {
+  levelLocked,
+}: Step3SectionProps) {
   const branch = level.step_3[step3BranchKeyForStep2(step2Option)];
-  const prompt =
-    step2Option === "yes_strong"
-      ? "So, you think the argument is strong. Why?"
-      : "So, you think the argument is weak. Why?";
+  const prompt = getStep3Prompt(step2Option);
+  const step3FirstOption = attempt?.step3FirstOption ?? null;
+  const step3FinalOption = attempt?.step3FinalOption ?? null;
 
   return (
     <section className="quiz-step stack">
       <p className="quiz-prompt">{prompt}</p>
-      <OptionsPicker
-        runId={runId}
-        sceneIndex={sceneIndex}
-        levelId={level.level_id}
-        actionName="step3"
-        options={branch.options}
-        feedback={branch.feedback}
-        firstOptionId={attempt?.step3FirstOption ?? null}
-      />
+      {levelLocked ? (
+        <AttemptReviewOptionsList
+          options={branch.options}
+          feedback={branch.feedback}
+          firstOptionId={step3FirstOption}
+          finalOptionId={step3FinalOption}
+        />
+      ) : (
+        <OptionsPicker
+          runId={runId}
+          sceneIndex={sceneIndex}
+          levelId={level.level_id}
+          actionName="step3"
+          options={branch.options}
+          feedback={branch.feedback}
+          firstOptionId={step3FirstOption}
+        />
+      )}
     </section>
   );
 }
 
-type YourTakeNarrativeProps = {
-  level: ReaderLevel;
-  step2Option: string;
-  attempt: QuizAttempt;
-};
-
-function YourTakeNarrative({
-  level,
-  step2Option,
-  attempt,
-}: YourTakeNarrativeProps) {
-  const branchKey = step3BranchKeyForStep2(step2Option);
-  const branch = level.step_3[branchKey];
-  const step3FirstOption = attempt.step3FirstOption ?? null;
-  const step3FinalOption = attempt.step3FinalOption ?? null;
-  const prompt =
-    step2Option === "yes_strong"
-      ? "So, you think the argument is strong. Why?"
-      : "So, you think the argument is weak. Why?";
-
-  return (
-    <section className="quiz-step stack">
-      <p className="quiz-prompt">{prompt}</p>
-      <AttemptReviewOptionsList
-        options={branch.options}
-        feedback={branch.feedback}
-        firstOptionId={step3FirstOption}
-        finalOptionId={step3FinalOption}
-      />
-    </section>
-  );
-}
-
-function YourTakeReframe({
+function ActuallySection({
   level,
   step2Option,
 }: {
@@ -350,11 +324,7 @@ function YourTakeReframe({
 
   return (
     <section className="quiz-step quiz-step--actually stack">
-      <p className="quiz-prompt">
-        {step2Option === "yes_strong"
-          ? "You thought the argument was strong, but actually it isn't convincing."
-          : "You weren't convinced by the argument, but actually it is strong."}
-      </p>
+      <p className="quiz-prompt">{getActuallyPrompt(step2Option)}</p>
       <FeedbackCard>{oppositeBranch.feedback.correct.text}</FeedbackCard>
     </section>
   );
@@ -366,6 +336,18 @@ function TakeawayCard({ takeaway }: { takeaway: string }) {
       <p className="narrative-card__body">{takeaway}</p>
     </NarrativeCard>
   );
+}
+
+function getStep3Prompt(step2Option: string): string {
+  return step2Option === "yes_strong"
+    ? "So, you think the argument is strong. Why?"
+    : "So, you think the argument is weak. Why?";
+}
+
+function getActuallyPrompt(step2Option: string): string {
+  return step2Option === "yes_strong"
+    ? "You thought the argument was strong, but actually it isn't convincing."
+    : "You weren't convinced by the argument, but actually it is strong.";
 }
 
 type NarrativeCardProps = {
