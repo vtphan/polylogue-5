@@ -20,7 +20,7 @@ The webapp explicitly does **not** cover the downstream stages — only Phase A 
 The two implementations share **one canonical source of truth**:
 
 ```
-v5/docs/story-design-doctrine.md      ← single source of truth (shared)
+v5/reference/story-design-doctrine.md ← single source of truth (shared)
 v5/reference/reasoning-taxonomy.yaml  ← shared
 v5/schemas/story.yaml                 ← shared
         ▲                       ▲
@@ -144,7 +144,7 @@ v5/design_story/
 
 ## Cross-references
 
-- Shared doctrine: [`../docs/story-design-doctrine.md`](../docs/story-design-doctrine.md)
+- Shared doctrine: [`../reference/story-design-doctrine.md`](../reference/story-design-doctrine.md)
 - v5 system architecture: [`../docs/architecture.md`](../docs/architecture.md)
 - Instructional pedagogy: [`../docs/instructional-design.md`](../docs/instructional-design.md)
 - Output schema: [`../schemas/story.yaml`](../schemas/story.yaml)

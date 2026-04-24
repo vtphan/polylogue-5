@@ -407,7 +407,7 @@ Both implementations of the doctrine are live:
 - `pipeline/commands/design_story.md` (Claude Code slash command)
 - `design_story/orchestrator-prompt.md` (webapp Agent SDK orchestrator)
 
-Shared doctrine lives in `docs/story-design-doctrine.md`. Validator (`pipeline/scripts/validate_story.py`) and bootstrap (`pipeline/scripts/initialize_polylogue.py`) shipped. Two stories produced end-to-end: `stories/the_trip_committee/` (Claude Code) and `stories/white_squirrel_overton/` (webapp).
+Shared doctrine lives in `reference/story-design-doctrine.md`. Validator (`pipeline/scripts/validate_story.py`) and bootstrap (`pipeline/scripts/initialize_polylogue.py`) shipped. Two stories produced end-to-end: `stories/the_trip_committee/` (Claude Code) and `stories/white_squirrel_overton/` (webapp).
 
 ### Phase 2: Reasoning Detection ✅ complete (2026-04-21)
 

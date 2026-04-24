@@ -9,7 +9,7 @@ Usage:
   python3 v5/pipeline/scripts/validate_story.py <path-to-story.yaml> [<more>]
 
 Reference: v5/schemas/story.yaml (descriptive contract),
-           v5/docs/story-design-doctrine.md §1 (output contract).
+           v5/reference/story-design-doctrine.md §1 (output contract).
 """
 
 from __future__ import annotations

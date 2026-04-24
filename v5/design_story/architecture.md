@@ -24,7 +24,7 @@ Polylogue v5 ships `/design_story` as a Claude Code slash command. That implemen
 
 ### 2.3 Doctrine and orchestration separation
 
-The authoring doctrine is shared across both implementations and lives in a single canonical doc: **`v5/docs/story-design-doctrine.md`**. Each implementation wraps it with runtime-specific orchestration:
+The authoring doctrine is shared across both implementations and lives in a single canonical doc: **`v5/reference/story-design-doctrine.md`**. Each implementation wraps it with runtime-specific orchestration:
 
 - `v5/pipeline/commands/design_story.md` — Claude Code slash-command surface (rerun flow, CLI conversation shape). Reads the doctrine at session start.
 - `v5/design_story/orchestrator-prompt.md` — Agent SDK system prompt for the webapp (turn model, scoped tools, seed-to-Phase-A pattern, response contract). Server loads this + the doctrine into the SDK's system prompt.
@@ -83,7 +83,7 @@ The load-bearing split: **artifacts are durable state; chat is ephemeral working
 
 | State | Lifetime | Storage | Authority |
 |---|---|---|---|
-| Doctrine | Permanent | `v5/docs/story-design-doctrine.md` | Project-wide |
+| Doctrine | Permanent | `v5/reference/story-design-doctrine.md` | Project-wide |
 | Reference (taxonomy, schema) | Permanent | `v5/reference/`, `v5/schemas/` | Project-wide |
 | Committed artifact state | Durable | `v5/stories/{story_id}/*.yaml,*.md` | The story itself |
 | Phase buffer | Ephemeral (within a sitting) | Server memory | The current chat session |
@@ -215,7 +215,7 @@ This is the load-bearing UI restraint: the moment the UI exposes direct field ed
 
 ## 10. Cross-references
 
-- `v5/docs/story-design-doctrine.md` — **canonical authoring doctrine** (shared by both implementations).
+- `v5/reference/story-design-doctrine.md` — **canonical authoring doctrine** (shared by both implementations).
 - `v5/design_story/orchestrator-prompt.md` — Agent SDK system prompt for the webapp.
 - `v5/pipeline/commands/design_story.md` — Claude Code slash-command surface.
 - `v5/docs/architecture.md` — system architecture; §3 pipeline shape and artifact contracts.

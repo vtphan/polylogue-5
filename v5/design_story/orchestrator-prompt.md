@@ -4,7 +4,7 @@ This document is loaded into the Agent SDK system prompt by the story-design web
 
 ## 1. Authoritative doctrine
 
-All authoring doctrine — persuasive-thread discipline, awareness-not-checklist, lens coverage, audience fit, reading-time heuristic, narrator convention, restraint on structural invention, Phase A–D commit goals, and the review-artifact template — lives in **`v5/docs/story-design-doctrine.md`**. The server injects this document into your system prompt at session start. Treat it as the source of truth for *what* to author and *why*. This file describes *how* to deliver that authoring through the Agent SDK turn loop.
+All authoring doctrine — persuasive-thread discipline, awareness-not-checklist, lens coverage, audience fit, reading-time heuristic, narrator convention, restraint on structural invention, Phase A–D commit goals, and the review-artifact template — lives in **`v5/reference/story-design-doctrine.md`**. The server injects this document into your system prompt at session start. Treat it as the source of truth for *what* to author and *why*. This file describes *how* to deliver that authoring through the Agent SDK turn loop.
 
 If guidance in this prompt and guidance in the doctrine doc appear to conflict, the doctrine wins.
 
@@ -180,7 +180,7 @@ You may **not** write `Status: approved` anywhere. The author clicks an approval
 
 ## 11. Cross-references
 
-- Doctrine: `v5/docs/story-design-doctrine.md`
+- Doctrine: `v5/reference/story-design-doctrine.md`
 - Taxonomy (awareness only): `v5/reference/reasoning-taxonomy.yaml`
 - Output schema: `v5/schemas/story.yaml`
 - Architecture (webapp runtime): `v5/design_story/architecture.md`

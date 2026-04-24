@@ -14,7 +14,7 @@ function readV5(rel: string): string {
 
 export function composeSystemPrompt(): string {
   const orchestrator = readApp("orchestrator-prompt.md");
-  const doctrine = readV5("docs/story-design-doctrine.md");
+  const doctrine = readV5("reference/story-design-doctrine.md");
   const taxonomy = readV5("reference/reasoning-taxonomy.yaml");
   const schema = readV5("schemas/story.yaml");
 

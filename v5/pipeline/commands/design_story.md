@@ -9,13 +9,13 @@ description: Interactive multi-phase co-design of a full story with all per-epis
 
 ## Authoritative doctrine
 
-All authoring doctrine — persuasive-thread discipline, awareness-not-checklist, lens coverage, audience fit, reading-time heuristic, narrator convention, restraint on structural invention, Phase A–D commit goals, conversation-shape guidance, and the `story-design-review.md` template — lives in **`v5/docs/story-design-doctrine.md`**. Load that document at session start and treat it as the source of truth. This file only describes Claude-Code-specific orchestration around it.
+All authoring doctrine — persuasive-thread discipline, awareness-not-checklist, lens coverage, audience fit, reading-time heuristic, narrator convention, restraint on structural invention, Phase A–D commit goals, conversation-shape guidance, and the `story-design-review.md` template — lives in **`v5/reference/story-design-doctrine.md`**. Load that document at session start and treat it as the source of truth. This file only describes Claude-Code-specific orchestration around it.
 
 ## Reads
 
 Required, at session start:
 
-- `v5/docs/story-design-doctrine.md` — authoring doctrine (**primary**).
+- `v5/reference/story-design-doctrine.md` — authoring doctrine (**primary**).
 - `v5/reference/reasoning-taxonomy.yaml` — full taxonomy, for awareness only.
 - `v5/schemas/story.yaml` — output contract.
 
