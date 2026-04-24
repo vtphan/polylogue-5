@@ -1494,6 +1494,10 @@ a.ghost:hover {
   border-top: 0;
 }
 
+.quiz-step--actually {
+  gap: 0.2rem;
+}
+
 .quiz-option--picked {
   border-color: rgba(184, 92, 46, 0.45);
   background: var(--accent-soft);
@@ -1549,8 +1553,36 @@ a.ghost:hover {
 }
 
 .narrative-card--takeaway {
-  background: rgba(255, 251, 244, 0.9);
-  border-color: rgba(31, 37, 34, 0.2);
+  position: relative;
+  padding-top: 1.15rem;
+  border-width: 2px;
+  border-color: rgba(184, 92, 46, 0.22);
+  background:
+    linear-gradient(180deg, rgba(255, 252, 247, 0.98), rgba(249, 241, 225, 0.96));
+  box-shadow:
+    0 10px 26px rgba(52, 42, 28, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75);
+}
+
+.narrative-card--takeaway::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.32rem;
+  border-radius: 0.85rem 0 0 0.85rem;
+  background: linear-gradient(180deg, var(--accent), #d28d44 100%);
+}
+
+.narrative-card--takeaway .narrative-card__title {
+  color: var(--accent);
+  font-size: 1.03rem;
+  letter-spacing: 0.02em;
+}
+
+.narrative-card--takeaway .narrative-card__body {
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.6;
 }
 
 /* Inline earned ✓ on narrative cards. Present iff the corresponding star

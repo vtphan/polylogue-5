@@ -156,14 +156,15 @@ function ClaimCard({
     const finalOptionId = attempt?.step1FinalOption ?? null;
 
     return (
-      <NarrativeCard title={`What ${anchorSpeaker} is arguing`}>
+      <section className="quiz-step stack">
+        <p className="quiz-prompt">{`What ${anchorSpeaker} is arguing`}</p>
         <AttemptReviewOptionsList
           options={step1.options}
           feedback={step1.feedback}
           firstOptionId={firstOptionId}
           finalOptionId={finalOptionId}
         />
-      </NarrativeCard>
+      </section>
     );
   }
 
@@ -242,7 +243,7 @@ type Step2PickerProps = {
 function Step2Picker({ runId, sceneIndex, level, anchorSpeaker }: Step2PickerProps) {
   return (
     <section className="quiz-step stack">
-      <p className="quiz-prompt">Was {anchorSpeaker}&apos;s argument convincing?</p>
+      <p className="quiz-prompt">Do you think {anchorSpeaker}&apos;s argument is strong?</p>
       <div className="quiz-options quiz-options--binary">
         {level.step_2_judgment.options.map((option) => (
           <form key={option.option_id} action={submitStep2Action}>
@@ -278,10 +279,14 @@ function Step3Picker({
   step2Option,
 }: Step3PickerProps) {
   const branch = level.step_3[step3BranchKeyForStep2(step2Option)];
+  const prompt =
+    step2Option === "yes_strong"
+      ? "So, you think the argument is strong. Why?"
+      : "So, you think the argument is weak. Why?";
 
   return (
     <section className="quiz-step stack">
-      <p className="quiz-prompt">{branch.prompt}</p>
+      <p className="quiz-prompt">{prompt}</p>
       <OptionsPicker
         runId={runId}
         sceneIndex={sceneIndex}
@@ -310,20 +315,21 @@ function YourTakeNarrative({
   const branch = level.step_3[branchKey];
   const step3FirstOption = attempt.step3FirstOption ?? null;
   const step3FinalOption = attempt.step3FinalOption ?? null;
-  const title =
+  const prompt =
     step2Option === "yes_strong"
-      ? "What makes the argument strong?"
-      : "What makes the argument weak?";
+      ? "So, you think the argument is strong. Why?"
+      : "So, you think the argument is weak. Why?";
 
   return (
-    <NarrativeCard title={title}>
+    <section className="quiz-step stack">
+      <p className="quiz-prompt">{prompt}</p>
       <AttemptReviewOptionsList
         options={branch.options}
         feedback={branch.feedback}
         firstOptionId={step3FirstOption}
         finalOptionId={step3FinalOption}
       />
-    </NarrativeCard>
+    </section>
   );
 }
 
@@ -343,15 +349,14 @@ function YourTakeReframe({
     branchKey === "why_yes" ? level.step_3.why_no : level.step_3.why_yes;
 
   return (
-    <NarrativeCard
-      title={
-        step2Option === "yes_strong"
+    <section className="quiz-step quiz-step--actually stack">
+      <p className="quiz-prompt">
+        {step2Option === "yes_strong"
           ? "You thought the argument was strong, but actually it isn't convincing."
-          : "You weren't convinced by the argument, but actually it is strong."
-      }
-    >
-      <p className="narrative-card__body">{oppositeBranch.feedback.correct.text}</p>
-    </NarrativeCard>
+          : "You weren't convinced by the argument, but actually it is strong."}
+      </p>
+      <FeedbackCard>{oppositeBranch.feedback.correct.text}</FeedbackCard>
+    </section>
   );
 }
 
@@ -398,27 +403,27 @@ function AttemptReviewOptionsList({
   finalOptionId,
 }: AttemptReviewOptionsListProps) {
   const correctIds = new Set(feedback.correct.option_ids);
-  const attemptedIds = new Set<string>();
-
-  if (firstOptionId) {
-    attemptedIds.add(firstOptionId);
-  }
-  if (finalOptionId) {
-    attemptedIds.add(finalOptionId);
-  }
+  const hadRetry =
+    Boolean(firstOptionId) && Boolean(finalOptionId) && firstOptionId !== finalOptionId;
 
   return (
     <div className="quiz-options">
       {options.map((option) => {
         const isCorrect = correctIds.has(option.option_id);
-        const wasAttempted = attemptedIds.has(option.option_id);
+        const isFirstAttempt = option.option_id === firstOptionId;
+        const isFinalAnswer = option.option_id === finalOptionId;
+        const wasAttempted = isFirstAttempt || isFinalAnswer;
         const isOpenByDefault = isCorrect || wasAttempted;
         const feedbackText = isCorrect
           ? feedback.correct.text
           : feedback.by_option[option.option_id] ?? "";
         const labels = [
-          wasAttempted ? "Your answer" : null,
-          isCorrect ? "Best answer" : null,
+          hadRetry && isFirstAttempt && !isFinalAnswer
+            ? "Your first attempt"
+            : isFinalAnswer
+              ? "Your answer"
+              : null,
+          isCorrect ? "Best explanation" : null,
         ].filter(Boolean);
 
         return (
@@ -511,9 +516,11 @@ function OptionsPicker({
 function ReadonlyOptionCard({
   text,
   tone,
+  picked = false,
 }: {
   text: string;
   tone: "neutral" | "correct" | "wrong";
+  picked?: boolean;
 }) {
   const toneClass =
     tone === "correct"
@@ -521,9 +528,13 @@ function ReadonlyOptionCard({
       : tone === "wrong"
         ? " quiz-option--wrong"
         : " quiz-option--dimmed";
+  const pickedClass = picked ? " quiz-option--picked" : "";
 
   return (
-    <div className={`quiz-option quiz-option--readonly${toneClass}`} aria-disabled="true">
+    <div
+      className={`quiz-option quiz-option--readonly${toneClass}${pickedClass}`}
+      aria-disabled="true"
+    >
       <span className="quiz-option__text">{text}</span>
     </div>
   );
