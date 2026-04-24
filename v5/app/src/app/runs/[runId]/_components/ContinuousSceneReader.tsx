@@ -177,17 +177,20 @@ export function ContinuousSceneReader({
     ? levels.find((level) => level.level_id === openLevelId) ?? null
     : null;
   const activeAttempt = activeLevel ? attemptsByLevelId.get(activeLevel.level_id) ?? null : null;
-  const activeAnchorSpeaker = useMemo(() => {
-    if (!activeLevel) return "";
+  let activeAnchorSpeaker = "";
+  if (activeLevel) {
     for (const scene of scenes) {
       for (const turn of scene.turns) {
         if (turn.turn_id === activeLevel.turn_id) {
-          return speakerDisplayName(turn.speaker);
+          activeAnchorSpeaker = speakerDisplayName(turn.speaker);
+          break;
         }
       }
+      if (activeAnchorSpeaker) {
+        break;
+      }
     }
-    return "";
-  }, [activeLevel, scenes]);
+  }
 
   return (
     <div className={`scene-shell${openLevelId ? " scene-shell--quiz-open" : ""}`}>

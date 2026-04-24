@@ -722,6 +722,101 @@ p {
   opacity: 0.58;
 }
 
+.quiz-review-option {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.quiz-review-option__summary {
+  display: block;
+  list-style: none;
+  cursor: pointer;
+}
+
+.quiz-review-option__summary::-webkit-details-marker {
+  display: none;
+}
+
+.quiz-review-option__collapsed {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 2.4rem;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid rgba(31, 37, 34, 0.16);
+  border-radius: 0.8rem;
+  background: var(--surface);
+  color: var(--subdued);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.quiz-review-option__summary:hover .quiz-review-option__collapsed {
+  border-color: rgba(184, 92, 46, 0.4);
+  color: var(--muted);
+}
+
+.quiz-review-option__card {
+  position: relative;
+  display: none;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  align-items: center;
+  width: 100%;
+  min-height: 3.1rem;
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(31, 37, 34, 0.16);
+  border-radius: 0.8rem;
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+.quiz-review-option__summary:hover .quiz-review-option__card {
+  border-color: rgba(184, 92, 46, 0.4);
+}
+
+.quiz-review-option[open] .quiz-review-option__card {
+  display: grid;
+  border-color: rgba(31, 37, 34, 0.24);
+}
+
+.quiz-review-option[open] .quiz-review-option__collapsed {
+  display: none;
+}
+
+.quiz-review-option--attempted .quiz-review-option__card {
+  border-width: 2px;
+  padding: calc(0.8rem - 1px) calc(0.95rem - 1px);
+}
+
+.quiz-review-option__labels {
+  position: absolute;
+  top: -0.58rem;
+  left: 0.75rem;
+  max-width: calc(100% - 1.5rem);
+  padding: 0 0.32rem;
+  background: var(--surface);
+  color: var(--accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.quiz-review-option__check {
+  width: 1.1rem;
+  height: 1.1rem;
+  color: var(--moss);
+  stroke-width: 2.8;
+}
+
 /* Base option — interactive button or readonly div share the shape. */
 .quiz-option,
 .quiz-option--readonly {
@@ -760,6 +855,10 @@ p {
 }
 
 .quiz-feedback-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.45rem;
+  align-items: start;
   margin-left: 0.7rem;
   padding: 0.6rem 0.8rem 0.65rem;
   border: 1px solid var(--line);
@@ -771,16 +870,16 @@ p {
   line-height: 1.45;
 }
 
-/* Reveal highlights split the correctness signal across the pair:
-   option card gets the border; feedback card gets the tinted background. */
-.quiz-option--correct {
-  border-color: var(--moss);
+.quiz-feedback-card__icon {
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.12rem;
+  color: var(--accent);
+  stroke-width: 2.2;
 }
 
-.quiz-feedback-card--correct {
-  background: rgba(106, 123, 88, 0.14);
-  border-color: rgba(106, 123, 88, 0.3);
-  color: #3f4b30;
+.quiz-option--correct {
+  border-color: var(--moss);
 }
 
 .quiz-option--best::before {
@@ -794,12 +893,6 @@ p {
 
 .quiz-option--wrong {
   border-color: #c1432c;
-}
-
-.quiz-feedback-card--wrong {
-  background: rgba(193, 67, 44, 0.1);
-  border-color: rgba(193, 67, 44, 0.28);
-  color: #7f2815;
 }
 
 /* Takeaway — hangs below the options after lock. */

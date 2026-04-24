@@ -13,6 +13,7 @@ import {
   step3BranchKeyForStep2,
 } from "@/lib/grading";
 import type { QuizAttempt } from "@prisma/client";
+import { FiCheck, FiCornerDownRight } from "react-icons/fi";
 
 type QuizPanelProps = {
   runId: string;
@@ -397,40 +398,53 @@ function AttemptReviewOptionsList({
   finalOptionId,
 }: AttemptReviewOptionsListProps) {
   const correctIds = new Set(feedback.correct.option_ids);
-  const wrongAttemptIds = new Set<string>();
+  const attemptedIds = new Set<string>();
 
-  if (firstOptionId && !correctIds.has(firstOptionId)) {
-    wrongAttemptIds.add(firstOptionId);
+  if (firstOptionId) {
+    attemptedIds.add(firstOptionId);
   }
-  if (finalOptionId && !correctIds.has(finalOptionId)) {
-    wrongAttemptIds.add(finalOptionId);
+  if (finalOptionId) {
+    attemptedIds.add(finalOptionId);
   }
 
   return (
     <div className="quiz-options">
       {options.map((option) => {
         const isCorrect = correctIds.has(option.option_id);
-        const isWrongAttempt = wrongAttemptIds.has(option.option_id);
-        const isDimmed = !isCorrect;
+        const wasAttempted = attemptedIds.has(option.option_id);
+        const isOpenByDefault = isCorrect || wasAttempted;
         const feedbackText = isCorrect
           ? feedback.correct.text
           : feedback.by_option[option.option_id] ?? "";
+        const labels = [
+          wasAttempted ? "Your answer" : null,
+          isCorrect ? "Best answer" : null,
+        ].filter(Boolean);
 
         return (
-          <div
+          <details
             key={option.option_id}
-            className={`quiz-option-stack${isDimmed ? " quiz-option-stack--dimmed" : ""}`}
+            className={`quiz-review-option${wasAttempted ? " quiz-review-option--attempted" : ""}`}
+            open={isOpenByDefault}
           >
-            <ReadonlyOptionCard
-              text={option.text}
-              tone={isCorrect ? "correct" : isWrongAttempt ? "wrong" : "neutral"}
-            />
-            {isCorrect ? (
-              <FeedbackCard tone="correct">{feedbackText}</FeedbackCard>
-            ) : isWrongAttempt ? (
-              <FeedbackCard tone="wrong">{feedbackText}</FeedbackCard>
-            ) : null}
-          </div>
+            <summary className="quiz-review-option__summary">
+              <span className="quiz-review-option__collapsed" aria-label="Show choice and feedback">
+                ...
+              </span>
+              <span className="quiz-review-option__card">
+                {labels.length > 0 ? (
+                  <span className="quiz-review-option__labels">
+                    {labels.join(" · ")}
+                  </span>
+                ) : null}
+                <span className="quiz-option__text">{option.text}</span>
+                {isCorrect ? (
+                  <FiCheck className="quiz-review-option__check" aria-label="Best answer" />
+                ) : null}
+              </span>
+            </summary>
+            {feedbackText ? <FeedbackCard>{feedbackText}</FeedbackCard> : null}
+          </details>
         );
       })}
     </div>
@@ -471,7 +485,7 @@ function OptionsPicker({
           return (
             <div key={option.option_id} className="quiz-option-stack">
               <ReadonlyOptionCard text={option.text} tone="wrong" />
-              <FeedbackCard tone="wrong" live="polite">
+              <FeedbackCard live="polite">
                 {feedback.by_option[option.option_id] ?? ""}
               </FeedbackCard>
             </div>
@@ -516,20 +530,16 @@ function ReadonlyOptionCard({
 }
 
 function FeedbackCard({
-  tone,
   live,
   children,
 }: {
-  tone: "correct" | "wrong";
   live?: "off" | "polite" | "assertive";
   children: React.ReactNode;
 }) {
-  const toneClass =
-    tone === "correct" ? " quiz-feedback-card--correct" : " quiz-feedback-card--wrong";
-
   return (
-    <div className={`quiz-feedback-card${toneClass}`} aria-live={live}>
-      {children}
+    <div className="quiz-feedback-card" aria-live={live}>
+      <FiCornerDownRight className="quiz-feedback-card__icon" aria-hidden="true" />
+      <span>{children}</span>
     </div>
   );
 }
